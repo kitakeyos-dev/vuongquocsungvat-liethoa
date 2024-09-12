@@ -1,0 +1,18 @@
+<config>
+	<files>
+		<recent MAXCAPACITY="10"/>
+	</files>
+	<system-properties>
+		<system-property VALUE="MIDP-2.0" NAME="microedition.profiles"/>
+		<system-property VALUE="CLDC-1.0" NAME="microedition.configuration"/>
+		<system-property VALUE="true" NAME="avetana.forceNativeLibrary"/>
+	</system-properties>
+	<windows>
+		<main ONSTART="true">
+			<x>837</x>
+			<y>465</y>
+			<width>246</width>
+			<height>349</height>
+		</main>
+	</windows>
+</config>

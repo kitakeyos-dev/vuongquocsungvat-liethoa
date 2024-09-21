@@ -3,10 +3,10 @@
 package c;
 
 import javax.microedition.lcdui.Graphics;
-import a.C26;
+import a.GameUtils;
 import java.util.Vector;
 
-public final class C38
+public final class Component
 {
    public int C38_f574;
    public int[] C38_f575;
@@ -28,7 +28,7 @@ public final class C38
    private Vector C38_f591;
    public Vector C38_f592;
 
-   public C38(final int c38_f584) {
+   public Component(final int c38_f584) {
       this.C38_f582 = 0;
       this.C38_f583 = 0;
       this.C38_f585 = 0;
@@ -42,7 +42,7 @@ public final class C38
       this.C38_f574 = 0;
       this.C38_f575 = null;
       final int[] c38_f585 = this.C38_f575;
-      this.C38_f575 = C26.c(50);
+      this.C38_f575 = GameUtils.initializeArrayWithMinusOne(50);
       this.C38_f577 = 0;
       this.C38_f578 = new C35[20];
       this.C38_f579 = 0;
@@ -52,7 +52,7 @@ public final class C38
       this.C38_f588 = -1;
    }
 
-   public final void a(final int n, final C23 c23) {
+   public final void a(final int n, final IComponent c23) {
       if (this.C38_f574 <= 1) {
          this.C38_f580 = 0;
          this.C38_f579 = 0;
@@ -103,7 +103,7 @@ public final class C38
       }
    }
 
-   public final void b(final int n, final C23 c23) {
+   public final void b(final int n, final IComponent c23) {
       if (this.C38_f574 <= 1) {
          this.C38_f580 = 0;
          this.C38_f579 = 0;
@@ -149,7 +149,7 @@ public final class C38
       }
    }
 
-   private void a(final C23 c23) {
+   private void a(final IComponent c23) {
       if (this.C38_f588 == 1) {
          if (this.C38_f590 == 1) {
             for (int i = 0; i < this.C38_f577; ++i) {
@@ -165,12 +165,12 @@ public final class C38
       }
    }
 
-   public final void a(final Graphics graphics, final int n, final boolean b, final int[] array, final boolean b2, final C23 c23) {
+   public final void a(final Graphics graphics, final int n, final boolean b, final int[] array, final boolean b2, final IComponent c23) {
       if (this.C38_f578 != null) {
          this.C38_f578 = new C35[20];
          for (int i = 0; i < this.C38_f577; ++i) {
-            final C23 a = C26.a(c23, this.C38_f575[i]);
-            this.C38_f578[i] = new C35(a.c(), a.d(), a.e(), a.f());
+            final IComponent a = GameUtils.findChildById(c23, this.C38_f575[i]);
+            this.C38_f578[i] = new C35(a.getOffsetX(), a.getOffsetY(), a.getWidth(), a.getHeight());
          }
       }
       int n2 = -1;
@@ -180,7 +180,7 @@ public final class C38
             break;
          }
       }
-      final int[] c24 = C26.c(50);
+      final int[] c24 = GameUtils.initializeArrayWithMinusOne(50);
       if (this.C38_f588 == 1) {
          for (int j = 0; j < this.C38_f577; ++j) {
             c24[j] = j;
@@ -193,46 +193,46 @@ public final class C38
       }
       for (int n4 = 0; n4 < c24.length && c24[n4] != -1; ++n4) {
          if (n2 == c24[n4]) {
-            final C23 a2;
-            final int n5 = (a2 = C26.a(c23, n)).c() - this.C38_f578[n4].C35_f557;
-            final int n6 = a2.d() - this.C38_f578[n4].C35_f558;
-            final int e = a2.e();
-            final int f = a2.f();
-            C26.a(a2, -n5, -n6, c23);
-            a2.c(this.C38_f578[n4].C35_f559, c23);
-            a2.d(this.C38_f578[n4].C35_f560, c23);
+            final IComponent a2;
+            final int n5 = (a2 = GameUtils.findChildById(c23, n)).getOffsetX() - this.C38_f578[n4].C35_f557;
+            final int n6 = a2.getOffsetY() - this.C38_f578[n4].C35_f558;
+            final int e = a2.getWidth();
+            final int f = a2.getHeight();
+            GameUtils.a(a2, -n5, -n6, c23);
+            a2.setWidth(this.C38_f578[n4].C35_f559, c23);
+            a2.setHeight(this.C38_f578[n4].C35_f560, c23);
             if (b && this.C38_f574 > 0) {
                if (this.C38_f588 == 1) {
                   if (this.C38_f580 == (this.C38_f579 + c24[n4]) % this.C38_f574) {
-                     a2.a(graphics, true, b2, c23, array);
+                     a2.render(graphics, true, b2, c23, array);
                   }
                   else {
-                     a2.a(graphics, false, b2, c23, array);
+                     a2.render(graphics, false, b2, c23, array);
                   }
                }
                else if (this.C38_f580 == c24[n4]) {
-                  a2.a(graphics, true, b2, c23, array);
+                  a2.render(graphics, true, b2, c23, array);
                }
                else {
-                  a2.a(graphics, false, b2, c23, array);
+                  a2.render(graphics, false, b2, c23, array);
                }
             }
             else {
-               a2.a(graphics, false, b2, c23, array);
+               a2.render(graphics, false, b2, c23, array);
             }
-            C26.a(a2, n5, n6, c23);
-            a2.c(e, c23);
-            a2.d(f, c23);
+            GameUtils.a(a2, n5, n6, c23);
+            a2.setWidth(e, c23);
+            a2.setHeight(f, c23);
          }
       }
    }
 
-   public final void a(final int n, final int[] array, final boolean b, final C23 c23) {
+   public final void update(final int n, final int[] array, final boolean b, final IComponent c23) {
       if (this.C38_f578 != null) {
          this.C38_f578 = new C35[20];
          for (int i = 0; i < this.C38_f577; ++i) {
-            final C23 a = C26.a(c23, this.C38_f575[i]);
-            this.C38_f578[i] = new C35(a.c(), a.d(), a.e(), a.f());
+            final IComponent a = GameUtils.findChildById(c23, this.C38_f575[i]);
+            this.C38_f578[i] = new C35(a.getOffsetX(), a.getOffsetY(), a.getWidth(), a.getHeight());
          }
       }
       int n2 = -1;
@@ -242,7 +242,7 @@ public final class C38
             break;
          }
       }
-      final int[] c24 = C26.c(50);
+      final int[] c24 = GameUtils.initializeArrayWithMinusOne(50);
       if (this.C38_f588 == 1) {
          for (int j = 0; j < this.C38_f577; ++j) {
             c24[j] = j;
@@ -255,18 +255,18 @@ public final class C38
       }
       for (int n4 = 0; n4 < c24.length && c24[n4] != -1; ++n4) {
          if (n2 == c24[n4]) {
-            final C23 a2;
-            final int n5 = (a2 = C26.a(c23, n)).c() - this.C38_f578[n4].C35_f557;
-            final int n6 = a2.d() - this.C38_f578[n4].C35_f558;
-            final int e = a2.e();
-            final int f = a2.f();
-            C26.a(a2, -n5, -n6, c23);
-            a2.c(this.C38_f578[n4].C35_f559, c23);
-            a2.d(this.C38_f578[n4].C35_f560, c23);
-            a2.a(b, b, c23, array);
-            C26.a(a2, n5, n6, c23);
-            a2.c(e, c23);
-            a2.d(f, c23);
+            final IComponent a2;
+            final int n5 = (a2 = GameUtils.findChildById(c23, n)).getOffsetX() - this.C38_f578[n4].C35_f557;
+            final int n6 = a2.getOffsetY() - this.C38_f578[n4].C35_f558;
+            final int e = a2.getWidth();
+            final int f = a2.getHeight();
+            GameUtils.a(a2, -n5, -n6, c23);
+            a2.setWidth(this.C38_f578[n4].C35_f559, c23);
+            a2.setHeight(this.C38_f578[n4].C35_f560, c23);
+            a2.update(b, b, c23, array);
+            GameUtils.a(a2, n5, n6, c23);
+            a2.setWidth(e, c23);
+            a2.setHeight(f, c23);
          }
       }
    }

@@ -1,6 +1,6 @@
 package game;
 
-import a.C26;
+import a.GameUtils;
 import a.C44;
 import a.a.C20;
 import a.a.C30;
@@ -853,22 +853,22 @@ public final class C53 extends C20 {
                         if (C25.B().C25_f287[var5].C18_f224 && !C25.B().C25_f287[var5].equals(C25.B().C25_f287[var2]) && C25.B().C25_f287[var5].C18_f223 == 0 && (C25.B().C25_f287[var5].C18_f225 == 8 || C25.B().C25_f287[var5].C18_f225 == 11)) {
                            switch(this.C60_f866) {
                            case 0:
-                              if (C26.a(C25.B().C25_f287[var2].C60_f861, C25.B().C25_f287[var2].C60_f862 + 8, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.k(), C25.B().C25_f287[var5].C20_f261.k())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].C60_f861, C25.B().C25_f287[var2].C60_f862 + 8, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.k(), C25.B().C25_f287[var5].C20_f261.k())) {
                                  return false;
                               }
                               break;
                            case 1:
-                              if (C26.a(C25.B().C25_f287[var2].C60_f861 + 8, C25.B().C25_f287[var2].C60_f862, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.k(), C25.B().C25_f287[var5].C20_f261.k())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].C60_f861 + 8, C25.B().C25_f287[var2].C60_f862, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.k(), C25.B().C25_f287[var5].C20_f261.k())) {
                                  return false;
                               }
                               break;
                            case 2:
-                              if (C26.a(C25.B().C25_f287[var2].C60_f861, C25.B().C25_f287[var2].C60_f862 - 8, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.k(), C25.B().C25_f287[var5].C20_f261.k())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].C60_f861, C25.B().C25_f287[var2].C60_f862 - 8, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.k(), C25.B().C25_f287[var5].C20_f261.k())) {
                                  return false;
                               }
                               break;
                            case 3:
-                              if (C26.a(C25.B().C25_f287[var2].C60_f861 - 8, C25.B().C25_f287[var2].C60_f862, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.k(), C25.B().C25_f287[var5].C20_f261.k())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].C60_f861 - 8, C25.B().C25_f287[var2].C60_f862, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.k(), C25.B().C25_f287[var5].C20_f261.k())) {
                                  return false;
                               }
                            }
@@ -1149,7 +1149,7 @@ public final class C53 extends C20 {
             }
 
             var5 = 0;
-            if (C26.a(this.C60_f861, this.C60_f862 + super.C60_f856[var5], var1.C60_f861, var1.C60_f862, var2, var3)) {
+            if (GameUtils.checkCollisionBetweenShortArrays(this.C60_f861, this.C60_f862 + super.C60_f856[var5], var1.C60_f861, var1.C60_f862, var2, var3)) {
                return true;
             }
             break;
@@ -1160,7 +1160,7 @@ public final class C53 extends C20 {
             }
 
             var5 = 0;
-            if (C26.a(this.C60_f861 + super.C60_f856[var5], this.C60_f862, var1.C60_f861, var1.C60_f862, var2, var3)) {
+            if (GameUtils.checkCollisionBetweenShortArrays(this.C60_f861 + super.C60_f856[var5], this.C60_f862, var1.C60_f861, var1.C60_f862, var2, var3)) {
                return true;
             }
             break;
@@ -1171,7 +1171,7 @@ public final class C53 extends C20 {
             }
 
             var5 = 0;
-            if (C26.a(this.C60_f861, this.C60_f862 - super.C60_f856[var5], var1.C60_f861, var1.C60_f862, var2, var3)) {
+            if (GameUtils.checkCollisionBetweenShortArrays(this.C60_f861, this.C60_f862 - super.C60_f856[var5], var1.C60_f861, var1.C60_f862, var2, var3)) {
                return true;
             }
             break;
@@ -1182,7 +1182,7 @@ public final class C53 extends C20 {
             }
 
             var5 = 0;
-            if (C26.a(this.C60_f861 - super.C60_f856[var5], this.C60_f862, var1.C60_f861, var1.C60_f862, var2, var3)) {
+            if (GameUtils.checkCollisionBetweenShortArrays(this.C60_f861 - super.C60_f856[var5], this.C60_f862, var1.C60_f861, var1.C60_f862, var2, var3)) {
                return true;
             }
          }
@@ -1194,22 +1194,22 @@ public final class C53 extends C20 {
    private static boolean a(C18 var0, short[] var1, short[] var2, int var3, int var4) {
       switch(var0.C20_f261.g()) {
       case 0:
-         if (C26.a(var0.C60_f861 + var1[0], var0.C60_f862 + var1[1], var1[2], var1[3] + (var0.C18_f234 << 4), var3, var4, var2)) {
+         if (GameUtils.checkCollisionWithShortArray(var0.C60_f861 + var1[0], var0.C60_f862 + var1[1], var1[2], var1[3] + (var0.C18_f234 << 4), var3, var4, var2)) {
             return true;
          }
          break;
       case 1:
-         if (C26.a(var0.C60_f861 + var1[0], var0.C60_f862 + var1[1], var1[2] + (var0.C18_f234 << 4), var1[3], var3, var4, var2)) {
+         if (GameUtils.checkCollisionWithShortArray(var0.C60_f861 + var1[0], var0.C60_f862 + var1[1], var1[2] + (var0.C18_f234 << 4), var1[3], var3, var4, var2)) {
             return true;
          }
          break;
       case 2:
-         if (C26.a(var0.C60_f861 + var1[0], var0.C60_f862 + var1[1] - (var0.C18_f234 << 4), var1[2], var1[3] + (var0.C18_f234 << 4), var3, var4, var2)) {
+         if (GameUtils.checkCollisionWithShortArray(var0.C60_f861 + var1[0], var0.C60_f862 + var1[1] - (var0.C18_f234 << 4), var1[2], var1[3] + (var0.C18_f234 << 4), var3, var4, var2)) {
             return true;
          }
          break;
       case 3:
-         if (C26.a(var0.C60_f861 + var1[0] - (var0.C18_f234 << 4), var0.C60_f862 + var1[1], var1[2] + (var0.C18_f234 << 4), var1[3], var3, var4, var2)) {
+         if (GameUtils.checkCollisionWithShortArray(var0.C60_f861 + var1[0] - (var0.C18_f234 << 4), var0.C60_f862 + var1[1], var1[2] + (var0.C18_f234 << 4), var1[3], var3, var4, var2)) {
             return true;
          }
       }
@@ -2010,7 +2010,7 @@ public final class C53 extends C20 {
    }
 
    public final int D() {
-      return C25.B().C25_f290 == 4 && C25.B().C25_f291 == 1 ? C26.b(4, 8) : C26.b(this.C53_f772, this.C53_f773);
+      return C25.B().C25_f290 == 4 && C25.B().C25_f291 == 1 ? GameUtils.getRandomInRange(4, 8) : GameUtils.getRandomInRange(this.C53_f772, this.C53_f773);
    }
 
    private void O() {

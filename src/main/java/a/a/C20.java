@@ -1,6 +1,6 @@
 package a.a;
 
-import a.C26;
+import a.GameUtils;
 import a.C44;
 import a.b.C60;
 import a.b.C62;
@@ -125,7 +125,7 @@ public class C20 extends C60 {
    public final void f() {
       if (this.C20_f261.i()) {
          this.d(true);
-      } else if (C26.a(C25.B().C25_f283.C68_f943, C25.B().C25_f283.C68_f944, C44.g(), C44.h(), this.C60_f861, this.C60_f862, this.C20_f261.j())) {
+      } else if (GameUtils.checkCollisionWithShortArray(C25.B().C25_f283.C68_f943, C25.B().C25_f283.C68_f944, C44.g(), C44.h(), this.C60_f861, this.C60_f862, this.C20_f261.j())) {
          this.d(true);
       } else {
          this.d(false);

@@ -1,6 +1,6 @@
 package a.b;
 
-import a.C26;
+import a.GameUtils;
 import a.C44;
 import a.a.C69;
 import game.C7;
@@ -279,7 +279,7 @@ public final class C68 {
          var8 = this;
 
          for(var4 = 0; var4 < var8.C68_f953[var3].length; ++var4) {
-            if (var8.C68_f953[var3][var4][2] >= 0 && C26.a(var8.C68_f953[var3][var4][1], var8.C68_f953[var3][var4][2], var8.C68_f952[var8.C68_f953[var3][var4][0]][3], var8.C68_f952[var8.C68_f953[var3][var4][0]][4], var8.C68_f947, var8.C68_f948, var8.C68_f949 + 1, var8.C68_f950 + 1, var8.C68_f953[var3][var4][3])) {
+            if (var8.C68_f953[var3][var4][2] >= 0 && GameUtils.checkCollision(var8.C68_f953[var3][var4][1], var8.C68_f953[var3][var4][2], var8.C68_f952[var8.C68_f953[var3][var4][0]][3], var8.C68_f952[var8.C68_f953[var3][var4][0]][4], var8.C68_f947, var8.C68_f948, var8.C68_f949 + 1, var8.C68_f950 + 1, var8.C68_f953[var3][var4][3])) {
                var9.drawRegion(var8.C68_f942[var8.C68_f952[var8.C68_f953[var3][var4][0]][0]], var8.C68_f952[var8.C68_f953[var3][var4][0]][1], var8.C68_f952[var8.C68_f953[var3][var4][0]][2], var8.C68_f952[var8.C68_f953[var3][var4][0]][3], var8.C68_f952[var8.C68_f953[var3][var4][0]][4], C68_f932[var8.C68_f953[var3][var4][3]], (var8.C68_f953[var3][var4][1] - var8.C68_f947) * var8.C68_f937 - var8.C68_f943 % var8.C68_f937, (var8.C68_f953[var3][var4][2] - var8.C68_f948) * var8.C68_f938 - var8.C68_f944 % var8.C68_f938, 20);
             }
          }

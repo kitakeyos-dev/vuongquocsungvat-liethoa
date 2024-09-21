@@ -1,6 +1,6 @@
 package game;
 
-import a.C26;
+import a.GameUtils;
 import a.C44;
 import a.C65;
 import javax.microedition.lcdui.Canvas;
@@ -103,14 +103,14 @@ public final class C1 extends Canvas implements Runnable {
    protected final void pointerPressed(int var1, int var2) {
       this.C1_f9 = 0;
       if (this.C1_f4.D() == 13) {
-         if (C26.a(var1, var2, 38, 225, 50, 40)) {
+         if (GameUtils.isPointInRectangle(var1, var2, 38, 225, 50, 40)) {
             this.C1_f9 = -6;
-         } else if (C26.a(var1, var2, 150, 225, 50, 40)) {
+         } else if (GameUtils.isPointInRectangle(var1, var2, 150, 225, 50, 40)) {
             this.C1_f9 = -7;
          }
-      } else if (C26.a(var1, var2, 0, 280, 40, 40)) {
+      } else if (GameUtils.isPointInRectangle(var1, var2, 0, 280, 40, 40)) {
          this.C1_f9 = -6;
-      } else if (C26.a(var1, var2, 200, 280, 40, 40)) {
+      } else if (GameUtils.isPointInRectangle(var1, var2, 200, 280, 40, 40)) {
          this.C1_f9 = -7;
       }
 

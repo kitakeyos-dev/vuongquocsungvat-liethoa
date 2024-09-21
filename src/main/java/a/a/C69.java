@@ -1,6 +1,6 @@
 package a.a;
 
-import a.C26;
+import a.GameUtils;
 import a.b.C62;
 import javax.microedition.lcdui.Image;
 
@@ -132,9 +132,9 @@ public final class C69 {
       (var4 = Image.createImage(var2, var3)).getGraphics().setColor(0);
       var4.getGraphics().fillRect(0, 0, var2, var3);
       var4.getGraphics().drawImage(var0, 0, 0, 20);
-      var5.a(C26.a(var4), var2, var3);
+      var5.a(GameUtils.extractImageRGB(var4), var2, var3);
       b(var5, 100);
-      var0 = C26.createRGBImage(var5.C42_f671, var5.C42_f672, var5.C42_f673, true);
+      var0 = GameUtils.createRGBImage(var5.C42_f671, var5.C42_f672, var5.C42_f673, true);
       var5.C42_f671 = null;
       return var0;
    }
@@ -195,7 +195,7 @@ public final class C69 {
 
    public static Image a(Image var0) {
       C42 var4;
-      (var4 = new C42()).a(C26.a(var0), var0.getWidth(), var0.getHeight());
+      (var4 = new C42()).a(GameUtils.extractImageRGB(var0), var0.getWidth(), var0.getHeight());
 
       for(int var5 = 0; var5 < var4.C42_f673; ++var5) {
          for(int var6 = 0; var6 < var4.C42_f672; ++var6) {
@@ -215,7 +215,7 @@ public final class C69 {
          }
       }
 
-      var0 = C26.createRGBImage(var4.C42_f671, var4.C42_f672, var4.C42_f673, true);
+      var0 = GameUtils.createRGBImage(var4.C42_f671, var4.C42_f672, var4.C42_f673, true);
       var4.C42_f671 = null;
       return var0;
    }

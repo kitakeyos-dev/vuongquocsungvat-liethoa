@@ -1,13 +1,13 @@
 package game;
 
-import a.C26;
+import a.GameUtils;
 import a.C44;
 import a.a.C30;
 import a.a.C42;
 import a.b.C64;
 import a.b.C67;
 import a.b.C68;
-import c.C54;
+import c.DialogManager;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
@@ -118,11 +118,11 @@ public final class C55 extends C44 {
             break;
          case 6:
             this.C55_f817 = null;
-            this.C55_f817 = C26.loadImage("/data/img/", "img_831");
+            this.C55_f817 = GameUtils.loadImage("/data/img/", "img_831");
             break;
          case 9:
             a(false);
-            int var2 = C26.a(this.C55_f821.length);
+            int var2 = GameUtils.getRandomInt(this.C55_f821.length);
             this.C55_f830 = this.C55_f821[var2];
             break;
          case 11:
@@ -135,7 +135,7 @@ public final class C55 extends C44 {
             break;
          case 15:
             this.C55_f817 = null;
-            this.C55_f817 = C26.a("/data/logo/", "0");
+            this.C55_f817 = GameUtils.loadPNG("/data/logo/", "0");
             break;
          case 21:
             C30.a().c(0, 18);
@@ -179,7 +179,7 @@ public final class C55 extends C44 {
    public final boolean b() {
       this.d();
       this.C44_f701 = C9.a();
-      this.C44_f700 = C54.a();
+      this.C44_f700 = DialogManager.getInstance();
       this.C44_f701.a((C44)this);
       C67.a(50000);
       C64.a(1000);
@@ -188,7 +188,7 @@ public final class C55 extends C44 {
       m();
       this.C55_f822.b();
       Image var1;
-      int[] var2 = C26.a(var1 = C26.loadImage("/data/img/", "img_22"));
+      int[] var2 = GameUtils.extractImageRGB(var1 = GameUtils.loadImage("/data/img/", "img_22"));
       this.C55_f829 = new C42();
       this.C55_f829.a(var2, var1.getWidth(), var1.getHeight());
       C25.B();
@@ -311,7 +311,7 @@ public final class C55 extends C44 {
             if (this.C55_f816 >= 10) {
                this.C55_f816 = 0;
                this.C55_f817 = null;
-               this.C55_f817 = C26.a("/data/logo/", "cwalogo");
+               this.C55_f817 = GameUtils.loadPNG("/data/logo/", "cwalogo");
                this.a((byte)16);
             }
             break;

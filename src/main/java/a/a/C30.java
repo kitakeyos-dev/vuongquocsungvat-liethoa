@@ -1,10 +1,10 @@
 package a.a;
 
-import a.C26;
+import a.GameUtils;
 import a.C44;
 import a.b.C6;
 import a.b.C67;
-import c.C54;
+import c.DialogManager;
 import game.C25;
 import game.C29;
 import game.C7;
@@ -37,7 +37,7 @@ public final class C30 {
     private int[] C30_f491;
     private int C30_f492 = 20;
     private int C30_f493;
-    private static C54 C30_f494;
+    private static DialogManager C30_f494;
     private static C9 C30_f495;
     private static short[][] C30_f496 = null;
     private short[][] C30_f497 = new short[][]{{-20, 20, 20, -20, -15, 15, -15, 15, -5, 5, -5, 5}, {-5, 5, 5, -5}, {-5, 10, -5}};
@@ -89,14 +89,14 @@ public final class C30 {
             C30_f471 = new C30();
         }
 
-        C30_f494 = C54.a();
+        C30_f494 = DialogManager.getInstance();
         C30_f495 = C9.a();
         return C30_f471;
     }
 
     public static void b() {
         C30_f496 = null;
-        C30_f496 = C26.readShortMatrix(C26.a("/data/script/battleNpc.mid"));
+        C30_f496 = GameUtils.readShortMatrix(GameUtils.openInputStream("/data/script/battleNpc.mid"));
     }
 
     public static void c() {
@@ -106,13 +106,13 @@ public final class C30 {
     public final void a(Graphics var1) {
         if (this.C30_f472 != -1 || this.C30_f474 != -1 || this.C30_f475 != -1) {
             if (this.C30_f475 == 18) {
-                C30_f494.a(var1);
+                C30_f494.render(var1);
                 if (this.C30_f478 >= C30_f496.length) {
                     this.C30_f478 = 0;
                     this.C30_f475 = -1;
                     this.C30_f476 = true;
                     C30_f496 = null;
-                    C30_f494.a("/data/ui/menu1.ui");
+                    C30_f494.removeDialog("/data/ui/menu1.ui");
                     return;
                 }
             }
@@ -308,12 +308,12 @@ public final class C30 {
                         var1.drawImage(C29.B().C29_f400, 0, 0, 20);
                     }
 
-                    C30_f494.a(var1);
+                    C30_f494.render(var1);
                     if (this.C30_f478 >= C30_f496.length) {
                         this.C30_f478 = 0;
                         this.C30_f472 = -1;
                         this.C30_f476 = true;
-                        C30_f494.a("/data/ui/npcEnemy.ui");
+                        C30_f494.removeDialog("/data/ui/npcEnemy.ui");
                         return;
                     }
                     break;
@@ -463,7 +463,7 @@ public final class C30 {
                         }
                     }
 
-                    C30_f494.c();
+                    C30_f494.closeCurrentDialog();
                 case 9:
                 case 12:
                 case 13:
@@ -560,7 +560,7 @@ public final class C30 {
                         }
                     }
 
-                    C30_f494.c();
+                    C30_f494.closeCurrentDialog();
                 default:
             }
         }
@@ -658,7 +658,7 @@ public final class C30 {
         int var14 = var12 / 2;
         int[] var15 = new int[var7];
         if (this.C30_f490 == null) {
-            this.C30_f490 = new int[C26.a(var13 * var13 + var14 * var14, 0)][];
+            this.C30_f490 = new int[GameUtils.fastSqrt(var13 * var13 + var14 * var14, 0)][];
         }
 
         if (this.C30_f491 == null) {
@@ -709,7 +709,7 @@ public final class C30 {
                     int var21 = var9 * this.C30_f487;
 
                     for (int var23 = 0; var23 < this.C30_f487; ++var23) {
-                        int var22 = C26.a(var17 = var18 + (var23 - var6) * (var23 - var6), 1);
+                        int var22 = GameUtils.fastSqrt(var17 = var18 + (var23 - var6) * (var23 - var6), 1);
                         if (var17 > var19) {
                             this.C30_f490[var16][var21 + var23] = this.C30_f472 == 4 ? 0 : -16777216;
                         } else if (var17 < var20) {
@@ -731,7 +731,7 @@ public final class C30 {
             var18 = (var17 - var14) * (var17 - var14);
 
             for (var20 = 0; var20 < var11; ++var20) {
-                var9 = C26.a(var18 + (var20 - var13) * (var20 - var13), 1);
+                var9 = GameUtils.fastSqrt(var18 + (var20 - var13) * (var20 - var13), 1);
                 if (this.C30_f490[var9] == null) {
                     if (this.C30_f472 == 5) {
                         var1.fillRect(var20 * this.C30_f487, var17 * this.C30_f487, this.C30_f487, this.C30_f487);
@@ -887,7 +887,7 @@ public final class C30 {
                 return;
             case 6:
                 this.C30_f478 = 0;
-                this.C30_f493 = C26.a(2);
+                this.C30_f493 = GameUtils.getRandomInt(2);
                 return;
             case 7:
                 this.C30_f478 = 0;
@@ -966,10 +966,10 @@ public final class C30 {
 
     public final void a(String var1, int var2, int var3, int var4) {
         if (C7.C7_f51 == 1) {
-            this.C30_f509 = C26.loadImage("/data/tex/", var1);
+            this.C30_f509 = GameUtils.loadImage("/data/tex/", var1);
             this.C30_f509 = C69.a(this.C30_f509);
         } else {
-            this.C30_f509 = C26.loadImage("/data/tex/", var1);
+            this.C30_f509 = GameUtils.loadImage("/data/tex/", var1);
         }
 
         this.C30_f510 = new C42();
@@ -1009,7 +1009,7 @@ public final class C30 {
                 this.C30_f532 = new Image[var6.length];
 
                 for (var1 = 0; var1 < var6.length; ++var1) {
-                    this.C30_f532[var1] = C26.loadImage("/data/tex/", var6[var1]);
+                    this.C30_f532[var1] = GameUtils.loadImage("/data/tex/", var6[var1]);
                 }
 
                 this.C30_f534 = new int[var3][5];
@@ -1024,7 +1024,7 @@ public final class C30 {
 
     private void b(int var1) {
         int var2;
-        if ((var2 = C26.a(100)) < 3) {
+        if ((var2 = GameUtils.getRandomInt(100)) < 3) {
             this.C30_f534[var1][0] = this.C30_f532.length - 1;
         } else if (var2 < 15) {
             this.C30_f534[var1][0] = this.C30_f532.length - 2;
@@ -1034,10 +1034,10 @@ public final class C30 {
             this.C30_f534[var1][0] = 0;
         }
 
-        this.C30_f534[var1][1] = C26.a(C44.g());
-        this.C30_f534[var1][2] = C26.a(C44.h());
-        this.C30_f534[var1][3] = C26.a(C30_f530[this.C30_f534[var1][0]][1] - C30_f530[this.C30_f534[var1][0]][0]) + C30_f530[this.C30_f534[var1][0]][0];
-        this.C30_f534[var1][4] = C26.b(2);
+        this.C30_f534[var1][1] = GameUtils.getRandomInt(C44.g());
+        this.C30_f534[var1][2] = GameUtils.getRandomInt(C44.h());
+        this.C30_f534[var1][3] = GameUtils.getRandomInt(C30_f530[this.C30_f534[var1][0]][1] - C30_f530[this.C30_f534[var1][0]][0]) + C30_f530[this.C30_f534[var1][0]][0];
+        this.C30_f534[var1][4] = GameUtils.getRandomOffset(2);
     }
 
     public final void b(Graphics var1) {
@@ -1120,7 +1120,7 @@ public final class C30 {
         C30_f518 = C44.g() / C30_f519[0];
         C30_f519[1] = (C44.h() - 1) / C30_f519[0] + 1;
         C30_f519[2] = var1;
-        C30_f519[3] = C26.b(0, 7);
+        C30_f519[3] = GameUtils.getRandomInRange(0, 7);
         C30_f519[4] = 0;
         this.C30_f476 = false;
     }

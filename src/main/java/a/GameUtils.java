@@ -1,9 +1,8 @@
 package a;
 
 import a.a.C16;
-import c.C23;
-import c.C31;
-import c.C43;
+import c.IComponent;
+import c.DialogConfig;
 import game.C4;
 
 import java.io.ByteArrayOutputStream;
@@ -17,7 +16,7 @@ import javax.microedition.lcdui.Image;
 
 import me.kitakeyos.ManagedInputStream;
 
-public final class C26 {
+public final class GameUtils {
     private static int DEFAULT_VALUE = 5;
     private static int MAX_SIZE = 300;
     private static int[] precomputedValues = null;
@@ -65,9 +64,9 @@ public final class C26 {
         }
     }
 
-    public static short[] a(byte[] var0, int[] var1) {
-        short var2 = f(var0, var1);
-        short var3 = f(var0, var1);
+    public static short[] readShortArray(byte[] var0, int[] var1) {
+        short var2 = readShort(var0, var1);
+        short var3 = readShort(var0, var1);
         if (var2 == 0) {
             return null;
         } else {
@@ -85,16 +84,16 @@ public final class C26 {
         }
     }
 
-    public static short[][] b(byte[] var0, int[] var1) {
-        short var3 = f(var0, var1);
-        short var4 = f(var0, var1);
+    public static short[][] readShortMatrix(byte[] var0, int[] var1) {
+        short var3 = readShort(var0, var1);
+        short var4 = readShort(var0, var1);
         if (var3 == 0) {
             return null;
         } else {
             short[][] var2 = new short[var3][];
 
             for (int var5 = 0; var5 < var3; ++var5) {
-                short var6 = f(var0, var1);
+                short var6 = readShort(var0, var1);
                 var2[var5] = new short[var6 * var4];
 
                 for (int var9 = 0; var9 < var2[var5].length; ++var9) {
@@ -110,11 +109,11 @@ public final class C26 {
         }
     }
 
-    private static short f(byte[] var0, int[] var1) {
-        return d(var0, var1);
+    private static short readShort(byte[] var0, int[] var1) {
+        return readShortFromBytes(var0, var1);
     }
 
-    public static InputStream a(String var0) {
+    public static InputStream openInputStream(String var0) {
         try {
             return ManagedInputStream.openStream(var0);
         } catch (Exception var1) {
@@ -216,7 +215,7 @@ public final class C26 {
         return var1;
     }
 
-    public static int a(int var0, int var1, int var2, int var3) {
+    public static int calculateEuclideanDistance(int var0, int var1, int var2, int var3) {
         var0 = (var0 - var2) * (var0 - var2) + (var1 - var3) * (var1 - var3);
         var1 = 0;
 
@@ -232,7 +231,7 @@ public final class C26 {
         return var1;
     }
 
-    public static int a(int var0, int var1) {
+    public static int fastSqrt(int var0, int var1) {
         int var2;
         int var3;
         if (precomputedValues == null) {
@@ -307,7 +306,7 @@ public final class C26 {
         }
     }
 
-    public static int a(int var0) {
+    public static int getRandomInt(int var0) {
         if (randomGenerator == null) {
             randomGenerator = new Random(System.currentTimeMillis());
         }
@@ -315,7 +314,7 @@ public final class C26 {
         return randomGenerator.nextInt(var0);
     }
 
-    public static int b(int var0) {
+    public static int getRandomOffset(int var0) {
         if (randomGenerator == null) {
             randomGenerator = new Random(System.currentTimeMillis());
         }
@@ -323,7 +322,7 @@ public final class C26 {
         return -2 + randomGenerator.nextInt(4);
     }
 
-    public static int b(int var0, int var1) {
+    public static int getRandomInRange(int var0, int var1) {
         if (randomGenerator == null) {
             randomGenerator = new Random(System.currentTimeMillis());
         }
@@ -331,7 +330,7 @@ public final class C26 {
         return (randomGenerator.nextInt() >>> 1) % (var1 - var0 + 1) + var0;
     }
 
-    public static int a(int[] var0, int var1) {
+    public static int findFirstGreaterOrEqual(int[] var0, int var1) {
         int var2;
         for (var2 = 0; var2 < var0.length && var1 < var0[var2]; ++var2) {
         }
@@ -339,7 +338,7 @@ public final class C26 {
         return var2;
     }
 
-    public static boolean a(int var0, int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8) {
+    public static boolean checkCollision(int var0, int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8) {
         if (var8 % 2 != 0) {
             var8 = var2;
             var2 = var3;
@@ -349,26 +348,25 @@ public final class C26 {
         return var0 + var2 >= var4 && var4 + var6 >= var0 && var1 + var3 > var5 && var5 + var7 > var1;
     }
 
-    public static boolean a(int var0, int var1, int var2, int var3, int var4, int var5) {
+    public static boolean isPointInRectangle(int var0, int var1, int var2, int var3, int var4, int var5) {
         return var0 >= var2 && var0 <= var2 + var4 && var1 >= var3 && var1 <= var3 + 40;
     }
 
-    public static boolean a(int var0, int var1, int var2, int var3, short[] var4, short[] var5) {
+    public static boolean checkCollisionBetweenShortArrays(int var0, int var1, int var2, int var3, short[] var4, short[] var5) {
         return var0 + var4[0] + var4[2] >= var2 + var5[0] && var0 + var4[0] <= var2 + var5[0] + var5[2] && var1 + var4[1] <= var3 + var5[1] + var5[3] && var1 + var4[1] + var4[3] >= var3 + var5[1];
     }
 
-    public static boolean a(int var0, int var1, int var2, int var3, int var4, int var5, short[] var6) {
+    public static boolean checkCollisionWithShortArray(int var0, int var1, int var2, int var3, int var4, int var5, short[] var6) {
         return var0 + var2 >= var4 + var6[0] && var0 <= var4 + var6[0] + var6[2] && var1 <= var5 + var6[1] + var6[3] && var1 + var3 >= var5 + var6[1];
     }
 
-    public static boolean a(int var0, int var1, int var2, int var3, short[] var4) {
+    public static boolean isPointInShortArrayRectangle(int var0, int var1, int var2, int var3, short[] var4) {
         return var0 >= var2 + var4[0] && var0 <= var2 + var4[0] + var4[2] && var1 <= var3 + var4[1] + var4[3] && var1 >= var3 + var4[1];
     }
 
-    public static Image a(String var0, String var1) {
+    public static Image loadPNG(String var0, String var1) {
         try {
-            Image var2 = Image.createImage(var0 + var1 + ".png");
-            return var2;
+            return Image.createImage(var0 + var1 + ".png");
         } catch (Exception var3) {
             C16.a(var3, var0 + var1 + ".png error!!");
             return null;
@@ -484,7 +482,7 @@ public final class C26 {
                 var2 = var10001;
                 var10001 = var2 + 4;
                 int var15 = var3 + 4;
-                int var14 = ~a(var1, var10001, var15);
+                int var14 = ~ab(var1, var10001, var15);
                 var1[var2 + 8 + var3] = (byte) (var14 >> 24);
                 var1[var2 + 8 + var3 + 1] = (byte) (var14 >> 16);
                 var1[var2 + 8 + var3 + 2] = (byte) (var14 >> 8);
@@ -508,7 +506,7 @@ public final class C26 {
         return bytes;
     }
 
-    private static int a(byte[] var0, int var1, int var2) {
+    private static int ab(byte[] var0, int var1, int var2) {
         int var3 = -1;
         int var4;
         if (C26_f381 == null) {
@@ -536,7 +534,7 @@ public final class C26 {
         return var3;
     }
 
-    public static int[] a(Image var0) {
+    public static int[] extractImageRGB(Image var0) {
         int var1 = var0.getWidth();
         int var2 = var0.getHeight();
         int[] var3 = new int[var1 * var2];
@@ -552,7 +550,7 @@ public final class C26 {
         return false;
     }
 
-    public static int a(int[] var0) {
+    public static int findFirstAvailableSlot(int[] var0) {
         int var1 = 0;
 
         for (int var2 = 0; var2 < var0.length; ++var2) {
@@ -565,18 +563,18 @@ public final class C26 {
         return var1;
     }
 
-    public static C23 a(C23 var0, int var1) {
-        if (var0.b() == var1) {
+    public static IComponent findChildById(IComponent var0, int var1) {
+        if (var0.getSelectedComponentId() == var1) {
             return var0;
         } else {
-            for (int var2 = 0; var2 < var0.h().length && var0.h()[var2] != null; ++var2) {
-                if (var0.h()[var2].j() == 0) {
-                    C23 var3;
-                    if ((var3 = a((C23) ((C43) var0.h()[var2]), (int) var1)) != null) {
+            for (int var2 = 0; var2 < var0.getComponents().length && var0.getComponents()[var2] != null; ++var2) {
+                if (var0.getComponents()[var2].getZIndex() == 0) {
+                    IComponent var3;
+                    if ((var3 = findChildById(var0.getComponents()[var2], var1)) != null) {
                         return var3;
                     }
-                } else if (var0.h()[var2].b() == var1) {
-                    return var0.h()[var2];
+                } else if (var0.getComponents()[var2].getSelectedComponentId() == var1) {
+                    return var0.getComponents()[var2];
                 }
             }
 
@@ -584,7 +582,7 @@ public final class C26 {
         }
     }
 
-    public static int[] c(int var0) {
+    public static int[] initializeArrayWithMinusOne(int var0) {
         int[] var1 = new int[var0];
 
         for (int var2 = 0; var2 < var0; ++var2) {
@@ -594,7 +592,7 @@ public final class C26 {
         return var1;
     }
 
-    public static void a(int[] var0, int var1, int var2) {
+    public static void insertAtStart(int[] var0, int var1, int var2) {
         if (0 < var0.length) {
             var1 = 0;
 
@@ -616,7 +614,7 @@ public final class C26 {
         }
     }
 
-    public static void b(byte[] var0, String var1, int var2) {
+    public static void readBytesFromStream(byte[] var0, String var1, int var2) {
         try {
             var2 = 0;
 
@@ -639,14 +637,14 @@ public final class C26 {
         }
     }
 
-    public static byte c(byte[] var0, int[] var1) {
+    public static byte readByte(byte[] var0, int[] var1) {
         int var10004 = var1[0];
         int var10001 = var1[0];
         var1[0] = var10004 + 1;
         return (byte) var0[var10001];
     }
 
-    public static short d(byte[] var0, int[] var1) {
+    public static short readShortFromBytes(byte[] var0, int[] var1) {
         int var10004 = var1[0];
         int var10001 = var1[0];
         var1[0] = var10004 + 1;
@@ -686,18 +684,18 @@ public final class C26 {
         return new String(var1);
     }
 
-    public static void a(C23 var0, int var1, int var2, C23 var3) {
-        var0.a(var0.c() + var1, var3);
-        var0.b(var0.d() + var2, var3);
-        if (var0.j() != 1 && var0.j() == 0) {
-            for (int var4 = 0; var4 < var0.h().length && var0.h()[var4] != null; ++var4) {
-                a(var0.h()[var4], var1, var2, var3);
+    public static void a(IComponent var0, int var1, int var2, IComponent var3) {
+        var0.setOffsetX(var0.getOffsetX() + var1, var3);
+        var0.setOffsetY(var0.getOffsetY() + var2, var3);
+        if (var0.getZIndex() != 1 && var0.getZIndex() == 0) {
+            for (int var4 = 0; var4 < var0.getComponents().length && var0.getComponents()[var4] != null; ++var4) {
+                a(var0.getComponents()[var4], var1, var2, var3);
             }
         }
 
     }
 
-    public static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, int var6, int var7, Font var8, boolean var9, int var10, int[] var11, int var12, byte var13, C31 var14, byte var15, boolean[] var16) {
+    public static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, int var6, int var7, Font var8, boolean var9, int var10, int[] var11, int var12, byte var13, DialogConfig var14, byte var15, boolean[] var16) {
         if (var13 != -1 && var14 != null) {
             var5 = C4.C4_f33;
         }
@@ -812,7 +810,7 @@ public final class C26 {
 
     }
 
-    private static C27 a(String var0, int var1, int var2, boolean var3, Font var4, byte var5, C31 var6) {
+    private static C27 a(String var0, int var1, int var2, boolean var3, Font var4, byte var5, DialogConfig var6) {
         C27 var7 = new C27();
         int var8 = 0;
         int var9 = 0;
@@ -835,7 +833,7 @@ public final class C26 {
                     var7.C27_f389[var7.C27_f392++] = new int[]{var8, var14, var9, var10, var11};
                     var15 = var4.charsWidth(var0.substring(var8, var14).toCharArray(), 0, var14 - var8);
                     if (var5 != -1 && var6 != null) {
-                        var15 = C31.a(var0.substring(var8, var14), 0, var14 - var8);
+                        var15 = DialogConfig.a(var0.substring(var8, var14), 0, var14 - var8);
                     }
 
                     var9 += var15;
@@ -843,7 +841,7 @@ public final class C26 {
                     var8 = var14 + 2;
                 }
             } else if (var14 - var8 >= 0) {
-                var15 = C31.a(var0.substring(var8, var14 + 1), 0, var14 - var8 + 1);
+                var15 = DialogConfig.a(var0.substring(var8, var14 + 1), 0, var14 - var8 + 1);
                 var7.C27_f390 = var15;
                 if (var3 && (var9 + var15 >= var2 || var16 == ' ' && var9 + var15 >= var13)) {
                     var7.C27_f389[var7.C27_f392++] = new int[]{var8, var14, var9, var10, var11};
@@ -876,16 +874,16 @@ public final class C26 {
         return var7;
     }
 
-    private static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, C31 var6) {
-        C31.a(var1, var3, var4, 20, var2, var0);
+    private static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, DialogConfig var6) {
+        DialogConfig.a(var1, var3, var4, 20, var2, var0);
     }
 
-    public static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, int var6, C31 var7, int var8) {
+    public static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, int var6, DialogConfig var7, int var8) {
         switch (var8) {
             case 0:
                 if (var7 != null) {
-                    C31.a(var1, var3 - 1, var4, 17, 8607289, var0);
-                    C31.a(var1, var3 + 1, var4, 17, 8607289, var0);
+                    DialogConfig.a(var1, var3 - 1, var4, 17, 8607289, var0);
+                    DialogConfig.a(var1, var3 + 1, var4, 17, 8607289, var0);
                 } else {
                     var0.setColor(8607289);
                     var0.drawString(var1, var3 - 1, var4, 17);
@@ -894,8 +892,8 @@ public final class C26 {
                 break;
             case 1:
                 if (var7 != null) {
-                    C31.a(var1, var3, var4 - 1, 17, 8607289, var0);
-                    C31.a(var1, var3, var4 + 1, 17, 8607289, var0);
+                    DialogConfig.a(var1, var3, var4 - 1, 17, 8607289, var0);
+                    DialogConfig.a(var1, var3, var4 + 1, 17, 8607289, var0);
                 } else {
                     var0.setColor(8607289);
                     var0.drawString(var1, var3, var4 - 1, 17);
@@ -904,10 +902,10 @@ public final class C26 {
                 break;
             case 2:
                 if (var7 != null) {
-                    C31.a(var1, var3, var4 - 1, 17, 8607289, var0);
-                    C31.a(var1, var3, var4 + 1, 17, 8607289, var0);
-                    C31.a(var1, var3 - 1, var4, 17, 8607289, var0);
-                    C31.a(var1, var3 + 1, var4, 17, 8607289, var0);
+                    DialogConfig.a(var1, var3, var4 - 1, 17, 8607289, var0);
+                    DialogConfig.a(var1, var3, var4 + 1, 17, 8607289, var0);
+                    DialogConfig.a(var1, var3 - 1, var4, 17, 8607289, var0);
+                    DialogConfig.a(var1, var3 + 1, var4, 17, 8607289, var0);
                 } else {
                     var0.setColor(8607289);
                     var0.drawString(var1, var3, var4 - 1, 17);
@@ -918,14 +916,14 @@ public final class C26 {
         }
 
         if (var7 != null) {
-            C31.a(var1, var3, var4, 17, var2, var0);
+            DialogConfig.a(var1, var3, var4, 17, var2, var0);
         } else {
             var0.setColor(var2);
             var0.drawString(var1, var3, var4, 17);
         }
     }
 
-    public static void a(String var0, int var1, int var2, Font var3, boolean var4, byte var5, C31 var6) {
+    public static void a(String var0, int var1, int var2, Font var3, boolean var4, byte var5, DialogConfig var6) {
         C27 var8 = a(var0, var1, var2, true, var3, (byte) -1, var6);
         var2 = var8.C27_f392;
         int[][] var9 = var8.C27_f389;

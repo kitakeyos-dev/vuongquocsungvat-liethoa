@@ -1,8 +1,8 @@
 package game;
 
-import a.C26;
+import a.GameUtils;
 import a.C44;
-import c.C54;
+import c.DialogManager;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
@@ -45,7 +45,7 @@ public final class C13 extends C44 {
 
    public final boolean b() {
       this.C44_f701 = C9.a();
-      this.C44_f700 = C54.a();
+      this.C44_f700 = DialogManager.getInstance();
       this.C44_f701.a((C44)this);
       C13_f201 = 0;
       if (C44_f710) {
@@ -55,7 +55,7 @@ public final class C13 extends C44 {
       }
 
       if (this.C13_f204 == null) {
-         this.C13_f204 = C26.loadImage("/data/img/", "img_833");
+         this.C13_f204 = GameUtils.loadImage("/data/img/", "img_833");
       }
 
       this.C();
@@ -74,11 +74,11 @@ public final class C13 extends C44 {
 
    private void C() {
       for(int var1 = 0; var1 < this.C13_f206; ++var1) {
-         this.C13_f207[var1][0] = -C26.a(this.C13_f209);
-         this.C13_f207[var1][1] = h() + C26.a(this.C13_f210);
-         this.C13_f207[var1][2] = C26.a(2);
-         this.C13_f207[var1][3] = C26.b(1, 5);
-         this.C13_f207[var1][4] = C26.b(3, 5);
+         this.C13_f207[var1][0] = -GameUtils.getRandomInt(this.C13_f209);
+         this.C13_f207[var1][1] = h() + GameUtils.getRandomInt(this.C13_f210);
+         this.C13_f207[var1][2] = GameUtils.getRandomInt(2);
+         this.C13_f207[var1][3] = GameUtils.getRandomInRange(1, 5);
+         this.C13_f207[var1][4] = GameUtils.getRandomInRange(3, 5);
       }
 
    }
@@ -130,7 +130,7 @@ public final class C13 extends C44 {
                   switch(C13_f201) {
                   case 0:
                      if (this.C13_f202 == 0) {
-                        C26.a();
+                        GameUtils.a();
                         this.E();
                         if (C25.B().C25_f348 != null) {
                            C25.B().C25_f348.D();
@@ -158,7 +158,7 @@ public final class C13 extends C44 {
                      break;
                   case 1:
                      if (this.C13_f202 == 0) {
-                        C26.a();
+                        GameUtils.a();
                         this.a((byte)5);
                      } else if (this.C13_f202 == 1) {
                         this.C13_f202 = 0;
@@ -181,7 +181,7 @@ public final class C13 extends C44 {
                   switch(C13_f201) {
                   case 0:
                      if (this.C13_f202 == 0) {
-                        C26.a();
+                        GameUtils.a();
                         this.E();
                         this.D();
                         C55.B().a((byte)9);
@@ -246,11 +246,11 @@ public final class C13 extends C44 {
                this.D();
             } else if (this.g(262144)) {
                this.a((byte)0);
-               this.C44_f700.a("/data/ui/msgtip.ui");
+               this.C44_f700.removeDialog("/data/ui/msgtip.ui");
             }
          }
 
-         this.C44_f700.c();
+         this.C44_f700.closeCurrentDialog();
       }
    }
 
@@ -272,7 +272,7 @@ public final class C13 extends C44 {
             var2.fillRect(0, var4 * 20, g(), 20);
          }
       default:
-         this.C44_f700.a(var1);
+         this.C44_f700.render(var1);
          if (this.C44_f698 == 0) {
             String var10002 = c(C13_f200[C13_f201]);
             int var10003 = (g() - m().stringWidth(c(C13_f200[C13_f201]))) / 2 + 4;
@@ -331,11 +331,11 @@ public final class C13 extends C44 {
 
    public final void c() {
       this.C13_f204 = null;
-      this.C44_f700.b();
+      this.C44_f700.clearDialogs();
    }
 
    private void E() {
-      this.C44_f700.a("/data/ui/menu.ui");
+      this.C44_f700.removeDialog("/data/ui/menu.ui");
    }
 
    public final void a(byte var1) {

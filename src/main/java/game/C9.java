@@ -1,24 +1,23 @@
 package game;
 
-import a.C26;
+import a.GameUtils;
 import a.C44;
 import a.a.C21;
 import a.a.C30;
 import a.a.C69;
 import a.b.C67;
-import c.C12;
+import c.DialogData;
 import c.C17;
-import c.C40;
-import c.C43;
-import c.C54;
-import c.C58;
-import c.C61;
+import c.RootComponent;
+import c.DialogManager;
+import c.Dialog;
+import c.DialogHandler;
 import java.util.Vector;
 
-public final class C9 implements C61 {
+public final class C9 implements DialogHandler {
    private static C9 C9_f120;
    private C44 C9_f121;
-   private C54 C9_f122 = C54.a();
+   private DialogManager C9_f122 = DialogManager.getInstance();
    private C53 C9_f123;
    protected int C9_f124;
    protected int C9_f125;
@@ -92,34 +91,34 @@ public final class C9 implements C61 {
    }
 
    public final void c() {
-      this.C9_f122.a("/data/ui/world.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/world.ui", 257, this);
       this.C9_f133 = 0;
    }
 
    public final void d() {
-      this.C9_f122.C54_f811.a(5).a(true);
-      this.C9_f122.C54_f811.a(7).a(true);
+      this.C9_f122.currentDialog.getChildById(5).setVisible(true);
+      this.C9_f122.currentDialog.getChildById(7).setVisible(true);
    }
 
    private void aU() {
-      if (this.C9_f122.b("/data/ui/world.ui")) {
+      if (this.C9_f122.isTopDialog("/data/ui/world.ui")) {
          for(int var1 = 1; var1 <= 7; ++var1) {
-            this.C9_f122.C54_f811.a(var1).a(false);
+            this.C9_f122.currentDialog.getChildById(var1).setVisible(false);
          }
       }
 
    }
 
    public void e() {
-      if (this.C9_f133 < 2 && !C7.C7_f67 && C25.C25_f338 && this.C9_f122.c("/data/ui/world.ui")) {
-         C58 var2 = this.C9_f122.d("/data/ui/world.ui");
-          if (var2.a(1).i().C12_f195.a().b(4)) {
-            this.C9_f122.d("/data/ui/world.ui").a(6).i().C12_f179 = ((C25)this.C9_f121).C25_f296;
+      if (this.C9_f133 < 2 && !C7.C7_f67 && C25.C25_f338 && this.C9_f122.containsDialog("/data/ui/world.ui")) {
+         Dialog var2 = this.C9_f122.getDialog("/data/ui/world.ui");
+          if (var2.getChildById(1).getComponentData().C12_f195.a().b(4)) {
+            this.C9_f122.getDialog("/data/ui/world.ui").getChildById(6).getComponentData().C12_f179 = ((C25)this.C9_f121).C25_f296;
             this.C9_f133 = 1;
          } else if (this.C9_f133 == 1) {
-             var2 = this.C9_f122.d("/data/ui/world.ui");
-             if (var2.a(1).i().C12_f195.a().h() >= 5) {
-               this.C9_f122.d("/data/ui/world.ui").a(6).i().C12_f179 = "";
+             var2 = this.C9_f122.getDialog("/data/ui/world.ui");
+             if (var2.getChildById(1).getComponentData().C12_f195.a().h() >= 5) {
+               this.C9_f122.getDialog("/data/ui/world.ui").getChildById(6).getComponentData().C12_f179 = "";
                this.C9_f133 = 2;
                C25.C25_f338 = false;
             }
@@ -130,10 +129,10 @@ public final class C9 implements C61 {
    }
 
    public boolean f() {
-      if (this.C9_f134 < 2 && this.C9_f122.b("/data/ui/openbox.ui")) {
+      if (this.C9_f134 < 2 && this.C9_f122.isTopDialog("/data/ui/openbox.ui")) {
          if (this.C9_f134 == 1) {
             if (this.C9_f121.g(196640)) {
-               this.C9_f122.C54_f811.a(2).i().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(2).getComponentData().C12_f179 = "";
                this.C9_f134 = 2;
                this.C9_f132 = true;
                this.az();
@@ -149,13 +148,13 @@ public final class C9 implements C61 {
 
    public final boolean g() {
       if (this.C9_f134 < 2) {
-         if (this.C9_f122.b("/data/ui/taskTip.ui")) {
+         if (this.C9_f122.isTopDialog("/data/ui/taskTip.ui")) {
             if (this.C9_f134 == 1) {
                if (this.C9_f121.g(196640)) {
                   this.C9_f134 = 2;
                   this.C9_f132 = true;
-                  if (this.C9_f122.b("/data/ui/taskTip.ui")) {
-                     this.C9_f122.a("/data/ui/taskTip.ui");
+                  if (this.C9_f122.isTopDialog("/data/ui/taskTip.ui")) {
+                     this.C9_f122.removeDialog("/data/ui/taskTip.ui");
                   }
 
                   return true;
@@ -172,29 +171,29 @@ public final class C9 implements C61 {
    }
 
    public final void h() {
-      this.C9_f122.a("/data/ui/transmit.ui", 257, this);
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = C9_f142.length;
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(1);
+      this.C9_f122.showDialog("/data/ui/transmit.ui", 257, this);
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = C9_f142.length;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
       this.aV();
    }
 
    private void aV() {
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580;
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
 
       for(int var1 = 0; var1 < 5; ++var1) {
-         this.C9_f122.C54_f811.a(var1 + 5).i().C12_f179 = C9_f142[var1 + this.C9_f135];
+         this.C9_f122.currentDialog.getChildById(var1 + 5).getComponentData().C12_f179 = C9_f142[var1 + this.C9_f135];
       }
 
-      this.C9_f122.C54_f811.a(13).b(109 + this.C9_f136 * 88 / C9_f142.length, this.C9_f122.C54_f811.a());
+      this.C9_f122.currentDialog.getChildById(13).setOffsetY(109 + this.C9_f136 * 88 / C9_f142.length, this.C9_f122.currentDialog.getRootComponent());
    }
 
    public final void i() {
       if (this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.aV();
       } else if (this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.aV();
       } else if (this.C9_f121.g(196640)) {
          C25.B().C25_f290 = C9_f143[this.C9_f136 * 5];
@@ -207,53 +206,53 @@ public final class C9 implements C61 {
       } else {
          if (this.C9_f121.g(262144)) {
             this.C9_f121.a((byte)8);
-            this.C9_f122.a("/data/ui/transmit.ui");
+            this.C9_f122.removeDialog("/data/ui/transmit.ui");
          }
 
       }
    }
 
    public final boolean j() {
-      return this.C9_f122.b("/data/ui/openbox.ui") || this.C9_f122.b("/data/ui/taskTip.ui");
+      return this.C9_f122.isTopDialog("/data/ui/openbox.ui") || this.C9_f122.isTopDialog("/data/ui/taskTip.ui");
    }
 
    public final void k() {
       String[] var1 = new String[]{"Tùy thân cửa hàng", "Sủng vật", "Lưng bao", "Đồ giám", "Nhiệm vụ", "Lưu dữ liệu"};
       this.aU();
-      this.C9_f122.a("/data/ui/gamemenu.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/gamemenu.ui", 257, this);
       int var2;
       if (C44.C44_f711) {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = 6;
-         this.C9_f122.C54_f811.a(14).i().C12_f179 = C44.c(605 + this.C9_f125);
-         this.C9_f122.C54_f811.a(15).i().C12_f179 = var1[0];
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 6;
+         this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = C44.c(605 + this.C9_f125);
+         this.C9_f122.currentDialog.getChildById(15).getComponentData().C12_f179 = var1[0];
 
          for(var2 = 0; var2 < 5; ++var2) {
-            this.C9_f122.C54_f811.a(var2 + 5).i().C12_f179 = var1[var2 + 1];
+            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().C12_f179 = var1[var2 + 1];
          }
       } else {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = 5;
-         this.C9_f122.C54_f811.a(14).i().C12_f179 = C44.c(606 + this.C9_f125);
-         this.C9_f122.C54_f811.a(15).i().C12_f179 = var1[1];
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 5;
+         this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = C44.c(606 + this.C9_f125);
+         this.C9_f122.currentDialog.getChildById(15).getComponentData().C12_f179 = var1[1];
 
          for(var2 = 0; var2 < 4; ++var2) {
-            this.C9_f122.C54_f811.a(var2 + 5).i().C12_f179 = var1[var2 + 2];
+            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().C12_f179 = var1[var2 + 2];
          }
 
-         this.C9_f122.C54_f811.a(9).a(false);
+         this.C9_f122.currentDialog.getChildById(9).setVisible(false);
       }
 
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = this.C9_f125;
-      this.C9_f122.C54_f811.a(18).i().C12_f179 = "" + this.C9_f123.G();
-      this.C9_f122.C54_f811.a(19).i().C12_f179 = "" + this.C9_f123.F();
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f125;
+      this.C9_f122.currentDialog.getChildById(18).getComponentData().C12_f179 = "" + this.C9_f123.G();
+      this.C9_f122.currentDialog.getChildById(19).getComponentData().C12_f179 = "" + this.C9_f123.F();
       this.C9_f131 = 0;
    }
 
    public final void l() {
       this.C9_f121.q();
       if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
       } else if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
       } else if (!this.j() && C44.s() && this.C9_f121.g(196640)) {
          if (C44.p() && !C44.a((int)this.C9_f125, (int)0)) {
             return;
@@ -263,32 +262,32 @@ public final class C9 implements C61 {
             switch(this.C9_f125) {
             case 0:
                this.C9_f121.a((byte)14);
-               this.C9_f122.a("/data/ui/gamemenu.ui");
+               this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 1:
                this.C9_f126 = 0;
                this.C9_f121.r();
                this.C9_f121.a((byte)7);
-               this.C9_f122.a("/data/ui/gamemenu.ui");
+               this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 2:
                this.C9_f121.r();
                this.C9_f121.a((byte)8);
-               this.C9_f122.a("/data/ui/gamemenu.ui");
+               this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 3:
                this.C9_f126 = 0;
                this.C9_f121.a((byte)9);
-               this.C9_f122.a("/data/ui/gamemenu.ui");
+               this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 4:
                this.C9_f125 = 0;
                this.C9_f121.a((byte)10);
-               this.C9_f122.a("/data/ui/gamemenu.ui");
+               this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 5:
-               this.C9_f122.C54_f811.a(11).a(false);
-               this.C9_f122.C54_f811.a(12).a(false);
+               this.C9_f122.currentDialog.getChildById(11).setVisible(false);
+               this.C9_f122.currentDialog.getChildById(12).setVisible(false);
                this.C9_f121.a((byte)22);
             }
          } else {
@@ -297,31 +296,31 @@ public final class C9 implements C61 {
                this.C9_f126 = 0;
                this.C9_f121.r();
                this.C9_f121.a((byte)7);
-               this.C9_f122.a("/data/ui/gamemenu.ui");
+               this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 1:
                this.C9_f121.r();
                this.C9_f121.a((byte)8);
-               this.C9_f122.a("/data/ui/gamemenu.ui");
+               this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 2:
                this.C9_f126 = 0;
                this.C9_f121.a((byte)9);
-               this.C9_f122.a("/data/ui/gamemenu.ui");
+               this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 3:
                this.C9_f125 = 0;
                this.C9_f121.a((byte)10);
-               this.C9_f122.a("/data/ui/gamemenu.ui");
+               this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 4:
-               this.C9_f122.C54_f811.a(11).a(false);
-               this.C9_f122.C54_f811.a(12).a(false);
+               this.C9_f122.currentDialog.getChildById(11).setVisible(false);
+               this.C9_f122.currentDialog.getChildById(12).setVisible(false);
                this.C9_f121.a((byte)22);
             }
          }
       } else if (C44.t() && this.C9_f121.g(262144)) {
-         this.C9_f122.a("/data/ui/gamemenu.ui");
+         this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
          this.C9_f121.a((byte)0);
       }
 
@@ -330,37 +329,37 @@ public final class C9 implements C61 {
 
    public final void m() {
       this.aU();
-      this.C9_f122.a("/data/ui/gamesystem.ui", 257, this);
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = this.C9_f125;
+      this.C9_f122.showDialog("/data/ui/gamesystem.ui", 257, this);
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f125;
       this.C9_f131 = 0;
    }
 
    public final void n() {
       if (this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
       } else if (this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
       } else if (this.C9_f121.g(196640)) {
          switch(this.C9_f125) {
          case 0:
-            this.C9_f122.a("/data/ui/gamesystem.ui");
+            this.C9_f122.removeDialog("/data/ui/gamesystem.ui");
             this.C9_f121.a((byte)0);
             return;
          case 1:
             this.C9_f121.a((byte)20);
-            this.C9_f122.a("/data/ui/gamesystem.ui");
+            this.C9_f122.removeDialog("/data/ui/gamesystem.ui");
             return;
          case 2:
             this.C9_f121.a((byte)21);
-            this.C9_f122.a("/data/ui/gamesystem.ui");
+            this.C9_f122.removeDialog("/data/ui/gamesystem.ui");
             return;
          case 3:
             if (this.C9_f131 == 0) {
-               this.C9_f122.a("/data/ui/option.ui", 257, this);
+               this.C9_f122.showDialog("/data/ui/option.ui", 257, this);
                this.C9_f126 = 1;
-               ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = this.C9_f126;
-               this.C9_f122.C54_f811.a(12).i().C12_f179 = "";
-               this.C9_f122.C54_f811.a(13).i().C12_f179 = "Không";
+               ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f126;
+               this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = "Không";
                this.C9_f131 = 1;
                return;
             } else {
@@ -370,10 +369,10 @@ public final class C9 implements C61 {
                   C55.B().C55_f823 = 0L;
                   C53.p().C53_f776 = false;
                   C55.B().a((byte)7);
-                  this.C9_f122.a("/data/ui/gamesystem.ui");
+                  this.C9_f122.removeDialog("/data/ui/gamesystem.ui");
                   break;
                case 1:
-                  this.C9_f122.a("/data/ui/option.ui");
+                  this.C9_f122.removeDialog("/data/ui/option.ui");
                   this.C9_f131 = 0;
                   this.C9_f132 = true;
                   return;
@@ -384,14 +383,14 @@ public final class C9 implements C61 {
       } else {
          if (this.C9_f121.g(262144)) {
             if (this.C9_f131 == 0) {
-               this.C9_f122.a("/data/ui/gamesystem.ui");
+               this.C9_f122.removeDialog("/data/ui/gamesystem.ui");
                this.C9_f121.a((byte)0);
                return;
             }
 
             if (this.C9_f131 == 1) {
                this.C9_f132 = true;
-               this.C9_f122.a("/data/ui/option.ui");
+               this.C9_f122.removeDialog("/data/ui/option.ui");
                this.C9_f131 = 0;
             }
          }
@@ -400,47 +399,47 @@ public final class C9 implements C61 {
    }
 
    public final void o() {
-      this.C9_f122.a("/data/ui/help1.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/help1.ui", 257, this);
       this.C9_f125 = 0;
-      this.C9_f122.C54_f811.a(6).a(true);
-      this.C9_f122.C54_f811.a(7).a(false);
+      this.C9_f122.currentDialog.getChildById(6).setVisible(true);
+      this.C9_f122.currentDialog.getChildById(7).setVisible(false);
       this.e(this.C9_f125);
    }
 
    private void e(int var1) {
       int var2;
       if (var1 == 0) {
-         this.C9_f122.C54_f811.a(5).i().C12_f179 = "Trợ giúp";
-         this.C9_f122.C54_f811.a(8).i().C12_f179 = "Nhấn nút 2, 4, 6, 8 để di chuyển#nNút 5: công kích, đối thoại, xác nhận#nNút 1: Xem nhiệm vụ#nNút 9: lựa chọn sủng vật cưỡi#nNút 0: Xem bản đồ#nNút mềm trái: menu hệ thống#nNút mềm phải: menu trò chơi";
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Trợ giúp";
+         this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Nhấn nút 2, 4, 6, 8 để di chuyển#nNút 5: công kích, đối thoại, xác nhận#nNút 1: Xem nhiệm vụ#nNút 9: lựa chọn sủng vật cưỡi#nNút 0: Xem bản đồ#nNút mềm trái: menu hệ thống#nNút mềm phải: menu trò chơi";
 
          for(var2 = 0; var2 < 28; ++var2) {
-            this.C9_f122.C54_f811.a(var2 + 9).a(false);
+            this.C9_f122.currentDialog.getChildById(var2 + 9).setVisible(false);
          }
       } else if (var1 > 0) {
-         this.C9_f122.C54_f811.a(8).i().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "";
 
          for(var2 = 0; var2 < 14; ++var2) {
-            this.C9_f122.C54_f811.a(9 + (var2 << 1)).a(true);
-            this.C9_f122.C54_f811.a(9 + (var2 << 1) + 1).a(true);
+            this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).setVisible(true);
+            this.C9_f122.currentDialog.getChildById(9 + (var2 << 1) + 1).setVisible(true);
             if ((var1 - 1) * 14 + var2 < 26) {
-               this.C9_f122.C54_f811.a(9 + (var2 << 1)).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(9 + (var2 << 1)).i().C12_f195.a((int)0);
-               this.C9_f122.C54_f811.a(9 + (var2 << 1)).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(9 + (var2 << 1)).i().C12_f195.a(325, false, (byte)-2);
-               this.C9_f122.C54_f811.a(9 + (var2 << 1)).i().C12_f195.a((var1 - 1) * 14 + var2 + 1);
+               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().C12_f195.a((int)0);
+               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().C12_f195.a(325, false, (byte)-2);
+               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().C12_f195.a((var1 - 1) * 14 + var2 + 1);
                if ((var1 - 1) * 14 + var2 <= 10) {
-                  this.C9_f122.C54_f811.a(9 + (var2 << 1) + 1).i().C12_f179 = C44.c(var2 + 311);
+                  this.C9_f122.currentDialog.getChildById(9 + (var2 << 1) + 1).getComponentData().C12_f179 = C44.c(var2 + 311);
                } else {
-                  this.C9_f122.C54_f811.a(9 + (var2 << 1) + 1).i().C12_f179 = C44.c(333 + ((var1 - 1) * 14 + var2 - 11));
+                  this.C9_f122.currentDialog.getChildById(9 + (var2 << 1) + 1).getComponentData().C12_f179 = C44.c(333 + ((var1 - 1) * 14 + var2 - 11));
                }
             } else {
-               this.C9_f122.C54_f811.a(9 + (var2 << 1)).a(false);
-               this.C9_f122.C54_f811.a(9 + (var2 << 1) + 1).a(false);
+               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).setVisible(false);
+               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1) + 1).setVisible(false);
             }
          }
       }
 
-      this.C9_f122.C54_f811.a(39).i().C12_f179 = var1 + 1 + "/3";
+      this.C9_f122.currentDialog.getChildById(39).getComponentData().C12_f179 = var1 + 1 + "/3";
    }
 
    public final void p() {
@@ -461,21 +460,21 @@ public final class C9 implements C61 {
       } else {
          if (this.C9_f121.g(262144)) {
             this.C9_f121.a((byte)0);
-            this.C9_f122.a("/data/ui/help1.ui");
+            this.C9_f122.removeDialog("/data/ui/help1.ui");
          }
 
       }
    }
 
    public final void q() {
-      this.C9_f122.a("/data/ui/help.ui", 257, this);
-      this.C9_f122.C54_f811.a(5).i().C12_f179 = "Quan tại";
-      this.C9_f122.C54_f811.a(8).i().C12_f179 = "Tên trò chơi: Sủng vật Vương quốc - Liệt hỏa#nViệt hóa: BIGAME#nWapsite: 3g.mwap.biz";
-      this.C9_f122.C54_f811.a(6).a(true);
-      this.C9_f122.C54_f811.a(7).a(false);
+      this.C9_f122.showDialog("/data/ui/help.ui", 257, this);
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Quan tại";
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Tên trò chơi: Sủng vật Vương quốc - Liệt hỏa#nViệt hóa: BIGAME#nWapsite: 3g.mwap.biz";
+      this.C9_f122.currentDialog.getChildById(6).setVisible(true);
+      this.C9_f122.currentDialog.getChildById(7).setVisible(false);
 
       for(int var1 = 9; var1 < 13; ++var1) {
-         this.C9_f122.C54_f811.a(var1).a(false);
+         this.C9_f122.currentDialog.getChildById(var1).setVisible(false);
       }
 
    }
@@ -483,20 +482,20 @@ public final class C9 implements C61 {
    public final void r() {
       if (this.C9_f121.g(262144)) {
          this.C9_f121.a((byte)0);
-         this.C9_f122.a("/data/ui/help.ui");
+         this.C9_f122.removeDialog("/data/ui/help.ui");
       }
 
    }
 
    public final void s() {
-      this.C9_f122.a("/data/ui/help.ui", 257, this);
-      this.C9_f122.C54_f811.a(5).i().C12_f179 = "Tùy chọn";
-      this.C9_f122.C54_f811.a(8).i().C12_f179 = "";
-      this.C9_f122.C54_f811.a(6).a(false);
-      this.C9_f122.C54_f811.a(7).a(true);
+      this.C9_f122.showDialog("/data/ui/help.ui", 257, this);
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Tùy chọn";
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "";
+      this.C9_f122.currentDialog.getChildById(6).setVisible(false);
+      this.C9_f122.currentDialog.getChildById(7).setVisible(true);
 
       for(int var1 = 9; var1 < 13; ++var1) {
-         this.C9_f122.C54_f811.a(var1).a(true);
+         this.C9_f122.currentDialog.getChildById(var1).setVisible(true);
       }
 
       this.aW();
@@ -505,9 +504,9 @@ public final class C9 implements C61 {
    private void aW() {
       for(int var1 = 1; var1 < 4; ++var1) {
          if (var1 <= C55.B().C55_f831) {
-            this.C9_f122.C54_f811.a(var1 + 9).i().C12_f192 = -2148;
+            this.C9_f122.currentDialog.getChildById(var1 + 9).getComponentData().C12_f192 = -2148;
          } else {
-            this.C9_f122.C54_f811.a(var1 + 9).i().C12_f192 = -8540732;
+            this.C9_f122.currentDialog.getChildById(var1 + 9).getComponentData().C12_f192 = -8540732;
          }
       }
 
@@ -524,213 +523,213 @@ public final class C9 implements C61 {
          if (this.C9_f121.g(131072)) {
             C13.B().C13_f205 = C55.B().C55_f831;
             this.C9_f121.a((byte)0);
-            this.C9_f122.a("/data/ui/help.ui");
+            this.C9_f122.removeDialog("/data/ui/help.ui");
          }
 
       }
    }
 
    public final void u() {
-      this.C9_f122.a("/data/ui/menu.ui", 336, this);
+      this.C9_f122.showDialog("/data/ui/menu.ui", 336, this);
    }
 
    public final void v() {
-      this.C9_f122.a("/data/ui/menu1.ui", 336, this);
+      this.C9_f122.showDialog("/data/ui/menu1.ui", 336, this);
    }
 
    public final void w() {
-      this.C9_f122.a("/data/ui/menu1.ui");
+      this.C9_f122.removeDialog("/data/ui/menu1.ui");
    }
 
    public final void a(int var1, int var2) {
       switch(var1) {
       case 0:
-         this.C9_f122.C54_f811.a(var2).a(false);
+         this.C9_f122.currentDialog.getChildById(var2).setVisible(false);
          return;
       case 1:
-         this.C9_f122.C54_f811.a(8).a(false);
-         this.C9_f122.C54_f811.a(9).a(false);
+         this.C9_f122.currentDialog.getChildById(8).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(9).setVisible(false);
          return;
       case 2:
-         this.C9_f122.C54_f811.a(10).a(false);
-         this.C9_f122.C54_f811.a(11).a(false);
+         this.C9_f122.currentDialog.getChildById(10).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(11).setVisible(false);
          return;
       case 3:
-         this.C9_f122.C54_f811.a(12).a(false);
-         this.C9_f122.C54_f811.a(13).a(false);
+         this.C9_f122.currentDialog.getChildById(12).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(13).setVisible(false);
          return;
       case 4:
          for(var1 = 0; var1 < 2; ++var1) {
-            if (this.C9_f122.C54_f811.a(var1 + 16).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(var1 + 16).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(var1 + 16).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(var1 + 16).i().C12_f195.a((int)0);
-               this.C9_f122.C54_f811.a(var1 + 16).i().C12_f195.a(336, false, (byte)0);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.a((int)0);
+               this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.a(336, false, (byte)0);
                if (var1 == 0) {
-                  this.C9_f122.C54_f811.a(var1 + 16).i().C12_f195.a((int)8);
+                  this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.a((int)8);
                } else {
-                  this.C9_f122.C54_f811.a(var1 + 16).i().C12_f195.a((int)10);
+                  this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.a((int)10);
                }
             }
          }
 
          return;
       case 5:
-         this.C9_f122.C54_f811.a(16).a(false);
-         this.C9_f122.C54_f811.a(17).a(false);
+         this.C9_f122.currentDialog.getChildById(16).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(17).setVisible(false);
 
          for(var1 = 0; var1 < 2; ++var1) {
-            this.C9_f122.C54_f811.a(var1 + 16).l();
-            if (this.C9_f122.C54_f811.a(var1 + 18).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(var1 + 18).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(var1 + 18).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(var1 + 18).i().C12_f195.a((int)0);
-               this.C9_f122.C54_f811.a(var1 + 18).i().C12_f195.a(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(var1 + 16).cleanUp();
+            if (this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195.a((int)0);
+               this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195.a(336, false, (byte)0);
                if (var1 == 0) {
-                  this.C9_f122.C54_f811.a(var1 + 18).i().C12_f195.a((int)8);
+                  this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195.a((int)8);
                } else {
-                  this.C9_f122.C54_f811.a(var1 + 18).i().C12_f195.a((int)11);
+                  this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195.a((int)11);
                }
             }
          }
 
          return;
       case 6:
-         this.C9_f122.C54_f811.a(19).a(false);
-         this.C9_f122.C54_f811.a(19).l();
-         if (this.C9_f122.C54_f811.a(20).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(20).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(20).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(20).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(20).i().C12_f195.a(336, false, (byte)0);
-            this.C9_f122.C54_f811.a(20).i().C12_f195.a((int)12);
+         this.C9_f122.currentDialog.getChildById(19).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(19).cleanUp();
+         if (this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f195.a(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f195.a((int)12);
             return;
          }
          break;
       case 7:
-         this.C9_f122.C54_f811.a(20).a(false);
-         this.C9_f122.C54_f811.a(20).l();
+         this.C9_f122.currentDialog.getChildById(20).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(20).cleanUp();
          return;
       case 8:
          for(var1 = 0; var1 < 2; ++var1) {
-            if (this.C9_f122.C54_f811.a(var1 + 21).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(var1 + 21).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(var1 + 21).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(var1 + 21).i().C12_f195.a((int)0);
-               this.C9_f122.C54_f811.a(var1 + 21).i().C12_f195.a(336, false, (byte)0);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195.a((int)0);
+               this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195.a(336, false, (byte)0);
                if (var1 == 0) {
-                  this.C9_f122.C54_f811.a(var1 + 21).i().C12_f195.a((int)7);
+                  this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195.a((int)7);
                } else {
-                  this.C9_f122.C54_f811.a(var1 + 21).i().C12_f195.a((int)13);
+                  this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195.a((int)13);
                }
             }
          }
 
          return;
       case 9:
-         this.C9_f122.C54_f811.a(21).a(false);
-         this.C9_f122.C54_f811.a(22).a(false);
+         this.C9_f122.currentDialog.getChildById(21).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(22).setVisible(false);
 
          for(var1 = 0; var1 < 2; ++var1) {
-            this.C9_f122.C54_f811.a(var1 + 21).l();
-            if (this.C9_f122.C54_f811.a(var1 + 23).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(var1 + 23).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(var1 + 23).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(var1 + 23).i().C12_f195.a((int)0);
-               this.C9_f122.C54_f811.a(var1 + 23).i().C12_f195.a(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(var1 + 21).cleanUp();
+            if (this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195.a((int)0);
+               this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195.a(336, false, (byte)0);
                if (var1 == 0) {
-                  this.C9_f122.C54_f811.a(var1 + 23).i().C12_f195.a((int)7);
+                  this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195.a((int)7);
                } else {
-                  this.C9_f122.C54_f811.a(var1 + 23).i().C12_f195.a((int)14);
+                  this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195.a((int)14);
                }
             }
          }
 
          return;
       case 10:
-         this.C9_f122.C54_f811.a(24).a(false);
-         this.C9_f122.C54_f811.a(24).l();
-         if (this.C9_f122.C54_f811.a(25).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(25).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(25).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(25).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(25).i().C12_f195.a(336, false, (byte)0);
-            this.C9_f122.C54_f811.a(25).i().C12_f195.a((int)15);
+         this.C9_f122.currentDialog.getChildById(24).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(24).cleanUp();
+         if (this.C9_f122.currentDialog.getChildById(25).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(25).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(25).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(25).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(25).getComponentData().C12_f195.a(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(25).getComponentData().C12_f195.a((int)15);
             return;
          }
          break;
       case 11:
-         this.C9_f122.C54_f811.a(25).a(false);
-         this.C9_f122.C54_f811.a(25).l();
+         this.C9_f122.currentDialog.getChildById(25).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(25).cleanUp();
          return;
       case 12:
-         if (this.C9_f122.C54_f811.a(26).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(26).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(26).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(26).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(26).i().C12_f195.a(336, false, (byte)0);
-            this.C9_f122.C54_f811.a(26).i().C12_f195.a((int)5);
+         if (this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f195.a(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f195.a((int)5);
             return;
          }
          break;
       case 13:
-         this.C9_f122.C54_f811.a(26).a(false);
-         this.C9_f122.C54_f811.a(26).l();
-         if (this.C9_f122.C54_f811.a(27).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(27).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(27).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(27).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(27).i().C12_f195.a(336, false, (byte)0);
-            this.C9_f122.C54_f811.a(27).i().C12_f195.a((int)5);
+         this.C9_f122.currentDialog.getChildById(26).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(26).cleanUp();
+         if (this.C9_f122.currentDialog.getChildById(27).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(27).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(27).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(27).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(27).getComponentData().C12_f195.a(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(27).getComponentData().C12_f195.a((int)5);
             return;
          }
          break;
       case 14:
          return;
       case 15:
-         if (this.C9_f122.C54_f811.a(28).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(28).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(28).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(28).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(28).i().C12_f195.a(336, false, (byte)0);
-            this.C9_f122.C54_f811.a(28).i().C12_f195.a((int)6);
+         if (this.C9_f122.currentDialog.getChildById(28).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(28).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(28).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(28).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(28).getComponentData().C12_f195.a(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(28).getComponentData().C12_f195.a((int)6);
             return;
          }
          break;
       case 16:
-         this.C9_f122.C54_f811.a(28).a(false);
-         this.C9_f122.C54_f811.a(28).l();
-         if (this.C9_f122.C54_f811.a(29).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(29).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(29).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(29).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(29).i().C12_f195.a(336, false, (byte)0);
-            this.C9_f122.C54_f811.a(29).i().C12_f195.a((int)6);
+         this.C9_f122.currentDialog.getChildById(28).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(28).cleanUp();
+         if (this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f195.a(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f195.a((int)6);
             return;
          }
          break;
       case 17:
-         this.C9_f122.C54_f811.a(29).a(false);
-         this.C9_f122.C54_f811.a(29).l();
-         if (this.C9_f122.C54_f811.a(30).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(30).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(30).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(30).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(30).i().C12_f195.a(336, false, (byte)0);
-            this.C9_f122.C54_f811.a(30).i().C12_f195.a((int)6);
+         this.C9_f122.currentDialog.getChildById(29).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(29).cleanUp();
+         if (this.C9_f122.currentDialog.getChildById(30).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(30).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(30).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(30).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(30).getComponentData().C12_f195.a(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(30).getComponentData().C12_f195.a((int)6);
             return;
          }
          break;
       case 18:
       case 19:
-         this.C9_f122.C54_f811.a(30).a(false);
-         this.C9_f122.C54_f811.a(30).l();
-         if (this.C9_f122.C54_f811.a(31).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(31).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(31).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(31).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(31).i().C12_f195.a(336, false, (byte)0);
-            this.C9_f122.C54_f811.a(31).i().C12_f195.a((int)6);
+         this.C9_f122.currentDialog.getChildById(30).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(30).cleanUp();
+         if (this.C9_f122.currentDialog.getChildById(31).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(31).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(31).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(31).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(31).getComponentData().C12_f195.a(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(31).getComponentData().C12_f195.a((int)6);
             return;
          }
          break;
@@ -741,47 +740,47 @@ public final class C9 implements C61 {
       case 21:
       case 22:
       case 23:
-         this.C9_f122.C54_f811.a(18).a(false);
-         this.C9_f122.C54_f811.a(18).l();
-         this.C9_f122.C54_f811.a(23).a(false);
-         this.C9_f122.C54_f811.a(23).l();
-         this.C9_f122.C54_f811.a(27).a(false);
-         this.C9_f122.C54_f811.a(27).l();
-         this.C9_f122.C54_f811.a(31).a(false);
-         this.C9_f122.C54_f811.a(31).l();
-         this.C9_f122.C54_f811.a(14).a(false);
-         this.C9_f122.C54_f811.a(15).a(false);
+         this.C9_f122.currentDialog.getChildById(18).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(18).cleanUp();
+         this.C9_f122.currentDialog.getChildById(23).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(23).cleanUp();
+         this.C9_f122.currentDialog.getChildById(27).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(27).cleanUp();
+         this.C9_f122.currentDialog.getChildById(31).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(31).cleanUp();
+         this.C9_f122.currentDialog.getChildById(14).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(15).setVisible(false);
          return;
       case 24:
          C30.a().c(16777215, 1);
          C30.a().C30_f482 = 255;
-         if (this.C9_f122.C54_f811.a(32).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(32).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(32).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(32).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(32).i().C12_f195.a(336, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(32).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(32).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(32).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(32).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(32).getComponentData().C12_f195.a(336, false, (byte)0);
             return;
          }
          break;
       case 25:
-         this.C9_f122.C54_f811.a(32).a(false);
-         this.C9_f122.C54_f811.a(32).l();
+         this.C9_f122.currentDialog.getChildById(32).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(32).cleanUp();
 
          for(var1 = 0; var1 < 5; ++var1) {
-            if (this.C9_f122.C54_f811.a(var1 + 33).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(var1 + 33).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(var1 + 33).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(var1 + 33).i().C12_f195.a(336, false, (byte)0);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.a(336, false, (byte)0);
                if (var1 == 0) {
-                  this.C9_f122.C54_f811.a(var1 + 33).i().C12_f195.a((int)0);
+                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.a((int)0);
                } else if (var1 == 1) {
-                  this.C9_f122.C54_f811.a(var1 + 33).i().C12_f195.a((int)8);
+                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.a((int)8);
                } else if (var1 == 2) {
-                  this.C9_f122.C54_f811.a(var1 + 33).i().C12_f195.a((int)5);
+                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.a((int)5);
                } else if (var1 == 3) {
-                  this.C9_f122.C54_f811.a(var1 + 33).i().C12_f195.a((int)7);
+                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.a((int)7);
                } else if (var1 == 4) {
-                  this.C9_f122.C54_f811.a(var1 + 33).i().C12_f195.a((int)6);
+                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.a((int)6);
                }
             }
          }
@@ -792,40 +791,40 @@ public final class C9 implements C61 {
          return;
       case 27:
          if (var2 > 38) {
-            this.C9_f122.C54_f811.a(var2 - 1).a(false);
-            this.C9_f122.C54_f811.a(var2 - 1).l();
+            this.C9_f122.currentDialog.getChildById(var2 - 1).setVisible(false);
+            this.C9_f122.currentDialog.getChildById(var2 - 1).cleanUp();
          }
 
-         if (this.C9_f122.C54_f811.a(var2).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(var2).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(var2).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(var2).i().C12_f195.a((int)4);
-            this.C9_f122.C54_f811.a(var2).i().C12_f195.a(336, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195.a((int)4);
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195.a(336, false, (byte)0);
             return;
          }
          break;
       case 28:
          if (var2 > 43) {
-            this.C9_f122.C54_f811.a(var2 - 1).a(false);
-            this.C9_f122.C54_f811.a(var2 - 1).l();
+            this.C9_f122.currentDialog.getChildById(var2 - 1).setVisible(false);
+            this.C9_f122.currentDialog.getChildById(var2 - 1).cleanUp();
          }
 
-         if (this.C9_f122.C54_f811.a(var2).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(var2).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(var2).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(var2).i().C12_f195.a((int)1);
-            this.C9_f122.C54_f811.a(var2).i().C12_f195.a(336, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195.a((int)1);
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195.a(336, false, (byte)0);
          }
       }
 
    }
 
    public final void x() {
-      this.C9_f122.a("/data/ui/help1.ui", 257, this);
-      this.C9_f122.a("/data/ui/gamesystem.ui");
+      this.C9_f122.showDialog("/data/ui/help1.ui", 257, this);
+      this.C9_f122.removeDialog("/data/ui/gamesystem.ui");
       this.C9_f127 = 0;
-      this.C9_f122.C54_f811.a(6).a(true);
-      this.C9_f122.C54_f811.a(7).a(false);
+      this.C9_f122.currentDialog.getChildById(6).setVisible(true);
+      this.C9_f122.currentDialog.getChildById(7).setVisible(false);
       this.e(this.C9_f127);
    }
 
@@ -847,7 +846,7 @@ public final class C9 implements C61 {
       } else {
          if (this.C9_f121.g(262144)) {
             this.C9_f121.a((byte)13);
-            this.C9_f122.a("/data/ui/help1.ui");
+            this.C9_f122.removeDialog("/data/ui/help1.ui");
          }
 
       }
@@ -855,12 +854,12 @@ public final class C9 implements C61 {
 
    public final void z() {
       this.s();
-      this.C9_f122.a("/data/ui/gamesystem.ui");
+      this.C9_f122.removeDialog("/data/ui/gamesystem.ui");
    }
 
    public final void A() {
       if (this.C9_f121.g(16400)) {
-         this.C9_f122.C54_f811.b(2);
+         this.C9_f122.currentDialog.handleAction(2);
          C55.B().G();
          if (C25.B().C25_f342 != null) {
             C25.B().C25_f342.b(C55.B().C55_f831);
@@ -868,7 +867,7 @@ public final class C9 implements C61 {
 
          this.aW();
       } else if (this.C9_f121.g(32832)) {
-         this.C9_f122.C54_f811.b(3);
+         this.C9_f122.currentDialog.handleAction(3);
          C55.B().F();
          if (C25.B().C25_f342 != null) {
             C25.B().C25_f342.b(C55.B().C55_f831);
@@ -878,45 +877,45 @@ public final class C9 implements C61 {
       } else {
          if (this.C9_f121.g(131072)) {
             this.C9_f121.a((byte)13);
-            this.C9_f122.a("/data/ui/help.ui");
+            this.C9_f122.removeDialog("/data/ui/help.ui");
          }
 
       }
    }
 
    public final void B() {
-      this.C9_f122.a("/data/ui/petstate.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/petstate.ui", 257, this);
       this.C9_f131 = 0;
       if (this.C9_f123.C53_f792.size() > 6) {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(1);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
       } else {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(-1);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(-1);
       }
 
-      this.C9_f122.C54_f811.a(2).i().C12_f179 = "Ngân hàng Sủng vật";
-      this.C9_f122.C54_f811.a(75).a(false);
-      this.C9_f122.C54_f811.a(76).a(false);
+      this.C9_f122.currentDialog.getChildById(2).getComponentData().C12_f179 = "Ngân hàng Sủng vật";
+      this.C9_f122.currentDialog.getChildById(75).setVisible(false);
+      this.C9_f122.currentDialog.getChildById(76).setVisible(false);
       this.aX();
    }
 
    private void aX() {
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = this.C9_f123.C53_f792.size();
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f123.C53_f792.size();
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
       if (this.C9_f123.C53_f792.size() >= 6) {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f577 = 6;
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f577 = 6;
       } else {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f577 = this.C9_f123.C53_f792.size();
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f577 = this.C9_f123.C53_f792.size();
       }
 
       if (this.C9_f136 >= this.C9_f123.C53_f792.size()) {
          this.C9_f136 = this.C9_f123.C53_f792.size() - 1;
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = this.C9_f136;
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f136;
       }
 
       if (this.C9_f135 > 0 && this.C9_f136 - this.C9_f135 < 5) {
          --this.C9_f135;
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579 = this.C9_f135;
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = this.C9_f135;
       }
 
       int var1;
@@ -924,92 +923,92 @@ public final class C9 implements C61 {
          if (this.C9_f135 + var1 < this.C9_f123.C53_f792.size()) {
             int[] var2 = (int[])this.C9_f123.C53_f792.elementAt(this.C9_f135 + var1);
             if (var1 == 0) {
-               this.C9_f122.C54_f811.a(14 + var1 * 6).i().C12_f179 = "" + (this.C9_f135 + var1 + 1);
+               this.C9_f122.currentDialog.getChildById(14 + var1 * 6).getComponentData().C12_f179 = "" + (this.C9_f135 + var1 + 1);
             } else {
-               this.C9_f122.C54_f811.a(15 + var1 * 6).i().C12_f179 = "" + (this.C9_f135 + var1 + 1);
+               this.C9_f122.currentDialog.getChildById(15 + var1 * 6).getComponentData().C12_f179 = "" + (this.C9_f135 + var1 + 1);
             }
 
-            this.C9_f122.C54_f811.a(16 + var1 * 6).i().C12_f179 = "#P" + var2[6] * 100 / C41.a(var2[0], var2[1], var2[4], 1);
-            this.C9_f122.C54_f811.a(17 + var1 * 6).i().C12_f179 = "#P" + C41.a((short)var2[7], (short)var2[1]);
+            this.C9_f122.currentDialog.getChildById(16 + var1 * 6).getComponentData().C12_f179 = "#P" + var2[6] * 100 / C41.a(var2[0], var2[1], var2[4], 1);
+            this.C9_f122.currentDialog.getChildById(17 + var1 * 6).getComponentData().C12_f179 = "#P" + C41.a((short)var2[7], (short)var2[1]);
          } else {
-            this.C9_f122.C54_f811.a(16 + var1 * 6).i().C12_f179 = "#P0";
-            this.C9_f122.C54_f811.a(17 + var1 * 6).i().C12_f179 = "#P0";
+            this.C9_f122.currentDialog.getChildById(16 + var1 * 6).getComponentData().C12_f179 = "#P0";
+            this.C9_f122.currentDialog.getChildById(17 + var1 * 6).getComponentData().C12_f179 = "#P0";
          }
       }
 
       int[] var4 = null;
       if (this.C9_f123.C53_f792.size() > 0) {
-         this.C9_f122.C54_f811.a(64).a(true);
+         this.C9_f122.currentDialog.getChildById(64).setVisible(true);
          var4 = (int[])this.C9_f123.C53_f792.elementAt(this.C9_f136);
       } else {
-         this.C9_f122.C54_f811.a(64).a(false);
+         this.C9_f122.currentDialog.getChildById(64).setVisible(false);
       }
 
       if (var4 != null) {
-         if (this.C9_f122.C54_f811.a(48).i().C12_f195 != null) {
-            this.C9_f122.C54_f811.a(48).i().C12_f195.c();
+         if (this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195 != null) {
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.c();
          } else {
-            this.C9_f122.C54_f811.a(48).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(48).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(48).i().C12_f195.C17_f222 = 3;
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.C17_f222 = 3;
          }
 
-         this.C9_f122.C54_f811.a(48).i().C12_f195.a(C67.a((byte)0, (short)var4[0], (byte)17), false, (byte)-1);
-         this.C9_f122.C54_f811.a(51).i().C12_f179 = C44.c((int)C67.a((byte)0, (short)var4[0], (byte)0));
-         this.C9_f122.C54_f811.a(52).i().C12_f179 = C44.c(365 + C67.a((byte)0, (short)var4[0], (byte)1));
+         this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.a(C67.a((byte)0, (short)var4[0], (byte)17), false, (byte)-1);
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = C44.c((int)C67.a((byte)0, (short)var4[0], (byte)0));
+         this.C9_f122.currentDialog.getChildById(52).getComponentData().C12_f179 = C44.c(365 + C67.a((byte)0, (short)var4[0], (byte)1));
          if (C67.a((byte)0, (short)var4[0], (byte)19) == -1) {
-            this.C9_f122.C54_f811.a(62).i().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "";
          } else if (C67.C67_f923[0][C67.a((byte)0, (short)var4[0], (byte)19)][2] != 1 && C67.C67_f923[0][C67.a((byte)0, (short)var4[0], (byte)19)][2] != 2) {
             if (C67.C67_f923[0][C67.a((byte)0, (short)var4[0], (byte)19)][2] == 3) {
-               this.C9_f122.C54_f811.a(62).i().C12_f179 = "Có thể dị hoá";
+               this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "Có thể dị hoá";
             }
          } else {
-            this.C9_f122.C54_f811.a(62).i().C12_f179 = "Có thể tiến hóa";
+            this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "Có thể tiến hóa";
          }
 
-         this.C9_f122.C54_f811.a(61).i().C12_f179 = C41.y(var4[0]);
-         if (this.C9_f122.C54_f811.a(59).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(59).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(59).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(59).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(59).i().C12_f195.a(258, false, (byte)-1);
+         this.C9_f122.currentDialog.getChildById(61).getComponentData().C12_f179 = C41.y(var4[0]);
+         if (this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.a(258, false, (byte)-1);
          }
 
          if (var4[2] != -1) {
-            this.C9_f122.C54_f811.a(59).i().C12_f195.a((int)C67.C67_f923[3][var4[2]][1]);
-            this.C9_f122.C54_f811.a(60).i().C12_f179 = C44.c((int)C67.C67_f923[3][var4[2]][0]);
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.a((int)C67.C67_f923[3][var4[2]][1]);
+            this.C9_f122.currentDialog.getChildById(60).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][var4[2]][0]);
          } else {
-            this.C9_f122.C54_f811.a(59).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(60).i().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(60).getComponentData().C12_f179 = "";
          }
 
-         this.C9_f122.C54_f811.a(65).i().C12_f179 = "" + var4[1];
-         this.C9_f122.C54_f811.a(66).i().C12_f179 = "" + C41.a(var4[0], var4[1], var4[4], 2);
-         this.C9_f122.C54_f811.a(67).i().C12_f179 = "" + C41.a(var4[0], var4[1], var4[4], 3);
-         this.C9_f122.C54_f811.a(68).i().C12_f179 = "" + C41.a(var4[0], var4[1], var4[4], 4);
+         this.C9_f122.currentDialog.getChildById(65).getComponentData().C12_f179 = "" + var4[1];
+         this.C9_f122.currentDialog.getChildById(66).getComponentData().C12_f179 = "" + C41.a(var4[0], var4[1], var4[4], 2);
+         this.C9_f122.currentDialog.getChildById(67).getComponentData().C12_f179 = "" + C41.a(var4[0], var4[1], var4[4], 3);
+         this.C9_f122.currentDialog.getChildById(68).getComponentData().C12_f179 = "" + C41.a(var4[0], var4[1], var4[4], 4);
          int var5 = var4[4];
          var1 = C67.a((byte)0, (short)var4[0], (byte)4) - 1;
 
          for(int var3 = 0; var3 < 5; ++var3) {
-            this.C9_f122.C54_f811.a(74 - var3).a(true);
-            this.C9_f122.C54_f811.a(74 - var3).i().C12_f195.C17_f222 = 3;
+            this.C9_f122.currentDialog.getChildById(74 - var3).setVisible(true);
+            this.C9_f122.currentDialog.getChildById(74 - var3).getComponentData().C12_f195.C17_f222 = 3;
             if (var3 > var1) {
-               this.C9_f122.C54_f811.a(74 - var3).a(false);
+               this.C9_f122.currentDialog.getChildById(74 - var3).setVisible(false);
             } else if (var5 > 0) {
-               this.C9_f122.C54_f811.a(74 - var3).i().C12_f195.a((byte)14, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(74 - var3).getComponentData().C12_f195.a((byte)14, (byte)-1);
                --var5;
             } else {
-               this.C9_f122.C54_f811.a(74 - var3).i().C12_f195.a((byte)16, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(74 - var3).getComponentData().C12_f195.a((byte)16, (byte)-1);
             }
          }
 
          if (this.C9_f125 == 1) {
-            this.C9_f122.C54_f811.a(64).i().C12_f179 = "Lấy ra";
+            this.C9_f122.currentDialog.getChildById(64).getComponentData().C12_f179 = "Lấy ra";
             return;
          }
 
          if (this.C9_f125 == 2) {
-            this.C9_f122.C54_f811.a(64).i().C12_f179 = "Phóng sinh";
+            this.C9_f122.currentDialog.getChildById(64).getComponentData().C12_f179 = "Phóng sinh";
          }
       }
 
@@ -1017,10 +1016,10 @@ public final class C9 implements C61 {
 
    public final void C() {
       if (this.C9_f131 == 0 && this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.aX();
       } else if (this.C9_f131 == 0 && this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.aX();
       }
 
@@ -1029,7 +1028,7 @@ public final class C9 implements C61 {
          if (this.C9_f121.g(196640)) {
             if (this.C9_f125 == 1) {
                if (this.C9_f123.C53_f778 >= 6) {
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Ba lô Sủng vật đã đủ", "Nhấn nút 5 tiếp tục");
                   this.C9_f131 = 1;
                } else {
@@ -1040,7 +1039,7 @@ public final class C9 implements C61 {
                   this.C9_f123.r(this.C9_f136);
                   if (this.C9_f123.C53_f792.size() <= 0) {
                      this.C9_f121.a((byte)16);
-                     this.C9_f122.a("/data/ui/petstate.ui");
+                     this.C9_f122.removeDialog("/data/ui/petstate.ui");
                   } else {
                      this.aX();
                   }
@@ -1057,22 +1056,22 @@ public final class C9 implements C61 {
                   this.a("Thần thú không thể phóng sinh", "Nhấn nút 5 tiếp tục");
                } else {
                   this.C9_f131 = 1;
-                  this.C9_f122.a("/data/ui/msgconfirm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgconfirm.ui", 257, this);
                   this.b("Bạn muốn phóng sinh sủng vật này?", "Xác nhận");
                }
             }
          } else if (this.C9_f121.g(786432)) {
             this.C9_f121.a((byte)16);
-            this.C9_f122.a("/data/ui/petstate.ui");
+            this.C9_f122.removeDialog("/data/ui/petstate.ui");
          }
       } else if (this.C9_f131 > 0) {
          if (this.C9_f121.g(196640) && this.C9_f125 == 1 || this.C9_f121.g(131072) && this.C9_f125 == 2 && this.C9_f131 == 1 || this.C9_f121.g(196640) && this.C9_f125 == 2 && this.C9_f131 == 2) {
             if (this.C9_f125 == 1) {
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                this.C9_f131 = 0;
             } else if (this.C9_f125 == 2) {
                if (this.C9_f131 == 1) {
-                  this.C9_f122.a("/data/ui/msgconfirm.ui");
+                  this.C9_f122.removeDialog("/data/ui/msgconfirm.ui");
                   var1 = (int[])this.C9_f123.C53_f792.elementAt(this.C9_f136);
                   this.C9_f123.m(var1[2]);
                   this.C9_f123.q(this.C9_f136);
@@ -1088,7 +1087,7 @@ public final class C9 implements C61 {
                return;
             }
 
-            this.C9_f122.a("/data/ui/msgconfirm.ui");
+            this.C9_f122.removeDialog("/data/ui/msgconfirm.ui");
             this.C9_f131 = 0;
          }
       }
@@ -1098,44 +1097,44 @@ public final class C9 implements C61 {
 
    public final void D() {
       this.aU();
-      this.C9_f122.a("/data/ui/shop.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/shop.ui", 257, this);
       this.C9_f125 = 0;
-      this.C9_f122.C54_f811.a(5).i().C12_f179 = "Ngân hàng Sủng vật";
-      this.C9_f122.C54_f811.a(6).i().C12_f179 = "Gởi lại";
-      this.C9_f122.C54_f811.a(7).i().C12_f179 = "Lấy ra";
-      this.C9_f122.C54_f811.a(9).i().C12_f179 = "Phóng sinh";
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Ngân hàng Sủng vật";
+      this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f179 = "Gởi lại";
+      this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Lấy ra";
+      this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Phóng sinh";
    }
 
    public final void E() {
       if (this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
       } else if (this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
       } else if (this.C9_f121.g(196640)) {
          switch(this.C9_f125) {
          case 0:
             this.C9_f126 = 0;
             this.C9_f121.a((byte)7);
-            this.C9_f122.a("/data/ui/shop.ui");
+            this.C9_f122.removeDialog("/data/ui/shop.ui");
             return;
          case 1:
             this.C9_f121.a((byte)15);
-            this.C9_f122.a("/data/ui/shop.ui");
+            this.C9_f122.removeDialog("/data/ui/shop.ui");
             return;
          case 2:
             this.C9_f121.a((byte)15);
-            this.C9_f122.a("/data/ui/shop.ui");
+            this.C9_f122.removeDialog("/data/ui/shop.ui");
             return;
          case 3:
             C7.C7_f66 = true;
-            this.C9_f122.a("/data/ui/shop.ui");
+            this.C9_f122.removeDialog("/data/ui/shop.ui");
             this.C9_f121.a((byte)0);
          default:
          }
       } else {
          if (this.C9_f121.g(262144)) {
             C7.C7_f66 = true;
-            this.C9_f122.a("/data/ui/shop.ui");
+            this.C9_f122.removeDialog("/data/ui/shop.ui");
             this.C9_f121.a((byte)0);
          }
 
@@ -1144,16 +1143,16 @@ public final class C9 implements C61 {
 
    public final void F() {
       this.aU();
-      this.C9_f122.a("/data/ui/shop.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/shop.ui", 257, this);
       this.C9_f125 = 0;
    }
 
    public final void G() {
       this.C9_f121.q();
       if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f131 == 0 && this.C9_f121.g(4100) && this.aY()) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
       } else if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f131 == 0 && this.C9_f121.g(8448) && this.aY()) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
       } else if (this.aY() && !this.j() && C44.s() && this.C9_f121.g(196640)) {
          if (C44.p() && !C44.a((int)this.C9_f125, (int)0)) {
             return;
@@ -1163,11 +1162,11 @@ public final class C9 implements C61 {
          case 0:
             this.C9_f121.r();
             this.C9_f121.a((byte)2);
-            this.C9_f122.a("/data/ui/shop.ui");
+            this.C9_f122.removeDialog("/data/ui/shop.ui");
             break;
          case 1:
             this.C9_f121.a((byte)3);
-            this.C9_f122.a("/data/ui/shop.ui");
+            this.C9_f122.removeDialog("/data/ui/shop.ui");
             break;
          case 2:
             int var1;
@@ -1185,12 +1184,12 @@ public final class C9 implements C61 {
 
                   this.b("Ba lô sủng vật trạng thái toàn bộ khôi phục");
                } else {
-                  this.C9_f122.a("/data/ui/msgRecover.ui", 257, this);
-                  this.C9_f122.C54_f811.a(4).i().C12_f179 = "Có khôi phục trạng thái ba lô sủng vật không?";
-                  this.C9_f122.C54_f811.a(5).i().C12_f179 = "Cần tiền tài: ";
-                  this.C9_f122.C54_f811.a(6).i().C12_f179 = "" + C53.p().B();
-                  this.C9_f122.C54_f811.a(8).i().C12_f179 = "" + C53.p().F();
-                  this.C9_f122.a("/data/ui/shop.ui");
+                  this.C9_f122.showDialog("/data/ui/msgRecover.ui", 257, this);
+                  this.C9_f122.currentDialog.getChildById(4).getComponentData().C12_f179 = "Có khôi phục trạng thái ba lô sủng vật không?";
+                  this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Cần tiền tài: ";
+                  this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f179 = "" + C53.p().B();
+                  this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "" + C53.p().F();
+                  this.C9_f122.removeDialog("/data/ui/shop.ui");
                   this.C9_f131 = 1;
                }
             } else if (this.C9_f131 == 1) {
@@ -1210,7 +1209,7 @@ public final class C9 implements C61 {
                   this.b("Ba lô sủng vật trạng thái toàn bộ khôi phục");
                }
 
-               this.C9_f122.a("/data/ui/msgRecover.ui");
+               this.C9_f122.removeDialog("/data/ui/msgRecover.ui");
             } else {
                if (this.C9_f131 == 2 && C44.C44_f711) {
                   this.C9_f121.a((byte)102);
@@ -1222,25 +1221,25 @@ public final class C9 implements C61 {
             break;
          case 3:
             C7.C7_f66 = true;
-            this.C9_f122.a("/data/ui/shop.ui");
+            this.C9_f122.removeDialog("/data/ui/shop.ui");
             this.C9_f121.a((byte)0);
          }
       } else if (!this.j() && this.C9_f121.g(262144) && C44.t() && this.aY()) {
          if (this.C9_f131 == 1) {
-            this.C9_f122.a("/data/ui/shop.ui", 257, this);
-            this.C9_f122.a("/data/ui/msgRecover.ui");
+            this.C9_f122.showDialog("/data/ui/shop.ui", 257, this);
+            this.C9_f122.removeDialog("/data/ui/msgRecover.ui");
             this.C9_f125 = 0;
             this.C9_f131 = 0;
          } else if (this.C9_f131 == 0) {
             C7.C7_f66 = true;
-            this.C9_f122.a("/data/ui/shop.ui");
+            this.C9_f122.removeDialog("/data/ui/shop.ui");
             this.C9_f121.a((byte)0);
          }
       }
 
       if (this.C9_f131 == 3 && this.aA()) {
          this.C9_f131 = 4;
-         this.C9_f122.a("/data/ui/shop.ui", 257, this);
+         this.C9_f122.showDialog("/data/ui/shop.ui", 257, this);
          this.K();
          this.a("Đang lưu...");
          this.M();
@@ -1258,88 +1257,88 @@ public final class C9 implements C61 {
    }
 
    public final void a(int var1, byte var2) {
-      this.C9_f122.a("/data/ui/shopbuy.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/shopbuy.ui", 257, this);
       this.C9_f125 = 0;
       this.C9_f131 = 0;
       short[][] var10001 = C67.C67_f923[var1];
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = var10001.length;
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(1);
-      this.C9_f122.C54_f811.a(5).i().C12_f179 = "Mua";
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = var10001.length;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Mua";
       if (this.C9_f121 instanceof C25) {
-         this.C9_f122.C54_f811.a(57).a(true);
-         this.C9_f122.C54_f811.a(58).a(true);
-         this.C9_f122.C54_f811.a(57).i().C12_f179 = "Mua sắm";
-         this.C9_f122.C54_f811.a(58).i().C12_f179 = "Quay lại";
-         this.C9_f122.C54_f811.a(39).a(false);
-         this.C9_f122.C54_f811.a(40).a(false);
+         this.C9_f122.currentDialog.getChildById(57).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(58).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(57).getComponentData().C12_f179 = "Mua sắm";
+         this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "Quay lại";
+         this.C9_f122.currentDialog.getChildById(39).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(40).setVisible(false);
       } else if (this.C9_f121 instanceof C29) {
-         this.C9_f122.C54_f811.a(57).a(false);
-         this.C9_f122.C54_f811.a(58).a(false);
-         this.C9_f122.C54_f811.a(39).a(true);
-         this.C9_f122.C54_f811.a(40).a(true);
-         this.C9_f122.C54_f811.a(39).i().C12_f179 = "Mua sắm";
-         this.C9_f122.C54_f811.a(40).i().C12_f179 = "Quay lại";
+         this.C9_f122.currentDialog.getChildById(57).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(58).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(39).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(40).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(39).getComponentData().C12_f179 = "Mua sắm";
+         this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = "Quay lại";
       }
 
       this.b(var1, var2);
    }
 
    private void b(int var1, byte var2) {
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580;
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
 
       for(int var3 = 0; var3 < 5; ++var3) {
-         if (this.C9_f122.C54_f811.a(var3 + 51).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(var3 + 51).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(var3 + 51).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(var3 + 51).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(var3 + 51).i().C12_f195.a(258, false, (byte)-1);
+         if (this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().C12_f195.a(258, false, (byte)-1);
          }
 
-         this.C9_f122.C54_f811.a(var3 + 51).i().C12_f195.a((int)C67.C67_f923[var1][this.C9_f135 + var3][1]);
-         this.C9_f122.C54_f811.a(14 + var3 * 5).i().C12_f179 = C44.c((int)C67.C67_f923[var1][this.C9_f135 + var3][0]);
+         this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().C12_f195.a((int)C67.C67_f923[var1][this.C9_f135 + var3][1]);
+         this.C9_f122.currentDialog.getChildById(14 + var3 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[var1][this.C9_f135 + var3][0]);
          if (this.C9_f121 instanceof C25) {
             if (this.C9_f141 != 1 && this.C9_f141 != 3) {
                if (this.C9_f141 == 2) {
                   if (C67.C67_f923[var1][this.C9_f135 + var3][4] == 0) {
-                     this.C9_f122.C54_f811.a(15 + var3 * 5).i().C12_f179 = "" + C67.C67_f923[var1][this.C9_f135 + var3][3] * 3 / 2;
+                     this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().C12_f179 = "" + C67.C67_f923[var1][this.C9_f135 + var3][3] * 3 / 2;
                   } else {
-                     this.C9_f122.C54_f811.a(15 + var3 * 5).i().C12_f179 = "" + C67.C67_f923[var1][this.C9_f135 + var3][3];
+                     this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().C12_f179 = "" + C67.C67_f923[var1][this.C9_f135 + var3][3];
                   }
                }
             } else {
-               this.C9_f122.C54_f811.a(15 + var3 * 5).i().C12_f179 = "" + C67.C67_f923[var1][this.C9_f135 + var3][3];
+               this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().C12_f179 = "" + C67.C67_f923[var1][this.C9_f135 + var3][3];
             }
          } else if (var2 == 0 && var1 == 4 && this.C9_f135 + var3 == 0) {
-            this.C9_f122.C54_f811.a(15 + var3 * 5).i().C12_f179 = "" + C67.C67_f923[var1][this.C9_f135 + var3][3];
+            this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().C12_f179 = "" + C67.C67_f923[var1][this.C9_f135 + var3][3];
          } else {
-            this.C9_f122.C54_f811.a(15 + var3 * 5).i().C12_f179 = "" + (C67.C67_f923[var1][this.C9_f135 + var3][3] << 1);
+            this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().C12_f179 = "" + (C67.C67_f923[var1][this.C9_f135 + var3][3] << 1);
          }
 
          if (C67.C67_f923[var1][this.C9_f135 + var3][4] == 0) {
-            this.C9_f122.C54_f811.a(var3 + 45).i().C12_f195.a((int)84);
+            this.C9_f122.currentDialog.getChildById(var3 + 45).getComponentData().C12_f195.a((int)84);
          } else if (C67.C67_f923[var1][this.C9_f135 + var3][4] == 1) {
-            this.C9_f122.C54_f811.a(var3 + 45).i().C12_f195.a((int)83);
+            this.C9_f122.currentDialog.getChildById(var3 + 45).getComponentData().C12_f195.a((int)83);
          } else if (C67.C67_f923[var1][this.C9_f135 + var3][4] == 2) {
-            this.C9_f122.C54_f811.a(var3 + 45).i().C12_f195.a((int)74);
+            this.C9_f122.currentDialog.getChildById(var3 + 45).getComponentData().C12_f195.a((int)74);
          }
       }
 
-      this.C9_f122.C54_f811.a(56).i().C12_f179 = C44.c((int)C67.C67_f923[var1][this.C9_f136][2]);
-      this.C9_f122.C54_f811.a(43).i().C12_f179 = "" + this.C9_f123.G();
-      this.C9_f122.C54_f811.a(44).i().C12_f179 = "" + this.C9_f123.F();
-      this.C9_f122.C54_f811.a(38).b(102 + this.C9_f136 * 84 / C67.C67_f923[var1].length, this.C9_f122.C54_f811.a());
+      this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[var1][this.C9_f136][2]);
+      this.C9_f122.currentDialog.getChildById(43).getComponentData().C12_f179 = "" + this.C9_f123.G();
+      this.C9_f122.currentDialog.getChildById(44).getComponentData().C12_f179 = "" + this.C9_f123.F();
+      this.C9_f122.currentDialog.getChildById(38).setOffsetY(102 + this.C9_f136 * 84 / C67.C67_f923[var1].length, this.C9_f122.currentDialog.getRootComponent());
    }
 
    public final void a(byte var1, byte var2) {
       this.C9_f121.q();
       if (!C44.a((int)this.C9_f125, (int)0) && this.C9_f131 <= 1 && this.C9_f121.g(4100) && !this.j()) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          if (this.C9_f131 == 0) {
             this.b((int)var1, (byte)var2);
          }
       } else if (!C44.a((int)this.C9_f125, (int)0) && this.C9_f131 <= 1 && this.C9_f121.g(8448) && !this.j()) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          if (this.C9_f131 == 0) {
             this.b((int)var1, (byte)var2);
          }
@@ -1374,12 +1373,12 @@ public final class C9 implements C61 {
                   }
                } else {
                   this.C9_f131 = 3;
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Công năng còn chưa mở", "Nhấn nút 5 tiếp tục");
                }
             } else {
                this.C9_f131 = 0;
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
             }
          } else if (var2 == 2 && this.C9_f136 < 12) {
             this.C9_f126 = 1;
@@ -1397,22 +1396,22 @@ public final class C9 implements C61 {
                   }
 
                   this.C9_f131 = 0;
-                  this.C9_f122.a("/data/ui/msgwarm.ui");
+                  this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                }
             } else if (this.C9_f131 == 0) {
                this.C9_f131 = 2;
-               this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+               this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                this.a("Đạo cụ này đã đủ", "Nhấn nút 5 tiếp tục");
             } else {
                this.C9_f121.r();
                this.C9_f131 = 0;
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                this.b((int)var1, (byte)var2);
             }
          } else if (this.C9_f123.a(this.C9_f136, this.C9_f126, var2)) {
             if (this.C9_f131 == 0) {
                this.C9_f131 = 1;
-               this.C9_f122.a("/data/ui/msgyn.ui", 257, this);
+               this.C9_f122.showDialog("/data/ui/msgyn.ui", 257, this);
                this.C9_f126 = 1;
                this.C9_f127 = 0;
                this.a(this.C9_f126, this.C9_f126 * C67.C67_f923[var1][this.C9_f136][3], C67.C67_f923[var1][this.C9_f136][4], var1);
@@ -1422,30 +1421,30 @@ public final class C9 implements C61 {
                C25.B().C25_f348.G();
                this.C9_f131 = 0;
                this.C9_f126 = 0;
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                this.b((int)var1, (byte)var2);
             } else {
                if (C44.C44_f711) {
                   if (this.C9_f131 == 4) {
-                     this.C9_f122.a("/data/ui/msgyn.ui");
+                     this.C9_f122.removeDialog("/data/ui/msgyn.ui");
                      this.C9_f121.a((byte)104);
                   } else if (this.C9_f131 == 3) {
-                     this.C9_f122.a("/data/ui/msgyn.ui");
+                     this.C9_f122.removeDialog("/data/ui/msgyn.ui");
                      this.C9_f121.a((byte)102);
                   }
                }
 
                this.C9_f131 = 0;
                this.C9_f126 = 0;
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
             }
          } else if (this.C9_f131 == 0) {
             this.C9_f131 = 2;
-            this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+            this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
             this.a("Đạo cụ này đã đủ", "Nhấn nút 5 tiếp tục");
          } else {
             this.C9_f131 = 0;
-            this.C9_f122.a("/data/ui/msgwarm.ui");
+            this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
          }
       } else if (this.C9_f121.g(262144) && !this.j() && C44.t()) {
          if (this.C9_f131 == 0) {
@@ -1458,15 +1457,15 @@ public final class C9 implements C61 {
                   this.C9_f121.a((byte)27);
                }
 
-               this.C9_f122.a("/data/ui/shopbuy.ui");
+               this.C9_f122.removeDialog("/data/ui/shopbuy.ui");
             } else {
-               this.C9_f122.a("/data/ui/shopbuy.ui");
+               this.C9_f122.removeDialog("/data/ui/shopbuy.ui");
                this.C9_f121.a((byte)20);
             }
          } else if (this.C9_f131 == 1) {
             this.C9_f131 = 0;
             this.C9_f126 = 0;
-            this.C9_f122.a("/data/ui/msgyn.ui");
+            this.C9_f122.removeDialog("/data/ui/msgyn.ui");
          }
       }
 
@@ -1484,7 +1483,7 @@ public final class C9 implements C61 {
                   this.C9_f123.v(-this.C9_f126 * C67.C67_f923[var1][this.C9_f136][3] << 1);
                }
 
-               this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+               this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                if (var1 == 3 && this.C9_f136 == 17) {
                   this.a("Đã thành công mua sắm #2" + C44.c((int)C67.C67_f923[var1][this.C9_f136][0]) + " * " + 5 * this.C9_f126, "Nhấn nút 5 tiếp tục");
                } else {
@@ -1497,10 +1496,10 @@ public final class C9 implements C61 {
                this.C9_f131 = 0;
             }
 
-            this.C9_f122.a("/data/ui/msgyn.ui");
+            this.C9_f122.removeDialog("/data/ui/msgyn.ui");
          } else {
             if (this.C9_f127 == 0) {
-               this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+               this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                if (C67.C67_f923[var1][this.C9_f136][4] == 0) {
                   this.C9_f131 = 3;
                   this.a("Kim tiền chưa đủ", "Nhấn nút 5 tiếp tục");
@@ -1536,7 +1535,7 @@ public final class C9 implements C61 {
                this.C9_f131 = 0;
             }
 
-            this.C9_f122.a("/data/ui/msgyn.ui");
+            this.C9_f122.removeDialog("/data/ui/msgyn.ui");
          }
       } else {
          if (this.C9_f127 == 0) {
@@ -1557,7 +1556,7 @@ public final class C9 implements C61 {
                this.C9_f123.v(-this.C9_f126 * C67.C67_f923[var1][this.C9_f136][3]);
             }
 
-            this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+            this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
             if (var1 == 3 && this.C9_f136 == 17) {
                this.a("Đã thành công mua sắm #2" + C44.c((int)C67.C67_f923[var1][this.C9_f136][0]) + " * " + 5 * this.C9_f126, "Nhấn nút 5 tiếp tục");
             } else {
@@ -1570,7 +1569,7 @@ public final class C9 implements C61 {
             this.C9_f131 = 0;
          }
 
-         this.C9_f122.a("/data/ui/msgyn.ui");
+         this.C9_f122.removeDialog("/data/ui/msgyn.ui");
       }
    }
 
@@ -1586,73 +1585,73 @@ public final class C9 implements C61 {
 
    private void a(int var1, int var2, int var3, int var4) {
       if (var4 == 3 && this.C9_f136 == 17) {
-         this.C9_f122.C54_f811.a(9).i().C12_f179 = "" + var1 * 5;
+         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "" + var1 * 5;
       } else {
-         this.C9_f122.C54_f811.a(9).i().C12_f179 = "" + var1;
+         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "" + var1;
       }
 
       if (this.C9_f121 instanceof C25) {
          if (this.C9_f141 != 1 && this.C9_f141 != 3) {
             if (this.C9_f141 == 2) {
                if (var3 == 0) {
-                  this.C9_f122.C54_f811.a(11).i().C12_f179 = "" + var2 * 3 / 2;
+                  this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "" + var2 * 3 / 2;
                } else {
-                  this.C9_f122.C54_f811.a(11).i().C12_f179 = "" + var2;
+                  this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "" + var2;
                }
             }
          } else {
-            this.C9_f122.C54_f811.a(11).i().C12_f179 = "" + var2;
+            this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "" + var2;
          }
       } else {
-         this.C9_f122.C54_f811.a(11).i().C12_f179 = "" + (var2 << 1);
+         this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "" + (var2 << 1);
       }
 
       if (var3 == 0) {
-         this.C9_f122.C54_f811.a(12).i().C12_f195.a((int)84);
+         this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f195.a((int)84);
       } else {
          if (var3 == 1) {
-            this.C9_f122.C54_f811.a(12).i().C12_f195.a((int)83);
+            this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f195.a((int)83);
          }
 
       }
    }
 
    public final void H() {
-      this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
    }
 
    public final void I() {
-      this.C9_f122.a("/data/ui/msgwarm.ui");
+      this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
    }
 
    public final boolean J() {
-      return !this.C9_f122.b("/data/ui/msgwarm.ui");
+      return !this.C9_f122.isTopDialog("/data/ui/msgwarm.ui");
    }
 
    public final void a(String var1, String var2) {
-      this.C9_f122.C54_f811.a(6).i().C12_f179 = var2;
-      this.C9_f122.C54_f811.a(7).i().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f179 = var2;
+      this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = var1;
    }
 
    public final void K() {
-      this.C9_f122.a("/data/ui/msgtip.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/msgtip.ui", 257, this);
    }
 
    public final void L() {
-      this.C9_f122.a("/data/ui/msgtip.ui");
+      this.C9_f122.removeDialog("/data/ui/msgtip.ui");
    }
 
    private boolean aY() {
-      return !this.C9_f122.b("/data/ui/msgtip.ui");
+      return !this.C9_f122.isTopDialog("/data/ui/msgtip.ui");
    }
 
    public final void a(String var1) {
-      this.C9_f122.C54_f811.a(2).i().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(2).getComponentData().C12_f179 = var1;
    }
 
    public final void M() {
-      this.C9_f122.C54_f811.a(3).a(false);
-      this.C9_f122.C54_f811.a(4).a(false);
+      this.C9_f122.currentDialog.getChildById(3).setVisible(false);
+      this.C9_f122.currentDialog.getChildById(4).setVisible(false);
    }
 
    public final void N() {
@@ -1672,7 +1671,7 @@ public final class C9 implements C61 {
             }
 
             this.C9_f121.a((byte)6);
-            this.C9_f122.a("/data/ui/msgtip.ui");
+            this.C9_f122.removeDialog("/data/ui/msgtip.ui");
             this.C9_f131 = 0;
             return;
          }
@@ -1683,8 +1682,8 @@ public final class C9 implements C61 {
             return;
          }
       } else if (this.C9_f131 == 2) {
-         this.C9_f122.a("/data/ui/msgtip.ui");
-         this.C9_f122.a("/data/ui/gamemenu.ui");
+         this.C9_f122.removeDialog("/data/ui/msgtip.ui");
+         this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
          this.C9_f121.a((byte)0);
          this.C9_f131 = 0;
       }
@@ -1692,92 +1691,92 @@ public final class C9 implements C61 {
    }
 
    private void b(String var1, String var2) {
-      this.C9_f122.C54_f811.a(2).i().C12_f179 = var2;
-      this.C9_f122.C54_f811.a(4).i().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(2).getComponentData().C12_f179 = var2;
+      this.C9_f122.currentDialog.getChildById(4).getComponentData().C12_f179 = var1;
    }
 
    public final void O() {
-      this.C9_f122.a("/data/ui/shopbuy.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/shopbuy.ui", 257, this);
       this.C9_f125 = 0;
       this.C9_f131 = 0;
-      this.C9_f122.C54_f811.a(5).i().C12_f179 = "Bán ra";
-      this.C9_f122.C54_f811.a(39).i().C12_f179 = "";
-      this.C9_f122.C54_f811.a(40).i().C12_f179 = "";
-      this.C9_f122.C54_f811.a(57).i().C12_f179 = "Bán đi";
-      this.C9_f122.C54_f811.a(58).i().C12_f179 = "Quay lại";
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Bán ra";
+      this.C9_f122.currentDialog.getChildById(39).getComponentData().C12_f179 = "";
+      this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = "";
+      this.C9_f122.currentDialog.getChildById(57).getComponentData().C12_f179 = "Bán đi";
+      this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "Quay lại";
       this.C9_f123.y();
       this.aZ();
    }
 
    private void aZ() {
       if (this.C9_f123.C53_f796.size() > 5) {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(1);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
       } else {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(0);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
       }
 
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = this.C9_f123.C53_f796.size();
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f123.C53_f796.size();
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
       if (this.C9_f136 >= this.C9_f123.C53_f796.size()) {
          this.C9_f136 = this.C9_f123.C53_f796.size() - 1;
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = this.C9_f136;
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f136;
       }
 
       if (this.C9_f135 > 0 && this.C9_f136 - this.C9_f135 < 4) {
          --this.C9_f135;
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579 = this.C9_f135;
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = this.C9_f135;
       }
 
       for(int var1 = 0; var1 < 5; ++var1) {
          if (this.C9_f135 + var1 < this.C9_f123.C53_f796.size()) {
             int var2 = ((int[])this.C9_f123.C53_f796.elementAt(this.C9_f135 + var1))[0];
-            if (this.C9_f122.C54_f811.a(var1 + 51).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(var1 + 51).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(var1 + 51).i().C12_f195.a((int)0);
-               this.C9_f122.C54_f811.a(var1 + 51).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(var1 + 51).i().C12_f195.a(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195.a((int)0);
+               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195.a(258, false, (byte)-1);
             }
 
-            this.C9_f122.C54_f811.a(var1 + 51).i().C12_f195.a((int)C67.C67_f923[4][var2][1]);
-            this.C9_f122.C54_f811.a(14 + var1 * 5).i().C12_f179 = C44.c((int)C67.C67_f923[4][var2][0]);
-            this.C9_f122.C54_f811.a(15 + var1 * 5).i().C12_f179 = "" + C67.C67_f923[4][var2][3] / 2;
+            this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195.a((int)C67.C67_f923[4][var2][1]);
+            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][var2][0]);
+            this.C9_f122.currentDialog.getChildById(15 + var1 * 5).getComponentData().C12_f179 = "" + C67.C67_f923[4][var2][3] / 2;
             if (C67.C67_f923[4][var2][4] == 0) {
-               this.C9_f122.C54_f811.a(var1 + 45).i().C12_f195.a((int)84);
+               this.C9_f122.currentDialog.getChildById(var1 + 45).getComponentData().C12_f195.a((int)84);
             } else if (C67.C67_f923[4][var2][4] == 1) {
-               this.C9_f122.C54_f811.a(var1 + 45).i().C12_f195.a((int)83);
+               this.C9_f122.currentDialog.getChildById(var1 + 45).getComponentData().C12_f195.a((int)83);
             } else if (C67.C67_f923[4][var2][4] == 2) {
-               this.C9_f122.C54_f811.a(var1 + 45).i().C12_f195.a((int)74);
+               this.C9_f122.currentDialog.getChildById(var1 + 45).getComponentData().C12_f195.a((int)74);
             }
          } else {
-            if (this.C9_f122.C54_f811.a(var1 + 51).i().C12_f195 != null) {
-               this.C9_f122.C54_f811.a(var1 + 51).i().C12_f195.c();
+            if (this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195 != null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195.c();
             }
 
-            this.C9_f122.C54_f811.a(14 + var1 * 5).i().C12_f179 = "";
-            this.C9_f122.C54_f811.a(15 + var1 * 5).i().C12_f179 = "";
-            this.C9_f122.C54_f811.a(var1 + 45).i().C12_f195.a((int)86);
+            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(15 + var1 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(var1 + 45).getComponentData().C12_f195.a((int)86);
          }
       }
 
       if (this.C9_f123.C53_f796.size() > 0) {
-         this.C9_f122.C54_f811.a(56).i().C12_f179 = C44.c((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f796.elementAt(this.C9_f136))[0]][2]);
+         this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f796.elementAt(this.C9_f136))[0]][2]);
       } else {
-         this.C9_f122.C54_f811.a(56).i().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "";
       }
 
       if (this.C9_f123.C53_f796.size() > 0) {
-         this.C9_f122.C54_f811.a(43).i().C12_f179 = "" + this.C9_f123.G();
-         this.C9_f122.C54_f811.a(44).i().C12_f179 = "" + this.C9_f123.F();
-         this.C9_f122.C54_f811.a(38).b(102 + this.C9_f136 * 84 / this.C9_f123.C53_f796.size(), this.C9_f122.C54_f811.a());
+         this.C9_f122.currentDialog.getChildById(43).getComponentData().C12_f179 = "" + this.C9_f123.G();
+         this.C9_f122.currentDialog.getChildById(44).getComponentData().C12_f179 = "" + this.C9_f123.F();
+         this.C9_f122.currentDialog.getChildById(38).setOffsetY(102 + this.C9_f136 * 84 / this.C9_f123.C53_f796.size(), this.C9_f122.currentDialog.getRootComponent());
       }
    }
 
    public final void P() {
       if (this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
       } else if (this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
       } else {
          int[] var1;
          if (this.C9_f131 == 1 && this.C9_f121.g(16400) && this.C9_f126 > 0) {
@@ -1801,7 +1800,7 @@ public final class C9 implements C61 {
                var1 = (int[])this.C9_f123.C53_f796.elementAt(this.C9_f136);
                if (this.C9_f131 == 0) {
                   this.C9_f131 = 1;
-                  this.C9_f122.a("/data/ui/msgyn.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgyn.ui", 257, this);
                   this.C9_f126 = 1;
                   this.C9_f127 = 0;
                   this.a(this.C9_f126, this.C9_f126 * C67.C67_f923[4][var1[0]][3] / 2, C67.C67_f923[4][var1[0]][4], 4);
@@ -1809,7 +1808,7 @@ public final class C9 implements C61 {
                }
 
                if (this.C9_f127 != 0) {
-                  this.C9_f122.a("/data/ui/msgyn.ui");
+                  this.C9_f122.removeDialog("/data/ui/msgyn.ui");
                   this.C9_f131 = 0;
                   return;
                }
@@ -1823,15 +1822,15 @@ public final class C9 implements C61 {
 
                if (this.C9_f131 == 0) {
                   this.C9_f121.a((byte)1);
-                  this.C9_f122.a("/data/ui/shopbuy.ui");
+                  this.C9_f122.removeDialog("/data/ui/shopbuy.ui");
                   this.C9_f125 = 1;
-                  ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = this.C9_f125;
+                  ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f125;
                   return;
                }
             }
 
             this.C9_f131 = 0;
-            this.C9_f122.a("/data/ui/msgyn.ui");
+            this.C9_f122.removeDialog("/data/ui/msgyn.ui");
             this.C9_f123.y();
             this.aZ();
          }
@@ -1839,12 +1838,12 @@ public final class C9 implements C61 {
    }
 
    public final void Q() {
-      this.C9_f122.a("/data/ui/record.ui", 257, this);
-      this.C9_f122.a("/data/ui/gamemenu.ui");
-      this.C9_f122.C54_f811.a(14).i().C12_f179 = "" + (this.C9_f123.C53_f778 + this.C9_f123.C53_f792.size());
-      this.C9_f122.C54_f811.a(17).i().C12_f179 = "" + this.C9_f123.C53_f783;
-      this.C9_f122.C54_f811.a(20).i().C12_f179 = "" + this.C9_f123.C53_f785;
-      this.C9_f122.C54_f811.a(26).i().C12_f179 = "" + this.C9_f123.C53_f784;
+      this.C9_f122.showDialog("/data/ui/record.ui", 257, this);
+      this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "" + (this.C9_f123.C53_f778 + this.C9_f123.C53_f792.size());
+      this.C9_f122.currentDialog.getChildById(17).getComponentData().C12_f179 = "" + this.C9_f123.C53_f783;
+      this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f179 = "" + this.C9_f123.C53_f785;
+      this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f179 = "" + this.C9_f123.C53_f784;
       int var1 = 0;
 
       for(byte var2 = 0; var2 < this.C9_f123.C53_f779.length; ++var2) {
@@ -1853,12 +1852,12 @@ public final class C9 implements C61 {
          }
       }
 
-      this.C9_f122.C54_f811.a(29).i().C12_f179 = "" + var1;
+      this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f179 = "" + var1;
       long var4 = C55.B().C55_f826 + C55.B().C55_f827 - C55.B().C55_f828;
-      C12 var10000 = this.C9_f122.C54_f811.a(31).i();
+      DialogData var10000 = this.C9_f122.currentDialog.getChildById(31).getComponentData();
       C25.B();
       var10000.C12_f179 = C25.a(var4)[1];
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f690.C38_f580 = this.C9_f126;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).additionalChildComponent.C38_f580 = this.C9_f126;
       this.C9_f125 = 0;
       this.C9_f131 = 0;
       this.C9_f132 = true;
@@ -1866,10 +1865,10 @@ public final class C9 implements C61 {
 
    public final void R() {
       if (this.C9_f121.g(16400)) {
-         this.C9_f122.C54_f811.b(2);
+         this.C9_f122.currentDialog.handleAction(2);
          this.C9_f132 = true;
       } else if (this.C9_f121.g(32832)) {
-         this.C9_f122.C54_f811.b(3);
+         this.C9_f122.currentDialog.handleAction(3);
          this.C9_f132 = true;
       } else if (this.C9_f121.g(196640)) {
          if (this.C9_f131 == 0) {
@@ -1898,47 +1897,47 @@ public final class C9 implements C61 {
          }
 
          this.C9_f121.a((byte)6);
-         this.C9_f122.a("/data/ui/record.ui");
+         this.C9_f122.removeDialog("/data/ui/record.ui");
       }
 
       this.C9_f132 = true;
    }
 
    public final void S() {
-      this.C9_f122.a("/data/ui/petmap.ui", 257, this);
-      this.C9_f122.a("/data/ui/record.ui");
+      this.C9_f122.showDialog("/data/ui/petmap.ui", 257, this);
+      this.C9_f122.removeDialog("/data/ui/record.ui");
       this.C9_f125 = 0;
       this.C9_f126 = 0;
       this.C9_f131 = 0;
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(1);
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
       this.bb();
       this.C9_f132 = true;
    }
 
    private void ba() {
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579 = 0;
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = 0;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = 0;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = 0;
    }
 
    private void bb() {
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = this.C9_f123.C53_f803[this.C9_f125];
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f123.C53_f803[this.C9_f125];
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
       short var1 = C67.C67_f923[0][this.C9_f123.C53_f802[this.C9_f125] + this.C9_f136][17];
       if (this.C9_f123.a((byte)this.C9_f125, this.C9_f136 + this.C9_f123.C53_f802[this.C9_f125]) > 0) {
-         this.C9_f122.C54_f811.a(21).a(true);
-         if (this.C9_f122.C54_f811.a(21).i().C12_f195 != null) {
-            this.C9_f122.C54_f811.a(21).i().C12_f195.c();
+         this.C9_f122.currentDialog.getChildById(21).setVisible(true);
+         if (this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195 != null) {
+            this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195.c();
          } else {
-            this.C9_f122.C54_f811.a(21).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(21).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(21).i().C12_f195.C17_f222 = 3;
+            this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195.C17_f222 = 3;
          }
 
-         this.C9_f122.C54_f811.a(21).i().C12_f195.a(var1, false, (byte)-1);
-         this.C9_f122.C54_f811.a(21).i().C12_f195.a((byte)1);
+         this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195.a(var1, false, (byte)-1);
+         this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195.a((byte)1);
       } else {
-         this.C9_f122.C54_f811.a(21).a(false);
+         this.C9_f122.currentDialog.getChildById(21).setVisible(false);
       }
 
       int var3 = 0;
@@ -1951,39 +1950,39 @@ public final class C9 implements C61 {
       }
 
       for(var2 = 0; var2 < 5; ++var2) {
-         if (this.C9_f122.C54_f811.a(var2 + 44).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(var2 + 44).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(var2 + 44).i().C12_f195.a((int)102);
-            this.C9_f122.C54_f811.a(var2 + 44).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(var2 + 44).i().C12_f195.a(257, false, (byte)-1);
+         if (this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195.a((int)102);
+            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195.a(257, false, (byte)-1);
          }
 
          if (this.C9_f123.a((byte)this.C9_f125, var2 + this.C9_f135 + this.C9_f123.C53_f802[this.C9_f125]) == 2) {
-            this.C9_f122.C54_f811.a(var2 + 44).i().C12_f195.a((int)101);
+            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195.a((int)101);
          } else {
-            this.C9_f122.C54_f811.a(var2 + 44).i().C12_f195.a((int)102);
+            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195.a((int)102);
          }
 
-         this.C9_f122.C54_f811.a(24 + (var2 << 2) + 3).i().C12_f179 = C44.c((int)C67.C67_f923[0][this.C9_f123.C53_f802[this.C9_f125] + var2 + this.C9_f135][0]);
+         this.C9_f122.currentDialog.getChildById(24 + (var2 << 2) + 3).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[0][this.C9_f123.C53_f802[this.C9_f125] + var2 + this.C9_f135][0]);
       }
 
-      this.C9_f122.C54_f811.a(20).i().C12_f179 = C44.c(365 + this.C9_f125) + var3 + "/" + this.C9_f123.C53_f803[this.C9_f125];
-      this.C9_f122.C54_f811.a(23).b(99 + (this.C9_f136 << 6) / this.C9_f123.C53_f803[this.C9_f125], this.C9_f122.C54_f811.a());
+      this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f179 = C44.c(365 + this.C9_f125) + var3 + "/" + this.C9_f123.C53_f803[this.C9_f125];
+      this.C9_f122.currentDialog.getChildById(23).setOffsetY(99 + (this.C9_f136 << 6) / this.C9_f123.C53_f803[this.C9_f125], this.C9_f122.currentDialog.getRootComponent());
    }
 
    public final void T() {
       if (this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.bb();
       } else if (this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.bb();
       } else if (this.C9_f121.g(16400)) {
-         this.C9_f122.C54_f811.b(2);
+         this.C9_f122.currentDialog.handleAction(2);
          this.ba();
          this.bb();
       } else if (this.C9_f121.g(32832)) {
-         this.C9_f122.C54_f811.b(3);
+         this.C9_f122.currentDialog.handleAction(3);
          this.ba();
          this.bb();
       } else if (!this.C9_f121.g(196640) && this.C9_f121.g(786432)) {
@@ -1994,16 +1993,16 @@ public final class C9 implements C61 {
             this.C9_f121.a((byte)9);
          }
 
-         this.C9_f122.a("/data/ui/petmap.ui");
+         this.C9_f122.removeDialog("/data/ui/petmap.ui");
       }
 
       this.C9_f132 = true;
    }
 
    public final void U() {
-      this.C9_f122.a("/data/ui/task.ui", 257, this);
-      this.C9_f122.a("/data/ui/gamemenu.ui");
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f690.C38_f580 = this.C9_f125;
+      this.C9_f122.showDialog("/data/ui/task.ui", 257, this);
+      this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).additionalChildComponent.C38_f580 = this.C9_f125;
       this.C9_f126 = 0;
       this.C9_f127 = 0;
       this.bc();
@@ -2017,14 +2016,14 @@ public final class C9 implements C61 {
       case 0:
          if (C7.C7_f106 >= C7.C7_f103.length / 2 - 1) {
             int var10001 = C7.C7_f103.length;
-            ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = var10001 / 2;
-            ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = C7.C7_f103.length / 2 - 1;
+            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = var10001 / 2;
+            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = C7.C7_f103.length / 2 - 1;
          } else {
-            ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = C7.C7_f106 + 1;
-            ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = C7.C7_f106;
+            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = C7.C7_f106 + 1;
+            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = C7.C7_f106;
          }
 
-         this.C9_f122.C54_f811.a(36).i().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(36).getComponentData().C12_f179 = "";
          this.C9_f136 = C7.C7_f106;
          this.C9_f135 = C7.C7_f106 - 4;
          if (this.C9_f136 <= 0) {
@@ -2035,12 +2034,12 @@ public final class C9 implements C61 {
             this.C9_f135 = 0;
          }
 
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579 = this.C9_f135;
-         this.C9_f122.C54_f811.a(37).i().C12_f179 = "Đầu mối chính hoàn thành độ: ";
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = this.C9_f135;
+         this.C9_f122.currentDialog.getChildById(37).getComponentData().C12_f179 = "Đầu mối chính hoàn thành độ: ";
          if (C7.C7_f106 >= C7.C7_f103.length / 2) {
-            this.C9_f122.C54_f811.a(38).i().C12_f179 = C7.C7_f103[C7.C7_f103.length - 1];
+            this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = C7.C7_f103[C7.C7_f103.length - 1];
          } else {
-            this.C9_f122.C54_f811.a(38).i().C12_f179 = C7.C7_f103[C7.C7_f103.length / 2 + C7.C7_f106];
+            this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = C7.C7_f103[C7.C7_f103.length / 2 + C7.C7_f106];
          }
 
          var1 = C7.C7_f106 * 1000 / (C7.C7_f103.length / 2);
@@ -2049,25 +2048,25 @@ public final class C9 implements C61 {
                var2 = 1;
             }
 
-            this.C9_f122.C54_f811.a(38).i().C12_f179 = var1 / 50 + "." + var2 + "%";
+            this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = var1 / 50 + "." + var2 + "%";
          } else {
-            this.C9_f122.C54_f811.a(38).i().C12_f179 = var1 / 10 + "." + var1 % 10 + "%";
+            this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = var1 / 10 + "." + var1 % 10 + "%";
          }
 
          if (C7.C7_f106 > 4) {
-            ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(1);
+            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
          } else {
-            ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(0);
+            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
          }
 
-         this.C9_f122.C54_f811.a(8).i().C12_f187 = 11290624;
+         this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f187 = 11290624;
          break;
       case 1:
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = C7.C7_f107;
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = 0;
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579 = 0;
-         this.C9_f122.C54_f811.a(36).i().C12_f179 = "";
-         this.C9_f122.C54_f811.a(37).i().C12_f179 = "Chi nhánh hoàn thành độ: ";
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = C7.C7_f107;
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = 0;
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = 0;
+         this.C9_f122.currentDialog.getChildById(36).getComponentData().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(37).getComponentData().C12_f179 = "Chi nhánh hoàn thành độ: ";
          var1 = 0;
 
          for(var2 = 0; var2 < C7.C7_f105.length; ++var2) {
@@ -2077,90 +2076,90 @@ public final class C9 implements C61 {
          }
 
          var2 = var1 * 1000 / (C7.C7_f102.length / 2);
-         this.C9_f122.C54_f811.a(38).i().C12_f179 = var2 / 10 + "." + var2 % 10 + "%";
+         this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = var2 / 10 + "." + var2 % 10 + "%";
          if (C7.C7_f107 > 5) {
-            ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(1);
+            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
          } else {
-            ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(0);
+            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
          }
 
-         this.C9_f122.C54_f811.a(9).i().C12_f187 = 11290624;
+         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f187 = 11290624;
       }
 
       this.bd();
    }
 
    private void bd() {
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580;
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
 
       for(int var1 = 0; var1 < 5; ++var1) {
          if (this.C9_f125 == 0) {
             if (C7.C7_f106 > 0) {
                if (this.C9_f135 + var1 < C7.C7_f106) {
-                  this.C9_f122.C54_f811.a(10 + var1 * 5 + 2).i().C12_f179 = "" + (var1 + this.C9_f135 + 1);
-                  this.C9_f122.C54_f811.a(10 + var1 * 5 + 3).i().C12_f179 = C7.C7_f103[this.C9_f135 + var1];
-                  this.C9_f122.C54_f811.a(10 + var1 * 5 + 4).i().C12_f179 = "Hoàn thành";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().C12_f179 = "" + (var1 + this.C9_f135 + 1);
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().C12_f179 = C7.C7_f103[this.C9_f135 + var1];
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().C12_f179 = "Hoàn thành";
                } else if (this.C9_f135 + var1 == C7.C7_f106 && this.C9_f135 + var1 <= C7.C7_f103.length / 2 - 1) {
-                  this.C9_f122.C54_f811.a(10 + var1 * 5 + 2).i().C12_f179 = "" + (var1 + this.C9_f135 + 1);
-                  this.C9_f122.C54_f811.a(10 + var1 * 5 + 3).i().C12_f179 = C7.C7_f103[this.C9_f135 + var1];
-                  this.C9_f122.C54_f811.a(10 + var1 * 5 + 4).i().C12_f179 = "";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().C12_f179 = "" + (var1 + this.C9_f135 + 1);
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().C12_f179 = C7.C7_f103[this.C9_f135 + var1];
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().C12_f179 = "";
                } else {
-                  this.C9_f122.C54_f811.a(10 + var1 * 5 + 2).i().C12_f179 = "";
-                  this.C9_f122.C54_f811.a(10 + var1 * 5 + 3).i().C12_f179 = "";
-                  this.C9_f122.C54_f811.a(10 + var1 * 5 + 4).i().C12_f179 = "";
-                  this.C9_f122.C54_f811.a(36).i().C12_f179 = "";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().C12_f179 = "";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().C12_f179 = "";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().C12_f179 = "";
+                  this.C9_f122.currentDialog.getChildById(36).getComponentData().C12_f179 = "";
                }
             } else {
-               this.C9_f122.C54_f811.a(12).i().C12_f179 = "1";
-               this.C9_f122.C54_f811.a(13).i().C12_f179 = C7.C7_f103[0];
-               this.C9_f122.C54_f811.a(14).i().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = "1";
+               this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = C7.C7_f103[0];
+               this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "";
             }
          } else if (this.C9_f125 == 1) {
             if (this.C9_f135 + var1 < C7.C7_f107) {
-               this.C9_f122.C54_f811.a(10 + var1 * 5 + 2).i().C12_f179 = "" + (var1 + this.C9_f135 + 1);
-               this.C9_f122.C54_f811.a(10 + var1 * 5 + 3).i().C12_f179 = C7.C7_f102[C7.C7_f105[this.C9_f135 + var1][0]];
+               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().C12_f179 = "" + (var1 + this.C9_f135 + 1);
+               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().C12_f179 = C7.C7_f102[C7.C7_f105[this.C9_f135 + var1][0]];
                if (C7.C7_f105[this.C9_f135 + var1][1] == 3) {
-                  this.C9_f122.C54_f811.a(10 + var1 * 5 + 4).i().C12_f179 = "Hoàn thành";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().C12_f179 = "Hoàn thành";
                } else {
-                  this.C9_f122.C54_f811.a(10 + var1 * 5 + 4).i().C12_f179 = "";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().C12_f179 = "";
                }
             } else {
-               this.C9_f122.C54_f811.a(10 + var1 * 5 + 2).i().C12_f179 = "";
-               this.C9_f122.C54_f811.a(10 + var1 * 5 + 3).i().C12_f179 = "";
-               this.C9_f122.C54_f811.a(10 + var1 * 5 + 4).i().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().C12_f179 = "";
             }
          }
       }
 
       switch(this.C9_f125) {
       case 0:
-         this.C9_f122.C54_f811.a(36).i().C12_f179 = C7.C7_f103[C7.C7_f103.length / 2 + this.C9_f136];
+         this.C9_f122.currentDialog.getChildById(36).getComponentData().C12_f179 = C7.C7_f103[C7.C7_f103.length / 2 + this.C9_f136];
          break;
       case 1:
          if (C7.C7_f107 > 0) {
-            this.C9_f122.C54_f811.a(36).i().C12_f179 = C7.C7_f102[C7.C7_f102.length / 2 + C7.C7_f105[this.C9_f136][0]];
+            this.C9_f122.currentDialog.getChildById(36).getComponentData().C12_f179 = C7.C7_f102[C7.C7_f102.length / 2 + C7.C7_f105[this.C9_f136][0]];
          }
       }
 
-      if (((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 > 0) {
-         this.C9_f122.C54_f811.a(40).b(104 + (this.C9_f136 << 6) / ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574, this.C9_f122.C54_f811.a());
+      if (((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 > 0) {
+         this.C9_f122.currentDialog.getChildById(40).setOffsetY(104 + (this.C9_f136 << 6) / ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574, this.C9_f122.currentDialog.getRootComponent());
       }
 
    }
 
    public final void V() {
       if (this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.bd();
       } else if (this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.bd();
       } else if (this.C9_f121.g(16400)) {
-         this.C9_f122.C54_f811.b(2);
+         this.C9_f122.currentDialog.handleAction(2);
          this.bc();
       } else if (this.C9_f121.g(32832)) {
-         this.C9_f122.C54_f811.b(3);
+         this.C9_f122.currentDialog.handleAction(3);
          this.bc();
       } else if (this.C9_f121.g(983072)) {
          if (C44.C44_f711) {
@@ -2169,7 +2168,7 @@ public final class C9 implements C61 {
             this.C9_f125 = 3;
          }
 
-         this.C9_f122.a("/data/ui/task.ui");
+         this.C9_f122.removeDialog("/data/ui/task.ui");
          if (this.C9_f121.C44_f699 == 0) {
             this.C9_f125 = 0;
             this.C9_f121.a((byte)0);
@@ -2180,7 +2179,7 @@ public final class C9 implements C61 {
          }
       } else {
          if (this.C9_f121.g(10)) {
-            this.C9_f122.a("/data/ui/task.ui");
+            this.C9_f122.removeDialog("/data/ui/task.ui");
             this.C9_f121.a((byte)0);
          }
 
@@ -2188,14 +2187,14 @@ public final class C9 implements C61 {
    }
 
    public final void W() {
-      this.C9_f122.a("/data/ui/badge.ui", 257, this);
-      this.C9_f122.a("/data/ui/record.ui");
+      this.C9_f122.showDialog("/data/ui/badge.ui", 257, this);
+      this.C9_f122.removeDialog("/data/ui/record.ui");
       this.C9_f125 = 0;
       this.C9_f131 = 0;
 
       for(int var1 = 0; var1 < 8; ++var1) {
          if (this.C9_f123.C53_f779[var1][0] != 0) {
-            this.C9_f122.C54_f811.a(var1 + 25).i().C12_f195.a(var1 + 46);
+            this.C9_f122.currentDialog.getChildById(var1 + 25).getComponentData().C12_f195.a(var1 + 46);
          }
       }
 
@@ -2203,29 +2202,29 @@ public final class C9 implements C61 {
    }
 
    private void be() {
-      this.C9_f122.C54_f811.a(13).i().C12_f179 = C44.c((int)C67.C67_f923[2][this.C9_f125][0]);
-      this.C9_f122.C54_f811.a(14).i().C12_f179 = C44.c((int)C67.C67_f923[2][this.C9_f125][2 + this.C9_f123.b((byte)this.C9_f125, (byte)1)]);
+      this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[2][this.C9_f125][0]);
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[2][this.C9_f125][2 + this.C9_f123.b((byte)this.C9_f125, (byte)1)]);
       if (this.C9_f123.b((byte)this.C9_f125, (byte)0) == 0) {
-         this.C9_f122.C54_f811.a(16).i().C12_f179 = "Chưa đạt";
+         this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f179 = "Chưa đạt";
       } else {
-         this.C9_f122.C54_f811.a(16).i().C12_f179 = "Đã đạt được";
+         this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f179 = "Đã đạt được";
          this.C9_f123.b((byte)this.C9_f125, (byte)1);
-         this.C9_f122.C54_f811.a(33).i().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(33).getComponentData().C12_f179 = "";
       }
    }
 
    public final void X() {
       if (this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.be();
       } else if (this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.be();
       } else if (this.C9_f121.g(16400)) {
-         this.C9_f122.C54_f811.b(2);
+         this.C9_f122.currentDialog.handleAction(2);
          this.be();
       } else if (this.C9_f121.g(32832)) {
-         this.C9_f122.C54_f811.b(3);
+         this.C9_f122.currentDialog.handleAction(3);
          this.be();
       } else {
          if (this.C9_f121.g(786432)) {
@@ -2236,28 +2235,28 @@ public final class C9 implements C61 {
                this.C9_f121.a((byte)9);
             }
 
-            this.C9_f122.a("/data/ui/badge.ui");
+            this.C9_f122.removeDialog("/data/ui/badge.ui");
          }
 
       }
    }
 
    public final void a(int var1) {
-      this.C9_f122.a("/data/ui/smsTip.ui", 257, this);
-      if (this.C9_f122.C54_f811.a(6).i().C12_f195 == null) {
-         this.C9_f122.C54_f811.a(6).i().C12_f195 = new C17();
-         this.C9_f122.C54_f811.a(6).i().C12_f195.C17_f222 = 2;
-         this.C9_f122.C54_f811.a(6).i().C12_f195.a((int)-1);
-         this.C9_f122.C54_f811.a(6).i().C12_f195.a(257, false, (byte)-1);
-         this.C9_f122.C54_f811.a(6).i().C12_f195.a(var1 + 46);
+      this.C9_f122.showDialog("/data/ui/smsTip.ui", 257, this);
+      if (this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f195 == null) {
+         this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f195 = new C17();
+         this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f195.C17_f222 = 2;
+         this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f195.a((int)-1);
+         this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f195.a(257, false, (byte)-1);
+         this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f195.a(var1 + 46);
       }
 
-      this.C9_f122.C54_f811.a(7).i().C12_f179 = C44.c(var1 + 187) + ":" + C44.c(var1 + 195);
-      this.C9_f122.C54_f811.a(8).i().C12_f179 = C44.c((int)377);
+      this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = C44.c(var1 + 187) + ":" + C44.c(var1 + 195);
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = C44.c((int)377);
    }
 
    public final void Y() {
-      this.C9_f122.a("/data/ui/smsTip.ui");
+      this.C9_f122.removeDialog("/data/ui/smsTip.ui");
    }
 
    public final void Z() {
@@ -2268,89 +2267,89 @@ public final class C9 implements C61 {
    private void f(int var1) {
       C41[] var2 = this.C9_f123.C53_f777;
       C9 var5 = this;
-      this.C9_f122.a("/data/ui/petstate.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/petstate.ui", 257, this);
       this.g(var1);
       this.C9_f131 = 0;
       int var4;
       if (this.C9_f121 instanceof C25) {
          for(var4 = 0; var4 < 6; ++var4) {
             if (var2[var4] != null) {
-               var5.C9_f122.C54_f811.a(16 + var4 * 6).i().C12_f179 = "#P" + var2[var4].M();
-               var5.C9_f122.C54_f811.a(17 + var4 * 6).i().C12_f179 = "#P" + var2[var4].P();
+               var5.C9_f122.currentDialog.getChildById(16 + var4 * 6).getComponentData().C12_f179 = "#P" + var2[var4].M();
+               var5.C9_f122.currentDialog.getChildById(17 + var4 * 6).getComponentData().C12_f179 = "#P" + var2[var4].P();
             } else {
-               var5.C9_f122.C54_f811.a(16 + var4 * 6).i().C12_f179 = "#P0";
-               var5.C9_f122.C54_f811.a(17 + var4 * 6).i().C12_f179 = "#P0";
+               var5.C9_f122.currentDialog.getChildById(16 + var4 * 6).getComponentData().C12_f179 = "#P0";
+               var5.C9_f122.currentDialog.getChildById(17 + var4 * 6).getComponentData().C12_f179 = "#P0";
             }
          }
 
          if (var5.C9_f121.C44_f699 == 16) {
-            var5.C9_f122.C54_f811.a(64).i().C12_f179 = "Gởi lại";
+            var5.C9_f122.currentDialog.getChildById(64).getComponentData().C12_f179 = "Gởi lại";
          }
 
-         var5.C9_f122.C54_f811.a(75).a(false);
-         var5.C9_f122.C54_f811.a(76).a(false);
+         var5.C9_f122.currentDialog.getChildById(75).setVisible(false);
+         var5.C9_f122.currentDialog.getChildById(76).setVisible(false);
       } else if (this.C9_f121 instanceof C29) {
          for(var4 = 0; var4 < 6; ++var4) {
             if (var4 < ((C29)var5.C9_f121).C29_f405.length && var2[((C29)var5.C9_f121).C29_f405[var4]] != null) {
-               var5.C9_f122.C54_f811.a(16 + var4 * 6).i().C12_f179 = "#P" + var2[((C29)var5.C9_f121).C29_f405[var4]].M();
-               var5.C9_f122.C54_f811.a(17 + var4 * 6).i().C12_f179 = "#P" + var2[((C29)var5.C9_f121).C29_f405[var4]].P();
+               var5.C9_f122.currentDialog.getChildById(16 + var4 * 6).getComponentData().C12_f179 = "#P" + var2[((C29)var5.C9_f121).C29_f405[var4]].M();
+               var5.C9_f122.currentDialog.getChildById(17 + var4 * 6).getComponentData().C12_f179 = "#P" + var2[((C29)var5.C9_f121).C29_f405[var4]].P();
             } else {
-               var5.C9_f122.C54_f811.a(16 + var4 * 6).i().C12_f179 = "#P0";
-               var5.C9_f122.C54_f811.a(17 + var4 * 6).i().C12_f179 = "#P0";
+               var5.C9_f122.currentDialog.getChildById(16 + var4 * 6).getComponentData().C12_f179 = "#P0";
+               var5.C9_f122.currentDialog.getChildById(17 + var4 * 6).getComponentData().C12_f179 = "#P0";
             }
          }
 
-         var5.C9_f122.C54_f811.a(63).a(false);
-         var5.C9_f122.C54_f811.a(64).a(false);
+         var5.C9_f122.currentDialog.getChildById(63).setVisible(false);
+         var5.C9_f122.currentDialog.getChildById(64).setVisible(false);
          if (var5.C9_f121.C44_f699 == 4) {
-            var5.C9_f122.C54_f811.a(75).i().C12_f179 = "Sử dụng";
+            var5.C9_f122.currentDialog.getChildById(75).getComponentData().C12_f179 = "Sử dụng";
          } else if (var5.C9_f121.C44_f698 == 5) {
-            var5.C9_f122.C54_f811.a(75).i().C12_f179 = "Xuất chiến";
+            var5.C9_f122.currentDialog.getChildById(75).getComponentData().C12_f179 = "Xuất chiến";
          }
       }
 
-      ((C43)var5.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = var5.C9_f123.C53_f778;
-      ((C43)var5.C9_f122.C54_f811.a(0)).C43_f689.C38_f577 = var5.C9_f123.C53_f778;
-      ((C43)var5.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = var1;
+      ((RootComponent)var5.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = var5.C9_f123.C53_f778;
+      ((RootComponent)var5.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f577 = var5.C9_f123.C53_f778;
+      ((RootComponent)var5.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = var1;
       var5.C9_f132 = true;
    }
 
    private void a(C41[] var1, int var2) {
       if (var1[var2] != null) {
-         if (this.C9_f122.C54_f811.a(48).i().C12_f195 != null) {
-            this.C9_f122.C54_f811.a(48).i().C12_f195.c();
+         if (this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195 != null) {
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.c();
          } else {
-            this.C9_f122.C54_f811.a(48).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(48).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(48).i().C12_f195.C17_f222 = 3;
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.C17_f222 = 3;
          }
 
          short var10001 = var1[var2].C41_f655;
-         this.C9_f122.C54_f811.a(48).i().C12_f195.a(var10001, false, (byte)-1);
-         this.C9_f122.C54_f811.a(51).i().C12_f179 = C44.c(var1[var2].j((byte)0));
-         this.C9_f122.C54_f811.a(52).i().C12_f179 = C44.c(365 + var1[var2].j((byte)1));
+         this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.a(var10001, false, (byte)-1);
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = C44.c(var1[var2].j((byte)0));
+         this.C9_f122.currentDialog.getChildById(52).getComponentData().C12_f179 = C44.c(365 + var1[var2].j((byte)1));
          if (var1[var2].j((byte)19) == -1) {
-            this.C9_f122.C54_f811.a(62).i().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "";
          } else if (C67.C67_f923[0][var1[var2].j((byte)19)][2] != 1 && C67.C67_f923[0][var1[var2].j((byte)19)][2] != 2) {
             if (C67.C67_f923[0][var1[var2].j((byte)19)][2] == 3) {
-               this.C9_f122.C54_f811.a(62).i().C12_f179 = "Có thể dị hoá";
+               this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "Có thể dị hoá";
             }
          } else {
-            this.C9_f122.C54_f811.a(62).i().C12_f179 = "Có thể tiến hóa";
+            this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "Có thể tiến hóa";
          }
 
-         this.C9_f122.C54_f811.a(61).i().C12_f179 = var1[var2].U();
+         this.C9_f122.currentDialog.getChildById(61).getComponentData().C12_f179 = var1[var2].U();
          if (this.C9_f121 instanceof C29) {
-            this.C9_f122.C54_f811.a(64).i().C12_f179 = "Xuất chiến";
+            this.C9_f122.currentDialog.getChildById(64).getComponentData().C12_f179 = "Xuất chiến";
          } else if (this.C9_f121 instanceof C25) {
-            this.C9_f122.C54_f811.a(64).i().C12_f179 = "Xác nhận";
+            this.C9_f122.currentDialog.getChildById(64).getComponentData().C12_f179 = "Xác nhận";
          }
 
-         if (this.C9_f122.C54_f811.a(59).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(59).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(59).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(59).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(59).i().C12_f195.a(258, false, (byte)-1);
+         if (this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.a(258, false, (byte)-1);
          }
 
          C41 var10000 = var1[var2];
@@ -2360,37 +2359,37 @@ public final class C9 implements C61 {
             C41 var10002 = var1[var2];
             var4 = 5;
             short[] var8 = var7[var10002.C60_f855[var4]];
-            this.C9_f122.C54_f811.a(59).i().C12_f195.a((int)var8[1]);
-            C12 var6 = this.C9_f122.C54_f811.a(60).i();
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.a((int)var8[1]);
+            DialogData var6 = this.C9_f122.currentDialog.getChildById(60).getComponentData();
             var7 = C67.C67_f923[3];
             var10002 = var1[var2];
             var4 = 5;
             var6.C12_f179 = C44.c((int)var7[var10002.C60_f855[var4]][0]);
          } else {
-            this.C9_f122.C54_f811.a(59).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(60).i().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(60).getComponentData().C12_f179 = "";
          }
 
-         this.C9_f122.C54_f811.a(65).i().C12_f179 = "" + var1[var2].t();
-         this.C9_f122.C54_f811.a(66).i().C12_f179 = "" + var1[var2].a((byte)2);
-         this.C9_f122.C54_f811.a(67).i().C12_f179 = "" + var1[var2].a((byte)3);
-         this.C9_f122.C54_f811.a(68).i().C12_f179 = "" + var1[var2].a((byte)4);
+         this.C9_f122.currentDialog.getChildById(65).getComponentData().C12_f179 = "" + var1[var2].t();
+         this.C9_f122.currentDialog.getChildById(66).getComponentData().C12_f179 = "" + var1[var2].a((byte)2);
+         this.C9_f122.currentDialog.getChildById(67).getComponentData().C12_f179 = "" + var1[var2].a((byte)3);
+         this.C9_f122.currentDialog.getChildById(68).getComponentData().C12_f179 = "" + var1[var2].a((byte)4);
          var10000 = var1[var2];
          var4 = 0;
          int var3 = var10000.C60_f856[var4];
          int var5 = C67.a((byte)0, (short)var1[var2].r(), (byte)4) - 1;
 
          for(var2 = 0; var2 < 5; ++var2) {
-            this.C9_f122.C54_f811.a(74 - var2).a(true);
-            this.C9_f122.C54_f811.a(74 - var2).i().C12_f195.a(257, false, (byte)-1);
-            this.C9_f122.C54_f811.a(74 - var2).i().C12_f195.C17_f222 = 3;
+            this.C9_f122.currentDialog.getChildById(74 - var2).setVisible(true);
+            this.C9_f122.currentDialog.getChildById(74 - var2).getComponentData().C12_f195.a(257, false, (byte)-1);
+            this.C9_f122.currentDialog.getChildById(74 - var2).getComponentData().C12_f195.C17_f222 = 3;
             if (var2 > var5) {
-               this.C9_f122.C54_f811.a(74 - var2).a(false);
+               this.C9_f122.currentDialog.getChildById(74 - var2).setVisible(false);
             } else if (var3 > 0) {
-               this.C9_f122.C54_f811.a(74 - var2).i().C12_f195.a((byte)14, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(74 - var2).getComponentData().C12_f195.a((byte)14, (byte)-1);
                --var3;
             } else {
-               this.C9_f122.C54_f811.a(74 - var2).i().C12_f195.a((byte)16, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(74 - var2).getComponentData().C12_f195.a((byte)16, (byte)-1);
             }
          }
       }
@@ -2411,9 +2410,9 @@ public final class C9 implements C61 {
    public final void aa() {
       if (this.C9_f131 == 0) {
          if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f121.g(4100)) {
-            this.C9_f122.C54_f811.b(0);
+            this.C9_f122.currentDialog.handleAction(0);
          } else if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f121.g(8448)) {
-            this.C9_f122.C54_f811.b(1);
+            this.C9_f122.currentDialog.handleAction(1);
          } else if (C44.s() && !this.j() && this.C9_f121.g(196640)) {
             if (C44.p() && !C44.a((int)this.C9_f125, (int)0)) {
                return;
@@ -2423,20 +2422,20 @@ public final class C9 implements C61 {
                int var1;
                if ((var1 = ((C29)this.C9_f121).l(this.C9_f125)) == 0) {
                   this.C9_f131 = 2;
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Sủng vật này không thể tham chiến", "Nhấn nút 5 tiếp tục");
-                  this.C9_f122.a("/data/ui/petsetting.ui");
+                  this.C9_f122.removeDialog("/data/ui/petsetting.ui");
                } else if (var1 == 1) {
                   this.C9_f131 = 2;
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Sủng vật này đã đặt ở vị trí chiến đấu", "Nhấn nút 5 tiếp tục");
-                  this.C9_f122.a("/data/ui/petsetting.ui");
+                  this.C9_f122.removeDialog("/data/ui/petsetting.ui");
                } else if (var1 == -1) {
                   ((C29)this.C9_f121).e(((C29)this.C9_f121).C29_f407, 0);
                   this.C9_f124 = 0;
                   this.C9_f121.a((byte)15);
-                  this.C9_f122.a("/data/ui/petsetting.ui");
-                  this.C9_f122.a("/data/ui/petstate.ui");
+                  this.C9_f122.removeDialog("/data/ui/petsetting.ui");
+                  this.C9_f122.removeDialog("/data/ui/petstate.ui");
                }
             } else if (this.C9_f121 instanceof C25) {
                if (this.C9_f121.C44_f699 == 16) {
@@ -2453,12 +2452,12 @@ public final class C9 implements C61 {
                         this.f(this.C9_f125);
                      } else {
                         this.C9_f131 = 1;
-                        this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                        this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                         this.a("Ba lô phải lưu ít nhất 1 sủng vật", "Nhấn nút 5 tiếp tục");
                      }
                   } else {
                      this.C9_f131 = 1;
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Ngân hàng đã đầy, không thể gởi lại", "Nhấn nút 5 tiếp tục");
                   }
                } else if (this.C9_f121.C44_f699 != 6 && this.C9_f121.C44_f699 != 0) {
@@ -2481,20 +2480,20 @@ public final class C9 implements C61 {
                   this.C9_f126 = 0;
                   this.C9_f121.r();
                   this.C9_f131 = 1;
-                  this.C9_f122.a("/data/ui/petsetting.ui", 257, this);
-                  ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = this.C9_f126;
+                  this.C9_f122.showDialog("/data/ui/petsetting.ui", 257, this);
+                  ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f126;
                   if (this.C9_f123.C53_f777[this.C9_f125].S() == 2) {
-                     this.C9_f122.C54_f811.a(9).i().C12_f179 = "Dị hoá";
-                     ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = 6;
-                     ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f577 = 6;
+                     this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Dị hoá";
+                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 6;
+                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f577 = 6;
                   } else if (this.C9_f123.C53_f777[this.C9_f125].S() == 1) {
-                     this.C9_f122.C54_f811.a(9).i().C12_f179 = "Tiến hóa";
-                     ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = 6;
-                     ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f577 = 6;
+                     this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Tiến hóa";
+                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 6;
+                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f577 = 6;
                   } else {
-                     this.C9_f122.C54_f811.a(9).i().C12_f179 = "";
-                     ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = 5;
-                     ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f577 = 5;
+                     this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "";
+                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 5;
+                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f577 = 5;
                   }
                }
             }
@@ -2516,13 +2515,13 @@ public final class C9 implements C61 {
                   this.C9_f121.a((byte)23);
                }
 
-               this.C9_f122.a("/data/ui/petstate.ui");
+               this.C9_f122.removeDialog("/data/ui/petstate.ui");
             } else if (this.C9_f121 instanceof C29) {
                if (((C29)this.C9_f121).C44_f699 == 7 || ((C29)this.C9_f121).C44_f699 == 13) {
                   return;
                }
 
-               this.C9_f122.a("/data/ui/petstate.ui");
+               this.C9_f122.removeDialog("/data/ui/petstate.ui");
                C29.B().C29_f415 = false;
                this.C9_f124 = 0;
                this.C9_f121.a((byte)20);
@@ -2530,9 +2529,9 @@ public final class C9 implements C61 {
          }
       } else if (this.C9_f131 == 1) {
          if (!C44.a((int)this.C9_f126, (int)0) && !this.j() && this.C9_f121.g(4100)) {
-            this.C9_f122.C54_f811.b(0);
+            this.C9_f122.currentDialog.handleAction(0);
          } else if (!C44.a((int)this.C9_f126, (int)0) && !this.j() && this.C9_f121.g(8448)) {
-            this.C9_f122.C54_f811.b(1);
+            this.C9_f122.currentDialog.handleAction(1);
          } else if (C44.s() && !this.j() && this.C9_f121.g(196640)) {
             if (C44.p() && !C44.a((int)this.C9_f126, (int)0)) {
                return;
@@ -2540,8 +2539,8 @@ public final class C9 implements C61 {
 
             if (this.C9_f121.C44_f699 == 16) {
                this.C9_f121.a((byte)16);
-               this.C9_f122.a("/data/ui/msgwarm.ui");
-               this.C9_f122.a("/data/ui/petstate.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/petstate.ui");
                this.C9_f131 = 0;
             } else if (this.C9_f121.C44_f699 == 6 || this.C9_f121.C44_f699 == 0) {
                switch(this.C9_f126) {
@@ -2551,24 +2550,24 @@ public final class C9 implements C61 {
                case 1:
                   if (!this.C9_f123.C53_f777[this.C9_f125].T()) {
                      this.C9_f131 = 2;
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Sủng vật này không thể tham chiến", "Nhấn nút 5 tiếp tục");
-                     this.C9_f122.a("/data/ui/petsetting.ui");
+                     this.C9_f122.removeDialog("/data/ui/petsetting.ui");
                      this.C9_f125 = 0;
                   } else if (this.C9_f125 == 0) {
                      this.C9_f131 = 2;
                      this.C9_f125 = 0;
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Sủng vật này đã xuất chiến", "Nhấn nút 5 tiếp tục");
-                     this.C9_f122.a("/data/ui/petsetting.ui");
+                     this.C9_f122.removeDialog("/data/ui/petsetting.ui");
                   } else {
                      this.C9_f123.p(this.C9_f125);
                      this.C9_f131 = 0;
                      this.C9_f125 = 0;
                      this.f(this.C9_f125);
-                     this.C9_f122.a("/data/ui/petsetting.ui");
-                     ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = 0;
-                     ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579 = 0;
+                     this.C9_f122.removeDialog("/data/ui/petsetting.ui");
+                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = 0;
+                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = 0;
                   }
                   break;
                case 2:
@@ -2579,12 +2578,12 @@ public final class C9 implements C61 {
                   if (C67.a((byte)0, (short)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)22) == 2) {
                      this.C9_f131 = 3;
                      this.H();
-                     this.C9_f122.a("/data/ui/petsetting.ui");
+                     this.C9_f122.removeDialog("/data/ui/petsetting.ui");
                      this.a("Thần thú không thể phóng sinh", "Nhấn nút 5 tiếp tục");
                   } else {
                      this.C9_f131 = 2;
-                     this.C9_f122.a("/data/ui/msgconfirm.ui", 257, this);
-                     this.C9_f122.a("/data/ui/petsetting.ui");
+                     this.C9_f122.showDialog("/data/ui/msgconfirm.ui", 257, this);
+                     this.C9_f122.removeDialog("/data/ui/petsetting.ui");
                      this.b("Bạn muốn phóng sinh sủng vật này?", "Xác nhận");
                   }
                   break;
@@ -2602,20 +2601,20 @@ public final class C9 implements C61 {
             }
 
             this.C9_f131 = 0;
-            this.C9_f122.a("/data/ui/petsetting.ui");
+            this.C9_f122.removeDialog("/data/ui/petsetting.ui");
          }
       } else if (this.C9_f131 >= 2) {
          if (this.C9_f121 instanceof C29) {
             if (this.C9_f121.g(196640)) {
                this.C9_f131 = 0;
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
             }
          } else if (this.C9_f121.C44_f699 != 6 && this.C9_f121.C44_f699 != 0) {
             if (this.C9_f131 <= 3) {
                this.bp();
             } else if (this.C9_f131 == 4 && this.C9_f121.g(196640)) {
                this.C9_f131 = 0;
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
             }
          } else {
             switch(this.C9_f126) {
@@ -2625,7 +2624,7 @@ public final class C9 implements C61 {
             case 1:
                if (this.C9_f121.g(196640)) {
                   this.C9_f131 = 0;
-                  this.C9_f122.a("/data/ui/msgwarm.ui");
+                  this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                }
                break;
             case 2:
@@ -2644,21 +2643,21 @@ public final class C9 implements C61 {
 
                         this.f(this.C9_f125);
                         ((C25)this.C9_f121).C25_f348.G();
-                        this.C9_f122.a("/data/ui/msgconfirm.ui");
+                        this.C9_f122.removeDialog("/data/ui/msgconfirm.ui");
                         this.C9_f131 = 0;
                      } else {
                         this.C9_f131 = 3;
-                        this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                        this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                         this.a("Ba lô phải lưu ít nhất 1 sủng vật", "Nhấn nút 5 tiếp tục");
-                        this.C9_f122.a("/data/ui/msgconfirm.ui");
+                        this.C9_f122.removeDialog("/data/ui/msgconfirm.ui");
                      }
                   } else {
                      this.C9_f131 = 0;
-                     this.C9_f122.a("/data/ui/msgwarm.ui");
+                     this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                   }
                } else if (this.C9_f121.g(786432) && this.C9_f131 <= 2) {
                   this.C9_f131 = 0;
-                  this.C9_f122.a("/data/ui/msgconfirm.ui");
+                  this.C9_f122.removeDialog("/data/ui/msgconfirm.ui");
                }
                break;
             case 4:
@@ -2677,23 +2676,23 @@ public final class C9 implements C61 {
    private void bf() {
       this.C9_f131 = 2;
       this.C9_f127 = 0;
-      this.C9_f122.a("/data/ui/choice.ui", 257, this);
-      this.C9_f122.a("/data/ui/petsetting.ui");
-      this.C9_f122.a("/data/ui/petstate.ui");
-      this.C9_f122.C54_f811.a(8).i().C12_f179 = "Vật phẩm trang sức";
-      this.C9_f122.C54_f811.a(9).i().C12_f179 = "Trạng thái";
+      this.C9_f122.showDialog("/data/ui/choice.ui", 257, this);
+      this.C9_f122.removeDialog("/data/ui/petsetting.ui");
+      this.C9_f122.removeDialog("/data/ui/petstate.ui");
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Vật phẩm trang sức";
+      this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Trạng thái";
       if (this.C9_f121 instanceof C25) {
-         this.C9_f122.C54_f811.a(5).a(false);
-         this.C9_f122.C54_f811.a(6).a(false);
-         this.C9_f122.C54_f811.a(59).a(true);
-         this.C9_f122.C54_f811.a(60).a(true);
-         this.C9_f122.C54_f811.a(59).i().C12_f179 = "Mang theo";
+         this.C9_f122.currentDialog.getChildById(5).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(6).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(59).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(60).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "Mang theo";
       } else {
-         this.C9_f122.C54_f811.a(5).a(true);
-         this.C9_f122.C54_f811.a(6).a(true);
-         this.C9_f122.C54_f811.a(59).a(false);
-         this.C9_f122.C54_f811.a(60).a(false);
-         this.C9_f122.C54_f811.a(5).i().C12_f179 = "Mang theo";
+         this.C9_f122.currentDialog.getChildById(5).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(6).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(59).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(60).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Mang theo";
       }
 
       this.bg();
@@ -2702,22 +2701,22 @@ public final class C9 implements C61 {
 
    private void bg() {
       if (this.C9_f123.C53_f789.size() > 5) {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(1);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
       } else {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(0);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
       }
 
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = this.C9_f123.C53_f789.size();
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f123.C53_f789.size();
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
       if (this.C9_f136 >= this.C9_f123.C53_f789.size()) {
          this.C9_f136 = this.C9_f123.C53_f789.size() - 1;
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = this.C9_f136;
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f136;
       }
 
       if (this.C9_f135 > 0 && this.C9_f136 - this.C9_f135 < 4) {
          --this.C9_f135;
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579 = this.C9_f135;
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = this.C9_f135;
       }
 
       if (this.C9_f123.C53_f789.size() > 0) {
@@ -2725,57 +2724,57 @@ public final class C9 implements C61 {
          byte var4 = 5;
          if (var10000.C60_f855[var4] == ((int[])this.C9_f123.C53_f789.elementAt(this.C9_f136))[0]) {
             if (this.C9_f121 instanceof C25) {
-               this.C9_f122.C54_f811.a(59).i().C12_f179 = "Dỡ xuống";
+               this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "Dỡ xuống";
             } else {
-               this.C9_f122.C54_f811.a(5).i().C12_f179 = "Dỡ xuống";
+               this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Dỡ xuống";
             }
          } else if (this.C9_f121 instanceof C25) {
-            this.C9_f122.C54_f811.a(59).i().C12_f179 = "Mang theo";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "Mang theo";
          } else {
-            this.C9_f122.C54_f811.a(5).i().C12_f179 = "Mang theo";
+            this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Mang theo";
          }
 
          for(int var1 = 0; var1 < 5; ++var1) {
             if (this.C9_f135 + var1 < this.C9_f123.C53_f789.size()) {
                int[] var2 = (int[])this.C9_f123.C53_f789.elementAt(this.C9_f135 + var1);
-               if (this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195 == null) {
-                  this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195 = new C17();
-                  this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.a((int)0);
-                  this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.C17_f222 = 2;
-                  this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.a(258, false, (byte)-1);
+               if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 == null) {
+                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 = new C17();
+                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.a((int)0);
+                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.C17_f222 = 2;
+                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.a(258, false, (byte)-1);
                }
 
-               this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.a((int)C67.C67_f923[3][var2[0]][1]);
-               this.C9_f122.C54_f811.a(13 + var1 * 5).i().C12_f179 = C44.c((int)C67.C67_f923[3][var2[0]][0]);
+               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.a((int)C67.C67_f923[3][var2[0]][1]);
+               this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][var2[0]][0]);
                var10000 = C53.p().C53_f777[this.C9_f125];
                var4 = 5;
                if (var10000.C60_f855[var4] == var2[0]) {
-                  this.C9_f122.C54_f811.a(14 + var1 * 5).i().C12_f179 = "Đã mang theo";
+                  this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "Đã mang theo";
                } else if (var2[1] == 1) {
-                  this.C9_f122.C54_f811.a(14 + var1 * 5).i().C12_f179 = "Bị mang theo";
+                  this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "Bị mang theo";
                } else {
-                  this.C9_f122.C54_f811.a(14 + var1 * 5).i().C12_f179 = "";
+                  this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "";
                }
             } else {
-               if (this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195 != null) {
-                  this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.c();
+               if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 != null) {
+                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.c();
                }
 
-               this.C9_f122.C54_f811.a(13 + var1 * 5).i().C12_f179 = "";
-               this.C9_f122.C54_f811.a(14 + var1 * 5).i().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "";
             }
          }
 
          if (this.C9_f123.C53_f789.size() > 0) {
-            this.C9_f122.C54_f811.a(53).i().C12_f179 = C44.c((int)C67.C67_f923[3][((int[])this.C9_f123.C53_f789.elementAt(this.C9_f136))[0]][2]);
+            this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][((int[])this.C9_f123.C53_f789.elementAt(this.C9_f136))[0]][2]);
          } else {
-            this.C9_f122.C54_f811.a(53).i().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = "";
          }
 
          if (this.C9_f123.C53_f789.size() > 0) {
-            this.C9_f122.C54_f811.a(51).b(98 + this.C9_f136 * 62 / this.C9_f123.C53_f789.size(), this.C9_f122.C54_f811.a());
+            this.C9_f122.currentDialog.getChildById(51).setOffsetY(98 + this.C9_f136 * 62 / this.C9_f123.C53_f789.size(), this.C9_f122.currentDialog.getRootComponent());
          } else {
-            this.C9_f122.C54_f811.a(51).b(98, this.C9_f122.C54_f811.a());
+            this.C9_f122.currentDialog.getChildById(51).setOffsetY(98, this.C9_f122.currentDialog.getRootComponent());
          }
       }
    }
@@ -2783,23 +2782,23 @@ public final class C9 implements C61 {
    private void bh() {
       this.C9_f131 = 2;
       this.C9_f127 = 0;
-      this.C9_f122.a("/data/ui/choice.ui", 257, this);
-      this.C9_f122.a("/data/ui/petsetting.ui");
-      this.C9_f122.a("/data/ui/petstate.ui");
-      this.C9_f122.C54_f811.a(8).i().C12_f179 = "Đạo cụ";
-      this.C9_f122.C54_f811.a(9).i().C12_f179 = "Số lượng";
+      this.C9_f122.showDialog("/data/ui/choice.ui", 257, this);
+      this.C9_f122.removeDialog("/data/ui/petsetting.ui");
+      this.C9_f122.removeDialog("/data/ui/petstate.ui");
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Đạo cụ";
+      this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Số lượng";
       if (this.C9_f121 instanceof C25) {
-         this.C9_f122.C54_f811.a(5).a(false);
-         this.C9_f122.C54_f811.a(6).a(false);
-         this.C9_f122.C54_f811.a(59).a(true);
-         this.C9_f122.C54_f811.a(60).a(true);
-         this.C9_f122.C54_f811.a(59).i().C12_f179 = "Sử dụng";
+         this.C9_f122.currentDialog.getChildById(5).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(6).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(59).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(60).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "Sử dụng";
       } else {
-         this.C9_f122.C54_f811.a(5).a(true);
-         this.C9_f122.C54_f811.a(6).a(true);
-         this.C9_f122.C54_f811.a(59).a(false);
-         this.C9_f122.C54_f811.a(60).a(false);
-         this.C9_f122.C54_f811.a(5).i().C12_f179 = "Sử dụng";
+         this.C9_f122.currentDialog.getChildById(5).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(6).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(59).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(60).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Sử dụng";
       }
 
       this.bi();
@@ -2808,82 +2807,82 @@ public final class C9 implements C61 {
 
    private void bi() {
       if (this.C9_f123.C53_f787.size() > 5) {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(1);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
       } else {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(0);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
       }
 
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = this.C9_f123.C53_f787.size();
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f123.C53_f787.size();
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
       if (this.C9_f136 >= this.C9_f123.C53_f787.size()) {
          this.C9_f136 = this.C9_f123.C53_f787.size() - 1;
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = this.C9_f136;
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f136;
       }
 
       if (this.C9_f135 > 0 && this.C9_f136 - this.C9_f135 < 4) {
          --this.C9_f135;
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579 = this.C9_f135;
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = this.C9_f135;
       }
 
       for(int var1 = 0; var1 < 5; ++var1) {
          if (this.C9_f135 + var1 < this.C9_f123.C53_f787.size()) {
             int[] var2 = (int[])this.C9_f123.C53_f787.elementAt(this.C9_f135 + var1);
-            if (this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.a((int)0);
-               this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.a(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.a((int)0);
+               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.a(258, false, (byte)-1);
             }
 
-            this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.a((int)C67.C67_f923[4][var2[0]][1]);
-            this.C9_f122.C54_f811.a(13 + var1 * 5).i().C12_f179 = C44.c((int)C67.C67_f923[4][var2[0]][0]);
-            this.C9_f122.C54_f811.a(14 + var1 * 5).i().C12_f179 = "" + var2[1];
+            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.a((int)C67.C67_f923[4][var2[0]][1]);
+            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][var2[0]][0]);
+            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "" + var2[1];
          } else {
-            if (this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195 != null) {
-               this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.c();
+            if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 != null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.c();
             }
 
-            this.C9_f122.C54_f811.a(13 + var1 * 5).i().C12_f179 = "";
-            this.C9_f122.C54_f811.a(14 + var1 * 5).i().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "";
          }
       }
 
       if (this.C9_f123.C53_f787.size() > 0) {
-         this.C9_f122.C54_f811.a(53).i().C12_f179 = C44.c((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f787.elementAt(this.C9_f136))[0]][2]);
+         this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f787.elementAt(this.C9_f136))[0]][2]);
       } else {
-         this.C9_f122.C54_f811.a(53).i().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = "";
       }
 
       if (this.C9_f123.C53_f787.size() > 0) {
-         this.C9_f122.C54_f811.a(51).b(98 + this.C9_f136 * 80 / this.C9_f123.C53_f787.size(), this.C9_f122.C54_f811.a());
+         this.C9_f122.currentDialog.getChildById(51).setOffsetY(98 + this.C9_f136 * 80 / this.C9_f123.C53_f787.size(), this.C9_f122.currentDialog.getRootComponent());
       } else {
-         this.C9_f122.C54_f811.a(51).b(98, this.C9_f122.C54_f811.a());
+         this.C9_f122.currentDialog.getChildById(51).setOffsetY(98, this.C9_f122.currentDialog.getRootComponent());
       }
    }
 
    private void bj() {
       this.C9_f131 = 2;
       this.C9_f127 = 0;
-      this.C9_f122.a("/data/ui/skill.ui", 257, this);
-      this.C9_f122.a("/data/ui/petsetting.ui");
-      this.C9_f122.a("/data/ui/petstate.ui");
-      this.C9_f122.C54_f811.a(12).i().C12_f179 = C44.c(this.C9_f123.C53_f777[this.C9_f125].j((byte)0));
-      this.C9_f122.C54_f811.a(14).i().C12_f179 = "" + this.C9_f123.C53_f777[this.C9_f125].t();
-      if (this.C9_f122.C54_f811.a(16).i().C12_f195 != null) {
-         this.C9_f122.C54_f811.a(16).i().C12_f195.c();
+      this.C9_f122.showDialog("/data/ui/skill.ui", 257, this);
+      this.C9_f122.removeDialog("/data/ui/petsetting.ui");
+      this.C9_f122.removeDialog("/data/ui/petstate.ui");
+      this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = C44.c(this.C9_f123.C53_f777[this.C9_f125].j((byte)0));
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "" + this.C9_f123.C53_f777[this.C9_f125].t();
+      if (this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195 != null) {
+         this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195.c();
       } else {
-         this.C9_f122.C54_f811.a(16).i().C12_f195 = new C17();
-         this.C9_f122.C54_f811.a(16).i().C12_f195.a((int)0);
-         this.C9_f122.C54_f811.a(16).i().C12_f195.C17_f222 = 3;
+         this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195 = new C17();
+         this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195.a((int)0);
+         this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195.C17_f222 = 3;
       }
 
       short var10001 = this.C9_f123.C53_f777[this.C9_f125].C41_f655;
-      this.C9_f122.C54_f811.a(16).i().C12_f195.a(var10001, false, (byte)-1);
+      this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195.a(var10001, false, (byte)-1);
       int var1 = this.C9_f123.C53_f777[this.C9_f125].F();
 
       for(int var2 = 0; var2 < var1; ++var2) {
-         this.C9_f122.C54_f811.a(var2 + 18).i().C12_f179 = C44.c((int)C67.C67_f923[1][this.C9_f123.C53_f777[this.C9_f125].t(var2)][1]);
+         this.C9_f122.currentDialog.getChildById(var2 + 18).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[1][this.C9_f123.C53_f777[this.C9_f125].t(var2)][1]);
       }
 
       this.bk();
@@ -2893,43 +2892,43 @@ public final class C9 implements C61 {
    private void bk() {
       if (this.C9_f123.C53_f777[this.C9_f125].t(this.C9_f127) != -1) {
          String[] var1 = new String[]{"Nhất định", "Nhất định"};
-         this.C9_f122.C54_f811.a(9).i().C12_f179 = C44.a(C67.C67_f923[1][this.C9_f123.C53_f777[this.C9_f125].t(this.C9_f127)][2], (String[])var1);
+         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = C44.a(C67.C67_f923[1][this.C9_f123.C53_f777[this.C9_f125].t(this.C9_f127)][2], (String[])var1);
       } else {
-         this.C9_f122.C54_f811.a(9).i().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "";
       }
    }
 
    private void bl() {
       this.C9_f131 = 2;
       this.C9_f127 = 0;
-      this.C9_f122.a("/data/ui/evolve.ui", 257, this);
-      this.C9_f122.a("/data/ui/petsetting.ui");
-      this.C9_f122.a("/data/ui/petstate.ui");
-      if (this.C9_f122.C54_f811.a(10).i().C12_f195 == null) {
-         this.C9_f122.C54_f811.a(10).i().C12_f195 = new C17();
-         this.C9_f122.C54_f811.a(10).i().C12_f195.a((int)0);
-         this.C9_f122.C54_f811.a(10).i().C12_f195.C17_f222 = 3;
+      this.C9_f122.showDialog("/data/ui/evolve.ui", 257, this);
+      this.C9_f122.removeDialog("/data/ui/petsetting.ui");
+      this.C9_f122.removeDialog("/data/ui/petstate.ui");
+      if (this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 == null) {
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 = new C17();
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.a((int)0);
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.C17_f222 = 3;
       }
 
       short var10001 = this.C9_f123.C53_f777[this.C9_f125].C41_f655;
-      this.C9_f122.C54_f811.a(10).i().C12_f195.a(var10001, false, (byte)-1);
+      this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.a(var10001, false, (byte)-1);
       short var1 = (short)(C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)20) + 12);
       short var2 = C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)21);
-      this.C9_f122.C54_f811.a(38).i().C12_f179 = C44.c((int)C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)0));
-      this.C9_f122.C54_f811.a(40).i().C12_f179 = "" + this.C9_f123.C53_f777[this.C9_f125].t();
-      this.C9_f122.C54_f811.a(45).i().C12_f179 = C44.c((int)C67.a((byte)3, var1, (byte)0));
-      this.C9_f122.C54_f811.a(46).i().C12_f179 = this.C9_f123.a((int)var1, (byte)2) + "/" + var2;
+      this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = C44.c((int)C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)0));
+      this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = "" + this.C9_f123.C53_f777[this.C9_f125].t();
+      this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f179 = C44.c((int)C67.a((byte)3, var1, (byte)0));
+      this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = this.C9_f123.a((int)var1, (byte)2) + "/" + var2;
       var1 = C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)19);
       C41 var6;
       (var6 = new C41()).a(var1, (byte)this.C9_f123.C53_f777[this.C9_f125].t(), (short)-1, (byte)-1, (short)-1, (byte)-1);
 
       for(int var5 = 0; var5 < 4; ++var5) {
-         C12 var10000 = this.C9_f122.C54_f811.a(var5 + 19).i();
+         DialogData var10000 = this.C9_f122.currentDialog.getChildById(var5 + 19).getComponentData();
          StringBuffer var7 = new StringBuffer();
          C41 var10002 = this.C9_f123.C53_f777[this.C9_f125];
          byte var4 = (byte)(var5 + 1);
          var10000.C12_f179 = var7.append(var10002.C60_f855[var4]).toString();
-         var10000 = this.C9_f122.C54_f811.a(var5 + 31).i();
+         var10000 = this.C9_f122.currentDialog.getChildById(var5 + 31).getComponentData();
          var7 = new StringBuffer();
          var4 = (byte)(var5 + 1);
          var10000.C12_f179 = var7.append(var6.C60_f855[var4]).toString();
@@ -2940,10 +2939,10 @@ public final class C9 implements C61 {
 
    private void bm() {
       if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f131 == 2 && this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.bg();
       } else if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f131 == 2 && this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.bg();
       } else if (C44.s() && !this.j() && this.C9_f121.g(196640) && this.C9_f123.C53_f789.size() > 0) {
          if (!C44.p() || C44.a((int)this.C9_f125, (int)0)) {
@@ -2975,13 +2974,13 @@ public final class C9 implements C61 {
                this.C9_f121.r();
                this.f(this.C9_f125);
                this.I();
-               this.C9_f122.a("/data/ui/choice.ui");
+               this.C9_f122.removeDialog("/data/ui/choice.ui");
             }
          }
       } else {
          if (C7.t() && !this.j() && this.C9_f131 == 2 && this.C9_f121.g(262144)) {
             this.f(this.C9_f125);
-            this.C9_f122.a("/data/ui/choice.ui");
+            this.C9_f122.removeDialog("/data/ui/choice.ui");
          }
 
       }
@@ -2989,9 +2988,9 @@ public final class C9 implements C61 {
 
    private void bn() {
       if (this.C9_f131 == 2 && this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
       } else if (this.C9_f131 == 2 && this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
       } else {
          if (this.C9_f121.g(196640)) {
             if (this.C9_f123.C53_f787.size() <= 0) {
@@ -3004,33 +3003,33 @@ public final class C9 implements C61 {
                switch((var1 = (int[])this.C9_f123.C53_f787.elementAt(this.C9_f127))[0]) {
                case 13:
                case 14:
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Đạo cụ này không thể sử dụng", "Nhấn nút 5 tiếp tục");
                   return;
                default:
                   switch(this.C9_f123.C53_f777[this.C9_f125].x(var1[0])) {
                   case 0:
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Sủng vật này đã tử vong, không thể sử dụng", "Nhấn nút 5 tiếp tục");
                      return;
                   case 1:
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Sủng vật này không có, không thể sử dụng", "Nhấn nút 5 tiếp tục");
                      return;
                   case 2:
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Máu đầy, không cần sử dụng", "Nhấn nút 5 tiếp tục");
                      return;
                   case 3:
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Kỹ năng giá trị đã đầy, không cần sử dụng", "Nhấn nút 5 tiếp tục");
                      return;
                   case 4:
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Trên người đều bị lợi hiệu quả", "Nhấn nút 5 tiếp tục");
                      return;
                   case 5:
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Trong hưng phấn, không thể dùng", "Nhấn nút 5 tiếp tục");
                      return;
                   case 6:
@@ -3038,16 +3037,16 @@ public final class C9 implements C61 {
                      this.C9_f123.C53_f777[this.C9_f125].w(var1[0]);
                      this.f(this.C9_f125);
                      this.C9_f131 = 4;
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Thành công sử dụng đạo cụ", "Nhấn nút 5 tiếp tục");
-                     this.C9_f122.a("/data/ui/choice.ui");
+                     this.C9_f122.removeDialog("/data/ui/choice.ui");
                      return;
                   case 7:
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Máu và tinh khí đều đã đầy, không cần sử dụng", "Nhấn nút 5 tiếp tục");
                      return;
                   case 8:
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Sủng vật đã chết, không thể sử dụng", "Nhấn nút 5 tiếp tục");
                      return;
                   }
@@ -3056,18 +3055,18 @@ public final class C9 implements C61 {
 
             if (this.C9_f131 == 3) {
                this.C9_f131 = 2;
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                return;
             }
 
             if (this.C9_f131 == 4) {
                this.C9_f131 = 0;
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                return;
             }
          } else if (this.C9_f131 == 2 && this.C9_f121.g(262144)) {
             this.f(this.C9_f125);
-            this.C9_f122.a("/data/ui/choice.ui");
+            this.C9_f122.removeDialog("/data/ui/choice.ui");
          }
 
       }
@@ -3075,21 +3074,21 @@ public final class C9 implements C61 {
 
    private void bo() {
       if (this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.bk();
       } else if (this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.bk();
       } else if (this.C9_f121.g(16400)) {
-         this.C9_f122.C54_f811.b(2);
+         this.C9_f122.currentDialog.handleAction(2);
          this.bk();
       } else if (this.C9_f121.g(32832)) {
-         this.C9_f122.C54_f811.b(3);
+         this.C9_f122.currentDialog.handleAction(3);
          this.bk();
       } else {
          if (this.C9_f121.g(262144)) {
             this.f(this.C9_f125);
-            this.C9_f122.a("/data/ui/skill.ui");
+            this.C9_f122.removeDialog("/data/ui/skill.ui");
          }
 
       }
@@ -3106,9 +3105,9 @@ public final class C9 implements C61 {
             var3 = C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)19);
             var4 = C67.a((byte)0, var3, (byte)17);
             C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)21);
-            this.C9_f122.C54_f811.a(10).a(true);
-            this.C9_f122.C54_f811.a(10).i().C12_f195.a(var4, false, (byte)-1);
-            this.C9_f122.C54_f811.a(38).i().C12_f179 = C44.c((int)C67.a((byte)0, var3, (byte)0));
+            this.C9_f122.currentDialog.getChildById(10).setVisible(true);
+            this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.a(var4, false, (byte)-1);
+            this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = C44.c((int)C67.a((byte)0, var3, (byte)0));
             C41 var11 = new C41();
             short var5 = C67.a((byte)0, var3, (byte)3);
             byte var6 = -1;
@@ -3137,21 +3136,21 @@ public final class C9 implements C61 {
             var3 = C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)19);
             int var12 = this.C9_f123.a((int)var5, (byte)2);
             if (var3 == -1) {
-               this.C9_f122.C54_f811.a(42).i().C12_f179 = "";
-               this.C9_f122.C54_f811.a(45).i().C12_f179 = "";
-               this.C9_f122.C54_f811.a(46).i().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(42).getComponentData().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = "";
             } else {
-               this.C9_f122.C54_f811.a(45).i().C12_f179 = C44.c((int)C67.a((byte)3, var5, (byte)0));
-               this.C9_f122.C54_f811.a(46).i().C12_f179 = var12 + "/" + var4;
+               this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f179 = C44.c((int)C67.a((byte)3, var5, (byte)0));
+               this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = var12 + "/" + var4;
             }
 
             if (this.C9_f123.C53_f777[this.C9_f125].S() == 2) {
                this.C9_f131 = 3;
-               this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+               this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                this.a("Dị hoá thành #2" + var9, "Nhấn nút 5 tiếp tục");
             } else {
                this.C9_f131 = 3;
-               this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+               this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                this.a("Tiến hóa thành #2" + var9, "Nhấn nút 5 tiếp tục");
             }
 
@@ -3173,7 +3172,7 @@ public final class C9 implements C61 {
                var4 = C67.a((byte)0, var3, (byte)17);
                if (this.C9_f123.C53_f777[this.C9_f125].t() >= C41.C41_f639[C67.a((byte)0, var3, (byte)2) - 1]) {
                   if (this.C9_f123.a((int)var1, (byte)2) >= var2) {
-                     this.C9_f122.C54_f811.a(10).a(false);
+                     this.C9_f122.currentDialog.getChildById(10).setVisible(false);
                      C25.C25_f300 = new C21();
                      short[] var10 = new short[]{0, 0, 10, 116, 164, this.C9_f123.C53_f777[this.C9_f125].C41_f655, 0, 0, var4, 0, 0};
                      C25.C25_f300.a(var10);
@@ -3184,7 +3183,7 @@ public final class C9 implements C61 {
                   }
 
                   this.C9_f131 = 3;
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   if (this.C9_f123.C53_f777[this.C9_f125].S() == 2) {
                      this.a("Tài liệu chưa đủ, không thể dị hoá", "Nhấn nút 5 tiếp tục");
                      return;
@@ -3195,7 +3194,7 @@ public final class C9 implements C61 {
                }
 
                this.C9_f131 = 3;
-               this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+               this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                this.a("Còn chưa tới" + C41.C41_f639[C67.a((byte)0, var3, (byte)2) - 1] + " cấp, không thể vào hóa", "Nhấn nút 5 tiếp tục");
                return;
             }
@@ -3203,7 +3202,7 @@ public final class C9 implements C61 {
             if (this.C9_f131 == 3) {
                if (this.C9_f121.C44_f699 == 6 || this.C9_f121.C44_f699 == 0) {
                   this.C9_f131 = 2;
-                  this.C9_f122.a("/data/ui/msgwarm.ui");
+                  this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                   this.C9_f121.r();
                   return;
                }
@@ -3212,32 +3211,32 @@ public final class C9 implements C61 {
                   this.f(this.C9_f125);
                   this.C9_f131 = 0;
                   this.C9_f126 = 0;
-                  this.C9_f122.a("/data/ui/msgwarm.ui");
-                  this.C9_f122.a("/data/ui/evolve.ui");
+                  this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
+                  this.C9_f122.removeDialog("/data/ui/evolve.ui");
                   return;
                }
             }
          } else if (this.C9_f131 < 3 && this.C9_f121.g(262144) && !this.j() && C44.t()) {
             this.C9_f131 = 0;
             this.f(this.C9_f125);
-            this.C9_f122.a("/data/ui/evolve.ui");
+            this.C9_f122.removeDialog("/data/ui/evolve.ui");
          }
 
       }
    }
 
    public final void ab() {
-      this.C9_f122.a("/data/ui/bag.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/bag.ui", 257, this);
       this.C9_f125 = 0;
       this.bq();
-      this.C9_f122.C54_f811.b(5);
-      this.C9_f122.C54_f811.a(14).i().C12_f179 = "Vật phẩm";
+      this.C9_f122.currentDialog.handleAction(5);
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "Vật phẩm";
       this.C9_f125 = 0;
    }
 
    private void bq() {
-      ((C43)this.C9_f122.C54_f811.a(8 + this.C9_f125 * 39)).C43_f689.C38_f579 = 0;
-      ((C43)this.C9_f122.C54_f811.a(8 + this.C9_f125 * 39)).C43_f689.C38_f580 = 0;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(8 + this.C9_f125 * 39)).otherChildComponent.C38_f579 = 0;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(8 + this.C9_f125 * 39)).otherChildComponent.C38_f580 = 0;
       this.br();
    }
 
@@ -3249,61 +3248,61 @@ public final class C9 implements C61 {
       case 1:
          C9 var4 = this;
          if (this.C9_f123.C53_f789.size() > 5) {
-            ((C43)this.C9_f122.C54_f811.a(47)).C43_f689.a(1);
+            ((RootComponent)this.C9_f122.currentDialog.getChildById(47)).otherChildComponent.a(1);
          } else {
-            ((C43)this.C9_f122.C54_f811.a(47)).C43_f689.a(0);
+            ((RootComponent)this.C9_f122.currentDialog.getChildById(47)).otherChildComponent.a(0);
          }
 
-         ((C43)this.C9_f122.C54_f811.a(47)).C43_f689.C38_f574 = this.C9_f123.C53_f789.size();
-         this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(47)).C43_f689.C38_f579;
-         this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(47)).C43_f689.C38_f580;
-         this.C9_f122.C54_f811.a(7).a(false);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(47)).otherChildComponent.C38_f574 = this.C9_f123.C53_f789.size();
+         this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(47)).otherChildComponent.C38_f579;
+         this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(47)).otherChildComponent.C38_f580;
+         this.C9_f122.currentDialog.getChildById(7).setVisible(false);
 
          for(int var2 = 0; var2 < 5; ++var2) {
             if (var4.C9_f135 + var2 < var4.C9_f123.C53_f789.size()) {
                int[] var3 = (int[])var4.C9_f123.C53_f789.elementAt(var4.C9_f135 + var2);
-               if (var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f195 == null) {
-                  var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f195 = new C17();
-                  var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f195.a((int)0);
-                  var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f195.C17_f222 = 2;
-                  var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f195.a(258, false, (byte)-1);
+               if (var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195 == null) {
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195 = new C17();
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195.a((int)0);
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195.C17_f222 = 2;
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195.a(258, false, (byte)-1);
                }
 
-               if (var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f191 == null) {
-                  var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f191 = new C17();
-                  var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f191.a((int)0);
-                  var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f191.C17_f222 = 2;
-                  var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f191.a(258, false, (byte)-1);
+               if (var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f191 == null) {
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f191 = new C17();
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f191.a((int)0);
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f191.C17_f222 = 2;
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f191.a(258, false, (byte)-1);
                }
 
-               var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f195.a((int)C67.C67_f923[3][var3[0]][1]);
-               var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f191.a((int)C67.C67_f923[3][var3[0]][1]);
-               var4.C9_f122.C54_f811.a(60 + var2 * 5).i().C12_f179 = C44.c((int)C67.C67_f923[3][var3[0]][0]);
+               var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195.a((int)C67.C67_f923[3][var3[0]][1]);
+               var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f191.a((int)C67.C67_f923[3][var3[0]][1]);
+               var4.C9_f122.currentDialog.getChildById(60 + var2 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][var3[0]][0]);
                if (var3[1] == 1) {
-                  var4.C9_f122.C54_f811.a(61 + var2 * 5).i().C12_f179 = "Đã mang theo";
+                  var4.C9_f122.currentDialog.getChildById(61 + var2 * 5).getComponentData().C12_f179 = "Đã mang theo";
                } else {
-                  var4.C9_f122.C54_f811.a(61 + var2 * 5).i().C12_f179 = "";
+                  var4.C9_f122.currentDialog.getChildById(61 + var2 * 5).getComponentData().C12_f179 = "";
                }
             } else {
-               if (var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f195 != null) {
-                  var4.C9_f122.C54_f811.a(59 + var2 * 5).i().C12_f195.c();
+               if (var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195 != null) {
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195.c();
                }
 
-               var4.C9_f122.C54_f811.a(60 + var2 * 5).i().C12_f179 = "";
-               var4.C9_f122.C54_f811.a(61 + var2 * 5).i().C12_f179 = "";
+               var4.C9_f122.currentDialog.getChildById(60 + var2 * 5).getComponentData().C12_f179 = "";
+               var4.C9_f122.currentDialog.getChildById(61 + var2 * 5).getComponentData().C12_f179 = "";
             }
          }
 
          if (var4.C9_f123.C53_f789.size() > 0) {
-            var4.C9_f122.C54_f811.a(85).i().C12_f179 = C44.c((int)C67.C67_f923[3][((int[])var4.C9_f123.C53_f789.elementAt(var4.C9_f136))[0]][2]);
+            var4.C9_f122.currentDialog.getChildById(85).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][((int[])var4.C9_f123.C53_f789.elementAt(var4.C9_f136))[0]][2]);
          } else {
-            var4.C9_f122.C54_f811.a(85).i().C12_f179 = "";
+            var4.C9_f122.currentDialog.getChildById(85).getComponentData().C12_f179 = "";
          }
 
          if (var4.C9_f123.C53_f789.size() > 0) {
-            var4.C9_f122.C54_f811.a(84).b(127 + var4.C9_f136 * 72 / var4.C9_f123.C53_f789.size(), var4.C9_f122.C54_f811.a());
+            var4.C9_f122.currentDialog.getChildById(84).setOffsetY(127 + var4.C9_f136 * 72 / var4.C9_f123.C53_f789.size(), var4.C9_f122.currentDialog.getRootComponent());
          } else {
-            var4.C9_f122.C54_f811.a(84).b(127, var4.C9_f122.C54_f811.a());
+            var4.C9_f122.currentDialog.getChildById(84).setOffsetY(127, var4.C9_f122.currentDialog.getRootComponent());
          }
          break;
       case 2:
@@ -3316,41 +3315,41 @@ public final class C9 implements C61 {
          }
 
          int[] var1 = (int[])this.C9_f123.C53_f791.elementAt(this.C9_f136);
-         this.C9_f122.C54_f811.a(164).a(false);
-         this.C9_f122.C54_f811.a(165).a(false);
+         this.C9_f122.currentDialog.getChildById(164).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(165).setVisible(false);
          switch(var1[0]) {
          case 0:
             if (this.C9_f123.l(var1[0])) {
-               this.C9_f122.C54_f811.a(7).a(true);
-               this.C9_f122.C54_f811.a(7).i().C12_f179 = "Ấp trứng";
-               this.C9_f122.C54_f811.a(164).a(true);
-               this.C9_f122.C54_f811.a(165).a(true);
+               this.C9_f122.currentDialog.getChildById(7).setVisible(true);
+               this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Ấp trứng";
+               this.C9_f122.currentDialog.getChildById(164).setVisible(true);
+               this.C9_f122.currentDialog.getChildById(165).setVisible(true);
                if (this.C9_f123.C53_f786 == 0) {
-                  this.C9_f122.C54_f811.a(164).i().C12_f179 = "#P" + C25.C25_f314 * 100 / 10;
-                  this.C9_f122.C54_f811.a(165).i().C12_f179 = C25.C25_f314 + "/10";
+                  this.C9_f122.currentDialog.getChildById(164).getComponentData().C12_f179 = "#P" + C25.C25_f314 * 100 / 10;
+                  this.C9_f122.currentDialog.getChildById(165).getComponentData().C12_f179 = C25.C25_f314 + "/10";
                } else {
-                  this.C9_f122.C54_f811.a(164).i().C12_f179 = "#P" + C25.C25_f314 * 100 / 30;
-                  this.C9_f122.C54_f811.a(165).i().C12_f179 = C25.C25_f314 + "/30";
+                  this.C9_f122.currentDialog.getChildById(164).getComponentData().C12_f179 = "#P" + C25.C25_f314 * 100 / 30;
+                  this.C9_f122.currentDialog.getChildById(165).getComponentData().C12_f179 = C25.C25_f314 + "/30";
                }
             } else {
-               this.C9_f122.C54_f811.a(7).a(false);
+               this.C9_f122.currentDialog.getChildById(7).setVisible(false);
             }
             break;
          case 1:
          case 2:
          case 3:
          case 4:
-            this.C9_f122.C54_f811.a(7).a(false);
+            this.C9_f122.currentDialog.getChildById(7).setVisible(false);
             break;
          case 5:
          case 6:
          case 10:
-            this.C9_f122.C54_f811.a(7).i().C12_f179 = "Mở ra";
+            this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Mở ra";
             break;
          case 7:
          case 8:
          case 9:
-            this.C9_f122.C54_f811.a(7).i().C12_f179 = "Sử dụng";
+            this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Sử dụng";
          }
       }
 
@@ -3360,16 +3359,16 @@ public final class C9 implements C61 {
    private void bs() {
       int var1;
       if ((var1 = this.C9_f123.C53_f788.size() + this.C9_f123.C53_f787.size()) > 5) {
-         ((C43)this.C9_f122.C54_f811.a(8)).C43_f689.a(1);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.a(1);
       } else {
-         ((C43)this.C9_f122.C54_f811.a(8)).C43_f689.a(0);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.a(0);
       }
 
-      ((C43)this.C9_f122.C54_f811.a(8)).C43_f689.C38_f574 = var1;
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(8)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(8)).C43_f689.C38_f580;
-      this.C9_f122.C54_f811.a(7).a(true);
-      this.C9_f122.C54_f811.a(7).i().C12_f179 = "Sử dụng";
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f574 = var1;
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f580;
+      this.C9_f122.currentDialog.getChildById(7).setVisible(true);
+      this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Sử dụng";
 
       for(int var2 = 0; var2 < 5; ++var2) {
          if (this.C9_f135 + var2 < var1) {
@@ -3380,219 +3379,219 @@ public final class C9 implements C61 {
                var3 = (int[])this.C9_f123.C53_f787.elementAt(this.C9_f135 + var2 - this.C9_f123.C53_f788.size());
             }
 
-            if (this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f195.a((int)0);
-               this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f195.a(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195.a((int)0);
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195.a(258, false, (byte)-1);
             }
 
-            if (this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f191 == null) {
-               this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f191 = new C17();
-               this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f191.a((int)0);
-               this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f191.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f191.a(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f191 == null) {
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f191 = new C17();
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f191.a((int)0);
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f191.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f191.a(258, false, (byte)-1);
             }
 
-            this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f195.a((int)C67.C67_f923[4][var3[0]][1]);
-            this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f191.a((int)C67.C67_f923[4][var3[0]][1]);
-            this.C9_f122.C54_f811.a(19 + var2 * 5).i().C12_f179 = C44.c((int)C67.C67_f923[4][var3[0]][0]);
-            this.C9_f122.C54_f811.a(20 + var2 * 5).i().C12_f179 = "" + var3[1];
+            this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195.a((int)C67.C67_f923[4][var3[0]][1]);
+            this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f191.a((int)C67.C67_f923[4][var3[0]][1]);
+            this.C9_f122.currentDialog.getChildById(19 + var2 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][var3[0]][0]);
+            this.C9_f122.currentDialog.getChildById(20 + var2 * 5).getComponentData().C12_f179 = "" + var3[1];
          } else {
-            if (this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f195 != null) {
-               this.C9_f122.C54_f811.a(18 + var2 * 5).i().C12_f195.c();
+            if (this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195 != null) {
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195.c();
             }
 
-            this.C9_f122.C54_f811.a(19 + var2 * 5).i().C12_f179 = "";
-            this.C9_f122.C54_f811.a(20 + var2 * 5).i().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(19 + var2 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(20 + var2 * 5).getComponentData().C12_f179 = "";
          }
       }
 
       if (var1 > 0) {
          if (this.C9_f136 < this.C9_f123.C53_f788.size()) {
-            this.C9_f122.C54_f811.a(46).i().C12_f179 = C44.c((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f788.elementAt(this.C9_f136))[0]][2]);
+            this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f788.elementAt(this.C9_f136))[0]][2]);
          } else {
-            this.C9_f122.C54_f811.a(46).i().C12_f179 = C44.c((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f787.elementAt(this.C9_f136 - this.C9_f123.C53_f788.size()))[0]][2]);
+            this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f787.elementAt(this.C9_f136 - this.C9_f123.C53_f788.size()))[0]][2]);
          }
       } else {
-         this.C9_f122.C54_f811.a(46).i().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = "";
       }
 
       if (var1 > 0) {
-         this.C9_f122.C54_f811.a(43).b(127 + this.C9_f136 * 72 / var1, this.C9_f122.C54_f811.a());
+         this.C9_f122.currentDialog.getChildById(43).setOffsetY(127 + this.C9_f136 * 72 / var1, this.C9_f122.currentDialog.getRootComponent());
       } else {
-         this.C9_f122.C54_f811.a(43).b(127, this.C9_f122.C54_f811.a());
+         this.C9_f122.currentDialog.getChildById(43).setOffsetY(127, this.C9_f122.currentDialog.getRootComponent());
       }
    }
 
    private void bt() {
       if (this.C9_f123.C53_f790.size() > 5) {
-         ((C43)this.C9_f122.C54_f811.a(86)).C43_f689.a(1);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(86)).otherChildComponent.a(1);
       } else {
-         ((C43)this.C9_f122.C54_f811.a(86)).C43_f689.a(0);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(86)).otherChildComponent.a(0);
       }
 
-      ((C43)this.C9_f122.C54_f811.a(86)).C43_f689.C38_f574 = this.C9_f123.C53_f790.size();
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(86)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(86)).C43_f689.C38_f580;
-      this.C9_f122.C54_f811.a(7).a(false);
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(86)).otherChildComponent.C38_f574 = this.C9_f123.C53_f790.size();
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(86)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(86)).otherChildComponent.C38_f580;
+      this.C9_f122.currentDialog.getChildById(7).setVisible(false);
 
       for(int var1 = 0; var1 < 5; ++var1) {
          if (this.C9_f135 + var1 < this.C9_f123.C53_f790.size()) {
             int[] var2 = (int[])this.C9_f123.C53_f790.elementAt(this.C9_f135 + var1);
-            if (this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f195.a((int)0);
-               this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f195.a(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195.a((int)0);
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195.a(258, false, (byte)-1);
             }
 
-            if (this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f191 == null) {
-               this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f191 = new C17();
-               this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f191.a((int)0);
-               this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f191.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f191.a(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f191 == null) {
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f191 = new C17();
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f191.a((int)0);
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f191.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f191.a(258, false, (byte)-1);
             }
 
-            this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f195.a((int)C67.C67_f923[3][var2[0]][1]);
-            this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f191.a((int)C67.C67_f923[3][var2[0]][1]);
+            this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195.a((int)C67.C67_f923[3][var2[0]][1]);
+            this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f191.a((int)C67.C67_f923[3][var2[0]][1]);
             if (var2[0] == 17) {
-               this.C9_f122.C54_f811.a(99 + var1 * 5).i().C12_f179 = "Chìa khóa vàng";
+               this.C9_f122.currentDialog.getChildById(99 + var1 * 5).getComponentData().C12_f179 = "Chìa khóa vàng";
             } else {
-               this.C9_f122.C54_f811.a(99 + var1 * 5).i().C12_f179 = C44.c((int)C67.C67_f923[3][var2[0]][0]);
+               this.C9_f122.currentDialog.getChildById(99 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][var2[0]][0]);
             }
 
-            this.C9_f122.C54_f811.a(100 + var1 * 5).i().C12_f179 = "" + var2[1];
+            this.C9_f122.currentDialog.getChildById(100 + var1 * 5).getComponentData().C12_f179 = "" + var2[1];
          } else {
-            if (this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f195 != null) {
-               this.C9_f122.C54_f811.a(98 + var1 * 5).i().C12_f195.c();
+            if (this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195 != null) {
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195.c();
             }
 
-            this.C9_f122.C54_f811.a(99 + var1 * 5).i().C12_f179 = "";
-            this.C9_f122.C54_f811.a(100 + var1 * 5).i().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(99 + var1 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(100 + var1 * 5).getComponentData().C12_f179 = "";
          }
       }
 
       if (this.C9_f123.C53_f790.size() > 0) {
-         this.C9_f122.C54_f811.a(124).i().C12_f179 = C44.c((int)C67.C67_f923[3][((int[])this.C9_f123.C53_f790.elementAt(this.C9_f136))[0]][2]);
+         this.C9_f122.currentDialog.getChildById(124).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][((int[])this.C9_f123.C53_f790.elementAt(this.C9_f136))[0]][2]);
       } else {
-         this.C9_f122.C54_f811.a(124).i().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(124).getComponentData().C12_f179 = "";
       }
 
       if (this.C9_f123.C53_f790.size() > 0) {
-         this.C9_f122.C54_f811.a(123).b(127 + this.C9_f136 * 72 / this.C9_f123.C53_f790.size(), this.C9_f122.C54_f811.a());
+         this.C9_f122.currentDialog.getChildById(123).setOffsetY(127 + this.C9_f136 * 72 / this.C9_f123.C53_f790.size(), this.C9_f122.currentDialog.getRootComponent());
       } else {
-         this.C9_f122.C54_f811.a(123).b(127, this.C9_f122.C54_f811.a());
+         this.C9_f122.currentDialog.getChildById(123).setOffsetY(127, this.C9_f122.currentDialog.getRootComponent());
       }
    }
 
    private void bu() {
       if (this.C9_f123.C53_f791.size() > 5) {
-         ((C43)this.C9_f122.C54_f811.a(125)).C43_f689.a(1);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(125)).otherChildComponent.a(1);
       } else {
-         ((C43)this.C9_f122.C54_f811.a(125)).C43_f689.a(0);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(125)).otherChildComponent.a(0);
       }
 
-      ((C43)this.C9_f122.C54_f811.a(125)).C43_f689.C38_f574 = this.C9_f123.C53_f791.size();
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(125)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(125)).C43_f689.C38_f580;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(125)).otherChildComponent.C38_f574 = this.C9_f123.C53_f791.size();
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(125)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(125)).otherChildComponent.C38_f580;
 
       int var1;
       for(var1 = 0; var1 < 5; ++var1) {
          if (this.C9_f135 + var1 < this.C9_f123.C53_f791.size()) {
             int[] var2 = (int[])this.C9_f123.C53_f791.elementAt(this.C9_f135 + var1);
-            if (this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f195.a((int)0);
-               this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f195.a(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195.a((int)0);
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195.a(258, false, (byte)-1);
             }
 
-            if (this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f191 == null) {
-               this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f191 = new C17();
-               this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f191.a((int)0);
-               this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f191.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f191.a(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f191 == null) {
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f191 = new C17();
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f191.a((int)0);
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f191.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f191.a(258, false, (byte)-1);
             }
 
-            this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f195.a((int)C67.C67_f923[5][var2[0]][1]);
-            this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f191.a((int)C67.C67_f923[5][var2[0]][1]);
-            this.C9_f122.C54_f811.a(138 + var1 * 5).i().C12_f179 = C44.c((int)C67.C67_f923[5][var2[0]][0]);
+            this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195.a((int)C67.C67_f923[5][var2[0]][1]);
+            this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f191.a((int)C67.C67_f923[5][var2[0]][1]);
+            this.C9_f122.currentDialog.getChildById(138 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[5][var2[0]][0]);
             switch(var2[0]) {
             case 0:
                if (this.C9_f123.l(var2[0])) {
-                  this.C9_f122.C54_f811.a(163).i().C12_f179 = C44.c((int)C67.C67_f923[5][var2[0]][2]);
+                  this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[5][var2[0]][2]);
                   if (C25.B().O()) {
-                     this.C9_f122.C54_f811.a(139 + var1 * 5).i().C12_f179 = "Hoàn thành";
+                     this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().C12_f179 = "Hoàn thành";
                   } else {
-                     this.C9_f122.C54_f811.a(139 + var1 * 5).i().C12_f179 = "1 cái";
+                     this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().C12_f179 = "1 cái";
                   }
                } else {
-                  this.C9_f122.C54_f811.a(163).i().C12_f179 = C44.c((int)634);
-                  this.C9_f122.C54_f811.a(139 + var1 * 5).i().C12_f179 = "0 cái";
+                  this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = C44.c((int)634);
+                  this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().C12_f179 = "0 cái";
                }
                break;
             default:
-               this.C9_f122.C54_f811.a(139 + var1 * 5).i().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().C12_f179 = "";
             }
          } else {
-            if (this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f195 != null) {
-               this.C9_f122.C54_f811.a(137 + var1 * 5).i().C12_f195.c();
+            if (this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195 != null) {
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195.c();
             }
 
-            this.C9_f122.C54_f811.a(138 + var1 * 5).i().C12_f179 = "";
-            this.C9_f122.C54_f811.a(139 + var1 * 5).i().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(138 + var1 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().C12_f179 = "";
          }
       }
 
       if (this.C9_f123.C53_f791.size() > 0) {
          if ((var1 = ((int[])this.C9_f123.C53_f791.elementAt(this.C9_f136))[0]) != 0) {
-            this.C9_f122.C54_f811.a(163).i().C12_f179 = C44.c((int)C67.C67_f923[5][var1][2]);
-            this.C9_f122.C54_f811.a(7).a(true);
+            this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[5][var1][2]);
+            this.C9_f122.currentDialog.getChildById(7).setVisible(true);
          }
 
          if (var1 == 0) {
             if (((int[])this.C9_f123.C53_f791.elementAt(this.C9_f136))[1] == 1) {
-               this.C9_f122.C54_f811.a(7).i().C12_f179 = "Đóng cửa";
+               this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Đóng cửa";
             } else {
-               this.C9_f122.C54_f811.a(7).i().C12_f179 = "Mở ra";
+               this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Mở ra";
             }
          } else if (var1 <= 0 && var1 > 4) {
             if (var1 == 10) {
-               this.C9_f122.C54_f811.a(7).i().C12_f179 = "Gia tốc";
+               this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Gia tốc";
             } else {
-               this.C9_f122.C54_f811.a(7).i().C12_f179 = "Sử dụng";
+               this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Sử dụng";
             }
          } else if (this.C9_f123.C53_f765 == var1 - 1) {
-            this.C9_f122.C54_f811.a(7).i().C12_f179 = "Triệu hồi";
+            this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Triệu hồi";
          } else {
-            this.C9_f122.C54_f811.a(7).i().C12_f179 = "Triệu hoán";
+            this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Triệu hoán";
          }
       } else {
-         this.C9_f122.C54_f811.a(163).i().C12_f179 = "";
-         this.C9_f122.C54_f811.a(7).a(false);
+         this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(7).setVisible(false);
       }
 
       if (this.C9_f123.C53_f791.size() > 0) {
-         this.C9_f122.C54_f811.a(162).b(127 + this.C9_f136 * 72 / this.C9_f123.C53_f791.size(), this.C9_f122.C54_f811.a());
+         this.C9_f122.currentDialog.getChildById(162).setOffsetY(127 + this.C9_f136 * 72 / this.C9_f123.C53_f791.size(), this.C9_f122.currentDialog.getRootComponent());
       } else {
-         this.C9_f122.C54_f811.a(162).b(127, this.C9_f122.C54_f811.a());
+         this.C9_f122.currentDialog.getChildById(162).setOffsetY(127, this.C9_f122.currentDialog.getRootComponent());
       }
    }
 
    public final void ac() {
       if (this.C9_f131 == 0 && this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.g(this.C9_f126);
       } else if (this.C9_f131 == 0 && this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.g(this.C9_f126);
       } else if (this.C9_f121.g(196640)) {
          this.bx();
       } else {
          if (this.C9_f131 == 0 && this.C9_f121.g(262144)) {
             this.C9_f121.a((byte)8);
-            this.C9_f122.a("/data/ui/petstate.ui");
+            this.C9_f122.removeDialog("/data/ui/petstate.ui");
          }
 
       }
@@ -3600,10 +3599,10 @@ public final class C9 implements C61 {
 
    public final void ad() {
       if (this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.g(this.C9_f125);
       } else if (this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.g(this.C9_f125);
       } else if (this.C9_f121.g(196640)) {
          this.C9_f123.f(this.C9_f130, this.C9_f125);
@@ -3611,7 +3610,7 @@ public final class C9 implements C61 {
       } else {
          if (this.C9_f121.g(262144)) {
             this.C9_f121.a((byte)8);
-            this.C9_f122.a("/data/ui/petstate.ui");
+            this.C9_f122.removeDialog("/data/ui/petstate.ui");
          }
 
       }
@@ -3619,23 +3618,23 @@ public final class C9 implements C61 {
 
    public final void ae() {
       if (this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.g(this.C9_f125);
       } else if (this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.g(this.C9_f125);
       } else {
          if (this.C9_f121.g(196640)) {
             if (this.C9_f131 == 0) {
                if (this.C9_f123.C53_f777[this.C9_f125].t() < 50) {
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Chỉ có thể cho 50 cấp sủng vật sử dụng", "Nhấn nút 5 tiếp tục");
                   this.C9_f131 = 2;
                   return;
                }
 
                if (this.C9_f123.e(this.C9_f130, this.C9_f125)) {
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Sử dụng thành công", "Nhấn nút 5 tiếp tục");
                   this.C9_f131 = 1;
                   return;
@@ -3644,20 +3643,20 @@ public final class C9 implements C61 {
                if (this.C9_f131 == 1) {
                   this.C9_f131 = 0;
                   this.C9_f121.a((byte)8);
-                  this.C9_f122.a("/data/ui/msgwarm.ui");
-                  this.C9_f122.a("/data/ui/petstate.ui");
+                  this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
+                  this.C9_f122.removeDialog("/data/ui/petstate.ui");
                   return;
                }
 
                if (this.C9_f131 == 2) {
                   this.C9_f131 = 0;
-                  this.C9_f122.a("/data/ui/msgwarm.ui");
+                  this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                   return;
                }
             }
          } else if (this.C9_f121.g(262144) && this.C9_f131 == 0) {
             this.C9_f121.a((byte)8);
-            this.C9_f122.a("/data/ui/petstate.ui");
+            this.C9_f122.removeDialog("/data/ui/petstate.ui");
          }
 
       }
@@ -3666,21 +3665,21 @@ public final class C9 implements C61 {
    public final void af() {
       this.C9_f121.q();
       if (this.C9_f131 == 0 && this.C9_f121.g(16400) && !this.j() && !C44.a((int)this.C9_f125, (int)1)) {
-         this.C9_f122.C54_f811.b(7);
-         this.C9_f122.C54_f811.b(2);
-         this.C9_f122.C54_f811.b(5);
+         this.C9_f122.currentDialog.handleAction(7);
+         this.C9_f122.currentDialog.handleAction(2);
+         this.C9_f122.currentDialog.handleAction(5);
          this.bq();
          this.C9_f121.r();
       } else if (this.C9_f131 == 0 && this.C9_f121.g(32832) && !this.j() && !C44.a((int)this.C9_f125, (int)1)) {
-         this.C9_f122.C54_f811.b(7);
-         this.C9_f122.C54_f811.b(3);
-         this.C9_f122.C54_f811.b(5);
+         this.C9_f122.currentDialog.handleAction(7);
+         this.C9_f122.currentDialog.handleAction(3);
+         this.C9_f122.currentDialog.handleAction(5);
          this.bq();
          this.C9_f121.r();
       } else if (this.C9_f131 == 0 && this.C9_f121.g(4100) && !this.j() && !C44.a((int)this.C9_f136, (int)0)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
       } else if (this.C9_f131 == 0 && this.C9_f121.g(8448) && !this.j() && !C44.a((int)this.C9_f136, (int)0)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
       } else if (this.C9_f121.g(196640) && !this.j() && C44.s()) {
          int var5;
          if (this.C9_f131 == 0) {
@@ -3708,11 +3707,11 @@ public final class C9 implements C61 {
                case 2:
                case 3:
                   if (this.C9_f131 == 0) {
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Không thể sử dụng", "Nhấn nút 5 tiếp tục");
                      this.C9_f131 = 1;
                   } else {
-                     this.C9_f122.a("/data/ui/msgwarm.ui");
+                     this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                      this.C9_f131 = 0;
                   }
                   break label206;
@@ -3728,7 +3727,7 @@ public final class C9 implements C61 {
                default:
                   this.C9_f130 = var1[0];
                   this.C9_f121.a((byte)17);
-                  this.C9_f122.a("/data/ui/bag.ui");
+                  this.C9_f122.removeDialog("/data/ui/bag.ui");
                   break label206;
                case 13:
                   if (this.C9_f131 == 0) {
@@ -3744,12 +3743,12 @@ public final class C9 implements C61 {
                            var5 = this.C9_f123.C53_f788.size() + this.C9_f123.C53_f787.size();
                            if (this.C9_f136 >= var5) {
                               this.C9_f136 = var5 - 1;
-                              ((C43)this.C9_f122.C54_f811.a(8)).C43_f689.C38_f580 = this.C9_f136;
+                              ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f580 = this.C9_f136;
                            }
 
                            if (this.C9_f135 > 0 && this.C9_f136 - this.C9_f135 < 4) {
                               --this.C9_f135;
-                              ((C43)this.C9_f122.C54_f811.a(8)).C43_f689.C38_f579 = this.C9_f135;
+                              ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f579 = this.C9_f135;
                            }
 
                            this.bs();
@@ -3768,7 +3767,7 @@ public final class C9 implements C61 {
                case 14:
                   if (this.C9_f131 == 0) {
                      if (!this.C9_f123.l(0) || (this.C9_f123.C53_f786 != 0 || C25.C25_f314 >= 10) && (this.C9_f123.C53_f786 <= 0 || C25.C25_f314 >= 30)) {
-                        this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                        this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                         this.a("Không có trứng có thể ấp trứng", "Nhấn nút 5 tiếp tục");
                         this.C9_f131 = 1;
                      } else if (this.C9_f123.b((int)var1[0], (int)1, (byte)0)) {
@@ -3782,16 +3781,16 @@ public final class C9 implements C61 {
                         var5 = this.C9_f123.C53_f788.size() + this.C9_f123.C53_f787.size();
                         if (this.C9_f136 >= var5) {
                            this.C9_f136 = var5 - 1;
-                           ((C43)this.C9_f122.C54_f811.a(8)).C43_f689.C38_f580 = this.C9_f136;
+                           ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f580 = this.C9_f136;
                         }
 
                         if (this.C9_f135 > 0 && this.C9_f136 - this.C9_f135 < 4) {
                            --this.C9_f135;
-                           ((C43)this.C9_f122.C54_f811.a(8)).C43_f689.C38_f579 = this.C9_f135;
+                           ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f579 = this.C9_f135;
                         }
 
                         this.bs();
-                        this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                        this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                         this.a("Thành công sử dụng, tranh thủ thời gian đi ấp trứng trứng sủng vật a!", "Nhấn nút 5 tiếp tục");
                         this.C9_f131 = 1;
                      }
@@ -3836,22 +3835,22 @@ public final class C9 implements C61 {
                   break;
                case 5:
                   this.C9_f121.a((byte)11);
-                  this.C9_f122.a("/data/ui/bag.ui");
+                  this.C9_f122.removeDialog("/data/ui/bag.ui");
                   break;
                case 6:
                   this.C9_f121.a((byte)12);
-                  this.C9_f122.a("/data/ui/bag.ui");
+                  this.C9_f122.removeDialog("/data/ui/bag.ui");
                   break;
                case 7:
                case 8:
                case 9:
                   this.C9_f130 = var1[0];
                   this.C9_f121.a((byte)19);
-                  this.C9_f122.a("/data/ui/bag.ui");
+                  this.C9_f122.removeDialog("/data/ui/bag.ui");
                   break;
                case 10:
                   this.C9_f121.a((byte)24);
-                  this.C9_f122.a("/data/ui/bag.ui");
+                  this.C9_f122.removeDialog("/data/ui/bag.ui");
                }
             }
          } else if (this.C9_f131 == 1 || this.C9_f131 == 2) {
@@ -3870,7 +3869,7 @@ public final class C9 implements C61 {
                      this.c("Không có không gian, đã phóng sinh");
                   }
                } else {
-                  var5 = C26.a(new int[]{76, 52, 28, 4, 0}, C26.a(100));
+                  var5 = GameUtils.findFirstGreaterOrEqual(new int[]{76, 52, 28, 4, 0}, GameUtils.getRandomInt(100));
                   short[] var2 = new short[]{0, 56, 58, 95, 72};
                   byte var3 = this.h(var2[var5]);
 
@@ -3904,7 +3903,7 @@ public final class C9 implements C61 {
          }
 
          this.C9_f121.a((byte)6);
-         this.C9_f122.a("/data/ui/bag.ui");
+         this.C9_f122.removeDialog("/data/ui/bag.ui");
       }
 
       if (this.C9_f131 == 3 && !this.j()) {
@@ -3938,11 +3937,11 @@ public final class C9 implements C61 {
          if (var7 == 0) {
             this.C9_f123.a(var1, 5, (short)-1, (byte)2, (short)-1, (byte)-1, new int[]{1, var5, var6});
          } else if (var7 == 1) {
-            int var8 = C26.b(C67.C67_f923[0][var1][3], C67.C67_f923[0][var1][3]);
+            int var8 = GameUtils.getRandomInRange(C67.C67_f923[0][var1][3], C67.C67_f923[0][var1][3]);
             this.C9_f123.a(var1, 5, (short)-1, (byte)2, (byte)var8, (byte)-1, C41.b(var1, 5, var8), 0, -1, new int[]{1, var5, var6});
          }
       } else {
-         byte var9 = (byte)(var4 + (byte)C26.a(var2[var3], C26.a(100)));
+         byte var9 = (byte)(var4 + (byte) GameUtils.findFirstGreaterOrEqual(var2[var3], GameUtils.getRandomInt(100)));
          if (var7 == 0) {
             this.C9_f123.a(var1, 5, (short)-1, (byte)2, (short)var9, (byte)-1, new int[]{1, var5, var6});
          } else if (var7 == 1) {
@@ -3955,53 +3954,53 @@ public final class C9 implements C61 {
 
    public final void ag() {
       this.aU();
-      this.C9_f122.a("/data/ui/ride.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/ride.ui", 257, this);
       this.C9_f125 = 0;
       this.bv();
    }
 
    private void bv() {
       for(int var1 = 0; var1 < 4; ++var1) {
-         if (this.C9_f122.C54_f811.a(var1 + 4).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(var1 + 4).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(var1 + 4).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(var1 + 4).i().C12_f195.C17_f222 = 3;
-            this.C9_f122.C54_f811.a(var1 + 4).i().C12_f195.a(260, false, (byte)-1);
+         if (this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195.C17_f222 = 3;
+            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195.a(260, false, (byte)-1);
          }
 
-         if (this.C9_f122.C54_f811.a(var1 + 16).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(var1 + 16).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(var1 + 16).i().C12_f195.a((int)131);
-            this.C9_f122.C54_f811.a(var1 + 16).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(var1 + 16).i().C12_f195.a(257, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.a((int)131);
+            this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.a(257, false, (byte)0);
          }
 
          if (this.C9_f123.f(var1)) {
             if (this.C9_f125 == var1) {
-               this.C9_f122.C54_f811.a(var1 + 4).i().C12_f195.a((byte)var1, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195.a((byte)var1, (byte)-1);
                if (this.C9_f125 == 0) {
-                  this.C9_f122.C54_f811.a(var1 + 8).i().C12_f179 = "Lục đi điểu";
+                  this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().C12_f179 = "Lục đi điểu";
                } else if (this.C9_f125 == 1) {
-                  this.C9_f122.C54_f811.a(var1 + 8).i().C12_f179 = "Hư không hành giả";
+                  this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().C12_f179 = "Hư không hành giả";
                } else if (this.C9_f125 == 2) {
-                  this.C9_f122.C54_f811.a(var1 + 8).i().C12_f179 = "Hải âu";
+                  this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().C12_f179 = "Hải âu";
                } else if (this.C9_f125 == 3) {
-                  this.C9_f122.C54_f811.a(var1 + 8).i().C12_f179 = "Nham sơn long";
+                  this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().C12_f179 = "Nham sơn long";
                }
             } else {
-               this.C9_f122.C54_f811.a(var1 + 4).i().C12_f195.a((byte)(var1 + 8), (byte)-1);
-               this.C9_f122.C54_f811.a(var1 + 8).i().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195.a((byte)(var1 + 8), (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().C12_f179 = "";
             }
 
             if (!this.C9_f123.g(var1)) {
-               this.C9_f122.C54_f811.a(var1 + 16).a(true);
+               this.C9_f122.currentDialog.getChildById(var1 + 16).setVisible(true);
             } else {
-               this.C9_f122.C54_f811.a(var1 + 16).a(false);
+               this.C9_f122.currentDialog.getChildById(var1 + 16).setVisible(false);
             }
          } else {
-            this.C9_f122.C54_f811.a(var1 + 16).a(false);
-            this.C9_f122.C54_f811.a(var1 + 4).i().C12_f195.a((byte)(var1 + 4), (byte)-1);
-            this.C9_f122.C54_f811.a(var1 + 8).i().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(var1 + 16).setVisible(false);
+            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195.a((byte)(var1 + 4), (byte)-1);
+            this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().C12_f179 = "";
          }
       }
 
@@ -4009,17 +4008,17 @@ public final class C9 implements C61 {
 
    public final void ah() {
       if (!this.j() && this.C9_f121.g(16400)) {
-         this.C9_f122.C54_f811.b(2);
+         this.C9_f122.currentDialog.handleAction(2);
       } else if (!this.j() && this.C9_f121.g(32832)) {
-         this.C9_f122.C54_f811.b(3);
+         this.C9_f122.currentDialog.handleAction(3);
       } else if (!this.j() && this.C9_f121.g(512)) {
-         this.C9_f122.a("/data/ui/ride.ui");
+         this.C9_f122.removeDialog("/data/ui/ride.ui");
          this.C9_f121.a((byte)0);
       } else if (!this.j() && this.C9_f121.g(196640)) {
          if (this.C9_f123.f(this.C9_f125)) {
             if (this.C9_f123.g(this.C9_f125)) {
                this.C9_f123.h(this.C9_f125);
-               this.C9_f122.a("/data/ui/ride.ui");
+               this.C9_f122.removeDialog("/data/ui/ride.ui");
                this.C9_f121.a((byte)0);
             } else {
                this.b("Nơi này không thể sử dụng sủng vật cưỡi");
@@ -4028,7 +4027,7 @@ public final class C9 implements C61 {
             this.b("Chưa có sủng vật cưỡi này");
          }
       } else if (!this.j() && this.C9_f121.g(262144)) {
-         this.C9_f122.a("/data/ui/ride.ui");
+         this.C9_f122.removeDialog("/data/ui/ride.ui");
          this.C9_f121.a((byte)0);
       }
 
@@ -4037,37 +4036,37 @@ public final class C9 implements C61 {
    }
 
    public final void a(C41 var1, C41 var2) {
-      this.C9_f122.a("/data/ui/battle.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/battle.ui", 257, this);
       this.C9_f124 = 0;
       this.C9_f129 = 0;
       this.a(var1, false);
       this.b(var2, false);
-      this.C9_f122.C54_f811.a(59).i().C12_f179 = "100%";
-      this.C9_f122.C54_f811.a(58).i().C12_f179 = "100%";
+      this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "100%";
+      this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "100%";
       ((C29)this.C9_f121).D();
-      this.C9_f122.a("/data/ui/world.ui");
+      this.C9_f122.removeDialog("/data/ui/world.ui");
    }
 
    public final void b(C41 var1, C41 var2) {
       if (var1.a(var2) == 0) {
          if (var1.s() == 0) {
-            this.C9_f122.C54_f811.a(59).i().C12_f179 = "300%";
-            this.C9_f122.C54_f811.a(58).i().C12_f179 = "60%";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "300%";
+            this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "60%";
          } else {
-            this.C9_f122.C54_f811.a(59).i().C12_f179 = "60%";
-            this.C9_f122.C54_f811.a(58).i().C12_f179 = "300%";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "60%";
+            this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "300%";
          }
       } else if (var1.a(var2) == 1) {
          if (var1.s() == 0) {
-            this.C9_f122.C54_f811.a(59).i().C12_f179 = "60%";
-            this.C9_f122.C54_f811.a(58).i().C12_f179 = "300%";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "60%";
+            this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "300%";
          } else {
-            this.C9_f122.C54_f811.a(59).i().C12_f179 = "300%";
-            this.C9_f122.C54_f811.a(58).i().C12_f179 = "60%";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "300%";
+            this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "60%";
          }
       } else {
-         this.C9_f122.C54_f811.a(59).i().C12_f179 = "100%";
-         this.C9_f122.C54_f811.a(58).i().C12_f179 = "100%";
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "100%";
+         this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "100%";
       }
    }
 
@@ -4078,7 +4077,7 @@ public final class C9 implements C61 {
                var4 = 200;
             }
 
-            this.C9_f122.C54_f811.a(59).i().C12_f179 = var4 + 100 + "%";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = var4 + 100 + "%";
             return;
          }
 
@@ -4087,7 +4086,7 @@ public final class C9 implements C61 {
                var4 = 40;
             }
 
-            this.C9_f122.C54_f811.a(58).i().C12_f179 = 100 - var4 + "%";
+            this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = 100 - var4 + "%";
             return;
          }
       } else if (var1.a(var2) == 1) {
@@ -4096,7 +4095,7 @@ public final class C9 implements C61 {
                var4 = 40;
             }
 
-            this.C9_f122.C54_f811.a(59).i().C12_f179 = 100 - var4 + "%";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = 100 - var4 + "%";
             return;
          }
 
@@ -4105,12 +4104,12 @@ public final class C9 implements C61 {
                var4 = 200;
             }
 
-            this.C9_f122.C54_f811.a(58).i().C12_f179 = var4 + 100 + "%";
+            this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = var4 + 100 + "%";
             return;
          }
       } else {
-         this.C9_f122.C54_f811.a(59).i().C12_f179 = "100%";
-         this.C9_f122.C54_f811.a(58).i().C12_f179 = "100%";
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "100%";
+         this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "100%";
       }
 
    }
@@ -4123,29 +4122,29 @@ public final class C9 implements C61 {
             this.C9_f145 = 200;
          }
 
-         this.C9_f122.C54_f811.a(59).i().C12_f179 = 100 + this.C9_f145 + "%";
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = 100 + this.C9_f145 + "%";
          this.C9_f146 += var3 * (40 / var4);
          if (this.C9_f146 == var4 && this.C9_f146 != 40) {
             this.C9_f146 = 40;
          }
 
-         this.C9_f122.C54_f811.a(58).i().C12_f179 = 100 - this.C9_f146 + "%";
+         this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = 100 - this.C9_f146 + "%";
       } else if (var1.a(var2) == 1) {
          this.C9_f145 += var3 * (40 / var4);
          if (this.C9_f145 == var4 && this.C9_f145 != 40) {
             this.C9_f145 = 40;
          }
 
-         this.C9_f122.C54_f811.a(59).i().C12_f179 = 100 - this.C9_f145 + "%";
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = 100 - this.C9_f145 + "%";
          this.C9_f146 += var3 * (200 / var4);
          if (this.C9_f146 == var4 && this.C9_f146 != 200) {
             this.C9_f146 = 200;
          }
 
-         this.C9_f122.C54_f811.a(58).i().C12_f179 = 100 + this.C9_f146 + "%";
+         this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = 100 + this.C9_f146 + "%";
       } else {
-         this.C9_f122.C54_f811.a(59).i().C12_f179 = "100%";
-         this.C9_f122.C54_f811.a(58).i().C12_f179 = "100%";
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "100%";
+         this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "100%";
       }
    }
 
@@ -4167,11 +4166,11 @@ public final class C9 implements C61 {
          ++this.C9_f148;
          if (this.C9_f148 < 4) {
             if (var2) {
-               this.C9_f122.C54_f811.a(55).i().C12_f179 = "#P" + var1.M();
-               this.C9_f122.C54_f811.a(11).i().C12_f179 = "#P" + var1.N();
+               this.C9_f122.currentDialog.getChildById(55).getComponentData().C12_f179 = "#P" + var1.M();
+               this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "#P" + var1.N();
             } else {
-               this.C9_f122.C54_f811.a(55).i().C12_f179 = "#P" + var1.N();
-               this.C9_f122.C54_f811.a(11).i().C12_f179 = "#P" + var1.M();
+               this.C9_f122.currentDialog.getChildById(55).getComponentData().C12_f179 = "#P" + var1.N();
+               this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "#P" + var1.M();
             }
 
             return false;
@@ -4185,29 +4184,29 @@ public final class C9 implements C61 {
          }
 
          var1.u(var4);
-         this.C9_f122.C54_f811.a(41).i().C12_f179 = "#P" + var1.M();
-         this.C9_f122.C54_f811.a(11).i().C12_f179 = "#P" + var1.N();
-         this.C9_f122.C54_f811.a(55).i().C12_f179 = "#P" + var1.N();
+         this.C9_f122.currentDialog.getChildById(41).getComponentData().C12_f179 = "#P" + var1.M();
+         this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "#P" + var1.N();
+         this.C9_f122.currentDialog.getChildById(55).getComponentData().C12_f179 = "#P" + var1.N();
       } else {
          if ((var4 -= this.C9_f147) <= var5) {
             var4 = var5;
          }
 
          var1.u(var4);
-         this.C9_f122.C54_f811.a(41).i().C12_f179 = "#P" + var1.N();
-         this.C9_f122.C54_f811.a(55).i().C12_f179 = "#P" + var1.M();
-         this.C9_f122.C54_f811.a(11).i().C12_f179 = "#P" + var1.M();
+         this.C9_f122.currentDialog.getChildById(41).getComponentData().C12_f179 = "#P" + var1.N();
+         this.C9_f122.currentDialog.getChildById(55).getComponentData().C12_f179 = "#P" + var1.M();
+         this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "#P" + var1.M();
       }
 
-      C12 var8 = this.C9_f122.C54_f811.a(38).i();
+      DialogData var8 = this.C9_f122.currentDialog.getChildById(38).getComponentData();
       StringBuffer var10001 = (new StringBuffer()).append(var1.O()).append("/");
       var7 = 1;
       var8.C12_f179 = var10001.append(var1.C60_f855[var7]).toString();
-      this.C9_f122.C54_f811.a(9).i().C12_f179 = "#P" + var1.P();
-      this.C9_f122.C54_f811.a(40).i().C12_f179 = var1.A() + "/" + var1.v();
-      this.C9_f122.C54_f811.a(12).i().C12_f179 = C44.c(var1.j((byte)0));
-      this.C9_f122.C54_f811.a(13).i().C12_f179 = "lv" + var1.t();
-      this.C9_f122.C54_f811.a(17).i().C12_f195.a(94 + var1.j((byte)1));
+      this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "#P" + var1.P();
+      this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = var1.A() + "/" + var1.v();
+      this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = C44.c(var1.j((byte)0));
+      this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = "lv" + var1.t();
+      this.C9_f122.currentDialog.getChildById(17).getComponentData().C12_f195.a(94 + var1.j((byte)1));
       if (var4 == var5) {
          this.C9_f147 = 0;
          this.C9_f148 = 0;
@@ -4221,37 +4220,37 @@ public final class C9 implements C61 {
    public final void a(C41 var1) {
       int var2;
       for(var2 = 0; var2 < 6; ++var2) {
-         if (this.C9_f122.C54_f811.a(var2 + 26).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(var2 + 26).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(var2 + 26).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(var2 + 26).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(var2 + 26).i().C12_f195.a(325, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().C12_f195.a(325, false, (byte)0);
          }
 
-         if (this.C9_f122.C54_f811.a(var2 + 43).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(var2 + 43).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(var2 + 43).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(var2 + 43).i().C12_f195.a((int)145);
-            this.C9_f122.C54_f811.a(var2 + 43).i().C12_f195.a(257, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().C12_f195.a((int)145);
+            this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().C12_f195.a(257, false, (byte)0);
          }
 
-         this.C9_f122.C54_f811.a(var2 + 43).i().C12_f195.a((int)145);
-         this.C9_f122.C54_f811.a(var2 + 26).i().C12_f195.a((int)0);
+         this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().C12_f195.a((int)145);
+         this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().C12_f195.a((int)0);
       }
 
       for(var2 = 0; var2 < 3; ++var2) {
          short[] var10002;
          if (var1.C41_f643[0][var2] != -1 && var1.C41_f641[var1.C41_f643[0][var2]][0] > 0) {
             var10002 = var1.C41_f641[var1.C41_f643[0][var2]];
-            this.C9_f122.C54_f811.a(43 + this.C9_f149).i().C12_f195.a(134 + var10002[0]);
-            this.C9_f122.C54_f811.a(26 + this.C9_f149).i().C12_f195.a(var1.C41_f643[0][var2] + 12);
+            this.C9_f122.currentDialog.getChildById(43 + this.C9_f149).getComponentData().C12_f195.a(134 + var10002[0]);
+            this.C9_f122.currentDialog.getChildById(26 + this.C9_f149).getComponentData().C12_f195.a(var1.C41_f643[0][var2] + 12);
             ++this.C9_f149;
          }
 
          if (var1.C41_f643[1][var2] != -1 && var1.C41_f642[var1.C41_f643[1][var2]][0] > 0) {
             var10002 = var1.C41_f642[var1.C41_f643[1][var2]];
-            this.C9_f122.C54_f811.a(43 + this.C9_f149).i().C12_f195.a(134 + var10002[0]);
-            this.C9_f122.C54_f811.a(26 + this.C9_f149).i().C12_f195.a(var1.C41_f643[1][var2] + 1);
+            this.C9_f122.currentDialog.getChildById(43 + this.C9_f149).getComponentData().C12_f195.a(134 + var10002[0]);
+            this.C9_f122.currentDialog.getChildById(26 + this.C9_f149).getComponentData().C12_f195.a(var1.C41_f643[1][var2] + 1);
             ++this.C9_f149;
          }
       }
@@ -4259,12 +4258,12 @@ public final class C9 implements C61 {
    }
 
    private void g(C41 var1) {
-      this.C9_f122.C54_f811.a(11).i().C12_f179 = "#P" + var1.M();
-      C12 var10000 = this.C9_f122.C54_f811.a(38).i();
+      this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "#P" + var1.M();
+      DialogData var10000 = this.C9_f122.currentDialog.getChildById(38).getComponentData();
       StringBuffer var10001 = (new StringBuffer()).append(var1.O()).append("/");
       byte var3 = 1;
       var10000.C12_f179 = var10001.append(var1.C60_f855[var3]).toString();
-      this.C9_f122.C54_f811.a(16).i().C12_f179 = "lv" + var1.t();
+      this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f179 = "lv" + var1.t();
    }
 
    public final boolean b(C41 var1, boolean var2) {
@@ -4285,11 +4284,11 @@ public final class C9 implements C61 {
          ++this.C9_f148;
          if (this.C9_f148 < 4) {
             if (var2) {
-               this.C9_f122.C54_f811.a(56).i().C12_f179 = "#P" + var1.M();
-               this.C9_f122.C54_f811.a(14).i().C12_f179 = "#P" + var1.N();
+               this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "#P" + var1.M();
+               this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "#P" + var1.N();
             } else {
-               this.C9_f122.C54_f811.a(56).i().C12_f179 = "#P" + var1.N();
-               this.C9_f122.C54_f811.a(14).i().C12_f179 = "#P" + var1.M();
+               this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "#P" + var1.N();
+               this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "#P" + var1.M();
             }
 
             return false;
@@ -4303,33 +4302,33 @@ public final class C9 implements C61 {
          }
 
          var1.u(var4);
-         this.C9_f122.C54_f811.a(42).i().C12_f179 = "#P" + var1.M();
-         this.C9_f122.C54_f811.a(14).i().C12_f179 = "#P" + var1.N();
-         this.C9_f122.C54_f811.a(56).i().C12_f179 = "#P" + var1.N();
+         this.C9_f122.currentDialog.getChildById(42).getComponentData().C12_f179 = "#P" + var1.M();
+         this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "#P" + var1.N();
+         this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "#P" + var1.N();
       } else {
          if ((var4 -= this.C9_f147) <= var5) {
             var4 = var5;
          }
 
          var1.u(var4);
-         this.C9_f122.C54_f811.a(42).i().C12_f179 = "#P" + var1.N();
-         this.C9_f122.C54_f811.a(14).i().C12_f179 = "#P" + var1.M();
-         this.C9_f122.C54_f811.a(56).i().C12_f179 = "#P" + var1.M();
+         this.C9_f122.currentDialog.getChildById(42).getComponentData().C12_f179 = "#P" + var1.N();
+         this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "#P" + var1.M();
+         this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "#P" + var1.M();
       }
 
-      C12 var8 = this.C9_f122.C54_f811.a(39).i();
+      DialogData var8 = this.C9_f122.currentDialog.getChildById(39).getComponentData();
       StringBuffer var10001 = (new StringBuffer()).append(var1.O()).append("/");
       var7 = 1;
       var8.C12_f179 = var10001.append(var1.C60_f855[var7]).toString();
       if (this.C9_f123.a((byte)var1.j((byte)1), var1.r()) == 2) {
-         this.C9_f122.C54_f811.a(19).i().C12_f195.a((int)101);
+         this.C9_f122.currentDialog.getChildById(19).getComponentData().C12_f195.a((int)101);
       } else {
-         this.C9_f122.C54_f811.a(19).i().C12_f195.a((int)102);
+         this.C9_f122.currentDialog.getChildById(19).getComponentData().C12_f195.a((int)102);
       }
 
-      this.C9_f122.C54_f811.a(15).i().C12_f179 = C44.c(var1.j((byte)0));
-      this.C9_f122.C54_f811.a(16).i().C12_f179 = "lv" + var1.t();
-      this.C9_f122.C54_f811.a(18).i().C12_f195.a(94 + var1.j((byte)1));
+      this.C9_f122.currentDialog.getChildById(15).getComponentData().C12_f179 = C44.c(var1.j((byte)0));
+      this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f179 = "lv" + var1.t();
+      this.C9_f122.currentDialog.getChildById(18).getComponentData().C12_f195.a(94 + var1.j((byte)1));
       if (var4 == var5) {
          this.C9_f147 = 0;
          this.C9_f148 = 0;
@@ -4343,37 +4342,37 @@ public final class C9 implements C61 {
    public final void b(C41 var1) {
       int var2;
       for(var2 = 0; var2 < 6; ++var2) {
-         if (this.C9_f122.C54_f811.a(var2 + 32).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(var2 + 32).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(var2 + 32).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(var2 + 32).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(var2 + 32).i().C12_f195.a(325, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().C12_f195.a(325, false, (byte)0);
          }
 
-         if (this.C9_f122.C54_f811.a(var2 + 49).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(var2 + 49).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(var2 + 49).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(var2 + 49).i().C12_f195.a((int)145);
-            this.C9_f122.C54_f811.a(var2 + 49).i().C12_f195.a(257, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().C12_f195.a((int)145);
+            this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().C12_f195.a(257, false, (byte)0);
          }
 
-         this.C9_f122.C54_f811.a(var2 + 49).i().C12_f195.a((int)145);
-         this.C9_f122.C54_f811.a(var2 + 32).i().C12_f195.a((int)0);
+         this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().C12_f195.a((int)145);
+         this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().C12_f195.a((int)0);
       }
 
       for(var2 = 0; var2 < 3; ++var2) {
          short[] var10002;
          if (var1.C41_f643[0][var2] != -1 && var1.C41_f641[var1.C41_f643[0][var2]][0] > 0) {
             var10002 = var1.C41_f641[var1.C41_f643[0][var2]];
-            this.C9_f122.C54_f811.a(49 + this.C9_f149).i().C12_f195.a(134 + var10002[0]);
-            this.C9_f122.C54_f811.a(32 + this.C9_f149).i().C12_f195.a(var1.C41_f643[0][var2] + 12);
+            this.C9_f122.currentDialog.getChildById(49 + this.C9_f149).getComponentData().C12_f195.a(134 + var10002[0]);
+            this.C9_f122.currentDialog.getChildById(32 + this.C9_f149).getComponentData().C12_f195.a(var1.C41_f643[0][var2] + 12);
             ++this.C9_f149;
          }
 
          if (var1.C41_f643[1][var2] != -1 && var1.C41_f642[var1.C41_f643[1][var2]][0] > 0) {
             var10002 = var1.C41_f642[var1.C41_f643[1][var2]];
-            this.C9_f122.C54_f811.a(49 + this.C9_f149).i().C12_f195.a(134 + var10002[0]);
-            this.C9_f122.C54_f811.a(32 + this.C9_f149).i().C12_f195.a(var1.C41_f643[1][var2] + 1);
+            this.C9_f122.currentDialog.getChildById(49 + this.C9_f149).getComponentData().C12_f195.a(134 + var10002[0]);
+            this.C9_f122.currentDialog.getChildById(32 + this.C9_f149).getComponentData().C12_f195.a(var1.C41_f643[1][var2] + 1);
             ++this.C9_f149;
          }
       }
@@ -4383,12 +4382,12 @@ public final class C9 implements C61 {
    public final void ai() {
       this.C9_f124 = 0;
       this.C9_f139 = null;
-      this.C9_f122.a("/data/ui/battle.ui");
+      this.C9_f122.removeDialog("/data/ui/battle.ui");
    }
 
    public final void aj() {
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f690.C38_f580 = this.C9_f124;
-      this.C9_f122.C54_f811.a(20 + this.C9_f124).a(true);
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).additionalChildComponent.C38_f580 = this.C9_f124;
+      this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(true);
    }
 
    public final void c(C41 var1) {
@@ -4400,13 +4399,13 @@ public final class C9 implements C61 {
    public final void d(C41 var1) {
       ((C29)this.C9_f121).q();
       if (!C44.a((int)this.C9_f124, (int)1) && this.C9_f131 == 0 && !this.j() && this.C9_f121.g(16400)) {
-         this.C9_f122.C54_f811.b(2);
+         this.C9_f122.currentDialog.handleAction(2);
       } else if (!C44.a((int)this.C9_f124, (int)1) && this.C9_f131 == 0 && !this.j() && this.C9_f121.g(32832)) {
-         this.C9_f122.C54_f811.b(3);
+         this.C9_f122.currentDialog.handleAction(3);
       } else if (!this.j() && this.C9_f121.g(196640)) {
          switch(this.C9_f124) {
          case 0:
-            this.C9_f122.C54_f811.a(20 + this.C9_f124).a(false);
+            this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(false);
             this.C9_f121.a((byte)3);
             break;
          case 1:
@@ -4416,7 +4415,7 @@ public final class C9 implements C61 {
                this.b("Không gian không đủ, không cách nào bắt được");
             } else {
                this.C9_f125 = 0;
-               this.C9_f122.C54_f811.a(20 + this.C9_f124).a(false);
+               this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(false);
                ((C29)this.C9_f121).r();
                this.C9_f121.a((byte)21);
             }
@@ -4424,43 +4423,43 @@ public final class C9 implements C61 {
          case 2:
             if (this.C9_f131 == 0) {
                if (var1.p(2)) {
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Trạng thái bị quấn, không thể sử dụng đạo cụ", "Nhấn nút 5 tiếp tục");
                   this.C9_f131 = 1;
                } else {
-                  this.C9_f122.C54_f811.a(20 + this.C9_f124).a(false);
+                  this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(false);
                   this.C9_f121.a((byte)4);
                }
             } else {
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                this.C9_f131 = 0;
             }
             break;
          case 3:
             if (this.C9_f131 == 0) {
                if (var1.p(2)) {
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Trạng thái bị quấn, không thể đổi sủng vật", "Nhấn nút 5 tiếp tục");
                   this.C9_f131 = 1;
                } else {
-                  this.C9_f122.C54_f811.a(20 + this.C9_f124).a(false);
+                  this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(false);
                   ((C29)this.C9_f121).C29_f407 = ((C29)this.C9_f121).C29_f404[((C29)this.C9_f121).C29_f410];
                   C29.B().C29_f415 = true;
                   this.C9_f121.a((byte)5);
                }
             } else {
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                this.C9_f131 = 0;
             }
             break;
          case 4:
-            this.C9_f122.C54_f811.a(20 + this.C9_f124).a(false);
+            this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(false);
             this.C9_f121.a((byte)11);
             break;
          case 5:
             if (this.C9_f131 == 0) {
                if (var1.p(2)) {
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Trạng thái bị quấn, không thể chạy trốn", "Nhấn nút 5 tiếp tục");
                   this.C9_f131 = 1;
                } else if (((C29)this.C9_f121).C29_f398 <= 0 && C7.C7_f71) {
@@ -4468,7 +4467,7 @@ public final class C9 implements C61 {
                   if (((C29)this.C9_f121).C29_f408.t() > ((C29)this.C9_f121).C29_f402[0].t()) {
                      var3 = true;
                   } else if (((C29)this.C9_f121).C29_f408.t() == ((C29)this.C9_f121).C29_f402[0].t()) {
-                     if (C26.a(100) <= 95) {
+                     if (GameUtils.getRandomInt(100) <= 95) {
                         var3 = true;
                      }
                   } else {
@@ -4477,25 +4476,25 @@ public final class C9 implements C61 {
                         var2 = 15;
                      }
 
-                     if (C26.a(100) < var2) {
+                     if (GameUtils.getRandomInt(100) < var2) {
                         var3 = true;
                      }
                   }
 
                   if (var3) {
-                     this.C9_f122.C54_f811.a(20 + this.C9_f124).a(false);
+                     this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(false);
                      C55.B().a((byte)10);
                   } else {
                      this.C9_f131 = 2;
                      this.b("Chạy trốn thất bại");
                   }
                } else {
-                  this.C9_f122.C54_f811.a(20 + this.C9_f124).a(false);
+                  this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(false);
                   this.C9_f131 = 3;
                   this.b("Trận chiến này không thể trốn chạy");
                }
             } else {
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                this.C9_f131 = 0;
             }
          }
@@ -4508,7 +4507,7 @@ public final class C9 implements C61 {
             ++((C29)this.C9_f121).C29_f410;
             this.C9_f121.a((byte)1);
          } else {
-            this.C9_f122.C54_f811.a(20 + this.C9_f124).a(true);
+            this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(true);
          }
 
          this.C9_f131 = 0;
@@ -4517,59 +4516,59 @@ public final class C9 implements C61 {
    }
 
    public final void e(C41 var1) {
-      this.C9_f122.a("/data/ui/choiceskill.ui", 257, this);
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = var1.F();
+      this.C9_f122.showDialog("/data/ui/choiceskill.ui", 257, this);
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = var1.F();
       if (this.C9_f129 >= var1.F()) {
          this.C9_f129 = var1.F() - 1;
       }
 
       if (var1.F() > 5) {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(1);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
       } else {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(-1);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(-1);
       }
 
-      this.C9_f122.C54_f811.a(5).i().C12_f179 = "Sử dụng";
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = this.C9_f129;
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Sử dụng";
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f129;
       this.h(var1);
       this.C9_f131 = 0;
    }
 
    private void h(C41 var1) {
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580;
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
       int var2 = var1.F();
 
       for(int var3 = 0; var3 < 5; ++var3) {
          if (var3 >= var2) {
-            this.C9_f122.C54_f811.a(13 + var3 * 5).i().C12_f179 = "";
-            this.C9_f122.C54_f811.a(14 + var3 * 5).i().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(13 + var3 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(14 + var3 * 5).getComponentData().C12_f179 = "";
          } else {
-            this.C9_f122.C54_f811.a(13 + var3 * 5).i().C12_f179 = C44.c((int)C67.C67_f923[1][var1.t(this.C9_f135 + var3)][1]);
-            this.C9_f122.C54_f811.a(14 + var3 * 5).i().C12_f179 = var1.C41_f645[this.C9_f135 + var3] + "/" + C67.C67_f923[1][var1.t(this.C9_f135 + var3)][5];
+            this.C9_f122.currentDialog.getChildById(13 + var3 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[1][var1.t(this.C9_f135 + var3)][1]);
+            this.C9_f122.currentDialog.getChildById(14 + var3 * 5).getComponentData().C12_f179 = var1.C41_f645[this.C9_f135 + var3] + "/" + C67.C67_f923[1][var1.t(this.C9_f135 + var3)][5];
          }
       }
 
       this.i(var1.C41_f646[this.C9_f129]);
-      this.C9_f122.C54_f811.a(51).b(98 + this.C9_f136 * 80 / var2, this.C9_f122.C54_f811.a());
+      this.C9_f122.currentDialog.getChildById(51).setOffsetY(98 + this.C9_f136 * 80 / var2, this.C9_f122.currentDialog.getRootComponent());
    }
 
    private void i(int var1) {
-      this.C9_f122.C54_f811.a(53).i().C12_f179 = C44.c((int)C67.C67_f923[1][var1][2]);
+      this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[1][var1][2]);
    }
 
    public final void f(C41 var1) {
       if (this.aB()) {
          if (this.C9_f131 == 0 && this.C9_f121.g(4100)) {
-            this.C9_f122.C54_f811.b(0);
+            this.C9_f122.currentDialog.handleAction(0);
             this.h(var1);
          } else if (this.C9_f131 == 0 && this.C9_f121.g(8448)) {
-            this.C9_f122.C54_f811.b(1);
+            this.C9_f122.currentDialog.handleAction(1);
             this.h(var1);
          } else if (this.C9_f121.g(196640)) {
             if (this.C9_f131 == 0) {
                if (var1.s(this.C9_f129)) {
-                  this.C9_f122.a("/data/ui/choiceskill.ui");
+                  this.C9_f122.removeDialog("/data/ui/choiceskill.ui");
                   ((C29)this.C9_f121).d(var1.C41_f646[this.C9_f129]);
                   int var10000 = ((C29)this.C9_f121).C29_f397;
                   ((C29)this.C9_f121).getClass();
@@ -4580,12 +4579,12 @@ public final class C9 implements C61 {
                   }
                } else {
                   this.C9_f131 = 1;
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Kỹ năng giá trị chưa đủ", "Nhấn nút 5 tiếp tục");
                }
             } else {
                this.C9_f131 = 0;
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                if (var1.p(2) && var1.s() == 0) {
                   boolean var2 = false;
 
@@ -4596,14 +4595,14 @@ public final class C9 implements C61 {
                   }
 
                   if (!var2) {
-                     this.C9_f122.a("/data/ui/choiceskill.ui");
+                     this.C9_f122.removeDialog("/data/ui/choiceskill.ui");
                      this.c("Không có kỹ năng giá trị, không cách nào chiến đấu");
                      ((C29)this.C9_f121).F();
                   }
                }
             }
          } else if (this.C9_f121.g(262144) && this.C9_f131 == 0) {
-            this.C9_f122.a("/data/ui/choiceskill.ui");
+            this.C9_f122.removeDialog("/data/ui/choiceskill.ui");
             this.C9_f121.a((byte)20);
          }
       }
@@ -4613,45 +4612,45 @@ public final class C9 implements C61 {
 
    public final void ak() {
       this.C9_f131 = 0;
-      this.C9_f122.a("/data/ui/choice.ui", 257, this);
-      this.C9_f122.C54_f811.a(8).i().C12_f179 = "Pokemon ball";
-      this.C9_f122.C54_f811.a(9).i().C12_f179 = "Tỉ lệ bắt";
-      this.C9_f122.C54_f811.a(5).i().C12_f179 = "Sử dụng";
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = this.C9_f125;
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(0);
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = this.C9_f123.C53_f788.size();
+      this.C9_f122.showDialog("/data/ui/choice.ui", 257, this);
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Pokemon ball";
+      this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Tỉ lệ bắt";
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Sử dụng";
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f125;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f123.C53_f788.size();
 
       for(int var1 = 0; var1 < this.C9_f123.C53_f788.size(); ++var1) {
          int[] var2 = (int[])this.C9_f123.C53_f788.elementAt(var1);
-         if (this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.C17_f222 = 2;
-            this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.a(258, false, (byte)-1);
+         if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.C17_f222 = 2;
+            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.a(258, false, (byte)-1);
          }
 
-         this.C9_f122.C54_f811.a(var1 + 54).i().C12_f195.a((int)C67.C67_f923[4][var2[0]][1]);
-         this.C9_f122.C54_f811.a(13 + var1 * 5).i().C12_f179 = C44.c((int)C67.C67_f923[4][var2[0]][0]);
-         this.C9_f122.C54_f811.a(14 + var1 * 5).i().C12_f179 = ((C29)this.C9_f121).m(var2[0]) + "%";
+         this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.a((int)C67.C67_f923[4][var2[0]][1]);
+         this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][var2[0]][0]);
+         this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = ((C29)this.C9_f121).m(var2[0]) + "%";
       }
 
-      this.C9_f122.C54_f811.a(59).a(false);
-      this.C9_f122.C54_f811.a(60).a(false);
+      this.C9_f122.currentDialog.getChildById(59).setVisible(false);
+      this.C9_f122.currentDialog.getChildById(60).setVisible(false);
       this.bw();
    }
 
    private void bw() {
       int[] var1 = (int[])this.C9_f123.C53_f788.elementAt(this.C9_f125);
-      this.C9_f122.C54_f811.a(53).i().C12_f179 = "Số lượng: " + var1[1] + " cái ";
+      this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = "Số lượng: " + var1[1] + " cái ";
    }
 
    public final void al() {
       this.C9_f121.q();
       if (!C44.a((int)this.C9_f125, (int)0) && this.C9_f131 == 0 && this.C9_f121.g(4100) && !this.j()) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.bw();
       } else if (!C44.a((int)this.C9_f125, (int)0) && this.C9_f131 == 0 && this.C9_f121.g(8448) && !this.j()) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.bw();
       } else if (this.C9_f121.g(196640) && !this.j() && C44.s()) {
          if (C44.p() && !C44.a((int)this.C9_f125, (int)0)) {
@@ -4662,7 +4661,7 @@ public final class C9 implements C61 {
          if (this.C9_f131 == 0) {
             int[] var1 = (int[])this.C9_f123.C53_f788.elementAt(this.C9_f125);
             if (!this.C9_f123.b((int)var1[0], (int)1, (byte)0)) {
-               this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+               this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                this.a("Số lượng Pokemon ball không đủ", "Nhấn nút 5 tiếp tục");
                this.C9_f131 = 1;
             } else {
@@ -4671,19 +4670,19 @@ public final class C9 implements C61 {
                this.C9_f121.r();
                this.C9_f123.d(var1[0], 1, (byte)0);
                this.C9_f121.a((byte)17);
-               this.C9_f122.a("/data/ui/choice.ui");
+               this.C9_f122.removeDialog("/data/ui/choice.ui");
             }
          } else if (this.C9_f131 == 1) {
             if (C44.C44_f711 && ((int[])this.C9_f123.C53_f788.elementAt(this.C9_f125))[0] == 0) {
-               this.C9_f122.a("/data/ui/choice.ui");
+               this.C9_f122.removeDialog("/data/ui/choice.ui");
                this.C9_f121.a((byte)101);
             }
 
             this.C9_f131 = 0;
-            this.C9_f122.a("/data/ui/msgwarm.ui");
+            this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
          }
       } else if (C7.t() && this.C9_f131 == 0 && this.C9_f121.g(262144) && !this.j()) {
-         this.C9_f122.a("/data/ui/choice.ui");
+         this.C9_f122.removeDialog("/data/ui/choice.ui");
          this.C9_f121.a((byte)20);
       }
 
@@ -4694,20 +4693,20 @@ public final class C9 implements C61 {
       this.C9_f130 = 0;
       this.C9_f131 = 0;
       this.C9_f125 = 0;
-      this.C9_f122.a("/data/ui/choice.ui", 257, this);
-      this.C9_f122.C54_f811.a(8).i().C12_f179 = "Đạo cụ";
-      this.C9_f122.C54_f811.a(9).i().C12_f179 = "Số lượng";
-      this.C9_f122.C54_f811.a(5).i().C12_f179 = "Sử dụng";
-      this.C9_f122.C54_f811.a(59).a(false);
-      this.C9_f122.C54_f811.a(60).a(false);
+      this.C9_f122.showDialog("/data/ui/choice.ui", 257, this);
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Đạo cụ";
+      this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Số lượng";
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Sử dụng";
+      this.C9_f122.currentDialog.getChildById(59).setVisible(false);
+      this.C9_f122.currentDialog.getChildById(60).setVisible(false);
       this.bi();
    }
 
    public final void an() {
       if (this.C9_f131 == 0 && this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
       } else if (this.C9_f131 == 0 && this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
       } else {
          if (this.C9_f121.g(196640)) {
             if (this.C9_f123.C53_f787.size() <= 0) {
@@ -4721,24 +4720,24 @@ public final class C9 implements C61 {
                case 8:
                case 9:
                case 10:
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Trong chiến đấu không thể sử dụng", "Nhấn nút 5 tiếp tục");
                   this.C9_f131 = 1;
                   return;
                default:
                   this.C9_f121.a((byte)16);
-                  this.C9_f122.a("/data/ui/choice.ui");
+                  this.C9_f122.removeDialog("/data/ui/choice.ui");
                   return;
                }
             }
 
             if (this.C9_f131 == 1) {
-               this.C9_f122.a("/data/ui/msgwarm.ui");
+               this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                this.C9_f131 = 0;
                return;
             }
          } else if (this.C9_f131 == 0 && this.C9_f121.g(262144)) {
-            this.C9_f122.a("/data/ui/choice.ui");
+            this.C9_f122.removeDialog("/data/ui/choice.ui");
             this.C9_f121.a((byte)20);
          }
 
@@ -4757,27 +4756,27 @@ public final class C9 implements C61 {
 
          switch(var1) {
          case 0:
-            this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+            this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
             this.a("Sủng vật này đã tử vong, không thể sử dụng", "Nhấn nút 5 tiếp tục");
             return;
          case 1:
-            this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+            this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
             this.a("Sủng vật này không có, không thể sử dụng", "Nhấn nút 5 tiếp tục");
             return;
          case 2:
-            this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+            this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
             this.a("Máu đầy, không cần sử dụng", "Nhấn nút 5 tiếp tục");
             return;
          case 3:
-            this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+            this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
             this.a("Kỹ năng giá trị đã đầy, không cần sử dụng", "Nhấn nút 5 tiếp tục");
             return;
          case 4:
-            this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+            this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
             this.a("Trên người đều bị lợi hiệu quả", "Nhấn nút 5 tiếp tục");
             return;
          case 5:
-            this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+            this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
             this.a("Trong hưng phấn, không thể dùng", "Nhấn nút 5 tiếp tục");
             return;
          case 6:
@@ -4793,7 +4792,7 @@ public final class C9 implements C61 {
                this.f(this.C9_f126);
                this.C9_f131 = 1;
                this.C9_f150 = true;
-               this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+               this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                this.a("Thành công sử dụng đạo cụ", "Nhấn nút 5 tiếp tục");
                return;
             }
@@ -4803,21 +4802,21 @@ public final class C9 implements C61 {
             this.a("Không có đạo này cụ, hãy mua sắm", "Nhấn nút 5 tiếp tục");
             return;
          case 7:
-            this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+            this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
             this.a("Máu và tinh khí đều đã đầy, không cần sử dụng", "Nhấn nút 5 tiếp tục");
             return;
          case 8:
-            this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+            this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
             this.a("Sủng vật đã chết, không thể sử dụng", "Nhấn nút 5 tiếp tục");
          }
       } else if (this.C9_f131 == 1) {
          this.C9_f131 = 0;
-         this.C9_f122.a("/data/ui/msgwarm.ui");
+         this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
       } else {
          if (this.C9_f131 == 2) {
             this.C9_f131 = 0;
-            this.C9_f122.a("/data/ui/msgwarm.ui");
-            this.C9_f122.a("/data/ui/petstate.ui");
+            this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
+            this.C9_f122.removeDialog("/data/ui/petstate.ui");
             if (this.C9_f121 instanceof C25) {
                this.C9_f121.a((byte)8);
                return;
@@ -4841,9 +4840,9 @@ public final class C9 implements C61 {
 
    public final void ao() {
       if (this.C9_f131 == 0 && this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
       } else if (this.C9_f131 == 0 && this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
       } else if (this.C9_f121.g(196640)) {
          this.bx();
       } else {
@@ -4860,12 +4859,12 @@ public final class C9 implements C61 {
                   ((C29)this.C9_f121).a((byte)4);
                }
 
-               this.C9_f122.a("/data/ui/petstate.ui");
+               this.C9_f122.removeDialog("/data/ui/petstate.ui");
                return;
             }
 
             ((C29)this.C9_f121).a((byte)4);
-            this.C9_f122.a("/data/ui/petstate.ui");
+            this.C9_f122.removeDialog("/data/ui/petstate.ui");
          }
 
       }
@@ -4918,19 +4917,19 @@ public final class C9 implements C61 {
 
          if (this.C9_f121.g(196640)) {
             if (var4 >= var3) {
-               this.C9_f122.C54_f811.a(40).i().C12_f179 = var3 + "/" + var3;
-               this.C9_f122.C54_f811.a(9).i().C12_f179 = "#P" + var1.v(var3);
+               this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = var3 + "/" + var3;
+               this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "#P" + var1.v(var3);
                var1.j((int)0);
                this.C9_f137 = 0;
                ((C29)this.C9_f121).a((byte)22);
             } else if (var2 < var4) {
                this.C9_f153 = 0;
                var1.j(var4);
-               this.C9_f122.C54_f811.a(40).i().C12_f179 = var4 + "/" + var1.v();
-               this.C9_f122.C54_f811.a(9).i().C12_f179 = "#P" + var1.v(var4);
+               this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = var4 + "/" + var1.v();
+               this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "#P" + var1.v(var4);
             } else {
-               this.C9_f122.C54_f811.a(40).i().C12_f179 = var4 + "/" + var1.v();
-               this.C9_f122.C54_f811.a(9).i().C12_f179 = "#P" + var1.v(var4);
+               this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = var4 + "/" + var1.v();
+               this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "#P" + var1.v(var4);
                var1.j(var2);
                ++this.C9_f138;
 
@@ -4949,11 +4948,11 @@ public final class C9 implements C61 {
                this.C9_f153 = 0;
             }
          } else {
-            this.C9_f122.C54_f811.a(40).i().C12_f179 = var2 + "/" + var1.v();
-            this.C9_f122.C54_f811.a(9).i().C12_f179 = "#P" + var1.v(var2);
-            this.C9_f122.C54_f811.a(12).i().C12_f179 = C44.c(var1.j((byte)0));
-            this.C9_f122.C54_f811.a(13).i().C12_f179 = "lv" + var1.t();
-            this.C9_f122.C54_f811.a(17).i().C12_f195.a(94 + var1.j((byte)1));
+            this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = var2 + "/" + var1.v();
+            this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "#P" + var1.v(var2);
+            this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = C44.c(var1.j((byte)0));
+            this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = "lv" + var1.t();
+            this.C9_f122.currentDialog.getChildById(17).getComponentData().C12_f195.a(94 + var1.j((byte)1));
             if (var2 >= var3) {
                var1.j((int)0);
                ((C29)this.C9_f121).a((byte)22);
@@ -5001,30 +5000,30 @@ public final class C9 implements C61 {
 
       var1.w();
       this.g(var1);
-      this.C9_f122.a("/data/ui/levelUp.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/levelUp.ui", 257, this);
 
       for(var3 = 0; var3 < 4; ++var3) {
-         this.C9_f122.C54_f811.a(var3 + 19).i().C12_f179 = var2[var3];
+         this.C9_f122.currentDialog.getChildById(var3 + 19).getComponentData().C12_f179 = var2[var3];
       }
 
       if (var1.F() < 5 && var1.F() < var1.t() / 10 + 1) {
          this.C9_f139 = var1.G();
-         this.C9_f122.C54_f811.a(51).i().C12_f179 = "Có thể học tập kỹ năng mới";
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = "Có thể học tập kỹ năng mới";
       } else {
-         this.C9_f122.C54_f811.a(51).i().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = "";
       }
 
-      this.C9_f122.C54_f811.a(38).i().C12_f179 = C44.c((int)C67.C67_f923[0][var1.r()][0]);
-      this.C9_f122.C54_f811.a(40).i().C12_f179 = "" + var1.t();
-      if (this.C9_f122.C54_f811.a(10).i().C12_f195 == null) {
-         this.C9_f122.C54_f811.a(10).i().C12_f195 = new C17();
-         this.C9_f122.C54_f811.a(10).i().C12_f195.C17_f222 = 3;
-         this.C9_f122.C54_f811.a(10).i().C12_f195.a((int)0);
-         this.C9_f122.C54_f811.a(10).i().C12_f195.a(var1.C41_f655, false, (byte)-1);
+      this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[0][var1.r()][0]);
+      this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = "" + var1.t();
+      if (this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 == null) {
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 = new C17();
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.C17_f222 = 3;
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.a((int)0);
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.a(var1.C41_f655, false, (byte)-1);
       }
 
       for(var3 = 0; var3 < 4; ++var3) {
-         C12 var10000 = this.C9_f122.C54_f811.a(var3 + 31).i();
+         DialogData var10000 = this.C9_f122.currentDialog.getChildById(var3 + 31).getComponentData();
          StringBuffer var10001 = new StringBuffer();
          var5 = (byte)(var3 + 1);
          var10000.C12_f179 = var10001.append(var1.C60_f855[var5]).toString();
@@ -5046,10 +5045,10 @@ public final class C9 implements C61 {
                C55.B().a((byte)10);
             }
 
-            this.C9_f122.a("/data/ui/levelUp.ui");
+            this.C9_f122.removeDialog("/data/ui/levelUp.ui");
          } else {
             this.C9_f121.a((byte)8);
-            this.C9_f122.a("/data/ui/levelUp.ui");
+            this.C9_f122.removeDialog("/data/ui/levelUp.ui");
          }
       }
 
@@ -5068,37 +5067,37 @@ public final class C9 implements C61 {
                C55.B().a((byte)10);
             }
 
-            this.C9_f122.a("/data/ui/levelUp.ui");
+            this.C9_f122.removeDialog("/data/ui/levelUp.ui");
             return;
          }
 
          this.C9_f121.a((byte)8);
-         this.C9_f122.a("/data/ui/levelUp.ui");
+         this.C9_f122.removeDialog("/data/ui/levelUp.ui");
       }
 
    }
 
    public final void as() {
-      this.C9_f122.a("/data/ui/choiceskill.ui", 257, this);
-      this.C9_f122.a("/data/ui/levelUp.ui");
+      this.C9_f122.showDialog("/data/ui/choiceskill.ui", 257, this);
+      this.C9_f122.removeDialog("/data/ui/levelUp.ui");
       this.C9_f125 = 0;
       this.C9_f131 = 0;
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = this.C9_f139.length;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f139.length;
       if (this.C9_f139.length > 5) {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(1);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
       } else {
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(-1);
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(-1);
       }
 
-      if (this.C9_f122.C54_f811.a(5).i().C12_f195 == null) {
-         this.C9_f122.C54_f811.a(5).i().C12_f195 = new C17();
-         this.C9_f122.C54_f811.a(5).i().C12_f195.C17_f222 = 3;
-         this.C9_f122.C54_f811.a(5).i().C12_f195.a((int)0);
-         this.C9_f122.C54_f811.a(5).i().C12_f195.a(257, false, (byte)-1);
+      if (this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195 == null) {
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195 = new C17();
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.C17_f222 = 3;
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.a((int)0);
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.a(257, false, (byte)-1);
       }
 
-      this.C9_f122.C54_f811.a(5).i().C12_f195.a((byte)11, (byte)-1);
-      this.C9_f122.C54_f811.a(6).a(false);
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.a((byte)11, (byte)-1);
+      this.C9_f122.currentDialog.getChildById(6).setVisible(false);
       this.by();
       if (!C25.C25_f332) {
          this.b("Có thể nhấn #1nút mềm trái#0 để học tập kỹ năng");
@@ -5108,34 +5107,34 @@ public final class C9 implements C61 {
    }
 
    private void by() {
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580;
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
 
       for(int var1 = 0; var1 < 5; ++var1) {
          if (var1 >= this.C9_f139.length) {
-            this.C9_f122.C54_f811.a(13 + var1 * 5).i().C12_f179 = "";
-            this.C9_f122.C54_f811.a(14 + var1 * 5).i().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "";
          } else {
-            this.C9_f122.C54_f811.a(13 + var1 * 5).i().C12_f179 = C44.c((int)C67.C67_f923[1][this.C9_f139[this.C9_f135 + var1]][1]);
-            this.C9_f122.C54_f811.a(14 + var1 * 5).i().C12_f179 = "" + C67.C67_f923[1][this.C9_f139[this.C9_f135 + var1]][5];
+            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[1][this.C9_f139[this.C9_f135 + var1]][1]);
+            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "" + C67.C67_f923[1][this.C9_f139[this.C9_f135 + var1]][5];
          }
       }
 
       this.i(this.C9_f139[this.C9_f136]);
-      this.C9_f122.C54_f811.a(51).b(98 + this.C9_f136 * 62 / this.C9_f139.length, this.C9_f122.C54_f811.a());
+      this.C9_f122.currentDialog.getChildById(51).setOffsetY(98 + this.C9_f136 * 62 / this.C9_f139.length, this.C9_f122.currentDialog.getRootComponent());
    }
 
    public final void at() {
       if (!this.j() && this.C9_f121.g(4100) && this.C9_f131 == 0) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.by();
       } else if (!this.j() && this.C9_f121.g(8448) && this.C9_f131 == 0) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.by();
       } else if (!this.j() && this.C9_f131 == 0 && (this.C9_f121.g(131072) || this.C9_f121.a(40, 228, 45, 20)) || this.C9_f131 == 1 && this.C9_f121.g(196640)) {
          if (this.C9_f131 == 0) {
             this.C9_f131 = 1;
-            this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+            this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
             this.a("Học tập" + C44.c((int)C67.C67_f923[1][this.C9_f139[this.C9_f125]][1]), "Nhấn nút 5 tiếp tục");
          } else if (this.C9_f131 == 1) {
             C41 var1;
@@ -5148,8 +5147,8 @@ public final class C9 implements C61 {
                this.C9_f121.a((byte)8);
             }
 
-            this.C9_f122.a("/data/ui/msgwarm.ui");
-            this.C9_f122.a("/data/ui/choiceskill.ui");
+            this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
+            this.C9_f122.removeDialog("/data/ui/choiceskill.ui");
          }
       }
 
@@ -5170,7 +5169,7 @@ public final class C9 implements C61 {
             }
          }
       } else if (this.C9_f131 == 1) {
-         this.C9_f122.a("/data/ui/bodyShop.ui");
+         this.C9_f122.removeDialog("/data/ui/bodyShop.ui");
          this.bz();
          this.C9_f132 = true;
       } else if (this.C9_f131 >= 3) {
@@ -5189,7 +5188,7 @@ public final class C9 implements C61 {
                   this.C9_f131 = 7;
                }
             } else if (this.C9_f131 == 7) {
-               this.C9_f122.a("/data/ui/msgtip.ui");
+               this.C9_f122.removeDialog("/data/ui/msgtip.ui");
                this.C9_f131 = 0;
                if (this.C9_f121.C44_f699 == 14) {
                   this.C9_f121.a((byte)14);
@@ -5200,15 +5199,15 @@ public final class C9 implements C61 {
             }
 
             if (!this.j() && this.C9_f121.g(4100) && this.C9_f131 == 3) {
-               this.C9_f122.C54_f811.b(0);
+               this.C9_f122.currentDialog.handleAction(0);
                this.by();
             } else if (!this.j() && this.C9_f121.g(8448) && this.C9_f131 == 3) {
-               this.C9_f122.C54_f811.b(1);
+               this.C9_f122.currentDialog.handleAction(1);
                this.by();
             } else if (!this.j() && this.C9_f131 == 3 && (this.C9_f121.g(131072) || this.C9_f121.a(40, 228, 45, 20)) || this.C9_f131 == 4 && this.C9_f121.g(196640)) {
                if (this.C9_f131 == 3) {
                   this.C9_f131 = 4;
-                  this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                  this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Học tập" + C44.c((int)C67.C67_f923[1][this.C9_f139[this.C9_f136]][1]), "Nhấn nút 5 tiếp tục");
                } else if (this.C9_f131 == 4) {
                   ((C41)C25.C25_f333.elementAt(this.C9_f138)).g((byte)this.C9_f139[this.C9_f136]);
@@ -5221,32 +5220,32 @@ public final class C9 implements C61 {
                      this.bz();
                   }
 
-                  this.C9_f122.a("/data/ui/msgwarm.ui");
-                  this.C9_f122.a("/data/ui/choiceskill.ui");
+                  this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
+                  this.C9_f122.removeDialog("/data/ui/choiceskill.ui");
                }
             }
          }
       } else if (this.C9_f121.g(196640)) {
-         this.C9_f122.a("/data/ui/choiceskill.ui", 257, this);
-         this.C9_f122.a("/data/ui/levelUp.ui");
+         this.C9_f122.showDialog("/data/ui/choiceskill.ui", 257, this);
+         this.C9_f122.removeDialog("/data/ui/levelUp.ui");
          this.C9_f125 = 0;
          this.C9_f131 = 3;
-         ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = this.C9_f139.length;
+         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f139.length;
          if (this.C9_f139.length > 5) {
-            ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(1);
+            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
          } else {
-            ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(-1);
+            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(-1);
          }
 
-         if (this.C9_f122.C54_f811.a(5).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a(5).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a(5).i().C12_f195.C17_f222 = 3;
-            this.C9_f122.C54_f811.a(5).i().C12_f195.a((int)0);
-            this.C9_f122.C54_f811.a(5).i().C12_f195.a(257, false, (byte)-1);
+         if (this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.C17_f222 = 3;
+            this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.a((int)0);
+            this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.a(257, false, (byte)-1);
          }
 
-         this.C9_f122.C54_f811.a(5).i().C12_f195.a((byte)11, (byte)-1);
-         this.C9_f122.C54_f811.a(6).a(false);
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.a((byte)11, (byte)-1);
+         this.C9_f122.currentDialog.getChildById(6).setVisible(false);
          this.by();
          this.C9_f132 = true;
       }
@@ -5257,31 +5256,31 @@ public final class C9 implements C61 {
    private void bz() {
       this.C9_f131 = 2;
       C41 var1 = (C41)C25.C25_f333.elementAt(this.C9_f138);
-      this.C9_f122.a("/data/ui/levelUp.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/levelUp.ui", 257, this);
 
       int var2;
       for(var2 = 0; var2 < 4; ++var2) {
-         this.C9_f122.C54_f811.a(var2 + 19).i().C12_f179 = "" + var1.i((int)((byte)(var2 + 1 - 1)));
+         this.C9_f122.currentDialog.getChildById(var2 + 19).getComponentData().C12_f179 = "" + var1.i((int)((byte)(var2 + 1 - 1)));
       }
 
       if (var1.F() < 5 && var1.F() < var1.t() / 10 + 1) {
          this.C9_f139 = var1.G();
-         this.C9_f122.C54_f811.a(51).i().C12_f179 = "Nhấn nút 5 học tập kỹ năng mới";
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = "Nhấn nút 5 học tập kỹ năng mới";
       } else {
-         this.C9_f122.C54_f811.a(51).i().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = "";
       }
 
-      this.C9_f122.C54_f811.a(38).i().C12_f179 = C44.c((int)C67.C67_f923[0][var1.r()][0]);
-      this.C9_f122.C54_f811.a(40).i().C12_f179 = "" + var1.t();
-      if (this.C9_f122.C54_f811.a(10).i().C12_f195 == null) {
-         this.C9_f122.C54_f811.a(10).i().C12_f195 = new C17();
-         this.C9_f122.C54_f811.a(10).i().C12_f195.C17_f222 = 3;
-         this.C9_f122.C54_f811.a(10).i().C12_f195.a((int)0);
-         this.C9_f122.C54_f811.a(10).i().C12_f195.a(var1.C41_f655, false, (byte)-1);
+      this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[0][var1.r()][0]);
+      this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = "" + var1.t();
+      if (this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 == null) {
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 = new C17();
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.C17_f222 = 3;
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.a((int)0);
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.a(var1.C41_f655, false, (byte)-1);
       }
 
       for(var2 = 0; var2 < 4; ++var2) {
-         C12 var10000 = this.C9_f122.C54_f811.a(var2 + 31).i();
+         DialogData var10000 = this.C9_f122.currentDialog.getChildById(var2 + 31).getComponentData();
          StringBuffer var10001 = new StringBuffer();
          byte var4 = (byte)(var2 + 1);
          var10000.C12_f179 = var10001.append(var1.C60_f855[var4]).toString();
@@ -5290,119 +5289,119 @@ public final class C9 implements C61 {
    }
 
    public final void aw() {
-      this.C9_f122.a("/data/ui/npcEnemy.ui", 296, this);
-      if (this.C9_f122.C54_f811.a(1).i().C12_f195 == null) {
-         this.C9_f122.C54_f811.a(1).i().C12_f195 = new C17();
-         this.C9_f122.C54_f811.a(1).i().C12_f195.C17_f222 = 2;
-         this.C9_f122.C54_f811.a(1).i().C12_f195.a(296, false, (byte)0);
-         this.C9_f122.C54_f811.a(1).i().C12_f195.a((int)0);
+      this.C9_f122.showDialog("/data/ui/npcEnemy.ui", 296, this);
+      if (this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195 == null) {
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195 = new C17();
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.C17_f222 = 2;
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.a(296, false, (byte)0);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.a((int)0);
       }
 
-      this.C9_f122.C54_f811.a(36).a(false);
+      this.C9_f122.currentDialog.getChildById(36).setVisible(false);
    }
 
    private void a(int var1, int var2, int var3) {
-      if (var3 != -1 && this.C9_f122.C54_f811.a(var3).i().C12_f195 != null) {
-         this.C9_f122.C54_f811.a(var3).a(false);
+      if (var3 != -1 && this.C9_f122.currentDialog.getChildById(var3).getComponentData().C12_f195 != null) {
+         this.C9_f122.currentDialog.getChildById(var3).setVisible(false);
       }
 
-      if (this.C9_f122.C54_f811.a(var1).i().C12_f195 == null) {
-         this.C9_f122.C54_f811.a(var1).i().C12_f195 = new C17();
-         this.C9_f122.C54_f811.a(var1).i().C12_f195.C17_f222 = 2;
-         this.C9_f122.C54_f811.a(var1).i().C12_f195.a(296, false, (byte)0);
-         this.C9_f122.C54_f811.a(var1).i().C12_f195.a((int)0);
+      if (this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195 == null) {
+         this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195 = new C17();
+         this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.C17_f222 = 2;
+         this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.a(296, false, (byte)0);
+         this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.a((int)0);
       }
 
-      this.C9_f122.C54_f811.a(var1).i().C12_f195.a(var2);
+      this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.a(var2);
    }
 
    public final void c(int var1, int var2) {
       switch(var1) {
       case 0:
-         this.C9_f122.C54_f811.a(1).i().C12_f195.a(var2);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.a(var2);
          return;
       case 1:
          for(var1 = 2; var1 < 4; ++var1) {
-            if (this.C9_f122.C54_f811.a(var1).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(var1).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(var1).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(var1).i().C12_f195.a((int)0);
+            if (this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.a((int)0);
             }
 
             if (var1 % 2 == 1) {
-               this.C9_f122.C54_f811.a(var1).i().C12_f195.a(0, false, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.a(0, false, (byte)-1);
             } else if (C25.C25_f318 == -1) {
                if (C25.C25_f319 == -1) {
-                  this.C9_f122.C54_f811.a(var1).i().C12_f195.a(C25.B().C25_f287[8].C20_f261.C62_f882, false, (byte)-1);
+                  this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.a(C25.B().C25_f287[8].C20_f261.C62_f882, false, (byte)-1);
                } else {
-                  this.C9_f122.C54_f811.a(var1).i().C12_f195.a(C25.B().C25_f287[C25.C25_f319].C20_f261.C62_f882, false, (byte)-1);
+                  this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.a(C25.B().C25_f287[C25.C25_f319].C20_f261.C62_f882, false, (byte)-1);
                }
             } else {
-               this.C9_f122.C54_f811.a(var1).i().C12_f195.a(C25.B().C25_f287[C25.C25_f318].C20_f261.C62_f882, false, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.a(C25.B().C25_f287[C25.C25_f318].C20_f261.C62_f882, false, (byte)-1);
             }
 
-            this.C9_f122.C54_f811.a(var1).i().C12_f195.a((int)1);
+            this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.a((int)1);
          }
 
-         this.C9_f122.C54_f811.a(1).i().C12_f195.a(var2);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.a(var2);
          return;
       case 2:
          for(var1 = 2; var1 < 4; ++var1) {
-            if (this.C9_f122.C54_f811.a(var1).i().C12_f195 != null) {
-               this.C9_f122.C54_f811.a(var1).a(false);
+            if (this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195 != null) {
+               this.C9_f122.currentDialog.getChildById(var1).setVisible(false);
             }
 
-            if (this.C9_f122.C54_f811.a(var1 + 32).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(var1 + 32).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(var1 + 32).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(var1 + 32).i().C12_f195.a((int)0);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.a((int)0);
             }
 
             if (var1 % 2 == 1) {
-               this.C9_f122.C54_f811.a(var1 + 32).i().C12_f195.a(0, false, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.a(0, false, (byte)-1);
             } else if (C25.C25_f318 == -1) {
                if (C25.C25_f319 == -1) {
-                  this.C9_f122.C54_f811.a(var1 + 32).i().C12_f195.a(C25.B().C25_f287[8].C20_f261.C62_f882, false, (byte)-1);
+                  this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.a(C25.B().C25_f287[8].C20_f261.C62_f882, false, (byte)-1);
                } else {
-                  this.C9_f122.C54_f811.a(var1 + 32).i().C12_f195.a(C25.B().C25_f287[C25.C25_f319].C20_f261.C62_f882, false, (byte)-1);
+                  this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.a(C25.B().C25_f287[C25.C25_f319].C20_f261.C62_f882, false, (byte)-1);
                }
             } else {
-               this.C9_f122.C54_f811.a(var1 + 32).i().C12_f195.a(C25.B().C25_f287[C25.C25_f318].C20_f261.C62_f882, false, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.a(C25.B().C25_f287[C25.C25_f318].C20_f261.C62_f882, false, (byte)-1);
             }
 
-            this.C9_f122.C54_f811.a(var1 + 32).i().C12_f195.a((int)1);
+            this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.a((int)1);
          }
 
-         this.C9_f122.C54_f811.a(1).i().C12_f195.a(var2);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.a(var2);
          return;
       case 3:
          for(var1 = 2; var1 < 4; ++var1) {
-            if (this.C9_f122.C54_f811.a(var1 + 32).i().C12_f195 != null) {
-               this.C9_f122.C54_f811.a(var1 + 32).a(false);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195 != null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 32).setVisible(false);
             }
 
-            if (this.C9_f122.C54_f811.a(var1 + 2).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(var1 + 2).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(var1 + 2).i().C12_f195.C17_f222 = 2;
-               this.C9_f122.C54_f811.a(var1 + 2).i().C12_f195.a((int)0);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.C17_f222 = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.a((int)0);
             }
 
             if (var1 % 2 == 1) {
-               this.C9_f122.C54_f811.a(var1 + 2).i().C12_f195.a(0, false, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.a(0, false, (byte)-1);
             } else if (C25.C25_f318 == -1) {
                if (C25.C25_f319 == -1) {
-                  this.C9_f122.C54_f811.a(var1 + 2).i().C12_f195.a(C25.B().C25_f287[8].C20_f261.C62_f882, false, (byte)-1);
+                  this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.a(C25.B().C25_f287[8].C20_f261.C62_f882, false, (byte)-1);
                } else {
-                  this.C9_f122.C54_f811.a(var1 + 2).i().C12_f195.a(C25.B().C25_f287[C25.C25_f319].C20_f261.C62_f882, false, (byte)-1);
+                  this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.a(C25.B().C25_f287[C25.C25_f319].C20_f261.C62_f882, false, (byte)-1);
                }
             } else {
-               this.C9_f122.C54_f811.a(var1 + 2).i().C12_f195.a(C25.B().C25_f287[C25.C25_f318].C20_f261.C62_f882, false, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.a(C25.B().C25_f287[C25.C25_f318].C20_f261.C62_f882, false, (byte)-1);
             }
 
-            this.C9_f122.C54_f811.a(var1 + 2).i().C12_f195.a((int)1);
+            this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.a((int)1);
          }
 
-         this.C9_f122.C54_f811.a(1).i().C12_f195.a(var2);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.a(var2);
          this.C9_f155 = C29.B().H();
          this.C9_f156 = this.C9_f123.C53_f778;
          if (var2 - 3 < this.C9_f155) {
@@ -5463,33 +5462,33 @@ public final class C9 implements C61 {
          this.a((int)33, 7, 31);
          return;
       case 8:
-         this.C9_f122.C54_f811.a(36).a(true);
+         this.C9_f122.currentDialog.getChildById(36).setVisible(true);
          return;
       case 9:
-         this.C9_f122.C54_f811.a(36).a(false);
+         this.C9_f122.currentDialog.getChildById(36).setVisible(false);
          return;
       case 10:
          this.a((int)1, 4, 32);
          this.a((int)1, 4, 33);
 
          for(var1 = 4; var1 < 6; ++var1) {
-            this.C9_f122.C54_f811.a(var1).a(false);
+            this.C9_f122.currentDialog.getChildById(var1).setVisible(false);
          }
 
          for(var1 = 7; var1 < 19; var1 += 2) {
-            this.C9_f122.C54_f811.a(var1).a(172 + 17 * (var1 - 7) / 2, this.C9_f122.C54_f811.a());
-            this.C9_f122.C54_f811.a(var1 + 12).a(-30 + 17 * (var1 - 7) / 2, this.C9_f122.C54_f811.a());
+            this.C9_f122.currentDialog.getChildById(var1).setOffsetX(172 + 17 * (var1 - 7) / 2, this.C9_f122.currentDialog.getRootComponent());
+            this.C9_f122.currentDialog.getChildById(var1 + 12).setOffsetX(-30 + 17 * (var1 - 7) / 2, this.C9_f122.currentDialog.getRootComponent());
          }
 
          return;
       case 11:
          for(var1 = 4; var1 < 6; ++var1) {
-            this.C9_f122.C54_f811.a(var1).a(false);
+            this.C9_f122.currentDialog.getChildById(var1).setVisible(false);
          }
 
          for(var1 = 7; var1 < 19; var1 += 2) {
-            this.C9_f122.C54_f811.a(var1).a(false);
-            this.C9_f122.C54_f811.a(var1 + 12).a(false);
+            this.C9_f122.currentDialog.getChildById(var1).setVisible(false);
+            this.C9_f122.currentDialog.getChildById(var1 + 12).setVisible(false);
          }
 
          this.a((int)1, 0, -1);
@@ -5498,71 +5497,71 @@ public final class C9 implements C61 {
    }
 
    private void e(String var1) {
-      if (this.C9_f122.C54_f811.a(1).i().C12_f195 == null) {
-         this.C9_f122.C54_f811.a(1).i().C12_f195 = new C17();
-         this.C9_f122.C54_f811.a(1).i().C12_f195.a((int)0);
-         this.C9_f122.C54_f811.a(1).i().C12_f195.C17_f222 = 3;
-         this.C9_f122.C54_f811.a(1).i().C12_f195.a(257, false, (byte)-2);
+      if (this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195 == null) {
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195 = new C17();
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.a((int)0);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.C17_f222 = 3;
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.a(257, false, (byte)-2);
       }
 
-      this.C9_f122.C54_f811.a(1).i().C12_f195.a((byte)9, (byte)-2);
-      this.C9_f122.C54_f811.a(2).i().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.a((byte)9, (byte)-2);
+      this.C9_f122.currentDialog.getChildById(2).getComponentData().C12_f179 = var1;
       this.C9_f134 = 0;
    }
 
    public final void ax() {
-      this.C9_f122.a("/data/ui/openbox.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/openbox.ui", 257, this);
       this.e("Không có cái chìa khóa, có thể đến tài liệu cửa hàng mua sắm");
    }
 
    public final void ay() {
-      this.C9_f122.a("/data/ui/openbox.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/openbox.ui", 257, this);
       this.e("Đạo cụ đã đủ");
    }
 
    public final void a(String var1, int var2) {
-      this.C9_f122.a("/data/ui/openbox.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/openbox.ui", 257, this);
       this.e(var1 + " x " + var2);
    }
 
    public final void b(String var1) {
-      this.C9_f122.a("/data/ui/openbox.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/openbox.ui", 257, this);
       this.e(var1);
    }
 
    public final void az() {
-      if (this.C9_f122.b("/data/ui/openbox.ui")) {
-         this.C9_f122.a("/data/ui/openbox.ui");
+      if (this.C9_f122.isTopDialog("/data/ui/openbox.ui")) {
+         this.C9_f122.removeDialog("/data/ui/openbox.ui");
       }
 
    }
 
    public final boolean aA() {
-      return !this.C9_f122.b("/data/ui/openbox.ui");
+      return !this.C9_f122.isTopDialog("/data/ui/openbox.ui");
    }
 
    public final void c(String var1) {
-      this.C9_f122.a("/data/ui/taskTip.ui", 257, this);
-      if (this.C9_f122.C54_f811.a(1).i().C12_f195 == null) {
-         this.C9_f122.C54_f811.a(1).i().C12_f195 = new C17();
-         this.C9_f122.C54_f811.a(1).i().C12_f195.a((int)0);
-         this.C9_f122.C54_f811.a(1).i().C12_f195.C17_f222 = 3;
-         this.C9_f122.C54_f811.a(1).i().C12_f195.a(257, false, (byte)-2);
+      this.C9_f122.showDialog("/data/ui/taskTip.ui", 257, this);
+      if (this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195 == null) {
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195 = new C17();
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.a((int)0);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.C17_f222 = 3;
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.a(257, false, (byte)-2);
       }
 
-      this.C9_f122.C54_f811.a(1).i().C12_f195.a((byte)10, (byte)-2);
-      this.C9_f122.C54_f811.a(2).i().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.a((byte)10, (byte)-2);
+      this.C9_f122.currentDialog.getChildById(2).getComponentData().C12_f179 = var1;
       this.C9_f134 = 0;
    }
 
    public final boolean aB() {
-      return !this.C9_f122.b("/data/ui/taskTip.ui");
+      return !this.C9_f122.isTopDialog("/data/ui/taskTip.ui");
    }
 
    public final void aC() {
       this.C9_f126 = 0;
       this.C9_f131 = 0;
-      this.C9_f122.a("/data/ui/bodyShop.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/bodyShop.ui", 257, this);
       this.bA();
    }
 
@@ -5586,7 +5585,7 @@ public final class C9 implements C61 {
          var1 = C44.c((int)601) + C44.a(604, (int[])var2);
       }
 
-      this.C9_f122.C54_f811.a(11).i().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = var1;
       if (this.C9_f126 > 0) {
          this.C9_f121.c((byte)0);
          this.bB();
@@ -5612,27 +5611,27 @@ public final class C9 implements C61 {
       switch(this.C9_f126) {
       case 0:
          if (this.C9_f121.g(4100) && this.C9_f131 == 0) {
-            this.C9_f122.C54_f811.b(0);
+            this.C9_f122.currentDialog.handleAction(0);
             this.bA();
             return;
          }
 
          if (this.C9_f121.g(8448) && this.C9_f131 == 0) {
-            this.C9_f122.C54_f811.b(1);
+            this.C9_f122.currentDialog.handleAction(1);
             this.bA();
             return;
          }
 
          if (this.C9_f121.g(196640)) {
             this.C9_f121.a((byte)26);
-            this.C9_f122.a("/data/ui/bodyShop.ui");
+            this.C9_f122.removeDialog("/data/ui/bodyShop.ui");
             return;
          }
 
          if (this.C9_f121.g(786432)) {
             this.C9_f125 = 0;
             this.C9_f121.a((byte)6);
-            this.C9_f122.a("/data/ui/bodyShop.ui");
+            this.C9_f122.removeDialog("/data/ui/bodyShop.ui");
             return;
          }
          break;
@@ -5640,13 +5639,13 @@ public final class C9 implements C61 {
          switch(this.C9_f121.x()) {
          case 0:
             if (this.C9_f121.g(4100) && this.C9_f131 == 0) {
-               this.C9_f122.C54_f811.b(0);
+               this.C9_f122.currentDialog.handleAction(0);
                this.bA();
                return;
             }
 
             if (this.C9_f121.g(8448) && this.C9_f131 == 0) {
-               this.C9_f122.C54_f811.b(1);
+               this.C9_f122.currentDialog.handleAction(1);
                this.bA();
                return;
             }
@@ -5655,13 +5654,13 @@ public final class C9 implements C61 {
                if (this.C9_f121.g(786432) && this.C9_f131 == 0) {
                   this.C9_f125 = 0;
                   this.C9_f121.a((byte)6);
-                  this.C9_f122.a("/data/ui/bodyShop.ui");
+                  this.C9_f122.removeDialog("/data/ui/bodyShop.ui");
                   return;
                }
             } else {
                if (this.C9_f131 != 0) {
                   this.C9_f131 = 0;
-                  this.C9_f122.a("/data/ui/msgwarm.ui");
+                  this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                   return;
                }
 
@@ -5677,7 +5676,7 @@ public final class C9 implements C61 {
 
                   if (var1 >= C53.p().C53_f778) {
                      this.C9_f131 = 1;
-                     this.C9_f122.a("/data/ui/msgwarm.ui", 257, this);
+                     this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                      this.a("Trong ba lô sủng vật đều đã max level", "Nhấn nút 5 tiếp tục");
                      return;
                   }
@@ -5688,7 +5687,7 @@ public final class C9 implements C61 {
                   return;
                }
 
-               if (this.C9_f122.C54_f811.a(11).i().b()) {
+               if (this.C9_f122.currentDialog.getChildById(11).getComponentData().b()) {
                   this.C9_f121.e(1);
                   return;
                }
@@ -5747,7 +5746,7 @@ public final class C9 implements C61 {
             this.C9_f131 = 2;
          }
       } else if (this.C9_f131 == 2) {
-         this.C9_f122.a("/data/ui/msgtip.ui");
+         this.C9_f122.removeDialog("/data/ui/msgtip.ui");
          this.C9_f131 = 3;
       } else if (this.C9_f131 == 3) {
          return true;
@@ -5757,69 +5756,69 @@ public final class C9 implements C61 {
    }
 
    public final void aE() {
-      this.C9_f122.a("/data/ui/dialog.ui", 257, this);
-      this.C9_f122.C54_f811.a(12).a(false);
-      this.C9_f122.C54_f811.a(13).a(false);
+      this.C9_f122.showDialog("/data/ui/dialog.ui", 257, this);
+      this.C9_f122.currentDialog.getChildById(12).setVisible(false);
+      this.C9_f122.currentDialog.getChildById(13).setVisible(false);
    }
 
    public final void a(String var1, String var2, int var3, int var4) {
-      this.C9_f122.a("/data/ui/dialog.ui", 257, this);
-      C26.a(var2, C44.o(), this.C9_f122.C54_f811.a(14).e(), C44.m(), true, (byte)-1, this.C9_f121.C44_f700.C54_f812);
-      C26.d(this.C9_f122.C54_f811.a(14).f());
-      this.C9_f122.C54_f811.a(14).i().C12_f179 = C26.e(1);
+      this.C9_f122.showDialog("/data/ui/dialog.ui", 257, this);
+      GameUtils.a(var2, C44.o(), this.C9_f122.currentDialog.getChildById(14).getWidth(), C44.m(), true, (byte)-1, this.C9_f121.C44_f700.dialogConfig);
+      GameUtils.d(this.C9_f122.currentDialog.getChildById(14).getHeight());
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameUtils.e(1);
       C25.C25_f317 = (byte)var3;
       C25.C25_f316 = (byte)var4;
-      this.C9_f122.C54_f811.a(8).a(false);
-      this.C9_f122.C54_f811.a(11).a(false);
-      this.C9_f122.C54_f811.a(12).a(true);
-      this.C9_f122.C54_f811.a(13).a(true);
+      this.C9_f122.currentDialog.getChildById(8).setVisible(false);
+      this.C9_f122.currentDialog.getChildById(11).setVisible(false);
+      this.C9_f122.currentDialog.getChildById(12).setVisible(true);
+      this.C9_f122.currentDialog.getChildById(13).setVisible(true);
       if (var3 == -1) {
-         this.C9_f122.C54_f811.a(12).a(false);
-         this.C9_f122.C54_f811.a(13).a(false);
+         this.C9_f122.currentDialog.getChildById(12).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(13).setVisible(false);
       }
 
       switch(var3) {
       case 0:
          if (var4 != -1) {
-            if (this.C9_f122.C54_f811.a(11).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(11).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(11).i().C12_f195.C17_f222 = 3;
-               this.C9_f122.C54_f811.a(11).i().C12_f195.a((int)0);
-               this.C9_f122.C54_f811.a(11).i().C12_f195.a(323, false, (byte)-2);
+            if (this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195.C17_f222 = 3;
+               this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195.a((int)0);
+               this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195.a(323, false, (byte)-2);
             }
 
-            this.C9_f122.C54_f811.a(11).a(true);
-            this.C9_f122.C54_f811.a(11).i().C12_f195.a((byte)(var3 + (var4 << 1)), (byte)-2);
+            this.C9_f122.currentDialog.getChildById(11).setVisible(true);
+            this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195.a((byte)(var3 + (var4 << 1)), (byte)-2);
          }
 
-         this.C9_f122.C54_f811.a(13).a(false);
-         this.C9_f122.C54_f811.a(12).i().C12_f179 = var1;
+         this.C9_f122.currentDialog.getChildById(13).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = var1;
          return;
       case 1:
          if (var4 != -1) {
-            if (this.C9_f122.C54_f811.a(8).i().C12_f195 == null) {
-               this.C9_f122.C54_f811.a(8).i().C12_f195 = new C17();
-               this.C9_f122.C54_f811.a(8).i().C12_f195.C17_f222 = 3;
-               this.C9_f122.C54_f811.a(8).i().C12_f195.a((int)0);
-               this.C9_f122.C54_f811.a(8).i().C12_f195.a(323, false, (byte)-2);
+            if (this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195 == null) {
+               this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195 = new C17();
+               this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195.C17_f222 = 3;
+               this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195.a((int)0);
+               this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195.a(323, false, (byte)-2);
             }
 
-            this.C9_f122.C54_f811.a(8).a(true);
-            this.C9_f122.C54_f811.a(8).i().C12_f195.a((byte)(var3 + (var4 << 1)), (byte)-2);
+            this.C9_f122.currentDialog.getChildById(8).setVisible(true);
+            this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195.a((byte)(var3 + (var4 << 1)), (byte)-2);
          }
 
-         this.C9_f122.C54_f811.a(12).a(false);
-         this.C9_f122.C54_f811.a(13).i().C12_f179 = var1;
+         this.C9_f122.currentDialog.getChildById(12).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = var1;
       default:
       }
    }
 
    public final void b(int var1) {
-      this.C9_f122.C54_f811.a(14).i().C12_f179 = C26.e(var1);
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameUtils.e(var1);
    }
 
    public final void aF() {
-      this.C9_f122.a("/data/ui/dialog.ui");
+      this.C9_f122.removeDialog("/data/ui/dialog.ui");
    }
 
    public final boolean d(int var1, int var2) {
@@ -5828,12 +5827,12 @@ public final class C9 implements C61 {
       } else {
          switch(var1) {
          case 0:
-            if (this.C9_f122.C54_f811.a(11).i().C12_f195.a().f()) {
+            if (this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195.a().f()) {
                return true;
             }
             break;
          case 1:
-            if (this.C9_f122.C54_f811.a(8).i().C12_f195.a().f()) {
+            if (this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195.a().f()) {
                return true;
             }
          }
@@ -5845,30 +5844,30 @@ public final class C9 implements C61 {
 
    public final void a(int var1, int var2, String[] var3, String var4) {
       this.C9_f125 = 0;
-      this.C9_f122.a(this.C9_f157[var1], 257, this);
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = var2;
+      this.C9_f122.showDialog(this.C9_f157[var1], 257, this);
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = var2;
       switch(var1) {
       case 0:
          for(var1 = 0; var1 < var3.length; ++var1) {
-            this.C9_f122.C54_f811.a(var1 + 12).i().C12_f179 = var3[var1];
+            this.C9_f122.currentDialog.getChildById(var1 + 12).getComponentData().C12_f179 = var3[var1];
          }
 
          return;
       case 1:
-         this.C9_f122.C54_f811.a(5).i().C12_f179 = var4;
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = var4;
 
          for(var1 = 0; var1 < var3.length; ++var1) {
-            this.C9_f122.C54_f811.a(9 + (var1 << 2)).i().C12_f179 = var3[var1];
+            this.C9_f122.currentDialog.getChildById(9 + (var1 << 2)).getComponentData().C12_f179 = var3[var1];
          }
 
          return;
       case 2:
-         this.C9_f122.C54_f811.a(10).a(false);
-         this.C9_f122.C54_f811.a(8).i().C12_f179 = "Trò chơi";
-         this.C9_f122.C54_f811.a(9).i().C12_f179 = "Xác nhận";
+         this.C9_f122.currentDialog.getChildById(10).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Trò chơi";
+         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Xác nhận";
 
          for(var1 = 0; var1 < var3.length; ++var1) {
-            this.C9_f122.C54_f811.a(var1 + 5).i().C12_f179 = var3[var1];
+            this.C9_f122.currentDialog.getChildById(var1 + 5).getComponentData().C12_f179 = var3[var1];
          }
       default:
       }
@@ -5876,13 +5875,13 @@ public final class C9 implements C61 {
 
    public final int c(int var1) {
       if (this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.C9_f125 = this.C9_f140[0];
       } else if (this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.C9_f125 = this.C9_f140[0];
       } else if (this.C9_f121.g(196640)) {
-         this.C9_f122.a(this.C9_f157[var1]);
+         this.C9_f122.removeDialog(this.C9_f157[var1]);
          return this.C9_f125;
       }
 
@@ -5891,51 +5890,51 @@ public final class C9 implements C61 {
 
    public final void a(int[] var1, int[] var2, String[] var3, String[] var4) {
       this.C9_f125 = 0;
-      this.C9_f122.a("/data/ui/taskOption.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/taskOption.ui", 257, this);
 
       int var5;
       for(var5 = 0; var5 < var4.length; ++var5) {
-         this.C9_f122.C54_f811.a(var5 + 17).i().C12_f179 = var4[var5];
+         this.C9_f122.currentDialog.getChildById(var5 + 17).getComponentData().C12_f179 = var4[var5];
       }
 
       for(var5 = 0; var5 < var1.length; ++var5) {
-         if (this.C9_f122.C54_f811.a((var5 << 1) + 13).i().C12_f195 == null) {
-            this.C9_f122.C54_f811.a((var5 << 1) + 13).i().C12_f195 = new C17();
-            this.C9_f122.C54_f811.a((var5 << 1) + 13).i().C12_f195.C17_f222 = 2;
+         if (this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195 == null) {
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195 = new C17();
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.C17_f222 = 2;
             if (var1[var5] >= 3 && var1[var5] < 5) {
-               this.C9_f122.C54_f811.a((var5 << 1) + 13).i().C12_f195.a((int)-1);
-               this.C9_f122.C54_f811.a((var5 << 1) + 13).i().C12_f195.a(257, false, (byte)0);
+               this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.a((int)-1);
+               this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.a(257, false, (byte)0);
             } else {
-               this.C9_f122.C54_f811.a((var5 << 1) + 13).i().C12_f195.a((int)0);
-               this.C9_f122.C54_f811.a((var5 << 1) + 13).i().C12_f195.a(258, false, (byte)0);
+               this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.a((int)0);
+               this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.a(258, false, (byte)0);
             }
          }
 
          switch(var1[var5]) {
          case 0:
-            this.C9_f122.C54_f811.a((var5 << 1) + 13).i().C12_f195.a((int)C67.C67_f923[4][var2[var5]][1]);
-            this.C9_f122.C54_f811.a((var5 << 1) + 14).i().C12_f179 = var3[var5];
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.a((int)C67.C67_f923[4][var2[var5]][1]);
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().C12_f179 = var3[var5];
             break;
          case 1:
-            this.C9_f122.C54_f811.a((var5 << 1) + 13).i().C12_f195.a((int)C67.C67_f923[3][var2[var5]][1]);
-            this.C9_f122.C54_f811.a((var5 << 1) + 14).i().C12_f179 = var3[var5];
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.a((int)C67.C67_f923[3][var2[var5]][1]);
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().C12_f179 = var3[var5];
             break;
          case 2:
-            this.C9_f122.C54_f811.a((var5 << 1) + 13).i().C12_f195.a((int)C67.C67_f923[5][var2[var5]][1]);
-            this.C9_f122.C54_f811.a((var5 << 1) + 14).i().C12_f179 = var3[var5];
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.a((int)C67.C67_f923[5][var2[var5]][1]);
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().C12_f179 = var3[var5];
             break;
          case 3:
-            this.C9_f122.C54_f811.a((var5 << 1) + 13).i().C12_f195.a((int)84);
-            this.C9_f122.C54_f811.a((var5 << 1) + 14).i().C12_f179 = var3[var5];
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.a((int)84);
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().C12_f179 = var3[var5];
             break;
          case 4:
-            this.C9_f122.C54_f811.a((var5 << 1) + 13).i().C12_f195.a((int)83);
-            this.C9_f122.C54_f811.a((var5 << 1) + 14).i().C12_f179 = var3[var5];
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.a((int)83);
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().C12_f179 = var3[var5];
          case 5:
          default:
             break;
          case 6:
-            this.C9_f122.C54_f811.a(21).i().C12_f179 = "#2" + C44.c((int)C67.a((byte)0, (short)var2[var5], (byte)0)) + " #0" + var3[var5];
+            this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f179 = "#2" + C44.c((int)C67.a((byte)0, (short)var2[var5], (byte)0)) + " #0" + var3[var5];
          }
       }
 
@@ -5943,19 +5942,19 @@ public final class C9 implements C61 {
 
    public final int aG() {
       if (this.C9_f121.g(4100)) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
          this.C9_f125 = this.C9_f140[0];
       } else if (this.C9_f121.g(8448)) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
          this.C9_f125 = this.C9_f140[0];
       } else {
          if (this.C9_f121.g(196640)) {
-            this.C9_f122.a("/data/ui/taskOption.ui");
+            this.C9_f122.removeDialog("/data/ui/taskOption.ui");
             return this.C9_f125;
          }
 
          if (this.C9_f121.g(262144)) {
-            this.C9_f122.a("/data/ui/taskOption.ui");
+            this.C9_f122.removeDialog("/data/ui/taskOption.ui");
             return 1;
          }
       }
@@ -6102,38 +6101,38 @@ public final class C9 implements C61 {
    }
 
    private void bE() {
-      this.C9_f122.a("/data/ui/smsInfo.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/smsInfo.ui", 257, this);
       if (this.C9_f121 instanceof C25) {
-         this.C9_f122.C54_f811.a(6).a(true);
-         this.C9_f122.C54_f811.a(7).a(true);
-         this.C9_f122.C54_f811.a(10).a(false);
-         this.C9_f122.C54_f811.a(11).a(false);
+         this.C9_f122.currentDialog.getChildById(6).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(7).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(10).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(11).setVisible(false);
       } else {
-         this.C9_f122.C54_f811.a(6).a(false);
-         this.C9_f122.C54_f811.a(7).a(false);
-         this.C9_f122.C54_f811.a(10).a(true);
-         this.C9_f122.C54_f811.a(11).a(true);
-         this.C9_f122.C54_f811.a(10).i().C12_f179 = "Xác nhận";
-         this.C9_f122.C54_f811.a(11).i().C12_f179 = "Quay lại";
+         this.C9_f122.currentDialog.getChildById(6).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(7).setVisible(false);
+         this.C9_f122.currentDialog.getChildById(10).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(11).setVisible(true);
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f179 = "Xác nhận";
+         this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "Quay lại";
       }
    }
 
    private void c(String var1, String var2) {
-      this.C9_f122.C54_f811.a(8).i().C12_f179 = var1;
-      this.C9_f122.C54_f811.a(5).i().C12_f179 = var2;
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = var2;
    }
 
    private void bF() {
-      this.C9_f122.a("/data/ui/smsInfo.ui");
+      this.C9_f122.removeDialog("/data/ui/smsInfo.ui");
    }
 
    public final void aM() {
-      if (!this.C9_f122.c("/data/ui/smsTip.ui")) {
-         this.C9_f122.a("/data/ui/smsTip.ui", 257, this);
+      if (!this.C9_f122.containsDialog("/data/ui/smsTip.ui")) {
+         this.C9_f122.showDialog("/data/ui/smsTip.ui", 257, this);
       }
 
       for(int var1 = 0; var1 < 3; ++var1) {
-         this.C9_f122.C54_f811.a(var1 + 6).a(false);
+         this.C9_f122.currentDialog.getChildById(var1 + 6).setVisible(false);
       }
 
       this.C9_f132 = true;
@@ -6141,11 +6140,11 @@ public final class C9 implements C61 {
 
    public final void d(String var1) {
       this.C9_f132 = true;
-      this.C9_f122.C54_f811.a(5).i().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = var1;
    }
 
    public final void aN() {
-      this.C9_f122.a("/data/ui/smsTip.ui");
+      this.C9_f122.removeDialog("/data/ui/smsTip.ui");
    }
 
    public final void aO() {
@@ -6225,8 +6224,8 @@ public final class C9 implements C61 {
       label23:
       switch(var2) {
       case 0:
-         this.C9_f122.a("/data/ui/wharf1.ui", 257, this);
-         this.C9_f122.C54_f811.a(8).i().C12_f179 = C44.c(var3);
+         this.C9_f122.showDialog("/data/ui/wharf1.ui", 257, this);
+         this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = C44.c(var3);
          var2 = 0;
 
          while(true) {
@@ -6234,34 +6233,34 @@ public final class C9 implements C61 {
                break label23;
             }
 
-            this.C9_f122.C54_f811.a(var2 + 5).i().C12_f179 = C44.c((int)this.C9_f160[var1][var2]);
+            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().C12_f179 = C44.c((int)this.C9_f160[var1][var2]);
             ++var2;
          }
       case 1:
-         this.C9_f122.a("/data/ui/wharf2.ui", 257, this);
-         this.C9_f122.C54_f811.a(10).i().C12_f179 = C44.c(var3);
+         this.C9_f122.showDialog("/data/ui/wharf2.ui", 257, this);
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f179 = C44.c(var3);
 
          for(var2 = 0; var2 < this.C9_f160[var1].length; ++var2) {
-            this.C9_f122.C54_f811.a(var2 + 5).i().C12_f179 = C44.c((int)this.C9_f160[var1][var2]);
+            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().C12_f179 = C44.c((int)this.C9_f160[var1][var2]);
          }
       }
 
-      this.C9_f122.C54_f811.a(5 + this.C9_f160[var1].length).i().C12_f179 = "Không ra hàng";
+      this.C9_f122.currentDialog.getChildById(5 + this.C9_f160[var1].length).getComponentData().C12_f179 = "Không ra hàng";
    }
 
    public final void aP() {
       if (this.C9_f121.g(4100) && !this.j()) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
       } else if (this.C9_f121.g(8448) && !this.j()) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
       } else if (this.C9_f121.g(196640) && !this.j()) {
          if (this.C9_f126 == this.C9_f161[this.C9_f162].length / 9) {
             switch(this.C9_f163) {
             case 0:
-               this.C9_f122.a("/data/ui/wharf1.ui");
+               this.C9_f122.removeDialog("/data/ui/wharf1.ui");
                break;
             case 1:
-               this.C9_f122.a("/data/ui/wharf2.ui");
+               this.C9_f122.removeDialog("/data/ui/wharf2.ui");
             }
 
             if (C25.C25_f318 != -1 && C25.B().C25_f287[C25.C25_f318].v() == 0) {
@@ -6287,10 +6286,10 @@ public final class C9 implements C61 {
                      this.C9_f121.a((byte)29);
                      switch(this.C9_f163) {
                      case 0:
-                        this.C9_f122.a("/data/ui/wharf1.ui");
+                        this.C9_f122.removeDialog("/data/ui/wharf1.ui");
                         break label59;
                      case 1:
-                        this.C9_f122.a("/data/ui/wharf2.ui");
+                        this.C9_f122.removeDialog("/data/ui/wharf2.ui");
                      default:
                         break label59;
                      }
@@ -6307,10 +6306,10 @@ public final class C9 implements C61 {
 
          switch(this.C9_f163) {
          case 0:
-            this.C9_f122.a("/data/ui/wharf1.ui");
+            this.C9_f122.removeDialog("/data/ui/wharf1.ui");
             break;
          case 1:
-            this.C9_f122.a("/data/ui/wharf2.ui");
+            this.C9_f122.removeDialog("/data/ui/wharf2.ui");
          }
 
          this.C9_f121.a((byte)0);
@@ -6321,40 +6320,40 @@ public final class C9 implements C61 {
 
    public final void aQ() {
       this.C9_f125 = 0;
-      this.C9_f122.a("/data/ui/shopbuy.ui", 257, this);
+      this.C9_f122.showDialog("/data/ui/shopbuy.ui", 257, this);
       this.C9_f125 = 0;
       this.C9_f131 = 0;
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f574 = 1;
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.a(0);
-      this.C9_f122.C54_f811.a(41).a(false);
-      this.C9_f122.C54_f811.a(43).a(false);
-      this.C9_f122.C54_f811.a(5).i().C12_f179 = "Mua";
-      this.C9_f122.C54_f811.a(57).a(true);
-      this.C9_f122.C54_f811.a(58).a(true);
-      this.C9_f122.C54_f811.a(57).i().C12_f179 = "Mua sắm";
-      this.C9_f122.C54_f811.a(58).i().C12_f179 = "Quay lại";
-      this.C9_f122.C54_f811.a(39).a(false);
-      this.C9_f122.C54_f811.a(40).a(false);
-      this.C9_f135 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f579;
-      this.C9_f136 = ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580;
-      if (this.C9_f122.C54_f811.a(51).i().C12_f195 == null) {
-         this.C9_f122.C54_f811.a(51).i().C12_f195 = new C17();
-         this.C9_f122.C54_f811.a(51).i().C12_f195.a((int)0);
-         this.C9_f122.C54_f811.a(51).i().C12_f195.C17_f222 = 2;
-         this.C9_f122.C54_f811.a(51).i().C12_f195.a(258, false, (byte)-1);
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 1;
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
+      this.C9_f122.currentDialog.getChildById(41).setVisible(false);
+      this.C9_f122.currentDialog.getChildById(43).setVisible(false);
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Mua";
+      this.C9_f122.currentDialog.getChildById(57).setVisible(true);
+      this.C9_f122.currentDialog.getChildById(58).setVisible(true);
+      this.C9_f122.currentDialog.getChildById(57).getComponentData().C12_f179 = "Mua sắm";
+      this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "Quay lại";
+      this.C9_f122.currentDialog.getChildById(39).setVisible(false);
+      this.C9_f122.currentDialog.getChildById(40).setVisible(false);
+      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
+      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
+      if (this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f195 == null) {
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f195 = new C17();
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f195.a((int)0);
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f195.C17_f222 = 2;
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f195.a(258, false, (byte)-1);
       }
 
-      this.C9_f122.C54_f811.a(51).i().C12_f195.a((int)C67.C67_f923[5][0][1]);
-      this.C9_f122.C54_f811.a(14).i().C12_f179 = C44.c((int)C67.C67_f923[5][0][0]);
-      this.C9_f122.C54_f811.a(15).i().C12_f179 = "5000";
-      this.C9_f122.C54_f811.a(45).i().C12_f195.a((int)84);
-      this.C9_f122.C54_f811.a(56).i().C12_f179 = "Ấp trứng ra sủng vật";
-      this.C9_f122.C54_f811.a(44).i().C12_f179 = "" + this.C9_f123.F();
-      this.C9_f122.C54_f811.a(38).b(102 + this.C9_f136 * 84 / C67.C67_f923[5].length, this.C9_f122.C54_f811.a());
+      this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f195.a((int)C67.C67_f923[5][0][1]);
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[5][0][0]);
+      this.C9_f122.currentDialog.getChildById(15).getComponentData().C12_f179 = "5000";
+      this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f195.a((int)84);
+      this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "Ấp trứng ra sủng vật";
+      this.C9_f122.currentDialog.getChildById(44).getComponentData().C12_f179 = "" + this.C9_f123.F();
+      this.C9_f122.currentDialog.getChildById(38).setOffsetY(102 + this.C9_f136 * 84 / C67.C67_f923[5].length, this.C9_f122.currentDialog.getRootComponent());
    }
 
    private void bG() {
-      this.C9_f122.a("/data/ui/shopbuy.ui");
+      this.C9_f122.removeDialog("/data/ui/shopbuy.ui");
    }
 
    public final int aR() {
@@ -6396,35 +6395,35 @@ public final class C9 implements C61 {
    }
 
    public final void aS() {
-      this.C9_f122.a("/data/ui/wharf2.ui", 257, this);
-      ((C43)this.C9_f122.C54_f811.a(0)).C43_f689.C38_f580 = this.C9_f128;
+      this.C9_f122.showDialog("/data/ui/wharf2.ui", 257, this);
+      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f128;
       this.C9_f131 = 0;
-      this.C9_f122.C54_f811.a(10).i().C12_f179 = "Tiện lợi điếm";
-      this.C9_f122.C54_f811.a(12).i().C12_f179 = "Tiến vào";
+      this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f179 = "Tiện lợi điếm";
+      this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = "Tiến vào";
 
       for(int var1 = 0; var1 < this.C9_f164.length; ++var1) {
-         this.C9_f122.C54_f811.a(var1 + 5).i().C12_f179 = this.C9_f164[var1];
+         this.C9_f122.currentDialog.getChildById(var1 + 5).getComponentData().C12_f179 = this.C9_f164[var1];
       }
 
    }
 
    public final void aT() {
       if (this.C9_f121.g(4100) && !this.j()) {
-         this.C9_f122.C54_f811.b(0);
+         this.C9_f122.currentDialog.handleAction(0);
       } else if (this.C9_f121.g(8448) && !this.j()) {
-         this.C9_f122.C54_f811.b(1);
+         this.C9_f122.currentDialog.handleAction(1);
       } else if (this.C9_f121.g(196640) && !this.j()) {
          if (this.C9_f131 == 0) {
             switch(this.C9_f128) {
             case 0:
-               this.C9_f122.a("/data/ui/wharf2.ui");
+               this.C9_f122.removeDialog("/data/ui/wharf2.ui");
                this.C9_f121.a((byte)31);
                return;
             case 1:
             case 2:
                C25.B();
                if (C25.C25_f339) {
-                  this.C9_f122.a("/data/ui/wharf2.ui");
+                  this.C9_f122.removeDialog("/data/ui/wharf2.ui");
                   this.C9_f126 = 0;
                   this.C9_f121.a((byte)7);
                   return;
@@ -6435,11 +6434,11 @@ public final class C9 implements C61 {
                this.a("Công năng theo đạo học sau mở ra", "Nhấn nút 5 tiếp tục");
                return;
             case 3:
-               this.C9_f122.a("/data/ui/wharf2.ui");
+               this.C9_f122.removeDialog("/data/ui/wharf2.ui");
                this.C9_f121.a((byte)32);
                return;
             case 4:
-               this.C9_f122.a("/data/ui/wharf2.ui");
+               this.C9_f122.removeDialog("/data/ui/wharf2.ui");
                this.C9_f121.a((byte)0);
             default:
             }
@@ -6450,7 +6449,7 @@ public final class C9 implements C61 {
          }
       } else {
          if (this.C9_f121.g(262144) && this.C9_f131 == 0 && !this.j()) {
-            this.C9_f122.a("/data/ui/wharf2.ui");
+            this.C9_f122.removeDialog("/data/ui/wharf2.ui");
             this.C9_f121.a((byte)0);
          }
 
@@ -6489,11 +6488,11 @@ public final class C9 implements C61 {
          case 6:
             this.C9_f125 = var1[0];
             if (!C44.C44_f711) {
-               this.C9_f122.C54_f811.a(14).i().C12_f179 = C44.c(606 + this.C9_f125);
+               this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = C44.c(606 + this.C9_f125);
                return;
             }
 
-            this.C9_f122.C54_f811.a(14).i().C12_f179 = C44.c(605 + this.C9_f125);
+            this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = C44.c(605 + this.C9_f125);
             break;
          case 7:
             this.b(var1);
@@ -6620,7 +6619,7 @@ public final class C9 implements C61 {
             return;
          case 20:
             this.C9_f124 = var1[1];
-            this.C9_f122.C54_f811.a(20 + this.C9_f124).a(true);
+            this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(true);
             return;
          case 21:
             this.C9_f125 = var1[0];

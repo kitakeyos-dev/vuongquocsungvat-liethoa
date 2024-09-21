@@ -1,6 +1,6 @@
 package game;
 
-import a.C26;
+import a.GameUtils;
 import a.a.C20;
 import a.a.C21;
 import a.b.C62;
@@ -68,7 +68,7 @@ public final class C41 extends C20 {
       short var7;
       byte var8;
       if (var5 == -1) {
-         var7 = (short)C26.b(C67.C67_f923[0][this.C41_f657][3], C67.C67_f923[0][this.C41_f657][3]);
+         var7 = (short) GameUtils.getRandomInRange(C67.C67_f923[0][this.C41_f657][3], C67.C67_f923[0][this.C41_f657][3]);
          var8 = 0;
          super.C60_f855[var8] = var7;
       } else {
@@ -1158,7 +1158,7 @@ public final class C41 extends C20 {
          var3 = (var2 = this.G()).length;
 
          for(int var4 = 0; var4 < var2.length; ++var4) {
-            var6 = C26.a(var3);
+            var6 = GameUtils.getRandomInt(var3);
             this.g((byte)var2[var6]);
             if (this.C41_f647 >= this.C41_f654 / 10 + 1) {
                break;
@@ -1632,7 +1632,7 @@ public final class C41 extends C20 {
          var10 += C67.C67_f923[3][4][5];
       }
 
-      if (C26.a(100) <= var10) {
+      if (GameUtils.getRandomInt(100) <= var10) {
          var4 = var4 * 3 / 2;
          var2 = 1;
       }
@@ -1756,7 +1756,7 @@ public final class C41 extends C20 {
       } else {
          label154: {
             if (var1.f((byte)3)) {
-               if (C26.a(100) > var11 * (100 - C67.C67_f923[3][3][5]) / 100) {
+               if (GameUtils.getRandomInt(100) > var11 * (100 - C67.C67_f923[3][3][5]) / 100) {
                   var17 = -1;
                   break label154;
                }
@@ -1766,7 +1766,7 @@ public final class C41 extends C20 {
                   break label154;
                }
 
-               if (var11 != -1 && C26.a(100) > var11) {
+               if (var11 != -1 && GameUtils.getRandomInt(100) > var11) {
                   var17 = -1;
                   break label154;
                }
@@ -1837,7 +1837,7 @@ public final class C41 extends C20 {
          var4 -= var4 * this.C41_f642[6][1] / 100;
       }
 
-      if (var1.m(6) && C26.a(100) <= this.C41_f641[6][1]) {
+      if (var1.m(6) && GameUtils.getRandomInt(100) <= this.C41_f641[6][1]) {
          var4 = var4 * this.C41_f641[6][2] / 100;
       }
 
@@ -1862,7 +1862,7 @@ public final class C41 extends C20 {
       if (var4 <= 0) {
          var4 = 1;
       } else {
-         var10 = C26.a(100);
+         var10 = GameUtils.getRandomInt(100);
          int var13 = (var4 << 1) / 100;
          if (var10 > 50) {
             if (var13 <= 0) {
@@ -1877,7 +1877,7 @@ public final class C41 extends C20 {
          }
       }
 
-      if (var1.m(5) && C26.a(100) <= var1.C41_f641[5][1]) {
+      if (var1.m(5) && GameUtils.getRandomInt(100) <= var1.C41_f641[5][1]) {
          this.C41_f668[5] = (short)var4;
          return new int[]{var4, var2, var16};
       } else {

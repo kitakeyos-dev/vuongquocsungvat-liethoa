@@ -1,6 +1,6 @@
 package a.b;
 
-import a.C26;
+import a.GameUtils;
 import b.C57;
 import game.C25;
 import java.io.DataInputStream;
@@ -23,7 +23,7 @@ public class C67 {
 
    public static void a() {
       String var0 = null;
-      C67_f921 = C26.readShortMatrix(C26.a("/data/script/sprite.mid"));
+      C67_f921 = GameUtils.readShortMatrix(GameUtils.openInputStream("/data/script/sprite.mid"));
       var0 = "/data/mod/modInfo.mid";
 
       try {
@@ -54,12 +54,12 @@ public class C67 {
       c();
       d("/data/event/worldEvt.mid");
       b("/data/script/db.mid");
-      C67_f927 = C26.loadImage("/data/tex/", "bk");
+      C67_f927 = GameUtils.loadImage("/data/tex/", "bk");
    }
 
    private static void a(String var0) {
       String[][] var2;
-      C25.C25_f349 = new String[(var2 = C26.readStringMatrix(C26.a(var0))).length];
+      C25.C25_f349 = new String[(var2 = GameUtils.readStringMatrix(GameUtils.openInputStream(var0))).length];
 
       for(int var1 = 0; var1 < var2.length; ++var1) {
          System.arraycopy(var2[var1], 0, C25.C25_f349, var1, var2[var1].length);
@@ -72,19 +72,19 @@ public class C67 {
    }
 
    private static void b(String var0) {
-      InputStream var2 = C26.a(var0);
+      InputStream var2 = GameUtils.openInputStream(var0);
       C67_f923 = new short[9][][];
 
       for(int var1 = 0; var1 < 9; ++var1) {
-         C67_f923[var1] = C26.readShortMatrix(var2);
+         C67_f923[var1] = GameUtils.readShortMatrix(var2);
       }
 
    }
 
    private static void c(String var0) {
-      String[][] var4;
-      C67_f924 = new String[(var4 = C26.readStringMatrix(C26.a(var0))).length];
-      StringBuffer var1 = new StringBuffer();
+      String[][] var4 = GameUtils.readStringMatrix(GameUtils.openInputStream(var0));
+      C67_f924 = new String[var4.length];
+      StringBuilder var1 = new StringBuilder();
 
       for(int var2 = 0; var2 < var4.length; ++var2) {
          var1.delete(0, var1.length());
@@ -102,7 +102,7 @@ public class C67 {
       C67_f926 = new int[4][];
 
       for(int var0 = 0; var0 < 4; ++var0) {
-         C67_f926[var0] = C26.a(C26.loadImage("/data/tex/", "tex_" + var0));
+         C67_f926[var0] = GameUtils.extractImageRGB(GameUtils.loadImage("/data/tex/", "tex_" + var0));
       }
 
    }
@@ -129,7 +129,7 @@ public class C67 {
             }
          }
 
-         if ((var2 = (short)var1.readByte()) > 0) {
+         if ((var2 = var1.readByte()) > 0) {
             C67_f925 = new C57[var2];
 
             for(byte var10 = 0; var10 < var2; ++var10) {
@@ -152,7 +152,7 @@ public class C67 {
 
    public static Image b(int var0) {
       if (C67_f928[var0] == null) {
-         C67_f928[var0] = C26.loadImage("/data/img/", "img_" + var0);
+         C67_f928[var0] = GameUtils.loadImage("/data/img/", "img_" + var0);
       }
 
       ++C67_f929[var0];

@@ -1,6 +1,6 @@
 package game;
 
-import a.C26;
+import a.GameUtils;
 import a.C44;
 import a.a.C20;
 import a.a.C30;
@@ -101,22 +101,22 @@ public final class C7 extends C44 {
       }
 
       String[][] var1;
-      C7_f102 = new String[(var1 = C26.readStringMatrix(C26.a("/data/script/bTask.mid"))).length];
+      C7_f102 = new String[(var1 = GameUtils.readStringMatrix(GameUtils.openInputStream("/data/script/bTask.mid"))).length];
 
       int var2;
       for(var2 = 0; var2 < var1.length; ++var2) {
          System.arraycopy(var1[var2], 0, C7_f102, var2, var1[var2].length);
       }
 
-      C7_f103 = new String[(var1 = C26.readStringMatrix(C26.a("/data/script/mTask.mid"))).length];
+      C7_f103 = new String[(var1 = GameUtils.readStringMatrix(GameUtils.openInputStream("/data/script/mTask.mid"))).length];
 
       for(var2 = 0; var2 < var1.length; ++var2) {
          System.arraycopy(var1[var2], 0, C7_f103, var2, var1[var2].length);
       }
 
       InputStream var3;
-      C7_f108 = C26.readByteMatrix(var3 = C26.a("/data/script/bqTask.mid"));
-      C7_f109 = C26.readByteMatrix(var3);
+      C7_f108 = GameUtils.readByteMatrix(var3 = GameUtils.openInputStream("/data/script/bqTask.mid"));
+      C7_f109 = GameUtils.readByteMatrix(var3);
    }
 
    public static C7 B() {
@@ -152,7 +152,7 @@ public final class C7 extends C44 {
                   int var15;
                   switch(var3.a()) {
                   case 13:
-                     if (!C26.a(var3.b()[0], var3.b()[1], var3.b()[2], var3.b()[3], var1.C7_f54.C60_f861, var1.C7_f54.C60_f862, var1.C7_f54.C20_f261.k())) {
+                     if (!GameUtils.checkCollisionWithShortArray(var3.b()[0], var3.b()[1], var3.b()[2], var3.b()[3], var1.C7_f54.C60_f861, var1.C7_f54.C60_f862, var1.C7_f54.C20_f261.k())) {
                         break label218;
                      }
 
@@ -233,10 +233,10 @@ public final class C7 extends C44 {
                      }
                      break label218;
                   case 59:
-                     var12 = new int[C26.a(var3.c()[0], ',').length];
+                     var12 = new int[GameUtils.a(var3.c()[0], ',').length];
 
                      for(var15 = 0; var15 < var12.length; ++var15) {
-                        var12[var15] = C26.b(C26.a(var3.c()[0], ',')[var15]);
+                        var12[var15] = GameUtils.b(GameUtils.a(var3.c()[0], ',')[var15]);
                         if (var1.C7_f53.C25_f287[var12[var15]].i() == 0) {
                            break;
                         }
@@ -247,10 +247,10 @@ public final class C7 extends C44 {
                      }
                      break label218;
                   case 61:
-                     var12 = new int[C26.a(var3.c()[0], ',').length];
+                     var12 = new int[GameUtils.a(var3.c()[0], ',').length];
 
                      for(var15 = 0; var15 < var12.length; ++var15) {
-                        var12[var15] = C26.b(C26.a(var3.c()[0], ',')[var15]);
+                        var12[var15] = GameUtils.b(GameUtils.a(var3.c()[0], ',')[var15]);
                         if (var1.C7_f53.C25_f287[var12[var15]].i() == 0) {
                            break;
                         }
@@ -267,11 +267,11 @@ public final class C7 extends C44 {
                      }
                      break;
                   case 73:
-                     String[] var11 = C26.a(var3.c()[1], ',');
-                     String[] var13 = C26.a(var3.c()[0], ',');
+                     String[] var11 = GameUtils.a(var3.c()[1], ',');
+                     String[] var13 = GameUtils.a(var3.c()[0], ',');
 
                      int var10;
-                     for(var10 = 0; var10 < var11.length && var1.C7_f54.a((byte)C26.d(var13[var10]), (int)C26.d(var11[var10])) >= 2; ++var10) {
+                     for(var10 = 0; var10 < var11.length && var1.C7_f54.a((byte) GameUtils.d(var13[var10]), (int) GameUtils.d(var11[var10])) >= 2; ++var10) {
                      }
 
                      if (var10 >= var11.length) {
@@ -284,9 +284,9 @@ public final class C7 extends C44 {
                      }
                      break;
                   case 78:
-                     byte[] var5 = C26.e(var3.c()[0]);
-                     byte[] var6 = C26.e(var3.c()[1]);
-                     byte[] var9 = C26.e(var3.c()[2]);
+                     byte[] var5 = GameUtils.e(var3.c()[0]);
+                     byte[] var6 = GameUtils.e(var3.c()[1]);
+                     byte[] var9 = GameUtils.e(var3.c()[2]);
 
                      for(var7 = 0; var7 < var9.length && var1.C7_f60[C25.e(var5[var7], var6[var7])] != null && (var1.C7_f60[C25.e(var5[var7], var6[var7])][var9[var7]] == 3 || var1.C7_f60[C25.e(var5[var7], var6[var7])][var9[var7]] == 4); ++var7) {
                      }
@@ -555,7 +555,7 @@ public final class C7 extends C44 {
                case 2:
                   if (var3.b()[0] == -1) {
                      this.C7_f54.c();
-                     this.C7_f54.a((byte)0, (byte)C26.d(C26.a(var3.c()[1], ',')[0]));
+                     this.C7_f54.a((byte)0, (byte) GameUtils.d(GameUtils.a(var3.c()[1], ',')[0]));
                      break label1202;
                   }
 
@@ -566,12 +566,12 @@ public final class C7 extends C44 {
                         break label1202;
                      }
 
-                     this.C7_f53.C25_f287[C26.c(C26.a(var3.c()[0], ',')[var10])].d(C26.d(C26.a(var3.c()[1], ',')[var10]));
-                     if (this.C7_f53.C25_f287[C26.c(C26.a(var3.c()[0], ',')[var10])].C18_f225 == 1) {
-                        this.C7_f53.C25_f287[C26.c(C26.a(var3.c()[0], ',')[var10])].a((byte)0);
+                     this.C7_f53.C25_f287[GameUtils.c(GameUtils.a(var3.c()[0], ',')[var10])].d(GameUtils.d(GameUtils.a(var3.c()[1], ',')[var10]));
+                     if (this.C7_f53.C25_f287[GameUtils.c(GameUtils.a(var3.c()[0], ',')[var10])].C18_f225 == 1) {
+                        this.C7_f53.C25_f287[GameUtils.c(GameUtils.a(var3.c()[0], ',')[var10])].a((byte)0);
                      }
 
-                     this.C7_f53.C25_f287[C26.c(C26.a(var3.c()[0], ',')[var10])].c();
+                     this.C7_f53.C25_f287[GameUtils.c(GameUtils.a(var3.c()[0], ',')[var10])].c();
                      ++var10;
                   }
                case 3:
@@ -587,7 +587,7 @@ public final class C7 extends C44 {
                         break label1202;
                      }
 
-                     var27 = C26.c(C26.a(var3.c()[0], ',')[var12]);
+                     var27 = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var12]);
                      this.C7_f53.C25_f287[var27].d();
                      ++var12;
                   }
@@ -598,9 +598,9 @@ public final class C7 extends C44 {
                      var2.a((byte)5);
                   } else if (this.C7_f53.C44_f701.d(var3.b()[1], var3.b()[0]) && this.C7_f55.g(196640)) {
                      C25.B().D();
-                     if (C26.pageCount < C26.b()) {
-                        C26.c();
-                        this.C7_f53.C44_f701.b(C26.pageCount);
+                     if (GameUtils.pageCount < GameUtils.b()) {
+                        GameUtils.c();
+                        this.C7_f53.C44_f701.b(GameUtils.pageCount);
                      } else {
                         if (C25.C25_f318 != -1 && this.C7_f53.C25_f287[C25.C25_f318].C20_f261.C62_f882 <= 85 && this.C7_f53.C25_f287[C25.C25_f318].v() == 0) {
                            C25.B().a((byte)13, C25.B().C25_f287[C25.C25_f318].C60_f861, C25.B().C25_f287[C25.C25_f318].C60_f862 - 40, C25.B().C25_f287[C25.C25_f318]);
@@ -650,13 +650,13 @@ public final class C7 extends C44 {
                      this.C7_f76 = new short[var3.b()[0]];
 
                      for(var10 = 0; var10 < this.C7_f76.length; ++var10) {
-                        this.C7_f76[var10] = C26.c(C26.a(var3.c()[0], ',')[var10]);
-                        var5 = C26.d(C26.a(var3.c()[2], ',')[var10]);
+                        this.C7_f76[var10] = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var10]);
+                        var5 = GameUtils.d(GameUtils.a(var3.c()[2], ',')[var10]);
                         if (this.C7_f76[var10] == -1) {
-                           this.C7_f54.a(C26.d(C26.a(var3.c()[1], ',')[0]), var5);
+                           this.C7_f54.a(GameUtils.d(GameUtils.a(var3.c()[1], ',')[0]), var5);
                         } else {
                            this.C7_f53.C25_f287[this.C7_f76[var10]].d(var5);
-                           this.C7_f53.C25_f287[this.C7_f76[var10]].a(C26.d(C26.a(var3.c()[1], ',')[var10]));
+                           this.C7_f53.C25_f287[this.C7_f76[var10]].a(GameUtils.d(GameUtils.a(var3.c()[1], ',')[var10]));
                         }
                      }
 
@@ -749,27 +749,27 @@ public final class C7 extends C44 {
                   if (var2.a() != 5) {
                      if (var3.b()[0] == -1) {
                         this.C7_f77 = new byte[1];
-                        this.C7_f54.d(C26.d(C26.a(var3.c()[1], ',')[0]));
+                        this.C7_f54.d(GameUtils.d(GameUtils.a(var3.c()[1], ',')[0]));
                         this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
-                        this.C7_f54.b((byte)0, (short)C26.d(C26.a(var3.c()[2], ',')[0]));
-                        this.C7_f77[0] = C26.d(C26.a(var3.c()[3], ',')[0]);
+                        this.C7_f54.b((byte)0, (short) GameUtils.d(GameUtils.a(var3.c()[2], ',')[0]));
+                        this.C7_f77[0] = GameUtils.d(GameUtils.a(var3.c()[3], ',')[0]);
                      } else {
                         this.C7_f76 = new short[var3.b()[0]];
                         this.C7_f77 = new byte[var3.b()[0]];
 
                         for(var10 = 0; var10 < this.C7_f76.length; ++var10) {
-                           this.C7_f76[var10] = C26.c(C26.a(var3.c()[0], ',')[var10]);
+                           this.C7_f76[var10] = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var10]);
                            if (this.C7_f76[var10] != -1) {
-                              this.C7_f53.C25_f287[this.C7_f76[var10]].d(C26.d(C26.a(var3.c()[1], ',')[var10]));
-                              this.C7_f53.C25_f287[this.C7_f76[var10]].b((byte)0, (short)C26.d(C26.a(var3.c()[2], ',')[var10]));
+                              this.C7_f53.C25_f287[this.C7_f76[var10]].d(GameUtils.d(GameUtils.a(var3.c()[1], ',')[var10]));
+                              this.C7_f53.C25_f287[this.C7_f76[var10]].b((byte)0, (short) GameUtils.d(GameUtils.a(var3.c()[2], ',')[var10]));
                               this.C7_f53.C25_f287[this.C7_f76[var10]].a((byte)0);
                            } else {
-                              this.C7_f54.d(C26.d(C26.a(var3.c()[1], ',')[var10]));
-                              this.C7_f54.b((byte)0, (short)C26.d(C26.a(var3.c()[2], ',')[var10]));
+                              this.C7_f54.d(GameUtils.d(GameUtils.a(var3.c()[1], ',')[var10]));
+                              this.C7_f54.b((byte)0, (short) GameUtils.d(GameUtils.a(var3.c()[2], ',')[var10]));
                               this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
                            }
 
-                           this.C7_f77[var10] = C26.d(C26.a(var3.c()[3], ',')[var10]);
+                           this.C7_f77[var10] = GameUtils.d(GameUtils.a(var3.c()[3], ',')[var10]);
                         }
                      }
 
@@ -874,7 +874,7 @@ public final class C7 extends C44 {
                   this.C7_f61 = 0;
                   break;
                case 13:
-                  if (C26.a(var3.b()[0], var3.b()[1], var3.b()[2], var3.b()[3], this.C7_f54.C60_f861, this.C7_f54.C60_f862, this.C7_f54.C20_f261.k())) {
+                  if (GameUtils.checkCollisionWithShortArray(var3.b()[0], var3.b()[1], var3.b()[2], var3.b()[3], this.C7_f54.C60_f861, this.C7_f54.C60_f862, this.C7_f54.C20_f261.k())) {
                      var2.a((byte)1);
                      this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
                   } else {
@@ -1043,11 +1043,11 @@ public final class C7 extends C44 {
                      this.C7_f79 = new short[var27];
 
                      for(var12 = 0; var12 < this.C7_f76.length; ++var12) {
-                        this.C7_f76[var12] = C26.c(C26.a(var3.c()[0], ',')[var12]);
-                        this.C7_f82[var12] = C26.c(C26.a(var3.c()[1], ',')[var12]);
-                        this.C7_f83[var12] = C26.c(C26.a(var3.c()[2], ',')[var12]);
-                        this.C7_f78[var12] = C26.c(C26.a(var3.c()[3], ',')[var12]);
-                        this.C7_f79[var12] = C26.c(C26.a(var3.c()[4], ',')[var12]);
+                        this.C7_f76[var12] = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var12]);
+                        this.C7_f82[var12] = GameUtils.c(GameUtils.a(var3.c()[1], ',')[var12]);
+                        this.C7_f83[var12] = GameUtils.c(GameUtils.a(var3.c()[2], ',')[var12]);
+                        this.C7_f78[var12] = GameUtils.c(GameUtils.a(var3.c()[3], ',')[var12]);
+                        this.C7_f79[var12] = GameUtils.c(GameUtils.a(var3.c()[4], ',')[var12]);
                      }
 
                      var2.a((byte)5);
@@ -1086,18 +1086,18 @@ public final class C7 extends C44 {
                case 30:
                   if (var2.a() != 5) {
                      this.C7_f76 = new short[var3.b()[0]];
-                     String[] var23 = C26.a(var3.c()[2], ',');
+                     String[] var23 = GameUtils.a(var3.c()[2], ',');
 
                      for(var12 = 0; var12 < this.C7_f76.length; ++var12) {
-                        this.C7_f76[var12] = C26.c(var23[var12]);
+                        this.C7_f76[var12] = GameUtils.c(var23[var12]);
                      }
 
                      String[][] var21 = new String[this.C7_f76.length][];
                      String[][] var29 = new String[this.C7_f76.length][];
 
                      for(var18 = 0; var18 < var29.length; ++var18) {
-                        var21[var18] = C26.a(C26.a(var3.c()[0], '#')[var18], ',');
-                        var29[var18] = C26.a(C26.a(var3.c()[1], '#')[var18], ',');
+                        var21[var18] = GameUtils.a(GameUtils.a(var3.c()[0], '#')[var18], ',');
+                        var29[var18] = GameUtils.a(GameUtils.a(var3.c()[1], '#')[var18], ',');
                      }
 
                      this.C7_f80 = new short[this.C7_f76.length][];
@@ -1108,8 +1108,8 @@ public final class C7 extends C44 {
                         this.C7_f81[var18] = new short[var29[var18].length];
 
                         for(var22 = 0; var22 < this.C7_f80[var18].length; ++var22) {
-                           this.C7_f80[var18][var22] = C26.c(var21[var18][var22]);
-                           this.C7_f81[var18][var22] = C26.c(var29[var18][var22]);
+                           this.C7_f80[var18][var22] = GameUtils.c(var21[var18][var22]);
+                           this.C7_f81[var18][var22] = GameUtils.c(var29[var18][var22]);
                         }
                      }
 
@@ -1211,7 +1211,7 @@ public final class C7 extends C44 {
                   }
                case 34:
                   if (var2.a() != 5) {
-                     C7_f85 = C26.loadImage("/data/tex/", this.C7_f86[var3.b()[0]]);
+                     C7_f85 = GameUtils.loadImage("/data/tex/", this.C7_f86[var3.b()[0]]);
                      this.C7_f87 = var3.b()[1];
                      this.C7_f88 = var3.b()[2];
                      this.C7_f89 = var3.b()[3];
@@ -1240,12 +1240,12 @@ public final class C7 extends C44 {
 
                   this.C7_f90 = var3.b()[0];
                   this.C7_f91 = var3.b()[1];
-                  this.C7_f93 = C26.a(var3.c()[0], ',');
-                  this.C7_f92 = new byte[C26.a(var3.c()[1], ',').length];
+                  this.C7_f93 = GameUtils.a(var3.c()[0], ',');
+                  this.C7_f92 = new byte[GameUtils.a(var3.c()[1], ',').length];
                   String var11 = var3.c()[2];
 
                   for(var15 = 0; var15 < this.C7_f92.length; ++var15) {
-                     this.C7_f92[var15] = C26.d(C26.a(var3.c()[1], ',')[var15]);
+                     this.C7_f92[var15] = GameUtils.d(GameUtils.a(var3.c()[1], ',')[var15]);
                   }
 
                   this.C7_f55.C44_f701.a(this.C7_f91, this.C7_f90, this.C7_f93, var11);
@@ -1282,12 +1282,12 @@ public final class C7 extends C44 {
                case 38:
                   C7_f68 = false;
 
-                  for(var15 = 0; var15 < C26.a(var3.c()[0], ',').length; ++var15) {
-                     if (C26.d(C26.a(var3.c()[0], ',')[var15]) == C25.C25_f318) {
+                  for(var15 = 0; var15 < GameUtils.a(var3.c()[0], ',').length; ++var15) {
+                     if (GameUtils.d(GameUtils.a(var3.c()[0], ',')[var15]) == C25.C25_f318) {
                         C7_f68 = true;
                         if (C7_f69) {
                            C25.C25_f318 = -1;
-                           var5 = C26.d(C26.a(var3.c()[1], ',')[var15]);
+                           var5 = GameUtils.d(GameUtils.a(var3.c()[1], ',')[var15]);
                            var2.b((byte)(var5 - 1));
                            C25.B().D();
                            C7_f68 = false;
@@ -1436,11 +1436,11 @@ public final class C7 extends C44 {
                      this.C7_f96[var15] = var3.c()[var15];
                   }
 
-                  this.C7_f92 = new byte[C26.a(var3.c()[2], ',').length];
+                  this.C7_f92 = new byte[GameUtils.a(var3.c()[2], ',').length];
 
                   for(var15 = 0; var15 < this.C7_f92.length; ++var15) {
-                     this.C7_f92[var15] = C26.d(C26.a(var3.c()[2], ',')[var15]);
-                     this.C7_f93[var15] = C26.a(var3.c()[3], ',')[var15];
+                     this.C7_f92[var15] = GameUtils.d(GameUtils.a(var3.c()[2], ',')[var15]);
+                     this.C7_f93[var15] = GameUtils.a(var3.c()[3], ',')[var15];
                   }
 
                   this.C7_f55.C44_f701.a(this.C7_f94, this.C7_f95, this.C7_f96, this.C7_f93);
@@ -1501,9 +1501,9 @@ public final class C7 extends C44 {
                   int[][] var26 = new int[var19 = var3.b()[0]][3];
 
                   for(var22 = 0; var22 < var19; ++var22) {
-                     var26[var22][0] = C26.b(C26.a(var3.c()[0], ',')[var22]);
-                     var26[var22][1] = C26.b(C26.a(var3.c()[1], ',')[var22]);
-                     var26[var22][2] = C26.b(C26.a(var3.c()[2], ',')[var22]);
+                     var26[var22][0] = GameUtils.b(GameUtils.a(var3.c()[0], ',')[var22]);
+                     var26[var22][1] = GameUtils.b(GameUtils.a(var3.c()[1], ',')[var22]);
+                     var26[var22][2] = GameUtils.b(GameUtils.a(var3.c()[2], ',')[var22]);
                   }
 
                   C29.B().a(var26);
@@ -1535,8 +1535,8 @@ public final class C7 extends C44 {
                            break label1202;
                         }
 
-                        var25 = C26.c(C26.a(var3.c()[0], ',')[var18]);
-                        var14 = C26.d(C26.a(var3.c()[1], ',')[var18]);
+                        var25 = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var18]);
+                        var14 = GameUtils.d(GameUtils.a(var3.c()[1], ',')[var18]);
                         this.C7_f53.C25_f287[var25].d(var14);
                         if (this.C7_f53.C25_f287[var25].C18_f225 == 1) {
                            this.C7_f53.C25_f287[var25].a((byte)0);
@@ -1561,7 +1561,7 @@ public final class C7 extends C44 {
                         break label1202;
                      }
 
-                     var25 = C26.c(C26.a(var3.c()[0], ',')[var18]);
+                     var25 = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var18]);
                      if (this.C7_f53.C25_f287[var25].C18_f225 == 1) {
                         this.C7_f53.C25_f287[var25].a((byte)0);
                      }
@@ -1586,8 +1586,8 @@ public final class C7 extends C44 {
                      this.C7_f76 = new short[var3.b()[0]];
 
                      for(var15 = 0; var15 < this.C7_f76.length; ++var15) {
-                        this.C7_f76[var15] = C26.c(C26.a(var3.c()[0], ',')[var15]);
-                        this.C7_f53.C25_f287[this.C7_f76[var15]].a(C26.d(C26.a(var3.c()[1], ',')[var15]));
+                        this.C7_f76[var15] = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var15]);
+                        this.C7_f53.C25_f287[this.C7_f76[var15]].a(GameUtils.d(GameUtils.a(var3.c()[1], ',')[var15]));
                         if (this.C7_f53.C25_f287[this.C7_f76[var15]].C18_f223 == 0 && this.C7_f53.C25_f287[this.C7_f76[var15]].C18_f225 == 6 && this.C7_f53.C25_f287[this.C7_f76[var15]].i() == 2) {
                            short var10002 = this.C7_f76[var15];
                            C25.B().C25_f285.a(C25.B().C25_f287[var10002], 2);
@@ -1612,12 +1612,12 @@ public final class C7 extends C44 {
                   this.C7_f61 = 0;
                   break;
                case 62:
-                  int[] var13 = new int[C26.a(var3.c()[0], ',').length];
+                  int[] var13 = new int[GameUtils.a(var3.c()[0], ',').length];
                   var22 = -1;
                   var2.a((byte)6);
 
                   for(var18 = 0; var18 < var13.length; ++var18) {
-                     var13[var18] = C26.b(C26.a(var3.c()[0], ',')[var18]);
+                     var13[var18] = GameUtils.b(GameUtils.a(var3.c()[0], ',')[var18]);
                      if (this.C7_f53.C25_f287[var13[var18]].i() == 2) {
                         var22 = var13[var18];
                         break;
@@ -1708,8 +1708,8 @@ public final class C7 extends C44 {
                   }
                   break label1202;
                case 72:
-                  String[] var6 = C26.a(var3.c()[0], ',');
-                  String[] var17 = C26.a(var3.c()[1], ',');
+                  String[] var6 = GameUtils.a(var3.c()[0], ',');
+                  String[] var17 = GameUtils.a(var3.c()[1], ',');
                   C20[] var20 = new C20[var6.length];
                   var10 = 0;
 
@@ -1721,16 +1721,16 @@ public final class C7 extends C44 {
                      var20[var10] = new C20();
                      var20[var10].a(259, false);
                      var20[var10].g();
-                     if (C26.b(var6[var10]) == -1) {
-                        var20[var10].a(C26.d(var17[var10]), (byte)-1, true);
+                     if (GameUtils.b(var6[var10]) == -1) {
+                        var20[var10].a(GameUtils.d(var17[var10]), (byte)-1, true);
                         var20[var10].c();
                         var20[var10].b(this.C7_f54.m(), this.C7_f54.n() - 40);
                         var20[var10].a(this.C7_f54);
                      } else {
-                        var20[var10].a(C26.d(var17[var10]), (byte)-1, true);
+                        var20[var10].a(GameUtils.d(var17[var10]), (byte)-1, true);
                         var20[var10].c();
-                        var20[var10].b(this.C7_f53.C25_f287[C26.b(var6[var10])].m(), this.C7_f53.C25_f287[C26.b(var6[var10])].n() - 40);
-                        var20[var10].a(this.C7_f53.C25_f287[C26.b(var6[var10])]);
+                        var20[var10].b(this.C7_f53.C25_f287[GameUtils.b(var6[var10])].m(), this.C7_f53.C25_f287[GameUtils.b(var6[var10])].n() - 40);
+                        var20[var10].a(this.C7_f53.C25_f287[GameUtils.b(var6[var10])]);
                      }
 
                      C7_f63.addElement(var20[var10]);
@@ -1764,24 +1764,24 @@ public final class C7 extends C44 {
                      } else if (var3.b()[0] == 1) {
                         C55.B().C55_f825 = C55.B().C55_f824;
                         long var16;
-                        if (C26.a(var16 = C55.B().C55_f825 - C55.B().C55_f823)[2] <= 60L) {
+                        if (GameUtils.a(var16 = C55.B().C55_f825 - C55.B().C55_f823)[2] <= 60L) {
                            if ((var14 = this.C7_f54.z()) == 0) {
                               this.C7_f55.C44_f701.b("Đạt được #2Lục hành điểu");
                               this.C7_f54.a(54, 5, (short)-1, (byte)2, (short)-1, (byte)-1, new int[]{1, 30, 45});
                            } else if (var14 == 1) {
                               this.C7_f55.C44_f701.b("Đạt được #2Lục hành điểu#0 ba lô đã đủ, đã để vào ngân hàng");
-                              var10 = C26.b(C67.C67_f923[0][54][3], C67.C67_f923[0][54][3]);
+                              var10 = GameUtils.getRandomInRange(C67.C67_f923[0][54][3], C67.C67_f923[0][54][3]);
                               this.C7_f54.a(54, 5, (short)-1, (byte)2, (byte)var10, (byte)-1, 0, 0, 0, new int[]{1, 30, 45});
                            } else {
                               this.C7_f55.C44_f701.b("Không có không gian, đã phóng sinh");
                            }
-                        } else if (C26.a(var16)[2] <= 65L) {
+                        } else if (GameUtils.a(var16)[2] <= 65L) {
                            this.C7_f54.s(1000);
                            this.C7_f55.C44_f701.b("Thưởng 1000 kim");
-                        } else if (C26.a(var16)[2] <= 130L) {
+                        } else if (GameUtils.a(var16)[2] <= 130L) {
                            this.C7_f54.s(750);
                            this.C7_f55.C44_f701.b("Thưởng 750 kim");
-                        } else if (C26.a(var16)[2] <= 200L) {
+                        } else if (GameUtils.a(var16)[2] <= 200L) {
                            this.C7_f54.s(600);
                            this.C7_f55.C44_f701.b("Thưởng 600 kim");
                         }
@@ -1836,7 +1836,7 @@ public final class C7 extends C44 {
                   break label1202;
                case 82:
                   short var7 = var3.b()[0];
-                  byte[] var8 = C26.e(var3.c()[0]);
+                  byte[] var8 = GameUtils.e(var3.c()[0]);
                   var10 = 0;
 
                   while(true) {
@@ -1871,9 +1871,9 @@ public final class C7 extends C44 {
                      var2.a((byte)5);
                   } else if (this.C7_f53.C44_f701.d(var3.b()[1], var3.b()[0]) && this.C7_f55.g(196640)) {
                      C25.B().D();
-                     if (C26.pageCount < C26.b()) {
-                        C26.c();
-                        this.C7_f53.C44_f701.b(C26.pageCount);
+                     if (GameUtils.pageCount < GameUtils.b()) {
+                        GameUtils.c();
+                        this.C7_f53.C44_f701.b(GameUtils.pageCount);
                      } else {
                         if (C25.C25_f318 != -1 && this.C7_f53.C25_f287[C25.C25_f318].C20_f261.C62_f882 <= 85 && this.C7_f53.C25_f287[C25.C25_f318].v() == 0) {
                            C25.B().a((byte)13, C25.B().C25_f287[C25.C25_f318].C60_f861, C25.B().C25_f287[C25.C25_f318].C60_f862 - 40, C25.B().C25_f287[C25.C25_f318]);

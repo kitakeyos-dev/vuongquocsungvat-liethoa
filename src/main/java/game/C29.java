@@ -1,12 +1,12 @@
 package game;
 
-import a.C26;
+import a.GameUtils;
 import a.C44;
 import a.a.C20;
 import a.a.C21;
 import a.b.C60;
 import a.b.C67;
-import c.C54;
+import c.DialogManager;
 import java.io.InputStream;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
@@ -224,27 +224,27 @@ public final class C29 extends C44 {
          this.C29_f402 = new C41[this.C29_f393[this.C29_f397]];
       }
 
-      C29_f446 = C26.readShortMatrix(C26.a("/data/script/pos.mid"));
-      InputStream var4 = C26.a("/data/script/cpos.mid");
+      C29_f446 = GameUtils.readShortMatrix(GameUtils.openInputStream("/data/script/pos.mid"));
+      InputStream var4 = GameUtils.openInputStream("/data/script/cpos.mid");
       C29_f447 = new short[3][][];
 
       for(var2 = 0; var2 < 3; ++var2) {
-         C29_f447[var2] = C26.readShortMatrix(var4);
+         C29_f447[var2] = GameUtils.readShortMatrix(var4);
       }
 
-      var4 = C26.a("/data/script/layer.mid");
+      var4 = GameUtils.openInputStream("/data/script/layer.mid");
       C29_f448 = new byte[15][][];
 
       for(var2 = 0; var2 < C29_f448.length; ++var2) {
-         C29_f448[var2] = C26.readByteMatrix(var4);
+         C29_f448[var2] = GameUtils.readByteMatrix(var4);
       }
 
-      C29_f449 = C26.readByteMatrix(C26.a("/data/script/effect.mid"));
-      C29_f450 = C26.readShortMatrix(C26.a("/data/script/speffect.mid"));
-      C29_f462 = C26.readShortMatrix(C26.a("/data/script/blood.mid"));
-      C29_f451 = C26.readByteMatrix(var4 = C26.a("/data/script/bufDebuf.mid"));
-      C29_f452 = C26.readByteMatrix(var4);
-      C29_f453 = C26.readByteMatrix(var4);
+      C29_f449 = GameUtils.readByteMatrix(GameUtils.openInputStream("/data/script/effect.mid"));
+      C29_f450 = GameUtils.readShortMatrix(GameUtils.openInputStream("/data/script/speffect.mid"));
+      C29_f462 = GameUtils.readShortMatrix(GameUtils.openInputStream("/data/script/blood.mid"));
+      C29_f451 = GameUtils.readByteMatrix(var4 = GameUtils.openInputStream("/data/script/bufDebuf.mid"));
+      C29_f452 = GameUtils.readByteMatrix(var4);
+      C29_f453 = GameUtils.readByteMatrix(var4);
       if (this.C29_f397 == 0) {
          if (this.C29_f398 == 1) {
             this.C29_f399 = 2;
@@ -326,7 +326,7 @@ public final class C29 extends C44 {
       C29_f461 = new Image[3];
 
       for(var1 = 0; var1 < C29_f461.length; ++var1) {
-         C29_f461[var1] = C26.loadImage("/data/tex/", "blood_" + var1);
+         C29_f461[var1] = GameUtils.loadImage("/data/tex/", "blood_" + var1);
       }
 
       for(var1 = 0; var1 < C29_f395.C53_f778; ++var1) {
@@ -448,7 +448,7 @@ public final class C29 extends C44 {
    public final void E() {
       this.C44_f701 = C9.a();
       this.C44_f701.a((C44)this);
-      this.C44_f700 = C54.a();
+      this.C44_f700 = DialogManager.getInstance();
       if (this.C29_f397 == 0) {
          this.C44_f701.a(this.C29_f402[1], this.C29_f402[0]);
       } else {
@@ -983,7 +983,7 @@ public final class C29 extends C44 {
          switch(this.C29_f408.C41_f659) {
          case 52:
          case 58:
-            if (C26.a(100) > 30) {
+            if (GameUtils.getRandomInt(100) > 30) {
                this.C29_f433 = false;
                break;
             }
@@ -1098,7 +1098,7 @@ public final class C29 extends C44 {
          this.e((byte)0);
          this.C29_f443 = false;
          var3 = this.m(C29_f444);
-         if (C26.a(100) < var3) {
+         if (GameUtils.getRandomInt(100) < var3) {
             this.C29_f443 = true;
          } else {
             this.C29_f443 = false;
@@ -1326,7 +1326,7 @@ public final class C29 extends C44 {
                } else {
                   var2 = true;
                   var12 = this.C29_f408;
-                  if (C41.a((byte)var1, (byte)9) == 0 && this.C29_f408.p(8) && C26.a(100) > C67.a((byte)1, (short)var1, (byte)8)) {
+                  if (C41.a((byte)var1, (byte)9) == 0 && this.C29_f408.p(8) && GameUtils.getRandomInt(100) > C67.a((byte)1, (short)var1, (byte)8)) {
                      this.f(this.C29_f408);
                      var2 = false;
                   }
@@ -1336,7 +1336,7 @@ public final class C29 extends C44 {
                   }
                }
 
-               var5 = C26.a(this.C29_f408.C41_f664.size());
+               var5 = GameUtils.getRandomInt(this.C29_f408.C41_f664.size());
                C41 var7 = (C41)this.C29_f408.C41_f664.elementAt(var5);
                this.C29_f408.C41_f666 = Byte.parseByte((String)this.C29_f408.C41_f665.elementAt(var5));
                this.C29_f408.a(var1, var7);
@@ -1344,7 +1344,7 @@ public final class C29 extends C44 {
                this.a((byte)7);
             } else if (this.C29_f408.p(9)) {
                this.f(this.C29_f408);
-               var6 = C26.a(this.C29_f408.C41_f664.size());
+               var6 = GameUtils.getRandomInt(this.C29_f408.C41_f664.size());
                C41 var9 = (C41)this.C29_f408.C41_f664.elementAt(var6);
                this.C29_f408.C41_f666 = Byte.parseByte((String)this.C29_f408.C41_f665.elementAt(var6));
                byte var8 = (byte)e(this.C29_f408);
@@ -1354,7 +1354,7 @@ public final class C29 extends C44 {
             } else {
                var4 = true;
                var12 = this.C29_f408;
-               if (C41.a((byte)this.C29_f408.I(), (byte)9) == 0 && this.C29_f408.p(8) && C26.a(100) > C67.a((byte)1, (short)this.C29_f408.I(), (byte)8)) {
+               if (C41.a((byte)this.C29_f408.I(), (byte)9) == 0 && this.C29_f408.p(8) && GameUtils.getRandomInt(100) > C67.a((byte)1, (short)this.C29_f408.I(), (byte)8)) {
                   this.f(this.C29_f408);
                   var4 = false;
                }
@@ -1769,7 +1769,7 @@ public final class C29 extends C44 {
                               this.a((byte)2);
                            }
                         } else {
-                           var3 = C26.a(100);
+                           var3 = GameUtils.getRandomInt(100);
                            if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= C67.C67_f923[1][this.C29_f408.C41_f659][8] && ((C41)this.C29_f408.C60_f868).T()) {
                               --this.C29_f410;
                               this.a((byte)2);
@@ -1813,7 +1813,7 @@ public final class C29 extends C44 {
 
                            --this.C29_f408.C41_f668[12];
                         } else {
-                           var3 = C26.a(100);
+                           var3 = GameUtils.getRandomInt(100);
                            if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= C67.C67_f923[1][this.C29_f408.C41_f659][8] && ((C41)this.C29_f408.C60_f868).T()) {
                               --this.C29_f410;
                               this.a((byte)2);
@@ -1941,7 +1941,7 @@ public final class C29 extends C44 {
             this.C29_f402[var6].p();
          }
 
-         this.C44_f700.c();
+         this.C44_f700.closeCurrentDialog();
       }
    }
 
@@ -1994,9 +1994,9 @@ public final class C29 extends C44 {
             break;
          case 1:
             if (var2[2] == 0) {
-               C26.a(var1, var3, 16704699, this.C29_f454 - 10, this.C29_f455 + C29_f462[var2[0]][(var2[3] << 1) + 1] - 30, 17, 17, this.C44_f700.C54_f812, 2);
+               GameUtils.a(var1, var3, 16704699, this.C29_f454 - 10, this.C29_f455 + C29_f462[var2[0]][(var2[3] << 1) + 1] - 30, 17, 17, this.C44_f700.dialogConfig, 2);
             } else {
-               C26.a(var1, var3, 16704699, this.C29_f454 + 10, this.C29_f455 + C29_f462[var2[0]][(var2[3] << 1) + 1] - 30, 17, 17, this.C44_f700.C54_f812, 2);
+               GameUtils.a(var1, var3, 16704699, this.C29_f454 + 10, this.C29_f455 + C29_f462[var2[0]][(var2[3] << 1) + 1] - 30, 17, 17, this.C44_f700.dialogConfig, 2);
             }
          }
       }
@@ -2097,7 +2097,7 @@ public final class C29 extends C44 {
             this.b(var1);
          }
 
-         this.C44_f700.a(var1);
+         this.C44_f700.render(var1);
       }
    }
 
@@ -2234,7 +2234,7 @@ public final class C29 extends C44 {
                      this.a((byte)2);
                   }
                } else {
-                  var3 = C26.a(100);
+                  var3 = GameUtils.getRandomInt(100);
                   if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= C67.C67_f923[1][this.C29_f408.C41_f659][8]) {
                      if (!((C41)this.C29_f408.C60_f868).T()) {
                         --this.C29_f408.C41_f668[12];
@@ -2298,7 +2298,7 @@ public final class C29 extends C44 {
    private static int e(C41 var0) {
       byte var1 = var0.C41_f646[0];
       int[] var2 = new int[]{50, 20, 15, 10, 5, 5, 5, 5, 5, 5};
-      int var3 = C26.a(100);
+      int var3 = GameUtils.getRandomInt(100);
 
       for(int var4 = 0; var4 < var0.C41_f646.length; ++var4) {
          if (var0.C41_f646[var4] != -1 && var0.C41_f645[var4] > 0 && var3 < var2[var4]) {
@@ -2620,7 +2620,7 @@ public final class C29 extends C44 {
                var1 = 20;
             }
 
-            if (C26.a(100) >= var1) {
+            if (GameUtils.getRandomInt(100) >= var1) {
                ((C41)this.C29_f408.C60_f868).k(this.C29_f432[0]);
                if (this.C29_f408.f((byte)10)) {
                   C41 var10000 = (C41)this.C29_f408.C60_f868;
@@ -2752,7 +2752,7 @@ public final class C29 extends C44 {
          byte var3 = (byte)C67.C67_f923[1][var2][6];
          short var7;
          if (C67.C67_f923[1][this.C29_f408.C41_f659][9] == 0) {
-            if (this.C29_f408.f((byte)8) && C26.a(100) <= C67.C67_f923[3][8][5]) {
+            if (this.C29_f408.f((byte)8) && GameUtils.getRandomInt(100) <= C67.C67_f923[3][8][5]) {
                var5 = 1;
                this.C29_f408.u(this.C29_f408.C60_f856[var5]);
                this.C29_f408.l((short)(this.C29_f432[0] * C67.C67_f923[3][8][6] / 100));

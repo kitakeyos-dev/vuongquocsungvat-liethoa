@@ -1,6 +1,6 @@
 package game;
 
-import a.C26;
+import a.GameUtils;
 import a.a.C20;
 import a.b.C68;
 import javax.microedition.lcdui.Graphics;
@@ -78,7 +78,7 @@ public final class C18 extends C20 {
          this.C18_f227 = var1[11];
          this.C18_f228 = var1[12];
          this.C18_f229 = 0;
-         this.C18_f231 = C26.b(20, 40);
+         this.C18_f231 = GameUtils.getRandomInRange(20, 40);
          this.C18_f233 = 0;
          if (this.C18_f225 == 12) {
             this.C60_f866 = 0;
@@ -254,9 +254,9 @@ public final class C18 extends C20 {
          break;
       case 1:
          if (this.C18_f225 == 0) {
-            if (this.C60_f860 == 0 && C26.a(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.k())) {
+            if (this.C60_f860 == 0 && GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.k())) {
                this.a((byte)1);
-            } else if (this.C60_f860 == 2 && !C26.a(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.k())) {
+            } else if (this.C60_f860 == 2 && !GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.k())) {
                this.a((byte)3);
             } else if (this.C60_f860 == 1 && this.C20_f261.f()) {
                this.a((byte)2);
@@ -272,7 +272,7 @@ public final class C18 extends C20 {
             }
 
             var10001 = this.C18_f244[this.C18_f236];
-            if ((C53.p().C60_f867 == var10001 && this.C20_f261.C62_f882 != 320 && this.C20_f261.C62_f882 != 310 || this.C20_f261.C62_f882 == 320 || this.C20_f261.C62_f882 == 310) && C26.a(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.j())) {
+            if ((C53.p().C60_f867 == var10001 && this.C20_f261.C62_f882 != 320 && this.C20_f261.C62_f882 != 310 || this.C20_f261.C62_f882 == 320 || this.C20_f261.C62_f882 == 310) && GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.j())) {
                C25.B().C25_f290 = this.C18_f237;
                C25.B().C25_f291 = this.C18_f238;
                C25.B().C25_f295 = this.C18_f239;
@@ -280,7 +280,7 @@ public final class C18 extends C20 {
             }
          } else if (this.C18_f225 == 2) {
             var10001 = this.C18_f244[this.C18_f236];
-            if ((C53.p().C60_f867 == var10001 && this.C20_f261.C62_f882 != 320 || this.C20_f261.C62_f882 == 320) && C26.a(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.j())) {
+            if ((C53.p().C60_f867 == var10001 && this.C20_f261.C62_f882 != 320 || this.C20_f261.C62_f882 == 320) && GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.j())) {
                for(int var1 = 0; var1 < this.C18_f249.length / 6; ++var1) {
                   if (this.C18_f249[var1 * 6] == this.C18_f248 && this.C18_f249[var1 * 6 + 1] == C25.B().C25_f290 && this.C18_f249[var1 * 6 + 2] == C25.B().C25_f291) {
                      C25.B().C25_f293 = this.C18_f249[var1 * 6 + 3];
@@ -295,7 +295,7 @@ public final class C18 extends C20 {
                C25.B().C25_f295 = -1;
                C55.B().a((byte)9);
             }
-         } else if (this.C18_f225 == 4 && C53.p().i() != 9 && C53.p().i() != 10 && C26.a(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.j())) {
+         } else if (this.C18_f225 == 4 && C53.p().i() != 9 && C53.p().i() != 10 && GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.j())) {
             C53.p().b(this.C60_f861, this.C60_f862);
             C53.p().C20_f262.b(this.C60_f861, this.C60_f862);
             C53.p().a((byte)9, (byte)this.C60_f866);
@@ -343,10 +343,10 @@ public final class C18 extends C20 {
       case 2:
          if (this.A()) {
             var4 = new byte[]{0, 1, 2, 3, 5};
-            this.a(var4[C26.a(5)]);
+            this.a(var4[GameUtils.getRandomInt(5)]);
             if (this.C60_f860 != 3 && this.C60_f860 != 0) {
                if (this.C60_f860 != 5 && this.C60_f860 != 2) {
-                  if (C26.a(2) == 0) {
+                  if (GameUtils.getRandomInt(2) == 0) {
                      var2 = 3;
                      super.C60_f866 = var2;
                   } else {
@@ -388,14 +388,14 @@ public final class C18 extends C20 {
       case 3:
          if (this.A()) {
             var4 = new byte[]{0, 1, 2, 4};
-            this.a(var4[C26.a(4)]);
+            this.a(var4[GameUtils.getRandomInt(4)]);
             if (this.C60_f860 == 0) {
                var2 = 0;
                super.C60_f866 = var2;
             } else if (this.C60_f860 == 2) {
                var2 = 2;
                super.C60_f866 = var2;
-            } else if (C26.a(2) == 0) {
+            } else if (GameUtils.getRandomInt(2) == 0) {
                var2 = 3;
                super.C60_f866 = var2;
             } else {
@@ -445,7 +445,7 @@ public final class C18 extends C20 {
                C25.B().a(this.C18_f248, 0, this.C60_f860, true);
             }
 
-            if ((this.C18_f225 == 7 || this.C18_f225 == 6) && (var1 = C26.a(2)) > 0) {
+            if ((this.C18_f225 == 7 || this.C18_f225 == 6) && (var1 = GameUtils.getRandomInt(2)) > 0) {
                C53.p().s(var1);
                int[] var3 = new int[]{var1, super.C60_f861, super.C60_f862 - 20, 0};
                C53.p().C53_f799.addElement(var3);
@@ -493,7 +493,7 @@ public final class C18 extends C20 {
          return;
       case 12:
          if (this.k()) {
-            if (!C26.a(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, this.C20_f261.k())) {
+            if (!GameUtils.isPointInShortArrayRectangle(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, this.C20_f261.k())) {
                if (this.a(this.C60_f866, 4, (byte)0)) {
                   this.a((int)4);
                   return;
@@ -516,7 +516,7 @@ public final class C18 extends C20 {
          break;
       case 13:
          if (this.k()) {
-            if (!C26.a(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, this.C20_f261.k())) {
+            if (!GameUtils.isPointInShortArrayRectangle(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, this.C20_f261.k())) {
                if (this.a(this.C60_f866, 4, (byte)0)) {
                   this.a((int)4);
                   return;
@@ -547,7 +547,7 @@ public final class C18 extends C20 {
          this.C18_f232 = 0;
          return;
       case 16:
-         if (C26.a(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, this.C20_f261.k()) && C53.p().i() != 5) {
+         if (GameUtils.isPointInShortArrayRectangle(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, this.C20_f261.k()) && C53.p().i() != 5) {
             C53.p().a((byte)5, (byte)C53.p().C60_f866);
             return;
          }
@@ -612,7 +612,7 @@ public final class C18 extends C20 {
                      break label83;
                   }
 
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.k() != null && C26.a(var5.C60_f861, var5.C60_f862 + var3, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.k())) {
+                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.k() != null && GameUtils.isPointInShortArrayRectangle(var5.C60_f861, var5.C60_f862 + var3, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.k())) {
                      C25.B().C25_f287[var6].C60_f868 = var5;
                      var10000 = false;
                      break label86;
@@ -629,7 +629,7 @@ public final class C18 extends C20 {
                      break label83;
                   }
 
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.k() != null && C26.a(var5.C60_f861 + var3, var5.C60_f862, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.k())) {
+                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.k() != null && GameUtils.isPointInShortArrayRectangle(var5.C60_f861 + var3, var5.C60_f862, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.k())) {
                      C25.B().C25_f287[var6].C60_f868 = var5;
                      var10000 = false;
                      break label86;
@@ -646,7 +646,7 @@ public final class C18 extends C20 {
                      break label83;
                   }
 
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.k() != null && C26.a(var5.C60_f861, var5.C60_f862 - var3, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.k())) {
+                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.k() != null && GameUtils.isPointInShortArrayRectangle(var5.C60_f861, var5.C60_f862 - var3, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.k())) {
                      C25.B().C25_f287[var6].C60_f868 = var5;
                      var10000 = false;
                      break label86;
@@ -658,7 +658,7 @@ public final class C18 extends C20 {
                var4 = C68.a().a(0, this.C60_f861 - var3, this.C60_f862);
 
                for(var6 = 0; var6 < C25.B().C25_f287.length; ++var6) {
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.k() != null && C26.a(var5.C60_f861 - var3, var5.C60_f862, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.k())) {
+                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.k() != null && GameUtils.isPointInShortArrayRectangle(var5.C60_f861 - var3, var5.C60_f862, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.k())) {
                      C25.B().C25_f287[var6].C60_f868 = var5;
                      var10000 = false;
                      break label86;
@@ -681,7 +681,7 @@ public final class C18 extends C20 {
       ++this.C18_f230;
       if (this.C18_f230 >= this.C18_f231) {
          this.C18_f230 = 0;
-         this.C18_f231 = C26.b(20, 40);
+         this.C18_f231 = GameUtils.getRandomInRange(20, 40);
          return true;
       } else {
          return false;

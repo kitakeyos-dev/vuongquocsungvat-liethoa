@@ -1,6 +1,6 @@
 package a.b;
 
-import a.C26;
+import a.GameUtils;
 
 public class C60 {
    public short[] C60_f855;
@@ -115,7 +115,7 @@ public class C60 {
          return true;
       } else {
          int var4;
-         if ((var4 = C26.a(this.C60_f861, this.C60_f862, var2, var3)) < var1) {
+         if ((var4 = GameUtils.calculateEuclideanDistance(this.C60_f861, this.C60_f862, var2, var3)) < var1) {
             this.C60_f861 = var2;
             this.C60_f862 = var3;
          } else {

@@ -1,11 +1,11 @@
 package c;
 
-import a.C26;
+import a.GameUtils;
 import a.C44;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 
-public final class C12 {
+public final class DialogData {
    public String C12_f179 = "";
    private int[] C12_f180 = new int[2];
    private int C12_f181;
@@ -27,7 +27,7 @@ public final class C12 {
    private String C12_f197 = "";
    private boolean[] C12_f198 = new boolean[]{false, false};
 
-   public C12() {
+   public DialogData() {
       this.C12_f180[1] = this.C12_f180[0] = 0;
       this.C12_f181 = 2;
       this.C12_f182 = 4;
@@ -67,7 +67,7 @@ public final class C12 {
       return this.C12_f198[1];
    }
 
-   private void a(Graphics var1, C35 var2, String var3, int var4, int var5, boolean var6, byte var7, C31 var8, byte var9) {
+   private void a(Graphics var1, C35 var2, String var3, int var4, int var5, boolean var6, byte var7, DialogConfig var8, byte var9) {
       if (var1 != null && var4 >> 24 != 0) {
          if (var3.startsWith("#P") && var3.length() > 2) {
             boolean var10 = false;
@@ -94,7 +94,7 @@ public final class C12 {
          }
 
          this.C12_f197 = var3;
-         C26.a(var1, var3, var4, var2.C35_f557, var2.C35_f558, var14.getHeight(), var2.C35_f559, var2.C35_f560, var14, var6, var5, this.C12_f180, this.C12_f181, var7, var8, var9, this.C12_f198);
+         GameUtils.a(var1, var3, var4, var2.C35_f557, var2.C35_f558, var14.getHeight(), var2.C35_f559, var2.C35_f560, var14, var6, var5, this.C12_f180, this.C12_f181, var7, var8, var9, this.C12_f198);
       }
    }
 
@@ -105,7 +105,7 @@ public final class C12 {
       }
    }
 
-   public final void a(Graphics var1, int var2, int var3, int var4, int var5, boolean var6, byte var7, byte var8, C31 var9) {
+   public final void a(Graphics var1, int var2, int var3, int var4, int var5, boolean var6, byte var7, byte var8, DialogConfig var9) {
       if (this.C12_f188 != var6 || this.C12_f189 == 0) {
          this.C12_f189 = -1;
          this.C12_f188 = var6;

@@ -2,7 +2,7 @@ package c;
 
 import javax.microedition.lcdui.Graphics;
 
-public final class C66 implements C23 {
+public final class C66 implements IComponent {
    private int C66_f893;
    private int C66_f894;
    private int C66_f895;
@@ -324,12 +324,12 @@ public final class C66 implements C23 {
       this.C66_f916 = true;
    }
 
-   public final void a(Graphics var1, boolean var2, boolean var3, C23 var4, int[] var5) {
+   public final void render(Graphics var1, boolean var2, boolean var3, IComponent var4, int[] var5) {
       if (this.C66_f916) {
          if (var1 != null) {
             var1.setColor(this.C66_f912);
-            var1.fillRect(this.C66_f893, this.C66_f894, this.e(), this.f());
-            C35 var8 = new C35(this.C66_f893, this.C66_f894, this.e(), this.f());
+            var1.fillRect(this.C66_f893, this.C66_f894, this.getWidth(), this.getHeight());
+            C35 var8 = new C35(this.C66_f893, this.C66_f894, this.getWidth(), this.getHeight());
             if (this.C66_f913 != null && var1 != null) {
                this.C66_f913.a(var1, var8, 0);
             }
@@ -347,7 +347,7 @@ public final class C66 implements C23 {
                }
             }
 
-            var8 = new C35(this.C66_f893 + this.C66_f897 + (this.C66_f911 % this.C66_f899 - this.C66_f904) * (this.C66_f897 + this.C66_f895) + this.C66_f901, this.C66_f894 + this.C66_f898 + (this.C66_f911 / this.C66_f899 - this.C66_f906) * (this.C66_f898 + this.C66_f896) + this.C66_f902, this.e(), this.f());
+            var8 = new C35(this.C66_f893 + this.C66_f897 + (this.C66_f911 % this.C66_f899 - this.C66_f904) * (this.C66_f897 + this.C66_f895) + this.C66_f901, this.C66_f894 + this.C66_f898 + (this.C66_f911 / this.C66_f899 - this.C66_f906) * (this.C66_f898 + this.C66_f896) + this.C66_f902, this.getWidth(), this.getHeight());
             if (this.C66_f915 && this.C66_f914 != null && var1 != null) {
                this.C66_f914.a(var1, var8, 0);
             }
@@ -356,7 +356,7 @@ public final class C66 implements C23 {
       }
    }
 
-   public final void a(boolean var1, boolean var2, C23 var3, int[] var4) {
+   public final void update(boolean var1, boolean var2, IComponent var3, int[] var4) {
       if (this.C66_f913 != null) {
          this.C66_f913.b();
       }
@@ -373,7 +373,7 @@ public final class C66 implements C23 {
 
    }
 
-   public final int b() {
+   public final int getSelectedComponentId() {
       return this.C66_f917;
    }
 
@@ -381,34 +381,34 @@ public final class C66 implements C23 {
       this.C66_f917 = var1;
    }
 
-   public final int c() {
+   public final int getOffsetX() {
       return this.C66_f893;
    }
 
-   public final void a(int var1, C23 var2) {
+   public final void setOffsetX(int var1, IComponent var2) {
       this.C66_f893 = var1;
    }
 
-   public final int d() {
+   public final int getOffsetY() {
       return this.C66_f894;
    }
 
-   public final void b(int var1, C23 var2) {
+   public final void setOffsetY(int var1, IComponent var2) {
       this.C66_f894 = var1;
    }
 
-   public final int e() {
+   public final int getWidth() {
       return this.C66_f903 > 0 && this.C66_f903 <= this.C66_f899 ? (this.C66_f895 + this.C66_f897) * this.C66_f903 + this.C66_f897 : (this.C66_f895 + this.C66_f897) * this.C66_f899 + this.C66_f897;
    }
 
-   public final void c(int var1, C23 var2) {
+   public final void setWidth(int var1, IComponent var2) {
    }
 
-   public final int f() {
+   public final int getHeight() {
       return this.C66_f905 > 0 && this.C66_f905 <= this.C66_f900 ? (this.C66_f896 + this.C66_f898) * this.C66_f905 + this.C66_f898 : (this.C66_f896 + this.C66_f898) * this.C66_f900 + this.C66_f898;
    }
 
-   public final void d(int var1, C23 var2) {
+   public final void setHeight(int var1, IComponent var2) {
    }
 
    public final void r(int var1) {
@@ -441,26 +441,26 @@ public final class C66 implements C23 {
 
    }
 
-   public final C38 g() {
+   public final Component getChildComponent() {
       return null;
    }
 
-   public final C23[] h() {
+   public final IComponent[] getComponents() {
       return null;
    }
 
-   public final C12 i() {
+   public final DialogData getComponentData() {
       return null;
    }
 
-   public final void a(C12 var1) {
+   public final void setComponentData(DialogData var1) {
    }
 
-   public final int j() {
+   public final int getZIndex() {
       return this.C66_f918;
    }
 
-   public final int k() {
+   public final int getActiveComponentId() {
       return this.C66_f919;
    }
 
@@ -468,10 +468,10 @@ public final class C66 implements C23 {
       this.C66_f919 = var1;
    }
 
-   public final void a(C23 var1) {
+   public final void setActiveComponent(IComponent var1) {
    }
 
-   public final void l() {
+   public final void cleanUp() {
       if (this.C66_f914 != null) {
          this.C66_f914.c();
          this.C66_f914 = null;
@@ -495,7 +495,7 @@ public final class C66 implements C23 {
 
    }
 
-   public final void a(boolean var1) {
+   public final void setVisible(boolean var1) {
       this.C66_f916 = var1;
    }
 }

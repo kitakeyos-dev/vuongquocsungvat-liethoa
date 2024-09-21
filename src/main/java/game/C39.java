@@ -1,6 +1,6 @@
 package game;
 
-import a.C26;
+import a.GameUtils;
 import a.C44;
 import javax.microedition.lcdui.Graphics;
 
@@ -143,17 +143,17 @@ public final class C39 {
                var15 = 0;
 
                while(true) {
-                  if (var15 >= C26.textChunks.length) {
+                  if (var15 >= GameUtils.textChunks.length) {
                      break label71;
                   }
 
-                  C4.a(var2, C26.textChunks[var15], var14.C39_f604, var14.C39_f605 + var15 * (C4.C4_f33 + 1) + var16, 16777215);
+                  C4.a(var2, GameUtils.textChunks[var15], var14.C39_f604, var14.C39_f605 + var15 * (C4.C4_f33 + 1) + var16, 16777215);
                   ++var15;
                }
             case 1:
-               for(var15 = 0; var15 < C26.textChunks.length; ++var15) {
+               for(var15 = 0; var15 < GameUtils.textChunks.length; ++var15) {
                   var2.setColor(16777215);
-                  C4.b(var2, C26.textChunks[var15], var14.C39_f604, var14.C39_f605 + (C4.C4_f33 + 1) * (C26.textChunks.length >> var15 + 1) + var16, 17);
+                  C4.b(var2, GameUtils.textChunks[var15], var14.C39_f604, var14.C39_f605 + (C4.C4_f33 + 1) * (GameUtils.textChunks.length >> var15 + 1) + var16, 17);
                }
             default:
                break label71;
@@ -213,7 +213,7 @@ public final class C39 {
 
    public final void c() {
       this.C39_f594 = null;
-      C26.textChunks = null;
+      GameUtils.textChunks = null;
       this.C39_f609 = 0;
    }
 
@@ -478,7 +478,7 @@ public final class C39 {
                   if (!var1.C39_f613) {
                      var1.c();
                      C39_f610 = false;
-                     if (C25.B().C44_f700.b("/data/ui/dialog.ui")) {
+                     if (C25.B().C44_f700.isTopDialog("/data/ui/dialog.ui")) {
                         C25.B().C44_f701.aF();
                      }
                   }
@@ -495,7 +495,7 @@ public final class C39 {
             return;
          case 2:
             this.C39_f603 += this.C39_f602;
-            if (this.C39_f603 > C26.textChunks.length * (C44.h() + C44.h() / 2)) {
+            if (this.C39_f603 > GameUtils.textChunks.length * (C44.h() + C44.h() / 2)) {
                this.C39_f603 = 0;
                C39_f608 = true;
                C39_f610 = false;

@@ -1,6 +1,6 @@
 package a.b;
 
-import a.C26;
+import a.GameUtils;
 
 public final class C64 {
    private static C37[] C64_f892;
@@ -14,18 +14,18 @@ public final class C64 {
          C64_f892[var0] = new C37();
          byte[] var1 = new byte[20000];
          int[] var2 = new int[]{0};
-         C26.loadStreamToByteArray(var1, "/data/spr/spr_" + var0 + "_all(r)", 0);
+         GameUtils.loadStreamToByteArray(var1, "/data/spr/spr_" + var0 + "_all(r)", 0);
          C37 var10000 = C64_f892[var0];
          short[] var10002 = C64_f892[var0].C37_f568;
-         var10000.C37_f568 = C26.a(var1, var2);
+         var10000.C37_f568 = GameUtils.readShortArray(var1, var2);
          var10000 = C64_f892[var0];
          short[][] var3 = C64_f892[var0].C37_f571;
-         var10000.C37_f571 = C26.b(var1, var2);
+         var10000.C37_f571 = GameUtils.readShortMatrix(var1, var2);
          var10000 = C64_f892[var0];
          var3 = C64_f892[var0].C37_f572;
-         var10000.C37_f572 = C26.b(var1, var2);
-         C64_f892[var0].C37_f570 = a(C26.a(var1, var2), C64_f892[var0].C37_f571.length);
-         C64_f892[var0].C37_f569 = a(C26.a(var1, var2), C64_f892[var0].C37_f571.length);
+         var10000.C37_f572 = GameUtils.readShortMatrix(var1, var2);
+         C64_f892[var0].C37_f570 = a(GameUtils.readShortArray(var1, var2), C64_f892[var0].C37_f571.length);
+         C64_f892[var0].C37_f569 = a(GameUtils.readShortArray(var1, var2), C64_f892[var0].C37_f571.length);
       }
 
       ++C64_f892[var0].C37_f567;
@@ -39,7 +39,7 @@ public final class C64 {
          short[][] var3 = new short[var1][];
 
          for(int var2 = 0; var2 < var0.length / 5; ++var2) {
-            var3[var0[var2 * 5]] = C26.concatenateShortArrays(var3[var0[var2 * 5]], new short[]{var0[var2 * 5 + 1], var0[var2 * 5 + 2], var0[var2 * 5 + 3], var0[var2 * 5 + 4]});
+            var3[var0[var2 * 5]] = GameUtils.concatenateShortArrays(var3[var0[var2 * 5]], new short[]{var0[var2 * 5 + 1], var0[var2 * 5 + 2], var0[var2 * 5 + 3], var0[var2 * 5 + 4]});
          }
 
          return var3;

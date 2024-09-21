@@ -1,6 +1,6 @@
 package game;
 
-import a.C26;
+import a.GameUtils;
 import a.C44;
 import a.a.C11;
 import a.a.C16;
@@ -13,7 +13,7 @@ import a.b.C6;
 import a.b.C60;
 import a.b.C67;
 import a.b.C68;
-import c.C54;
+import c.DialogManager;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -226,7 +226,7 @@ public final class C25 extends C44 {
          this.a(this.C25_f290, this.C25_f291, "/data/event/");
          C30.b();
          C25 var1 = this;
-         C25_f306 = C26.readShortMatrix(C26.a("/data/script/petArea.mid"));
+         C25_f306 = GameUtils.readShortMatrix(GameUtils.openInputStream("/data/script/petArea.mid"));
          int var3;
          if (this.C()) {
             int[] var7 = new int[C25_f306[C25_f297[this.C25_f290] + this.C25_f291].length - 5];
@@ -260,7 +260,7 @@ public final class C25 extends C44 {
          }
 
          var1 = this;
-         byte[][] var10000 = C25_f343 = C26.readByteMatrix(C26.a("/data/script/media.mid"));
+         byte[][] var10000 = C25_f343 = GameUtils.readByteMatrix(GameUtils.openInputStream("/data/script/media.mid"));
          int var4 = this.C25_f291;
          var3 = this.C25_f290;
          byte var9;
@@ -323,8 +323,8 @@ public final class C25 extends C44 {
          var1.C25_f342.a(var11);
          var1.C25_f342.b(C55.B().C55_f831);
          var1 = this;
-         InputStream var12 = C26.a("/data/script/petRide.mid");
-         this.C25_f286.C53_f794 = C26.readByteMatrix(var12)[C25_f297[this.C25_f290] + this.C25_f291];
+         InputStream var12 = GameUtils.openInputStream("/data/script/petRide.mid");
+         this.C25_f286.C53_f794 = GameUtils.readByteMatrix(var12)[C25_f297[this.C25_f290] + this.C25_f291];
          if (this.C25_f286.C53_f765 >= 0 && !this.C25_f286.g(this.C25_f286.C53_f765)) {
             this.C25_f286.t();
          }
@@ -350,12 +350,12 @@ public final class C25 extends C44 {
 
          var1 = this;
          C25_f298 = null;
-         short[][] var13 = C26.readShortMatrix(C26.a("/data/script/backPic.mid"));
+         short[][] var13 = GameUtils.readShortMatrix(GameUtils.openInputStream("/data/script/backPic.mid"));
 
          for(var3 = 0; var3 < var13.length; ++var3) {
             if (var13[var3][0] == var1.C25_f290 && var13[var3][1] == var1.C25_f291) {
                if (var13[var3][2] == 0) {
-                  C25_f298 = C26.loadImage("/data/img/", "img_" + var13[var3][3]);
+                  C25_f298 = GameUtils.loadImage("/data/img/", "img_" + var13[var3][3]);
                } else if (var13[var3][2] == 1) {
                   C44.b(var13[var3][3] << 16 | var13[var3][4] << 8 | var13[var3][5]);
                }
@@ -365,8 +365,8 @@ public final class C25 extends C44 {
             C44.b(2996676);
          }
 
-         C25_f299 = C26.loadImage("/data/tex/", "gold");
-         C26.loadImage("/data/img/", "img_10023");
+         C25_f299 = GameUtils.loadImage("/data/tex/", "gold");
+         GameUtils.loadImage("/data/img/", "img_10023");
          if (this.C25_f286.C53_f774 > 0) {
             this.e(true);
          }
@@ -413,7 +413,7 @@ public final class C25 extends C44 {
             this.C25_f341 = new Image[4];
 
             for(int var10 = 0; var10 < this.C25_f341.length; ++var10) {
-               this.C25_f341[var10] = C26.loadImage("/data/tex/", "down" + var10);
+               this.C25_f341[var10] = GameUtils.loadImage("/data/tex/", "down" + var10);
             }
 
             this.C25_f286.t();
@@ -432,7 +432,7 @@ public final class C25 extends C44 {
 
          this.C44_f701 = C9.a();
          this.C44_f701.a((C44)this);
-         this.C44_f700 = C54.a();
+         this.C44_f700 = DialogManager.getInstance();
          this.C25_f348.G();
          this.C25_f348.a();
          C25_f338 = true;
@@ -629,7 +629,7 @@ public final class C25 extends C44 {
 
                for(var4 = 0; var4 < C25_f334.size(); ++var4) {
                   String var13 = (String)C25_f334.elementAt(var4);
-                  var3.writeByte(C26.d(var13));
+                  var3.writeByte(GameUtils.d(var13));
                }
 
                for(var4 = 0; var4 < this.C25_f371.length; ++var4) {
@@ -1347,7 +1347,7 @@ public final class C25 extends C44 {
          this.C25_f342.a(C25_f344, 1);
       }
 
-      this.C44_f700.a("/data/ui/battle.ui");
+      this.C44_f700.removeDialog("/data/ui/battle.ui");
       return true;
    }
 
@@ -1674,7 +1674,7 @@ public final class C25 extends C44 {
          C25_f336 = null;
       }
 
-      this.C44_f700.b();
+      this.C44_f700.clearDialogs();
       this.C25_f348.c();
       C25_f318 = -1;
       C30.c();
@@ -1954,7 +1954,7 @@ public final class C25 extends C44 {
                   this.C25_f360 = false;
                }
 
-               if ((var1 = C26.a(this.C25_f356, this.C25_f357, this.C25_f358, this.C25_f359)) < this.C25_f363) {
+               if ((var1 = GameUtils.calculateEuclideanDistance(this.C25_f356, this.C25_f357, this.C25_f358, this.C25_f359)) < this.C25_f363) {
                   this.C25_f356 = this.C25_f358;
                   this.C25_f357 = this.C25_f359;
                } else {
@@ -2055,9 +2055,9 @@ public final class C25 extends C44 {
             break;
          case 23:
             if (this.C44_f701.d(C25_f317, C25_f316) && this.g(196640)) {
-               if (C26.pageCount < C26.b()) {
-                  C26.c();
-                  this.C44_f701.b(C26.pageCount);
+               if (GameUtils.pageCount < GameUtils.b()) {
+                  GameUtils.c();
+                  this.C44_f701.b(GameUtils.pageCount);
                } else {
                   label227: {
                      this.C44_f701.aF();
@@ -2231,7 +2231,7 @@ public final class C25 extends C44 {
             }
          }
 
-         this.C44_f700.c();
+         this.C44_f700.closeCurrentDialog();
          if (C25_f300 != null) {
             C25_f300.d();
          }
@@ -2322,7 +2322,7 @@ public final class C25 extends C44 {
             int var8 = (var7 = C4.a(C44.c(var5[var4 + 4]), var5[var4 + 5] << 4)).length;
 
             for(var9 = 0; var9 < var8; ++var9) {
-               C26.a(var3, var7[var9], var2.C25_f366[(var2.C25_f352 << 1) + 1], var2.C25_f356 + (var5[var4] << 4) + 16 * var5[var4 + 5] / 2, var2.C25_f357 + (var5[var4 + 1] << 3) + 8 * var5[var4 + 6] / 2 + (var9 - var8 / 2) * (C4.C4_f33 + 1), 17, 17, var2.C44_f700.C54_f812, -1);
+               GameUtils.a(var3, var7[var9], var2.C25_f366[(var2.C25_f352 << 1) + 1], var2.C25_f356 + (var5[var4] << 4) + 16 * var5[var4 + 5] / 2, var2.C25_f357 + (var5[var4 + 1] << 3) + 8 * var5[var4 + 6] / 2 + (var9 - var8 / 2) * (C4.C4_f33 + 1), 17, 17, var2.C44_f700.dialogConfig, -1);
             }
          }
 
@@ -2394,7 +2394,7 @@ public final class C25 extends C44 {
 
          C7 var10000 = this.C25_f348;
          C7.b(var1);
-         this.C44_f700.a(var1);
+         this.C44_f700.render(var1);
          if (C25_f300 != null) {
             C25_f300.a(var1, 0, 0);
          }
@@ -2404,7 +2404,7 @@ public final class C25 extends C44 {
 
          for(var4 = 0; var4 < var2.C25_f286.C53_f799.size(); ++var4) {
             var5 = (int[])var2.C25_f286.C53_f799.elementAt(var4);
-            C26.a(var3, "+" + var5[0], 16704699, var5[1] + 12 - var2.C25_f283.C68_f943, var5[2] - var5[3] - var2.C25_f283.C68_f944, 17, 17, var2.C44_f700.C54_f812, 2);
+            GameUtils.a(var3, "+" + var5[0], 16704699, var5[1] + 12 - var2.C25_f283.C68_f943, var5[2] - var5[3] - var2.C25_f283.C68_f944, 17, 17, var2.C44_f700.dialogConfig, 2);
             var3.drawImage(C25_f299, var5[1] - var2.C25_f283.C68_f943 - 6, var5[2] - var5[3] - var2.C25_f283.C68_f944, 20);
          }
 
@@ -2643,9 +2643,9 @@ public final class C25 extends C44 {
 
    private void ag() {
       if (this.C44_f701.d(C25_f317, C25_f316) && !this.C44_f701.j() && this.g(196640)) {
-         if (C26.pageCount < C26.b()) {
-            C26.c();
-            this.C44_f701.b(C26.pageCount);
+         if (GameUtils.pageCount < GameUtils.b()) {
+            GameUtils.c();
+            this.C44_f701.b(GameUtils.pageCount);
          } else {
             this.C44_f701.aF();
             if (this.C25_f287[C25_f318].C20_f261.C62_f882 <= 85) {
@@ -2683,13 +2683,13 @@ public final class C25 extends C44 {
    private boolean a(int[] var1) {
       int var2 = -1;
       if (var1[2] != -1) {
-         var2 = C26.b(var1[2], var1[3]);
+         var2 = GameUtils.getRandomInRange(var1[2], var1[3]);
       }
 
       if (!this.C()) {
          return false;
       } else {
-         int var3 = C26.b(C25_f306[C25_f297[this.C25_f290] + this.C25_f291][3], C25_f306[C25_f297[this.C25_f290] + this.C25_f291][4]);
+         int var3 = GameUtils.getRandomInRange(C25_f306[C25_f297[this.C25_f290] + this.C25_f291][3], C25_f306[C25_f297[this.C25_f290] + this.C25_f291][4]);
          this.C25_f286.a((byte)((byte)C67.C67_f923[0][var1[0]][1]), var1[0], (byte)1);
          C29.B().a(new int[][]{{var1[0], var3, var2}});
          return true;
@@ -2764,7 +2764,7 @@ public final class C25 extends C44 {
                   break label47;
                }
 
-               var3 = (int[])C25_f307.elementAt(C26.a(C25_f307.size()));
+               var3 = (int[])C25_f307.elementAt(GameUtils.getRandomInt(C25_f307.size()));
                break;
             case 1:
                if (C25_f308.size() <= 0) {
@@ -2772,7 +2772,7 @@ public final class C25 extends C44 {
                   break label47;
                }
 
-               var3 = (int[])C25_f308.elementAt(C26.a(C25_f308.size()));
+               var3 = (int[])C25_f308.elementAt(GameUtils.getRandomInt(C25_f308.size()));
                break;
             case 2:
                if (C25_f309.size() <= 0) {
@@ -2780,7 +2780,7 @@ public final class C25 extends C44 {
                   break label47;
                }
 
-               var3 = (int[])C25_f309.elementAt(C26.a(C25_f309.size()));
+               var3 = (int[])C25_f309.elementAt(GameUtils.getRandomInt(C25_f309.size()));
                break;
             case 3:
                var10000 = false;
@@ -2791,7 +2791,7 @@ public final class C25 extends C44 {
                   break label47;
                }
 
-               var3 = (int[])C25_f310.elementAt(C26.a(C25_f310.size()));
+               var3 = (int[])C25_f310.elementAt(GameUtils.getRandomInt(C25_f310.size()));
             }
 
             var10000 = this.a(var3);

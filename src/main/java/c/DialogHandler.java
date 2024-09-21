@@ -1,5 +1,5 @@
 package c;
 
-public interface C61 {
+public interface DialogHandler {
    void a(int[] var1, int[] var2);
 }

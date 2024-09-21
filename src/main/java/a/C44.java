@@ -1,7 +1,7 @@
 package a;
 
 import a.b.C67;
-import c.C54;
+import c.DialogManager;
 import e.a.a.a.b.C14;
 import e.a.a.a.b.C3;
 import e.b.a.a.C2;
@@ -30,7 +30,7 @@ public abstract class C44 extends C8 implements C14, C2 {
    private static int C44_f697;
    public byte C44_f698;
    public byte C44_f699;
-   public C54 C44_f700;
+   public DialogManager C44_f700;
    public C9 C44_f701;
    private static boolean C44_f702 = false;
    public static boolean C44_f703 = false;

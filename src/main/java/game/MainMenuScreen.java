@@ -65,8 +65,8 @@ public final class MainMenuScreen extends GameEngineBase {
         if (C25.B().C25_f342 != null) {
             this.animationCounter = GameScreenManager.getInstance().difficultyLevel;
             GameScreenManager.getInstance().setDifficultyLevel(0);
-            C25.B().C25_f342.a((byte) 1);
-            C25.B().C25_f342.a();
+            C25.B().C25_f342.deallocateAudioResources((byte) 1);
+            C25.B().C25_f342.cleanup();
             C25.B().C25_f342 = null;
         }
 

@@ -862,7 +862,7 @@ public final class C9 implements DialogHandler {
          this.C9_f122.currentDialog.handleAction(2);
          GameScreenManager.getInstance().decreaseDifficulty();
          if (C25.B().C25_f342 != null) {
-            C25.B().C25_f342.b(GameScreenManager.getInstance().difficultyLevel);
+            C25.B().C25_f342.setMasterVolume(GameScreenManager.getInstance().difficultyLevel);
          }
 
          this.aW();
@@ -870,7 +870,7 @@ public final class C9 implements DialogHandler {
          this.C9_f122.currentDialog.handleAction(3);
          GameScreenManager.getInstance().increaseDifficulty();
          if (C25.B().C25_f342 != null) {
-            C25.B().C25_f342.b(GameScreenManager.getInstance().difficultyLevel);
+            C25.B().C25_f342.setMasterVolume(GameScreenManager.getInstance().difficultyLevel);
          }
 
          this.aW();

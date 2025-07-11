@@ -2,7 +2,7 @@ package game;
 
 import a.GameUtils;
 import a.GameEngineBase;
-import a.a.C11;
+import a.a.AudioManager;
 import a.a.C16;
 import a.a.C20;
 import a.a.C21;
@@ -86,7 +86,7 @@ public final class C25 extends GameEngineBase {
    protected static boolean C25_f339 = false;
    public static byte[] C25_f340 = new byte[2];
    private Image[] C25_f341;
-   public C11 C25_f342;
+   public AudioManager C25_f342;
    private static byte[][] C25_f343 = null;
    public static byte C25_f344 = -1;
    public static boolean C25_f345;
@@ -317,11 +317,11 @@ public final class C25 extends GameEngineBase {
          }
 
          if (var1.C25_f342 == null) {
-            var1.C25_f342 = new C11(7, -1, (byte)0, "/data/sound/");
+            var1.C25_f342 = new AudioManager(7, -1, (byte)0, "/data/sound/");
          }
 
-         var1.C25_f342.a(var11);
-         var1.C25_f342.b(GameScreenManager.getInstance().difficultyLevel);
+         var1.C25_f342.preloadMusicTracks(var11);
+         var1.C25_f342.setMasterVolume(GameScreenManager.getInstance().difficultyLevel);
          var1 = this;
          InputStream var12 = GameUtils.openInputStream("/data/script/petRide.mid");
          this.C25_f286.C53_f794 = GameUtils.readByteMatrix(var12)[C25_f297[this.C25_f290] + this.C25_f291];
@@ -442,7 +442,7 @@ public final class C25 extends GameEngineBase {
          }
 
          if (!C25_f345) {
-            this.C25_f342.a(C25_f344, 1);
+            this.C25_f342.playBackgroundMusic(C25_f344, 1);
          }
 
          stopGameTimer();
@@ -1342,9 +1342,9 @@ public final class C25 extends GameEngineBase {
       C25_f338 = true;
       this.changeState((byte)0);
       if (C25_f345) {
-         this.C25_f342.a(a(this.C25_f348.C7_f59, (byte)0), 1);
+         this.C25_f342.playBackgroundMusic(a(this.C25_f348.C7_f59, (byte)0), 1);
       } else {
-         this.C25_f342.a(C25_f344, 1);
+         this.C25_f342.playBackgroundMusic(C25_f344, 1);
       }
 
       this.dialogManager.removeDialog("/data/ui/battle.ui");
@@ -2827,7 +2827,7 @@ public final class C25 extends GameEngineBase {
       this.C25_f286.a((byte)0, (byte)this.C25_f286.C60_f866);
       this.C25_f286.C53_f771 = this.C25_f286.D();
       GameScreenManager.getInstance().changeState((byte)12);
-      this.C25_f342.a(4, 1);
+      this.C25_f342.playBackgroundMusic(4, 1);
    }
 
    public static int e(int var0, int var1) {

@@ -158,7 +158,7 @@ public final class GameScreenManager extends GameEngineBase {
 
     public final synchronized void pauseGame() {
         if (C25.B().C25_f342 != null) {
-            C25.B().C25_f342.b();
+            C25.B().C25_f342.stopAllAudio();
         }
 
         if (this.currentState != 2) {
@@ -171,7 +171,7 @@ public final class GameScreenManager extends GameEngineBase {
     private void resumeGame() {
         this.changeState(this.previousState);
         if (C25.B().C25_f342 != null) {
-            C25.B().C25_f342.c();
+            C25.B().C25_f342.resumeAllAudio();
         }
 
         this.showSoftKeys();

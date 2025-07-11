@@ -324,7 +324,7 @@ public final class C7 extends GameEngineBase {
                   byte var16;
                   if ((var16 = C25.a(var1.C7_f58, (byte)0)) != -1) {
                      var1.C7_f59 = var1.C7_f58;
-                     var1.C7_f53.C25_f342.a(var16, 1);
+                     var1.C7_f53.C25_f342.playBackgroundMusic(var16, 1);
                      C25.C25_f345 = true;
                   }
 
@@ -1164,9 +1164,9 @@ public final class C7 extends GameEngineBase {
                   var2.a((byte)1);
                   C25 var10000 = this.C7_f53;
                   if ((var14 = C25.a(var2.b(), (byte)1)) != -1) {
-                     this.C7_f53.C25_f342.a(var14, 1);
+                     this.C7_f53.C25_f342.playBackgroundMusic(var14, 1);
                   } else {
-                     this.C7_f53.C25_f342.a(4, 1);
+                     this.C7_f53.C25_f342.playBackgroundMusic(4, 1);
                   }
 
                   GameScreenManager.getInstance().changeState((byte)12);
@@ -1941,7 +1941,7 @@ public final class C7 extends GameEngineBase {
 
                this.G();
                if (C25.C25_f345) {
-                  this.C7_f53.C25_f342.a(C25.C25_f344, 1);
+                  this.C7_f53.C25_f342.playBackgroundMusic(C25.C25_f344, 1);
                }
 
                C25.C25_f345 = false;

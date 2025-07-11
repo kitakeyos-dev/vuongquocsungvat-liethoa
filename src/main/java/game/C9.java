@@ -521,7 +521,7 @@ public final class C9 implements DialogHandler {
          this.aW();
       } else {
          if (this.C9_f121.g(131072)) {
-            C13.B().C13_f205 = GameScreenManager.getInstance().difficultyLevel;
+            MainMenuScreen.getInstance().animationCounter = GameScreenManager.getInstance().difficultyLevel;
             this.C9_f121.changeState((byte)0);
             this.C9_f122.removeDialog("/data/ui/help.ui");
          }

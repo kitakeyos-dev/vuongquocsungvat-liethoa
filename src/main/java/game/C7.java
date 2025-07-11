@@ -2155,9 +2155,9 @@ public final class C7 extends GameEngineBase {
    public final int[] H() {
       int[] var1;
       (var1 = new int[4])[0] = this.C7_f99.get(1);
-      var1[1] = this.C7_f99.get(2);
-      var1[2] = this.C7_f99.get(5);
-      var1[3] = this.C7_f99.get(11);
+      var1[1] = this.C7_f99.get(Calendar.MONTH);
+      var1[2] = this.C7_f99.get(Calendar.DATE);
+      var1[3] = this.C7_f99.get(Calendar.HOUR_OF_DAY);
       return this.C7_f100;
    }
 

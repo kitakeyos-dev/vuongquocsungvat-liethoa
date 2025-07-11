@@ -250,7 +250,7 @@ public final class GameScreenManager extends GameEngineBase {
                     break;
                 case 7:
                     this.cleanupCurrentScreen();
-                    this.currentScreen = C13.B();
+                    this.currentScreen = MainMenuScreen.getInstance();
                     this.currentScreen.initializeGame();
                     this.a(this.currentScreen);
                     this.changeState((byte) 8);
@@ -338,7 +338,7 @@ public final class GameScreenManager extends GameEngineBase {
                     break;
                 case 21:
                     C30.a().d();
-                    if (C30.a().C30_f475 == -1 || this.g(65568) && C13.inputEnabled) {
+                    if (C30.a().C30_f475 == -1 || this.g(65568) && MainMenuScreen.inputEnabled) {
                         C30.a().C30_f475 = -1;
                         C30.a().C30_f474 = -1;
                         C30.a().C30_f479 = 0;

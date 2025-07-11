@@ -1,6 +1,6 @@
 package c;
 
-import a.C44;
+import a.GameEngineBase;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -50,7 +50,7 @@ public final class DialogManager {
          }
       }
 
-      var1.setClip(0, 0, C44.g(), C44.h());
+      var1.setClip(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
    }
 
    public final void closeCurrentDialog() {

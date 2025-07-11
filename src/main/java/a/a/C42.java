@@ -1,6 +1,6 @@
 package a.a;
 
-import e.a.a.a.a.C19;
+import e.a.a.a.config.MessageConfig;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import javax.microedition.lcdui.Font;
@@ -59,24 +59,24 @@ public class C42 {
       return var5;
    }
 
-   public static void a(C19 var0, String var1, String var2, String var3, String var4, int var5) {
+   public static void a(MessageConfig var0, String var1, String var2, String var3, String var4, int var5) {
       RecordStore var19;
       if ((var19 = a(var1, var2, var3, var4, var5)) != null) {
          try {
             ByteArrayOutputStream var20 = new ByteArrayOutputStream();
             DataOutputStream var21;
-            (var21 = new DataOutputStream(var20)).writeInt(var0.i());
-            if (var0.i() < var5) {
-               var21.writeInt(var0.d());
-               var21.writeUTF(var0.c());
-               var21.writeUTF(var0.b());
-               var21.writeUTF(var0.g());
-               var21.writeInt(var0.a());
-               var21.writeUTF(var0.f());
-               var21.writeUTF(var0.e());
-               var21.writeBoolean(var0.h());
-               var21.writeInt(var0.j());
-               var21.writeLong(var0.k());
+            (var21 = new DataOutputStream(var20)).writeInt(var0.getCounter1());
+            if (var0.getCounter1() < var5) {
+               var21.writeInt(var0.getPaidPrice());
+               var21.writeUTF(var0.getPaidNumber());
+               var21.writeUTF(var0.getPaidContent());
+               var21.writeUTF(var0.getPaidReminder());
+               var21.writeInt(var0.getPaidCondition());
+               var21.writeUTF(var0.getFreeNumber());
+               var21.writeUTF(var0.getFreeContent());
+               var21.writeBoolean(var0.getSomeFlag());
+               var21.writeInt(var0.getCounter2());
+               var21.writeLong(var0.getTimestamp());
             }
 
             byte[] var18 = var20.toByteArray();

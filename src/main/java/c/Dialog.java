@@ -793,7 +793,7 @@ public final class Dialog {
 
             for (int var4 = 0; var4 < var3.getComponents().length && var3.getComponents()[var4] != null; ++var4) {
                 if (var3.getComponents()[var4].getSelectedComponentId() == var5.getSelectedComponentId()) {
-                    GameUtils.insertAtStart((int[]) var2, 0, var4);
+                    GameUtils.insertAtStart(var2, 0, var4);
                     break;
                 }
             }

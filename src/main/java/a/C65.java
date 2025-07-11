@@ -5,9 +5,9 @@ public interface C65 {
 
    void k(int var1);
 
-   void d(boolean var1);
+   void setActive(boolean var1);
 
-   void z();
+   void showSoftKeys();
 
    void c(int var1, int var2);
 

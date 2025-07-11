@@ -1,7 +1,7 @@
 package a.b;
 
 import a.GameUtils;
-import a.C44;
+import a.GameEngineBase;
 import a.a.C69;
 import game.C7;
 import java.io.DataInputStream;
@@ -45,8 +45,8 @@ public final class C68 {
    }
 
    public C68() {
-      this.C68_f934 = C44.h();
-      this.C68_f933 = C44.g();
+      this.C68_f934 = GameEngineBase.getScreenHeight();
+      this.C68_f933 = GameEngineBase.getScreenWidth();
    }
 
    public final void b() {
@@ -177,7 +177,6 @@ public final class C68 {
       }
 
       try {
-         "".getClass();
          InputStream var7 = ManagedInputStream.openStream("/data/mod/mod_" + this.C68_f940 + ".mid");
          DataInputStream var6;
          short var3 = (var6 = new DataInputStream(var7)).readShort();

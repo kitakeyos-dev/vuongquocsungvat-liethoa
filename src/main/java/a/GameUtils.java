@@ -1,20 +1,20 @@
 package a;
 
 import a.a.C16;
-import c.IComponent;
 import c.DialogConfig;
+import c.IComponent;
 import game.C4;
+import me.kitakeyos.ManagedInputStream;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.InputStream;
-import java.util.Random;
-import java.util.Vector;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-
-import me.kitakeyos.ManagedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public final class GameUtils {
     private static int DEFAULT_VALUE = 5;
@@ -750,7 +750,7 @@ public final class GameUtils {
             if (var9) {
                 var0.clipRect(var3, var4, var6, var7);
                 a(var0, var1.substring(var18.C27_f389[var19][0], var18.C27_f389[var19][1]), var20[var18.C27_f389[var19][4]], var3 + var18.C27_f389[var19][2], var4 + var18.C27_f389[var19][3] - var11[1], 20, var14);
-                var0.clipRect(0, 0, C44.g(), C44.h());
+                var0.clipRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
             } else {
                 var12 = 0;
                 int var21 = 0;
@@ -804,7 +804,7 @@ public final class GameUtils {
 
                 var0.clipRect(var3, var4, var6, var7);
                 a(var0, var1.substring(var18.C27_f389[var19][0], var18.C27_f389[var19][1]), var20[var18.C27_f389[var19][4]], var12 + var18.C27_f389[var19][2] - var11[0], var21 + var18.C27_f389[var19][3], 20, var14);
-                var0.clipRect(0, 0, C44.g(), C44.h());
+                var0.clipRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
             }
         }
 
@@ -954,13 +954,13 @@ public final class GameUtils {
     }
 
     public static void d(int var0) {
-        currentTextPage = var0 / C44.o();
+        currentTextPage = var0 / GameEngineBase.getFontHeight();
     }
 
     public static String e(int var0) {
-        StringBuffer var1 = new StringBuffer();
+        StringBuilder var1 = new StringBuilder();
 
-        for (int var2 = currentTextPage * totalTextPages; var2 < (var0 * currentTextPage > textChunks.length ? textChunks.length : var0 * currentTextPage); ++var2) {
+        for (int var2 = currentTextPage * totalTextPages; var2 < (Math.min(var0 * currentTextPage, textChunks.length)); ++var2) {
             var1.append(textChunks[var2]);
         }
 
@@ -976,52 +976,86 @@ public final class GameUtils {
         ++pageCount;
     }
 
-    public static String[] a(String var0, char var1) {
-        Vector var3 = new Vector();
-        int var4 = 0;
-        int var5 = 0;
-
-        while (var4 != -1 && (var4 = var0.trim().indexOf(var1, var5)) != -1) {
-            String var2 = var0.trim().substring(var5, var4);
-            var5 = var4 + 1;
-            var3.addElement(var2);
+    /**
+     * Tách chuỗi thành mảng string theo delimiter
+     *
+     * @param input     Chuỗi cần tách
+     * @param delimiter Ký tự phân tách
+     * @return Mảng string đã được tách
+     */
+    public static String[] splitString(String input, char delimiter) {
+        if (input == null) {
+            return new String[0];
         }
 
-        var3.addElement(var0.substring(var5));
-        String[] var6 = new String[var3.size()];
-        var3.copyInto(var6);
-        return var6;
+        // Sử dụng ArrayList thay vì Vector (hiện đại hơn và thread-safe không cần thiết)
+        List<String> parts = new ArrayList<>();
+        String trimmedInput = input.trim();
+        int startIndex = 0;
+        int delimiterIndex;
+
+        // Tìm và tách các phần
+        while ((delimiterIndex = trimmedInput.indexOf(delimiter, startIndex)) != -1) {
+            String part = trimmedInput.substring(startIndex, delimiterIndex);
+            parts.add(part);
+            startIndex = delimiterIndex + 1;
+        }
+
+        // Thêm phần cuối cùng
+        parts.add(trimmedInput.substring(startIndex));
+
+        // Chuyển đổi sang mảng
+        return parts.toArray(new String[0]);
     }
 
-    public static int b(String var0) {
+    public static int parseInt(String var0) {
         return Integer.parseInt(var0);
     }
 
-    public static short c(String var0) {
+    public static short parseShort(String var0) {
         return Short.parseShort(var0);
     }
 
-    public static byte d(String var0) {
+    public static byte parseByte(String var0) {
         return Byte.parseByte(var0);
     }
 
-    public static byte[] e(String var0) {
-        String[] var4;
-        byte[] var1 = new byte[(var4 = a(var0, ',')).length];
-
-        for (int var2 = 0; var2 < var1.length; ++var2) {
-            var1[var2] = Byte.parseByte(var4[var2]);
+    /**
+     * Chuyển đổi chuỗi các số phân tách bằng dấu phẩy thành mảng byte
+     *
+     * @param input Chuỗi đầu vào (ví dụ: "10,20,30,127")
+     * @return Mảng byte chứa các giá trị đã chuyển đổi
+     * @throws IllegalArgumentException nếu input null hoặc chứa giá trị không hợp lệ
+     * @throws NumberFormatException    nếu không thể parse thành số
+     */
+    public static byte[] parseStringToBytes(String input) {
+        if (input == null || input.trim().isEmpty()) {
+            throw new IllegalArgumentException("Input string cannot be null or empty");
         }
 
-        return var1;
+        String[] stringParts = splitString(input, ',');
+        byte[] byteArray = new byte[stringParts.length];
+
+        for (int i = 0; i < byteArray.length; i++) {
+            try {
+                String trimmed = stringParts[i].trim();
+                byteArray[i] = Byte.parseByte(trimmed);
+            } catch (NumberFormatException e) {
+                throw new NumberFormatException(
+                        "Cannot parse '" + stringParts[i] + "' to byte at index " + i
+                );
+            }
+        }
+
+        return byteArray;
     }
 
-    public static long[] a(long var0) {
-        long[] var2;
-        (var2 = new long[3])[0] = var0 / 3600000L;
-        var2[1] = var0 / 60000L;
-        var2[2] = var0 / 1000L;
-        return var2;
+    public static long[] convertTime(long milliseconds) {
+        long[] result = new long[3];
+        result[0] = milliseconds / 3600000L;                    // giờ
+        result[1] = (milliseconds % 3600000L) / 60000L;         // phút còn lại
+        result[2] = (milliseconds % 60000L) / 1000L;            // giây còn lại
+        return result;
     }
 
     private static byte[] loadStream(String resourcePath) {

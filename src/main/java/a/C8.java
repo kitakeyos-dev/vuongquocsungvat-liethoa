@@ -206,7 +206,7 @@ public abstract class C8 implements C65 {
       return (this.C8_f115 & var1) != 0;
    }
 
-   public final void z() {
+   public final void showSoftKeys() {
       this.C8_f112 = 0;
       this.C8_f113 = 0;
       this.C8_f114 = 0;
@@ -214,7 +214,7 @@ public abstract class C8 implements C65 {
       this.C8_f116 = 0;
       this.C8_f117 = 0;
       if (this.C8_f111 != null) {
-         this.C8_f111.z();
+         this.C8_f111.showSoftKeys();
       }
 
    }
@@ -263,19 +263,19 @@ public abstract class C8 implements C65 {
 
    }
 
-   public void d(boolean var1) {
-      this.z();
+   public void setActive(boolean var1) {
+      this.showSoftKeys();
       this.C8_f110 = var1;
    }
 
    protected final void a(C65 var1) {
       if (this.C8_f111 != null) {
-         this.C8_f111.d(false);
+         this.C8_f111.setActive(false);
          this.C8_f111 = null;
       }
 
       if (var1 != null) {
-         var1.d(true);
+         var1.setActive(true);
          this.C8_f111 = var1;
       }
 

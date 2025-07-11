@@ -1,7 +1,7 @@
 package game;
 
 import a.GameUtils;
-import a.C44;
+import a.GameEngineBase;
 import a.a.C20;
 import a.a.C21;
 import a.b.C60;
@@ -12,7 +12,7 @@ import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
-public final class C29 extends C44 {
+public final class C29 extends GameEngineBase {
    private final byte[] C29_f393 = new byte[]{2, 4};
    private static C29 C29_f394;
    private static C53 C29_f395;
@@ -123,7 +123,7 @@ public final class C29 extends C44 {
 
    }
 
-   public final void c() {
+   public final void cleanupCurrentScreen() {
       this.C29_f409.removeAllElements();
 
       int var1;
@@ -198,11 +198,11 @@ public final class C29 extends C44 {
       C29_f451 = null;
       C29_f452 = null;
       C29_f453 = null;
-      this.C44_f701.ai();
+      this.gameController.ai();
    }
 
-   public final boolean b() {
-      this.d();
+   public final boolean initializeGame() {
+      this.startGameTimer();
       this.C29_f406 = new byte[2];
       C29_f395 = C53.p();
       this.C29_f405 = new byte[C29_f395.C53_f778];
@@ -336,8 +336,8 @@ public final class C29 extends C44 {
          var10000.C41_f649 = var10001.C60_f856[var3];
       }
 
-      this.a((byte)0);
-      e();
+      this.changeState((byte)0);
+      stopGameTimer();
       return true;
    }
 
@@ -436,23 +436,23 @@ public final class C29 extends C44 {
          }
 
          if (this.C29_f402[0].T()) {
-            this.C44_f701.b(this.C29_f402[this.C29_f404[var1]], this.C29_f402[0]);
+            this.gameController.b(this.C29_f402[this.C29_f404[var1]], this.C29_f402[0]);
             return;
          }
 
-         this.C44_f701.b(this.C29_f402[this.C29_f404[var1]], this.C29_f402[1]);
+         this.gameController.b(this.C29_f402[this.C29_f404[var1]], this.C29_f402[1]);
       }
 
    }
 
    public final void E() {
-      this.C44_f701 = C9.a();
-      this.C44_f701.a((C44)this);
-      this.C44_f700 = DialogManager.getInstance();
+      this.gameController = C9.a();
+      this.gameController.a((GameEngineBase)this);
+      this.dialogManager = DialogManager.getInstance();
       if (this.C29_f397 == 0) {
-         this.C44_f701.a(this.C29_f402[1], this.C29_f402[0]);
+         this.gameController.a(this.C29_f402[1], this.C29_f402[0]);
       } else {
-         this.C44_f701.a(this.C29_f402[2], this.C29_f402[0]);
+         this.gameController.a(this.C29_f402[2], this.C29_f402[0]);
       }
    }
 
@@ -542,11 +542,11 @@ public final class C29 extends C44 {
          }
 
          if (var1.s() == 0) {
-            this.C44_f701.a(var1, false);
-            this.C44_f701.a(var1);
+            this.gameController.a(var1, false);
+            this.gameController.a(var1);
          } else {
-            this.C44_f701.b(var1, this.C29_f466);
-            this.C44_f701.b(var1);
+            this.gameController.b(var1, this.C29_f466);
+            this.gameController.b(var1);
          }
 
          ++this.C29_f436;
@@ -585,14 +585,14 @@ public final class C29 extends C44 {
       if (!var1.T()) {
          var1.D();
          var1.E();
-         this.C44_f701.b(var1);
+         this.gameController.b(var1);
          this.h(var1);
          ++this.C29_f406[1];
       }
 
       if (this.C29_f406[1] >= this.C29_f401.length) {
          W();
-         this.a((byte)8);
+         this.changeState((byte)8);
       } else if (!var1.T()) {
          for(int var3 = 0; var3 < this.C29_f402.length; ++var3) {
             if (this.C29_f402[var3].m(11) && this.C29_f402[this.C29_f402[var3].C41_f641[11][1]].equals(var1)) {
@@ -603,14 +603,14 @@ public final class C29 extends C44 {
          if (this.C29_f406[0] < this.C29_f401.length) {
             this.q(this.C29_f404[this.C29_f410]);
             this.C29_f407 = this.C29_f404[this.C29_f410];
-            this.a((byte)15);
+            this.changeState((byte)15);
          } else {
             ++this.C29_f410;
             this.L();
          }
       } else {
          if (var2) {
-            this.a((byte)2);
+            this.changeState((byte)2);
          }
 
       }
@@ -622,7 +622,7 @@ public final class C29 extends C44 {
       }
 
       if (var3 >= this.C29_f405.length) {
-         this.a((byte)9);
+         this.changeState((byte)9);
       } else if (!var1.T()) {
          for(int var4 = 0; var4 < this.C29_f402.length; ++var4) {
             if (this.C29_f402[var4].m(11) && this.C29_f402[this.C29_f402[var4].C41_f641[11][1]].equals(var1)) {
@@ -632,7 +632,7 @@ public final class C29 extends C44 {
 
          var1.D();
          var1.E();
-         this.C44_f701.a(var1);
+         this.gameController.a(var1);
          C29_f412.removeElement(var1);
          C29_f413.removeElement(var1);
          var1.C41_f653 = 0;
@@ -640,7 +640,7 @@ public final class C29 extends C44 {
          var1.C41_f663 = 0;
          if (this.P()) {
             this.C29_f407 = this.C29_f404[this.C29_f410];
-            this.a((byte)5);
+            this.changeState((byte)5);
          } else {
             ++this.C29_f410;
             this.L();
@@ -648,11 +648,11 @@ public final class C29 extends C44 {
       } else {
          if (var2) {
             if (var1.p(9)) {
-               this.a((byte)2);
+               this.changeState((byte)2);
                return;
             }
 
-            this.a((byte)20);
+            this.changeState((byte)20);
          }
 
       }
@@ -785,11 +785,11 @@ public final class C29 extends C44 {
             }
 
             this.C29_f466 = true;
-            this.C44_f701.C9_f149 = 0;
+            this.gameController.C9_f149 = 0;
             if (var1.s() == 0) {
-               this.C44_f701.a(var1);
+               this.gameController.a(var1);
             } else {
-               this.C44_f701.b(var1);
+               this.gameController.b(var1);
             }
          }
 
@@ -797,12 +797,12 @@ public final class C29 extends C44 {
          if (var1.s() == 0) {
             var7 = 1;
             if (var4 < var1.C60_f856[var7]) {
-               if (this.C44_f701.a(var1, true) && var8) {
+               if (this.gameController.a(var1, true) && var8) {
                   this.C29_f466 = false;
                   var3 = true;
                   this.c(var1);
                }
-            } else if (this.C44_f701.a(var1, false) && var8) {
+            } else if (this.gameController.a(var1, false) && var8) {
                this.C29_f466 = false;
                var3 = true;
                this.c(var1);
@@ -810,12 +810,12 @@ public final class C29 extends C44 {
          } else {
             var7 = 1;
             if (var4 < var1.C60_f856[var7]) {
-               if (this.C44_f701.b(var1, true) && var8) {
+               if (this.gameController.b(var1, true) && var8) {
                   this.C29_f466 = false;
                   var3 = true;
                   this.c(var1);
                }
-            } else if (this.C44_f701.b(var1, false) && var8) {
+            } else if (this.gameController.b(var1, false) && var8) {
                this.C29_f466 = false;
                var3 = true;
                this.c(var1);
@@ -885,7 +885,7 @@ public final class C29 extends C44 {
       this.C29_f445[this.C29_f402.length].b(C29_f446[this.C29_f397][(var1 << 2) + 2], C29_f446[this.C29_f397][(var1 << 2) + 3]);
    }
 
-   public final void a(byte var1) {
+   public final void changeState(byte var1) {
       this.C44_f699 = this.C44_f698;
       this.C44_f698 = var1;
       int var2;
@@ -925,7 +925,7 @@ public final class C29 extends C44 {
             }
 
             if (!var6) {
-               this.C44_f701.c("Không còn tinh lực, không cách nào chiến đấu");
+               this.gameController.c("Không còn tinh lực, không cách nào chiến đấu");
                ++this.C29_f410;
                if (this.C29_f410 >= this.C29_f409.size()) {
                   this.C29_f411 = true;
@@ -940,37 +940,37 @@ public final class C29 extends C44 {
       case 2:
          return;
       case 3:
-         this.C44_f701.e((C41)this.C29_f409.elementAt(this.C29_f410));
+         this.gameController.e((C41)this.C29_f409.elementAt(this.C29_f410));
          return;
       case 4:
-         this.C44_f701.am();
+         this.gameController.am();
          return;
       case 5:
-         this.C44_f701.C9_f126 = 0;
-         this.C44_f701.Z();
+         this.gameController.C9_f126 = 0;
+         this.gameController.Z();
          return;
       case 6:
          this.C29_f419 = 0;
-         this.C44_f701.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
-         this.C44_f701.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
-         this.C44_f701.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+         this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
+         this.gameController.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+         this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
          this.a(Integer.parseInt((String)this.C29_f408.C41_f665.elementAt(this.C29_f419)), true);
          return;
       case 7:
          if (this.C29_f408.s() == 0) {
-            this.C44_f701.a(this.C29_f408, false);
-            this.C44_f701.a(this.C29_f408);
+            this.gameController.a(this.C29_f408, false);
+            this.gameController.a(this.C29_f408);
          } else {
-            this.C44_f701.b(this.C29_f408, false);
-            this.C44_f701.b(this.C29_f408);
+            this.gameController.b(this.C29_f408, false);
+            this.gameController.b(this.C29_f408);
          }
 
          if (((C41)this.C29_f408.C60_f868).s() == 1) {
-            this.C44_f701.b((C41)this.C29_f408.C60_f868, false);
-            this.C44_f701.b((C41)this.C29_f408.C60_f868);
+            this.gameController.b((C41)this.C29_f408.C60_f868, false);
+            this.gameController.b((C41)this.C29_f408.C60_f868);
          } else {
-            this.C44_f701.a((C41)this.C29_f408.C60_f868, false);
-            this.C44_f701.a((C41)this.C29_f408.C60_f868);
+            this.gameController.a((C41)this.C29_f408.C60_f868, false);
+            this.gameController.a((C41)this.C29_f408.C60_f868);
          }
 
          this.C29_f416 = false;
@@ -1003,7 +1003,7 @@ public final class C29 extends C44 {
 
          for(var2 = 0; var2 < C29_f412.size(); ++var2) {
             var4 = ((C41)C29_f412.elementAt(var2)).C41_f649 - ((C41)C29_f412.elementAt(var2)).c((byte)1);
-            if (C44_f711) {
+            if (paymentActive) {
                var4 = var4 % 20 / 100;
             } else {
                var4 = var4 % 50 / 100;
@@ -1016,7 +1016,7 @@ public final class C29 extends C44 {
          }
 
          this.C29_f445[0].b(C29_f446[0][6], C29_f446[0][7]);
-         this.C44_f701.b(C29_f446[0][4], C29_f446[0][5]);
+         this.gameController.b(C29_f446[0][4], C29_f446[0][5]);
          return;
       case 9:
          this.N();
@@ -1024,16 +1024,16 @@ public final class C29 extends C44 {
       case 10:
          return;
       case 11:
-         this.C44_f701.a((int)4, (byte)0);
+         this.gameController.a((int)4, (byte)0);
          return;
       case 12:
       case 13:
          if (this.C29_f408.s() == 0) {
-            this.C44_f701.a(this.C29_f408, false);
-            this.C44_f701.a(this.C29_f408);
+            this.gameController.a(this.C29_f408, false);
+            this.gameController.a(this.C29_f408);
          } else {
-            this.C44_f701.b(this.C29_f408, false);
-            this.C44_f701.b(this.C29_f408);
+            this.gameController.b(this.C29_f408, false);
+            this.gameController.b(this.C29_f408);
          }
 
          C41 var5;
@@ -1075,7 +1075,7 @@ public final class C29 extends C44 {
       case 14:
          return;
       case 15:
-         this.C44_f701.C9_f124 = 0;
+         this.gameController.C9_f124 = 0;
          this.C29_f414 = true;
          this.C29_f423 = this.C29_f407;
          this.C29_f421[this.C29_f423] = 0;
@@ -1085,9 +1085,9 @@ public final class C29 extends C44 {
          ++this.C29_f410;
          return;
       case 16:
-         this.C44_f701.C9_f126 = 0;
-         this.C44_f701.C9_f150 = false;
-         this.C44_f701.Z();
+         this.gameController.C9_f126 = 0;
+         this.gameController.C9_f150 = false;
+         this.gameController.Z();
          return;
       case 17:
          this.C29_f408.a((C60)this.C29_f402[0]);
@@ -1104,11 +1104,11 @@ public final class C29 extends C44 {
             this.C29_f443 = false;
          }
 
-         if (C44_f704 == 0 && C44_f705 == 5) {
+         if (actionType == 0 && currentAction == 5) {
             this.C29_f443 = false;
          }
 
-         this.C44_f701.C9_f131 = 0;
+         this.gameController.C9_f131 = 0;
          return;
       case 18:
          return;
@@ -1197,47 +1197,47 @@ public final class C29 extends C44 {
 
          for(var4 = 0; var4 < this.C29_f402.length; ++var4) {
             if (this.C29_f402[var4].s() == 1 && this.C29_f402[var4].T()) {
-               this.C44_f701.b(this.C29_f402[var4], false);
-               this.C44_f701.b(this.C29_f402[var4]);
+               this.gameController.b(this.C29_f402[var4], false);
+               this.gameController.b(this.C29_f402[var4]);
             }
          }
 
          this.b(this.C29_f404[this.C29_f410], true);
-         this.C44_f701.c(this.C29_f408);
+         this.gameController.c(this.C29_f408);
          if (this.C29_f402[0].T()) {
-            this.C44_f701.b(this.C29_f408, this.C29_f402[0]);
+            this.gameController.b(this.C29_f408, this.C29_f402[0]);
             return;
          }
 
-         this.C44_f701.b(this.C29_f408, this.C29_f402[1]);
+         this.gameController.b(this.C29_f408, this.C29_f402[1]);
          return;
       case 21:
          this.C29_f408.a((C60)this.C29_f402[0]);
-         this.C44_f701.ak();
+         this.gameController.ak();
          return;
       case 22:
-         this.C44_f701.aq();
+         this.gameController.aq();
          return;
       case 23:
-         this.C44_f701.as();
+         this.gameController.as();
          return;
       case 24:
-         this.C44_f701.aH();
+         this.gameController.aH();
          return;
       case 101:
-         this.C44_f701.aJ();
+         this.gameController.aJ();
          break;
       case 102:
-         this.C44_f701.aL();
+         this.gameController.aL();
          return;
       case 104:
-         this.C44_f701.aK();
+         this.gameController.aK();
          return;
       }
 
    }
 
-   public final void a() {
+   public final void update() {
       if (this.C8_f110) {
          this.A();
          byte var1;
@@ -1259,7 +1259,7 @@ public final class C29 extends C44 {
             }
 
             if (this.C29_f397 == 0) {
-               this.C44_f701.a(this.C29_f402[1], this.C29_f402[0], this.C29_f402[this.C29_f423], this.C29_f421[this.C29_f423] + 1, C29_f447[this.C29_f399][this.C29_f423].length / 4);
+               this.gameController.a(this.C29_f402[1], this.C29_f402[0], this.C29_f402[this.C29_f423], this.C29_f421[this.C29_f423] + 1, C29_f447[this.C29_f399][this.C29_f423].length / 4);
             }
 
             if (this.C29_f422 > 1) {
@@ -1273,26 +1273,26 @@ public final class C29 extends C44 {
                ++this.C29_f423;
                if (this.C29_f423 > this.C29_f402.length - 1) {
                   this.C29_f423 = this.C29_f402.length - 1;
-                  this.a((byte)20);
+                  this.changeState((byte)20);
                }
             }
             break;
          case 1:
-            if (this.C44_f701.aB()) {
+            if (this.gameController.aB()) {
                if (this.C29_f408.s() == 1 && this.C29_f398 == 0 && (this.C29_f408.r() == 33 || this.C29_f408.r() == 59) && this.C29_f408.c((byte)1) < this.C29_f408.b((byte)1)) {
-                  this.a((byte)10);
+                  this.changeState((byte)10);
                   return;
                }
 
                if (!this.C29_f411) {
                   if (this.C29_f408.s() == 1) {
                      if (d(this.C29_f408)) {
-                        this.a((byte)12);
+                        this.changeState((byte)12);
                      } else {
-                        this.a((byte)2);
+                        this.changeState((byte)2);
                      }
                   } else {
-                     this.a((byte)2);
+                     this.changeState((byte)2);
                   }
                } else {
                   if (this.C29_f414) {
@@ -1305,16 +1305,16 @@ public final class C29 extends C44 {
                   }
 
                   if (d((C41)this.C29_f409.elementAt(this.C29_f410))) {
-                     this.a((byte)13);
+                     this.changeState((byte)13);
                   } else {
-                     this.a((byte)20);
+                     this.changeState((byte)20);
                   }
 
                   this.C29_f411 = false;
                }
             }
 
-            this.C44_f701.g();
+            this.gameController.g();
             this.C29_f445[this.C29_f402.length].a();
             break;
          case 2:
@@ -1340,8 +1340,8 @@ public final class C29 extends C44 {
                C41 var7 = (C41)this.C29_f408.C41_f664.elementAt(var5);
                this.C29_f408.C41_f666 = Byte.parseByte((String)this.C29_f408.C41_f665.elementAt(var5));
                this.C29_f408.a(var1, var7);
-               this.C44_f701.b(this.C29_f408, var7);
-               this.a((byte)7);
+               this.gameController.b(this.C29_f408, var7);
+               this.changeState((byte)7);
             } else if (this.C29_f408.p(9)) {
                this.f(this.C29_f408);
                var6 = GameUtils.getRandomInt(this.C29_f408.C41_f664.size());
@@ -1349,8 +1349,8 @@ public final class C29 extends C44 {
                this.C29_f408.C41_f666 = Byte.parseByte((String)this.C29_f408.C41_f665.elementAt(var6));
                byte var8 = (byte)e(this.C29_f408);
                this.C29_f408.a(var8, var9);
-               this.C44_f701.b(this.C29_f408, var9);
-               this.a((byte)7);
+               this.gameController.b(this.C29_f408, var9);
+               this.changeState((byte)7);
             } else {
                var4 = true;
                var12 = this.C29_f408;
@@ -1372,18 +1372,18 @@ public final class C29 extends C44 {
                   }
                }
 
-               this.C44_f701.b(this.C29_f408, (C41)this.C29_f408.C60_f868);
-               this.a((byte)7);
+               this.gameController.b(this.C29_f408, (C41)this.C29_f408.C60_f868);
+               this.changeState((byte)7);
             }
             break;
          case 3:
-            this.C44_f701.f((C41)this.C29_f409.elementAt(this.C29_f410));
+            this.gameController.f((C41)this.C29_f409.elementAt(this.C29_f410));
             break;
          case 4:
-            this.C44_f701.an();
+            this.gameController.an();
             break;
          case 5:
-            this.C44_f701.aa();
+            this.gameController.aa();
             break;
          case 6:
             if (this.g(4100)) {
@@ -1394,9 +1394,9 @@ public final class C29 extends C44 {
                   }
 
                   this.a(Integer.parseInt((String)this.C29_f408.C41_f665.elementAt(this.C29_f419)), true);
-                  this.C44_f701.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
-                  this.C44_f701.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
-                  this.C44_f701.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
+                  this.gameController.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
                }
             } else if (this.g(8448)) {
                if (this.C29_f397 == 1) {
@@ -1406,9 +1406,9 @@ public final class C29 extends C44 {
                   }
 
                   this.a(Integer.parseInt((String)this.C29_f408.C41_f665.elementAt(this.C29_f419)), true);
-                  this.C44_f701.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
-                  this.C44_f701.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
-                  this.C44_f701.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
+                  this.gameController.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
                }
             } else if (this.g(16400)) {
                if (this.C29_f397 == 1) {
@@ -1418,9 +1418,9 @@ public final class C29 extends C44 {
                   }
 
                   this.a(Integer.parseInt((String)this.C29_f408.C41_f665.elementAt(this.C29_f419)), true);
-                  this.C44_f701.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
-                  this.C44_f701.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
-                  this.C44_f701.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
+                  this.gameController.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
                }
             } else if (this.g(32832)) {
                if (this.C29_f397 == 1) {
@@ -1430,15 +1430,15 @@ public final class C29 extends C44 {
                   }
 
                   this.a(Integer.parseInt((String)this.C29_f408.C41_f665.elementAt(this.C29_f419)), true);
-                  this.C44_f701.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
-                  this.C44_f701.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
-                  this.C44_f701.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
+                  this.gameController.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
                }
             } else if (this.g(196640)) {
                this.G();
             } else if (this.g(786432)) {
                this.a(Integer.parseInt((String)this.C29_f408.C41_f665.elementAt(this.C29_f419)), false);
-               this.a((byte)3);
+               this.changeState((byte)3);
             }
 
             this.C29_f445[this.C29_f402.length].a();
@@ -1602,7 +1602,7 @@ public final class C29 extends C44 {
             }
             break;
          case 8:
-            this.C44_f701.ap();
+            this.gameController.ap();
          case 9:
          case 14:
          case 18:
@@ -1686,16 +1686,16 @@ public final class C29 extends C44 {
          default:
             break;
          case 10:
-            if (!this.C44_f701.j() && this.c(this.C29_f408, false)) {
-               this.C44_f701.c(c(C67.C67_f923[0][this.C29_f408.r()][0]) + "Chạy trốn");
+            if (!this.gameController.j() && this.c(this.C29_f408, false)) {
+               this.gameController.c(getLocalizedText(C67.C67_f923[0][this.C29_f408.r()][0]) + "Chạy trốn");
             }
 
-            if (this.C44_f701.g()) {
-               C55.B().a((byte)10);
+            if (this.gameController.g()) {
+               GameScreenManager.getInstance().changeState((byte)10);
             }
             break;
          case 11:
-            this.C44_f701.a((byte)4, (byte)0);
+            this.gameController.a((byte)4, (byte)0);
             break;
          case 12:
          case 13:
@@ -1707,7 +1707,7 @@ public final class C29 extends C44 {
                C41 var10002 = this.C29_f402[0];
                C41[] var10003 = this.C29_f402;
                int var13 = this.C29_f423;
-               this.C44_f701.a(var10001, var10002, this.C29_f421[this.C29_f423] + 1, C29_f447[this.C29_f399][this.C29_f423].length / 4);
+               this.gameController.a(var10001, var10002, this.C29_f421[this.C29_f423] + 1, C29_f447[this.C29_f399][this.C29_f423].length / 4);
             }
 
             if (this.C29_f422 > 0) {
@@ -1732,12 +1732,12 @@ public final class C29 extends C44 {
 
                   if (this.C29_f410 >= this.C29_f409.size()) {
                      this.C29_f410 = 0;
-                     this.a((byte)1);
+                     this.changeState((byte)1);
                   } else if (d((C41)this.C29_f409.elementAt(this.C29_f410))) {
-                     this.a((byte)13);
+                     this.changeState((byte)13);
                   } else {
                      var4 = false;
-                     this.a((byte)20);
+                     this.changeState((byte)20);
                   }
 
                   this.C29_f415 = false;
@@ -1766,13 +1766,13 @@ public final class C29 extends C44 {
                               --this.C29_f408.C41_f668[12];
                            } else {
                               --this.C29_f410;
-                              this.a((byte)2);
+                              this.changeState((byte)2);
                            }
                         } else {
                            var3 = GameUtils.getRandomInt(100);
                            if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= C67.C67_f923[1][this.C29_f408.C41_f659][8] && ((C41)this.C29_f408.C60_f868).T()) {
                               --this.C29_f410;
-                              this.a((byte)2);
+                              this.changeState((byte)2);
                            } else {
                               var2 = true;
                            }
@@ -1783,10 +1783,10 @@ public final class C29 extends C44 {
                            }
 
                            if (d((C41)this.C29_f409.elementAt(this.C29_f410))) {
-                              this.a((byte)13);
+                              this.changeState((byte)13);
                            } else {
                               var4 = false;
-                              this.a((byte)20);
+                              this.changeState((byte)20);
                            }
                         }
                      } else {
@@ -1794,10 +1794,10 @@ public final class C29 extends C44 {
                         }
 
                         if (d((C41)this.C29_f409.elementAt(this.C29_f410))) {
-                           this.a((byte)13);
+                           this.changeState((byte)13);
                         } else {
                            var4 = false;
-                           this.a((byte)20);
+                           this.changeState((byte)20);
                         }
                      }
                   } else if (this.C44_f699 != 13 && this.C44_f699 != 12) {
@@ -1807,7 +1807,7 @@ public final class C29 extends C44 {
                            --this.C29_f408.C41_f668[12];
                            if (((C41)this.C29_f408.C60_f868).T()) {
                               --this.C29_f410;
-                              this.a((byte)2);
+                              this.changeState((byte)2);
                               break label739;
                            }
 
@@ -1816,7 +1816,7 @@ public final class C29 extends C44 {
                            var3 = GameUtils.getRandomInt(100);
                            if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= C67.C67_f923[1][this.C29_f408.C41_f659][8] && ((C41)this.C29_f408.C60_f868).T()) {
                               --this.C29_f410;
-                              this.a((byte)2);
+                              this.changeState((byte)2);
                               break label739;
                            }
                         }
@@ -1825,30 +1825,30 @@ public final class C29 extends C44 {
                      }
 
                      if (var2) {
-                        this.a((byte)1);
+                        this.changeState((byte)1);
                      }
                   } else {
-                     this.a((byte)1);
+                     this.changeState((byte)1);
                   }
                }
 
                if (var4) {
                   this.D();
                   if (this.C29_f402[this.C29_f407].s() == 0) {
-                     this.C44_f701.a(this.C29_f402[this.C29_f407], false);
-                     this.C44_f701.a(this.C29_f402[this.C29_f407]);
+                     this.gameController.a(this.C29_f402[this.C29_f407], false);
+                     this.gameController.a(this.C29_f402[this.C29_f407]);
                   } else {
-                     this.C44_f701.b(this.C29_f402[this.C29_f407], false);
-                     this.C44_f701.b(this.C29_f402[this.C29_f407]);
+                     this.gameController.b(this.C29_f402[this.C29_f407], false);
+                     this.gameController.b(this.C29_f402[this.C29_f407]);
                   }
                }
             }
             break;
          case 16:
-            this.C44_f701.ao();
+            this.gameController.ao();
             break;
          case 17:
-            if (this.C44_f701.C9_f131 == 0) {
+            if (this.gameController.C9_f131 == 0) {
                if (this.C29_f396 == 0 && this.C29_f442.b()) {
                   this.e((byte)1);
                } else if (this.C29_f396 == 1 && this.C29_f442.b()) {
@@ -1863,16 +1863,16 @@ public final class C29 extends C44 {
                   }
                } else if (this.C29_f396 == 3 && this.C29_f442.b()) {
                   if ((var1 = C29_f395.z()) == 0) {
-                     this.C44_f701.C9_f131 = 1;
-                     this.C44_f701.b("Bắt thành công #2" + C44.c((int)C67.C67_f923[0][((C41)this.C29_f408.C60_f868).r()][0]));
+                     this.gameController.C9_f131 = 1;
+                     this.gameController.b("Bắt thành công #2" + GameEngineBase.getLocalizedText((int)C67.C67_f923[0][((C41)this.C29_f408.C60_f868).r()][0]));
                      C29_f395.a(((C41)this.C29_f408.C60_f868).Q());
                   } else if (var1 == 1) {
-                     this.C44_f701.C9_f131 = 2;
-                     this.C44_f701.b("Bắt thành công #2" + C44.c((int)C67.C67_f923[0][((C41)this.C29_f408.C60_f868).r()][0]));
+                     this.gameController.C9_f131 = 2;
+                     this.gameController.b("Bắt thành công #2" + GameEngineBase.getLocalizedText((int)C67.C67_f923[0][((C41)this.C29_f408.C60_f868).r()][0]));
                      C29_f395.b(((C41)this.C29_f408.C60_f868).Q());
                   } else {
-                     this.C44_f701.C9_f131 = 1;
-                     this.C44_f701.b("Không còn không gian, sủng vật này đã phóng sinh");
+                     this.gameController.C9_f131 = 1;
+                     this.gameController.b("Không còn không gian, sủng vật này đã phóng sinh");
                   }
                } else if (this.C29_f396 == 4 && this.C29_f442.b() && !this.C29_f424.d()) {
                   this.C29_f424 = null;
@@ -1880,68 +1880,68 @@ public final class C29 extends C44 {
                   this.C29_f442.d();
                   this.C29_f408.C41_f667 = true;
                   if (this.C29_f443) {
-                     this.C44_f701.b("Ngân hàng và Ba lô đều đã đầy");
-                     this.C44_f701.C9_f131 = 3;
+                     this.gameController.b("Ngân hàng và Ba lô đều đã đầy");
+                     this.gameController.C9_f131 = 3;
                   } else {
                      ++this.C29_f410;
-                     this.a((byte)1);
+                     this.changeState((byte)1);
                   }
                }
 
                this.C29_f442.a();
             } else {
-               if (this.C44_f701.aA()) {
-                  if (this.C44_f701.C9_f131 == 3) {
-                     this.C44_f701.C9_f131 = 0;
+               if (this.gameController.aA()) {
+                  if (this.gameController.C9_f131 == 3) {
+                     this.gameController.C9_f131 = 0;
                      this.C29_f408.C41_f667 = true;
                      ++this.C29_f410;
-                     this.a((byte)1);
-                  } else if (this.C44_f701.C9_f131 == 2) {
-                     this.C44_f701.b("Sủng vật ba lô đã đủ, đã để vào ngân hàng");
-                     this.C44_f701.C9_f131 = 4;
-                  } else if (this.C44_f701.C9_f131 == 4 || this.C44_f701.C9_f131 == 1) {
-                     this.C44_f701.C9_f131 = 0;
+                     this.changeState((byte)1);
+                  } else if (this.gameController.C9_f131 == 2) {
+                     this.gameController.b("Sủng vật ba lô đã đủ, đã để vào ngân hàng");
+                     this.gameController.C9_f131 = 4;
+                  } else if (this.gameController.C9_f131 == 4 || this.gameController.C9_f131 == 1) {
+                     this.gameController.C9_f131 = 0;
                      C25.B().C25_f348.C7_f74 = -1;
                      this.q();
-                     C55.B().a((byte)10);
+                     GameScreenManager.getInstance().changeState((byte)10);
                   }
                }
 
-               this.C44_f701.f();
+               this.gameController.f();
             }
             break;
          case 19:
             if (this.g(786432)) {
-               this.a((byte)18);
+               this.changeState((byte)18);
             }
             break;
          case 20:
             this.C29_f445[this.C29_f402.length].a();
-            this.C44_f701.d(this.C29_f408);
+            this.gameController.d(this.C29_f408);
             break;
          case 21:
-            this.C44_f701.al();
+            this.gameController.al();
             break;
          case 22:
-            this.C44_f701.ar();
+            this.gameController.ar();
             break;
          case 23:
-            this.C44_f701.at();
+            this.gameController.at();
             break;
          case 24:
-            this.C44_f701.aI();
+            this.gameController.aI();
             break;
          case 101:
          case 102:
          case 104:
-            this.C44_f701.aO();
+            this.gameController.aO();
          }
 
          for(var6 = 0; var6 < this.C29_f402.length; ++var6) {
             this.C29_f402[var6].p();
          }
 
-         this.C44_f700.closeCurrentDialog();
+         this.dialogManager.closeCurrentDialog();
       }
    }
 
@@ -1994,22 +1994,22 @@ public final class C29 extends C44 {
             break;
          case 1:
             if (var2[2] == 0) {
-               GameUtils.a(var1, var3, 16704699, this.C29_f454 - 10, this.C29_f455 + C29_f462[var2[0]][(var2[3] << 1) + 1] - 30, 17, 17, this.C44_f700.dialogConfig, 2);
+               GameUtils.a(var1, var3, 16704699, this.C29_f454 - 10, this.C29_f455 + C29_f462[var2[0]][(var2[3] << 1) + 1] - 30, 17, 17, this.dialogManager.dialogConfig, 2);
             } else {
-               GameUtils.a(var1, var3, 16704699, this.C29_f454 + 10, this.C29_f455 + C29_f462[var2[0]][(var2[3] << 1) + 1] - 30, 17, 17, this.C44_f700.dialogConfig, 2);
+               GameUtils.a(var1, var3, 16704699, this.C29_f454 + 10, this.C29_f455 + C29_f462[var2[0]][(var2[3] << 1) + 1] - 30, 17, 17, this.dialogManager.dialogConfig, 2);
             }
          }
       }
 
    }
 
-   public final void a(Graphics var1) {
+   public final void renderPauseScreen(Graphics var1) {
       if (this.C8_f110) {
          if (this.C29_f400 != null) {
             var1.drawImage(this.C29_f400, 0, 0, 20);
          } else {
             var1.setColor(0);
-            var1.fillRect(0, 0, C44.g(), C44.h());
+            var1.fillRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
          }
 
          switch(this.C44_f698) {
@@ -2034,7 +2034,7 @@ public final class C29 extends C44 {
             break;
          case 5:
             var1.setColor(16777215);
-            var1.drawString(c(C67.C67_f923[0][this.n(this.C29_f405[0]).r()][0]), g() >> 1, 200, 17);
+            var1.drawString(getLocalizedText(C67.C67_f923[0][this.n(this.C29_f405[0]).r()][0]), getScreenWidth() >> 1, 200, 17);
             break;
          case 6:
             if (this.C29_f397 == 1) {
@@ -2056,8 +2056,8 @@ public final class C29 extends C44 {
             break;
          case 8:
             this.C29_f445[0].a(var1, 0, 0);
-            if (this.C44_f701.C9_f138 < C29_f413.size()) {
-               ((C41)C29_f413.elementAt(this.C44_f701.C9_f138)).a(var1);
+            if (this.gameController.C9_f138 < C29_f413.size()) {
+               ((C41)C29_f413.elementAt(this.gameController.C9_f138)).a(var1);
             }
          case 9:
          case 11:
@@ -2097,7 +2097,7 @@ public final class C29 extends C44 {
             this.b(var1);
          }
 
-         this.C44_f700.render(var1);
+         this.dialogManager.render(var1);
       }
    }
 
@@ -2113,17 +2113,17 @@ public final class C29 extends C44 {
       }
 
       if (this.C29_f410 >= this.C29_f409.size()) {
-         this.a((byte)1);
+         this.changeState((byte)1);
       } else if (d((C41)this.C29_f409.elementAt(this.C29_f410))) {
-         this.a((byte)13);
+         this.changeState((byte)13);
       } else {
-         this.a((byte)20);
+         this.changeState((byte)20);
       }
    }
 
    private void L() {
       if (this.C29_f410 < this.C29_f409.size()) {
-         this.a((byte)1);
+         this.changeState((byte)1);
       } else {
          if (this.C29_f414) {
             this.Q();
@@ -2138,9 +2138,9 @@ public final class C29 extends C44 {
          }
 
          if (d((C41)this.C29_f409.elementAt(this.C29_f410))) {
-            this.a((byte)13);
+            this.changeState((byte)13);
          } else {
-            this.a((byte)20);
+            this.changeState((byte)20);
          }
       }
    }
@@ -2160,7 +2160,7 @@ public final class C29 extends C44 {
             if (((C41)this.C29_f408.C60_f868).s() == 0 && !((C41)this.C29_f408.C60_f868).T() || this.C29_f408.s() == 0 && !this.C29_f408.T()) {
                ((C41)this.C29_f408.C60_f868).D();
                ((C41)this.C29_f408.C60_f868).E();
-               this.C44_f701.a((C41)this.C29_f408.C60_f868);
+               this.gameController.a((C41)this.C29_f408.C60_f868);
                C29_f412.removeElement((C41)this.C29_f408.C60_f868);
                C29_f413.removeElement((C41)this.C29_f408.C60_f868);
                ((C41)this.C29_f408.C60_f868).C41_f653 = 0;
@@ -2170,7 +2170,7 @@ public final class C29 extends C44 {
          } else {
             ((C41)this.C29_f408.C60_f868).D();
             ((C41)this.C29_f408.C60_f868).E();
-            this.C44_f701.b((C41)this.C29_f408.C60_f868);
+            this.gameController.b((C41)this.C29_f408.C60_f868);
             this.h((C41)this.C29_f408.C60_f868);
             ++this.C29_f406[1];
          }
@@ -2207,7 +2207,7 @@ public final class C29 extends C44 {
                         this.C29_f407 = this.C29_f408.C41_f666;
                      }
 
-                     this.a((byte)5);
+                     this.changeState((byte)5);
                   }
                } else if (this.C29_f406[0] >= this.C29_f401.length) {
                   var4 = true;
@@ -2219,7 +2219,7 @@ public final class C29 extends C44 {
                   }
 
                   this.q(this.C29_f407);
-                  this.a((byte)15);
+                  this.changeState((byte)15);
                }
             }
 
@@ -2231,7 +2231,7 @@ public final class C29 extends C44 {
                      ++this.C29_f410;
                      this.L();
                   } else {
-                     this.a((byte)2);
+                     this.changeState((byte)2);
                   }
                } else {
                   var3 = GameUtils.getRandomInt(100);
@@ -2241,7 +2241,7 @@ public final class C29 extends C44 {
                         ++this.C29_f410;
                         this.L();
                      } else {
-                        this.a((byte)2);
+                        this.changeState((byte)2);
                      }
                   } else {
                      ++this.C29_f410;
@@ -2252,10 +2252,10 @@ public final class C29 extends C44 {
             break;
          case 1:
             W();
-            this.a((byte)8);
+            this.changeState((byte)8);
             break;
          case 2:
-            this.a((byte)9);
+            this.changeState((byte)9);
          }
 
          if (C29_f395.b((byte)5, (byte)0) == 2 && C29_f395.b((byte)5, (byte)1) == 1) {
@@ -2272,7 +2272,7 @@ public final class C29 extends C44 {
 
    private void N() {
       if (C25.B().C25_f348.C7_f70) {
-         this.a((byte)24);
+         this.changeState((byte)24);
       } else {
          for(int var1 = 0; var1 < C29_f395.C53_f778; ++var1) {
             C29_f395.C53_f777[var1].l(1);
@@ -2280,7 +2280,7 @@ public final class C29 extends C44 {
             C29_f395.C53_f777[var1].c();
          }
 
-         C55.B().a((byte)10);
+         GameScreenManager.getInstance().changeState((byte)10);
       }
 
       C25.B().C25_f348.C7_f74 = 1;
@@ -2353,7 +2353,7 @@ public final class C29 extends C44 {
       C41 var2 = (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419);
       var10000.C60_f868 = var2;
       this.C29_f408.C41_f666 = Byte.parseByte((String)this.C29_f408.C41_f665.elementAt(this.C29_f419));
-      this.C29_f408.h(((C41)this.C29_f409.elementAt(this.C29_f410)).C41_f646[this.C44_f701.C9_f129]);
+      this.C29_f408.h(((C41)this.C29_f409.elementAt(this.C29_f410)).C41_f646[this.gameController.C9_f129]);
       this.a(Integer.parseInt((String)this.C29_f408.C41_f665.elementAt(this.C29_f419)), false);
       this.F();
    }
@@ -2586,11 +2586,11 @@ public final class C29 extends C44 {
 
    private boolean U() {
       if (C67.C67_f923[1][this.C29_f408.C41_f659][3] == 0) {
-         this.C44_f701.C9_f149 = 0;
+         this.gameController.C9_f149 = 0;
          if (((C41)this.C29_f408.C60_f868).s() == 0) {
-            this.C44_f701.a((C41)this.C29_f408.C60_f868);
+            this.gameController.a((C41)this.C29_f408.C60_f868);
          } else {
-            this.C44_f701.b((C41)this.C29_f408.C60_f868);
+            this.gameController.b((C41)this.C29_f408.C60_f868);
          }
 
          ((C41)this.C29_f408.C60_f868).a((byte)0, true);
@@ -2640,29 +2640,29 @@ public final class C29 extends C44 {
                }
 
                if (this.C29_f432[2] != -1) {
-                  this.a(C44.c((int)C67.C67_f923[7][this.C29_f432[2]][0]), (byte)1, 0, ((C41)this.C29_f408.C60_f868).s(), ((C41)this.C29_f408.C60_f868).C60_f861, ((C41)this.C29_f408.C60_f868).C60_f862, 9, 12);
+                  this.a(GameEngineBase.getLocalizedText((int)C67.C67_f923[7][this.C29_f432[2]][0]), (byte)1, 0, ((C41)this.C29_f408.C60_f868).s(), ((C41)this.C29_f408.C60_f868).C60_f861, ((C41)this.C29_f408.C60_f868).C60_f862, 9, 12);
                }
             } else {
                this.a("Né tránh", (byte)1, 0, ((C41)this.C29_f408.C60_f868).s(), ((C41)this.C29_f408.C60_f868).C60_f861, ((C41)this.C29_f408.C60_f868).C60_f862, 9, 12);
             }
 
             this.C29_f466 = true;
-            this.C44_f701.C9_f149 = 0;
+            this.gameController.C9_f149 = 0;
             if (((C41)this.C29_f408.C60_f868).s() == 0) {
-               this.C44_f701.a((C41)this.C29_f408.C60_f868);
+               this.gameController.a((C41)this.C29_f408.C60_f868);
             } else {
-               this.C44_f701.b((C41)this.C29_f408.C60_f868);
+               this.gameController.b((C41)this.C29_f408.C60_f868);
             }
          }
 
          boolean var4 = this.S();
          if (((C41)this.C29_f408.C60_f868).s() == 0) {
-            if (this.C44_f701.a((C41)this.C29_f408.C60_f868, false) && var4) {
+            if (this.gameController.a((C41)this.C29_f408.C60_f868, false) && var4) {
                this.R();
                this.C29_f466 = false;
                return true;
             }
-         } else if (this.C44_f701.b((C41)this.C29_f408.C60_f868, false) && var4) {
+         } else if (this.gameController.b((C41)this.C29_f408.C60_f868, false) && var4) {
             this.R();
             this.C29_f466 = false;
             return true;
@@ -2677,22 +2677,22 @@ public final class C29 extends C44 {
       if (var1.s() == 0) {
          var4 = 1;
          if (var3 < var1.C60_f856[var4]) {
-            if (this.C44_f701.a(var1, true) && var2) {
+            if (this.gameController.a(var1, true) && var2) {
                this.C29_f466 = false;
                return true;
             }
-         } else if (this.C44_f701.a(var1, false) && var2) {
+         } else if (this.gameController.a(var1, false) && var2) {
             this.C29_f466 = false;
             return true;
          }
       } else {
          var4 = 1;
          if (var3 < var1.C60_f856[var4]) {
-            if (this.C44_f701.b(var1, true) && var2) {
+            if (this.gameController.b(var1, true) && var2) {
                this.C29_f466 = false;
                return true;
             }
-         } else if (this.C44_f701.b(var1, false) && var2) {
+         } else if (this.gameController.b(var1, false) && var2) {
             this.C29_f466 = false;
             return true;
          }
@@ -2790,26 +2790,26 @@ public final class C29 extends C44 {
             case 62:
             case 64:
             case 68:
-               this.a(C44.c((int)C67.C67_f923[6][var7][0]), (byte)1, 2, this.C29_f408.s(), this.C29_f408.C60_f861, this.C29_f408.C60_f862, 9, 12);
+               this.a(GameEngineBase.getLocalizedText((int)C67.C67_f923[6][var7][0]), (byte)1, 2, this.C29_f408.s(), this.C29_f408.C60_f861, this.C29_f408.C60_f862, 9, 12);
                break;
             default:
-               this.a(C44.c((int)C67.C67_f923[6][var7][0]), (byte)1, 2, ((C41)this.C29_f408.C60_f868).s(), ((C41)this.C29_f408.C60_f868).C60_f861, ((C41)this.C29_f408.C60_f868).C60_f862, 9, 12);
+               this.a(GameEngineBase.getLocalizedText((int)C67.C67_f923[6][var7][0]), (byte)1, 2, ((C41)this.C29_f408.C60_f868).s(), ((C41)this.C29_f408.C60_f868).C60_f861, ((C41)this.C29_f408.C60_f868).C60_f862, 9, 12);
             }
          }
 
          if (C67.C67_f923[1][this.C29_f408.C41_f659][9] == 0) {
-            this.C44_f701.C9_f149 = 0;
+            this.gameController.C9_f149 = 0;
             if (this.C29_f408.s() == 0) {
-               this.C44_f701.a(this.C29_f408);
+               this.gameController.a(this.C29_f408);
             } else {
-               this.C44_f701.b(this.C29_f408);
+               this.gameController.b(this.C29_f408);
             }
          } else {
-            this.C44_f701.C9_f149 = 0;
+            this.gameController.C9_f149 = 0;
             if (((C41)this.C29_f408.C60_f868).s() == 0) {
-               this.C44_f701.a((C41)this.C29_f408.C60_f868);
+               this.gameController.a((C41)this.C29_f408.C60_f868);
             } else {
-               this.C44_f701.b((C41)this.C29_f408.C60_f868);
+               this.gameController.b((C41)this.C29_f408.C60_f868);
             }
          }
 
@@ -3035,9 +3035,9 @@ public final class C29 extends C44 {
       C41 var10000;
       int var1;
       byte var3;
-      switch(C44_f704) {
+      switch(actionType) {
       case 0:
-         if (C44_f705 == 0) {
+         if (currentAction == 0) {
             if (this.C29_f408 != null) {
                var10000 = this.C29_f402[0];
                var3 = 1;
@@ -3046,65 +3046,65 @@ public final class C29 extends C44 {
                var3 = 1;
                if (var10000.C60_f856[var3] <= var1) {
                   b(0, 1);
-                  ++C44_f705;
-                  this.C44_f701.c("Di Lặc thỏ thỏ đã bị thương, nhanh sử dụng #2 phong ấn cầu #1 tiến hành bắt được a");
+                  ++currentAction;
+                  this.gameController.c("Di Lặc thỏ thỏ đã bị thương, nhanh sử dụng #2 phong ấn cầu #1 tiến hành bắt được a");
                }
 
                return;
             }
-         } else if (C44_f705 == 1) {
-            if (this.C44_f701.aB()) {
-               ++C44_f705;
-               this.C44_f701.C9_f124 = 1;
+         } else if (currentAction == 1) {
+            if (this.gameController.aB()) {
+               ++currentAction;
+               this.gameController.C9_f124 = 1;
                b(2, 1);
                b(1, 1);
-               this.C44_f701.aj();
-               this.C44_f701.c("Hãy nhấn #2nút 5");
+               this.gameController.aj();
+               this.gameController.c("Hãy nhấn #2nút 5");
                return;
             }
          } else {
-            if (C44_f705 == 3) {
-               ++C44_f705;
+            if (currentAction == 3) {
+               ++currentAction;
                b(2, 0);
                b(1, 1);
-               this.C44_f701.c("Hãy lựa chọn phong ấn cầu");
+               this.gameController.c("Hãy lựa chọn phong ấn cầu");
                return;
             }
 
-            if (C44_f705 == 5) {
-               ++C44_f705;
-               this.C44_f701.c("Đáng tiếc đã bắt trượt, thử dùng loại xịn #2Tất trúng cầu#1 xem sao!");
+            if (currentAction == 5) {
+               ++currentAction;
+               this.gameController.c("Đáng tiếc đã bắt trượt, thử dùng loại xịn #2Tất trúng cầu#1 xem sao!");
                return;
             }
 
-            if (C44_f705 == 6) {
-               if (this.C44_f701.aB()) {
+            if (currentAction == 6) {
+               if (this.gameController.aB()) {
                   b(1, 0);
-                  this.C44_f701.C9_f124 = 1;
-                  this.C44_f701.aj();
-                  this.C44_f701.C9_f125 = 0;
-                  ++C44_f705;
-                  this.a((byte)21);
+                  this.gameController.C9_f124 = 1;
+                  this.gameController.aj();
+                  this.gameController.C9_f125 = 0;
+                  ++currentAction;
+                  this.changeState((byte)21);
                   return;
                }
-            } else if (C44_f705 == 8) {
+            } else if (currentAction == 8) {
                b(1, -1);
                b(0, 0);
-               C44_f704 = -1;
-               C44_f705 = 0;
+               actionType = -1;
+               currentAction = 0;
                return;
             }
          }
          break;
       case 2:
-         if (C44_f705 == 0) {
+         if (currentAction == 0) {
             b(0, 0);
-            ++C44_f705;
-            this.C44_f701.c("Tranh thủ thời gian lựa chọn #2Tất trúng cầu#1 để bắt sủng vật");
+            ++currentAction;
+            this.gameController.c("Tranh thủ thời gian lựa chọn #2Tất trúng cầu#1 để bắt sủng vật");
             return;
          }
 
-         if (C44_f705 == 2) {
+         if (currentAction == 2) {
             if (this.C29_f408 != null) {
                var10000 = this.C29_f402[0];
                var3 = 1;
@@ -3112,49 +3112,49 @@ public final class C29 extends C44 {
                var10000 = this.C29_f402[0];
                var3 = 1;
                if (var10000.C60_f856[var3] <= var1) {
-                  --C44_f705;
-                  this.C44_f701.c("Lựa chọn #2Tất trúng cầu#1 để bắt sủng vật");
+                  --currentAction;
+                  this.gameController.c("Lựa chọn #2Tất trúng cầu#1 để bắt sủng vật");
                }
             }
 
             if (C29_f395.a((byte)1, (int)29) == 2) {
-               C44_f704 = -1;
-               C44_f705 = 0;
+               actionType = -1;
+               currentAction = 0;
                return;
             }
          }
          break;
       case 5:
-         if (C44_f705 == 0) {
-            this.C44_f701.C9_f124 = 1;
-            ++C44_f705;
-            this.C44_f701.aj();
-            this.C44_f701.c("Tranh thủ thời gian lựa chọn #2Tất trúng cầu#1 để bắt sủng vật");
+         if (currentAction == 0) {
+            this.gameController.C9_f124 = 1;
+            ++currentAction;
+            this.gameController.aj();
+            this.gameController.c("Tranh thủ thời gian lựa chọn #2Tất trúng cầu#1 để bắt sủng vật");
          }
       }
 
    }
 
    public final void r() {
-      switch(C44_f704) {
+      switch(actionType) {
       case 0:
-         if (C44_f705 == 2 || C44_f705 == 4 || C44_f705 == 7) {
-            ++C44_f705;
+         if (currentAction == 2 || currentAction == 4 || currentAction == 7) {
+            ++currentAction;
             return;
          }
          break;
       case 5:
-         if (C44_f705 == 1) {
-            ++C44_f705;
+         if (currentAction == 1) {
+            ++currentAction;
             b(1, 0);
             b(0, 1);
             return;
          }
 
-         if (C44_f705 == 2) {
+         if (currentAction == 2) {
             b(0, 0);
-            C44_f704 = -1;
-            C44_f705 = 0;
+            actionType = -1;
+            currentAction = 0;
          }
       }
 

@@ -27,7 +27,6 @@ public class C67 {
       var0 = "/data/mod/modInfo.mid";
 
       try {
-         "".getClass();
          InputStream var8 = ManagedInputStream.openStream(var0);
          DataInputStream var1;
          byte var2;

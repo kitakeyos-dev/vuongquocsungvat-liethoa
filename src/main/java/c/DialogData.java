@@ -1,7 +1,7 @@
 package c;
 
 import a.GameUtils;
-import a.C44;
+import a.GameEngineBase;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 
@@ -113,7 +113,7 @@ public final class DialogData {
 
       C35 var10 = new C35(var2, var3, var4, var5);
       this.C12_f196 = var10;
-      var1.setClip(0, 0, C44.g(), C44.h());
+      var1.setClip(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
       if (var6) {
          a(var1, this.C12_f196, this.C12_f185);
          b(var1, this.C12_f196, this.C12_f186);

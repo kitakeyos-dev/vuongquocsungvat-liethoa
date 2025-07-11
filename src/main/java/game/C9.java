@@ -1,7 +1,7 @@
 package game;
 
 import a.GameUtils;
-import a.C44;
+import a.GameEngineBase;
 import a.a.C21;
 import a.a.C30;
 import a.a.C69;
@@ -16,7 +16,7 @@ import java.util.Vector;
 
 public final class C9 implements DialogHandler {
    private static C9 C9_f120;
-   private C44 C9_f121;
+   private GameEngineBase C9_f121;
    private DialogManager C9_f122 = DialogManager.getInstance();
    private C53 C9_f123;
    protected int C9_f124;
@@ -81,7 +81,7 @@ public final class C9 implements DialogHandler {
       this.C9_f123 = null;
    }
 
-   public final void a(C44 var1) {
+   public final void a(GameEngineBase var1) {
       if (this.C9_f121 != null) {
          this.C9_f121 = null;
       }
@@ -202,10 +202,10 @@ public final class C9 implements DialogHandler {
          C25.B().C25_f294 = C9_f143[this.C9_f136 * 5 + 3];
          C25.C25_f320 = (byte)C9_f143[this.C9_f136 * 5 + 4];
          C25.B().C25_f295 = -1;
-         C55.B().a((byte)9);
+         GameScreenManager.getInstance().changeState((byte)9);
       } else {
          if (this.C9_f121.g(262144)) {
-            this.C9_f121.a((byte)8);
+            this.C9_f121.changeState((byte)8);
             this.C9_f122.removeDialog("/data/ui/transmit.ui");
          }
 
@@ -221,9 +221,9 @@ public final class C9 implements DialogHandler {
       this.aU();
       this.C9_f122.showDialog("/data/ui/gamemenu.ui", 257, this);
       int var2;
-      if (C44.C44_f711) {
+      if (GameEngineBase.paymentActive) {
          ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 6;
-         this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = C44.c(605 + this.C9_f125);
+         this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(605 + this.C9_f125);
          this.C9_f122.currentDialog.getChildById(15).getComponentData().C12_f179 = var1[0];
 
          for(var2 = 0; var2 < 5; ++var2) {
@@ -231,7 +231,7 @@ public final class C9 implements DialogHandler {
          }
       } else {
          ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 5;
-         this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = C44.c(606 + this.C9_f125);
+         this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(606 + this.C9_f125);
          this.C9_f122.currentDialog.getChildById(15).getComponentData().C12_f179 = var1[1];
 
          for(var2 = 0; var2 < 4; ++var2) {
@@ -249,79 +249,79 @@ public final class C9 implements DialogHandler {
 
    public final void l() {
       this.C9_f121.q();
-      if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f121.g(4100)) {
+      if (!GameEngineBase.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f121.g(4100)) {
          this.C9_f122.currentDialog.handleAction(0);
-      } else if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f121.g(8448)) {
+      } else if (!GameEngineBase.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f121.g(8448)) {
          this.C9_f122.currentDialog.handleAction(1);
-      } else if (!this.j() && C44.s() && this.C9_f121.g(196640)) {
-         if (C44.p() && !C44.a((int)this.C9_f125, (int)0)) {
+      } else if (!this.j() && GameEngineBase.s() && this.C9_f121.g(196640)) {
+         if (GameEngineBase.p() && !GameEngineBase.a((int)this.C9_f125, (int)0)) {
             return;
          }
 
-         if (C44.C44_f711) {
+         if (GameEngineBase.paymentActive) {
             switch(this.C9_f125) {
             case 0:
-               this.C9_f121.a((byte)14);
+               this.C9_f121.changeState((byte)14);
                this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 1:
                this.C9_f126 = 0;
                this.C9_f121.r();
-               this.C9_f121.a((byte)7);
+               this.C9_f121.changeState((byte)7);
                this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 2:
                this.C9_f121.r();
-               this.C9_f121.a((byte)8);
+               this.C9_f121.changeState((byte)8);
                this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 3:
                this.C9_f126 = 0;
-               this.C9_f121.a((byte)9);
+               this.C9_f121.changeState((byte)9);
                this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 4:
                this.C9_f125 = 0;
-               this.C9_f121.a((byte)10);
+               this.C9_f121.changeState((byte)10);
                this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 5:
                this.C9_f122.currentDialog.getChildById(11).setVisible(false);
                this.C9_f122.currentDialog.getChildById(12).setVisible(false);
-               this.C9_f121.a((byte)22);
+               this.C9_f121.changeState((byte)22);
             }
          } else {
             switch(this.C9_f125) {
             case 0:
                this.C9_f126 = 0;
                this.C9_f121.r();
-               this.C9_f121.a((byte)7);
+               this.C9_f121.changeState((byte)7);
                this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 1:
                this.C9_f121.r();
-               this.C9_f121.a((byte)8);
+               this.C9_f121.changeState((byte)8);
                this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 2:
                this.C9_f126 = 0;
-               this.C9_f121.a((byte)9);
+               this.C9_f121.changeState((byte)9);
                this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 3:
                this.C9_f125 = 0;
-               this.C9_f121.a((byte)10);
+               this.C9_f121.changeState((byte)10);
                this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
                break;
             case 4:
                this.C9_f122.currentDialog.getChildById(11).setVisible(false);
                this.C9_f122.currentDialog.getChildById(12).setVisible(false);
-               this.C9_f121.a((byte)22);
+               this.C9_f121.changeState((byte)22);
             }
          }
-      } else if (C44.t() && this.C9_f121.g(262144)) {
+      } else if (GameEngineBase.t() && this.C9_f121.g(262144)) {
          this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
-         this.C9_f121.a((byte)0);
+         this.C9_f121.changeState((byte)0);
       }
 
       this.g();
@@ -343,14 +343,14 @@ public final class C9 implements DialogHandler {
          switch(this.C9_f125) {
          case 0:
             this.C9_f122.removeDialog("/data/ui/gamesystem.ui");
-            this.C9_f121.a((byte)0);
+            this.C9_f121.changeState((byte)0);
             return;
          case 1:
-            this.C9_f121.a((byte)20);
+            this.C9_f121.changeState((byte)20);
             this.C9_f122.removeDialog("/data/ui/gamesystem.ui");
             return;
          case 2:
-            this.C9_f121.a((byte)21);
+            this.C9_f121.changeState((byte)21);
             this.C9_f122.removeDialog("/data/ui/gamesystem.ui");
             return;
          case 3:
@@ -365,10 +365,10 @@ public final class C9 implements DialogHandler {
             } else {
                switch(this.C9_f126) {
                case 0:
-                  C55.B().C55_f824 = 0L;
-                  C55.B().C55_f823 = 0L;
+                  GameScreenManager.getInstance().pauseStartTime = 0L;
+                  GameScreenManager.getInstance().gameStartTime = 0L;
                   C53.p().C53_f776 = false;
-                  C55.B().a((byte)7);
+                  GameScreenManager.getInstance().changeState((byte)7);
                   this.C9_f122.removeDialog("/data/ui/gamesystem.ui");
                   break;
                case 1:
@@ -384,7 +384,7 @@ public final class C9 implements DialogHandler {
          if (this.C9_f121.g(262144)) {
             if (this.C9_f131 == 0) {
                this.C9_f122.removeDialog("/data/ui/gamesystem.ui");
-               this.C9_f121.a((byte)0);
+               this.C9_f121.changeState((byte)0);
                return;
             }
 
@@ -428,9 +428,9 @@ public final class C9 implements DialogHandler {
                this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().C12_f195.a(325, false, (byte)-2);
                this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().C12_f195.a((var1 - 1) * 14 + var2 + 1);
                if ((var1 - 1) * 14 + var2 <= 10) {
-                  this.C9_f122.currentDialog.getChildById(9 + (var2 << 1) + 1).getComponentData().C12_f179 = C44.c(var2 + 311);
+                  this.C9_f122.currentDialog.getChildById(9 + (var2 << 1) + 1).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var2 + 311);
                } else {
-                  this.C9_f122.currentDialog.getChildById(9 + (var2 << 1) + 1).getComponentData().C12_f179 = C44.c(333 + ((var1 - 1) * 14 + var2 - 11));
+                  this.C9_f122.currentDialog.getChildById(9 + (var2 << 1) + 1).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(333 + ((var1 - 1) * 14 + var2 - 11));
                }
             } else {
                this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).setVisible(false);
@@ -459,7 +459,7 @@ public final class C9 implements DialogHandler {
          this.e(this.C9_f125);
       } else {
          if (this.C9_f121.g(262144)) {
-            this.C9_f121.a((byte)0);
+            this.C9_f121.changeState((byte)0);
             this.C9_f122.removeDialog("/data/ui/help1.ui");
          }
 
@@ -481,7 +481,7 @@ public final class C9 implements DialogHandler {
 
    public final void r() {
       if (this.C9_f121.g(262144)) {
-         this.C9_f121.a((byte)0);
+         this.C9_f121.changeState((byte)0);
          this.C9_f122.removeDialog("/data/ui/help.ui");
       }
 
@@ -503,7 +503,7 @@ public final class C9 implements DialogHandler {
 
    private void aW() {
       for(int var1 = 1; var1 < 4; ++var1) {
-         if (var1 <= C55.B().C55_f831) {
+         if (var1 <= GameScreenManager.getInstance().difficultyLevel) {
             this.C9_f122.currentDialog.getChildById(var1 + 9).getComponentData().C12_f192 = -2148;
          } else {
             this.C9_f122.currentDialog.getChildById(var1 + 9).getComponentData().C12_f192 = -8540732;
@@ -514,15 +514,15 @@ public final class C9 implements DialogHandler {
 
    public final void t() {
       if (this.C9_f121.g(16400)) {
-         C55.B().G();
+         GameScreenManager.getInstance().decreaseDifficulty();
          this.aW();
       } else if (this.C9_f121.g(32832)) {
-         C55.B().F();
+         GameScreenManager.getInstance().increaseDifficulty();
          this.aW();
       } else {
          if (this.C9_f121.g(131072)) {
-            C13.B().C13_f205 = C55.B().C55_f831;
-            this.C9_f121.a((byte)0);
+            C13.B().C13_f205 = GameScreenManager.getInstance().difficultyLevel;
+            this.C9_f121.changeState((byte)0);
             this.C9_f122.removeDialog("/data/ui/help.ui");
          }
 
@@ -787,7 +787,7 @@ public final class C9 implements DialogHandler {
 
          return;
       case 26:
-         C55.B().C55_f829 = C69.b(C55.B().C55_f829, var2);
+         GameScreenManager.getInstance().backgroundEffect = C69.b(GameScreenManager.getInstance().backgroundEffect, var2);
          return;
       case 27:
          if (var2 > 38) {
@@ -845,7 +845,7 @@ public final class C9 implements DialogHandler {
          this.e(this.C9_f127);
       } else {
          if (this.C9_f121.g(262144)) {
-            this.C9_f121.a((byte)13);
+            this.C9_f121.changeState((byte)13);
             this.C9_f122.removeDialog("/data/ui/help1.ui");
          }
 
@@ -860,23 +860,23 @@ public final class C9 implements DialogHandler {
    public final void A() {
       if (this.C9_f121.g(16400)) {
          this.C9_f122.currentDialog.handleAction(2);
-         C55.B().G();
+         GameScreenManager.getInstance().decreaseDifficulty();
          if (C25.B().C25_f342 != null) {
-            C25.B().C25_f342.b(C55.B().C55_f831);
+            C25.B().C25_f342.b(GameScreenManager.getInstance().difficultyLevel);
          }
 
          this.aW();
       } else if (this.C9_f121.g(32832)) {
          this.C9_f122.currentDialog.handleAction(3);
-         C55.B().F();
+         GameScreenManager.getInstance().increaseDifficulty();
          if (C25.B().C25_f342 != null) {
-            C25.B().C25_f342.b(C55.B().C55_f831);
+            C25.B().C25_f342.b(GameScreenManager.getInstance().difficultyLevel);
          }
 
          this.aW();
       } else {
          if (this.C9_f121.g(131072)) {
-            this.C9_f121.a((byte)13);
+            this.C9_f121.changeState((byte)13);
             this.C9_f122.removeDialog("/data/ui/help.ui");
          }
 
@@ -954,8 +954,8 @@ public final class C9 implements DialogHandler {
          }
 
          this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.a(C67.a((byte)0, (short)var4[0], (byte)17), false, (byte)-1);
-         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = C44.c((int)C67.a((byte)0, (short)var4[0], (byte)0));
-         this.C9_f122.currentDialog.getChildById(52).getComponentData().C12_f179 = C44.c(365 + C67.a((byte)0, (short)var4[0], (byte)1));
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.a((byte)0, (short)var4[0], (byte)0));
+         this.C9_f122.currentDialog.getChildById(52).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(365 + C67.a((byte)0, (short)var4[0], (byte)1));
          if (C67.a((byte)0, (short)var4[0], (byte)19) == -1) {
             this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "";
          } else if (C67.C67_f923[0][C67.a((byte)0, (short)var4[0], (byte)19)][2] != 1 && C67.C67_f923[0][C67.a((byte)0, (short)var4[0], (byte)19)][2] != 2) {
@@ -976,7 +976,7 @@ public final class C9 implements DialogHandler {
 
          if (var4[2] != -1) {
             this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.a((int)C67.C67_f923[3][var4[2]][1]);
-            this.C9_f122.currentDialog.getChildById(60).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][var4[2]][0]);
+            this.C9_f122.currentDialog.getChildById(60).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[3][var4[2]][0]);
          } else {
             this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.a((int)0);
             this.C9_f122.currentDialog.getChildById(60).getComponentData().C12_f179 = "";
@@ -1038,7 +1038,7 @@ public final class C9 implements DialogHandler {
 
                   this.C9_f123.r(this.C9_f136);
                   if (this.C9_f123.C53_f792.size() <= 0) {
-                     this.C9_f121.a((byte)16);
+                     this.C9_f121.changeState((byte)16);
                      this.C9_f122.removeDialog("/data/ui/petstate.ui");
                   } else {
                      this.aX();
@@ -1061,7 +1061,7 @@ public final class C9 implements DialogHandler {
                }
             }
          } else if (this.C9_f121.g(786432)) {
-            this.C9_f121.a((byte)16);
+            this.C9_f121.changeState((byte)16);
             this.C9_f122.removeDialog("/data/ui/petstate.ui");
          }
       } else if (this.C9_f131 > 0) {
@@ -1114,28 +1114,28 @@ public final class C9 implements DialogHandler {
          switch(this.C9_f125) {
          case 0:
             this.C9_f126 = 0;
-            this.C9_f121.a((byte)7);
+            this.C9_f121.changeState((byte)7);
             this.C9_f122.removeDialog("/data/ui/shop.ui");
             return;
          case 1:
-            this.C9_f121.a((byte)15);
+            this.C9_f121.changeState((byte)15);
             this.C9_f122.removeDialog("/data/ui/shop.ui");
             return;
          case 2:
-            this.C9_f121.a((byte)15);
+            this.C9_f121.changeState((byte)15);
             this.C9_f122.removeDialog("/data/ui/shop.ui");
             return;
          case 3:
             C7.C7_f66 = true;
             this.C9_f122.removeDialog("/data/ui/shop.ui");
-            this.C9_f121.a((byte)0);
+            this.C9_f121.changeState((byte)0);
          default:
          }
       } else {
          if (this.C9_f121.g(262144)) {
             C7.C7_f66 = true;
             this.C9_f122.removeDialog("/data/ui/shop.ui");
-            this.C9_f121.a((byte)0);
+            this.C9_f121.changeState((byte)0);
          }
 
       }
@@ -1149,23 +1149,23 @@ public final class C9 implements DialogHandler {
 
    public final void G() {
       this.C9_f121.q();
-      if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f131 == 0 && this.C9_f121.g(4100) && this.aY()) {
+      if (!GameEngineBase.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f131 == 0 && this.C9_f121.g(4100) && this.aY()) {
          this.C9_f122.currentDialog.handleAction(0);
-      } else if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f131 == 0 && this.C9_f121.g(8448) && this.aY()) {
+      } else if (!GameEngineBase.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f131 == 0 && this.C9_f121.g(8448) && this.aY()) {
          this.C9_f122.currentDialog.handleAction(1);
-      } else if (this.aY() && !this.j() && C44.s() && this.C9_f121.g(196640)) {
-         if (C44.p() && !C44.a((int)this.C9_f125, (int)0)) {
+      } else if (this.aY() && !this.j() && GameEngineBase.s() && this.C9_f121.g(196640)) {
+         if (GameEngineBase.p() && !GameEngineBase.a((int)this.C9_f125, (int)0)) {
             return;
          }
 
          switch(this.C9_f125) {
          case 0:
             this.C9_f121.r();
-            this.C9_f121.a((byte)2);
+            this.C9_f121.changeState((byte)2);
             this.C9_f122.removeDialog("/data/ui/shop.ui");
             break;
          case 1:
-            this.C9_f121.a((byte)3);
+            this.C9_f121.changeState((byte)3);
             this.C9_f122.removeDialog("/data/ui/shop.ui");
             break;
          case 2:
@@ -1175,7 +1175,7 @@ public final class C9 implements DialogHandler {
                   this.C9_f131 = 6;
                   this.H();
                   this.a("Toàn bộ trạng thái đã đầy, không cần khôi phục", "Nhấn nút 5 tiếp tục");
-               } else if (!C44.C44_f711) {
+               } else if (!GameEngineBase.paymentActive) {
                   this.C9_f131 = 3;
 
                   for(var1 = 0; var1 < this.C9_f123.C53_f778; ++var1) {
@@ -1211,8 +1211,8 @@ public final class C9 implements DialogHandler {
 
                this.C9_f122.removeDialog("/data/ui/msgRecover.ui");
             } else {
-               if (this.C9_f131 == 2 && C44.C44_f711) {
-                  this.C9_f121.a((byte)102);
+               if (this.C9_f131 == 2 && GameEngineBase.paymentActive) {
+                  this.C9_f121.changeState((byte)102);
                }
 
                this.C9_f131 = 0;
@@ -1222,9 +1222,9 @@ public final class C9 implements DialogHandler {
          case 3:
             C7.C7_f66 = true;
             this.C9_f122.removeDialog("/data/ui/shop.ui");
-            this.C9_f121.a((byte)0);
+            this.C9_f121.changeState((byte)0);
          }
-      } else if (!this.j() && this.C9_f121.g(262144) && C44.t() && this.aY()) {
+      } else if (!this.j() && this.C9_f121.g(262144) && GameEngineBase.t() && this.aY()) {
          if (this.C9_f131 == 1) {
             this.C9_f122.showDialog("/data/ui/shop.ui", 257, this);
             this.C9_f122.removeDialog("/data/ui/msgRecover.ui");
@@ -1233,7 +1233,7 @@ public final class C9 implements DialogHandler {
          } else if (this.C9_f131 == 0) {
             C7.C7_f66 = true;
             this.C9_f122.removeDialog("/data/ui/shop.ui");
-            this.C9_f121.a((byte)0);
+            this.C9_f121.changeState((byte)0);
          }
       }
 
@@ -1296,7 +1296,7 @@ public final class C9 implements DialogHandler {
          }
 
          this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().C12_f195.a((int)C67.C67_f923[var1][this.C9_f135 + var3][1]);
-         this.C9_f122.currentDialog.getChildById(14 + var3 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[var1][this.C9_f135 + var3][0]);
+         this.C9_f122.currentDialog.getChildById(14 + var3 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[var1][this.C9_f135 + var3][0]);
          if (this.C9_f121 instanceof C25) {
             if (this.C9_f141 != 1 && this.C9_f141 != 3) {
                if (this.C9_f141 == 2) {
@@ -1324,7 +1324,7 @@ public final class C9 implements DialogHandler {
          }
       }
 
-      this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[var1][this.C9_f136][2]);
+      this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[var1][this.C9_f136][2]);
       this.C9_f122.currentDialog.getChildById(43).getComponentData().C12_f179 = "" + this.C9_f123.G();
       this.C9_f122.currentDialog.getChildById(44).getComponentData().C12_f179 = "" + this.C9_f123.F();
       this.C9_f122.currentDialog.getChildById(38).setOffsetY(102 + this.C9_f136 * 84 / C67.C67_f923[var1].length, this.C9_f122.currentDialog.getRootComponent());
@@ -1332,12 +1332,12 @@ public final class C9 implements DialogHandler {
 
    public final void a(byte var1, byte var2) {
       this.C9_f121.q();
-      if (!C44.a((int)this.C9_f125, (int)0) && this.C9_f131 <= 1 && this.C9_f121.g(4100) && !this.j()) {
+      if (!GameEngineBase.a((int)this.C9_f125, (int)0) && this.C9_f131 <= 1 && this.C9_f121.g(4100) && !this.j()) {
          this.C9_f122.currentDialog.handleAction(0);
          if (this.C9_f131 == 0) {
             this.b((int)var1, (byte)var2);
          }
-      } else if (!C44.a((int)this.C9_f125, (int)0) && this.C9_f131 <= 1 && this.C9_f121.g(8448) && !this.j()) {
+      } else if (!GameEngineBase.a((int)this.C9_f125, (int)0) && this.C9_f131 <= 1 && this.C9_f121.g(8448) && !this.j()) {
          this.C9_f122.currentDialog.handleAction(1);
          if (this.C9_f131 == 0) {
             this.b((int)var1, (byte)var2);
@@ -1356,20 +1356,20 @@ public final class C9 implements DialogHandler {
          }
 
          this.a(this.C9_f126, this.C9_f126 * C67.C67_f923[var1][this.C9_f136][3], C67.C67_f923[var1][this.C9_f136][4], var1);
-      } else if (C44.s() && this.C9_f121.g(196640) && !this.j()) {
-         if (C44.p() && !C44.a((int)this.C9_f125, (int)0)) {
+      } else if (GameEngineBase.s() && this.C9_f121.g(196640) && !this.j()) {
+         if (GameEngineBase.p() && !GameEngineBase.a((int)this.C9_f125, (int)0)) {
             return;
          }
 
          if (C67.C67_f923[var1][this.C9_f136][4] == 2) {
             if (this.C9_f131 == 0) {
-               if (C44.C44_f711) {
+               if (GameEngineBase.paymentActive) {
                   if (!this.C9_f123.a((int)this.C9_f136, 1, (byte)0)) {
                      this.C9_f131 = 3;
                      this.H();
                      this.a("Đạo cụ đã đủ", "Nhấn nút 5 tiếp tục");
                   } else {
-                     this.C9_f121.a((byte)101);
+                     this.C9_f121.changeState((byte)101);
                   }
                } else {
                   this.C9_f131 = 3;
@@ -1387,11 +1387,11 @@ public final class C9 implements DialogHandler {
                   this.C9_f127 = 0;
                   this.b(var1, var2);
                } else if (this.C9_f131 > 0) {
-                  if (C44.C44_f711) {
+                  if (GameEngineBase.paymentActive) {
                      if (this.C9_f131 == 4) {
-                        this.C9_f121.a((byte)104);
+                        this.C9_f121.changeState((byte)104);
                      } else if (this.C9_f131 == 3) {
-                        this.C9_f121.a((byte)102);
+                        this.C9_f121.changeState((byte)102);
                      }
                   }
 
@@ -1424,13 +1424,13 @@ public final class C9 implements DialogHandler {
                this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                this.b((int)var1, (byte)var2);
             } else {
-               if (C44.C44_f711) {
+               if (GameEngineBase.paymentActive) {
                   if (this.C9_f131 == 4) {
                      this.C9_f122.removeDialog("/data/ui/msgyn.ui");
-                     this.C9_f121.a((byte)104);
+                     this.C9_f121.changeState((byte)104);
                   } else if (this.C9_f131 == 3) {
                      this.C9_f122.removeDialog("/data/ui/msgyn.ui");
-                     this.C9_f121.a((byte)102);
+                     this.C9_f121.changeState((byte)102);
                   }
                }
 
@@ -1446,21 +1446,21 @@ public final class C9 implements DialogHandler {
             this.C9_f131 = 0;
             this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
          }
-      } else if (this.C9_f121.g(262144) && !this.j() && C44.t()) {
+      } else if (this.C9_f121.g(262144) && !this.j() && GameEngineBase.t()) {
          if (this.C9_f131 == 0) {
             if (this.C9_f121 instanceof C25) {
                if (this.C9_f141 == 1) {
-                  this.C9_f121.a((byte)1);
+                  this.C9_f121.changeState((byte)1);
                } else if (this.C9_f141 == 2) {
-                  this.C9_f121.a((byte)14);
+                  this.C9_f121.changeState((byte)14);
                } else if (this.C9_f141 == 3) {
-                  this.C9_f121.a((byte)27);
+                  this.C9_f121.changeState((byte)27);
                }
 
                this.C9_f122.removeDialog("/data/ui/shopbuy.ui");
             } else {
                this.C9_f122.removeDialog("/data/ui/shopbuy.ui");
-               this.C9_f121.a((byte)20);
+               this.C9_f121.changeState((byte)20);
             }
          } else if (this.C9_f131 == 1) {
             this.C9_f131 = 0;
@@ -1485,9 +1485,9 @@ public final class C9 implements DialogHandler {
 
                this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                if (var1 == 3 && this.C9_f136 == 17) {
-                  this.a("Đã thành công mua sắm #2" + C44.c((int)C67.C67_f923[var1][this.C9_f136][0]) + " * " + 5 * this.C9_f126, "Nhấn nút 5 tiếp tục");
+                  this.a("Đã thành công mua sắm #2" + GameEngineBase.getLocalizedText((int)C67.C67_f923[var1][this.C9_f136][0]) + " * " + 5 * this.C9_f126, "Nhấn nút 5 tiếp tục");
                } else {
-                  this.a("Đã thành công mua sắm #2" + C44.c((int)C67.C67_f923[var1][this.C9_f136][0]) + " * " + this.C9_f126, "Nhấn nút 5 tiếp tục");
+                  this.a("Đã thành công mua sắm #2" + GameEngineBase.getLocalizedText((int)C67.C67_f923[var1][this.C9_f136][0]) + " * " + this.C9_f126, "Nhấn nút 5 tiếp tục");
                }
 
                this.C9_f131 = 2;
@@ -1558,9 +1558,9 @@ public final class C9 implements DialogHandler {
 
             this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
             if (var1 == 3 && this.C9_f136 == 17) {
-               this.a("Đã thành công mua sắm #2" + C44.c((int)C67.C67_f923[var1][this.C9_f136][0]) + " * " + 5 * this.C9_f126, "Nhấn nút 5 tiếp tục");
+               this.a("Đã thành công mua sắm #2" + GameEngineBase.getLocalizedText((int)C67.C67_f923[var1][this.C9_f136][0]) + " * " + 5 * this.C9_f126, "Nhấn nút 5 tiếp tục");
             } else {
-               this.a("Đã thành công mua sắm #2" + C44.c((int)C67.C67_f923[var1][this.C9_f136][0]) + " * " + this.C9_f126, "Nhấn nút 5 tiếp tục");
+               this.a("Đã thành công mua sắm #2" + GameEngineBase.getLocalizedText((int)C67.C67_f923[var1][this.C9_f136][0]) + " * " + this.C9_f126, "Nhấn nút 5 tiếp tục");
             }
 
             this.C9_f131 = 2;
@@ -1664,13 +1664,13 @@ public final class C9 implements DialogHandler {
          }
 
          if (this.C9_f121.g(262144)) {
-            if (C44.C44_f711) {
+            if (GameEngineBase.paymentActive) {
                this.C9_f125 = 5;
             } else {
                this.C9_f125 = 4;
             }
 
-            this.C9_f121.a((byte)6);
+            this.C9_f121.changeState((byte)6);
             this.C9_f122.removeDialog("/data/ui/msgtip.ui");
             this.C9_f131 = 0;
             return;
@@ -1684,7 +1684,7 @@ public final class C9 implements DialogHandler {
       } else if (this.C9_f131 == 2) {
          this.C9_f122.removeDialog("/data/ui/msgtip.ui");
          this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
-         this.C9_f121.a((byte)0);
+         this.C9_f121.changeState((byte)0);
          this.C9_f131 = 0;
       }
 
@@ -1739,7 +1739,7 @@ public final class C9 implements DialogHandler {
             }
 
             this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195.a((int)C67.C67_f923[4][var2][1]);
-            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][var2][0]);
+            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[4][var2][0]);
             this.C9_f122.currentDialog.getChildById(15 + var1 * 5).getComponentData().C12_f179 = "" + C67.C67_f923[4][var2][3] / 2;
             if (C67.C67_f923[4][var2][4] == 0) {
                this.C9_f122.currentDialog.getChildById(var1 + 45).getComponentData().C12_f195.a((int)84);
@@ -1760,7 +1760,7 @@ public final class C9 implements DialogHandler {
       }
 
       if (this.C9_f123.C53_f796.size() > 0) {
-         this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f796.elementAt(this.C9_f136))[0]][2]);
+         this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f796.elementAt(this.C9_f136))[0]][2]);
       } else {
          this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "";
       }
@@ -1821,7 +1821,7 @@ public final class C9 implements DialogHandler {
                }
 
                if (this.C9_f131 == 0) {
-                  this.C9_f121.a((byte)1);
+                  this.C9_f121.changeState((byte)1);
                   this.C9_f122.removeDialog("/data/ui/shopbuy.ui");
                   this.C9_f125 = 1;
                   ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f125;
@@ -1853,7 +1853,7 @@ public final class C9 implements DialogHandler {
       }
 
       this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f179 = "" + var1;
-      long var4 = C55.B().C55_f826 + C55.B().C55_f827 - C55.B().C55_f828;
+      long var4 = GameScreenManager.getInstance().storyStartTime + GameScreenManager.getInstance().worldMapTime - GameScreenManager.getInstance().currentTime;
       DialogData var10000 = this.C9_f122.currentDialog.getChildById(31).getComponentData();
       C25.B();
       var10000.C12_f179 = C25.a(var4)[1];
@@ -1875,7 +1875,7 @@ public final class C9 implements DialogHandler {
             switch(this.C9_f126) {
             case 0:
                if (C53.p().l(5)) {
-                  this.C9_f121.a((byte)11);
+                  this.C9_f121.changeState((byte)11);
                } else {
                   this.H();
                   this.a("Không đạt được sủng vật sách tranh đạo cụ", "Nhấn nút 5 tiếp tục");
@@ -1883,20 +1883,20 @@ public final class C9 implements DialogHandler {
                }
                break;
             case 1:
-               this.C9_f121.a((byte)12);
+               this.C9_f121.changeState((byte)12);
             }
          } else {
             this.C9_f131 = 0;
             this.I();
          }
       } else if (this.C9_f121.g(262144) && this.C9_f131 == 0) {
-         if (C44.C44_f711) {
+         if (GameEngineBase.paymentActive) {
             this.C9_f125 = 3;
          } else {
             this.C9_f125 = 2;
          }
 
-         this.C9_f121.a((byte)6);
+         this.C9_f121.changeState((byte)6);
          this.C9_f122.removeDialog("/data/ui/record.ui");
       }
 
@@ -1963,10 +1963,10 @@ public final class C9 implements DialogHandler {
             this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195.a((int)102);
          }
 
-         this.C9_f122.currentDialog.getChildById(24 + (var2 << 2) + 3).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[0][this.C9_f123.C53_f802[this.C9_f125] + var2 + this.C9_f135][0]);
+         this.C9_f122.currentDialog.getChildById(24 + (var2 << 2) + 3).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[0][this.C9_f123.C53_f802[this.C9_f125] + var2 + this.C9_f135][0]);
       }
 
-      this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f179 = C44.c(365 + this.C9_f125) + var3 + "/" + this.C9_f123.C53_f803[this.C9_f125];
+      this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(365 + this.C9_f125) + var3 + "/" + this.C9_f123.C53_f803[this.C9_f125];
       this.C9_f122.currentDialog.getChildById(23).setOffsetY(99 + (this.C9_f136 << 6) / this.C9_f123.C53_f803[this.C9_f125], this.C9_f122.currentDialog.getRootComponent());
    }
 
@@ -1987,10 +1987,10 @@ public final class C9 implements DialogHandler {
          this.bb();
       } else if (!this.C9_f121.g(196640) && this.C9_f121.g(786432)) {
          if (this.C9_f121.C44_f699 == 8) {
-            this.C9_f121.a((byte)8);
+            this.C9_f121.changeState((byte)8);
          } else {
             this.C9_f126 = 0;
-            this.C9_f121.a((byte)9);
+            this.C9_f121.changeState((byte)9);
          }
 
          this.C9_f122.removeDialog("/data/ui/petmap.ui");
@@ -2043,7 +2043,7 @@ public final class C9 implements DialogHandler {
          }
 
          var1 = C7.C7_f106 * 1000 / (C7.C7_f103.length / 2);
-         if (!C44.C44_f711) {
+         if (!GameEngineBase.paymentActive) {
             if ((var2 = var1 % 10) == 0) {
                var2 = 1;
             }
@@ -2162,7 +2162,7 @@ public final class C9 implements DialogHandler {
          this.C9_f122.currentDialog.handleAction(3);
          this.bc();
       } else if (this.C9_f121.g(983072)) {
-         if (C44.C44_f711) {
+         if (GameEngineBase.paymentActive) {
             this.C9_f125 = 4;
          } else {
             this.C9_f125 = 3;
@@ -2171,16 +2171,16 @@ public final class C9 implements DialogHandler {
          this.C9_f122.removeDialog("/data/ui/task.ui");
          if (this.C9_f121.C44_f699 == 0) {
             this.C9_f125 = 0;
-            this.C9_f121.a((byte)0);
+            this.C9_f121.changeState((byte)0);
          } else if (this.C9_f121.C44_f699 == 33) {
-            this.C9_f121.a((byte)33);
+            this.C9_f121.changeState((byte)33);
          } else {
-            this.C9_f121.a((byte)6);
+            this.C9_f121.changeState((byte)6);
          }
       } else {
          if (this.C9_f121.g(10)) {
             this.C9_f122.removeDialog("/data/ui/task.ui");
-            this.C9_f121.a((byte)0);
+            this.C9_f121.changeState((byte)0);
          }
 
       }
@@ -2202,8 +2202,8 @@ public final class C9 implements DialogHandler {
    }
 
    private void be() {
-      this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[2][this.C9_f125][0]);
-      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[2][this.C9_f125][2 + this.C9_f123.b((byte)this.C9_f125, (byte)1)]);
+      this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[2][this.C9_f125][0]);
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[2][this.C9_f125][2 + this.C9_f123.b((byte)this.C9_f125, (byte)1)]);
       if (this.C9_f123.b((byte)this.C9_f125, (byte)0) == 0) {
          this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f179 = "Chưa đạt";
       } else {
@@ -2229,10 +2229,10 @@ public final class C9 implements DialogHandler {
       } else {
          if (this.C9_f121.g(786432)) {
             if (this.C9_f121.C44_f699 == 8) {
-               this.C9_f121.a((byte)8);
+               this.C9_f121.changeState((byte)8);
             } else {
                this.C9_f126 = 1;
-               this.C9_f121.a((byte)9);
+               this.C9_f121.changeState((byte)9);
             }
 
             this.C9_f122.removeDialog("/data/ui/badge.ui");
@@ -2251,8 +2251,8 @@ public final class C9 implements DialogHandler {
          this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f195.a(var1 + 46);
       }
 
-      this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = C44.c(var1 + 187) + ":" + C44.c(var1 + 195);
-      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = C44.c((int)377);
+      this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var1 + 187) + ":" + GameEngineBase.getLocalizedText(var1 + 195);
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)377);
    }
 
    public final void Y() {
@@ -2326,8 +2326,8 @@ public final class C9 implements DialogHandler {
 
          short var10001 = var1[var2].C41_f655;
          this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.a(var10001, false, (byte)-1);
-         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = C44.c(var1[var2].j((byte)0));
-         this.C9_f122.currentDialog.getChildById(52).getComponentData().C12_f179 = C44.c(365 + var1[var2].j((byte)1));
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var1[var2].j((byte)0));
+         this.C9_f122.currentDialog.getChildById(52).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(365 + var1[var2].j((byte)1));
          if (var1[var2].j((byte)19) == -1) {
             this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "";
          } else if (C67.C67_f923[0][var1[var2].j((byte)19)][2] != 1 && C67.C67_f923[0][var1[var2].j((byte)19)][2] != 2) {
@@ -2364,7 +2364,7 @@ public final class C9 implements DialogHandler {
             var7 = C67.C67_f923[3];
             var10002 = var1[var2];
             var4 = 5;
-            var6.C12_f179 = C44.c((int)var7[var10002.C60_f855[var4]][0]);
+            var6.C12_f179 = GameEngineBase.getLocalizedText((int)var7[var10002.C60_f855[var4]][0]);
          } else {
             this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.a((int)0);
             this.C9_f122.currentDialog.getChildById(60).getComponentData().C12_f179 = "";
@@ -2409,12 +2409,12 @@ public final class C9 implements DialogHandler {
 
    public final void aa() {
       if (this.C9_f131 == 0) {
-         if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f121.g(4100)) {
+         if (!GameEngineBase.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f121.g(4100)) {
             this.C9_f122.currentDialog.handleAction(0);
-         } else if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f121.g(8448)) {
+         } else if (!GameEngineBase.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f121.g(8448)) {
             this.C9_f122.currentDialog.handleAction(1);
-         } else if (C44.s() && !this.j() && this.C9_f121.g(196640)) {
-            if (C44.p() && !C44.a((int)this.C9_f125, (int)0)) {
+         } else if (GameEngineBase.s() && !this.j() && this.C9_f121.g(196640)) {
+            if (GameEngineBase.p() && !GameEngineBase.a((int)this.C9_f125, (int)0)) {
                return;
             }
 
@@ -2433,7 +2433,7 @@ public final class C9 implements DialogHandler {
                } else if (var1 == -1) {
                   ((C29)this.C9_f121).e(((C29)this.C9_f121).C29_f407, 0);
                   this.C9_f124 = 0;
-                  this.C9_f121.a((byte)15);
+                  this.C9_f121.changeState((byte)15);
                   this.C9_f122.removeDialog("/data/ui/petsetting.ui");
                   this.C9_f122.removeDialog("/data/ui/petstate.ui");
                }
@@ -2500,19 +2500,19 @@ public final class C9 implements DialogHandler {
          } else if (C7.t() && !this.j() && this.C9_f121.g(262144)) {
             if (this.C9_f121 instanceof C25) {
                if (this.C9_f121.C44_f699 == 16) {
-                  this.C9_f121.a((byte)16);
+                  this.C9_f121.changeState((byte)16);
                } else if (this.C9_f121.C44_f699 == 6) {
-                  if (C44.C44_f711) {
+                  if (GameEngineBase.paymentActive) {
                      this.C9_f125 = 1;
                   } else {
                      this.C9_f125 = 0;
                   }
 
-                  this.C9_f121.a((byte)6);
+                  this.C9_f121.changeState((byte)6);
                } else if (this.C9_f121.C44_f699 == 27) {
-                  this.C9_f121.a((byte)27);
+                  this.C9_f121.changeState((byte)27);
                } else if (this.C9_f121.C44_f699 == 0) {
-                  this.C9_f121.a((byte)23);
+                  this.C9_f121.changeState((byte)23);
                }
 
                this.C9_f122.removeDialog("/data/ui/petstate.ui");
@@ -2524,21 +2524,21 @@ public final class C9 implements DialogHandler {
                this.C9_f122.removeDialog("/data/ui/petstate.ui");
                C29.B().C29_f415 = false;
                this.C9_f124 = 0;
-               this.C9_f121.a((byte)20);
+               this.C9_f121.changeState((byte)20);
             }
          }
       } else if (this.C9_f131 == 1) {
-         if (!C44.a((int)this.C9_f126, (int)0) && !this.j() && this.C9_f121.g(4100)) {
+         if (!GameEngineBase.a((int)this.C9_f126, (int)0) && !this.j() && this.C9_f121.g(4100)) {
             this.C9_f122.currentDialog.handleAction(0);
-         } else if (!C44.a((int)this.C9_f126, (int)0) && !this.j() && this.C9_f121.g(8448)) {
+         } else if (!GameEngineBase.a((int)this.C9_f126, (int)0) && !this.j() && this.C9_f121.g(8448)) {
             this.C9_f122.currentDialog.handleAction(1);
-         } else if (C44.s() && !this.j() && this.C9_f121.g(196640)) {
-            if (C44.p() && !C44.a((int)this.C9_f126, (int)0)) {
+         } else if (GameEngineBase.s() && !this.j() && this.C9_f121.g(196640)) {
+            if (GameEngineBase.p() && !GameEngineBase.a((int)this.C9_f126, (int)0)) {
                return;
             }
 
             if (this.C9_f121.C44_f699 == 16) {
-               this.C9_f121.a((byte)16);
+               this.C9_f121.changeState((byte)16);
                this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                this.C9_f122.removeDialog("/data/ui/petstate.ui");
                this.C9_f131 = 0;
@@ -2745,7 +2745,7 @@ public final class C9 implements DialogHandler {
                }
 
                this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.a((int)C67.C67_f923[3][var2[0]][1]);
-               this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][var2[0]][0]);
+               this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[3][var2[0]][0]);
                var10000 = C53.p().C53_f777[this.C9_f125];
                var4 = 5;
                if (var10000.C60_f855[var4] == var2[0]) {
@@ -2766,7 +2766,7 @@ public final class C9 implements DialogHandler {
          }
 
          if (this.C9_f123.C53_f789.size() > 0) {
-            this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][((int[])this.C9_f123.C53_f789.elementAt(this.C9_f136))[0]][2]);
+            this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[3][((int[])this.C9_f123.C53_f789.elementAt(this.C9_f136))[0]][2]);
          } else {
             this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = "";
          }
@@ -2836,7 +2836,7 @@ public final class C9 implements DialogHandler {
             }
 
             this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.a((int)C67.C67_f923[4][var2[0]][1]);
-            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][var2[0]][0]);
+            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[4][var2[0]][0]);
             this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "" + var2[1];
          } else {
             if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 != null) {
@@ -2849,7 +2849,7 @@ public final class C9 implements DialogHandler {
       }
 
       if (this.C9_f123.C53_f787.size() > 0) {
-         this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f787.elementAt(this.C9_f136))[0]][2]);
+         this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f787.elementAt(this.C9_f136))[0]][2]);
       } else {
          this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = "";
       }
@@ -2867,7 +2867,7 @@ public final class C9 implements DialogHandler {
       this.C9_f122.showDialog("/data/ui/skill.ui", 257, this);
       this.C9_f122.removeDialog("/data/ui/petsetting.ui");
       this.C9_f122.removeDialog("/data/ui/petstate.ui");
-      this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = C44.c(this.C9_f123.C53_f777[this.C9_f125].j((byte)0));
+      this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(this.C9_f123.C53_f777[this.C9_f125].j((byte)0));
       this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "" + this.C9_f123.C53_f777[this.C9_f125].t();
       if (this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195 != null) {
          this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195.c();
@@ -2882,7 +2882,7 @@ public final class C9 implements DialogHandler {
       int var1 = this.C9_f123.C53_f777[this.C9_f125].F();
 
       for(int var2 = 0; var2 < var1; ++var2) {
-         this.C9_f122.currentDialog.getChildById(var2 + 18).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[1][this.C9_f123.C53_f777[this.C9_f125].t(var2)][1]);
+         this.C9_f122.currentDialog.getChildById(var2 + 18).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[1][this.C9_f123.C53_f777[this.C9_f125].t(var2)][1]);
       }
 
       this.bk();
@@ -2892,7 +2892,7 @@ public final class C9 implements DialogHandler {
    private void bk() {
       if (this.C9_f123.C53_f777[this.C9_f125].t(this.C9_f127) != -1) {
          String[] var1 = new String[]{"Nhất định", "Nhất định"};
-         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = C44.a(C67.C67_f923[1][this.C9_f123.C53_f777[this.C9_f125].t(this.C9_f127)][2], (String[])var1);
+         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = GameEngineBase.a(C67.C67_f923[1][this.C9_f123.C53_f777[this.C9_f125].t(this.C9_f127)][2], (String[])var1);
       } else {
          this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "";
       }
@@ -2914,9 +2914,9 @@ public final class C9 implements DialogHandler {
       this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.a(var10001, false, (byte)-1);
       short var1 = (short)(C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)20) + 12);
       short var2 = C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)21);
-      this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = C44.c((int)C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)0));
+      this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)0));
       this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = "" + this.C9_f123.C53_f777[this.C9_f125].t();
-      this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f179 = C44.c((int)C67.a((byte)3, var1, (byte)0));
+      this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.a((byte)3, var1, (byte)0));
       this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = this.C9_f123.a((int)var1, (byte)2) + "/" + var2;
       var1 = C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)19);
       C41 var6;
@@ -2938,14 +2938,14 @@ public final class C9 implements DialogHandler {
    }
 
    private void bm() {
-      if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f131 == 2 && this.C9_f121.g(4100)) {
+      if (!GameEngineBase.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f131 == 2 && this.C9_f121.g(4100)) {
          this.C9_f122.currentDialog.handleAction(0);
          this.bg();
-      } else if (!C44.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f131 == 2 && this.C9_f121.g(8448)) {
+      } else if (!GameEngineBase.a((int)this.C9_f125, (int)0) && !this.j() && this.C9_f131 == 2 && this.C9_f121.g(8448)) {
          this.C9_f122.currentDialog.handleAction(1);
          this.bg();
-      } else if (C44.s() && !this.j() && this.C9_f121.g(196640) && this.C9_f123.C53_f789.size() > 0) {
-         if (!C44.p() || C44.a((int)this.C9_f125, (int)0)) {
+      } else if (GameEngineBase.s() && !this.j() && this.C9_f121.g(196640) && this.C9_f123.C53_f789.size() > 0) {
+         if (!GameEngineBase.p() || GameEngineBase.a((int)this.C9_f125, (int)0)) {
             if (this.C9_f131 == 2) {
                int[] var1 = (int[])this.C9_f123.C53_f789.elementAt(this.C9_f136);
                C41 var10000 = this.C9_f123.C53_f777[this.C9_f125];
@@ -3101,13 +3101,13 @@ public final class C9 implements DialogHandler {
       if (C25.C25_f300 != null) {
          if (!C25.C25_f300.j()) {
             var1 = C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)19);
-            String var9 = C44.c((int)C67.a((byte)0, var1, (byte)0));
+            String var9 = GameEngineBase.getLocalizedText((int)C67.a((byte)0, var1, (byte)0));
             var3 = C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)19);
             var4 = C67.a((byte)0, var3, (byte)17);
             C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)21);
             this.C9_f122.currentDialog.getChildById(10).setVisible(true);
             this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.a(var4, false, (byte)-1);
-            this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = C44.c((int)C67.a((byte)0, var3, (byte)0));
+            this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.a((byte)0, var3, (byte)0));
             C41 var11 = new C41();
             short var5 = C67.a((byte)0, var3, (byte)3);
             byte var6 = -1;
@@ -3140,7 +3140,7 @@ public final class C9 implements DialogHandler {
                this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f179 = "";
                this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = "";
             } else {
-               this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f179 = C44.c((int)C67.a((byte)3, var5, (byte)0));
+               this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.a((byte)3, var5, (byte)0));
                this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = var12 + "/" + var4;
             }
 
@@ -3158,7 +3158,7 @@ public final class C9 implements DialogHandler {
          }
 
       } else {
-         if (C44.s() && !this.j() && this.C9_f121.g(196640)) {
+         if (GameEngineBase.s() && !this.j() && this.C9_f121.g(196640)) {
             if (this.C9_f131 == 2) {
                var1 = (short)(C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)20) + 12);
                short var2 = C67.a((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)21);
@@ -3216,7 +3216,7 @@ public final class C9 implements DialogHandler {
                   return;
                }
             }
-         } else if (this.C9_f131 < 3 && this.C9_f121.g(262144) && !this.j() && C44.t()) {
+         } else if (this.C9_f131 < 3 && this.C9_f121.g(262144) && !this.j() && GameEngineBase.t()) {
             this.C9_f131 = 0;
             this.f(this.C9_f125);
             this.C9_f122.removeDialog("/data/ui/evolve.ui");
@@ -3277,7 +3277,7 @@ public final class C9 implements DialogHandler {
 
                var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195.a((int)C67.C67_f923[3][var3[0]][1]);
                var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f191.a((int)C67.C67_f923[3][var3[0]][1]);
-               var4.C9_f122.currentDialog.getChildById(60 + var2 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][var3[0]][0]);
+               var4.C9_f122.currentDialog.getChildById(60 + var2 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[3][var3[0]][0]);
                if (var3[1] == 1) {
                   var4.C9_f122.currentDialog.getChildById(61 + var2 * 5).getComponentData().C12_f179 = "Đã mang theo";
                } else {
@@ -3294,7 +3294,7 @@ public final class C9 implements DialogHandler {
          }
 
          if (var4.C9_f123.C53_f789.size() > 0) {
-            var4.C9_f122.currentDialog.getChildById(85).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][((int[])var4.C9_f123.C53_f789.elementAt(var4.C9_f136))[0]][2]);
+            var4.C9_f122.currentDialog.getChildById(85).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[3][((int[])var4.C9_f123.C53_f789.elementAt(var4.C9_f136))[0]][2]);
          } else {
             var4.C9_f122.currentDialog.getChildById(85).getComponentData().C12_f179 = "";
          }
@@ -3395,7 +3395,7 @@ public final class C9 implements DialogHandler {
 
             this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195.a((int)C67.C67_f923[4][var3[0]][1]);
             this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f191.a((int)C67.C67_f923[4][var3[0]][1]);
-            this.C9_f122.currentDialog.getChildById(19 + var2 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][var3[0]][0]);
+            this.C9_f122.currentDialog.getChildById(19 + var2 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[4][var3[0]][0]);
             this.C9_f122.currentDialog.getChildById(20 + var2 * 5).getComponentData().C12_f179 = "" + var3[1];
          } else {
             if (this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195 != null) {
@@ -3409,9 +3409,9 @@ public final class C9 implements DialogHandler {
 
       if (var1 > 0) {
          if (this.C9_f136 < this.C9_f123.C53_f788.size()) {
-            this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f788.elementAt(this.C9_f136))[0]][2]);
+            this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f788.elementAt(this.C9_f136))[0]][2]);
          } else {
-            this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f787.elementAt(this.C9_f136 - this.C9_f123.C53_f788.size()))[0]][2]);
+            this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[4][((int[])this.C9_f123.C53_f787.elementAt(this.C9_f136 - this.C9_f123.C53_f788.size()))[0]][2]);
          }
       } else {
          this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = "";
@@ -3458,7 +3458,7 @@ public final class C9 implements DialogHandler {
             if (var2[0] == 17) {
                this.C9_f122.currentDialog.getChildById(99 + var1 * 5).getComponentData().C12_f179 = "Chìa khóa vàng";
             } else {
-               this.C9_f122.currentDialog.getChildById(99 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][var2[0]][0]);
+               this.C9_f122.currentDialog.getChildById(99 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[3][var2[0]][0]);
             }
 
             this.C9_f122.currentDialog.getChildById(100 + var1 * 5).getComponentData().C12_f179 = "" + var2[1];
@@ -3473,7 +3473,7 @@ public final class C9 implements DialogHandler {
       }
 
       if (this.C9_f123.C53_f790.size() > 0) {
-         this.C9_f122.currentDialog.getChildById(124).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[3][((int[])this.C9_f123.C53_f790.elementAt(this.C9_f136))[0]][2]);
+         this.C9_f122.currentDialog.getChildById(124).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[3][((int[])this.C9_f123.C53_f790.elementAt(this.C9_f136))[0]][2]);
       } else {
          this.C9_f122.currentDialog.getChildById(124).getComponentData().C12_f179 = "";
       }
@@ -3516,18 +3516,18 @@ public final class C9 implements DialogHandler {
 
             this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195.a((int)C67.C67_f923[5][var2[0]][1]);
             this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f191.a((int)C67.C67_f923[5][var2[0]][1]);
-            this.C9_f122.currentDialog.getChildById(138 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[5][var2[0]][0]);
+            this.C9_f122.currentDialog.getChildById(138 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[5][var2[0]][0]);
             switch(var2[0]) {
             case 0:
                if (this.C9_f123.l(var2[0])) {
-                  this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[5][var2[0]][2]);
+                  this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[5][var2[0]][2]);
                   if (C25.B().O()) {
                      this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().C12_f179 = "Hoàn thành";
                   } else {
                      this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().C12_f179 = "1 cái";
                   }
                } else {
-                  this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = C44.c((int)634);
+                  this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)634);
                   this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().C12_f179 = "0 cái";
                }
                break;
@@ -3546,7 +3546,7 @@ public final class C9 implements DialogHandler {
 
       if (this.C9_f123.C53_f791.size() > 0) {
          if ((var1 = ((int[])this.C9_f123.C53_f791.elementAt(this.C9_f136))[0]) != 0) {
-            this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[5][var1][2]);
+            this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[5][var1][2]);
             this.C9_f122.currentDialog.getChildById(7).setVisible(true);
          }
 
@@ -3590,7 +3590,7 @@ public final class C9 implements DialogHandler {
          this.bx();
       } else {
          if (this.C9_f131 == 0 && this.C9_f121.g(262144)) {
-            this.C9_f121.a((byte)8);
+            this.C9_f121.changeState((byte)8);
             this.C9_f122.removeDialog("/data/ui/petstate.ui");
          }
 
@@ -3606,10 +3606,10 @@ public final class C9 implements DialogHandler {
          this.g(this.C9_f125);
       } else if (this.C9_f121.g(196640)) {
          this.C9_f123.f(this.C9_f130, this.C9_f125);
-         this.C9_f121.a((byte)8);
+         this.C9_f121.changeState((byte)8);
       } else {
          if (this.C9_f121.g(262144)) {
-            this.C9_f121.a((byte)8);
+            this.C9_f121.changeState((byte)8);
             this.C9_f122.removeDialog("/data/ui/petstate.ui");
          }
 
@@ -3642,7 +3642,7 @@ public final class C9 implements DialogHandler {
             } else {
                if (this.C9_f131 == 1) {
                   this.C9_f131 = 0;
-                  this.C9_f121.a((byte)8);
+                  this.C9_f121.changeState((byte)8);
                   this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
                   this.C9_f122.removeDialog("/data/ui/petstate.ui");
                   return;
@@ -3655,7 +3655,7 @@ public final class C9 implements DialogHandler {
                }
             }
          } else if (this.C9_f121.g(262144) && this.C9_f131 == 0) {
-            this.C9_f121.a((byte)8);
+            this.C9_f121.changeState((byte)8);
             this.C9_f122.removeDialog("/data/ui/petstate.ui");
          }
 
@@ -3664,26 +3664,26 @@ public final class C9 implements DialogHandler {
 
    public final void af() {
       this.C9_f121.q();
-      if (this.C9_f131 == 0 && this.C9_f121.g(16400) && !this.j() && !C44.a((int)this.C9_f125, (int)1)) {
+      if (this.C9_f131 == 0 && this.C9_f121.g(16400) && !this.j() && !GameEngineBase.a((int)this.C9_f125, (int)1)) {
          this.C9_f122.currentDialog.handleAction(7);
          this.C9_f122.currentDialog.handleAction(2);
          this.C9_f122.currentDialog.handleAction(5);
          this.bq();
          this.C9_f121.r();
-      } else if (this.C9_f131 == 0 && this.C9_f121.g(32832) && !this.j() && !C44.a((int)this.C9_f125, (int)1)) {
+      } else if (this.C9_f131 == 0 && this.C9_f121.g(32832) && !this.j() && !GameEngineBase.a((int)this.C9_f125, (int)1)) {
          this.C9_f122.currentDialog.handleAction(7);
          this.C9_f122.currentDialog.handleAction(3);
          this.C9_f122.currentDialog.handleAction(5);
          this.bq();
          this.C9_f121.r();
-      } else if (this.C9_f131 == 0 && this.C9_f121.g(4100) && !this.j() && !C44.a((int)this.C9_f136, (int)0)) {
+      } else if (this.C9_f131 == 0 && this.C9_f121.g(4100) && !this.j() && !GameEngineBase.a((int)this.C9_f136, (int)0)) {
          this.C9_f122.currentDialog.handleAction(0);
-      } else if (this.C9_f131 == 0 && this.C9_f121.g(8448) && !this.j() && !C44.a((int)this.C9_f136, (int)0)) {
+      } else if (this.C9_f131 == 0 && this.C9_f121.g(8448) && !this.j() && !GameEngineBase.a((int)this.C9_f136, (int)0)) {
          this.C9_f122.currentDialog.handleAction(1);
-      } else if (this.C9_f121.g(196640) && !this.j() && C44.s()) {
+      } else if (this.C9_f121.g(196640) && !this.j() && GameEngineBase.s()) {
          int var5;
          if (this.C9_f131 == 0) {
-            if (C44.p() && !C44.a((int)this.C9_f136, (int)0)) {
+            if (GameEngineBase.p() && !GameEngineBase.a((int)this.C9_f136, (int)0)) {
                return;
             }
 
@@ -3726,7 +3726,7 @@ public final class C9 implements DialogHandler {
                case 12:
                default:
                   this.C9_f130 = var1[0];
-                  this.C9_f121.a((byte)17);
+                  this.C9_f121.changeState((byte)17);
                   this.C9_f122.removeDialog("/data/ui/bag.ui");
                   break label206;
                case 13:
@@ -3834,22 +3834,22 @@ public final class C9 implements DialogHandler {
                default:
                   break;
                case 5:
-                  this.C9_f121.a((byte)11);
+                  this.C9_f121.changeState((byte)11);
                   this.C9_f122.removeDialog("/data/ui/bag.ui");
                   break;
                case 6:
-                  this.C9_f121.a((byte)12);
+                  this.C9_f121.changeState((byte)12);
                   this.C9_f122.removeDialog("/data/ui/bag.ui");
                   break;
                case 7:
                case 8:
                case 9:
                   this.C9_f130 = var1[0];
-                  this.C9_f121.a((byte)19);
+                  this.C9_f121.changeState((byte)19);
                   this.C9_f122.removeDialog("/data/ui/bag.ui");
                   break;
                case 10:
-                  this.C9_f121.a((byte)24);
+                  this.C9_f121.changeState((byte)24);
                   this.C9_f122.removeDialog("/data/ui/bag.ui");
                }
             }
@@ -3862,9 +3862,9 @@ public final class C9 implements DialogHandler {
                   byte var6 = this.h(58);
                   this.C9_f123.a((short)58);
                   if (var6 == 0) {
-                     this.c("Ấp trứng tìm được #2" + C44.c((int)C67.C67_f923[0][58][0]) + "#0 để vào ba lô");
+                     this.c("Ấp trứng tìm được #2" + GameEngineBase.getLocalizedText((int)C67.C67_f923[0][58][0]) + "#0 để vào ba lô");
                   } else if (var6 == 1) {
-                     this.c("Ấp trứng tìm được #2" + C44.c((int)C67.C67_f923[0][58][0]) + "#0 để vào ngân hàng");
+                     this.c("Ấp trứng tìm được #2" + GameEngineBase.getLocalizedText((int)C67.C67_f923[0][58][0]) + "#0 để vào ngân hàng");
                   } else {
                      this.c("Không có không gian, đã phóng sinh");
                   }
@@ -3882,9 +3882,9 @@ public final class C9 implements DialogHandler {
                   }
 
                   if (var3 == 0) {
-                     this.c("Ấp trứng tìm được #2" + C44.c((int)C67.C67_f923[0][var2[var5]][0]) + "#0 để vào ba lô");
+                     this.c("Ấp trứng tìm được #2" + GameEngineBase.getLocalizedText((int)C67.C67_f923[0][var2[var5]][0]) + "#0 để vào ba lô");
                   } else if (var3 == 1) {
-                     this.c("Ấp trứng tìm được #2" + C44.c((int)C67.C67_f923[0][var2[var5]][0]) + "#0 để vào ngân hàng");
+                     this.c("Ấp trứng tìm được #2" + GameEngineBase.getLocalizedText((int)C67.C67_f923[0][var2[var5]][0]) + "#0 để vào ngân hàng");
                   } else {
                      this.c("Không có không gian, đã phóng sinh");
                   }
@@ -3895,14 +3895,14 @@ public final class C9 implements DialogHandler {
 
             this.I();
          }
-      } else if (this.C9_f131 == 0 && this.C9_f121.g(262144) && !this.j() && C44.t()) {
-         if (C44.C44_f711) {
+      } else if (this.C9_f131 == 0 && this.C9_f121.g(262144) && !this.j() && GameEngineBase.t()) {
+         if (GameEngineBase.paymentActive) {
             this.C9_f125 = 2;
          } else {
             this.C9_f125 = 1;
          }
 
-         this.C9_f121.a((byte)6);
+         this.C9_f121.changeState((byte)6);
          this.C9_f122.removeDialog("/data/ui/bag.ui");
       }
 
@@ -4013,13 +4013,13 @@ public final class C9 implements DialogHandler {
          this.C9_f122.currentDialog.handleAction(3);
       } else if (!this.j() && this.C9_f121.g(512)) {
          this.C9_f122.removeDialog("/data/ui/ride.ui");
-         this.C9_f121.a((byte)0);
+         this.C9_f121.changeState((byte)0);
       } else if (!this.j() && this.C9_f121.g(196640)) {
          if (this.C9_f123.f(this.C9_f125)) {
             if (this.C9_f123.g(this.C9_f125)) {
                this.C9_f123.h(this.C9_f125);
                this.C9_f122.removeDialog("/data/ui/ride.ui");
-               this.C9_f121.a((byte)0);
+               this.C9_f121.changeState((byte)0);
             } else {
                this.b("Nơi này không thể sử dụng sủng vật cưỡi");
             }
@@ -4028,7 +4028,7 @@ public final class C9 implements DialogHandler {
          }
       } else if (!this.j() && this.C9_f121.g(262144)) {
          this.C9_f122.removeDialog("/data/ui/ride.ui");
-         this.C9_f121.a((byte)0);
+         this.C9_f121.changeState((byte)0);
       }
 
       this.f();
@@ -4204,7 +4204,7 @@ public final class C9 implements DialogHandler {
       var8.C12_f179 = var10001.append(var1.C60_f855[var7]).toString();
       this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "#P" + var1.P();
       this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = var1.A() + "/" + var1.v();
-      this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = C44.c(var1.j((byte)0));
+      this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var1.j((byte)0));
       this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = "lv" + var1.t();
       this.C9_f122.currentDialog.getChildById(17).getComponentData().C12_f195.a(94 + var1.j((byte)1));
       if (var4 == var5) {
@@ -4326,7 +4326,7 @@ public final class C9 implements DialogHandler {
          this.C9_f122.currentDialog.getChildById(19).getComponentData().C12_f195.a((int)102);
       }
 
-      this.C9_f122.currentDialog.getChildById(15).getComponentData().C12_f179 = C44.c(var1.j((byte)0));
+      this.C9_f122.currentDialog.getChildById(15).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var1.j((byte)0));
       this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f179 = "lv" + var1.t();
       this.C9_f122.currentDialog.getChildById(18).getComponentData().C12_f195.a(94 + var1.j((byte)1));
       if (var4 == var5) {
@@ -4398,15 +4398,15 @@ public final class C9 implements DialogHandler {
 
    public final void d(C41 var1) {
       ((C29)this.C9_f121).q();
-      if (!C44.a((int)this.C9_f124, (int)1) && this.C9_f131 == 0 && !this.j() && this.C9_f121.g(16400)) {
+      if (!GameEngineBase.a((int)this.C9_f124, (int)1) && this.C9_f131 == 0 && !this.j() && this.C9_f121.g(16400)) {
          this.C9_f122.currentDialog.handleAction(2);
-      } else if (!C44.a((int)this.C9_f124, (int)1) && this.C9_f131 == 0 && !this.j() && this.C9_f121.g(32832)) {
+      } else if (!GameEngineBase.a((int)this.C9_f124, (int)1) && this.C9_f131 == 0 && !this.j() && this.C9_f121.g(32832)) {
          this.C9_f122.currentDialog.handleAction(3);
       } else if (!this.j() && this.C9_f121.g(196640)) {
          switch(this.C9_f124) {
          case 0:
             this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(false);
-            this.C9_f121.a((byte)3);
+            this.C9_f121.changeState((byte)3);
             break;
          case 1:
             if (((C29)this.C9_f121).C29_f398 == 2) {
@@ -4417,7 +4417,7 @@ public final class C9 implements DialogHandler {
                this.C9_f125 = 0;
                this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(false);
                ((C29)this.C9_f121).r();
-               this.C9_f121.a((byte)21);
+               this.C9_f121.changeState((byte)21);
             }
             break;
          case 2:
@@ -4428,7 +4428,7 @@ public final class C9 implements DialogHandler {
                   this.C9_f131 = 1;
                } else {
                   this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(false);
-                  this.C9_f121.a((byte)4);
+                  this.C9_f121.changeState((byte)4);
                }
             } else {
                this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
@@ -4445,7 +4445,7 @@ public final class C9 implements DialogHandler {
                   this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(false);
                   ((C29)this.C9_f121).C29_f407 = ((C29)this.C9_f121).C29_f404[((C29)this.C9_f121).C29_f410];
                   C29.B().C29_f415 = true;
-                  this.C9_f121.a((byte)5);
+                  this.C9_f121.changeState((byte)5);
                }
             } else {
                this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
@@ -4454,7 +4454,7 @@ public final class C9 implements DialogHandler {
             break;
          case 4:
             this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(false);
-            this.C9_f121.a((byte)11);
+            this.C9_f121.changeState((byte)11);
             break;
          case 5:
             if (this.C9_f131 == 0) {
@@ -4483,7 +4483,7 @@ public final class C9 implements DialogHandler {
 
                   if (var3) {
                      this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(false);
-                     C55.B().a((byte)10);
+                     GameScreenManager.getInstance().changeState((byte)10);
                   } else {
                      this.C9_f131 = 2;
                      this.b("Chạy trốn thất bại");
@@ -4505,7 +4505,7 @@ public final class C9 implements DialogHandler {
          if (this.C9_f131 == 2) {
             ((C29)this.C9_f121).C29_f408.C41_f667 = true;
             ++((C29)this.C9_f121).C29_f410;
-            this.C9_f121.a((byte)1);
+            this.C9_f121.changeState((byte)1);
          } else {
             this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(true);
          }
@@ -4544,7 +4544,7 @@ public final class C9 implements DialogHandler {
             this.C9_f122.currentDialog.getChildById(13 + var3 * 5).getComponentData().C12_f179 = "";
             this.C9_f122.currentDialog.getChildById(14 + var3 * 5).getComponentData().C12_f179 = "";
          } else {
-            this.C9_f122.currentDialog.getChildById(13 + var3 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[1][var1.t(this.C9_f135 + var3)][1]);
+            this.C9_f122.currentDialog.getChildById(13 + var3 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[1][var1.t(this.C9_f135 + var3)][1]);
             this.C9_f122.currentDialog.getChildById(14 + var3 * 5).getComponentData().C12_f179 = var1.C41_f645[this.C9_f135 + var3] + "/" + C67.C67_f923[1][var1.t(this.C9_f135 + var3)][5];
          }
       }
@@ -4554,7 +4554,7 @@ public final class C9 implements DialogHandler {
    }
 
    private void i(int var1) {
-      this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[1][var1][2]);
+      this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[1][var1][2]);
    }
 
    public final void f(C41 var1) {
@@ -4575,7 +4575,7 @@ public final class C9 implements DialogHandler {
                   if (var10000 == 0) {
                      ((C29)this.C9_f121).G();
                   } else {
-                     this.C9_f121.a((byte)6);
+                     this.C9_f121.changeState((byte)6);
                   }
                } else {
                   this.C9_f131 = 1;
@@ -4603,7 +4603,7 @@ public final class C9 implements DialogHandler {
             }
          } else if (this.C9_f121.g(262144) && this.C9_f131 == 0) {
             this.C9_f122.removeDialog("/data/ui/choiceskill.ui");
-            this.C9_f121.a((byte)20);
+            this.C9_f121.changeState((byte)20);
          }
       }
 
@@ -4630,7 +4630,7 @@ public final class C9 implements DialogHandler {
          }
 
          this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.a((int)C67.C67_f923[4][var2[0]][1]);
-         this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[4][var2[0]][0]);
+         this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[4][var2[0]][0]);
          this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = ((C29)this.C9_f121).m(var2[0]) + "%";
       }
 
@@ -4646,14 +4646,14 @@ public final class C9 implements DialogHandler {
 
    public final void al() {
       this.C9_f121.q();
-      if (!C44.a((int)this.C9_f125, (int)0) && this.C9_f131 == 0 && this.C9_f121.g(4100) && !this.j()) {
+      if (!GameEngineBase.a((int)this.C9_f125, (int)0) && this.C9_f131 == 0 && this.C9_f121.g(4100) && !this.j()) {
          this.C9_f122.currentDialog.handleAction(0);
          this.bw();
-      } else if (!C44.a((int)this.C9_f125, (int)0) && this.C9_f131 == 0 && this.C9_f121.g(8448) && !this.j()) {
+      } else if (!GameEngineBase.a((int)this.C9_f125, (int)0) && this.C9_f131 == 0 && this.C9_f121.g(8448) && !this.j()) {
          this.C9_f122.currentDialog.handleAction(1);
          this.bw();
-      } else if (this.C9_f121.g(196640) && !this.j() && C44.s()) {
-         if (C44.p() && !C44.a((int)this.C9_f125, (int)0)) {
+      } else if (this.C9_f121.g(196640) && !this.j() && GameEngineBase.s()) {
+         if (GameEngineBase.p() && !GameEngineBase.a((int)this.C9_f125, (int)0)) {
             return;
          }
 
@@ -4669,13 +4669,13 @@ public final class C9 implements DialogHandler {
                C29.C29_f444 = (byte)var1[0];
                this.C9_f121.r();
                this.C9_f123.d(var1[0], 1, (byte)0);
-               this.C9_f121.a((byte)17);
+               this.C9_f121.changeState((byte)17);
                this.C9_f122.removeDialog("/data/ui/choice.ui");
             }
          } else if (this.C9_f131 == 1) {
-            if (C44.C44_f711 && ((int[])this.C9_f123.C53_f788.elementAt(this.C9_f125))[0] == 0) {
+            if (GameEngineBase.paymentActive && ((int[])this.C9_f123.C53_f788.elementAt(this.C9_f125))[0] == 0) {
                this.C9_f122.removeDialog("/data/ui/choice.ui");
-               this.C9_f121.a((byte)101);
+               this.C9_f121.changeState((byte)101);
             }
 
             this.C9_f131 = 0;
@@ -4683,7 +4683,7 @@ public final class C9 implements DialogHandler {
          }
       } else if (C7.t() && this.C9_f131 == 0 && this.C9_f121.g(262144) && !this.j()) {
          this.C9_f122.removeDialog("/data/ui/choice.ui");
-         this.C9_f121.a((byte)20);
+         this.C9_f121.changeState((byte)20);
       }
 
       this.g();
@@ -4725,7 +4725,7 @@ public final class C9 implements DialogHandler {
                   this.C9_f131 = 1;
                   return;
                default:
-                  this.C9_f121.a((byte)16);
+                  this.C9_f121.changeState((byte)16);
                   this.C9_f122.removeDialog("/data/ui/choice.ui");
                   return;
                }
@@ -4738,7 +4738,7 @@ public final class C9 implements DialogHandler {
             }
          } else if (this.C9_f131 == 0 && this.C9_f121.g(262144)) {
             this.C9_f122.removeDialog("/data/ui/choice.ui");
-            this.C9_f121.a((byte)20);
+            this.C9_f121.changeState((byte)20);
          }
 
       }
@@ -4818,7 +4818,7 @@ public final class C9 implements DialogHandler {
             this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
             this.C9_f122.removeDialog("/data/ui/petstate.ui");
             if (this.C9_f121 instanceof C25) {
-               this.C9_f121.a((byte)8);
+               this.C9_f121.changeState((byte)8);
                return;
             }
 
@@ -4828,11 +4828,11 @@ public final class C9 implements DialogHandler {
 
             if (((C29)this.C9_f121).C29_f408.C41_f667) {
                ++((C29)this.C9_f121).C29_f410;
-               ((C29)this.C9_f121).a((byte)1);
+               ((C29)this.C9_f121).changeState((byte)1);
                return;
             }
 
-            ((C29)this.C9_f121).a((byte)4);
+            ((C29)this.C9_f121).changeState((byte)4);
          }
 
       }
@@ -4854,16 +4854,16 @@ public final class C9 implements DialogHandler {
 
                if (((C29)this.C9_f121).C29_f408.C41_f667) {
                   ++((C29)this.C9_f121).C29_f410;
-                  ((C29)this.C9_f121).a((byte)1);
+                  ((C29)this.C9_f121).changeState((byte)1);
                } else {
-                  ((C29)this.C9_f121).a((byte)4);
+                  ((C29)this.C9_f121).changeState((byte)4);
                }
 
                this.C9_f122.removeDialog("/data/ui/petstate.ui");
                return;
             }
 
-            ((C29)this.C9_f121).a((byte)4);
+            ((C29)this.C9_f121).changeState((byte)4);
             this.C9_f122.removeDialog("/data/ui/petstate.ui");
          }
 
@@ -4873,7 +4873,7 @@ public final class C9 implements DialogHandler {
    public final void b(int var1, int var2) {
       if (this.C9_f138 >= C29.C29_f413.size()) {
          this.C9_f138 = 0;
-         C55.B().a((byte)10);
+         GameScreenManager.getInstance().changeState((byte)10);
       } else {
          label21:
          while(true) {
@@ -4899,7 +4899,7 @@ public final class C9 implements DialogHandler {
    public final void ap() {
       if (this.C9_f138 >= C29.C29_f413.size()) {
          this.C9_f138 = 0;
-         C55.B().a((byte)10);
+         GameScreenManager.getInstance().changeState((byte)10);
       } else {
          if (this.C9_f137 <= 0) {
             this.C9_f153 += 8;
@@ -4921,7 +4921,7 @@ public final class C9 implements DialogHandler {
                this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "#P" + var1.v(var3);
                var1.j((int)0);
                this.C9_f137 = 0;
-               ((C29)this.C9_f121).a((byte)22);
+               ((C29)this.C9_f121).changeState((byte)22);
             } else if (var2 < var4) {
                this.C9_f153 = 0;
                var1.j(var4);
@@ -4939,7 +4939,7 @@ public final class C9 implements DialogHandler {
 
                if (this.C9_f138 >= C29.C29_f413.size()) {
                   this.C9_f138 = 0;
-                  C55.B().a((byte)10);
+                  GameScreenManager.getInstance().changeState((byte)10);
                } else {
                   ((C41)C29.C29_f413.elementAt(this.C9_f138)).b(this.C9_f151, this.C9_f152);
                }
@@ -4950,12 +4950,12 @@ public final class C9 implements DialogHandler {
          } else {
             this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = var2 + "/" + var1.v();
             this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "#P" + var1.v(var2);
-            this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = C44.c(var1.j((byte)0));
+            this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var1.j((byte)0));
             this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = "lv" + var1.t();
             this.C9_f122.currentDialog.getChildById(17).getComponentData().C12_f195.a(94 + var1.j((byte)1));
             if (var2 >= var3) {
                var1.j((int)0);
-               ((C29)this.C9_f121).a((byte)22);
+               ((C29)this.C9_f121).changeState((byte)22);
             } else {
                if (var2 < var4) {
                   return;
@@ -4972,7 +4972,7 @@ public final class C9 implements DialogHandler {
 
                   if (this.C9_f138 >= C29.C29_f413.size()) {
                      this.C9_f138 = 0;
-                     C55.B().a((byte)10);
+                     GameScreenManager.getInstance().changeState((byte)10);
                   } else {
                      ((C41)C29.C29_f413.elementAt(this.C9_f138)).b(this.C9_f151, this.C9_f152);
                   }
@@ -5013,7 +5013,7 @@ public final class C9 implements DialogHandler {
          this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = "";
       }
 
-      this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[0][var1.r()][0]);
+      this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[0][var1.r()][0]);
       this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = "" + var1.t();
       if (this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 == null) {
          this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 = new C17();
@@ -5036,18 +5036,18 @@ public final class C9 implements DialogHandler {
       if (this.C9_f154 > 40) {
          this.C9_f154 = 0;
          if (this.C9_f139 != null) {
-            ((C29)this.C9_f121).a((byte)23);
+            ((C29)this.C9_f121).changeState((byte)23);
          } else if (this.C9_f138 + 1 >= C29.C29_f413.size()) {
             if (((C41)C29.C29_f413.elementAt(this.C9_f138)).A() > 0) {
-               this.C9_f121.a((byte)8);
+               this.C9_f121.changeState((byte)8);
             } else {
                this.C9_f138 = 0;
-               C55.B().a((byte)10);
+               GameScreenManager.getInstance().changeState((byte)10);
             }
 
             this.C9_f122.removeDialog("/data/ui/levelUp.ui");
          } else {
-            this.C9_f121.a((byte)8);
+            this.C9_f121.changeState((byte)8);
             this.C9_f122.removeDialog("/data/ui/levelUp.ui");
          }
       }
@@ -5055,23 +5055,23 @@ public final class C9 implements DialogHandler {
       if (this.C9_f121.g(196640)) {
          this.C9_f154 = 0;
          if (this.C9_f139 != null) {
-            this.C9_f121.a((byte)23);
+            this.C9_f121.changeState((byte)23);
             return;
          }
 
          if (this.C9_f138 + 1 >= C29.C29_f413.size()) {
             if (((C41)C29.C29_f413.elementAt(this.C9_f138)).A() > 0) {
-               this.C9_f121.a((byte)8);
+               this.C9_f121.changeState((byte)8);
             } else {
                this.C9_f138 = 0;
-               C55.B().a((byte)10);
+               GameScreenManager.getInstance().changeState((byte)10);
             }
 
             this.C9_f122.removeDialog("/data/ui/levelUp.ui");
             return;
          }
 
-         this.C9_f121.a((byte)8);
+         this.C9_f121.changeState((byte)8);
          this.C9_f122.removeDialog("/data/ui/levelUp.ui");
       }
 
@@ -5115,7 +5115,7 @@ public final class C9 implements DialogHandler {
             this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = "";
             this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "";
          } else {
-            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[1][this.C9_f139[this.C9_f135 + var1]][1]);
+            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[1][this.C9_f139[this.C9_f135 + var1]][1]);
             this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "" + C67.C67_f923[1][this.C9_f139[this.C9_f135 + var1]][5];
          }
       }
@@ -5135,16 +5135,16 @@ public final class C9 implements DialogHandler {
          if (this.C9_f131 == 0) {
             this.C9_f131 = 1;
             this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
-            this.a("Học tập" + C44.c((int)C67.C67_f923[1][this.C9_f139[this.C9_f125]][1]), "Nhấn nút 5 tiếp tục");
+            this.a("Học tập" + GameEngineBase.getLocalizedText((int)C67.C67_f923[1][this.C9_f139[this.C9_f125]][1]), "Nhấn nút 5 tiếp tục");
          } else if (this.C9_f131 == 1) {
             C41 var1;
             (var1 = (C41)C29.C29_f413.elementAt(this.C9_f138)).g((byte)this.C9_f139[this.C9_f136]);
             this.C9_f139 = null;
             if (this.C9_f138 + 1 >= C29.C29_f413.size() && var1.A() <= 0) {
                this.C9_f138 = 0;
-               C55.B().a((byte)10);
+               GameScreenManager.getInstance().changeState((byte)10);
             } else {
-               this.C9_f121.a((byte)8);
+               this.C9_f121.changeState((byte)8);
             }
 
             this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
@@ -5165,7 +5165,7 @@ public final class C9 implements DialogHandler {
          if (this.aA()) {
             this.C9_f131 = 1;
             if (C25.C25_f333.size() <= 0) {
-               this.C9_f121.a((byte)14);
+               this.C9_f121.changeState((byte)14);
             }
          }
       } else if (this.C9_f131 == 1) {
@@ -5181,7 +5181,7 @@ public final class C9 implements DialogHandler {
                this.M();
             } else if (this.C9_f131 == 6) {
                C25.C25_f335 = 2;
-               C44 var10000 = this.C9_f121;
+               GameEngineBase var10000 = this.C9_f121;
                C25.F();
                if (((C25)this.C9_f121).H()) {
                   this.a("Lưu thành công");
@@ -5191,9 +5191,9 @@ public final class C9 implements DialogHandler {
                this.C9_f122.removeDialog("/data/ui/msgtip.ui");
                this.C9_f131 = 0;
                if (this.C9_f121.C44_f699 == 14) {
-                  this.C9_f121.a((byte)14);
+                  this.C9_f121.changeState((byte)14);
                } else {
-                  this.C9_f121.a((byte)0);
+                  this.C9_f121.changeState((byte)0);
                }
                break label93;
             }
@@ -5208,7 +5208,7 @@ public final class C9 implements DialogHandler {
                if (this.C9_f131 == 3) {
                   this.C9_f131 = 4;
                   this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
-                  this.a("Học tập" + C44.c((int)C67.C67_f923[1][this.C9_f139[this.C9_f136]][1]), "Nhấn nút 5 tiếp tục");
+                  this.a("Học tập" + GameEngineBase.getLocalizedText((int)C67.C67_f923[1][this.C9_f139[this.C9_f136]][1]), "Nhấn nút 5 tiếp tục");
                } else if (this.C9_f131 == 4) {
                   ((C41)C25.C25_f333.elementAt(this.C9_f138)).g((byte)this.C9_f139[this.C9_f136]);
                   this.C9_f139 = null;
@@ -5270,7 +5270,7 @@ public final class C9 implements DialogHandler {
          this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = "";
       }
 
-      this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[0][var1.r()][0]);
+      this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[0][var1.r()][0]);
       this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = "" + var1.t();
       if (this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 == null) {
          this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 = new C17();
@@ -5574,15 +5574,15 @@ public final class C9 implements DialogHandler {
          break;
       case 1:
          var2 = new int[]{2, 1, 2};
-         var1 = C44.c((int)602) + C44.a(604, (int[])var2);
+         var1 = GameEngineBase.getLocalizedText((int)602) + GameEngineBase.formatString(604, (int[])var2);
          break;
       case 2:
          var2 = new int[]{2, 1, 2};
-         var1 = C44.c((int)603) + C44.a(604, (int[])var2);
+         var1 = GameEngineBase.getLocalizedText((int)603) + GameEngineBase.formatString(604, (int[])var2);
          break;
       case 3:
          var2 = new int[]{2, 1, 2};
-         var1 = C44.c((int)601) + C44.a(604, (int[])var2);
+         var1 = GameEngineBase.getLocalizedText((int)601) + GameEngineBase.formatString(604, (int[])var2);
       }
 
       this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = var1;
@@ -5623,14 +5623,14 @@ public final class C9 implements DialogHandler {
          }
 
          if (this.C9_f121.g(196640)) {
-            this.C9_f121.a((byte)26);
+            this.C9_f121.changeState((byte)26);
             this.C9_f122.removeDialog("/data/ui/bodyShop.ui");
             return;
          }
 
          if (this.C9_f121.g(786432)) {
             this.C9_f125 = 0;
-            this.C9_f121.a((byte)6);
+            this.C9_f121.changeState((byte)6);
             this.C9_f122.removeDialog("/data/ui/bodyShop.ui");
             return;
          }
@@ -5653,7 +5653,7 @@ public final class C9 implements DialogHandler {
             if ((this.C9_f131 != 0 || !this.C9_f121.g(131072)) && (this.C9_f131 != 1 || !this.C9_f121.g(65568))) {
                if (this.C9_f121.g(786432) && this.C9_f131 == 0) {
                   this.C9_f125 = 0;
-                  this.C9_f121.a((byte)6);
+                  this.C9_f121.changeState((byte)6);
                   this.C9_f122.removeDialog("/data/ui/bodyShop.ui");
                   return;
                }
@@ -5708,7 +5708,7 @@ public final class C9 implements DialogHandler {
             if (this.bC() && this.C9_f121.g(917504)) {
                if (this.C9_f121.w()) {
                   if (this.C9_f121.v() == 3) {
-                     this.C9_f121.a((byte)25);
+                     this.C9_f121.changeState((byte)25);
                   }
 
                   this.C9_f121.c((byte)5);
@@ -5763,7 +5763,7 @@ public final class C9 implements DialogHandler {
 
    public final void a(String var1, String var2, int var3, int var4) {
       this.C9_f122.showDialog("/data/ui/dialog.ui", 257, this);
-      GameUtils.a(var2, C44.o(), this.C9_f122.currentDialog.getChildById(14).getWidth(), C44.m(), true, (byte)-1, this.C9_f121.C44_f700.dialogConfig);
+      GameUtils.a(var2, GameEngineBase.getFontHeight(), this.C9_f122.currentDialog.getChildById(14).getWidth(), GameEngineBase.getDefaultFont(), true, (byte)-1, this.C9_f121.dialogManager.dialogConfig);
       GameUtils.d(this.C9_f122.currentDialog.getChildById(14).getHeight());
       this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameUtils.e(1);
       C25.C25_f317 = (byte)var3;
@@ -5934,7 +5934,7 @@ public final class C9 implements DialogHandler {
          default:
             break;
          case 6:
-            this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f179 = "#2" + C44.c((int)C67.a((byte)0, (short)var2[var5], (byte)0)) + " #0" + var3[var5];
+            this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f179 = "#2" + GameEngineBase.getLocalizedText((int)C67.a((byte)0, (short)var2[var5], (byte)0)) + " #0" + var3[var5];
          }
       }
 
@@ -5976,11 +5976,11 @@ public final class C9 implements DialogHandler {
       if (var1 == -1) {
          C25.B();
          if (C25.G()) {
-            C25.B().c();
+            C25.B().cleanupCurrentScreen();
             this.C9_f123.C53_f776 = false;
-            C55.B().a((byte)9);
+            GameScreenManager.getInstance().changeState((byte)9);
          } else {
-            C55.B().a((byte)7);
+            GameScreenManager.getInstance().changeState((byte)7);
          }
       } else {
          for(int var2 = 0; var2 < this.C9_f123.C53_f778; ++var2) {
@@ -6011,7 +6011,7 @@ public final class C9 implements DialogHandler {
          C53 var10000 = C53.p();
          byte var6 = 2;
          var10000.C60_f866 = var6;
-         C55.B().a((byte)10);
+         GameScreenManager.getInstance().changeState((byte)10);
       }
    }
 
@@ -6041,7 +6041,7 @@ public final class C9 implements DialogHandler {
                }
 
                C29.B().C();
-               this.C9_f121.a((byte)0);
+               this.C9_f121.changeState((byte)0);
                this.bF();
             }
          } else {
@@ -6051,8 +6051,8 @@ public final class C9 implements DialogHandler {
                this.C9_f123.C53_f777[var1].c();
             }
 
-            if (C44.C44_f711) {
-               this.C9_f121.a((byte)102);
+            if (GameEngineBase.paymentActive) {
+               this.C9_f121.changeState((byte)102);
             } else {
                this.bD();
             }
@@ -6067,7 +6067,7 @@ public final class C9 implements DialogHandler {
       this.C9_f121.c((byte)0);
       this.bE();
       int[] var2 = new int[]{4, 1, 4};
-      String var3 = C44.c((int)599) + C44.a(604, (int[])var2);
+      String var3 = GameEngineBase.getLocalizedText((int)599) + GameEngineBase.formatString(604, (int[])var2);
       this.c(var3, "Kích hoạt trò chơi");
    }
 
@@ -6076,7 +6076,7 @@ public final class C9 implements DialogHandler {
       this.C9_f121.c((byte)0);
       this.bE();
       int[] var1 = new int[]{2, 1, 2};
-      String var2 = C44.c((int)600) + C44.a(604, (int[])var1);
+      String var2 = GameEngineBase.getLocalizedText((int)600) + GameEngineBase.formatString(604, (int[])var1);
       this.c(var2, "Mua sắm tất trúng cầu");
    }
 
@@ -6086,7 +6086,7 @@ public final class C9 implements DialogHandler {
       this.C9_f121.c((byte)0);
       this.bE();
       int[] var1 = new int[]{2, 1, 2};
-      String var2 = C44.c((int)603) + C44.a(604, (int[])var1);
+      String var2 = GameEngineBase.getLocalizedText((int)603) + GameEngineBase.formatString(604, (int[])var1);
       this.c(var2, "Mua huy hiệu");
    }
 
@@ -6096,7 +6096,7 @@ public final class C9 implements DialogHandler {
       this.C9_f121.c((byte)0);
       this.bE();
       int[] var1 = new int[]{2, 1, 2};
-      String var2 = C44.c((int)601) + C44.a(604, (int[])var1);
+      String var2 = GameEngineBase.getLocalizedText((int)601) + GameEngineBase.formatString(604, (int[])var1);
       this.c(var2, "Mua kim tiền");
    }
 
@@ -6164,7 +6164,7 @@ public final class C9 implements DialogHandler {
             if (this.C9_f121.g(786432)) {
                this.bF();
                this.C9_f121.c((byte)5);
-               this.C9_f121.a(this.C9_f121.C44_f699);
+               this.C9_f121.changeState(this.C9_f121.C44_f699);
                return;
             }
          }
@@ -6200,7 +6200,7 @@ public final class C9 implements DialogHandler {
             if (this.C9_f121.w()) {
                this.bF();
                this.aN();
-               this.C9_f121.a(this.C9_f121.C44_f699);
+               this.C9_f121.changeState(this.C9_f121.C44_f699);
             } else {
                this.C9_f121.c((byte)5);
             }
@@ -6225,7 +6225,7 @@ public final class C9 implements DialogHandler {
       switch(var2) {
       case 0:
          this.C9_f122.showDialog("/data/ui/wharf1.ui", 257, this);
-         this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = C44.c(var3);
+         this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var3);
          var2 = 0;
 
          while(true) {
@@ -6233,15 +6233,15 @@ public final class C9 implements DialogHandler {
                break label23;
             }
 
-            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().C12_f179 = C44.c((int)this.C9_f160[var1][var2]);
+            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)this.C9_f160[var1][var2]);
             ++var2;
          }
       case 1:
          this.C9_f122.showDialog("/data/ui/wharf2.ui", 257, this);
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f179 = C44.c(var3);
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var3);
 
          for(var2 = 0; var2 < this.C9_f160[var1].length; ++var2) {
-            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().C12_f179 = C44.c((int)this.C9_f160[var1][var2]);
+            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)this.C9_f160[var1][var2]);
          }
       }
 
@@ -6267,7 +6267,7 @@ public final class C9 implements DialogHandler {
                C25.B().a((byte)13, C25.B().C25_f287[C25.C25_f318].C60_f861, C25.B().C25_f287[C25.C25_f318].C60_f862 - 40, C25.B().C25_f287[C25.C25_f318]);
             }
 
-            this.C9_f121.a((byte)0);
+            this.C9_f121.changeState((byte)0);
          } else {
             label59: {
                short var10001 = this.C9_f161[this.C9_f162][this.C9_f126 * 9 + 6];
@@ -6283,7 +6283,7 @@ public final class C9 implements DialogHandler {
                      C25.C25_f320 = (byte)this.C9_f161[this.C9_f162][this.C9_f126 * 9 + 4];
                      C25.B().C25_f295 = -1;
                      C33.B().d((byte)this.C9_f161[this.C9_f162][this.C9_f126 * 9 + 5]);
-                     this.C9_f121.a((byte)29);
+                     this.C9_f121.changeState((byte)29);
                      switch(this.C9_f163) {
                      case 0:
                         this.C9_f122.removeDialog("/data/ui/wharf1.ui");
@@ -6312,7 +6312,7 @@ public final class C9 implements DialogHandler {
             this.C9_f122.removeDialog("/data/ui/wharf2.ui");
          }
 
-         this.C9_f121.a((byte)0);
+         this.C9_f121.changeState((byte)0);
       }
 
       this.f();
@@ -6344,7 +6344,7 @@ public final class C9 implements DialogHandler {
       }
 
       this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f195.a((int)C67.C67_f923[5][0][1]);
-      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = C44.c((int)C67.C67_f923[5][0][0]);
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)C67.C67_f923[5][0][0]);
       this.C9_f122.currentDialog.getChildById(15).getComponentData().C12_f179 = "5000";
       this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f195.a((int)84);
       this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "Ấp trứng ra sủng vật";
@@ -6378,17 +6378,17 @@ public final class C9 implements DialogHandler {
          } else if (this.C9_f131 > 0) {
             this.I();
             if (this.C9_f131 == 1) {
-               this.C9_f121.a((byte)102);
+               this.C9_f121.changeState((byte)102);
             } else if (this.C9_f131 == 2) {
                C7.C7_f75 = 0;
                this.bG();
-               this.C9_f121.a((byte)0);
+               this.C9_f121.changeState((byte)0);
             }
          }
       } else if (this.C9_f121.g(262144) && this.C9_f131 == 0) {
          C7.C7_f75 = 1;
          this.bG();
-         this.C9_f121.a((byte)0);
+         this.C9_f121.changeState((byte)0);
       }
 
       return -1;
@@ -6417,7 +6417,7 @@ public final class C9 implements DialogHandler {
             switch(this.C9_f128) {
             case 0:
                this.C9_f122.removeDialog("/data/ui/wharf2.ui");
-               this.C9_f121.a((byte)31);
+               this.C9_f121.changeState((byte)31);
                return;
             case 1:
             case 2:
@@ -6425,7 +6425,7 @@ public final class C9 implements DialogHandler {
                if (C25.C25_f339) {
                   this.C9_f122.removeDialog("/data/ui/wharf2.ui");
                   this.C9_f126 = 0;
-                  this.C9_f121.a((byte)7);
+                  this.C9_f121.changeState((byte)7);
                   return;
                }
 
@@ -6435,11 +6435,11 @@ public final class C9 implements DialogHandler {
                return;
             case 3:
                this.C9_f122.removeDialog("/data/ui/wharf2.ui");
-               this.C9_f121.a((byte)32);
+               this.C9_f121.changeState((byte)32);
                return;
             case 4:
                this.C9_f122.removeDialog("/data/ui/wharf2.ui");
-               this.C9_f121.a((byte)0);
+               this.C9_f121.changeState((byte)0);
             default:
             }
          } else {
@@ -6450,7 +6450,7 @@ public final class C9 implements DialogHandler {
       } else {
          if (this.C9_f121.g(262144) && this.C9_f131 == 0 && !this.j()) {
             this.C9_f122.removeDialog("/data/ui/wharf2.ui");
-            this.C9_f121.a((byte)0);
+            this.C9_f121.changeState((byte)0);
          }
 
       }
@@ -6487,12 +6487,12 @@ public final class C9 implements DialogHandler {
             return;
          case 6:
             this.C9_f125 = var1[0];
-            if (!C44.C44_f711) {
-               this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = C44.c(606 + this.C9_f125);
+            if (!GameEngineBase.paymentActive) {
+               this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(606 + this.C9_f125);
                return;
             }
 
-            this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = C44.c(605 + this.C9_f125);
+            this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(605 + this.C9_f125);
             break;
          case 7:
             this.b(var1);

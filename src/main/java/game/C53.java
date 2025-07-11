@@ -1,7 +1,7 @@
 package game;
 
 import a.GameUtils;
-import a.C44;
+import a.GameEngineBase;
 import a.a.C20;
 import a.a.C30;
 import a.b.C6;
@@ -356,7 +356,7 @@ public final class C53 extends C20 {
 
             C53_f798 = true;
             C25.B().C25_f295 = -1;
-            C55.B().a((byte)9);
+            GameScreenManager.getInstance().changeState((byte)9);
             return;
          case 6:
             if (this.M()) {
@@ -1294,8 +1294,8 @@ public final class C53 extends C20 {
 
    public final void w() {
       if (((C18)this.C60_f868).i() == 1) {
-         C25.B().C44_f701.az();
-         C25.B().C44_f701.b("Bảo rương này đã trống");
+         C25.B().gameController.az();
+         C25.B().gameController.b("Bảo rương này đã trống");
       } else {
          String var1;
          if (((C18)this.C60_f868).C18_f225 == 0) {
@@ -1304,14 +1304,14 @@ public final class C53 extends C20 {
                this.c(((C18)this.C60_f868).C18_f242, ((C18)this.C60_f868).C18_f240, (byte)((C18)this.C60_f868).C18_f241);
                var1 = null;
                if (((C18)this.C60_f868).C18_f241 == 0) {
-                  var1 = C44.c((int)C67.C67_f923[4][((C18)this.C60_f868).C18_f242][0]);
+                  var1 = GameEngineBase.getLocalizedText((int)C67.C67_f923[4][((C18)this.C60_f868).C18_f242][0]);
                } else if (((C18)this.C60_f868).C18_f241 == 2) {
-                  var1 = C44.c((int)C67.C67_f923[3][((C18)this.C60_f868).C18_f242][0]);
+                  var1 = GameEngineBase.getLocalizedText((int)C67.C67_f923[3][((C18)this.C60_f868).C18_f242][0]);
                }
 
-               C25.B().C44_f701.a((String)("Đạt được: " + var1), ((C18)this.C60_f868).C18_f240);
+               C25.B().gameController.a((String)("Đạt được: " + var1), ((C18)this.C60_f868).C18_f240);
             } else {
-               C25.B().C44_f701.ay();
+               C25.B().gameController.ay();
             }
 
             this.a((byte)0, (byte)this.C60_f866);
@@ -1324,17 +1324,17 @@ public final class C53 extends C20 {
                      this.c(((C18)this.C60_f868).C18_f242, ((C18)this.C60_f868).C18_f240, (byte)((C18)this.C60_f868).C18_f241);
                      var1 = null;
                      if (((C18)this.C60_f868).C18_f241 == 0) {
-                        var1 = C44.c((int)C67.C67_f923[4][((C18)this.C60_f868).C18_f242][0]);
+                        var1 = GameEngineBase.getLocalizedText((int)C67.C67_f923[4][((C18)this.C60_f868).C18_f242][0]);
                      } else if (((C18)this.C60_f868).C18_f241 == 2) {
-                        var1 = C44.c((int)C67.C67_f923[3][((C18)this.C60_f868).C18_f242][0]);
+                        var1 = GameEngineBase.getLocalizedText((int)C67.C67_f923[3][((C18)this.C60_f868).C18_f242][0]);
                      }
 
-                     C25.B().C44_f701.a((String)("Đạt được: " + var1), ((C18)this.C60_f868).C18_f240);
+                     C25.B().gameController.a((String)("Đạt được: " + var1), ((C18)this.C60_f868).C18_f240);
                   } else {
-                     C25.B().C44_f701.ay();
+                     C25.B().gameController.ay();
                   }
                } else {
-                  C25.B().C44_f701.ax();
+                  C25.B().gameController.ax();
                }
 
                this.a((byte)0, (byte)this.C60_f866);

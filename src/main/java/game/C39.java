@@ -1,7 +1,7 @@
 package game;
 
 import a.GameUtils;
-import a.C44;
+import a.GameEngineBase;
 import javax.microedition.lcdui.Graphics;
 
 public final class C39 {
@@ -37,7 +37,7 @@ public final class C39 {
    private int C39_f622;
 
    public C39() {
-      C44.o();
+      GameEngineBase.getFontHeight();
       this.C39_f596 = 0;
       this.C39_f597 = 0;
       this.C39_f598 = 0;
@@ -130,7 +130,7 @@ public final class C39 {
                this.a(var1, this.C39_f604, this.C39_f605);
                break label71;
             case 1:
-               this.a(var1, this.C39_f604, this.C39_f605 - (C44.o() >> 1));
+               this.a(var1, this.C39_f604, this.C39_f605 - (GameEngineBase.getFontHeight() >> 1));
             default:
                break label71;
             }
@@ -205,7 +205,7 @@ public final class C39 {
 
          if (var14.C39_f613 && C39_f608 && var14.C39_f609 % 10 < 5) {
             var2.setColor(16777215);
-            var2.drawString("Nhấn 0 để tiếp tục", C44.g() >> 1, C44.h() - 8, 33);
+            var2.drawString("Nhấn 0 để tiếp tục", GameEngineBase.getScreenWidth() >> 1, GameEngineBase.getScreenHeight() - 8, 33);
          }
       }
 
@@ -285,7 +285,7 @@ public final class C39 {
    public final void a(int var1, int var2) {
       this.C39_f604 = var1;
       this.C39_f605 = var2;
-      this.C39_f622 = C44.g() - 2 * this.C39_f604;
+      this.C39_f622 = GameEngineBase.getScreenWidth() - 2 * this.C39_f604;
    }
 
    private void f() {
@@ -478,8 +478,8 @@ public final class C39 {
                   if (!var1.C39_f613) {
                      var1.c();
                      C39_f610 = false;
-                     if (C25.B().C44_f700.isTopDialog("/data/ui/dialog.ui")) {
-                        C25.B().C44_f701.aF();
+                     if (C25.B().dialogManager.isTopDialog("/data/ui/dialog.ui")) {
+                        C25.B().gameController.aF();
                      }
                   }
 
@@ -495,7 +495,7 @@ public final class C39 {
             return;
          case 2:
             this.C39_f603 += this.C39_f602;
-            if (this.C39_f603 > GameUtils.textChunks.length * (C44.h() + C44.h() / 2)) {
+            if (this.C39_f603 > GameUtils.textChunks.length * (GameEngineBase.getScreenHeight() + GameEngineBase.getScreenHeight() / 2)) {
                this.C39_f603 = 0;
                C39_f608 = true;
                C39_f610 = false;

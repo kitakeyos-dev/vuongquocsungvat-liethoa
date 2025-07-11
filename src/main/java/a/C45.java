@@ -1,10 +1,10 @@
 package a;
 
-import game.C1;
+import game.GameCanvas;
 import java.util.TimerTask;
 
 public final class C45 extends TimerTask {
    public final void run() {
-      C1.a().repaint();
+      GameCanvas.getInstance().repaint();
    }
 }

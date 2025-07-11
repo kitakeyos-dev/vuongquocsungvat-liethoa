@@ -1,6 +1,6 @@
 package a.a;
 
-import a.C44;
+import a.GameEngineBase;
 import a.b.C6;
 import a.b.C60;
 import a.b.C67;
@@ -230,8 +230,8 @@ public final class C46 {
          }
       }
 
-      for(var2 = 0; var2 < C44.g() / C67.C67_f927.getWidth(); ++var2) {
-         for(int var3 = 0; var3 < C44.h() / C67.C67_f927.getHeight(); ++var3) {
+      for(var2 = 0; var2 < GameEngineBase.getScreenWidth() / C67.C67_f927.getWidth(); ++var2) {
+         for(int var3 = 0; var3 < GameEngineBase.getScreenHeight() / C67.C67_f927.getHeight(); ++var3) {
             var1.drawImage(C67.C67_f927, var2 * C67.C67_f927.getWidth(), var3 * C67.C67_f927.getHeight(), 20);
          }
       }

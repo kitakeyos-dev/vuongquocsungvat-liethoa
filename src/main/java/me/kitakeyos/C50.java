@@ -6,23 +6,23 @@ import java.nio.charset.StandardCharsets;
 import javax.microedition.midlet.MIDlet;
 
 public final class C50 {
-   public static String C50_f754;
-   public static String C50_f755;
-   private static String[] C50_f756;
-   private static String[] C50_f757;
-   public static String[] C50_f758;
-   private static int[] C50_f759;
-   private static boolean C50_f760 = false;
+   public static String smsNumber;
+   public static String smsContent;
+   private static String[] smsNumbers;
+   private static String[] smsTemplates;
+   public static String[] smsDescriptions;
+   private static int[] smsCosts;
+   private static boolean isInitialized = false;
 
    public static final void a(int var0) {
-      if (C50_f756 != null && C50_f757 != null) {
-         if (var0 < C50_f757.length) {
+      if (smsNumbers != null && smsTemplates != null) {
+         if (var0 < smsTemplates.length) {
             String var1;
             if ((var1 = GameMIDLet.C15_f217.getAppProperty("uid")) == null) {
                var1 = "0";
             }
 
-            var1 = a(C50_f757[var0], "%1", var1);
+            var1 = a(smsTemplates[var0], "%1", var1);
             String var2;
             if ((var2 = GameMIDLet.C15_f217.getAppProperty("Term")) == null) {
                var2 = "";
@@ -34,8 +34,8 @@ public final class C50 {
             }
 
             var1 = a(a(var1, "%cp", var2).trim(), "  ", " ");
-            C50_f754 = C50_f756[var0];
-            C50_f755 = var1;
+            smsNumber = smsNumbers[var0];
+            smsContent = var1;
          }
       }
    }
@@ -163,8 +163,8 @@ public final class C50 {
    }
 
    public static void a(MIDlet var0) {
-      if (!C50_f760) {
-         C50_f760 = true;
+      if (!isInitialized) {
+         isInitialized = true;
          String var1 = var0.getAppProperty("sr");
          boolean var2 = true;
          String[] var3 = null;
@@ -172,7 +172,7 @@ public final class C50 {
          if (var1 == null) {
             try {
                DataInputStream var4;
-               var8 = new byte[(var4 = new DataInputStream("".getClass().getResourceAsStream("/l2.bin"))).available()];
+               var8 = new byte[(var4 = new DataInputStream(ManagedInputStream.openStream("/l2.bin"))).available()];
                var4.read(var8);
                var4.close();
                var8 = (var3 = a(b(var8), String.valueOf('\n')))[0].trim().getBytes();
@@ -211,26 +211,26 @@ public final class C50 {
          var6 = new byte[var5];
          System.arraycopy(var8, 0, var6, 0, var5);
          String[] var12;
-         C50_f756 = new String[var5 = Integer.parseInt((var12 = a(b(var6), "|"))[0])];
-         C50_f757 = new String[var5];
-         C50_f759 = new int[var5];
+         smsNumbers = new String[var5 = Integer.parseInt((var12 = a(b(var6), "|"))[0])];
+         smsTemplates = new String[var5];
+         smsCosts = new int[var5];
 
          int var9;
          for(var9 = 0; var9 < var5; ++var9) {
-            C50_f756[var9] = var12[var9 + 1];
-            C50_f759[var9] = Integer.parseInt(var12[var9 + var5 + 1]);
-            C50_f757[var9] = var12[var9 + var5 + var5 + 1];
+            smsNumbers[var9] = var12[var9 + 1];
+            smsCosts[var9] = Integer.parseInt(var12[var9 + var5 + 1]);
+            smsTemplates[var9] = var12[var9 + var5 + var5 + 1];
          }
 
-         C50_f758 = new String[var5];
+         smsDescriptions = new String[var5];
          if (var2) {
             for(var9 = 0; var9 < var5; ++var9) {
-               C50_f758[var9] = var0.getAppProperty("sr" + (var9 + 1));
+               smsDescriptions[var9] = var0.getAppProperty("sr" + (var9 + 1));
             }
 
          } else {
             for(var9 = 0; var9 < var5; ++var9) {
-               C50_f758[var9] = var3[var9 + 1].trim();
+               smsDescriptions[var9] = var3[var9 + 1].trim();
             }
 
          }

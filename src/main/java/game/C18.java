@@ -276,7 +276,7 @@ public final class C18 extends C20 {
                C25.B().C25_f290 = this.C18_f237;
                C25.B().C25_f291 = this.C18_f238;
                C25.B().C25_f295 = this.C18_f239;
-               C55.B().a((byte)9);
+               GameScreenManager.getInstance().changeState((byte)9);
             }
          } else if (this.C18_f225 == 2) {
             var10001 = this.C18_f244[this.C18_f236];
@@ -293,7 +293,7 @@ public final class C18 extends C20 {
                C25.B().C25_f290 = this.C18_f237;
                C25.B().C25_f291 = this.C18_f238;
                C25.B().C25_f295 = -1;
-               C55.B().a((byte)9);
+               GameScreenManager.getInstance().changeState((byte)9);
             }
          } else if (this.C18_f225 == 4 && C53.p().i() != 9 && C53.p().i() != 10 && GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.j())) {
             C53.p().b(this.C60_f861, this.C60_f862);

@@ -1,10 +1,10 @@
 package game;
 
-import a.C44;
+import a.GameEngineBase;
 import a.b.C67;
 import javax.microedition.lcdui.Graphics;
 
-public final class C48 extends C44 {
+public final class C48 extends GameEngineBase {
    private static C48 C48_f732 = null;
    private StringBuffer C48_f733 = null;
    private C25 C48_f734 = C25.B();
@@ -30,13 +30,13 @@ public final class C48 extends C44 {
       return C48_f732;
    }
 
-   public final void a() {
+   public final void update() {
       if (this.C8_f110) {
          this.A();
          switch(this.C44_f698) {
          case 0:
             if (this.g(196640)) {
-               this.a((byte)1);
+               this.changeState((byte)1);
                return;
             }
             break;
@@ -95,16 +95,16 @@ public final class C48 extends C44 {
                   this.C48_f734.C25_f291 = this.C48_f741;
                   C25.B().C25_f295 = -1;
                   C25.C25_f321 = true;
-                  C44_f710 = false;
+                  inputEnabled = false;
                   this.C48_f734.C25_f293 = this.C48_f746[this.C48_f740 << 1];
                   this.C48_f734.C25_f294 = this.C48_f746[(this.C48_f740 << 1) + 1];
-                  this.C48_f734.c();
-                  C55.B().a((byte)9);
+                  this.C48_f734.cleanupCurrentScreen();
+                  GameScreenManager.getInstance().changeState((byte)9);
                   return;
                }
 
                if (this.g(1024)) {
-                  C55.B().a((byte)10);
+                  GameScreenManager.getInstance().changeState((byte)10);
                   return;
                }
             }
@@ -123,23 +123,23 @@ public final class C48 extends C44 {
                   return;
                }
             } else if (this.g(196640)) {
-               this.C48_f735.c();
+               this.C48_f735.cleanupCurrentScreen();
                this.C48_f734.M();
-               C55.B().a((byte)12);
+               GameScreenManager.getInstance().changeState((byte)12);
             }
          }
 
       }
    }
 
-   public final void a(Graphics var1) {
+   public final void renderPauseScreen(Graphics var1) {
       var1.setColor(16777215);
-      var1.fillRect(0, 0, g(), 100);
+      var1.fillRect(0, 0, getScreenWidth(), 100);
       int var2;
       switch(this.C44_f698) {
       case 0:
          var1.setColor(16711680);
-         var1.drawString("Đài điều khiển", g() >> 1, 10, 17);
+         var1.drawString("Đài điều khiển", getScreenWidth() >> 1, 10, 17);
          var1.setColor(0);
 
          for(var2 = 0; var2 < this.C48_f744.length; ++var2) {
@@ -155,7 +155,7 @@ public final class C48 extends C44 {
          return;
       case 1:
          var1.setColor(16711680);
-         var1.drawString(this.C48_f744[0], g() >> 1, 10, 17);
+         var1.drawString(this.C48_f744[0], getScreenWidth() >> 1, 10, 17);
 
          for(var2 = 0; var2 < this.C48_f745.length; ++var2) {
             if (this.C48_f739 == var2) {
@@ -169,7 +169,7 @@ public final class C48 extends C44 {
 
          var1.setColor(0);
          var1.drawString("Tràng cảnh: " + this.C48_f740 + "  " + this.C48_f747[this.C48_f740], 10, 50, 20);
-         var1.drawString("Gian phòng: " + this.C48_f741 + "  " + c(384 + this.C48_f737[this.C48_f740] + this.C48_f741), 10, 70, 20);
+         var1.drawString("Gian phòng: " + this.C48_f741 + "  " + getLocalizedText(384 + this.C48_f737[this.C48_f740] + this.C48_f741), 10, 70, 20);
          if (C48_f743) {
             var1.drawString("Có thể gặp được địch", 120, 70, 20);
             return;
@@ -179,13 +179,13 @@ public final class C48 extends C44 {
          return;
       case 2:
          var1.setColor(16711680);
-         var1.drawString(this.C48_f744[1], g() >> 1, 10, 17);
-         var1.drawString("Sủng vật trước mặt: " + this.C48_f742 + " tên: " + c(C67.C67_f923[0][this.C48_f742][0]), g() >> 1, 30, 17);
+         var1.drawString(this.C48_f744[1], getScreenWidth() >> 1, 10, 17);
+         var1.drawString("Sủng vật trước mặt: " + this.C48_f742 + " tên: " + getLocalizedText(C67.C67_f923[0][this.C48_f742][0]), getScreenWidth() >> 1, 30, 17);
       default:
       }
    }
 
-   public final boolean b() {
+   public final boolean initializeGame() {
       if (this.C48_f733 == null) {
          this.C48_f733 = new StringBuffer();
       }
@@ -193,10 +193,10 @@ public final class C48 extends C44 {
       return true;
    }
 
-   public final void c() {
+   public final void cleanupCurrentScreen() {
    }
 
-   public final void a(byte var1) {
+   public final void changeState(byte var1) {
       this.C44_f699 = this.C44_f698;
       switch(var1) {
       case 1:

@@ -1,7 +1,7 @@
 package game;
 
 import a.GameUtils;
-import a.C44;
+import a.GameEngineBase;
 import a.a.C20;
 import a.a.C30;
 import a.b.C6;
@@ -18,12 +18,12 @@ import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
-public final class C7 extends C44 {
+public final class C7 extends GameEngineBase {
    public static byte C7_f51;
    private static C7 C7_f52 = null;
    private C25 C7_f53;
    private C53 C7_f54;
-   private C44 C7_f55;
+   private GameEngineBase C7_f55;
    public C57[] C7_f56;
    private Vector C7_f57;
    private byte C7_f58 = -1;
@@ -127,7 +127,7 @@ public final class C7 extends C44 {
       return C7_f52;
    }
 
-   public final void a(C44 var1) {
+   public final void a(GameEngineBase var1) {
       if (this.C7_f55 != null) {
          this.C7_f55 = null;
       }
@@ -135,7 +135,7 @@ public final class C7 extends C44 {
       this.C7_f55 = var1;
    }
 
-   public final void a() {
+   public final void update() {
       if (this.C7_f56 != null) {
          C30.a().d();
          this.C7_f65.d();
@@ -233,10 +233,10 @@ public final class C7 extends C44 {
                      }
                      break label218;
                   case 59:
-                     var12 = new int[GameUtils.a(var3.c()[0], ',').length];
+                     var12 = new int[GameUtils.splitString(var3.c()[0], ',').length];
 
                      for(var15 = 0; var15 < var12.length; ++var15) {
-                        var12[var15] = GameUtils.b(GameUtils.a(var3.c()[0], ',')[var15]);
+                        var12[var15] = GameUtils.parseInt(GameUtils.splitString(var3.c()[0], ',')[var15]);
                         if (var1.C7_f53.C25_f287[var12[var15]].i() == 0) {
                            break;
                         }
@@ -247,10 +247,10 @@ public final class C7 extends C44 {
                      }
                      break label218;
                   case 61:
-                     var12 = new int[GameUtils.a(var3.c()[0], ',').length];
+                     var12 = new int[GameUtils.splitString(var3.c()[0], ',').length];
 
                      for(var15 = 0; var15 < var12.length; ++var15) {
-                        var12[var15] = GameUtils.b(GameUtils.a(var3.c()[0], ',')[var15]);
+                        var12[var15] = GameUtils.parseInt(GameUtils.splitString(var3.c()[0], ',')[var15]);
                         if (var1.C7_f53.C25_f287[var12[var15]].i() == 0) {
                            break;
                         }
@@ -267,11 +267,11 @@ public final class C7 extends C44 {
                      }
                      break;
                   case 73:
-                     String[] var11 = GameUtils.a(var3.c()[1], ',');
-                     String[] var13 = GameUtils.a(var3.c()[0], ',');
+                     String[] var11 = GameUtils.splitString(var3.c()[1], ',');
+                     String[] var13 = GameUtils.splitString(var3.c()[0], ',');
 
                      int var10;
-                     for(var10 = 0; var10 < var11.length && var1.C7_f54.a((byte) GameUtils.d(var13[var10]), (int) GameUtils.d(var11[var10])) >= 2; ++var10) {
+                     for(var10 = 0; var10 < var11.length && var1.C7_f54.a((byte) GameUtils.parseByte(var13[var10]), (int) GameUtils.parseByte(var11[var10])) >= 2; ++var10) {
                      }
 
                      if (var10 >= var11.length) {
@@ -284,9 +284,9 @@ public final class C7 extends C44 {
                      }
                      break;
                   case 78:
-                     byte[] var5 = GameUtils.e(var3.c()[0]);
-                     byte[] var6 = GameUtils.e(var3.c()[1]);
-                     byte[] var9 = GameUtils.e(var3.c()[2]);
+                     byte[] var5 = GameUtils.parseStringToBytes(var3.c()[0]);
+                     byte[] var6 = GameUtils.parseStringToBytes(var3.c()[1]);
+                     byte[] var9 = GameUtils.parseStringToBytes(var3.c()[2]);
 
                      for(var7 = 0; var7 < var9.length && var1.C7_f60[C25.e(var5[var7], var6[var7])] != null && (var1.C7_f60[C25.e(var5[var7], var6[var7])][var9[var7]] == 3 || var1.C7_f60[C25.e(var5[var7], var6[var7])][var9[var7]] == 4); ++var7) {
                      }
@@ -382,11 +382,11 @@ public final class C7 extends C44 {
 
    }
 
-   public final void a(Graphics var1) {
+   public final void renderPauseScreen(Graphics var1) {
       C30.a().a(var1);
       if (C7_f85 != null) {
          var1.setColor(0);
-         var1.fillRect(0, 0, g(), h());
+         var1.fillRect(0, 0, getScreenWidth(), getScreenHeight());
          var1.drawImage(C7_f85, this.C7_f87, this.C7_f88, 20);
       }
 
@@ -397,7 +397,7 @@ public final class C7 extends C44 {
       this.C7_f65.a(var1);
    }
 
-   public final boolean b() {
+   public final boolean initializeGame() {
       return true;
    }
 
@@ -432,7 +432,7 @@ public final class C7 extends C44 {
       C7_f52 = null;
    }
 
-   public final void c() {
+   public final void cleanupCurrentScreen() {
       if (C7_f63 != null) {
          C7_f63.removeAllElements();
          C7_f63 = null;
@@ -457,7 +457,7 @@ public final class C7 extends C44 {
       this.C7_f93 = null;
    }
 
-   public final void a(byte var1) {
+   public final void changeState(byte var1) {
    }
 
    private byte l(int var1) {
@@ -555,7 +555,7 @@ public final class C7 extends C44 {
                case 2:
                   if (var3.b()[0] == -1) {
                      this.C7_f54.c();
-                     this.C7_f54.a((byte)0, (byte) GameUtils.d(GameUtils.a(var3.c()[1], ',')[0]));
+                     this.C7_f54.a((byte)0, (byte) GameUtils.parseByte(GameUtils.splitString(var3.c()[1], ',')[0]));
                      break label1202;
                   }
 
@@ -566,12 +566,12 @@ public final class C7 extends C44 {
                         break label1202;
                      }
 
-                     this.C7_f53.C25_f287[GameUtils.c(GameUtils.a(var3.c()[0], ',')[var10])].d(GameUtils.d(GameUtils.a(var3.c()[1], ',')[var10]));
-                     if (this.C7_f53.C25_f287[GameUtils.c(GameUtils.a(var3.c()[0], ',')[var10])].C18_f225 == 1) {
-                        this.C7_f53.C25_f287[GameUtils.c(GameUtils.a(var3.c()[0], ',')[var10])].a((byte)0);
+                     this.C7_f53.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.c()[0], ',')[var10])].d(GameUtils.parseByte(GameUtils.splitString(var3.c()[1], ',')[var10]));
+                     if (this.C7_f53.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.c()[0], ',')[var10])].C18_f225 == 1) {
+                        this.C7_f53.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.c()[0], ',')[var10])].a((byte)0);
                      }
 
-                     this.C7_f53.C25_f287[GameUtils.c(GameUtils.a(var3.c()[0], ',')[var10])].c();
+                     this.C7_f53.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.c()[0], ',')[var10])].c();
                      ++var10;
                   }
                case 3:
@@ -587,20 +587,20 @@ public final class C7 extends C44 {
                         break label1202;
                      }
 
-                     var27 = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var12]);
+                     var27 = GameUtils.parseShort(GameUtils.splitString(var3.c()[0], ',')[var12]);
                      this.C7_f53.C25_f287[var27].d();
                      ++var12;
                   }
                case 4:
                   if (var2.a() != 5) {
                      this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
-                     this.C7_f53.C44_f701.a((String)var3.c()[0], (String)var3.c()[1], var3.b()[1], var3.b()[0]);
+                     this.C7_f53.gameController.a((String)var3.c()[0], (String)var3.c()[1], var3.b()[1], var3.b()[0]);
                      var2.a((byte)5);
-                  } else if (this.C7_f53.C44_f701.d(var3.b()[1], var3.b()[0]) && this.C7_f55.g(196640)) {
+                  } else if (this.C7_f53.gameController.d(var3.b()[1], var3.b()[0]) && this.C7_f55.g(196640)) {
                      C25.B().D();
                      if (GameUtils.pageCount < GameUtils.b()) {
                         GameUtils.c();
-                        this.C7_f53.C44_f701.b(GameUtils.pageCount);
+                        this.C7_f53.gameController.b(GameUtils.pageCount);
                      } else {
                         if (C25.C25_f318 != -1 && this.C7_f53.C25_f287[C25.C25_f318].C20_f261.C62_f882 <= 85 && this.C7_f53.C25_f287[C25.C25_f318].v() == 0) {
                            C25.B().a((byte)13, C25.B().C25_f287[C25.C25_f318].C60_f861, C25.B().C25_f287[C25.C25_f318].C60_f862 - 40, C25.B().C25_f287[C25.C25_f318]);
@@ -608,7 +608,7 @@ public final class C7 extends C44 {
 
                         C7_f68 = false;
                         C7_f69 = false;
-                        this.C7_f53.C44_f701.aF();
+                        this.C7_f53.gameController.aF();
                         var2.a((byte)1);
                      }
                   }
@@ -643,20 +643,20 @@ public final class C7 extends C44 {
                      this.C7_f53.C25_f295 = -1;
                   }
 
-                  C55.B().a((byte)22);
+                  GameScreenManager.getInstance().changeState((byte)22);
                   break label1202;
                case 7:
                   if (var2.a() != 5) {
                      this.C7_f76 = new short[var3.b()[0]];
 
                      for(var10 = 0; var10 < this.C7_f76.length; ++var10) {
-                        this.C7_f76[var10] = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var10]);
-                        var5 = GameUtils.d(GameUtils.a(var3.c()[2], ',')[var10]);
+                        this.C7_f76[var10] = GameUtils.parseShort(GameUtils.splitString(var3.c()[0], ',')[var10]);
+                        var5 = GameUtils.parseByte(GameUtils.splitString(var3.c()[2], ',')[var10]);
                         if (this.C7_f76[var10] == -1) {
-                           this.C7_f54.a(GameUtils.d(GameUtils.a(var3.c()[1], ',')[0]), var5);
+                           this.C7_f54.a(GameUtils.parseByte(GameUtils.splitString(var3.c()[1], ',')[0]), var5);
                         } else {
                            this.C7_f53.C25_f287[this.C7_f76[var10]].d(var5);
-                           this.C7_f53.C25_f287[this.C7_f76[var10]].a(GameUtils.d(GameUtils.a(var3.c()[1], ',')[var10]));
+                           this.C7_f53.C25_f287[this.C7_f76[var10]].a(GameUtils.parseByte(GameUtils.splitString(var3.c()[1], ',')[var10]));
                         }
                      }
 
@@ -749,27 +749,27 @@ public final class C7 extends C44 {
                   if (var2.a() != 5) {
                      if (var3.b()[0] == -1) {
                         this.C7_f77 = new byte[1];
-                        this.C7_f54.d(GameUtils.d(GameUtils.a(var3.c()[1], ',')[0]));
+                        this.C7_f54.d(GameUtils.parseByte(GameUtils.splitString(var3.c()[1], ',')[0]));
                         this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
-                        this.C7_f54.b((byte)0, (short) GameUtils.d(GameUtils.a(var3.c()[2], ',')[0]));
-                        this.C7_f77[0] = GameUtils.d(GameUtils.a(var3.c()[3], ',')[0]);
+                        this.C7_f54.b((byte)0, (short) GameUtils.parseByte(GameUtils.splitString(var3.c()[2], ',')[0]));
+                        this.C7_f77[0] = GameUtils.parseByte(GameUtils.splitString(var3.c()[3], ',')[0]);
                      } else {
                         this.C7_f76 = new short[var3.b()[0]];
                         this.C7_f77 = new byte[var3.b()[0]];
 
                         for(var10 = 0; var10 < this.C7_f76.length; ++var10) {
-                           this.C7_f76[var10] = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var10]);
+                           this.C7_f76[var10] = GameUtils.parseShort(GameUtils.splitString(var3.c()[0], ',')[var10]);
                            if (this.C7_f76[var10] != -1) {
-                              this.C7_f53.C25_f287[this.C7_f76[var10]].d(GameUtils.d(GameUtils.a(var3.c()[1], ',')[var10]));
-                              this.C7_f53.C25_f287[this.C7_f76[var10]].b((byte)0, (short) GameUtils.d(GameUtils.a(var3.c()[2], ',')[var10]));
+                              this.C7_f53.C25_f287[this.C7_f76[var10]].d(GameUtils.parseByte(GameUtils.splitString(var3.c()[1], ',')[var10]));
+                              this.C7_f53.C25_f287[this.C7_f76[var10]].b((byte)0, (short) GameUtils.parseByte(GameUtils.splitString(var3.c()[2], ',')[var10]));
                               this.C7_f53.C25_f287[this.C7_f76[var10]].a((byte)0);
                            } else {
-                              this.C7_f54.d(GameUtils.d(GameUtils.a(var3.c()[1], ',')[var10]));
-                              this.C7_f54.b((byte)0, (short) GameUtils.d(GameUtils.a(var3.c()[2], ',')[var10]));
+                              this.C7_f54.d(GameUtils.parseByte(GameUtils.splitString(var3.c()[1], ',')[var10]));
+                              this.C7_f54.b((byte)0, (short) GameUtils.parseByte(GameUtils.splitString(var3.c()[2], ',')[var10]));
                               this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
                            }
 
-                           this.C7_f77[var10] = GameUtils.d(GameUtils.a(var3.c()[3], ',')[var10]);
+                           this.C7_f77[var10] = GameUtils.parseByte(GameUtils.splitString(var3.c()[3], ',')[var10]);
                         }
                      }
 
@@ -900,14 +900,14 @@ public final class C7 extends C44 {
                      if (var3.b()[0] == 0) {
                         if (this.C7_f54.a((int)var3.b()[1], var3.b()[2], (byte)0)) {
                            var27 = C67.C67_f923[4][var3.b()[1]][0];
-                           this.C7_f55.C44_f701.a((String)("Đạt được: " + C44.c((int)var27)), var3.b()[2]);
+                           this.C7_f55.gameController.a((String)("Đạt được: " + GameEngineBase.getLocalizedText((int)var27)), var3.b()[2]);
                            this.C7_f54.c(var3.b()[1], var3.b()[2], (byte)0);
                         } else {
-                           this.C7_f55.C44_f701.b("Ba lô đã đủ đạo cụ này");
+                           this.C7_f55.gameController.b("Ba lô đã đủ đạo cụ này");
                         }
                      } else if (this.C7_f54.b((int)var3.b()[1], (int)var3.b()[2], (byte)0)) {
                         var27 = C67.C67_f923[4][var3.b()[1]][0];
-                        this.C7_f55.C44_f701.a((String)("Mất: " + C44.c((int)var27)), var3.b()[2]);
+                        this.C7_f55.gameController.a((String)("Mất: " + GameEngineBase.getLocalizedText((int)var27)), var3.b()[2]);
                         this.C7_f54.d(var3.b()[1], var3.b()[2], (byte)0);
                      }
 
@@ -915,7 +915,7 @@ public final class C7 extends C44 {
                      break label1202;
                   }
 
-                  if (!this.C7_f55.C44_f701.aA()) {
+                  if (!this.C7_f55.gameController.aA()) {
                      break label1202;
                   }
                   break;
@@ -924,14 +924,14 @@ public final class C7 extends C44 {
                      if (var3.b()[0] == 0) {
                         if (this.C7_f54.a((int)var3.b()[1], var3.b()[2], (byte)2)) {
                            var27 = C67.C67_f923[3][var3.b()[1]][0];
-                           this.C7_f55.C44_f701.a((String)("Đạt được: " + C44.c((int)var27)), var3.b()[2]);
+                           this.C7_f55.gameController.a((String)("Đạt được: " + GameEngineBase.getLocalizedText((int)var27)), var3.b()[2]);
                            this.C7_f54.c(var3.b()[1], var3.b()[2], (byte)2);
                         } else {
-                           this.C7_f55.C44_f701.b("Ba lô đã đủ đạo cụ này");
+                           this.C7_f55.gameController.b("Ba lô đã đủ đạo cụ này");
                         }
                      } else if (var3.b()[0] == 1) {
                         var27 = C67.C67_f923[3][var3.b()[1]][0];
-                        this.C7_f55.C44_f701.a((String)("Mất: " + C44.c((int)var27)), var3.b()[2]);
+                        this.C7_f55.gameController.a((String)("Mất: " + GameEngineBase.getLocalizedText((int)var27)), var3.b()[2]);
                         this.C7_f54.d(var3.b()[1], var3.b()[2], (byte)2);
                      }
 
@@ -939,17 +939,17 @@ public final class C7 extends C44 {
                      break label1202;
                   }
 
-                  if (!this.C7_f55.C44_f701.aA()) {
+                  if (!this.C7_f55.gameController.aA()) {
                      break label1202;
                   }
                   break;
                case 19:
                   if (var2.a() != 5) {
                      var27 = C67.C67_f923[5][var3.b()[0]][0];
-                     this.C7_f55.C44_f701.a((String)("Đạt được: " + C44.c((int)var27)), var3.b()[1]);
+                     this.C7_f55.gameController.a((String)("Đạt được: " + GameEngineBase.getLocalizedText((int)var27)), var3.b()[1]);
                      if ((var12 = this.C7_f54.d(var3.b()[0], var3.b()[1])) != -1) {
                         if (var12 == 1) {
-                           this.C7_f55.C44_f701.b("Ba lô đã đủ loại đạo cụ này");
+                           this.C7_f55.gameController.b("Ba lô đã đủ loại đạo cụ này");
                         } else {
                            this.C7_f54.c((int)var3.b()[0], (int)var3.b()[1]);
                         }
@@ -963,17 +963,17 @@ public final class C7 extends C44 {
                      break label1202;
                   }
 
-                  if (!this.C7_f55.C44_f701.aA()) {
+                  if (!this.C7_f55.gameController.aA()) {
                      break label1202;
                   }
                   break;
                case 20:
                   if (var2.a() != 5) {
                      if (var3.b()[0] == 1) {
-                        this.C7_f55.C44_f701.b("Mất: " + var3.c()[0]);
+                        this.C7_f55.gameController.b("Mất: " + var3.c()[0]);
                         this.C7_f54.C53_f797[var3.b()[1]] = false;
                      } else {
-                        this.C7_f55.C44_f701.b("Đạt được: " + var3.c()[0]);
+                        this.C7_f55.gameController.b("Đạt được: " + var3.c()[0]);
                         this.C7_f54.C53_f797[var3.b()[1]] = true;
                      }
 
@@ -981,7 +981,7 @@ public final class C7 extends C44 {
                      break label1202;
                   }
 
-                  if (!this.C7_f55.C44_f701.aA()) {
+                  if (!this.C7_f55.gameController.aA()) {
                      break label1202;
                   }
                   break;
@@ -1043,11 +1043,11 @@ public final class C7 extends C44 {
                      this.C7_f79 = new short[var27];
 
                      for(var12 = 0; var12 < this.C7_f76.length; ++var12) {
-                        this.C7_f76[var12] = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var12]);
-                        this.C7_f82[var12] = GameUtils.c(GameUtils.a(var3.c()[1], ',')[var12]);
-                        this.C7_f83[var12] = GameUtils.c(GameUtils.a(var3.c()[2], ',')[var12]);
-                        this.C7_f78[var12] = GameUtils.c(GameUtils.a(var3.c()[3], ',')[var12]);
-                        this.C7_f79[var12] = GameUtils.c(GameUtils.a(var3.c()[4], ',')[var12]);
+                        this.C7_f76[var12] = GameUtils.parseShort(GameUtils.splitString(var3.c()[0], ',')[var12]);
+                        this.C7_f82[var12] = GameUtils.parseShort(GameUtils.splitString(var3.c()[1], ',')[var12]);
+                        this.C7_f83[var12] = GameUtils.parseShort(GameUtils.splitString(var3.c()[2], ',')[var12]);
+                        this.C7_f78[var12] = GameUtils.parseShort(GameUtils.splitString(var3.c()[3], ',')[var12]);
+                        this.C7_f79[var12] = GameUtils.parseShort(GameUtils.splitString(var3.c()[4], ',')[var12]);
                      }
 
                      var2.a((byte)5);
@@ -1086,18 +1086,18 @@ public final class C7 extends C44 {
                case 30:
                   if (var2.a() != 5) {
                      this.C7_f76 = new short[var3.b()[0]];
-                     String[] var23 = GameUtils.a(var3.c()[2], ',');
+                     String[] var23 = GameUtils.splitString(var3.c()[2], ',');
 
                      for(var12 = 0; var12 < this.C7_f76.length; ++var12) {
-                        this.C7_f76[var12] = GameUtils.c(var23[var12]);
+                        this.C7_f76[var12] = GameUtils.parseShort(var23[var12]);
                      }
 
                      String[][] var21 = new String[this.C7_f76.length][];
                      String[][] var29 = new String[this.C7_f76.length][];
 
                      for(var18 = 0; var18 < var29.length; ++var18) {
-                        var21[var18] = GameUtils.a(GameUtils.a(var3.c()[0], '#')[var18], ',');
-                        var29[var18] = GameUtils.a(GameUtils.a(var3.c()[1], '#')[var18], ',');
+                        var21[var18] = GameUtils.splitString(GameUtils.splitString(var3.c()[0], '#')[var18], ',');
+                        var29[var18] = GameUtils.splitString(GameUtils.splitString(var3.c()[1], '#')[var18], ',');
                      }
 
                      this.C7_f80 = new short[this.C7_f76.length][];
@@ -1108,8 +1108,8 @@ public final class C7 extends C44 {
                         this.C7_f81[var18] = new short[var29[var18].length];
 
                         for(var22 = 0; var22 < this.C7_f80[var18].length; ++var22) {
-                           this.C7_f80[var18][var22] = GameUtils.c(var21[var18][var22]);
-                           this.C7_f81[var18][var22] = GameUtils.c(var29[var18][var22]);
+                           this.C7_f80[var18][var22] = GameUtils.parseShort(var21[var18][var22]);
+                           this.C7_f81[var18][var22] = GameUtils.parseShort(var29[var18][var22]);
                         }
                      }
 
@@ -1132,18 +1132,18 @@ public final class C7 extends C44 {
                      if (var3.b()[0] == 0) {
                         if (var3.b()[1] == 0) {
                            this.C7_f54.s(var3.b()[2]);
-                           this.C7_f55.C44_f701.b("Đạt được: " + var3.b()[2] + " kim tiền");
+                           this.C7_f55.gameController.b("Đạt được: " + var3.b()[2] + " kim tiền");
                         } else if (var3.b()[1] == 1) {
                            this.C7_f54.v(var3.b()[2]);
-                           this.C7_f55.C44_f701.b("Đạt được: " + var3.b()[2] + "Huy hiệu");
+                           this.C7_f55.gameController.b("Đạt được: " + var3.b()[2] + "Huy hiệu");
                         }
                      } else if (var3.b()[0] == 1) {
                         if (var3.b()[1] == 0) {
                            this.C7_f54.s(-var3.b()[2]);
-                           this.C7_f55.C44_f701.b("Mất: " + var3.b()[2] + " kim tiền");
+                           this.C7_f55.gameController.b("Mất: " + var3.b()[2] + " kim tiền");
                         } else if (var3.b()[1] == 1) {
                            this.C7_f54.v(-var3.b()[2]);
-                           this.C7_f55.C44_f701.b("Mất: " + var3.b()[2] + " huy hiệu");
+                           this.C7_f55.gameController.b("Mất: " + var3.b()[2] + " huy hiệu");
                         }
                      }
 
@@ -1151,7 +1151,7 @@ public final class C7 extends C44 {
                      break label1202;
                   }
 
-                  if (!this.C7_f53.C44_f701.aA()) {
+                  if (!this.C7_f53.gameController.aA()) {
                      break label1202;
                   }
                   break;
@@ -1169,7 +1169,7 @@ public final class C7 extends C44 {
                      this.C7_f53.C25_f342.a(4, 1);
                   }
 
-                  C55.B().a((byte)12);
+                  GameScreenManager.getInstance().changeState((byte)12);
                   break label1202;
                case 33:
                   if ((C7_f51 = (byte)var3.b()[0]) == 2) {
@@ -1231,7 +1231,7 @@ public final class C7 extends C44 {
                case 35:
                   if (var2.a() == 5) {
                      int var10001 = this.C7_f90;
-                     if ((var12 = this.C7_f55.C44_f701.c(this.C7_f91)) != -1) {
+                     if ((var12 = this.C7_f55.gameController.c(this.C7_f91)) != -1) {
                         var2.b((byte)(this.C7_f92[var12] - 2));
                         var2.a((byte)1);
                      }
@@ -1240,15 +1240,15 @@ public final class C7 extends C44 {
 
                   this.C7_f90 = var3.b()[0];
                   this.C7_f91 = var3.b()[1];
-                  this.C7_f93 = GameUtils.a(var3.c()[0], ',');
-                  this.C7_f92 = new byte[GameUtils.a(var3.c()[1], ',').length];
+                  this.C7_f93 = GameUtils.splitString(var3.c()[0], ',');
+                  this.C7_f92 = new byte[GameUtils.splitString(var3.c()[1], ',').length];
                   String var11 = var3.c()[2];
 
                   for(var15 = 0; var15 < this.C7_f92.length; ++var15) {
-                     this.C7_f92[var15] = GameUtils.d(GameUtils.a(var3.c()[1], ',')[var15]);
+                     this.C7_f92[var15] = GameUtils.parseByte(GameUtils.splitString(var3.c()[1], ',')[var15]);
                   }
 
-                  this.C7_f55.C44_f701.a(this.C7_f91, this.C7_f90, this.C7_f93, var11);
+                  this.C7_f55.gameController.a(this.C7_f91, this.C7_f90, this.C7_f93, var11);
                   var2.a((byte)5);
                   break label1202;
                case 36:
@@ -1258,11 +1258,11 @@ public final class C7 extends C44 {
                         if (var5 == 0) {
                            this.C7_f54.a(var3.b()[1], var3.b()[2], (short)-1, (byte)var3.b()[4], (byte)var3.b()[3], (byte)-1, new int[]{1, var3.b()[5], var3.b()[6]});
                         } else if (var5 == 1) {
-                           this.C7_f55.C44_f701.b("Ba lô đã đủ, đã để vào ngân hàng");
+                           this.C7_f55.gameController.b("Ba lô đã đủ, đã để vào ngân hàng");
                            var19 = C41.b(var3.b()[1], var3.b()[2], var3.b()[3]);
                            this.C7_f54.a(var3.b()[1], var3.b()[2], (short)-1, (byte)var3.b()[4], (byte)var3.b()[3], (byte)-1, var19, 0, 0, new int[]{1, var3.b()[5], var3.b()[6]});
                         } else {
-                           this.C7_f55.C44_f701.b("Không có không gian, đã phóng sinh");
+                           this.C7_f55.gameController.b("Không có không gian, đã phóng sinh");
                         }
                      } else if (var3.b()[0] == 1) {
                         this.C7_f54.o(var3.b()[1]);
@@ -1272,7 +1272,7 @@ public final class C7 extends C44 {
                      break label1202;
                   }
 
-                  if (!this.C7_f55.C44_f701.aA()) {
+                  if (!this.C7_f55.gameController.aA()) {
                      break label1202;
                   }
                   break;
@@ -1282,12 +1282,12 @@ public final class C7 extends C44 {
                case 38:
                   C7_f68 = false;
 
-                  for(var15 = 0; var15 < GameUtils.a(var3.c()[0], ',').length; ++var15) {
-                     if (GameUtils.d(GameUtils.a(var3.c()[0], ',')[var15]) == C25.C25_f318) {
+                  for(var15 = 0; var15 < GameUtils.splitString(var3.c()[0], ',').length; ++var15) {
+                     if (GameUtils.parseByte(GameUtils.splitString(var3.c()[0], ',')[var15]) == C25.C25_f318) {
                         C7_f68 = true;
                         if (C7_f69) {
                            C25.C25_f318 = -1;
-                           var5 = GameUtils.d(GameUtils.a(var3.c()[1], ',')[var15]);
+                           var5 = GameUtils.parseByte(GameUtils.splitString(var3.c()[1], ',')[var15]);
                            var2.b((byte)(var5 - 1));
                            C25.B().D();
                            C7_f68 = false;
@@ -1312,12 +1312,12 @@ public final class C7 extends C44 {
                   }
                case 40:
                   if (var2.a() != 5) {
-                     this.C7_f55.C44_f701.c(var3.c()[0]);
+                     this.C7_f55.gameController.c(var3.c()[0]);
                      var2.a((byte)5);
                      break label1202;
                   }
 
-                  if (!this.C7_f55.C44_f701.aB()) {
+                  if (!this.C7_f55.gameController.aB()) {
                      break label1202;
                   }
                   break;
@@ -1329,52 +1329,52 @@ public final class C7 extends C44 {
                   break label1202;
                case 45:
                   if (var2.a() != 5) {
-                     this.C7_f55.C44_f701.c(var3.c()[0]);
+                     this.C7_f55.gameController.c(var3.c()[0]);
                      C7_f106 = (byte)var3.b()[0];
                      var2.a((byte)5);
                      break label1202;
                   }
 
-                  if (!this.C7_f55.C44_f701.aB()) {
+                  if (!this.C7_f55.gameController.aB()) {
                      break label1202;
                   }
                   break;
                case 46:
                   if (var2.a() != 5) {
-                     this.C7_f55.C44_f701.K();
-                     this.C7_f55.C44_f701.a(var3.c()[0]);
+                     this.C7_f55.gameController.K();
+                     this.C7_f55.gameController.a(var3.c()[0]);
                      var2.a((byte)5);
                      break label1202;
                   }
 
-                  if (this.C7_f55.C44_f701.C9_f131 == 0) {
+                  if (this.C7_f55.gameController.C9_f131 == 0) {
                      if (this.C7_f55.g(196640)) {
-                        this.C7_f55.C44_f701.C9_f131 = 1;
-                        this.C7_f55.C44_f701.a("Đang lưu...");
-                        this.C7_f55.C44_f701.M();
+                        this.C7_f55.gameController.C9_f131 = 1;
+                        this.C7_f55.gameController.a("Đang lưu...");
+                        this.C7_f55.gameController.M();
                      } else if (this.C7_f55.g(262144)) {
                         var2.a((byte)1);
-                        this.C7_f55.C44_f701.L();
-                        this.C7_f55.C44_f701.C9_f131 = 0;
+                        this.C7_f55.gameController.L();
+                        this.C7_f55.gameController.C9_f131 = 0;
                      }
                      break label1202;
                   }
 
-                  if (this.C7_f55.C44_f701.C9_f131 == 1) {
+                  if (this.C7_f55.gameController.C9_f131 == 1) {
                      this.C7_f60[C25.e(this.C7_f53.C25_f290, this.C7_f53.C25_f291)][var2.b()] = 3;
                      if (((C25)this.C7_f55).I()) {
-                        this.C7_f55.C44_f701.a("Lưu thành công");
-                        this.C7_f55.C44_f701.C9_f131 = 2;
+                        this.C7_f55.gameController.a("Lưu thành công");
+                        this.C7_f55.gameController.C9_f131 = 2;
                      }
                      break label1202;
                   }
 
-                  if (this.C7_f55.C44_f701.C9_f131 != 2) {
+                  if (this.C7_f55.gameController.C9_f131 != 2) {
                      break label1202;
                   }
 
-                  this.C7_f55.C44_f701.L();
-                  this.C7_f55.C44_f701.C9_f131 = 0;
+                  this.C7_f55.gameController.L();
+                  this.C7_f55.gameController.C9_f131 = 0;
                   break;
                case 47:
                   if (this.C7_f74 != -1) {
@@ -1413,7 +1413,7 @@ public final class C7 extends C44 {
                   break;
                case 49:
                   if (var2.a() == 5) {
-                     if ((var15 = this.C7_f55.C44_f701.aG()) != -1) {
+                     if ((var15 = this.C7_f55.gameController.aG()) != -1) {
                         if (var15 == 0 && var2.d().b()[1] == 1) {
                            C7_f105[C7_f107][1] = 1;
                            ++C7_f107;
@@ -1436,14 +1436,14 @@ public final class C7 extends C44 {
                      this.C7_f96[var15] = var3.c()[var15];
                   }
 
-                  this.C7_f92 = new byte[GameUtils.a(var3.c()[2], ',').length];
+                  this.C7_f92 = new byte[GameUtils.splitString(var3.c()[2], ',').length];
 
                   for(var15 = 0; var15 < this.C7_f92.length; ++var15) {
-                     this.C7_f92[var15] = GameUtils.d(GameUtils.a(var3.c()[2], ',')[var15]);
-                     this.C7_f93[var15] = GameUtils.a(var3.c()[3], ',')[var15];
+                     this.C7_f92[var15] = GameUtils.parseByte(GameUtils.splitString(var3.c()[2], ',')[var15]);
+                     this.C7_f93[var15] = GameUtils.splitString(var3.c()[3], ',')[var15];
                   }
 
-                  this.C7_f55.C44_f701.a(this.C7_f94, this.C7_f95, this.C7_f96, this.C7_f93);
+                  this.C7_f55.gameController.a(this.C7_f94, this.C7_f95, this.C7_f96, this.C7_f93);
                   var2.a((byte)5);
                   break label1202;
                case 50:
@@ -1454,7 +1454,7 @@ public final class C7 extends C44 {
                   }
                   break label1202;
                case 51:
-                  this.C7_f53.C44_f701.aE();
+                  this.C7_f53.gameController.aE();
                   this.C7_f65.a(var3.b()[1], var3.b()[2]);
                   this.C7_f65.a((byte)(var3.b()[0] / 10 - 1), var3.c()[0], var3.b()[0] % 10);
                   this.C7_f65.b(var3.b()[3], var3.b()[4]);
@@ -1486,7 +1486,7 @@ public final class C7 extends C44 {
                         this.C7_f54.b((byte)((byte)var3.b()[0]), (byte)((byte)var3.b()[1]), (byte)1);
                      }
 
-                     this.C7_f55.C44_f701.a(var3.b()[0]);
+                     this.C7_f55.gameController.a(var3.b()[0]);
                      var2.a((byte)5);
                      break label1202;
                   }
@@ -1495,15 +1495,15 @@ public final class C7 extends C44 {
                      break label1202;
                   }
 
-                  this.C7_f55.C44_f701.Y();
+                  this.C7_f55.gameController.Y();
                   break;
                case 54:
                   int[][] var26 = new int[var19 = var3.b()[0]][3];
 
                   for(var22 = 0; var22 < var19; ++var22) {
-                     var26[var22][0] = GameUtils.b(GameUtils.a(var3.c()[0], ',')[var22]);
-                     var26[var22][1] = GameUtils.b(GameUtils.a(var3.c()[1], ',')[var22]);
-                     var26[var22][2] = GameUtils.b(GameUtils.a(var3.c()[2], ',')[var22]);
+                     var26[var22][0] = GameUtils.parseInt(GameUtils.splitString(var3.c()[0], ',')[var22]);
+                     var26[var22][1] = GameUtils.parseInt(GameUtils.splitString(var3.c()[1], ',')[var22]);
+                     var26[var22][2] = GameUtils.parseInt(GameUtils.splitString(var3.c()[2], ',')[var22]);
                   }
 
                   C29.B().a(var26);
@@ -1535,8 +1535,8 @@ public final class C7 extends C44 {
                            break label1202;
                         }
 
-                        var25 = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var18]);
-                        var14 = GameUtils.d(GameUtils.a(var3.c()[1], ',')[var18]);
+                        var25 = GameUtils.parseShort(GameUtils.splitString(var3.c()[0], ',')[var18]);
+                        var14 = GameUtils.parseByte(GameUtils.splitString(var3.c()[1], ',')[var18]);
                         this.C7_f53.C25_f287[var25].d(var14);
                         if (this.C7_f53.C25_f287[var25].C18_f225 == 1) {
                            this.C7_f53.C25_f287[var25].a((byte)0);
@@ -1561,7 +1561,7 @@ public final class C7 extends C44 {
                         break label1202;
                      }
 
-                     var25 = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var18]);
+                     var25 = GameUtils.parseShort(GameUtils.splitString(var3.c()[0], ',')[var18]);
                      if (this.C7_f53.C25_f287[var25].C18_f225 == 1) {
                         this.C7_f53.C25_f287[var25].a((byte)0);
                      }
@@ -1586,8 +1586,8 @@ public final class C7 extends C44 {
                      this.C7_f76 = new short[var3.b()[0]];
 
                      for(var15 = 0; var15 < this.C7_f76.length; ++var15) {
-                        this.C7_f76[var15] = GameUtils.c(GameUtils.a(var3.c()[0], ',')[var15]);
-                        this.C7_f53.C25_f287[this.C7_f76[var15]].a(GameUtils.d(GameUtils.a(var3.c()[1], ',')[var15]));
+                        this.C7_f76[var15] = GameUtils.parseShort(GameUtils.splitString(var3.c()[0], ',')[var15]);
+                        this.C7_f53.C25_f287[this.C7_f76[var15]].a(GameUtils.parseByte(GameUtils.splitString(var3.c()[1], ',')[var15]));
                         if (this.C7_f53.C25_f287[this.C7_f76[var15]].C18_f223 == 0 && this.C7_f53.C25_f287[this.C7_f76[var15]].C18_f225 == 6 && this.C7_f53.C25_f287[this.C7_f76[var15]].i() == 2) {
                            short var10002 = this.C7_f76[var15];
                            C25.B().C25_f285.a(C25.B().C25_f287[var10002], 2);
@@ -1612,12 +1612,12 @@ public final class C7 extends C44 {
                   this.C7_f61 = 0;
                   break;
                case 62:
-                  int[] var13 = new int[GameUtils.a(var3.c()[0], ',').length];
+                  int[] var13 = new int[GameUtils.splitString(var3.c()[0], ',').length];
                   var22 = -1;
                   var2.a((byte)6);
 
                   for(var18 = 0; var18 < var13.length; ++var18) {
-                     var13[var18] = GameUtils.b(GameUtils.a(var3.c()[0], ',')[var18]);
+                     var13[var18] = GameUtils.parseInt(GameUtils.splitString(var3.c()[0], ',')[var18]);
                      if (this.C7_f53.C25_f287[var13[var18]].i() == 2) {
                         var22 = var13[var18];
                         break;
@@ -1658,21 +1658,21 @@ public final class C7 extends C44 {
                   }
                   break label1202;
                case 65:
-                  if (var2.a() != 5 && !C44_f711) {
-                     this.C7_f55.a((byte)100);
+                  if (var2.a() != 5 && !paymentActive) {
+                     this.C7_f55.changeState((byte)100);
                      var2.a((byte)5);
                      break label1202;
                   }
 
-                  if (C44_f711) {
+                  if (paymentActive) {
                      var2.b((byte)(var3.b()[0] - 2));
                   } else {
                      var2.b((byte)(var3.b()[1] - 2));
                   }
                   break;
                case 66:
-                  C44.C44_f704 = (byte)var3.b()[0];
-                  C44.b(0, 3);
+                  GameEngineBase.actionType = (byte)var3.b()[0];
+                  GameEngineBase.b(0, 3);
                   break label1202;
                case 67:
                   C25.C25_f319 = var3.b()[0];
@@ -1684,10 +1684,10 @@ public final class C7 extends C44 {
                      switch(var3.b()[0]) {
                      case 0:
                      case 1:
-                        this.C7_f53.a((byte)1);
+                        this.C7_f53.changeState((byte)1);
                         break;
                      case 2:
-                        this.C7_f53.a((byte)16);
+                        this.C7_f53.changeState((byte)16);
                      }
 
                      var2.a((byte)5);
@@ -1708,8 +1708,8 @@ public final class C7 extends C44 {
                   }
                   break label1202;
                case 72:
-                  String[] var6 = GameUtils.a(var3.c()[0], ',');
-                  String[] var17 = GameUtils.a(var3.c()[1], ',');
+                  String[] var6 = GameUtils.splitString(var3.c()[0], ',');
+                  String[] var17 = GameUtils.splitString(var3.c()[1], ',');
                   C20[] var20 = new C20[var6.length];
                   var10 = 0;
 
@@ -1721,16 +1721,16 @@ public final class C7 extends C44 {
                      var20[var10] = new C20();
                      var20[var10].a(259, false);
                      var20[var10].g();
-                     if (GameUtils.b(var6[var10]) == -1) {
-                        var20[var10].a(GameUtils.d(var17[var10]), (byte)-1, true);
+                     if (GameUtils.parseInt(var6[var10]) == -1) {
+                        var20[var10].a(GameUtils.parseByte(var17[var10]), (byte)-1, true);
                         var20[var10].c();
                         var20[var10].b(this.C7_f54.m(), this.C7_f54.n() - 40);
                         var20[var10].a(this.C7_f54);
                      } else {
-                        var20[var10].a(GameUtils.d(var17[var10]), (byte)-1, true);
+                        var20[var10].a(GameUtils.parseByte(var17[var10]), (byte)-1, true);
                         var20[var10].c();
-                        var20[var10].b(this.C7_f53.C25_f287[GameUtils.b(var6[var10])].m(), this.C7_f53.C25_f287[GameUtils.b(var6[var10])].n() - 40);
-                        var20[var10].a(this.C7_f53.C25_f287[GameUtils.b(var6[var10])]);
+                        var20[var10].b(this.C7_f53.C25_f287[GameUtils.parseInt(var6[var10])].m(), this.C7_f53.C25_f287[GameUtils.parseInt(var6[var10])].n() - 40);
+                        var20[var10].a(this.C7_f53.C25_f287[GameUtils.parseInt(var6[var10])]);
                      }
 
                      C7_f63.addElement(var20[var10]);
@@ -1748,7 +1748,7 @@ public final class C7 extends C44 {
                   C25.B().C25_f290 = var3.b()[0];
                   C25.B().C25_f291 = var3.b()[1];
                   C25.B().C25_f295 = -1;
-                  this.C7_f53.a((byte)29);
+                  this.C7_f53.changeState((byte)29);
                   break label1202;
                case 77:
                   this.C7_f60[C25.e(var3.b()[0], var3.b()[1])][var3.b()[2]] = 4;
@@ -1762,32 +1762,32 @@ public final class C7 extends C44 {
                         this.C7_f61 = 0;
                         this.C7_f84 = 4;
                      } else if (var3.b()[0] == 1) {
-                        C55.B().C55_f825 = C55.B().C55_f824;
+                        GameScreenManager.getInstance().battleStartTime = GameScreenManager.getInstance().pauseStartTime;
                         long var16;
-                        if (GameUtils.a(var16 = C55.B().C55_f825 - C55.B().C55_f823)[2] <= 60L) {
+                        if (GameUtils.convertTime(var16 = GameScreenManager.getInstance().battleStartTime - GameScreenManager.getInstance().gameStartTime)[2] <= 60L) {
                            if ((var14 = this.C7_f54.z()) == 0) {
-                              this.C7_f55.C44_f701.b("Đạt được #2Lục hành điểu");
+                              this.C7_f55.gameController.b("Đạt được #2Lục hành điểu");
                               this.C7_f54.a(54, 5, (short)-1, (byte)2, (short)-1, (byte)-1, new int[]{1, 30, 45});
                            } else if (var14 == 1) {
-                              this.C7_f55.C44_f701.b("Đạt được #2Lục hành điểu#0 ba lô đã đủ, đã để vào ngân hàng");
+                              this.C7_f55.gameController.b("Đạt được #2Lục hành điểu#0 ba lô đã đủ, đã để vào ngân hàng");
                               var10 = GameUtils.getRandomInRange(C67.C67_f923[0][54][3], C67.C67_f923[0][54][3]);
                               this.C7_f54.a(54, 5, (short)-1, (byte)2, (byte)var10, (byte)-1, 0, 0, 0, new int[]{1, 30, 45});
                            } else {
-                              this.C7_f55.C44_f701.b("Không có không gian, đã phóng sinh");
+                              this.C7_f55.gameController.b("Không có không gian, đã phóng sinh");
                            }
-                        } else if (GameUtils.a(var16)[2] <= 65L) {
+                        } else if (GameUtils.convertTime(var16)[2] <= 65L) {
                            this.C7_f54.s(1000);
-                           this.C7_f55.C44_f701.b("Thưởng 1000 kim");
-                        } else if (GameUtils.a(var16)[2] <= 130L) {
+                           this.C7_f55.gameController.b("Thưởng 1000 kim");
+                        } else if (GameUtils.convertTime(var16)[2] <= 130L) {
                            this.C7_f54.s(750);
-                           this.C7_f55.C44_f701.b("Thưởng 750 kim");
-                        } else if (GameUtils.a(var16)[2] <= 200L) {
+                           this.C7_f55.gameController.b("Thưởng 750 kim");
+                        } else if (GameUtils.convertTime(var16)[2] <= 200L) {
                            this.C7_f54.s(600);
-                           this.C7_f55.C44_f701.b("Thưởng 600 kim");
+                           this.C7_f55.gameController.b("Thưởng 600 kim");
                         }
 
-                        C55.B().C55_f824 = 0L;
-                        C55.B().C55_f823 = 0L;
+                        GameScreenManager.getInstance().pauseStartTime = 0L;
+                        GameScreenManager.getInstance().gameStartTime = 0L;
                      }
 
                      var2.a((byte)5);
@@ -1804,11 +1804,11 @@ public final class C7 extends C44 {
                      }
 
                      this.C7_f84 = 0;
-                     C55.B().C55_f823 = System.currentTimeMillis();
-                     C55.B().C55_f824 = C55.B().C55_f823;
-                     C55.B().C55_f825 = 0L;
+                     GameScreenManager.getInstance().gameStartTime = System.currentTimeMillis();
+                     GameScreenManager.getInstance().pauseStartTime = GameScreenManager.getInstance().gameStartTime;
+                     GameScreenManager.getInstance().battleStartTime = 0L;
                   } else {
-                     if (var3.b()[0] != 1 || !this.C7_f55.C44_f701.aA()) {
+                     if (var3.b()[0] != 1 || !this.C7_f55.gameController.aA()) {
                         break label1202;
                      }
 
@@ -1836,7 +1836,7 @@ public final class C7 extends C44 {
                   break label1202;
                case 82:
                   short var7 = var3.b()[0];
-                  byte[] var8 = GameUtils.e(var3.c()[0]);
+                  byte[] var8 = GameUtils.parseStringToBytes(var3.c()[0]);
                   var10 = 0;
 
                   while(true) {
@@ -1850,7 +1850,7 @@ public final class C7 extends C44 {
                   }
                case 83:
                   if (var2.a() != 5) {
-                     this.C7_f55.a((byte)30);
+                     this.C7_f55.changeState((byte)30);
                      var2.a((byte)5);
                      break label1202;
                   }
@@ -1867,13 +1867,13 @@ public final class C7 extends C44 {
                      }
 
                      String var9 = a(var3.c()[1], var4);
-                     this.C7_f53.C44_f701.a((String)var3.c()[0], (String)var9, var3.b()[1], var3.b()[0]);
+                     this.C7_f53.gameController.a((String)var3.c()[0], (String)var9, var3.b()[1], var3.b()[0]);
                      var2.a((byte)5);
-                  } else if (this.C7_f53.C44_f701.d(var3.b()[1], var3.b()[0]) && this.C7_f55.g(196640)) {
+                  } else if (this.C7_f53.gameController.d(var3.b()[1], var3.b()[0]) && this.C7_f55.g(196640)) {
                      C25.B().D();
                      if (GameUtils.pageCount < GameUtils.b()) {
                         GameUtils.c();
-                        this.C7_f53.C44_f701.b(GameUtils.pageCount);
+                        this.C7_f53.gameController.b(GameUtils.pageCount);
                      } else {
                         if (C25.C25_f318 != -1 && this.C7_f53.C25_f287[C25.C25_f318].C20_f261.C62_f882 <= 85 && this.C7_f53.C25_f287[C25.C25_f318].v() == 0) {
                            C25.B().a((byte)13, C25.B().C25_f287[C25.C25_f318].C60_f861, C25.B().C25_f287[C25.C25_f318].C60_f862 - 40, C25.B().C25_f287[C25.C25_f318]);
@@ -1881,7 +1881,7 @@ public final class C7 extends C44 {
 
                         C7_f68 = false;
                         C7_f69 = false;
-                        this.C7_f53.C44_f701.aF();
+                        this.C7_f53.gameController.aF();
                         var2.a((byte)1);
                      }
                   }
@@ -1906,7 +1906,7 @@ public final class C7 extends C44 {
                      break label1202;
                   }
 
-                  if (!this.C7_f55.C44_f701.aA()) {
+                  if (!this.C7_f55.gameController.aA()) {
                      break label1202;
                   }
                   break;

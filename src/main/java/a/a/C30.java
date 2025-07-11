@@ -1,7 +1,7 @@
 package a.a;
 
 import a.GameUtils;
-import a.C44;
+import a.GameEngineBase;
 import a.b.C6;
 import a.b.C67;
 import c.DialogManager;
@@ -154,8 +154,8 @@ public final class C30 {
                     }
 
                     var4 = this.C30_f492;
-                    var7 = C44.h() / var4 + 1;
-                    var8 = C44.g() * var7;
+                    var7 = GameEngineBase.getScreenHeight() / var4 + 1;
+                    var8 = GameEngineBase.getScreenWidth() * var7;
                     if (this.C30_f484 == null || this.C30_f484.length != var8) {
                         this.C30_f484 = new int[var8];
                     }
@@ -167,7 +167,7 @@ public final class C30 {
                     }
 
                     for (var8 = 0; var8 < var4; ++var8) {
-                        var16.drawRGB(var2.C30_f484, 0, C44.g(), 0, var8 * var7, C44.g(), var7, true);
+                        var16.drawRGB(var2.C30_f484, 0, GameEngineBase.getScreenWidth(), 0, var8 * var7, GameEngineBase.getScreenWidth(), var7, true);
                     }
 
                     if (var20) {
@@ -182,8 +182,8 @@ public final class C30 {
                     break;
                 case 3:
                     var2 = this;
-                    short var18 = C44.g();
-                    short var19 = C44.h();
+                    short var18 = GameEngineBase.getScreenWidth();
+                    short var19 = GameEngineBase.getScreenHeight();
                     int var6 = this.C30_f483 & 16777215;
                     var7 = this.C30_f481;
                     var8 = 255 / var7 / 2;
@@ -268,7 +268,7 @@ public final class C30 {
                 case 4:
                     if (this.C30_f476) {
                         this.C30_f472 = -1;
-                        var1.fillRect(0, 0, C44.g(), C44.h());
+                        var1.fillRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
                     } else {
                         this.C30_f476 = this.e(var1);
                     }
@@ -281,19 +281,19 @@ public final class C30 {
                 case 6:
                     if (this.C30_f476) {
                         this.C30_f472 = -1;
-                        var1.fillRect(0, 0, C44.g(), C44.h());
+                        var1.fillRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
                     } else {
                         this.C30_f476 = this.d(var1);
                     }
                     break;
                 case 7:
-                    if (this.C30_f478 < C44.h()) {
-                        var1.drawRGB(this.C30_f484, 0, C44.g(), 0, 0, C44.g(), this.C30_f478, true);
-                        var1.drawRGB(this.C30_f485, 0, C44.g(), 0, C44.h() - this.C30_f478, C44.g(), this.C30_f478, true);
+                    if (this.C30_f478 < GameEngineBase.getScreenHeight()) {
+                        var1.drawRGB(this.C30_f484, 0, GameEngineBase.getScreenWidth(), 0, 0, GameEngineBase.getScreenWidth(), this.C30_f478, true);
+                        var1.drawRGB(this.C30_f485, 0, GameEngineBase.getScreenWidth(), 0, GameEngineBase.getScreenHeight() - this.C30_f478, GameEngineBase.getScreenWidth(), this.C30_f478, true);
                         this.C30_f478 += 20;
                     } else {
-                        var1.drawRGB(this.C30_f484, 0, C44.g(), 0, 0, C44.g(), C44.h(), true);
-                        var1.drawRGB(this.C30_f485, 0, C44.g(), 0, 0, C44.g(), C44.h(), true);
+                        var1.drawRGB(this.C30_f484, 0, GameEngineBase.getScreenWidth(), 0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight(), true);
+                        var1.drawRGB(this.C30_f485, 0, GameEngineBase.getScreenWidth(), 0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight(), true);
                         if (this.C30_f520 == null) {
                             this.a((int) 0);
                         }
@@ -319,16 +319,16 @@ public final class C30 {
                     break;
                 case 9:
                     var1.setColor(this.C30_f483);
-                    var1.fillRect(0, 0, C44.g(), C44.h());
+                    var1.fillRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
                     break;
                 case 10:
                     if (this.C30_f478 <= this.C30_f507) {
                         if (this.C30_f478 % 3 / (this.C30_f508 + 1) == 0) {
                             var1.setColor(16777215);
-                            var1.fillRect(0, 0, C44.g(), C44.h());
+                            var1.fillRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
                         } else if (this.C30_f478 % 3 / (this.C30_f508 + 1) == 1) {
                             var1.setColor(0);
-                            var1.fillRect(0, 0, C44.g(), C44.h());
+                            var1.fillRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
                         }
 
                         ++this.C30_f478;
@@ -388,12 +388,12 @@ public final class C30 {
                 case 12:
                     var1.setColor(0);
                     var1.fillRect(0, 0, this.C30_f504, this.C30_f505 - this.C30_f479 * this.C30_f505 / this.C30_f502);
-                    var1.fillRect(0, C44.h() - this.C30_f506 + this.C30_f479 * this.C30_f506 / this.C30_f502, this.C30_f504, this.C30_f506 - this.C30_f479 * this.C30_f506 / this.C30_f502);
+                    var1.fillRect(0, GameEngineBase.getScreenHeight() - this.C30_f506 + this.C30_f479 * this.C30_f506 / this.C30_f502, this.C30_f504, this.C30_f506 - this.C30_f479 * this.C30_f506 / this.C30_f502);
                     return;
                 case 13:
                     var1.setColor(0);
                     var1.fillRect(0, 0, this.C30_f504, this.C30_f479 * this.C30_f505 / this.C30_f502);
-                    var1.fillRect(0, C44.h() - this.C30_f479 * this.C30_f506 / this.C30_f502, this.C30_f504, this.C30_f479 * this.C30_f506 / this.C30_f502);
+                    var1.fillRect(0, GameEngineBase.getScreenHeight() - this.C30_f479 * this.C30_f506 / this.C30_f502, this.C30_f504, this.C30_f479 * this.C30_f506 / this.C30_f502);
                 default:
             }
         }
@@ -507,7 +507,7 @@ public final class C30 {
                 case 17:
                     ++this.C30_f478;
                     if (this.C30_f514 == 0) {
-                        if ((C44.g() - this.C30_f515) * (C44.g() - this.C30_f515) + (C44.h() - this.C30_f516) * (C44.h() - this.C30_f516) < this.C30_f513 * this.C30_f513) {
+                        if ((GameEngineBase.getScreenWidth() - this.C30_f515) * (GameEngineBase.getScreenWidth() - this.C30_f515) + (GameEngineBase.getScreenHeight() - this.C30_f516) * (GameEngineBase.getScreenHeight() - this.C30_f516) < this.C30_f513 * this.C30_f513) {
                             this.C30_f478 = 0;
                             this.C30_f476 = true;
                         }
@@ -570,7 +570,7 @@ public final class C30 {
         if (this.C30_f478 < 10) {
             if (this.C30_f478 % 3 == 1) {
                 var1.setColor(16777215);
-                var1.fillRect(0, 0, C44.g(), C44.h());
+                var1.fillRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
             } else {
                 C25.B();
                 C25.b(var1);
@@ -579,9 +579,9 @@ public final class C30 {
 
             ++this.C30_f478;
         } else {
-            if (this.C30_f478 >= C44.g()) {
+            if (this.C30_f478 >= GameEngineBase.getScreenWidth()) {
                 var1.setColor(0);
-                var1.fillRect(0, 0, C44.g(), C44.h());
+                var1.fillRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
                 return true;
             }
 
@@ -590,17 +590,17 @@ public final class C30 {
             switch (this.C30_f493) {
                 case 0:
                     var1.setColor(0);
-                    var1.fillRect(0, 0, this.C30_f478, C44.j());
+                    var1.fillRect(0, 0, this.C30_f478, GameEngineBase.getScreenCenterY());
 
                     int var4;
                     for (var4 = 1; var4 < 6; ++var4) {
-                        var1.fillRect(this.C30_f478 + var4 * 15, 0, 15 - var4 * 3, C44.j());
+                        var1.fillRect(this.C30_f478 + var4 * 15, 0, 15 - var4 * 3, GameEngineBase.getScreenCenterY());
                     }
 
-                    var1.fillRect(C44.g() - this.C30_f478, C44.j(), this.C30_f478, C44.j());
+                    var1.fillRect(GameEngineBase.getScreenWidth() - this.C30_f478, GameEngineBase.getScreenCenterY(), this.C30_f478, GameEngineBase.getScreenCenterY());
 
                     for (var4 = 1; var4 < 6; ++var4) {
-                        var1.fillRect(C44.g() - this.C30_f478 - var4 * 15, C44.j(), 15 - var4 * 3, C44.j());
+                        var1.fillRect(GameEngineBase.getScreenWidth() - this.C30_f478 - var4 * 15, GameEngineBase.getScreenCenterY(), 15 - var4 * 3, GameEngineBase.getScreenCenterY());
                     }
 
                     this.C30_f478 += 15;
@@ -609,12 +609,12 @@ public final class C30 {
                     var1.setColor(0);
                     var2 = false;
 
-                    for (var3 = 0; var3 < C44.h(); var3 += 10) {
+                    for (var3 = 0; var3 < GameEngineBase.getScreenHeight(); var3 += 10) {
                         if (var2) {
                             var1.fillRect(0, var3, this.C30_f478, 10);
                             var2 = false;
                         } else {
-                            var1.fillRect(C44.g() - this.C30_f478, var3, this.C30_f478, 10);
+                            var1.fillRect(GameEngineBase.getScreenWidth() - this.C30_f478, var3, this.C30_f478, 10);
                             var2 = true;
                         }
                     }
@@ -625,12 +625,12 @@ public final class C30 {
                     var1.setColor(0);
                     var2 = false;
 
-                    for (var3 = 0; var3 < C44.g(); var3 += 10) {
+                    for (var3 = 0; var3 < GameEngineBase.getScreenWidth(); var3 += 10) {
                         if (var2) {
                             var1.fillRect(var3, 0, 10, this.C30_f478);
                             var2 = false;
                         } else {
-                            var1.fillRect(var3, C44.h() - this.C30_f478, 10, this.C30_f478);
+                            var1.fillRect(var3, GameEngineBase.getScreenHeight() - this.C30_f478, 10, this.C30_f478);
                             var2 = true;
                         }
                     }
@@ -652,8 +652,8 @@ public final class C30 {
         int var10000 = var7 = (var6 = this.C30_f487 / 2) * 200 / 120;
         int var8 = var10000 * var10000;
         int var10 = this.C30_f489 / this.C30_f487 + 1;
-        int var11 = C44.g() / this.C30_f487;
-        int var12 = C44.h() / this.C30_f487;
+        int var11 = GameEngineBase.getScreenWidth() / this.C30_f487;
+        int var12 = GameEngineBase.getScreenHeight() / this.C30_f487;
         int var13 = var11 / 2;
         int var14 = var12 / 2;
         int[] var15 = new int[var7];
@@ -878,7 +878,7 @@ public final class C30 {
                 this.C30_f482 = 17;
                 return;
             case 3:
-                this.C30_f480 = C44.i();
+                this.C30_f480 = GameEngineBase.getScreenCenterX();
                 this.C30_f481 = 20;
                 return;
             case 4:
@@ -893,12 +893,12 @@ public final class C30 {
                 this.C30_f478 = 0;
                 this.C30_f484 = null;
                 this.C30_f485 = null;
-                this.C30_f484 = new int[C44.g() * C44.h()];
+                this.C30_f484 = new int[GameEngineBase.getScreenWidth() * GameEngineBase.getScreenHeight()];
                 this.C30_f485 = new int[this.C30_f484.length];
 
                 for (var1 = 0; var1 < this.C30_f484.length; ++var1) {
                     int[] var10000;
-                    if (var1 % C44.g() / 10 % 2 == 0) {
+                    if (var1 % GameEngineBase.getScreenWidth() / 10 % 2 == 0) {
                         this.C30_f484[var1] = -2013265920 | this.C30_f484[var1] & 16777215;
                         var10000 = this.C30_f485;
                         var10000[var1] &= 16777215;
@@ -1034,8 +1034,8 @@ public final class C30 {
             this.C30_f534[var1][0] = 0;
         }
 
-        this.C30_f534[var1][1] = GameUtils.getRandomInt(C44.g());
-        this.C30_f534[var1][2] = GameUtils.getRandomInt(C44.h());
+        this.C30_f534[var1][1] = GameUtils.getRandomInt(GameEngineBase.getScreenWidth());
+        this.C30_f534[var1][2] = GameUtils.getRandomInt(GameEngineBase.getScreenHeight());
         this.C30_f534[var1][3] = GameUtils.getRandomInt(C30_f530[this.C30_f534[var1][0]][1] - C30_f530[this.C30_f534[var1][0]][0]) + C30_f530[this.C30_f534[var1][0]][0];
         this.C30_f534[var1][4] = GameUtils.getRandomOffset(2);
     }
@@ -1044,11 +1044,11 @@ public final class C30 {
         if (this.C30_f473 >= 16) {
             if (this.C30_f533 == null) {
                 var1.setColor(0);
-                var1.fillRect(0, 0, C44.g(), C44.h());
+                var1.fillRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
             } else {
                 int var2 = this.C30_f533.getWidth();
 
-                for (int var3 = 0; var3 < C44.g() / var2; ++var3) {
+                for (int var3 = 0; var3 < GameEngineBase.getScreenWidth() / var2; ++var3) {
                     var1.drawImage(this.C30_f533, var3 * var2, 0, 20);
                 }
             }
@@ -1060,7 +1060,7 @@ public final class C30 {
     public final void c(Graphics var1) {
         if (this.C30_f473 >= 16 || this.C30_f539) {
             for (int var2 = 0; var2 < this.C30_f531; ++var2) {
-                if (this.C30_f534[var2][1] < C44.g() && this.C30_f534[var2][2] < C44.h()) {
+                if (this.C30_f534[var2][1] < GameEngineBase.getScreenWidth() && this.C30_f534[var2][2] < GameEngineBase.getScreenHeight()) {
                     var1.drawImage(this.C30_f532[this.C30_f534[var2][0]], this.C30_f534[var2][1], this.C30_f534[var2][2], 20);
                 }
 
@@ -1117,8 +1117,8 @@ public final class C30 {
 
     private void c(int var1) {
         C30_f519[0] = 20;
-        C30_f518 = C44.g() / C30_f519[0];
-        C30_f519[1] = (C44.h() - 1) / C30_f519[0] + 1;
+        C30_f518 = GameEngineBase.getScreenWidth() / C30_f519[0];
+        C30_f519[1] = (GameEngineBase.getScreenHeight() - 1) / C30_f519[0] + 1;
         C30_f519[2] = var1;
         C30_f519[3] = GameUtils.getRandomInRange(0, 7);
         C30_f519[4] = 0;
@@ -1177,7 +1177,7 @@ public final class C30 {
             }
 
             if (this.C30_f472 == 19) {
-                var1.fillRect(0, 0, C44.g(), C44.h());
+                var1.fillRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
             }
 
             return true;

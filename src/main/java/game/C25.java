@@ -11,9 +11,9 @@ import a.a.C46;
 import a.b.C59;
 import a.b.C6;
 import a.b.C60;
-import a.b.C67;
+import a.b.ResourceManager;
 import a.b.C68;
-import c.DialogManager;
+import layout.DialogManager;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -205,7 +205,7 @@ public final class C25 extends GameEngineBase {
          this.C25_f286 = C53.p();
          C25_f340[0] = C25_f340[1] = -1;
          if (C7.C7_f51 != 0) {
-            C67.b();
+            ResourceManager.clearImageCache();
          }
 
          if (C25_f302 == null) {
@@ -465,9 +465,9 @@ public final class C25 extends GameEngineBase {
       if (this.C25_f313 == null) {
          this.C25_f313 = new C20();
          this.C25_f313.a(259, false);
-         this.C25_f313.C20_f261.a((byte)13, (byte)-1);
+         this.C25_f313.C20_f261.setAnimationProperties((byte)13, (byte)-1);
          this.C25_f285.a((C60)this.C25_f313);
-         this.C25_f313.C20_f261.c();
+         this.C25_f313.C20_f261.applyColorEffects();
          this.C25_f313.C60_f871 = 0;
          this.C25_f313.c();
       }
@@ -488,7 +488,7 @@ public final class C25 extends GameEngineBase {
       if (this.C25_f311 == null) {
          this.C25_f311 = new C20();
          this.C25_f311.a(var1, false);
-         this.C25_f311.C20_f261.c();
+         this.C25_f311.C20_f261.applyColorEffects();
          this.C25_f311.C60_f871 = 1;
       }
 
@@ -498,7 +498,7 @@ public final class C25 extends GameEngineBase {
       if (this.C25_f311 != null) {
          this.C25_f312 = var1;
          this.C25_f311.C60_f868 = var1;
-         this.C25_f311.e(var1.C20_f261.g());
+         this.C25_f311.e(var1.C20_f261.getCurrentAnimationId());
          this.C25_f311.c();
          this.C25_f285.a((C60)this.C25_f311);
          if (C25_f298 != null) {
@@ -639,7 +639,7 @@ public final class C25 extends GameEngineBase {
                if (this.C25_f311 == null) {
                   var3.writeByte(-1);
                } else {
-                  var3.writeByte(this.C25_f311.C20_f261.C62_f882);
+                  var3.writeByte(this.C25_f311.C20_f261.spriteSetId);
                }
 
                var3.write(this.C25_f286.C53_f768);
@@ -1368,7 +1368,7 @@ public final class C25 extends GameEngineBase {
          this.C25_f286.b(var4, var2);
          this.C25_f286.C20_f262.b(var4, var2);
          this.C25_f286.a((byte)0, (byte)this.C25_f287[this.C25_f295].C18_f236);
-         if (this.C25_f287[this.C25_f295].C20_f261.C62_f882 == 222) {
+         if (this.C25_f287[this.C25_f295].C20_f261.spriteSetId == 222) {
             this.C25_f286.a((int)24);
          } else {
             this.C25_f286.a((int)32);
@@ -1396,7 +1396,7 @@ public final class C25 extends GameEngineBase {
             (var2 = this.C25_f287[var1]).C18_f234 = 0;
 
             while(true) {
-               byte var10001 = var2.C20_f261.g();
+               byte var10001 = var2.C20_f261.getCurrentAnimationId();
                int var10002 = 16 * (var2.C18_f234 + 1);
                boolean var3 = false;
                int var5 = var10002;
@@ -1636,19 +1636,19 @@ public final class C25 extends GameEngineBase {
             C18 var2;
             (var2 = this.C25_f287[var1]).e();
             if (var2.C20_f262 != null) {
-               var2.C20_f262.C20_f261.b();
+               var2.C20_f262.C20_f261.forceCleanup();
                var2.C20_f262 = null;
             }
 
-            var2.C20_f261.b();
+            var2.C20_f261.forceCleanup();
             var2.C20_f261 = null;
             if (var2.C18_f246 != null) {
-               var2.C18_f246.C20_f261.b();
+               var2.C18_f246.C20_f261.forceCleanup();
                var2.C18_f246 = null;
             }
 
             if (var2.C18_f247 != null) {
-               var2.C18_f247.C20_f261.b();
+               var2.C18_f247.C20_f261.forceCleanup();
                var2.C18_f247 = null;
             }
 
@@ -1699,9 +1699,9 @@ public final class C25 extends GameEngineBase {
          this.gameController.F();
          break;
       case 2:
-         if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].C20_f261.C62_f882 == 24) {
+         if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].C20_f261.spriteSetId == 24) {
             this.gameController.a((int)4, (byte)0);
-         } else if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].C20_f261.C62_f882 == 20) {
+         } else if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].C20_f261.spriteSetId == 20) {
             this.gameController.a((int)3, (byte)2);
          }
          break;
@@ -1836,7 +1836,7 @@ public final class C25 extends GameEngineBase {
          if (this.C44_f699 == 7) {
             this.gameController.a((String)"", (String)this.C25_f351, -1, -1);
          } else if (this.C25_f287 != null) {
-            if (this.C25_f287[C25_f318].C20_f261.C62_f882 == 68) {
+            if (this.C25_f287[C25_f318].C20_f261.spriteSetId == 68) {
                this.gameController.a((String)C25_f305[this.C25_f287[C25_f318].C18_f228], (String)"Muốn lên thuyền đi đâu?", 1, -1);
             } else if (this.C25_f287[C25_f318].C18_f227 < 0) {
                this.gameController.a((String)C25_f305[this.C25_f287[C25_f318].C18_f228], (String)C25_f349[0], 1, -1);
@@ -1935,8 +1935,8 @@ public final class C25 extends GameEngineBase {
             this.gameController.G();
             break;
          case 2:
-            if ((C25_f318 == -1 || this.C25_f287[C25_f318] == null || this.C25_f287[C25_f318].C20_f261.C62_f882 != 24) && this.C25_f348.C7_f62 != 0) {
-               if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].C20_f261.C62_f882 == 20 || this.C25_f348.C7_f62 == 1) {
+            if ((C25_f318 == -1 || this.C25_f287[C25_f318] == null || this.C25_f287[C25_f318].C20_f261.spriteSetId != 24) && this.C25_f348.C7_f62 != 0) {
+               if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].C20_f261.spriteSetId == 20 || this.C25_f348.C7_f62 == 1) {
                   this.gameController.a((byte)3, (byte)2);
                }
             } else {
@@ -2061,7 +2061,7 @@ public final class C25 extends GameEngineBase {
                   label227: {
                      this.gameController.aF();
                      if (this.C44_f699 != 7) {
-                        if (this.C25_f287[C25_f318].C20_f261.C62_f882 <= 85) {
+                        if (this.C25_f287[C25_f318].C20_f261.spriteSetId <= 85) {
                            C18 var10000 = this.C25_f287[C25_f318];
                            byte var3 = this.C25_f287[C25_f318].C60_f865;
                            var10000.C60_f866 = var3;
@@ -2069,17 +2069,17 @@ public final class C25 extends GameEngineBase {
 
                         this.C25_f287[C25_f318].a((byte)0);
                         this.C25_f286.a((byte)0, (byte)this.C25_f286.C60_f866);
-                        if (this.C25_f287[C25_f318].C20_f261.C62_f882 == 24 || this.C25_f287[C25_f318].C20_f261.C62_f882 == 20) {
+                        if (this.C25_f287[C25_f318].C20_f261.spriteSetId == 24 || this.C25_f287[C25_f318].C20_f261.spriteSetId == 20) {
                            this.changeState((byte)1);
                            break label227;
                         }
 
-                        if (this.C25_f287[C25_f318].C20_f261.C62_f882 == 25) {
+                        if (this.C25_f287[C25_f318].C20_f261.spriteSetId == 25) {
                            this.changeState((byte)16);
                            break label227;
                         }
 
-                        if (this.C25_f287[C25_f318].C20_f261.C62_f882 == 68) {
+                        if (this.C25_f287[C25_f318].C20_f261.spriteSetId == 68) {
                            this.changeState((byte)28);
                            break label227;
                         }
@@ -2211,7 +2211,7 @@ public final class C25 extends GameEngineBase {
             } else if (this.gameController.aA()) {
                int[] var4 = (int[])C25_f336.elementAt(this.C25_f292);
                String var2 = "Tiến hóa";
-               if (C67.C67_f923[0][C67.a((byte)0, (short)var4[0], (byte)19)][2] == 3) {
+               if (ResourceManager.gameDatabase[0][ResourceManager.getDatabaseValue((byte)0, (short)var4[0], (byte)19)][2] == 3) {
                   var2 = "Dị hoá";
                }
 
@@ -2447,7 +2447,7 @@ public final class C25 extends GameEngineBase {
                   C7.C7_f69 = true;
                   C7.C7_f68 = false;
                } else {
-                  if (this.C25_f287[C25_f318].C20_f261.C62_f882 <= 85) {
+                  if (this.C25_f287[C25_f318].C20_f261.spriteSetId <= 85) {
                      this.C25_f287[C25_f318].C60_f865 = this.C25_f287[C25_f318].C60_f866;
                      byte var2;
                      C18 var10000;
@@ -2476,7 +2476,7 @@ public final class C25 extends GameEngineBase {
                      this.C25_f287[C25_f318].a((byte)0);
                   }
 
-                  if (this.C25_f287[C25_f318].C20_f261.C62_f882 == 17) {
+                  if (this.C25_f287[C25_f318].C20_f261.spriteSetId == 17) {
                      this.gameController.C9_f128 = 0;
                      this.changeState((byte)27);
                   } else {
@@ -2647,7 +2647,7 @@ public final class C25 extends GameEngineBase {
             this.gameController.b(GameUtils.pageCount);
          } else {
             this.gameController.aF();
-            if (this.C25_f287[C25_f318].C20_f261.C62_f882 <= 85) {
+            if (this.C25_f287[C25_f318].C20_f261.spriteSetId <= 85) {
                C18 var10000 = this.C25_f287[C25_f318];
                byte var2 = this.C25_f287[C25_f318].C60_f865;
                var10000.C60_f866 = var2;
@@ -2689,7 +2689,7 @@ public final class C25 extends GameEngineBase {
          return false;
       } else {
          int var3 = GameUtils.getRandomInRange(C25_f306[C25_f297[this.C25_f290] + this.C25_f291][3], C25_f306[C25_f297[this.C25_f290] + this.C25_f291][4]);
-         this.C25_f286.a((byte)((byte)C67.C67_f923[0][var1[0]][1]), var1[0], (byte)1);
+         this.C25_f286.a((byte)((byte) ResourceManager.gameDatabase[0][var1[0]][1]), var1[0], (byte)1);
          C29.B().a(new int[][]{{var1[0], var3, var2}});
          return true;
       }
@@ -2932,7 +2932,7 @@ public final class C25 extends GameEngineBase {
 
          if (currentAction == 3) {
             b(1, 0);
-            var2 = getLocalizedText(C67.C67_f923[0][this.C25_f286.C53_f777[GameEngineBase.d(1)].r()][0]);
+            var2 = getLocalizedText(ResourceManager.gameDatabase[0][this.C25_f286.C53_f777[GameEngineBase.d(1)].r()][0]);
             ++currentAction;
             this.gameController.c("Hãy lựa chọn #2" + var2);
             return;
@@ -3025,7 +3025,7 @@ public final class C25 extends GameEngineBase {
             }
 
             ++currentAction;
-            var2 = getLocalizedText(C67.a((byte)0, (short)this.C25_f286.C53_f777[GameEngineBase.d(1)].r(), (byte)0));
+            var2 = getLocalizedText(ResourceManager.getDatabaseValue((byte)0, (short)this.C25_f286.C53_f777[GameEngineBase.d(1)].r(), (byte)0));
             this.gameController.c("Hãy lựa chọn #2" + var2 + "#0 tiến hành tiến hóa");
             return;
          }
@@ -3137,7 +3137,7 @@ public final class C25 extends GameEngineBase {
             var1 = this.C25_f290;
             this.C25_f348.C7_f60[C25_f297[var1] + var2][this.C25_f348.E()] = 3;
             if (this.C25_f348.C7_f56 != null) {
-               this.C25_f348.C7_f56[this.C25_f348.E()].a((byte)3);
+               this.C25_f348.C7_f56[this.C25_f348.E()].setExecutionState((byte)3);
                return;
             }
          }

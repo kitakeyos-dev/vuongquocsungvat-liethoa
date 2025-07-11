@@ -1,8 +1,8 @@
 package a;
 
 import a.a.C16;
-import c.DialogConfig;
-import c.IComponent;
+import layout.DialogConfig;
+import layout.IComponent;
 import game.C4;
 import me.kitakeyos.ManagedInputStream;
 

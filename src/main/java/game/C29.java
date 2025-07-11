@@ -5,8 +5,8 @@ import a.GameEngineBase;
 import a.a.C20;
 import a.a.C21;
 import a.b.C60;
-import a.b.C67;
-import c.DialogManager;
+import a.b.ResourceManager;
+import layout.DialogManager;
 import java.io.InputStream;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
@@ -158,13 +158,13 @@ public final class C29 extends GameEngineBase {
 
       C29_f461 = null;
       if (this.C29_f442 != null) {
-         this.C29_f442.C20_f261.b();
+         this.C29_f442.C20_f261.forceCleanup();
          this.C29_f442 = null;
       }
 
       if (this.C29_f445 != null) {
          for(var1 = 0; var1 < this.C29_f445.length; ++var1) {
-            this.C29_f445[var1].C20_f261.b();
+            this.C29_f445[var1].C20_f261.forceCleanup();
             this.C29_f445[var1] = null;
          }
 
@@ -475,7 +475,7 @@ public final class C29 extends GameEngineBase {
       byte var3 = 1;
       var10000.C60_f866 = var3;
       this.C29_f402[var1].b(C29_f447[this.C29_f399][var1][0], C29_f447[this.C29_f399][var1][1]);
-      short var2 = C67.C67_f923[0][this.C29_f401[this.C29_f406[0]][0]][1];
+      short var2 = ResourceManager.gameDatabase[0][this.C29_f401[this.C29_f406[0]][0]][1];
       this.C29_f402[var1].g((byte)(var2 * 10));
       this.C29_f402[var1].H();
       this.C29_f402[var1].c();
@@ -497,14 +497,14 @@ public final class C29 extends GameEngineBase {
             var1 = (short)((C41)this.C29_f408.C60_f868).C60_f861;
             var2 = (short)((C41)this.C29_f408.C60_f868).C60_f862;
             var3 = (short)((C41)this.C29_f408.C60_f868).r();
-            var3 = C67.C67_f923[0][var3][17];
+            var3 = ResourceManager.gameDatabase[0][var3][17];
             var4 = (short)((C41)this.C29_f408.C60_f868).q();
             var5 = (short)((C41)this.C29_f408.C60_f868).C60_f866;
          } else {
             var1 = (short)this.C29_f408.C60_f861;
             var2 = (short)this.C29_f408.C60_f862;
             var3 = (short)this.C29_f408.r();
-            var3 = C67.C67_f923[0][var3][17];
+            var3 = ResourceManager.gameDatabase[0][var3][17];
             var4 = (short)this.C29_f408.q();
             var5 = (short)this.C29_f408.C60_f866;
          }
@@ -564,7 +564,7 @@ public final class C29 extends GameEngineBase {
          short var2 = (short)var1.C60_f861;
          short var3 = (short)var1.C60_f862;
          short var4 = (short)var1.r();
-         var4 = C67.C67_f923[0][var4][17];
+         var4 = ResourceManager.gameDatabase[0][var4][17];
          short var5 = (short)var1.q();
          short var8 = (short)var1.C60_f866;
          short[] var6;
@@ -718,7 +718,7 @@ public final class C29 extends GameEngineBase {
       if ((var1 = (C41)this.C29_f409.elementAt(this.C29_f410)).C41_f640 != null) {
          label101: {
             if (var1.C41_f640.j()) {
-               if (!var1.C41_f640.C21_f270.f()) {
+               if (!var1.C41_f640.C21_f270.isAtLastFrame()) {
                   if (this.C29_f437[(this.C29_f435 << 2) + 3] != -1 && var1.C41_f640.a((int)this.C29_f437[(this.C29_f435 << 2) + 3]) && this.C29_f434 < this.C29_f437.length / 4) {
                      this.J();
                   }
@@ -848,7 +848,7 @@ public final class C29 extends GameEngineBase {
          break;
       case 1:
          this.C29_f402[0].c(false);
-         var2 = C67.C67_f923[0][((C41)this.C29_f408.C60_f868).r()][17];
+         var2 = ResourceManager.gameDatabase[0][((C41)this.C29_f408.C60_f868).r()][17];
          var4 = new short[]{8, (short)((C41)this.C29_f408.C60_f868).C60_f861, (short)((C41)this.C29_f408.C60_f868).C60_f862, var2, 0, (short)((C41)this.C29_f408.C60_f868).C60_f866, 0, 9, 1, 3, 0, 10, 0, 0, 7, 0, -10, 4, 0, -20};
          this.C29_f424 = new C21();
          this.C29_f424.a(var4);
@@ -863,7 +863,7 @@ public final class C29 extends GameEngineBase {
          this.C29_f442.a(var1, (byte)-2, true);
          break;
       case 4:
-         var2 = C67.C67_f923[0][((C41)this.C29_f408.C60_f868).r()][17];
+         var2 = ResourceManager.gameDatabase[0][((C41)this.C29_f408.C60_f868).r()][17];
          var4 = new short[]{8, (short)((C41)this.C29_f408.C60_f868).C60_f861, (short)((C41)this.C29_f408.C60_f868).C60_f862, var2, 0, (short)((C41)this.C29_f408.C60_f868).C60_f866, 0, 8, 1, 4, 1, 4, 0, -20, 6, 0, -12, 8, 0, -4, 10, 0, 0};
          this.C29_f424 = new C21();
          this.C29_f424.a(var4);
@@ -1326,7 +1326,7 @@ public final class C29 extends GameEngineBase {
                } else {
                   var2 = true;
                   var12 = this.C29_f408;
-                  if (C41.a((byte)var1, (byte)9) == 0 && this.C29_f408.p(8) && GameUtils.getRandomInt(100) > C67.a((byte)1, (short)var1, (byte)8)) {
+                  if (C41.a((byte)var1, (byte)9) == 0 && this.C29_f408.p(8) && GameUtils.getRandomInt(100) > ResourceManager.getDatabaseValue((byte)1, (short)var1, (byte)8)) {
                      this.f(this.C29_f408);
                      var2 = false;
                   }
@@ -1354,7 +1354,7 @@ public final class C29 extends GameEngineBase {
             } else {
                var4 = true;
                var12 = this.C29_f408;
-               if (C41.a((byte)this.C29_f408.I(), (byte)9) == 0 && this.C29_f408.p(8) && GameUtils.getRandomInt(100) > C67.a((byte)1, (short)this.C29_f408.I(), (byte)8)) {
+               if (C41.a((byte)this.C29_f408.I(), (byte)9) == 0 && this.C29_f408.p(8) && GameUtils.getRandomInt(100) > ResourceManager.getDatabaseValue((byte)1, (short)this.C29_f408.I(), (byte)8)) {
                   this.f(this.C29_f408);
                   var4 = false;
                }
@@ -1687,7 +1687,7 @@ public final class C29 extends GameEngineBase {
             break;
          case 10:
             if (!this.gameController.j() && this.c(this.C29_f408, false)) {
-               this.gameController.c(getLocalizedText(C67.C67_f923[0][this.C29_f408.r()][0]) + "Chạy trốn");
+               this.gameController.c(getLocalizedText(ResourceManager.gameDatabase[0][this.C29_f408.r()][0]) + "Chạy trốn");
             }
 
             if (this.gameController.g()) {
@@ -1770,7 +1770,7 @@ public final class C29 extends GameEngineBase {
                            }
                         } else {
                            var3 = GameUtils.getRandomInt(100);
-                           if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= C67.C67_f923[1][this.C29_f408.C41_f659][8] && ((C41)this.C29_f408.C60_f868).T()) {
+                           if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][8] && ((C41)this.C29_f408.C60_f868).T()) {
                               --this.C29_f410;
                               this.changeState((byte)2);
                            } else {
@@ -1814,7 +1814,7 @@ public final class C29 extends GameEngineBase {
                            --this.C29_f408.C41_f668[12];
                         } else {
                            var3 = GameUtils.getRandomInt(100);
-                           if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= C67.C67_f923[1][this.C29_f408.C41_f659][8] && ((C41)this.C29_f408.C60_f868).T()) {
+                           if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][8] && ((C41)this.C29_f408.C60_f868).T()) {
                               --this.C29_f410;
                               this.changeState((byte)2);
                               break label739;
@@ -1864,11 +1864,11 @@ public final class C29 extends GameEngineBase {
                } else if (this.C29_f396 == 3 && this.C29_f442.b()) {
                   if ((var1 = C29_f395.z()) == 0) {
                      this.gameController.C9_f131 = 1;
-                     this.gameController.b("Bắt thành công #2" + GameEngineBase.getLocalizedText((int)C67.C67_f923[0][((C41)this.C29_f408.C60_f868).r()][0]));
+                     this.gameController.b("Bắt thành công #2" + GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[0][((C41)this.C29_f408.C60_f868).r()][0]));
                      C29_f395.a(((C41)this.C29_f408.C60_f868).Q());
                   } else if (var1 == 1) {
                      this.gameController.C9_f131 = 2;
-                     this.gameController.b("Bắt thành công #2" + GameEngineBase.getLocalizedText((int)C67.C67_f923[0][((C41)this.C29_f408.C60_f868).r()][0]));
+                     this.gameController.b("Bắt thành công #2" + GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[0][((C41)this.C29_f408.C60_f868).r()][0]));
                      C29_f395.b(((C41)this.C29_f408.C60_f868).Q());
                   } else {
                      this.gameController.C9_f131 = 1;
@@ -2034,7 +2034,7 @@ public final class C29 extends GameEngineBase {
             break;
          case 5:
             var1.setColor(16777215);
-            var1.drawString(getLocalizedText(C67.C67_f923[0][this.n(this.C29_f405[0]).r()][0]), getScreenWidth() >> 1, 200, 17);
+            var1.drawString(getLocalizedText(ResourceManager.gameDatabase[0][this.n(this.C29_f405[0]).r()][0]), getScreenWidth() >> 1, 200, 17);
             break;
          case 6:
             if (this.C29_f397 == 1) {
@@ -2235,7 +2235,7 @@ public final class C29 extends GameEngineBase {
                   }
                } else {
                   var3 = GameUtils.getRandomInt(100);
-                  if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= C67.C67_f923[1][this.C29_f408.C41_f659][8]) {
+                  if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][8]) {
                      if (!((C41)this.C29_f408.C60_f868).T()) {
                         --this.C29_f408.C41_f668[12];
                         ++this.C29_f410;
@@ -2510,9 +2510,9 @@ public final class C29 extends GameEngineBase {
       if (this.C29_f408.f((byte)10)) {
          var10000 = (C41)this.C29_f408.C60_f868;
          var2 = 1;
-         if (var10000.C60_f856[var2] <= C67.C67_f923[3][10][5]) {
+         if (var10000.C60_f856[var2] <= ResourceManager.gameDatabase[3][10][5]) {
             var10000 = (C41)this.C29_f408.C60_f868;
-            short var3 = C67.C67_f923[3][10][5];
+            short var3 = ResourceManager.gameDatabase[3][10][5];
             var2 = 1;
             var10000.C60_f856[var2] = var3;
          }
@@ -2585,7 +2585,7 @@ public final class C29 extends GameEngineBase {
    }
 
    private boolean U() {
-      if (C67.C67_f923[1][this.C29_f408.C41_f659][3] == 0) {
+      if (ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][3] == 0) {
          this.gameController.C9_f149 = 0;
          if (((C41)this.C29_f408.C60_f868).s() == 0) {
             this.gameController.a((C41)this.C29_f408.C60_f868);
@@ -2601,7 +2601,7 @@ public final class C29 extends GameEngineBase {
          if (!this.C29_f466) {
             int var1 = this.C29_f408.t();
             if (this.C29_f408.s() == 0 && C29_f395.b((byte)4, (byte)0) == 2 && C29_f395.b((byte)4, (byte)1) == 1) {
-               var1 += C67.C67_f923[2][4][6];
+               var1 += ResourceManager.gameDatabase[2][4][6];
             }
 
             if (this.C29_f408.m(4)) {
@@ -2625,9 +2625,9 @@ public final class C29 extends GameEngineBase {
                if (this.C29_f408.f((byte)10)) {
                   C41 var10000 = (C41)this.C29_f408.C60_f868;
                   byte var2 = 1;
-                  if (var10000.C60_f856[var2] <= C67.C67_f923[3][10][5]) {
+                  if (var10000.C60_f856[var2] <= ResourceManager.gameDatabase[3][10][5]) {
                      var10000 = (C41)this.C29_f408.C60_f868;
-                     short var3 = C67.C67_f923[3][10][5];
+                     short var3 = ResourceManager.gameDatabase[3][10][5];
                      var2 = 1;
                      var10000.C60_f856[var2] = var3;
                   }
@@ -2640,7 +2640,7 @@ public final class C29 extends GameEngineBase {
                }
 
                if (this.C29_f432[2] != -1) {
-                  this.a(GameEngineBase.getLocalizedText((int)C67.C67_f923[7][this.C29_f432[2]][0]), (byte)1, 0, ((C41)this.C29_f408.C60_f868).s(), ((C41)this.C29_f408.C60_f868).C60_f861, ((C41)this.C29_f408.C60_f868).C60_f862, 9, 12);
+                  this.a(GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[7][this.C29_f432[2]][0]), (byte)1, 0, ((C41)this.C29_f408.C60_f868).s(), ((C41)this.C29_f408.C60_f868).C60_f861, ((C41)this.C29_f408.C60_f868).C60_f862, 9, 12);
                }
             } else {
                this.a("Né tránh", (byte)1, 0, ((C41)this.C29_f408.C60_f868).s(), ((C41)this.C29_f408.C60_f868).C60_f861, ((C41)this.C29_f408.C60_f868).C60_f862, 9, 12);
@@ -2704,7 +2704,7 @@ public final class C29 extends GameEngineBase {
    private boolean V() {
       if (!this.C29_f466) {
          int var1 = 0;
-         if (C67.C67_f923[1][this.C29_f408.C41_f659][9] == 0) {
+         if (ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][9] == 0) {
             this.C29_f467 = this.C29_f408.O();
          } else {
             this.C29_f467 = ((C41)this.C29_f408.C60_f868).O();
@@ -2715,7 +2715,7 @@ public final class C29 extends GameEngineBase {
          switch(var2 = this.C29_f408.C41_f659) {
          case 11:
          case 17:
-            var1 = (short)(this.C29_f408.C() * C67.C67_f923[1][var2][8] / 100);
+            var1 = (short)(this.C29_f408.C() * ResourceManager.gameDatabase[1][var2][8] / 100);
             var5 = 1;
             this.C29_f408.u(this.C29_f408.C60_f856[var5]);
             if (var1 <= 0) {
@@ -2730,32 +2730,32 @@ public final class C29 extends GameEngineBase {
          case 48:
          case 62:
          case 68:
-            this.C29_f408.a((byte)((byte)C67.C67_f923[1][var2][7]), -1, var2);
+            this.C29_f408.a((byte)((byte) ResourceManager.gameDatabase[1][var2][7]), -1, var2);
             break;
          case 52:
          case 58:
             if (this.C29_f433) {
-               var1 = this.C29_f432[0] * C67.C67_f923[1][var2][8] / 100;
+               var1 = this.C29_f432[0] * ResourceManager.gameDatabase[1][var2][8] / 100;
                var5 = 1;
                this.C29_f408.u(this.C29_f408.C60_f856[var5]);
-               this.C29_f408.l(this.C29_f432[0] * C67.C67_f923[1][var2][8] / 100);
+               this.C29_f408.l(this.C29_f432[0] * ResourceManager.gameDatabase[1][var2][8] / 100);
             }
          case 64:
-            this.C29_f408.a((byte)((byte)C67.C67_f923[1][var2][7]), this.C29_f408.C41_f666, var2);
+            this.C29_f408.a((byte)((byte) ResourceManager.gameDatabase[1][var2][7]), this.C29_f408.C41_f666, var2);
             break;
          default:
-            if (C67.C67_f923[1][var2][6] == 1) {
-               var1 = ((C41)this.C29_f408.C60_f868).a((byte)((byte)C67.C67_f923[1][var2][7]), -1, var2);
+            if (ResourceManager.gameDatabase[1][var2][6] == 1) {
+               var1 = ((C41)this.C29_f408.C60_f868).a((byte)((byte) ResourceManager.gameDatabase[1][var2][7]), -1, var2);
             }
          }
 
-         byte var3 = (byte)C67.C67_f923[1][var2][6];
+         byte var3 = (byte) ResourceManager.gameDatabase[1][var2][6];
          short var7;
-         if (C67.C67_f923[1][this.C29_f408.C41_f659][9] == 0) {
-            if (this.C29_f408.f((byte)8) && GameUtils.getRandomInt(100) <= C67.C67_f923[3][8][5]) {
+         if (ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][9] == 0) {
+            if (this.C29_f408.f((byte)8) && GameUtils.getRandomInt(100) <= ResourceManager.gameDatabase[3][8][5]) {
                var5 = 1;
                this.C29_f408.u(this.C29_f408.C60_f856[var5]);
-               this.C29_f408.l((short)(this.C29_f432[0] * C67.C67_f923[3][8][6] / 100));
+               this.C29_f408.l((short)(this.C29_f432[0] * ResourceManager.gameDatabase[3][8][6] / 100));
             }
 
             if (((C41)this.C29_f408.C60_f868).m(2)) {
@@ -2781,7 +2781,7 @@ public final class C29 extends GameEngineBase {
          }
 
          if (var3 == 1) {
-            var7 = C67.C67_f923[1][var2][7];
+            var7 = ResourceManager.gameDatabase[1][var2][7];
             switch(var2) {
             case 21:
             case 27:
@@ -2790,14 +2790,14 @@ public final class C29 extends GameEngineBase {
             case 62:
             case 64:
             case 68:
-               this.a(GameEngineBase.getLocalizedText((int)C67.C67_f923[6][var7][0]), (byte)1, 2, this.C29_f408.s(), this.C29_f408.C60_f861, this.C29_f408.C60_f862, 9, 12);
+               this.a(GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[6][var7][0]), (byte)1, 2, this.C29_f408.s(), this.C29_f408.C60_f861, this.C29_f408.C60_f862, 9, 12);
                break;
             default:
-               this.a(GameEngineBase.getLocalizedText((int)C67.C67_f923[6][var7][0]), (byte)1, 2, ((C41)this.C29_f408.C60_f868).s(), ((C41)this.C29_f408.C60_f868).C60_f861, ((C41)this.C29_f408.C60_f868).C60_f862, 9, 12);
+               this.a(GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[6][var7][0]), (byte)1, 2, ((C41)this.C29_f408.C60_f868).s(), ((C41)this.C29_f408.C60_f868).C60_f861, ((C41)this.C29_f408.C60_f868).C60_f862, 9, 12);
             }
          }
 
-         if (C67.C67_f923[1][this.C29_f408.C41_f659][9] == 0) {
+         if (ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][9] == 0) {
             this.gameController.C9_f149 = 0;
             if (this.C29_f408.s() == 0) {
                this.gameController.a(this.C29_f408);
@@ -2839,8 +2839,8 @@ public final class C29 extends GameEngineBase {
                C41 var10000 = C29_f395.C53_f777[var0];
                C41 var10001 = C29_f395.C53_f777[var0];
                byte var2 = 1;
-               var10000.u(var10001.C60_f856[var2] + C67.C67_f923[0][C29_f395.C53_f777[var0].r()][5] * C67.C67_f923[2][0][6] / 100);
-               C29_f395.C53_f777[var0].l(C67.C67_f923[0][C29_f395.C53_f777[var0].r()][5] * C67.C67_f923[2][0][6] / 100);
+               var10000.u(var10001.C60_f856[var2] + ResourceManager.gameDatabase[0][C29_f395.C53_f777[var0].r()][5] * ResourceManager.gameDatabase[2][0][6] / 100);
+               C29_f395.C53_f777[var0].l(ResourceManager.gameDatabase[0][C29_f395.C53_f777[var0].r()][5] * ResourceManager.gameDatabase[2][0][6] / 100);
             }
          }
       }
@@ -2872,7 +2872,7 @@ public final class C29 extends GameEngineBase {
 
          var7 = var9 / var10 * this.C29_f469[var10 - 1] * var6 / 1000;
          if (var5.f((byte)5)) {
-            var7 = var7 * (C67.C67_f923[3][5][5] + 100) / 100;
+            var7 = var7 * (ResourceManager.gameDatabase[3][5][5] + 100) / 100;
          }
 
          var5.C41_f653 += var7;
@@ -2981,7 +2981,7 @@ public final class C29 extends GameEngineBase {
             var3 = 20;
          }
 
-         int var10 = var3 * C67.C67_f923[4][var1][6] / 100;
+         int var10 = var3 * ResourceManager.gameDatabase[4][var1][6] / 100;
          int[] var8 = new int[]{110, 100, 95, 80, 70};
          C41 var10002 = (C41)this.C29_f408.C60_f868;
          var6 = 0;
@@ -2989,11 +2989,11 @@ public final class C29 extends GameEngineBase {
          var8 = new int[]{10, 11, 12, 12, 12};
          var10 = var10 * var8[var2] / 10;
          if (this.C29_f408.f((byte)11)) {
-            var10 = var10 * (100 + C67.C67_f923[3][11][5]) / 100;
+            var10 = var10 * (100 + ResourceManager.gameDatabase[3][11][5]) / 100;
          }
 
          int[] var7 = new int[]{1000, 500, 1, 1000};
-         var10 = var10 * var7[C67.C67_f923[0][((C41)this.C29_f408.C60_f868).r()][22]] / 1000;
+         var10 = var10 * var7[ResourceManager.gameDatabase[0][((C41)this.C29_f408.C60_f868).r()][22]] / 1000;
          if (((C41)this.C29_f408.C60_f868).t() >= 20) {
             byte[] var9 = new byte[]{0, 15, 35, 65};
             if (var10 >= var9[var1]) {

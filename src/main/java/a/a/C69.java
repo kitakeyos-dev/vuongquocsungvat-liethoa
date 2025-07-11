@@ -1,7 +1,7 @@
 package a.a;
 
 import a.GameUtils;
-import a.b.C62;
+import a.b.SpriteManager;
 import javax.microedition.lcdui.Image;
 
 public final class C69 {
@@ -24,11 +24,11 @@ public final class C69 {
       return var1;
    }
 
-   public static C42 a(C62 var0, int var1, int[] var2, byte var3, C42 var4) {
+   public static C42 a(SpriteManager var0, int var1, int[] var2, byte var3, C42 var4) {
       Image var5;
       (var5 = Image.createImage(var2[2], var2[3])).getGraphics().setColor(0);
       var5.getGraphics().fillRect(0, 0, var2[2], var2[3]);
-      var0.a(var5.getGraphics(), var1, -var2[0], -var2[1], (byte)var3, 20);
+      var0.renderSpriteComposite(var5.getGraphics(), var1, -var2[0], -var2[1], (byte)var3, 20);
       var4.C42_f674 = var2[0];
       var4.C42_f675 = var2[1];
       return a(var5, var4);

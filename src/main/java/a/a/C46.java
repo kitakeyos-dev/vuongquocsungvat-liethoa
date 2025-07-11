@@ -3,7 +3,7 @@ package a.a;
 import a.GameEngineBase;
 import a.b.C6;
 import a.b.C60;
-import a.b.C67;
+import a.b.ResourceManager;
 import a.b.C68;
 import game.C18;
 import game.C25;
@@ -230,9 +230,9 @@ public final class C46 {
          }
       }
 
-      for(var2 = 0; var2 < GameEngineBase.getScreenWidth() / C67.C67_f927.getWidth(); ++var2) {
-         for(int var3 = 0; var3 < GameEngineBase.getScreenHeight() / C67.C67_f927.getHeight(); ++var3) {
-            var1.drawImage(C67.C67_f927, var2 * C67.C67_f927.getWidth(), var3 * C67.C67_f927.getHeight(), 20);
+      for(var2 = 0; var2 < GameEngineBase.getScreenWidth() / ResourceManager.backgroundImage.getWidth(); ++var2) {
+         for(int var3 = 0; var3 < GameEngineBase.getScreenHeight() / ResourceManager.backgroundImage.getHeight(); ++var3) {
+            var1.drawImage(ResourceManager.backgroundImage, var2 * ResourceManager.backgroundImage.getWidth(), var3 * ResourceManager.backgroundImage.getHeight(), 20);
          }
       }
 

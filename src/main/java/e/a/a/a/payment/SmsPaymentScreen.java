@@ -3,7 +3,7 @@ package e.a.a.a.payment;
 import a.a.C42;
 import script.*;
 import e.a.a.a.config.MessageConfig;
-import me.kitakeyos.C50;
+import me.kitakeyos.SmsConfigLoader;
 import me.kitakeyos.ManagedInputStream;
 
 import javax.microedition.lcdui.*;
@@ -59,8 +59,8 @@ public final class SmsPaymentScreen extends Canvas implements Runnable {
             this.leftButtonText = "Gửi tin";
             this.rightButtonText = "Quay lại";
             MessageConfig var12 = new MessageConfig();
-            var12.setPaidNumber(C50.smsNumber);
-            var12.setPaidContent(C50.smsContent);
+            var12.setPaidNumber(SmsConfigLoader.currentSmsNumber);
+            var12.setPaidContent(SmsConfigLoader.currentSmsContent);
             var12.setPaidPrice(2);
             var12.setCounter1(0);
             var12.setPaidReminder("eeee");
@@ -428,10 +428,10 @@ public final class SmsPaymentScreen extends Canvas implements Runnable {
                 this.showMessage((String) context.getStackValue(0));
                 return 0;
             case 9:
-                context.pushValue(C50.smsNumber);
+                context.pushValue(SmsConfigLoader.currentSmsNumber);
                 return 1;
             case 10:
-                context.pushValue(C50.smsContent);
+                context.pushValue(SmsConfigLoader.currentSmsContent);
                 return 1;
             case 11:
                 context.pushValue(this.additionalData1);

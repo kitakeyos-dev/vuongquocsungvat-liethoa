@@ -1,4 +1,4 @@
-package c;
+package layout;
 
 import a.GameUtils;
 
@@ -177,15 +177,15 @@ public final class Dialog {
                 var3.getComponents()[var18] = var29;
                 this.parseDialogData(data, var2, (RootComponent) var3.getComponents()[var18], var4, var5);
             } else if (var22 == 1) {
-                C40 var28;
-                (var28 = new C40()).b(var22);
-                var28.a(GameUtils.readShortFromBytes(data, var2));
+                DialogComponent var28;
+                (var28 = new DialogComponent()).setZIndex(var22);
+                var28.setSelectedComponentId(GameUtils.readShortFromBytes(data, var2));
                 var28.setOffsetX(GameUtils.readShortFromBytes(data, var2), this.getRootComponent());
                 var28.setOffsetY(GameUtils.readShortFromBytes(data, var2), this.getRootComponent());
                 var28.setWidth(GameUtils.readShortFromBytes(data, var2), this.getRootComponent());
                 var28.setHeight(GameUtils.readShortFromBytes(data, var2), this.getRootComponent());
-                var28.a();
-                var28.C40_f636 = this.config;
+                var28.initializeDialog();
+                var28.dialogConfig = this.config;
                 byte[] var33 = new byte[var11 = GameUtils.readShortFromBytes(data, var2)];
 
                 for (int var35 = 0; var35 < var11; ++var35) {
@@ -204,9 +204,9 @@ public final class Dialog {
                 if (var32 < 0) {
                     var28.getComponentData().C12_f191 = null;
                 } else {
-                    var28.getComponentData().C12_f191 = new C17();
-                    var28.getComponentData().C12_f191.C17_f222 = var39;
-                    var28.getComponentData().C12_f191.a((int) var32);
+                    var28.getComponentData().C12_f191 = new SpriteRenderer();
+                    var28.getComponentData().C12_f191.spriteType = var39;
+                    var28.getComponentData().C12_f191.setSpriteIndex((int) var32);
                 }
 
                 var28.getComponentData().C12_f192 = GameUtils.e(data, var2);
@@ -217,26 +217,26 @@ public final class Dialog {
                 if (var38 < 0) {
                     var28.getComponentData().C12_f195 = null;
                 } else {
-                    var28.getComponentData().C12_f195 = new C17();
-                    var28.getComponentData().C12_f195.a((int) var38);
-                    var28.getComponentData().C12_f195.C17_f222 = var19;
+                    var28.getComponentData().C12_f195 = new SpriteRenderer();
+                    var28.getComponentData().C12_f195.setSpriteIndex((int) var38);
+                    var28.getComponentData().C12_f195.spriteType = var19;
                 }
 
                 var28.getComponentData().C12_f190 = GameUtils.readByte(data, var2);
                 if (var28.getComponentData().C12_f191 != null) {
-                    var28.getComponentData().C12_f191.a(var4, var5, var28.getComponentData().C12_f190);
+                    var28.getComponentData().C12_f191.initializeSprite(var4, var5, var28.getComponentData().C12_f190);
                 }
 
                 if (var28.getComponentData().C12_f195 != null) {
-                    var28.getComponentData().C12_f195.a(var4, var5, var28.getComponentData().C12_f190);
+                    var28.getComponentData().C12_f195.initializeSprite(var4, var5, var28.getComponentData().C12_f190);
                 }
 
-                var28.c(var3.getSelectedComponentId());
+                var28.setActiveComponentId(var3.getSelectedComponentId());
                 int var24;
                 if (var3.otherChildComponent != null) {
                     for (var24 = 0; var24 < var3.otherChildComponent.C38_f575.length; ++var24) {
                         if (var3.otherChildComponent.C38_f575[var24] == var28.getSelectedComponentId()) {
-                            var28.a(var3.otherChildComponent);
+                            var28.setChildComponent(var3.otherChildComponent);
                             break;
                         }
                     }
@@ -245,7 +245,7 @@ public final class Dialog {
                 if (var3.additionalChildComponent != null) {
                     for (var24 = 0; var24 < var3.additionalChildComponent.C38_f575.length; ++var24) {
                         if (var3.additionalChildComponent.C38_f575[var24] == var28.getSelectedComponentId()) {
-                            var28.a(var3.additionalChildComponent);
+                            var28.setChildComponent(var3.additionalChildComponent);
                             break;
                         }
                     }
@@ -254,58 +254,58 @@ public final class Dialog {
                 this.childComponents[this.childCount] = var28;
                 ++this.childCount;
                 var3.getComponents()[var18] = var28;
-                var28.C40_f634 = GameUtils.readByte(data, var2);
-                var28.C40_f635 = GameUtils.readByte(data, var2);
+                var28.focusedState = GameUtils.readByte(data, var2);
+                var28.enabledState = GameUtils.readByte(data, var2);
             } else if (var22 == 2) {
-                C66 var27;
-                (var27 = new C66()).q(GameUtils.readShortFromBytes(data, var2));
+                GridComponent var27 = new GridComponent();
+                var27.setSelectedComponentId(GameUtils.readShortFromBytes(data, var2));
                 var27.setOffsetX(GameUtils.readShortFromBytes(data, var2), this.getRootComponent());
                 var27.setOffsetY(GameUtils.readShortFromBytes(data, var2), this.getRootComponent());
-                var27.a((int) GameUtils.readByte(data, var2));
-                var27.b(GameUtils.readByte(data, var2));
-                var27.c(GameUtils.readByte(data, var2));
-                var27.d(GameUtils.readByte(data, var2));
-                var27.e(GameUtils.readByte(data, var2));
-                var27.f(GameUtils.readByte(data, var2));
-                var27.g(GameUtils.readByte(data, var2));
-                var27.h(GameUtils.readByte(data, var2));
-                var27.k(GameUtils.readByte(data, var2));
-                var27.l(GameUtils.readByte(data, var2));
-                var27.m(GameUtils.readByte(data, var2));
-                var27.n(GameUtils.readByte(data, var2));
-                var27.o(GameUtils.readByte(data, var2));
-                var27.p(GameUtils.readByte(data, var2));
-                var27.i(GameUtils.readByte(data, var2));
-                var27.j(GameUtils.readByte(data, var2));
-                var27.C66_f912 = GameUtils.e(data, var2);
+                var27.setCellWidth((int) GameUtils.readByte(data, var2));
+                var27.setCellHeight(GameUtils.readByte(data, var2));
+                var27.setCellSpacingX(GameUtils.readByte(data, var2));
+                var27.setCellSpacingY(GameUtils.readByte(data, var2));
+                var27.setTotalColumns(GameUtils.readByte(data, var2));
+                var27.setTotalRows(GameUtils.readByte(data, var2));
+                var27.setVisibleColumns(GameUtils.readByte(data, var2));
+                var27.setVisibleRows(GameUtils.readByte(data, var2));
+                var27.setCursorOffsetX(GameUtils.readByte(data, var2));
+                var27.setCursorOffsetY(GameUtils.readByte(data, var2));
+                var27.setHorizontalWrapMode(GameUtils.readByte(data, var2));
+                var27.setHorizontalScrollMode(GameUtils.readByte(data, var2));
+                var27.setVerticalWrapMode(GameUtils.readByte(data, var2));
+                var27.setVerticalScrollMode(GameUtils.readByte(data, var2));
+                var27.setScrollOffsetX(GameUtils.readByte(data, var2));
+                var27.setScrollOffsetY(GameUtils.readByte(data, var2));
+                var27.backgroundColor = GameUtils.e(data, var2);
                 var11 = GameUtils.readShortFromBytes(data, var2);
                 byte var30 = GameUtils.readByte(data, var2);
                 if (var11 < 0) {
-                    var27.C66_f913 = null;
+                    var27.backgroundRenderer = null;
                 } else {
-                    var27.C66_f913 = new C17();
-                    var27.C66_f913.a((int) var11);
-                    var27.C66_f913.C17_f222 = var30;
-                    var27.C66_f913.a(var4, var5, var30);
+                    var27.backgroundRenderer = new SpriteRenderer();
+                    var27.backgroundRenderer.setSpriteIndex((int) var11);
+                    var27.backgroundRenderer.spriteType = var30;
+                    var27.backgroundRenderer.initializeSprite(var4, var5, var30);
                 }
 
                 var11 = GameUtils.readShortFromBytes(data, var2);
                 var30 = GameUtils.readByte(data, var2);
                 if (var11 < 0) {
-                    var27.C66_f914 = null;
+                    var27.selectionRenderer = null;
                 } else {
-                    var27.C66_f914 = new C17();
-                    var27.C66_f914.a((int) var11);
-                    var27.C66_f914.C17_f222 = var30;
-                    var27.C66_f914.a(var4, var5, var30);
+                    var27.selectionRenderer = new SpriteRenderer();
+                    var27.selectionRenderer.setSpriteIndex((int) var11);
+                    var27.selectionRenderer.spriteType = var30;
+                    var27.selectionRenderer.initializeSprite(var4, var5, var30);
                 }
 
-                var27.r(GameUtils.readShortFromBytes(data, var2));
+                var27.setSelectedCellIndex(GameUtils.readShortFromBytes(data, var2));
                 byte var34;
                 if ((var34 = GameUtils.readByte(data, var2)) == 0) {
-                    var27.C66_f920 = var27.n();
+                    var27.gridCells = var27.createNavigationGrid();
                 } else if (var34 == 1) {
-                    var27.C66_f920 = C66.a(var27.a(), var27.m());
+                    var27.gridCells = GridComponent.createEmptyGrid(var27.getTotalColumns(), var27.getTotalRows());
                     short var37 = GameUtils.readShortFromBytes(data, var2);
 
                     for (var15 = 0; var15 < var37; ++var15) {
@@ -316,11 +316,11 @@ public final class Dialog {
                         var32 = GameUtils.readShortFromBytes(data, var2);
                         short var16 = GameUtils.readShortFromBytes(data, var2);
                         short var17 = GameUtils.readShortFromBytes(data, var2);
-                        var27.C66_f920[var20] = new C49(var23, var31, var12, var32, var16, var17);
+                        var27.gridCells[var20] = new GridCell(var23, var31, var12, var32, var16, var17);
                     }
                 }
 
-                var27.s(var3.getSelectedComponentId());
+                var27.setActiveComponentId(var3.getSelectedComponentId());
                 Component var10000;
                 if (var3.otherChildComponent != null) {
                     for (var14 = 0; var14 < var3.otherChildComponent.C38_f575.length; ++var14) {
@@ -348,39 +348,39 @@ public final class Dialog {
 
     }
 
-    private C35 calculateBounds(IComponent var1) {
+    private Rectangle calculateBounds(IComponent var1) {
         if (var1.getZIndex() != 0) {
-            return new C35(var1.getOffsetX(), var1.getOffsetY(), var1.getWidth(), var1.getHeight());
+            return new Rectangle(var1.getOffsetX(), var1.getOffsetY(), var1.getWidth(), var1.getHeight());
         } else {
             RootComponent var2;
             if ((var2 = (RootComponent) var1).getComponents() != null && var2.getComponents()[0] != null) {
-                int var8 = this.calculateBounds(var2.getComponents()[0]).C35_f557;
-                int var3 = this.calculateBounds(var2.getComponents()[0]).C35_f557 + this.calculateBounds(var2.getComponents()[0]).C35_f559;
-                int var4 = this.calculateBounds(var2.getComponents()[0]).C35_f558;
-                int var5 = this.calculateBounds(var2.getComponents()[0]).C35_f558 + this.calculateBounds(var2.getComponents()[0]).C35_f560;
+                int var8 = this.calculateBounds(var2.getComponents()[0]).x;
+                int var3 = this.calculateBounds(var2.getComponents()[0]).x + this.calculateBounds(var2.getComponents()[0]).width;
+                int var4 = this.calculateBounds(var2.getComponents()[0]).y;
+                int var5 = this.calculateBounds(var2.getComponents()[0]).y + this.calculateBounds(var2.getComponents()[0]).height;
 
                 for (int var6 = 0; var6 < var2.getComponents().length && var2.getComponents()[var6] != null; ++var6) {
-                    C35 var7 = this.calculateBounds(var2.getComponents()[var6]);
-                    if (var8 > var7.C35_f557) {
-                        var8 = var7.C35_f557;
+                    Rectangle var7 = this.calculateBounds(var2.getComponents()[var6]);
+                    if (var8 > var7.x) {
+                        var8 = var7.x;
                     }
 
-                    if (var3 < var7.C35_f557 + var7.C35_f559) {
-                        var3 = var7.C35_f557 + var7.C35_f559;
+                    if (var3 < var7.x + var7.width) {
+                        var3 = var7.x + var7.width;
                     }
 
-                    if (var4 > var7.C35_f558) {
-                        var4 = var7.C35_f558;
+                    if (var4 > var7.y) {
+                        var4 = var7.y;
                     }
 
-                    if (var5 < var7.C35_f558 + var7.C35_f560) {
-                        var5 = var7.C35_f558 + var7.C35_f560;
+                    if (var5 < var7.y + var7.height) {
+                        var5 = var7.y + var7.height;
                     }
                 }
 
-                return new C35(var8, var4, var3 - var8, var5 - var4);
+                return new Rectangle(var8, var4, var3 - var8, var5 - var4);
             } else {
-                return new C35(var1.getOffsetX(), var1.getOffsetY(), var1.getWidth(), var1.getHeight());
+                return new Rectangle(var1.getOffsetX(), var1.getOffsetY(), var1.getWidth(), var1.getHeight());
             }
         }
     }
@@ -422,45 +422,45 @@ public final class Dialog {
             int var11 = 0;
             int var12 = 0;
             if (var6.C38_f575[0] != -1) {
-                C35 var13;
-                var9 = (var13 = var7.calculateBounds(var8.getChildById(var6.C38_f575[0]))).C35_f557;
-                var10 = var13.C35_f557 + var13.C35_f559;
-                var11 = var13.C35_f558;
-                var12 = var13.C35_f558 + var13.C35_f560;
+                Rectangle var13;
+                var9 = (var13 = var7.calculateBounds(var8.getChildById(var6.C38_f575[0]))).x;
+                var10 = var13.x + var13.width;
+                var11 = var13.y;
+                var12 = var13.y + var13.height;
 
                 for (int var14 = 1; var14 != var4.C38_f577; ++var14) {
                     var13 = var7.calculateBounds(var8.getChildById(var4.C38_f575[var14]));
-                    if (var9 > var13.C35_f557) {
-                        var9 = var13.C35_f557;
+                    if (var9 > var13.x) {
+                        var9 = var13.x;
                     }
 
-                    if (var10 < var13.C35_f557 + var13.C35_f559) {
-                        var10 = var13.C35_f557 + var13.C35_f559;
+                    if (var10 < var13.x + var13.width) {
+                        var10 = var13.x + var13.width;
                     }
 
-                    if (var11 > var13.C35_f558) {
-                        var11 = var13.C35_f558;
+                    if (var11 > var13.y) {
+                        var11 = var13.y;
                     }
 
-                    if (var12 < var13.C35_f558 + var13.C35_f560) {
-                        var12 = var13.C35_f558 + var13.C35_f560;
+                    if (var12 < var13.y + var13.height) {
+                        var12 = var13.y + var13.height;
                     }
                 }
             }
 
-            new C35(var9, var11, var10 - var9, var12 - var11);
-            C35 var16 = new C35();
-            C35 var19 = new C35();
+            new Rectangle(var9, var11, var10 - var9, var12 - var11);
+            Rectangle var16 = new Rectangle();
+            Rectangle var19 = new Rectangle();
             if (var6.C38_f584 != 0) {
                 var20 = var6.C38_f584;
             }
 
             var1.setColor(255, 255, 255);
-            var1.fillRect(var16.C35_f557, var16.C35_f558, var16.C35_f559, var16.C35_f560);
+            var1.fillRect(var16.x, var16.y, var16.width, var16.height);
             var1.setColor(245, 222, 179);
-            var1.drawRect(var16.C35_f557, var16.C35_f558, var16.C35_f559, var16.C35_f560);
+            var1.drawRect(var16.x, var16.y, var16.width, var16.height);
             var1.setColor(95, 158, 160);
-            var1.fillRect(var19.C35_f557, var19.C35_f558, var19.C35_f559, var19.C35_f560);
+            var1.fillRect(var19.x, var19.y, var19.width, var19.height);
         }
 
         for (int var17 = 0; var17 < var3.getComponents().length && var3.getComponents()[var17] != null; ++var17) {
@@ -509,23 +509,23 @@ public final class Dialog {
         boolean var4;
         boolean var9;
         if (var2.getZIndex() == 2) {
-            C66 var3 = (C66) var2;
+            GridComponent var3 = (GridComponent) var2;
             var4 = false;
             switch (var1) {
                 case 0:
-                    var4 = var3.a((byte) 0);
+                    var4 = var3.navigate((byte) 0);
                     this.handler.a(new int[]{-1, -1, 0}, new int[]{-1, -1, -1, -1});
                     break;
                 case 1:
-                    var4 = var3.a((byte) 1);
+                    var4 = var3.navigate((byte) 1);
                     this.handler.a(new int[]{-1, -1, 1}, new int[]{-1, -1, -1, -1});
                     break;
                 case 2:
-                    var4 = var3.a((byte) 2);
+                    var4 = var3.navigate((byte) 2);
                     this.handler.a(new int[]{-1, -1, 2}, new int[]{-1, -1, -1, -1});
                     break;
                 case 3:
-                    var4 = var3.a((byte) 3);
+                    var4 = var3.navigate((byte) 3);
                     this.handler.a(new int[]{-1, -1, 3}, new int[]{-1, -1, -1, -1});
                 case 4:
                 case 6:
@@ -537,7 +537,7 @@ public final class Dialog {
                     break;
                 case 7:
                     if (var4 = this.updateIndices()) {
-                        var3.C66_f915 = false;
+                        var3.showSelection = false;
                         this.handler.a(new int[]{-1, -1, 7}, new int[]{-1, -1, -1, -1});
                     } else {
                         this.handler.a(new int[]{-1, -1, 5}, new int[]{-1, -1, -1, -1});
@@ -767,7 +767,7 @@ public final class Dialog {
     private int getSelectedIndices(IComponent var1, int var2, boolean var3) {
         if (var1.getZIndex() == 2 && var2 == -1) {
             if (var3) {
-                ((C66) var1).C66_f915 = true;
+                ((GridComponent) var1).showSelection = true;
             }
 
             return var1.getSelectedComponentId();

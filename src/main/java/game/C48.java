@@ -1,7 +1,7 @@
 package game;
 
 import a.GameEngineBase;
-import a.b.C67;
+import a.b.ResourceManager;
 import javax.microedition.lcdui.Graphics;
 
 public final class C48 extends GameEngineBase {
@@ -113,12 +113,12 @@ public final class C48 extends GameEngineBase {
             if (this.g(4100)) {
                --this.C48_f742;
                if (this.C48_f742 <= 0) {
-                  this.C48_f742 = (byte)(C67.C67_f923[0].length - 1);
+                  this.C48_f742 = (byte)(ResourceManager.gameDatabase[0].length - 1);
                   return;
                }
             } else if (this.g(8448)) {
                ++this.C48_f742;
-               if (this.C48_f742 >= C67.C67_f923[0].length - 1) {
+               if (this.C48_f742 >= ResourceManager.gameDatabase[0].length - 1) {
                   this.C48_f742 = 0;
                   return;
                }
@@ -180,7 +180,7 @@ public final class C48 extends GameEngineBase {
       case 2:
          var1.setColor(16711680);
          var1.drawString(this.C48_f744[1], getScreenWidth() >> 1, 10, 17);
-         var1.drawString("Sủng vật trước mặt: " + this.C48_f742 + " tên: " + getLocalizedText(C67.C67_f923[0][this.C48_f742][0]), getScreenWidth() >> 1, 30, 17);
+         var1.drawString("Sủng vật trước mặt: " + this.C48_f742 + " tên: " + getLocalizedText(ResourceManager.gameDatabase[0][this.C48_f742][0]), getScreenWidth() >> 1, 30, 17);
       default:
       }
    }

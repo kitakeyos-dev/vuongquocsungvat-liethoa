@@ -1,8 +1,8 @@
 package a.a;
 
 import a.b.C60;
-import a.b.C62;
-import a.b.C67;
+import a.b.SpriteManager;
+import a.b.ResourceManager;
 import javax.microedition.lcdui.Graphics;
 
 public final class C21 extends C60 {
@@ -12,11 +12,11 @@ public final class C21 extends C60 {
    private int C21_f267 = 0;
    private int C21_f268 = 0;
    private int[] C21_f269 = new int[]{262, 263, 264, 265, 266, 267, 268, 299, 300, 301, 304, 306, 307, 308, 309};
-   public C62 C21_f270 = new C62();
+   public SpriteManager C21_f270 = new SpriteManager();
 
    public final void a(short[] var1) {
       this.C21_f266 = (byte)var1[0];
-      C62 var2;
+      SpriteManager var2;
       int[] var3;
       int var4;
       switch(this.C21_f266) {
@@ -25,14 +25,14 @@ public final class C21 extends C60 {
          System.arraycopy(var1, 0, this.C21_f265, 0, this.C21_f265.length);
          this.b(var1[3], var1[4]);
          this.C21_f264 = new C42[3];
-         var2 = new C62();
+         var2 = new SpriteManager();
 
          for(int var6 = 0; var6 < 2; ++var6) {
-            var2.a(var1[5 + var6 * 3], false);
-            int[] var7 = var2.b(var1[6 + var6 * 3], (byte)var1[7 + var6 * 3]);
+            var2.loadSpriteSet(var1[5 + var6 * 3], false);
+            int[] var7 = var2.getSpritePartBounds(var1[6 + var6 * 3], (byte)var1[7 + var6 * 3]);
             this.C21_f264[var6] = new C42();
             this.C21_f264[var6] = C69.a(var2, var1[6 + var6 * 3], var7, (byte)var1[7 + var6 * 3], this.C21_f264[var6]);
-            var2.a();
+            var2.releaseResources();
          }
 
          this.C21_f264[2] = this.C21_f264[0].a();
@@ -43,13 +43,13 @@ public final class C21 extends C60 {
          System.arraycopy(var1, 6, this.C21_f265, 0, this.C21_f265.length);
          this.b(var1[1], var1[2]);
          this.C21_f264 = new C42[3];
-         (var2 = new C62()).a(var1[3], false);
-         var3 = var2.b(var1[4], (byte)var1[5]);
+         (var2 = new SpriteManager()).loadSpriteSet(var1[3], false);
+         var3 = var2.getSpritePartBounds(var1[4], (byte)var1[5]);
          this.C21_f264[0] = new C42();
          this.C21_f264[0] = C69.a(var2, var1[4], var3, (byte)var1[5], this.C21_f264[0]);
-         var2.a();
+         var2.releaseResources();
          this.C21_f264[1] = new C42();
-         this.C21_f264[1].a(C67.C67_f926[this.C21_f265[2]], 16, 16);
+         this.C21_f264[1].a(ResourceManager.textureData[this.C21_f265[2]], 16, 16);
          this.C21_f264[2] = this.C21_f264[0].a();
          return;
       case 2:
@@ -68,8 +68,8 @@ public final class C21 extends C60 {
          System.arraycopy(var1, 6, this.C21_f265, 0, this.C21_f265.length);
          this.b(var1[1], var1[2]);
          this.C21_f264 = new C42[2];
-         (var2 = new C62()).a(var1[3], false);
-         var3 = var2.b(var1[4], (byte)var1[5]);
+         (var2 = new SpriteManager()).loadSpriteSet(var1[3], false);
+         var3 = var2.getSpritePartBounds(var1[4], (byte)var1[5]);
          this.C21_f264[0] = new C42();
          this.C21_f264[0] = C69.a(var2, var1[4], var3, (byte)var1[5], this.C21_f264[0]);
          this.C21_f264[1] = this.C21_f264[0].a();
@@ -78,7 +78,7 @@ public final class C21 extends C60 {
          this.C21_f267 = (var3[2] - var4) / 2;
          this.C21_f268 = var3[3] - var5;
          this.C21_f264[1] = C69.a(this.C21_f264[1], var4, var5);
-         var2.a();
+         var2.releaseResources();
          return;
       case 8:
          this.C21_f265 = new short[var1.length - 6];
@@ -86,11 +86,11 @@ public final class C21 extends C60 {
          System.arraycopy(var1, 6, this.C21_f265, 0, this.C21_f265.length);
          this.b(var1[1], var1[2]);
          this.C21_f264 = new C42[2];
-         (var2 = new C62()).a(var1[3], false);
-         var3 = var2.b(var1[4], (byte)var1[5]);
+         (var2 = new SpriteManager()).loadSpriteSet(var1[3], false);
+         var3 = var2.getSpritePartBounds(var1[4], (byte)var1[5]);
          this.C21_f264[0] = new C42();
          this.C21_f264[0] = C69.a(var2, var1[4], var3, (byte)var1[5], this.C21_f264[0]);
-         var2.a();
+         var2.releaseResources();
          this.C21_f264[1] = this.C21_f264[0].a();
          if (this.C21_f265[4] == 1) {
             this.C21_f264[1] = C69.b(C69.a((C42)this.C21_f264[1], this.C21_f265[2]), 1, 50);
@@ -107,14 +107,14 @@ public final class C21 extends C60 {
          System.arraycopy(var1, 10, this.C21_f265, 0, this.C21_f265.length);
          this.b(var1[1], var1[2]);
          this.C21_f264 = new C42[2];
-         (var2 = new C62()).a(var1[3], false);
-         var3 = var2.b(var1[4], (byte)var1[5]);
+         (var2 = new SpriteManager()).loadSpriteSet(var1[3], false);
+         var3 = var2.getSpritePartBounds(var1[4], (byte)var1[5]);
          this.C21_f264[0] = new C42();
          this.C21_f264[0] = C69.a(var2, var1[4], var3, (byte)var1[5], this.C21_f264[0]);
          this.C21_f264[1] = this.C21_f264[0].a();
          this.C21_f264[1] = C69.a(this.C21_f264[1], var1[6], var1[7], var1[8], var1[9]);
          this.C21_f264[1] = C69.b(this.C21_f264[1], 1, 50);
-         var2.a();
+         var2.releaseResources();
          return;
       case 10:
          this.C21_f265 = new short[var1.length - 7];
@@ -122,13 +122,13 @@ public final class C21 extends C60 {
          System.arraycopy(var1, 7, this.C21_f265, 0, this.C21_f265.length);
          this.b(var1[1], var1[2]);
          this.C21_f264 = new C42[2];
-         (var2 = new C62()).a(var1[3], false);
-         var3 = var2.b(var1[4], (byte)var1[5]);
+         (var2 = new SpriteManager()).loadSpriteSet(var1[3], false);
+         var3 = var2.getSpritePartBounds(var1[4], (byte)var1[5]);
          this.C21_f264[0] = new C42();
          this.C21_f264[0] = C69.a(var2, var1[4], var3, (byte)var1[5], this.C21_f264[0]);
          this.C21_f264[1] = this.C21_f264[0].a();
          this.C21_f264[1] = C69.b(this.C21_f264[1], var1[6]);
-         var2.a();
+         var2.releaseResources();
          return;
       case 11:
       case 14:
@@ -137,8 +137,8 @@ public final class C21 extends C60 {
          System.arraycopy(var1, 7 + (var1[6] - 1 << 2), this.C21_f265, 0, this.C21_f265.length);
          this.b(var1[1], var1[2]);
          this.C21_f264 = new C42[var1[6]];
-         (var2 = new C62()).a(var1[3], false);
-         var3 = var2.b(var1[4], (byte)var1[5]);
+         (var2 = new SpriteManager()).loadSpriteSet(var1[3], false);
+         var3 = var2.getSpritePartBounds(var1[4], (byte)var1[5]);
          this.C21_f264[0] = new C42();
          this.C21_f264[0] = C69.a(var2, var1[4], var3, (byte)var1[5], this.C21_f264[0]);
          if (var1[0] == 11) {
@@ -153,7 +153,7 @@ public final class C21 extends C60 {
             }
          }
 
-         var2.a();
+         var2.releaseResources();
          return;
       case 12:
          this.C60_f866 = (byte)var1[5];
@@ -161,8 +161,8 @@ public final class C21 extends C60 {
          System.arraycopy(var1, 9, this.C21_f265, 0, this.C21_f265.length);
          this.b(var1[1], var1[2]);
          this.C21_f264 = new C42[var1[6]];
-         (var2 = new C62()).a(var1[3], false);
-         var3 = var2.b(var1[4], (byte)var1[5]);
+         (var2 = new SpriteManager()).loadSpriteSet(var1[3], false);
+         var3 = var2.getSpritePartBounds(var1[4], (byte)var1[5]);
          this.C21_f264[0] = new C42();
          this.C21_f264[0] = C69.a(var2, var1[4], var3, (byte)var1[5], this.C21_f264[0]);
 
@@ -174,7 +174,7 @@ public final class C21 extends C60 {
             this.C21_f264[var4] = C69.b(this.C21_f264[var4], var1[var4 + 7]);
          }
 
-         var2.a();
+         var2.releaseResources();
          return;
       case 13:
          this.C60_f866 = (byte)var1[5];
@@ -182,8 +182,8 @@ public final class C21 extends C60 {
          System.arraycopy(var1, 7 + var1[6], this.C21_f265, 0, this.C21_f265.length);
          this.b(var1[1], var1[2]);
          this.C21_f264 = new C42[var1[6]];
-         (var2 = new C62()).a(var1[3], false);
-         var3 = var2.b(var1[4], (byte)var1[5]);
+         (var2 = new SpriteManager()).loadSpriteSet(var1[3], false);
+         var3 = var2.getSpritePartBounds(var1[4], (byte)var1[5]);
          this.C21_f264[0] = new C42();
          this.C21_f264[0] = C69.a(var2, var1[4], var3, (byte)var1[5], this.C21_f264[0]);
 
@@ -202,8 +202,8 @@ public final class C21 extends C60 {
          System.arraycopy(var1, 7 + (var1[6] - 1 << 2), this.C21_f265, 0, this.C21_f265.length);
          this.b(var1[1], var1[2]);
          this.C21_f264 = new C42[var1[6]];
-         (var2 = new C62()).a(var1[3], false);
-         var3 = var2.b(var1[4], (byte)var1[5]);
+         (var2 = new SpriteManager()).loadSpriteSet(var1[3], false);
+         var3 = var2.getSpritePartBounds(var1[4], (byte)var1[5]);
          this.C21_f264[0] = new C42();
          this.C21_f264[0] = C69.a(var2, var1[4], var3, (byte)var1[5], this.C21_f264[0]);
 
@@ -212,7 +212,7 @@ public final class C21 extends C60 {
             this.C21_f264[var4] = C69.a(this.C21_f264[var4], var1[7 + (var4 - 1 << 2)], var1[8 + (var4 - 1 << 2)], var1[9 + (var4 - 1 << 2)], var1[10 + (var4 - 1 << 2)]);
          }
 
-         var2.a();
+         var2.releaseResources();
          return;
       case 16:
          this.C21_f265 = new short[var1.length - 6];
@@ -220,12 +220,12 @@ public final class C21 extends C60 {
          System.arraycopy(var1, 6, this.C21_f265, 0, this.C21_f265.length);
          this.b(var1[1], var1[2]);
          this.C21_f264 = new C42[1];
-         (var2 = new C62()).a(var1[3], false);
-         var3 = var2.b(var1[4], (byte)var1[5]);
+         (var2 = new SpriteManager()).loadSpriteSet(var1[3], false);
+         var3 = var2.getSpritePartBounds(var1[4], (byte)var1[5]);
          this.C21_f264[0] = new C42();
          this.C21_f264[0] = C69.a(var2, var1[4], var3, (byte)var1[5], this.C21_f264[0]);
          this.C21_f265[1] = (short)(this.C21_f264[0].C42_f673 / this.C21_f265[2]);
-         var2.a();
+         var2.releaseResources();
          return;
       case 17:
          this.C21_f265 = new short[var1.length - 11];
@@ -233,19 +233,19 @@ public final class C21 extends C60 {
          System.arraycopy(var1, 11, this.C21_f265, 0, this.C21_f265.length);
          this.b(var1[1], var1[2]);
          this.C21_f264 = new C42[2];
-         (var2 = new C62()).a(var1[3], false);
-         var3 = var2.b(var1[4], (byte)var1[5]);
+         (var2 = new SpriteManager()).loadSpriteSet(var1[3], false);
+         var3 = var2.getSpritePartBounds(var1[4], (byte)var1[5]);
          this.C21_f264[0] = new C42();
          this.C21_f264[0] = C69.a(var2, var1[4], var3, (byte)var1[5], this.C21_f264[0]);
          this.C21_f264[0] = C69.a((C42)this.C21_f264[0], var1[10]);
          this.C21_f264[1] = this.C21_f264[0].a();
          this.C21_f264[1] = C69.a(this.C21_f264[1], var1[6], var1[7], var1[8], var1[9]);
-         var2.a();
+         var2.releaseResources();
          return;
       default:
          this.C60_f866 = (byte)var1[2];
-         this.C21_f270.a(this.C21_f269[this.C21_f266 - 20], false);
-         this.C21_f270.a((byte)((byte)var1[1]), (byte)0, true);
+         this.C21_f270.loadSpriteSet(this.C21_f269[this.C21_f266 - 20], false);
+         this.C21_f270.setAnimation((byte)((byte)var1[1]), (byte)0, true);
       }
    }
 
@@ -280,11 +280,11 @@ public final class C21 extends C60 {
    }
 
    public final boolean c() {
-      return this.C21_f270.f();
+      return this.C21_f270.isAtLastFrame();
    }
 
    public final boolean a(int var1) {
-      return this.C21_f270.b(var1);
+      return this.C21_f270.isAtFrame(var1);
    }
 
    public final boolean d() {
@@ -486,7 +486,7 @@ public final class C21 extends C60 {
             }
             break;
          default:
-            this.C21_f270.e();
+            this.C21_f270.updateAnimation();
          }
 
          return true;
@@ -592,7 +592,7 @@ public final class C21 extends C60 {
             }
             break;
          default:
-            this.C21_f270.a(var1, this.C60_f861, this.C60_f862, this.C60_f866);
+            this.C21_f270.renderCurrentFrame(var1, this.C60_f861, this.C60_f862, this.C60_f866);
          }
 
       }

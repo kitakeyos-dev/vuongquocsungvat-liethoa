@@ -1,4 +1,4 @@
-package c;
+package layout;
 
 import a.GameUtils;
 import javax.microedition.lcdui.Graphics;

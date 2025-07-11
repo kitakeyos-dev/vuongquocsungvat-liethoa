@@ -1,18 +1,17 @@
 package a;
 
-import a.b.C67;
-import c.DialogManager;
+import a.b.ResourceManager;
+import layout.DialogManager;
 import e.a.a.a.payment.PaymentCallback;
 import e.a.a.a.payment.SmsPaymentScreen;
 import e.b.a.a.C2;
 import game.*;
-import me.kitakeyos.C50;
+import me.kitakeyos.SmsConfigLoader;
 
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import javax.microedition.midlet.MIDlet;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
@@ -152,7 +151,7 @@ public abstract class GameEngineBase extends C8 implements PaymentCallback, C2 {
     }
 
     public static String getLocalizedText(int var0) {
-        return var0 == 0 ? "" : C67.C67_f924[var0];
+        return var0 == 0 ? "" : ResourceManager.localizedStrings[var0];
     }
 
     public static String formatString(int template, int[] parameters) {
@@ -316,7 +315,7 @@ public abstract class GameEngineBase extends C8 implements PaymentCallback, C2 {
                             C53.p().c(11, 2, (byte) 0);
                             C53.p().v(5);
                             C7.B().C7_f60[C25.e(9, 0)][5] = 3;
-                            C7.B().C7_f56[5].a((byte) 3);
+                            C7.B().C7_f56[5].setExecutionState((byte) 3);
                             break;
                         case 1:
                             C53.p().c(0, 1, (byte) 0);
@@ -512,12 +511,12 @@ public abstract class GameEngineBase extends C8 implements PaymentCallback, C2 {
     }
 
     private void l(int var1) {
-        C50.a((MIDlet) GameMIDLet.C15_f217);
-        C50.a(var1);
+        SmsConfigLoader.loadSmsConfiguration(GameMIDLet.C15_f217);
+        SmsConfigLoader.prepareSmsData(var1);
         this.paymentSettings[var1][0] = 1;
-        this.paymentScreen = new SmsPaymentScreen(GameMIDLet.C15_f217, GameCanvas.publicInstance, "", "", this.paymentCodes[var1], (String) null, this.paymentSettings[var1][0], this.paymentDescriptions[var1][0], C50.smsDescriptions[var1], "");
+        this.paymentScreen = new SmsPaymentScreen(GameMIDLet.C15_f217, GameCanvas.publicInstance, "", "", this.paymentCodes[var1], null, this.paymentSettings[var1][0], this.paymentDescriptions[var1][0], SmsConfigLoader.smsDescriptions[var1], "");
         Display.getDisplay(GameMIDLet.C15_f217).setCurrent(this.paymentScreen);
-        this.paymentScreen.setPaymentCallback((PaymentCallback) this);
+        this.paymentScreen.setPaymentCallback(this);
     }
 
     public final void onPaymentCompleted(boolean var1) {

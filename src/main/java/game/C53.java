@@ -6,7 +6,7 @@ import a.a.C20;
 import a.a.C30;
 import a.b.C6;
 import a.b.C60;
-import a.b.C67;
+import a.b.ResourceManager;
 import a.b.C68;
 import java.util.Vector;
 
@@ -131,7 +131,7 @@ public final class C53 extends C20 {
       this.C60_f861 = var1[0];
       this.C60_f862 = var1[1];
       this.h(this.C53_f765);
-      super.C20_f261.c();
+      super.C20_f261.applyColorEffects();
       this.a((byte)0, (byte)((byte)var1[2]));
       short var4 = var1[3];
       byte var3 = 0;
@@ -160,7 +160,7 @@ public final class C53 extends C20 {
       }
 
       this.C20_f262.b(this.C60_f861, this.C60_f862);
-      if (this.C20_f261.C62_f882 == 4) {
+      if (this.C20_f261.spriteSetId == 4) {
          this.C20_f262.a((byte)0, (byte)0, false);
       } else {
          this.C20_f262.a((byte)1, (byte)0, false);
@@ -493,7 +493,7 @@ public final class C53 extends C20 {
                continue;
             }
 
-            if (super.C20_f261.g() < 6) {
+            if (super.C20_f261.getCurrentAnimationId() < 6) {
                if (var2 == 3) {
                   this.a((byte)4, (byte)-1, var2);
                } else {
@@ -511,7 +511,7 @@ public final class C53 extends C20 {
             break;
          case 2:
             if (this.N()) {
-               if (super.C20_f261.g() < 9) {
+               if (super.C20_f261.getCurrentAnimationId() < 9) {
                   if (var2 == 3) {
                      this.a((byte)7, (byte)-1, var2);
                   } else {
@@ -612,9 +612,9 @@ public final class C53 extends C20 {
    public final void h(int var1) {
       if (var1 != -1) {
          this.C53_f793[var1] = 2;
-         this.C20_f261.b();
+         this.C20_f261.forceCleanup();
          this.a(var1 + 1, false);
-         super.C20_f261.c();
+         super.C20_f261.applyColorEffects();
          this.a((byte)0, (byte)this.C60_f866);
          if (this.C53_f768 == 1) {
             this.a(1, 107, true);
@@ -643,9 +643,9 @@ public final class C53 extends C20 {
    }
 
    public final void t() {
-      this.C20_f261.b();
+      this.C20_f261.forceCleanup();
       this.a(0, false);
-      super.C20_f261.c();
+      super.C20_f261.applyColorEffects();
 
       for(int var1 = 0; var1 < 4; ++var1) {
          if (this.C53_f793[var1] == 2) {
@@ -707,7 +707,7 @@ public final class C53 extends C20 {
    private short J() {
       for(short var1 = 0; var1 < C25.B().C25_f287.length; ++var1) {
          if (C25.B().C25_f287[var1].k()) {
-            if ((C25.B().C25_f287[var1].C20_f261.C62_f882 <= 85 || C25.B().C25_f287[var1].C20_f261.C62_f882 == 226 || C25.B().C25_f287[var1].C20_f261.C62_f882 == 92 || C25.B().C25_f287[var1].C20_f261.C62_f882 == 102 || C25.B().C25_f287[var1].C20_f261.C62_f882 == 137) && C25.B().C25_f287[var1].C18_f223 == 0 && (C25.B().C25_f287[var1].C18_f225 == 1 || C25.B().C25_f287[var1].C18_f225 == 18) && this.a(C25.B().C25_f287[var1], this.C20_f261.k(), C25.B().C25_f287[var1].C20_f261.k())) {
+            if ((C25.B().C25_f287[var1].C20_f261.spriteSetId <= 85 || C25.B().C25_f287[var1].C20_f261.spriteSetId == 226 || C25.B().C25_f287[var1].C20_f261.spriteSetId == 92 || C25.B().C25_f287[var1].C20_f261.spriteSetId == 102 || C25.B().C25_f287[var1].C20_f261.spriteSetId == 137) && C25.B().C25_f287[var1].C18_f223 == 0 && (C25.B().C25_f287[var1].C18_f225 == 1 || C25.B().C25_f287[var1].C18_f225 == 18) && this.a(C25.B().C25_f287[var1], this.C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var1].C20_f261.getCurrentFrameEvents())) {
                if (C25.B().C25_f287[var1].v() == 0) {
                   C25.B().a((byte)13, C25.B().C25_f287[var1].C60_f861, C25.B().C25_f287[var1].C60_f862 - 40, C25.B().C25_f287[var1]);
                   if (C25.B().C25_f287[var1].C18_f246 != null) {
@@ -733,7 +733,7 @@ public final class C53 extends C20 {
                return var1;
             }
 
-            if (C25.B().C25_f287[var1].C18_f223 == 2 && this.a(C25.B().C25_f287[var1], this.C20_f261.k(), C25.B().C25_f287[var1].C20_f261.k())) {
+            if (C25.B().C25_f287[var1].C18_f223 == 2 && this.a(C25.B().C25_f287[var1], this.C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var1].C20_f261.getCurrentFrameEvents())) {
                C25.B().m(var1);
             }
          }
@@ -748,11 +748,11 @@ public final class C53 extends C20 {
       switch(C25.B().C25_f287[var1].C18_f223) {
       case 3:
          short[] var2;
-         short var3 = (var2 = C25.B().C25_f287[var1].C20_f261.k())[0];
+         short var3 = (var2 = C25.B().C25_f287[var1].C20_f261.getCurrentFrameEvents())[0];
          short var4 = var2[1];
          short var5 = (short)(var2[2] + 16);
          short var6 = (short)(var2[3] + 16);
-         if (C25.B().C25_f287[var1].C18_f224 && this.a(C25.B().C25_f287[var1], this.C20_f261.k(), new short[]{var3, var4, var5, var6})) {
+         if (C25.B().C25_f287[var1].C18_f224 && this.a(C25.B().C25_f287[var1], this.C20_f261.getCurrentFrameEvents(), new short[]{var3, var4, var5, var6})) {
             C18 var7 = C25.B().C25_f287[var1];
             super.C60_f868 = var7;
          }
@@ -771,7 +771,7 @@ public final class C53 extends C20 {
 
       for(int var2 = 0; var2 < C25.B().C25_f287.length; ++var2) {
          this.y(var2);
-         if (C25.B().C25_f287[var2].C18_f224 && this.a(C25.B().C25_f287[var2], this.C20_f261.k(), C25.B().C25_f287[var2].C20_f261.k())) {
+         if (C25.B().C25_f287[var2].C18_f224 && this.a(C25.B().C25_f287[var2], this.C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var2].C20_f261.getCurrentFrameEvents())) {
             switch(C25.B().C25_f287[var2].C18_f223) {
             case 0:
                switch(C25.B().C25_f287[var2].C18_f225) {
@@ -853,22 +853,22 @@ public final class C53 extends C20 {
                         if (C25.B().C25_f287[var5].C18_f224 && !C25.B().C25_f287[var5].equals(C25.B().C25_f287[var2]) && C25.B().C25_f287[var5].C18_f223 == 0 && (C25.B().C25_f287[var5].C18_f225 == 8 || C25.B().C25_f287[var5].C18_f225 == 11)) {
                            switch(this.C60_f866) {
                            case 0:
-                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].C60_f861, C25.B().C25_f287[var2].C60_f862 + 8, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.k(), C25.B().C25_f287[var5].C20_f261.k())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].C60_f861, C25.B().C25_f287[var2].C60_f862 + 8, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var5].C20_f261.getCurrentFrameEvents())) {
                                  return false;
                               }
                               break;
                            case 1:
-                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].C60_f861 + 8, C25.B().C25_f287[var2].C60_f862, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.k(), C25.B().C25_f287[var5].C20_f261.k())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].C60_f861 + 8, C25.B().C25_f287[var2].C60_f862, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var5].C20_f261.getCurrentFrameEvents())) {
                                  return false;
                               }
                               break;
                            case 2:
-                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].C60_f861, C25.B().C25_f287[var2].C60_f862 - 8, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.k(), C25.B().C25_f287[var5].C20_f261.k())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].C60_f861, C25.B().C25_f287[var2].C60_f862 - 8, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var5].C20_f261.getCurrentFrameEvents())) {
                                  return false;
                               }
                               break;
                            case 3:
-                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].C60_f861 - 8, C25.B().C25_f287[var2].C60_f862, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.k(), C25.B().C25_f287[var5].C20_f261.k())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].C60_f861 - 8, C25.B().C25_f287[var2].C60_f862, C25.B().C25_f287[var5].C60_f861, C25.B().C25_f287[var5].C60_f862, C25.B().C25_f287[var2].C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var5].C20_f261.getCurrentFrameEvents())) {
                                  return false;
                               }
                            }
@@ -1192,7 +1192,7 @@ public final class C53 extends C20 {
    }
 
    private static boolean a(C18 var0, short[] var1, short[] var2, int var3, int var4) {
-      switch(var0.C20_f261.g()) {
+      switch(var0.C20_f261.getCurrentAnimationId()) {
       case 0:
          if (GameUtils.checkCollisionWithShortArray(var0.C60_f861 + var1[0], var0.C60_f862 + var1[1], var1[2], var1[3] + (var0.C18_f234 << 4), var3, var4, var2)) {
             return true;
@@ -1304,9 +1304,9 @@ public final class C53 extends C20 {
                this.c(((C18)this.C60_f868).C18_f242, ((C18)this.C60_f868).C18_f240, (byte)((C18)this.C60_f868).C18_f241);
                var1 = null;
                if (((C18)this.C60_f868).C18_f241 == 0) {
-                  var1 = GameEngineBase.getLocalizedText((int)C67.C67_f923[4][((C18)this.C60_f868).C18_f242][0]);
+                  var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((C18)this.C60_f868).C18_f242][0]);
                } else if (((C18)this.C60_f868).C18_f241 == 2) {
-                  var1 = GameEngineBase.getLocalizedText((int)C67.C67_f923[3][((C18)this.C60_f868).C18_f242][0]);
+                  var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((C18)this.C60_f868).C18_f242][0]);
                }
 
                C25.B().gameController.a((String)("Đạt được: " + var1), ((C18)this.C60_f868).C18_f240);
@@ -1324,9 +1324,9 @@ public final class C53 extends C20 {
                      this.c(((C18)this.C60_f868).C18_f242, ((C18)this.C60_f868).C18_f240, (byte)((C18)this.C60_f868).C18_f241);
                      var1 = null;
                      if (((C18)this.C60_f868).C18_f241 == 0) {
-                        var1 = GameEngineBase.getLocalizedText((int)C67.C67_f923[4][((C18)this.C60_f868).C18_f242][0]);
+                        var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((C18)this.C60_f868).C18_f242][0]);
                      } else if (((C18)this.C60_f868).C18_f241 == 2) {
-                        var1 = GameEngineBase.getLocalizedText((int)C67.C67_f923[3][((C18)this.C60_f868).C18_f242][0]);
+                        var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((C18)this.C60_f868).C18_f242][0]);
                      }
 
                      C25.B().gameController.a((String)("Đạt được: " + var1), ((C18)this.C60_f868).C18_f240);
@@ -1456,7 +1456,7 @@ public final class C53 extends C20 {
    public final boolean a(int var1, int var2, byte var3) {
       switch(var3) {
       case 0:
-         if (C67.C67_f923[4][var1][5] == 0) {
+         if (ResourceManager.gameDatabase[4][var1][5] == 0) {
             return a(var1, var2, this.C53_f788);
          }
 
@@ -1484,7 +1484,7 @@ public final class C53 extends C20 {
    public final boolean b(int var1, int var2, byte var3) {
       switch(var3) {
       case 0:
-         if (C67.C67_f923[4][var1][5] == 0) {
+         if (ResourceManager.gameDatabase[4][var1][5] == 0) {
             return b(var1, var2, this.C53_f788);
          }
 
@@ -1499,7 +1499,7 @@ public final class C53 extends C20 {
    public final boolean c(int var1, int var2, byte var3) {
       switch(var3) {
       case 0:
-         if (C67.C67_f923[4][var1][5] == 0) {
+         if (ResourceManager.gameDatabase[4][var1][5] == 0) {
             return c(var1, var2, this.C53_f788);
          }
 
@@ -1524,7 +1524,7 @@ public final class C53 extends C20 {
    public final boolean d(int var1, int var2, byte var3) {
       switch(var3) {
       case 0:
-         if (C67.C67_f923[4][var1][5] == 0) {
+         if (ResourceManager.gameDatabase[4][var1][5] == 0) {
             return d(var1, var2, this.C53_f788);
          }
 
@@ -1541,7 +1541,7 @@ public final class C53 extends C20 {
       int[] var4;
       switch(var2) {
       case 0:
-         if (C67.C67_f923[4][var1][5] == 0) {
+         if (ResourceManager.gameDatabase[4][var1][5] == 0) {
             for(var3 = 0; var3 < this.C53_f788.size(); ++var3) {
                if ((var4 = (int[])this.C53_f788.elementAt(var3))[0] == var1) {
                   return var4[1];
@@ -1580,14 +1580,14 @@ public final class C53 extends C20 {
       int[] var2;
       for(var1 = 0; var1 < this.C53_f788.size(); ++var1) {
          var2 = (int[])this.C53_f788.elementAt(var1);
-         if (C67.C67_f923[4][var2[0]][4] == 0) {
+         if (ResourceManager.gameDatabase[4][var2[0]][4] == 0) {
             this.C53_f796.addElement(var2);
          }
       }
 
       for(var1 = 0; var1 < this.C53_f787.size(); ++var1) {
          var2 = (int[])this.C53_f787.elementAt(var1);
-         if (C67.C67_f923[4][var2[0]][4] == 0) {
+         if (ResourceManager.gameDatabase[4][var2[0]][4] == 0) {
             this.C53_f796.addElement(var2);
          }
       }
@@ -1902,12 +1902,12 @@ public final class C53 extends C20 {
       var11[8] = var9;
       System.arraycopy(var10, 0, var11, 9, var10.length);
       this.C53_f792.addElement(var11);
-      this.a((byte)((byte)C67.C67_f923[0][var1][1]), var1, (byte)2);
+      this.a((byte)((byte) ResourceManager.gameDatabase[0][var1][1]), var1, (byte)2);
    }
 
    public final void b(int[] var1) {
       this.C53_f792.addElement(var1);
-      this.a((byte)((byte)C67.C67_f923[0][var1[0]][1]), var1[0], (byte)2);
+      this.a((byte)((byte) ResourceManager.gameDatabase[0][var1[0]][1]), var1[0], (byte)2);
    }
 
    public final void q(int var1) {
@@ -1941,7 +1941,7 @@ public final class C53 extends C20 {
    public final void b(byte var1, byte var2, byte var3) {
       this.C53_f779[var1][var2] = var3;
       if (this.C53_f779[0][0] == 2) {
-         C30.a().a(C67.a((byte)2, (short)0, (byte)5) / 2, C67.a((byte)2, (short)0, (byte)5) / 2);
+         C30.a().a(ResourceManager.getDatabaseValue((byte)2, (short)0, (byte)5) / 2, ResourceManager.getDatabaseValue((byte)2, (short)0, (byte)5) / 2);
       }
 
    }
@@ -1976,9 +1976,9 @@ public final class C53 extends C20 {
          ++this.C53_f782[var1];
          if (var3 == 2) {
             ++this.C53_f783;
-            if (C67.C67_f923[0][var2][22] == 2) {
+            if (ResourceManager.gameDatabase[0][var2][22] == 2) {
                ++this.C53_f784;
-            } else if (C67.C67_f923[0][var2][22] == 1) {
+            } else if (ResourceManager.gameDatabase[0][var2][22] == 1) {
                ++this.C53_f785;
             }
          }
@@ -1988,9 +1988,9 @@ public final class C53 extends C20 {
          if (this.a(var1, var2) <= 1) {
             if (var3 == 2) {
                ++this.C53_f783;
-               if (C67.C67_f923[0][var2][22] == 2) {
+               if (ResourceManager.gameDatabase[0][var2][22] == 2) {
                   ++this.C53_f784;
-               } else if (C67.C67_f923[0][var2][22] == 1) {
+               } else if (ResourceManager.gameDatabase[0][var2][22] == 1) {
                   ++this.C53_f785;
                }
             }
@@ -2023,7 +2023,7 @@ public final class C53 extends C20 {
 
          --this.C53_f775;
          if (this.C53_f775 == 0) {
-            this.C20_f261.a(0);
+            this.C20_f261.applyBrightnessEffect(0);
             this.C53_f775 = -1;
          }
 
@@ -2073,7 +2073,7 @@ public final class C53 extends C20 {
    }
 
    public final boolean b(int var1, int var2, int var3) {
-      return C67.C67_f923[var3][var1][4] == 0 ? this.u(var2) : this.x(var2);
+      return ResourceManager.gameDatabase[var3][var1][4] == 0 ? this.u(var2) : this.x(var2);
    }
 
    public final void H() {
@@ -2084,7 +2084,7 @@ public final class C53 extends C20 {
    public final boolean a(int var1, boolean var2) {
       super.a(var1, var2);
       if (this.C53_f775 > 0) {
-         this.C20_f261.a(1);
+         this.C20_f261.applyBrightnessEffect(1);
       }
 
       return true;

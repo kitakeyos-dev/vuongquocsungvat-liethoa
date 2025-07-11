@@ -5,9 +5,9 @@ import a.GameUtils;
 import a.a.C30;
 import a.a.C42;
 import a.b.C64;
-import a.b.C67;
+import a.b.ResourceManager;
 import a.b.C68;
-import c.DialogManager;
+import layout.DialogManager;
 
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
@@ -182,9 +182,9 @@ public final class GameScreenManager extends GameEngineBase {
         this.gameController = C9.a();
         this.dialogManager = DialogManager.getInstance();
         this.gameController.a(this);
-        C67.a(50000);
+        ResourceManager.initializeImageCache(50000);
         C64.a(1000);
-        C67.a();
+        ResourceManager.initializeAllResources();
         setBackgroundColor(0);
         getDefaultFont();
         this.tutorialManager.initializeGame();

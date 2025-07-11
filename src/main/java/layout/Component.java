@@ -1,6 +1,6 @@
 // Decompiled with: Procyon 0.6.0
 // Class Version: 3
-package c;
+package layout;
 
 import javax.microedition.lcdui.Graphics;
 import a.GameUtils;
@@ -12,7 +12,7 @@ public final class Component
    public int[] C38_f575;
    public int[][][] C38_f576;
    public int C38_f577;
-   private C35[] C38_f578;
+   private Rectangle[] C38_f578;
    public int C38_f579;
    public int C38_f580;
    public boolean C38_f581;
@@ -44,7 +44,7 @@ public final class Component
       final int[] c38_f585 = this.C38_f575;
       this.C38_f575 = GameUtils.initializeArrayWithMinusOne(50);
       this.C38_f577 = 0;
-      this.C38_f578 = new C35[20];
+      this.C38_f578 = new Rectangle[20];
       this.C38_f579 = 0;
       this.C38_f580 = 0;
       this.C38_f581 = true;
@@ -167,10 +167,10 @@ public final class Component
 
    public final void a(final Graphics graphics, final int n, final boolean b, final int[] array, final boolean b2, final IComponent c23) {
       if (this.C38_f578 != null) {
-         this.C38_f578 = new C35[20];
+         this.C38_f578 = new Rectangle[20];
          for (int i = 0; i < this.C38_f577; ++i) {
             final IComponent a = GameUtils.findChildById(c23, this.C38_f575[i]);
-            this.C38_f578[i] = new C35(a.getOffsetX(), a.getOffsetY(), a.getWidth(), a.getHeight());
+            this.C38_f578[i] = new Rectangle(a.getOffsetX(), a.getOffsetY(), a.getWidth(), a.getHeight());
          }
       }
       int n2 = -1;
@@ -194,13 +194,13 @@ public final class Component
       for (int n4 = 0; n4 < c24.length && c24[n4] != -1; ++n4) {
          if (n2 == c24[n4]) {
             final IComponent a2;
-            final int n5 = (a2 = GameUtils.findChildById(c23, n)).getOffsetX() - this.C38_f578[n4].C35_f557;
-            final int n6 = a2.getOffsetY() - this.C38_f578[n4].C35_f558;
+            final int n5 = (a2 = GameUtils.findChildById(c23, n)).getOffsetX() - this.C38_f578[n4].x;
+            final int n6 = a2.getOffsetY() - this.C38_f578[n4].y;
             final int e = a2.getWidth();
             final int f = a2.getHeight();
             GameUtils.a(a2, -n5, -n6, c23);
-            a2.setWidth(this.C38_f578[n4].C35_f559, c23);
-            a2.setHeight(this.C38_f578[n4].C35_f560, c23);
+            a2.setWidth(this.C38_f578[n4].width, c23);
+            a2.setHeight(this.C38_f578[n4].height, c23);
             if (b && this.C38_f574 > 0) {
                if (this.C38_f588 == 1) {
                   if (this.C38_f580 == (this.C38_f579 + c24[n4]) % this.C38_f574) {
@@ -229,10 +229,10 @@ public final class Component
 
    public final void update(final int n, final int[] array, final boolean b, final IComponent c23) {
       if (this.C38_f578 != null) {
-         this.C38_f578 = new C35[20];
+         this.C38_f578 = new Rectangle[20];
          for (int i = 0; i < this.C38_f577; ++i) {
             final IComponent a = GameUtils.findChildById(c23, this.C38_f575[i]);
-            this.C38_f578[i] = new C35(a.getOffsetX(), a.getOffsetY(), a.getWidth(), a.getHeight());
+            this.C38_f578[i] = new Rectangle(a.getOffsetX(), a.getOffsetY(), a.getWidth(), a.getHeight());
          }
       }
       int n2 = -1;
@@ -256,13 +256,13 @@ public final class Component
       for (int n4 = 0; n4 < c24.length && c24[n4] != -1; ++n4) {
          if (n2 == c24[n4]) {
             final IComponent a2;
-            final int n5 = (a2 = GameUtils.findChildById(c23, n)).getOffsetX() - this.C38_f578[n4].C35_f557;
-            final int n6 = a2.getOffsetY() - this.C38_f578[n4].C35_f558;
+            final int n5 = (a2 = GameUtils.findChildById(c23, n)).getOffsetX() - this.C38_f578[n4].x;
+            final int n6 = a2.getOffsetY() - this.C38_f578[n4].y;
             final int e = a2.getWidth();
             final int f = a2.getHeight();
             GameUtils.a(a2, -n5, -n6, c23);
-            a2.setWidth(this.C38_f578[n4].C35_f559, c23);
-            a2.setHeight(this.C38_f578[n4].C35_f560, c23);
+            a2.setWidth(this.C38_f578[n4].width, c23);
+            a2.setHeight(this.C38_f578[n4].height, c23);
             a2.update(b, b, c23, array);
             GameUtils.a(a2, n5, n6, c23);
             a2.setWidth(e, c23);

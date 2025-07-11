@@ -37,8 +37,8 @@ public final class C18 extends C20 {
    public final void a(short[] var1, int var2) {
       this.C18_f248 = (short)var2;
       this.C18_f223 = (byte)var1[0];
-      this.C20_f261.a(var1[1], false);
-      this.C20_f261.c();
+      this.C20_f261.loadSpriteSet(var1[1], false);
+      this.C20_f261.applyColorEffects();
       this.C18_f225 = (byte)var1[6];
       if (this.C18_f223 == 0 && (this.C18_f225 == 1 || this.C18_f225 == 18)) {
          byte var4 = (byte)(var1[2] % 3);
@@ -61,7 +61,7 @@ public final class C18 extends C20 {
          if (this.C18_f226 != 0 && this.C18_f246 == null && this.k()) {
             this.C18_f246 = new C20();
             this.C18_f246.a(259, false);
-            this.C18_f246.C20_f261.c();
+            this.C18_f246.C20_f261.applyColorEffects();
             this.C18_f246.a(this.C18_f226, (byte)-1, true);
             this.C18_f246.b(this.C60_f861, this.C60_f862 - 40);
             this.C18_f246.C60_f868 = this;
@@ -98,14 +98,14 @@ public final class C18 extends C20 {
             }
          }
 
-         if (this.C18_f225 == 1 && this.C20_f261.C62_f882 != 226 || this.C18_f225 == 2 || this.C18_f225 == 3 || this.C18_f225 == 17) {
+         if (this.C18_f225 == 1 && this.C20_f261.spriteSetId != 226 || this.C18_f225 == 2 || this.C18_f225 == 3 || this.C18_f225 == 17) {
             if (this.C20_f262 == null) {
                this.C20_f262 = new C20();
                this.C20_f262.a(337, false);
             }
 
             this.C20_f262.b(this.C60_f861, this.C60_f862);
-            if (this.C20_f261.C62_f882 == 4) {
+            if (this.C20_f261.spriteSetId == 4) {
                this.C20_f262.a((byte)0, (byte)0, this.C18_f243);
             } else {
                this.C20_f262.a((byte)1, (byte)0, this.C18_f243);
@@ -169,7 +169,7 @@ public final class C18 extends C20 {
 
    public final void p() {
       if (this.C20_f261 != null) {
-         this.C20_f261.d();
+         this.C20_f261.resetWithColorEffects();
       }
 
    }
@@ -254,25 +254,25 @@ public final class C18 extends C20 {
          break;
       case 1:
          if (this.C18_f225 == 0) {
-            if (this.C60_f860 == 0 && GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.k())) {
+            if (this.C60_f860 == 0 && GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents())) {
                this.a((byte)1);
-            } else if (this.C60_f860 == 2 && !GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.k())) {
+            } else if (this.C60_f860 == 2 && !GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents())) {
                this.a((byte)3);
-            } else if (this.C60_f860 == 1 && this.C20_f261.f()) {
+            } else if (this.C60_f860 == 1 && this.C20_f261.isAtLastFrame()) {
                this.a((byte)2);
-            } else if (this.C60_f860 == 3 && this.C20_f261.f()) {
+            } else if (this.C60_f860 == 3 && this.C20_f261.isAtLastFrame()) {
                this.a((byte)0);
             }
          }
 
          byte var10001;
-         if (this.C18_f225 == 0 && this.C20_f261.f() || this.C18_f225 == 1 || this.C18_f225 == 3 && this.i() == 2) {
-            if (this.C20_f261.C62_f882 == 320 && !this.k()) {
+         if (this.C18_f225 == 0 && this.C20_f261.isAtLastFrame() || this.C18_f225 == 1 || this.C18_f225 == 3 && this.i() == 2) {
+            if (this.C20_f261.spriteSetId == 320 && !this.k()) {
                return;
             }
 
             var10001 = this.C18_f244[this.C18_f236];
-            if ((C53.p().C60_f867 == var10001 && this.C20_f261.C62_f882 != 320 && this.C20_f261.C62_f882 != 310 || this.C20_f261.C62_f882 == 320 || this.C20_f261.C62_f882 == 310) && GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.j())) {
+            if ((C53.p().C60_f867 == var10001 && this.C20_f261.spriteSetId != 320 && this.C20_f261.spriteSetId != 310 || this.C20_f261.spriteSetId == 320 || this.C20_f261.spriteSetId == 310) && GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameTriggers())) {
                C25.B().C25_f290 = this.C18_f237;
                C25.B().C25_f291 = this.C18_f238;
                C25.B().C25_f295 = this.C18_f239;
@@ -280,7 +280,7 @@ public final class C18 extends C20 {
             }
          } else if (this.C18_f225 == 2) {
             var10001 = this.C18_f244[this.C18_f236];
-            if ((C53.p().C60_f867 == var10001 && this.C20_f261.C62_f882 != 320 || this.C20_f261.C62_f882 == 320) && GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.j())) {
+            if ((C53.p().C60_f867 == var10001 && this.C20_f261.spriteSetId != 320 || this.C20_f261.spriteSetId == 320) && GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameTriggers())) {
                for(int var1 = 0; var1 < this.C18_f249.length / 6; ++var1) {
                   if (this.C18_f249[var1 * 6] == this.C18_f248 && this.C18_f249[var1 * 6 + 1] == C25.B().C25_f290 && this.C18_f249[var1 * 6 + 2] == C25.B().C25_f291) {
                      C25.B().C25_f293 = this.C18_f249[var1 * 6 + 3];
@@ -295,7 +295,7 @@ public final class C18 extends C20 {
                C25.B().C25_f295 = -1;
                GameScreenManager.getInstance().changeState((byte)9);
             }
-         } else if (this.C18_f225 == 4 && C53.p().i() != 9 && C53.p().i() != 10 && GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.k(), this.C20_f261.j())) {
+         } else if (this.C18_f225 == 4 && C53.p().i() != 9 && C53.p().i() != 10 && GameUtils.checkCollisionBetweenShortArrays(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameTriggers())) {
             C53.p().b(this.C60_f861, this.C60_f862);
             C53.p().C20_f262.b(this.C60_f861, this.C60_f862);
             C53.p().a((byte)9, (byte)this.C60_f866);
@@ -317,21 +317,21 @@ public final class C18 extends C20 {
          if (this.C60_f860 == 1) {
             var2 = 0;
             this.a((int)super.C60_f856[var2]);
-            if (C25.B().C25_f313 != null && C25.B().C25_f313.C60_f868.equals(this) && !C53.p().a(this, C53.p().C20_f261.k(), this.C20_f261.k())) {
+            if (C25.B().C25_f313 != null && C25.B().C25_f313.C60_f868.equals(this) && !C53.p().a(this, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents())) {
                C25.B().D();
             }
          }
 
-         if (C25.B().C25_f313 != null && C25.B().C25_f313.C60_f868.equals(this) && (!this.k() || !C53.p().a(this, C53.p().C20_f261.k(), this.C20_f261.k()))) {
+         if (C25.B().C25_f313 != null && C25.B().C25_f313.C60_f868.equals(this) && (!this.k() || !C53.p().a(this, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents()))) {
             C25.C25_f318 = -1;
             C25.B().D();
          }
 
-         if (this.C18_f246 != null && this.k() && this.C18_f246.C60_f868.equals(this) && !C53.p().a(this, C53.p().C20_f261.k(), this.C20_f261.k())) {
+         if (this.C18_f246 != null && this.k() && this.C18_f246.C60_f868.equals(this) && !C53.p().a(this, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents())) {
             this.B();
          }
 
-         if (C7.C7_f64 != null && C7.C7_f64.size() > 0 && this.C18_f245 == 1 && !C53.p().a(this, C53.p().C20_f261.k(), this.C20_f261.k())) {
+         if (C7.C7_f64 != null && C7.C7_f64.size() > 0 && this.C18_f245 == 1 && !C53.p().a(this, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents())) {
             for(var1 = 0; var1 < C7.C7_f64.size(); ++var1) {
                if (((C20)C7.C7_f64.elementAt(var1)).C60_f868.equals(this)) {
                   ((C20)C7.C7_f64.elementAt(var1)).c();
@@ -433,11 +433,11 @@ public final class C18 extends C20 {
       case 6:
       case 7:
       case 15:
-         if (this.C18_f247 != null && this.k() && this.C18_f247.C60_f868.equals(this) && (this.C60_f860 != 0 || !C53.p().a(this, C53.p().C20_f261.k(), this.C20_f261.k()))) {
+         if (this.C18_f247 != null && this.k() && this.C18_f247.C60_f868.equals(this) && (this.C60_f860 != 0 || !C53.p().a(this, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents()))) {
             this.y();
          }
 
-         if (this.C60_f860 == 1 && this.C20_f261.f()) {
+         if (this.C60_f860 == 1 && this.C20_f261.isAtLastFrame()) {
             this.a((byte)2);
             if (this.C18_f225 == 6 && this.C18_f225 == 7) {
                C25.B().a(this.C18_f248, 0, this.C60_f860, false);
@@ -471,7 +471,7 @@ public final class C18 extends C20 {
       case 9:
       case 10:
          if (this.C18_f233 == 1) {
-            if ((this.C20_f261.C62_f882 == 302 || this.C20_f261.C62_f882 == 298) && this.a(this.C60_f866, 4, (byte)1)) {
+            if ((this.C20_f261.spriteSetId == 302 || this.C20_f261.spriteSetId == 298) && this.a(this.C60_f866, 4, (byte)1)) {
                this.a((int)4);
                ((C20)this.C60_f868).a(4);
                return;
@@ -493,7 +493,7 @@ public final class C18 extends C20 {
          return;
       case 12:
          if (this.k()) {
-            if (!GameUtils.isPointInShortArrayRectangle(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, this.C20_f261.k())) {
+            if (!GameUtils.isPointInShortArrayRectangle(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, this.C20_f261.getCurrentFrameEvents())) {
                if (this.a(this.C60_f866, 4, (byte)0)) {
                   this.a((int)4);
                   return;
@@ -516,7 +516,7 @@ public final class C18 extends C20 {
          break;
       case 13:
          if (this.k()) {
-            if (!GameUtils.isPointInShortArrayRectangle(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, this.C20_f261.k())) {
+            if (!GameUtils.isPointInShortArrayRectangle(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, this.C20_f261.getCurrentFrameEvents())) {
                if (this.a(this.C60_f866, 4, (byte)0)) {
                   this.a((int)4);
                   return;
@@ -547,7 +547,7 @@ public final class C18 extends C20 {
          this.C18_f232 = 0;
          return;
       case 16:
-         if (GameUtils.isPointInShortArrayRectangle(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, this.C20_f261.k()) && C53.p().i() != 5) {
+         if (GameUtils.isPointInShortArrayRectangle(C53.p().C60_f861, C53.p().C60_f862, this.C60_f861, this.C60_f862, this.C20_f261.getCurrentFrameEvents()) && C53.p().i() != 5) {
             C53.p().a((byte)5, (byte)C53.p().C60_f866);
             return;
          }
@@ -559,7 +559,7 @@ public final class C18 extends C20 {
       byte var2;
       if (this.C18_f225 == 9) {
          this.a((byte)1);
-         if ((this.C20_f261.C62_f882 == 302 || this.C20_f261.C62_f882 == 298) && this.a((byte)1, 4, (byte)1)) {
+         if ((this.C20_f261.spriteSetId == 302 || this.C20_f261.spriteSetId == 298) && this.a((byte)1, 4, (byte)1)) {
             var2 = 1;
             super.C60_f866 = var2;
          } else if (this.a((byte)1, 4, (byte)2)) {
@@ -569,7 +569,7 @@ public final class C18 extends C20 {
             var2 = 3;
             super.C60_f866 = var2;
          }
-      } else if ((this.C20_f261.C62_f882 == 302 || this.C20_f261.C62_f882 == 298) && this.a((byte)2, 4, (byte)1)) {
+      } else if ((this.C20_f261.spriteSetId == 302 || this.C20_f261.spriteSetId == 298) && this.a((byte)2, 4, (byte)1)) {
          this.a((byte)2);
          var2 = 2;
          super.C60_f866 = var2;
@@ -593,7 +593,7 @@ public final class C18 extends C20 {
          boolean var10000;
          label86: {
             byte var4;
-            byte var10001 = super.C20_f261.g();
+            byte var10001 = super.C20_f261.getCurrentAnimationId();
             int var10002 = 16 * (this.C18_f234 + 1);
             boolean var1 = false;
             int var3 = var10002;
@@ -612,7 +612,7 @@ public final class C18 extends C20 {
                      break label83;
                   }
 
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.k() != null && GameUtils.isPointInShortArrayRectangle(var5.C60_f861, var5.C60_f862 + var3, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.k())) {
+                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.C60_f861, var5.C60_f862 + var3, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents())) {
                      C25.B().C25_f287[var6].C60_f868 = var5;
                      var10000 = false;
                      break label86;
@@ -629,7 +629,7 @@ public final class C18 extends C20 {
                      break label83;
                   }
 
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.k() != null && GameUtils.isPointInShortArrayRectangle(var5.C60_f861 + var3, var5.C60_f862, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.k())) {
+                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.C60_f861 + var3, var5.C60_f862, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents())) {
                      C25.B().C25_f287[var6].C60_f868 = var5;
                      var10000 = false;
                      break label86;
@@ -646,7 +646,7 @@ public final class C18 extends C20 {
                      break label83;
                   }
 
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.k() != null && GameUtils.isPointInShortArrayRectangle(var5.C60_f861, var5.C60_f862 - var3, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.k())) {
+                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.C60_f861, var5.C60_f862 - var3, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents())) {
                      C25.B().C25_f287[var6].C60_f868 = var5;
                      var10000 = false;
                      break label86;
@@ -658,7 +658,7 @@ public final class C18 extends C20 {
                var4 = C68.a().a(0, this.C60_f861 - var3, this.C60_f862);
 
                for(var6 = 0; var6 < C25.B().C25_f287.length; ++var6) {
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.k() != null && GameUtils.isPointInShortArrayRectangle(var5.C60_f861 - var3, var5.C60_f862, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.k())) {
+                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.C60_f861 - var3, var5.C60_f862, C25.B().C25_f287[var6].C60_f861, C25.B().C25_f287[var6].C60_f862, C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents())) {
                      C25.B().C25_f287[var6].C60_f868 = var5;
                      var10000 = false;
                      break label86;
@@ -695,44 +695,44 @@ public final class C18 extends C20 {
          var4 = C68.a().a(0, this.C60_f861, this.C60_f862 + var2);
          break;
       case 1:
-         var4 = C68.a().a(0, this.C60_f861 + var2 + this.C20_f261.k()[2] / 2, this.C60_f862);
+         var4 = C68.a().a(0, this.C60_f861 + var2 + this.C20_f261.getCurrentFrameEvents()[2] / 2, this.C60_f862);
          break;
       case 2:
-         var4 = C68.a().a(0, this.C60_f861, this.C60_f862 - this.C20_f261.k()[3] - var2);
+         var4 = C68.a().a(0, this.C60_f861, this.C60_f862 - this.C20_f261.getCurrentFrameEvents()[3] - var2);
          break;
       case 3:
-         var4 = C68.a().a(0, this.C60_f861 - var2 - this.C20_f261.k()[2] / 2, this.C60_f862);
+         var4 = C68.a().a(0, this.C60_f861 - var2 - this.C20_f261.getCurrentFrameEvents()[2] / 2, this.C60_f862);
       }
 
       return var4 == var3;
    }
 
    public final void c(Graphics var1, int var2, int var3) {
-      switch(super.C20_f261.g()) {
+      switch(super.C20_f261.getCurrentAnimationId()) {
       case 0:
          var1.setColor(65280);
-         var1.fillRect(this.C60_f861 - var2 - (this.C18_f232 + 5) / 2, this.C60_f862 - this.C20_f261.j()[3] - var3 + 20, this.C18_f232 + 5, this.C18_f234 + 1 << 4);
+         var1.fillRect(this.C60_f861 - var2 - (this.C18_f232 + 5) / 2, this.C60_f862 - this.C20_f261.getCurrentFrameTriggers()[3] - var3 + 20, this.C18_f232 + 5, this.C18_f234 + 1 << 4);
          var1.setColor(16777215);
-         var1.fillRect(this.C60_f861 - var2 - (this.C18_f232 + 3) / 2, this.C60_f862 - this.C20_f261.j()[3] - var3 + 20, this.C18_f232 + 3, this.C18_f234 + 1 << 4);
+         var1.fillRect(this.C60_f861 - var2 - (this.C18_f232 + 3) / 2, this.C60_f862 - this.C20_f261.getCurrentFrameTriggers()[3] - var3 + 20, this.C18_f232 + 3, this.C18_f234 + 1 << 4);
          return;
       case 1:
          var1.setColor(65280);
-         var1.fillRect(this.C60_f861 - var2 + 7, this.C60_f862 - this.C20_f261.j()[3] - var3 - (this.C18_f232 + 5) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 5);
+         var1.fillRect(this.C60_f861 - var2 + 7, this.C60_f862 - this.C20_f261.getCurrentFrameTriggers()[3] - var3 - (this.C18_f232 + 5) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 5);
          var1.setColor(16777215);
-         var1.fillRect(this.C60_f861 - var2 + 7, this.C60_f862 - this.C20_f261.j()[3] - var3 - (this.C18_f232 + 3) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 3);
+         var1.fillRect(this.C60_f861 - var2 + 7, this.C60_f862 - this.C20_f261.getCurrentFrameTriggers()[3] - var3 - (this.C18_f232 + 3) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 3);
       default:
          return;
       case 2:
          var1.setColor(65280);
-         var1.fillRect(this.C60_f861 - var2 - (this.C18_f232 + 5) / 2, this.C60_f862 - this.C20_f261.j()[3] - var3 - (this.C18_f234 << 4) + 8, this.C18_f232 + 5, this.C18_f234 << 4);
+         var1.fillRect(this.C60_f861 - var2 - (this.C18_f232 + 5) / 2, this.C60_f862 - this.C20_f261.getCurrentFrameTriggers()[3] - var3 - (this.C18_f234 << 4) + 8, this.C18_f232 + 5, this.C18_f234 << 4);
          var1.setColor(16777215);
-         var1.fillRect(this.C60_f861 - var2 - (this.C18_f232 + 3) / 2, this.C60_f862 - this.C20_f261.j()[3] - var3 - (this.C18_f234 << 4) + 8, this.C18_f232 + 3, this.C18_f234 << 4);
+         var1.fillRect(this.C60_f861 - var2 - (this.C18_f232 + 3) / 2, this.C60_f862 - this.C20_f261.getCurrentFrameTriggers()[3] - var3 - (this.C18_f234 << 4) + 8, this.C18_f232 + 3, this.C18_f234 << 4);
          return;
       case 3:
          var1.setColor(65280);
-         var1.fillRect(this.C60_f861 - var2 - 8 - (this.C18_f234 << 4), this.C60_f862 - this.C20_f261.j()[3] - var3 - (this.C18_f232 + 5) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 5);
+         var1.fillRect(this.C60_f861 - var2 - 8 - (this.C18_f234 << 4), this.C60_f862 - this.C20_f261.getCurrentFrameTriggers()[3] - var3 - (this.C18_f232 + 5) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 5);
          var1.setColor(16777215);
-         var1.fillRect(this.C60_f861 - var2 - 8 - (this.C18_f234 << 4), this.C60_f862 - this.C20_f261.j()[3] - var3 - (this.C18_f232 + 3) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 3);
+         var1.fillRect(this.C60_f861 - var2 - 8 - (this.C18_f234 << 4), this.C60_f862 - this.C20_f261.getCurrentFrameTriggers()[3] - var3 - (this.C18_f232 + 3) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 3);
       }
    }
 
@@ -770,7 +770,7 @@ public final class C18 extends C20 {
       if (this.C18_f247 == null && this.k()) {
          this.C18_f247 = new C20();
          this.C18_f247.a(259, false);
-         this.C18_f247.C20_f261.c();
+         this.C18_f247.C20_f261.applyColorEffects();
          this.C18_f247.a((byte)7, (byte)-1, true);
          this.C18_f247.b(this.C60_f861, this.C60_f862 - var1);
          this.C18_f247.C60_f868 = this;

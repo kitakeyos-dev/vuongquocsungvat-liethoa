@@ -127,12 +127,12 @@ public class C60 {
       }
    }
 
-   public final void a(C62 var1, C62 var2) {
+   public final void a(SpriteManager var1, SpriteManager var2) {
       if (this.C60_f874) {
          if (this.C60_f868.C60_f860 != 0) {
             this.C60_f873[0][0] = this.C60_f868.C60_f861;
             this.C60_f873[0][1] = this.C60_f868.C60_f862;
-            this.C60_f873[0][2] = var1.C62_f888;
+            this.C60_f873[0][2] = var1.nextAnimationId;
             this.C60_f873[0][3] = this.C60_f868.C60_f866;
 
             for(int var5 = this.C60_f872; var5 > 0; --var5) {
@@ -143,9 +143,9 @@ public class C60 {
                if (var5 % this.C60_f872 == 0) {
                   this.b(this.C60_f873[var5][0], this.C60_f873[var5][1]);
                   if (this.C60_f873[var5][3] == 3) {
-                     var2.a((byte)this.C60_f873[var5][2], (byte)1, false);
+                     var2.setAnimation((byte)this.C60_f873[var5][2], (byte)1, false);
                   } else {
-                     var2.a((byte)this.C60_f873[var5][2], (byte)this.C60_f873[var5][3], false);
+                     var2.setAnimation((byte)this.C60_f873[var5][2], (byte)this.C60_f873[var5][3], false);
                   }
 
                   byte var4 = (byte)this.C60_f873[var5][3];

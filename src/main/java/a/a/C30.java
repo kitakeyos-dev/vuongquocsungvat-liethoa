@@ -3,8 +3,8 @@ package a.a;
 import a.GameUtils;
 import a.GameEngineBase;
 import a.b.C6;
-import a.b.C67;
-import c.DialogManager;
+import a.b.ResourceManager;
+import layout.DialogManager;
 import game.C25;
 import game.C29;
 import game.C7;
@@ -403,7 +403,7 @@ public final class C30 {
         this.C30_f522 = var1;
         switch (this.C30_f472) {
             case 7:
-                short var2 = C67.C67_f923[0][C29.B().p(0)][17];
+                short var2 = ResourceManager.gameDatabase[0][C29.B().p(0)][17];
                 short[] var3;
                 switch (this.C30_f522) {
                     case 0:

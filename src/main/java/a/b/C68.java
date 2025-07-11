@@ -148,16 +148,16 @@ public final class C68 {
             this.C68_f942 = null;
          } else {
             for(var1 = 0; var1 < this.C68_f942.length; ++var1) {
-               for(int var2 = 0; var2 < C67.C67_f922[this.C68_f940].length; ++var2) {
-                  if (C67.C67_f922[this.C68_f941][var1] == C67.C67_f922[this.C68_f940][var2]) {
-                     C67.c(C67.C67_f922[this.C68_f941][var1]);
+               for(int var2 = 0; var2 < ResourceManager.moduleInfoData[this.C68_f940].length; ++var2) {
+                  if (ResourceManager.moduleInfoData[this.C68_f941][var1] == ResourceManager.moduleInfoData[this.C68_f940][var2]) {
+                     ResourceManager.releaseImageReference(ResourceManager.moduleInfoData[this.C68_f941][var1]);
                      this.C68_f942[var1] = null;
                      break;
                   }
                }
 
                if (this.C68_f942[var1] != null) {
-                  C67.d(C67.C67_f922[this.C68_f941][var1]);
+                  ResourceManager.forceReleaseImage(ResourceManager.moduleInfoData[this.C68_f941][var1]);
                   this.C68_f942[var1] = null;
                }
             }
@@ -166,13 +166,13 @@ public final class C68 {
          }
       }
 
-      this.C68_f942 = new Image[C67.C67_f922[this.C68_f940].length];
+      this.C68_f942 = new Image[ResourceManager.moduleInfoData[this.C68_f940].length];
 
       for(var1 = 0; var1 < this.C68_f942.length; ++var1) {
          if (C7.C7_f51 == 1) {
-            this.C68_f942[var1] = C69.a(C67.b(C67.C67_f922[this.C68_f940][var1]));
+            this.C68_f942[var1] = C69.a(ResourceManager.getCachedImage(ResourceManager.moduleInfoData[this.C68_f940][var1]));
          } else {
-            this.C68_f942[var1] = C67.b(C67.C67_f922[this.C68_f940][var1]);
+            this.C68_f942[var1] = ResourceManager.getCachedImage(ResourceManager.moduleInfoData[this.C68_f940][var1]);
          }
       }
 
@@ -201,15 +201,15 @@ public final class C68 {
       int var1;
       for(var1 = 0; var1 < this.C68_f942.length; ++var1) {
          if (C7.C7_f51 == 1) {
-            this.C68_f942[var1] = C69.a(C67.b(C67.C67_f922[this.C68_f940][var1]));
+            this.C68_f942[var1] = C69.a(ResourceManager.getCachedImage(ResourceManager.moduleInfoData[this.C68_f940][var1]));
          } else {
-            C67.d(C67.C67_f922[this.C68_f940][var1]);
+            ResourceManager.forceReleaseImage(ResourceManager.moduleInfoData[this.C68_f940][var1]);
          }
       }
 
       for(var1 = 0; var1 < this.C68_f942.length; ++var1) {
          if (C7.C7_f51 == 0) {
-            this.C68_f942[var1] = C67.b(C67.C67_f922[this.C68_f940][var1]);
+            this.C68_f942[var1] = ResourceManager.getCachedImage(ResourceManager.moduleInfoData[this.C68_f940][var1]);
          }
       }
 

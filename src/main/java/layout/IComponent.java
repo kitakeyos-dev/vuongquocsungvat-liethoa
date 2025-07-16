@@ -95,7 +95,7 @@ public interface IComponent {
     * Get child component (for single-child containers)
     * @return Child component or null if no child
     */
-   Component getChildComponent();
+   ScrollableListComponent getChildComponent();
 
    /**
     * Get all child components (for multi-child containers)
@@ -107,13 +107,13 @@ public interface IComponent {
     * Get component data object
     * @return Component-specific data or null if no data
     */
-   DialogData getComponentData();
+   ComponentData getComponentData();
 
    /**
     * Set component data object
     * @param componentData New component data
     */
-   void setComponentData(DialogData componentData);
+   void setComponentData(ComponentData componentData);
 
    /**
     * Get Z-index for rendering order

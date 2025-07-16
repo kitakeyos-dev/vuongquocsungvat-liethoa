@@ -1994,9 +1994,9 @@ public final class C29 extends GameEngineBase {
             break;
          case 1:
             if (var2[2] == 0) {
-               GameUtils.a(var1, var3, 16704699, this.C29_f454 - 10, this.C29_f455 + C29_f462[var2[0]][(var2[3] << 1) + 1] - 30, 17, 17, this.dialogManager.dialogConfig, 2);
+               GameUtils.a(var1, var3, 16704699, this.C29_f454 - 10, this.C29_f455 + C29_f462[var2[0]][(var2[3] << 1) + 1] - 30, 17, 17, this.dialogManager.textRenderer, 2);
             } else {
-               GameUtils.a(var1, var3, 16704699, this.C29_f454 + 10, this.C29_f455 + C29_f462[var2[0]][(var2[3] << 1) + 1] - 30, 17, 17, this.dialogManager.dialogConfig, 2);
+               GameUtils.a(var1, var3, 16704699, this.C29_f454 + 10, this.C29_f455 + C29_f462[var2[0]][(var2[3] << 1) + 1] - 30, 17, 17, this.dialogManager.textRenderer, 2);
             }
          }
       }

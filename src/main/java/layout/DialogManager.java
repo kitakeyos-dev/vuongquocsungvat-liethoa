@@ -1,130 +1,195 @@
 package layout;
 
 import a.GameEngineBase;
+
+import javax.microedition.lcdui.Graphics;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-import javax.microedition.lcdui.Graphics;
 
+/**
+ * Singleton manager for handling multiple dialog instances and their lifecycle
+ */
 public final class DialogManager {
-   private static DialogManager instance;
-   private Hashtable dialogsMap = new Hashtable();
-   private Vector activeDialogs = new Vector();
-   private Vector dialogOrder = new Vector();
-   public Dialog currentDialog;
-   public DialogConfig dialogConfig = new DialogConfig();
+    private static DialogManager instance;
+    private Hashtable dialogCache = new Hashtable();        // Cache of loaded dialogs
+    private Vector activeDialogs = new Vector();            // Currently active dialogs
+    private Vector dialogStack = new Vector();              // Dialog display order stack
+    public DialogSystem currentDialog;                      // Currently focused dialog
+    public TextRenderer textRenderer = new TextRenderer(); // Global text renderer
 
-   private DialogManager() {
-      DialogConfig var10000 = this.dialogConfig;
-   }
+    /**
+     * Private constructor for singleton pattern
+     */
+    private DialogManager() {
+        // Initialize text renderer
+    }
 
-   public static DialogManager getInstance() {
-      if (instance == null) {
-         instance = new DialogManager();
-      }
+    /**
+     * Get the singleton instance of DialogManager
+     *
+     * @return DialogManager instance
+     */
+    public static DialogManager getInstance() {
+        if (instance == null) {
+            instance = new DialogManager();
+        }
+        return instance;
+    }
 
-      return instance;
-   }
+    /**
+     * Clear all dialogs and free resources
+     */
+    public final void clearAllDialogs() {
+        if (instance != null) {
+            DialogManager manager = instance;
+            Enumeration dialogs = manager.dialogCache.elements();
 
-   public final void clearDialogs() {
-      if (instance != null) {
-         DialogManager var1 = instance;
-         Enumeration var2 = var1.dialogsMap.elements();
+            // Clean up all cached dialogs
+            while (dialogs.hasMoreElements()) {
+                ((DialogSystem) dialogs.nextElement()).cleanup();
+            }
 
-         while(var2.hasMoreElements()) {
-            ((Dialog)var2.nextElement()).clean();
-         }
+            manager.dialogCache.clear();
+            manager.activeDialogs.removeAllElements();
+        }
 
-         var1.dialogsMap.clear();
-         var1.activeDialogs.removeAllElements();
-      }
+        this.currentDialog = null;
+        System.gc(); // Suggest garbage collection
+    }
 
-      this.currentDialog = null;
-      System.gc();
-   }
+    /**
+     * Render all active dialogs in order
+     *
+     * @param graphics Graphics context for rendering
+     */
+    public final void render(Graphics graphics) {
+        if (this.activeDialogs != null) {
+            for (int i = 0; i < this.activeDialogs.size(); i++) {
+                ((DialogSystem) this.activeDialogs.elementAt(i)).render(graphics);
+            }
+        }
 
-   public final void render(Graphics var1) {
-      if (this.activeDialogs != null) {
-         for(int var2 = 0; var2 < this.activeDialogs.size(); ++var2) {
-            ((Dialog)this.activeDialogs.elementAt(var2)).render(var1);
-         }
-      }
+        // Reset clip region
+        graphics.setClip(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
+    }
 
-      var1.setClip(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
-   }
+    /**
+     * Close the currently focused dialog
+     */
+    public final void closeCurrentDialog() {
+        if (this.currentDialog != null) {
+            this.currentDialog.closeDialog();
+        }
+    }
 
-   public final void closeCurrentDialog() {
-      if (this.currentDialog != null) {
-         this.currentDialog.closeDialog();
-      }
+    /**
+     * Show a dialog with the specified parameters
+     *
+     * @param dialogResourceId Resource identifier for the dialog
+     * @param resourceType     Type of resource to load
+     * @param eventHandler     Handler for dialog events
+     */
+    public final void showDialog(String dialogResourceId, int resourceType, DialogHandler eventHandler) {
+        DialogSystem dialog = (DialogSystem) this.dialogCache.get(dialogResourceId);
 
-   }
+        // Handle existing dialog
+        if (dialog != null) {
+            // Special handling for persistent dialogs
+            if (!dialogResourceId.equals("/data/ui/dialog.ui")) {
+                this.dialogCache.remove(dialogResourceId);
+            }
 
-   public final void showDialog(String dialogId, int param, DialogHandler handler) {
-      Dialog dialog = (Dialog)this.dialogsMap.get(dialogId);
-      if (dialog != null) {
-         if (!dialogId.equals("/data/ui/dialog.ui")) {
-            this.dialogsMap.remove(dialogId);
-         }
+            this.activeDialogs.removeElement(dialog);
 
-         this.activeDialogs.removeElement(dialog);
-         if (!dialogId.equals("/data/ui/dialog.ui")) {
-            dialog.clean();
-            dialog = null;
-         }
+            // Clean up non-persistent dialogs
+            if (!dialogResourceId.equals("/data/ui/dialog.ui")) {
+                dialog.cleanup();
+                dialog = null;
+            }
 
-         if (dialogId.equals("/data/ui/dialog.ui")) {
+            // Re-activate persistent dialogs
+            if (dialogResourceId.equals("/data/ui/dialog.ui")) {
+                this.activeDialogs.addElement(dialog);
+                this.currentDialog = dialog;
+                this.dialogStack.addElement(dialogResourceId);
+            }
+        }
+
+        // Create new dialog if needed
+        if (dialog == null) {
+            dialog = new DialogSystem(eventHandler);
+            dialog.setTextRenderer(this.textRenderer);
+            dialog.loadDialog(dialogResourceId, resourceType, false);
+            this.dialogCache.put(dialogResourceId, dialog);
             this.activeDialogs.addElement(dialog);
             this.currentDialog = dialog;
-            this.dialogOrder.addElement(dialogId);
-         }
-      }
+            this.dialogStack.addElement(dialogResourceId);
+        }
+    }
 
-      if (dialog == null) {
-         dialog = new Dialog(handler);
-         dialog.setConfig(this.dialogConfig);
-         dialog.loadDialog(dialogId, param, false);
-         this.dialogsMap.put(dialogId, dialog);
-         this.activeDialogs.addElement(dialog);
-         this.currentDialog = dialog;
-         this.dialogOrder.addElement(dialogId);
-      }
+    /**
+     * Remove a dialog from the manager
+     *
+     * @param dialogResourceId Resource identifier of dialog to remove
+     */
+    public final void removeDialog(String dialogResourceId) {
+        DialogSystem dialog = (DialogSystem) this.dialogCache.get(dialogResourceId);
 
-   }
+        if (dialog != null) {
+            // Update current dialog reference
+            if (this.currentDialog.equals(dialog)) {
+                this.currentDialog = null;
+            }
 
-   public final void removeDialog(String var1) {
-      Dialog var2 = (Dialog)this.dialogsMap.get(var1);
-      if (var2 != null) {
-         if (this.currentDialog.equals(var2)) {
-            this.currentDialog = null;
-         }
+            // Remove from cache and active list
+            if (!dialogResourceId.equals("/data/ui/dialog.ui")) {
+                this.dialogCache.remove(dialogResourceId);
+            }
 
-         if (!var1.equals("/data/ui/dialog.ui")) {
-            this.dialogsMap.remove(var1);
-         }
+            this.activeDialogs.removeElement(dialog);
+            this.dialogStack.removeElement(dialogResourceId);
 
-         this.activeDialogs.removeElement(var2);
-         this.dialogOrder.removeElement(var1);
-         if (!var1.equals("/data/ui/dialog.ui")) {
-            var2.clean();
-         }
-      }
+            // Clean up non-persistent dialogs
+            if (!dialogResourceId.equals("/data/ui/dialog.ui")) {
+                dialog.cleanup();
+            }
+        }
 
-      if (!this.dialogsMap.isEmpty() && !this.activeDialogs.isEmpty()) {
-         this.currentDialog = (Dialog)this.activeDialogs.lastElement();
-      }
+        // Set new current dialog if others exist
+        if (!this.dialogCache.isEmpty() && !this.activeDialogs.isEmpty()) {
+            this.currentDialog = (DialogSystem) this.activeDialogs.lastElement();
+        }
+    }
 
-   }
+    /**
+     * Check if a dialog is currently on top of the stack
+     *
+     * @param dialogResourceId Resource identifier to check
+     * @return true if the dialog is on top
+     */
+    public boolean isTopDialog(String dialogResourceId) {
+        return !this.dialogStack.isEmpty() && this.dialogStack.lastElement().equals(dialogResourceId);
+    }
 
-   public boolean isTopDialog(String var1) {
-      return !this.dialogOrder.isEmpty() && this.dialogOrder.lastElement().equals(var1);
-   }
+    /**
+     * Check if a dialog is currently loaded
+     *
+     * @param dialogResourceId Resource identifier to check
+     * @return true if the dialog is loaded
+     */
+    public boolean containsDialog(String dialogResourceId) {
+        return !this.dialogStack.isEmpty() && this.dialogStack.contains(dialogResourceId);
+    }
 
-   public boolean containsDialog(String var1) {
-      return !this.dialogOrder.isEmpty() && this.dialogOrder.contains(var1);
-   }
+    /**
+     * Get a specific dialog by resource ID
+     *
+     * @param dialogResourceId Resource identifier
+     * @return Dialog instance or null if not found
+     */
+    public DialogSystem getDialog(String dialogResourceId) {
+        return (DialogSystem) this.dialogCache.get(dialogResourceId);
+    }
 
-   public Dialog getDialog(String var1) {
-      return (Dialog)this.dialogsMap.get(var1);
-   }
 }

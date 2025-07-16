@@ -6,11 +6,11 @@ import a.a.C21;
 import a.a.C30;
 import a.a.C69;
 import a.b.ResourceManager;
-import layout.DialogData;
+import layout.ComponentData;
 import layout.SpriteRenderer;
-import layout.RootComponent;
+import layout.UIContainerComponent;
 import layout.DialogManager;
-import layout.Dialog;
+import layout.DialogSystem;
 import layout.DialogHandler;
 import java.util.Vector;
 
@@ -111,14 +111,14 @@ public final class C9 implements DialogHandler {
 
    public void e() {
       if (this.C9_f133 < 2 && !C7.C7_f67 && C25.C25_f338 && this.C9_f122.containsDialog("/data/ui/world.ui")) {
-         Dialog var2 = this.C9_f122.getDialog("/data/ui/world.ui");
-          if (var2.getChildById(1).getComponentData().C12_f195.getSpriteManager().isAtFrame(4)) {
-            this.C9_f122.getDialog("/data/ui/world.ui").getChildById(6).getComponentData().C12_f179 = ((C25)this.C9_f121).C25_f296;
+         DialogSystem var2 = this.C9_f122.getDialog("/data/ui/world.ui");
+          if (var2.getChildById(1).getComponentData().normalSprite.getSpriteManager().isAtFrame(4)) {
+            this.C9_f122.getDialog("/data/ui/world.ui").getChildById(6).getComponentData().text = ((C25)this.C9_f121).C25_f296;
             this.C9_f133 = 1;
          } else if (this.C9_f133 == 1) {
              var2 = this.C9_f122.getDialog("/data/ui/world.ui");
-             if (var2.getChildById(1).getComponentData().C12_f195.getSpriteManager().getCurrentFrameIndex() >= 5) {
-               this.C9_f122.getDialog("/data/ui/world.ui").getChildById(6).getComponentData().C12_f179 = "";
+             if (var2.getChildById(1).getComponentData().normalSprite.getSpriteManager().getCurrentFrameIndex() >= 5) {
+               this.C9_f122.getDialog("/data/ui/world.ui").getChildById(6).getComponentData().text = "";
                this.C9_f133 = 2;
                C25.C25_f338 = false;
             }
@@ -132,7 +132,7 @@ public final class C9 implements DialogHandler {
       if (this.C9_f134 < 2 && this.C9_f122.isTopDialog("/data/ui/openbox.ui")) {
          if (this.C9_f134 == 1) {
             if (this.C9_f121.g(196640)) {
-               this.C9_f122.currentDialog.getChildById(2).getComponentData().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(2).getComponentData().text = "";
                this.C9_f134 = 2;
                this.C9_f132 = true;
                this.az();
@@ -172,20 +172,20 @@ public final class C9 implements DialogHandler {
 
    public final void h() {
       this.C9_f122.showDialog("/data/ui/transmit.ui", 257, this);
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = C9_f142.length;
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = C9_f142.length;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
       this.aV();
    }
 
    private void aV() {
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex;
 
       for(int var1 = 0; var1 < 5; ++var1) {
-         this.C9_f122.currentDialog.getChildById(var1 + 5).getComponentData().C12_f179 = C9_f142[var1 + this.C9_f135];
+         this.C9_f122.currentDialog.getChildById(var1 + 5).getComponentData().text = C9_f142[var1 + this.C9_f135];
       }
 
-      this.C9_f122.currentDialog.getChildById(13).setOffsetY(109 + this.C9_f136 * 88 / C9_f142.length, this.C9_f122.currentDialog.getRootComponent());
+      this.C9_f122.currentDialog.getChildById(13).setOffsetY(109 + this.C9_f136 * 88 / C9_f142.length, this.C9_f122.currentDialog.getUIContainerComponent());
    }
 
    public final void i() {
@@ -222,28 +222,28 @@ public final class C9 implements DialogHandler {
       this.C9_f122.showDialog("/data/ui/gamemenu.ui", 257, this);
       int var2;
       if (GameEngineBase.paymentActive) {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 6;
-         this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(605 + this.C9_f125);
-         this.C9_f122.currentDialog.getChildById(15).getComponentData().C12_f179 = var1[0];
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = 6;
+         this.C9_f122.currentDialog.getChildById(14).getComponentData().text = GameEngineBase.getLocalizedText(605 + this.C9_f125);
+         this.C9_f122.currentDialog.getChildById(15).getComponentData().text = var1[0];
 
          for(var2 = 0; var2 < 5; ++var2) {
-            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().C12_f179 = var1[var2 + 1];
+            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().text = var1[var2 + 1];
          }
       } else {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 5;
-         this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(606 + this.C9_f125);
-         this.C9_f122.currentDialog.getChildById(15).getComponentData().C12_f179 = var1[1];
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = 5;
+         this.C9_f122.currentDialog.getChildById(14).getComponentData().text = GameEngineBase.getLocalizedText(606 + this.C9_f125);
+         this.C9_f122.currentDialog.getChildById(15).getComponentData().text = var1[1];
 
          for(var2 = 0; var2 < 4; ++var2) {
-            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().C12_f179 = var1[var2 + 2];
+            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().text = var1[var2 + 2];
          }
 
          this.C9_f122.currentDialog.getChildById(9).setVisible(false);
       }
 
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f125;
-      this.C9_f122.currentDialog.getChildById(18).getComponentData().C12_f179 = "" + this.C9_f123.G();
-      this.C9_f122.currentDialog.getChildById(19).getComponentData().C12_f179 = "" + this.C9_f123.F();
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = this.C9_f125;
+      this.C9_f122.currentDialog.getChildById(18).getComponentData().text = "" + this.C9_f123.G();
+      this.C9_f122.currentDialog.getChildById(19).getComponentData().text = "" + this.C9_f123.F();
       this.C9_f131 = 0;
    }
 
@@ -330,7 +330,7 @@ public final class C9 implements DialogHandler {
    public final void m() {
       this.aU();
       this.C9_f122.showDialog("/data/ui/gamesystem.ui", 257, this);
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f125;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = this.C9_f125;
       this.C9_f131 = 0;
    }
 
@@ -357,9 +357,9 @@ public final class C9 implements DialogHandler {
             if (this.C9_f131 == 0) {
                this.C9_f122.showDialog("/data/ui/option.ui", 257, this);
                this.C9_f126 = 1;
-               ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f126;
-               this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = "";
-               this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = "Không";
+               ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = this.C9_f126;
+               this.C9_f122.currentDialog.getChildById(12).getComponentData().text = "";
+               this.C9_f122.currentDialog.getChildById(13).getComponentData().text = "Không";
                this.C9_f131 = 1;
                return;
             } else {
@@ -409,28 +409,28 @@ public final class C9 implements DialogHandler {
    private void e(int var1) {
       int var2;
       if (var1 == 0) {
-         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Trợ giúp";
-         this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Nhấn nút 2, 4, 6, 8 để di chuyển#nNút 5: công kích, đối thoại, xác nhận#nNút 1: Xem nhiệm vụ#nNút 9: lựa chọn sủng vật cưỡi#nNút 0: Xem bản đồ#nNút mềm trái: menu hệ thống#nNút mềm phải: menu trò chơi";
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Trợ giúp";
+         this.C9_f122.currentDialog.getChildById(8).getComponentData().text = "Nhấn nút 2, 4, 6, 8 để di chuyển#nNút 5: công kích, đối thoại, xác nhận#nNút 1: Xem nhiệm vụ#nNút 9: lựa chọn sủng vật cưỡi#nNút 0: Xem bản đồ#nNút mềm trái: menu hệ thống#nNút mềm phải: menu trò chơi";
 
          for(var2 = 0; var2 < 28; ++var2) {
             this.C9_f122.currentDialog.getChildById(var2 + 9).setVisible(false);
          }
       } else if (var1 > 0) {
-         this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(8).getComponentData().text = "";
 
          for(var2 = 0; var2 < 14; ++var2) {
             this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).setVisible(true);
             this.C9_f122.currentDialog.getChildById(9 + (var2 << 1) + 1).setVisible(true);
             if ((var1 - 1) * 14 + var2 < 26) {
-               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().C12_f195.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().C12_f195.initializeSprite(325, false, (byte)-2);
-               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().C12_f195.setSpriteIndex((var1 - 1) * 14 + var2 + 1);
+               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().normalSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().normalSprite.initializeSprite(325, false, (byte)-2);
+               this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).getComponentData().normalSprite.setSpriteIndex((var1 - 1) * 14 + var2 + 1);
                if ((var1 - 1) * 14 + var2 <= 10) {
-                  this.C9_f122.currentDialog.getChildById(9 + (var2 << 1) + 1).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var2 + 311);
+                  this.C9_f122.currentDialog.getChildById(9 + (var2 << 1) + 1).getComponentData().text = GameEngineBase.getLocalizedText(var2 + 311);
                } else {
-                  this.C9_f122.currentDialog.getChildById(9 + (var2 << 1) + 1).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(333 + ((var1 - 1) * 14 + var2 - 11));
+                  this.C9_f122.currentDialog.getChildById(9 + (var2 << 1) + 1).getComponentData().text = GameEngineBase.getLocalizedText(333 + ((var1 - 1) * 14 + var2 - 11));
                }
             } else {
                this.C9_f122.currentDialog.getChildById(9 + (var2 << 1)).setVisible(false);
@@ -439,7 +439,7 @@ public final class C9 implements DialogHandler {
          }
       }
 
-      this.C9_f122.currentDialog.getChildById(39).getComponentData().C12_f179 = var1 + 1 + "/3";
+      this.C9_f122.currentDialog.getChildById(39).getComponentData().text = var1 + 1 + "/3";
    }
 
    public final void p() {
@@ -468,8 +468,8 @@ public final class C9 implements DialogHandler {
 
    public final void q() {
       this.C9_f122.showDialog("/data/ui/help.ui", 257, this);
-      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Quan tại";
-      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Tên trò chơi: Sủng vật Vương quốc - Liệt hỏa#nViệt hóa: BIGAME#nWapsite: 3g.mwap.biz";
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Quan tại";
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().text = "Tên trò chơi: Sủng vật Vương quốc - Liệt hỏa#nViệt hóa: BIGAME#nWapsite: 3g.mwap.biz";
       this.C9_f122.currentDialog.getChildById(6).setVisible(true);
       this.C9_f122.currentDialog.getChildById(7).setVisible(false);
 
@@ -489,8 +489,8 @@ public final class C9 implements DialogHandler {
 
    public final void s() {
       this.C9_f122.showDialog("/data/ui/help.ui", 257, this);
-      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Tùy chọn";
-      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "";
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Tùy chọn";
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().text = "";
       this.C9_f122.currentDialog.getChildById(6).setVisible(false);
       this.C9_f122.currentDialog.getChildById(7).setVisible(true);
 
@@ -504,9 +504,9 @@ public final class C9 implements DialogHandler {
    private void aW() {
       for(int var1 = 1; var1 < 4; ++var1) {
          if (var1 <= GameScreenManager.getInstance().difficultyLevel) {
-            this.C9_f122.currentDialog.getChildById(var1 + 9).getComponentData().C12_f192 = -2148;
+            this.C9_f122.currentDialog.getChildById(var1 + 9).getComponentData().backgroundColor = -2148;
          } else {
-            this.C9_f122.currentDialog.getChildById(var1 + 9).getComponentData().C12_f192 = -8540732;
+            this.C9_f122.currentDialog.getChildById(var1 + 9).getComponentData().backgroundColor = -8540732;
          }
       }
 
@@ -560,15 +560,15 @@ public final class C9 implements DialogHandler {
          return;
       case 4:
          for(var1 = 0; var1 < 2; ++var1) {
-            if (this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().normalSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
                if (var1 == 0) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.setSpriteIndex((int)8);
+                  this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().normalSprite.setSpriteIndex((int)8);
                } else {
-                  this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.setSpriteIndex((int)10);
+                  this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().normalSprite.setSpriteIndex((int)10);
                }
             }
          }
@@ -580,15 +580,15 @@ public final class C9 implements DialogHandler {
 
          for(var1 = 0; var1 < 2; ++var1) {
             this.C9_f122.currentDialog.getChildById(var1 + 16).cleanUp();
-            if (this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().normalSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
                if (var1 == 0) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195.setSpriteIndex((int)8);
+                  this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().normalSprite.setSpriteIndex((int)8);
                } else {
-                  this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().C12_f195.setSpriteIndex((int)11);
+                  this.C9_f122.currentDialog.getChildById(var1 + 18).getComponentData().normalSprite.setSpriteIndex((int)11);
                }
             }
          }
@@ -597,12 +597,12 @@ public final class C9 implements DialogHandler {
       case 6:
          this.C9_f122.currentDialog.getChildById(19).setVisible(false);
          this.C9_f122.currentDialog.getChildById(19).cleanUp();
-         if (this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
-            this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f195.setSpriteIndex((int)12);
+         if (this.C9_f122.currentDialog.getChildById(20).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(20).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(20).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(20).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(20).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(20).getComponentData().normalSprite.setSpriteIndex((int)12);
             return;
          }
          break;
@@ -612,15 +612,15 @@ public final class C9 implements DialogHandler {
          return;
       case 8:
          for(var1 = 0; var1 < 2; ++var1) {
-            if (this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().normalSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
                if (var1 == 0) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195.setSpriteIndex((int)7);
+                  this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().normalSprite.setSpriteIndex((int)7);
                } else {
-                  this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().C12_f195.setSpriteIndex((int)13);
+                  this.C9_f122.currentDialog.getChildById(var1 + 21).getComponentData().normalSprite.setSpriteIndex((int)13);
                }
             }
          }
@@ -632,15 +632,15 @@ public final class C9 implements DialogHandler {
 
          for(var1 = 0; var1 < 2; ++var1) {
             this.C9_f122.currentDialog.getChildById(var1 + 21).cleanUp();
-            if (this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().normalSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
                if (var1 == 0) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195.setSpriteIndex((int)7);
+                  this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().normalSprite.setSpriteIndex((int)7);
                } else {
-                  this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().C12_f195.setSpriteIndex((int)14);
+                  this.C9_f122.currentDialog.getChildById(var1 + 23).getComponentData().normalSprite.setSpriteIndex((int)14);
                }
             }
          }
@@ -649,12 +649,12 @@ public final class C9 implements DialogHandler {
       case 10:
          this.C9_f122.currentDialog.getChildById(24).setVisible(false);
          this.C9_f122.currentDialog.getChildById(24).cleanUp();
-         if (this.C9_f122.currentDialog.getChildById(25).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(25).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(25).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(25).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(25).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
-            this.C9_f122.currentDialog.getChildById(25).getComponentData().C12_f195.setSpriteIndex((int)15);
+         if (this.C9_f122.currentDialog.getChildById(25).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(25).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(25).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(25).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(25).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(25).getComponentData().normalSprite.setSpriteIndex((int)15);
             return;
          }
          break;
@@ -663,60 +663,60 @@ public final class C9 implements DialogHandler {
          this.C9_f122.currentDialog.getChildById(25).cleanUp();
          return;
       case 12:
-         if (this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
-            this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f195.setSpriteIndex((int)5);
+         if (this.C9_f122.currentDialog.getChildById(26).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(26).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(26).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(26).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(26).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(26).getComponentData().normalSprite.setSpriteIndex((int)5);
             return;
          }
          break;
       case 13:
          this.C9_f122.currentDialog.getChildById(26).setVisible(false);
          this.C9_f122.currentDialog.getChildById(26).cleanUp();
-         if (this.C9_f122.currentDialog.getChildById(27).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(27).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(27).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(27).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(27).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
-            this.C9_f122.currentDialog.getChildById(27).getComponentData().C12_f195.setSpriteIndex((int)5);
+         if (this.C9_f122.currentDialog.getChildById(27).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(27).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(27).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(27).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(27).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(27).getComponentData().normalSprite.setSpriteIndex((int)5);
             return;
          }
          break;
       case 14:
          return;
       case 15:
-         if (this.C9_f122.currentDialog.getChildById(28).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(28).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(28).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(28).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(28).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
-            this.C9_f122.currentDialog.getChildById(28).getComponentData().C12_f195.setSpriteIndex((int)6);
+         if (this.C9_f122.currentDialog.getChildById(28).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(28).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(28).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(28).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(28).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(28).getComponentData().normalSprite.setSpriteIndex((int)6);
             return;
          }
          break;
       case 16:
          this.C9_f122.currentDialog.getChildById(28).setVisible(false);
          this.C9_f122.currentDialog.getChildById(28).cleanUp();
-         if (this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
-            this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f195.setSpriteIndex((int)6);
+         if (this.C9_f122.currentDialog.getChildById(29).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(29).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(29).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(29).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(29).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(29).getComponentData().normalSprite.setSpriteIndex((int)6);
             return;
          }
          break;
       case 17:
          this.C9_f122.currentDialog.getChildById(29).setVisible(false);
          this.C9_f122.currentDialog.getChildById(29).cleanUp();
-         if (this.C9_f122.currentDialog.getChildById(30).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(30).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(30).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(30).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(30).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
-            this.C9_f122.currentDialog.getChildById(30).getComponentData().C12_f195.setSpriteIndex((int)6);
+         if (this.C9_f122.currentDialog.getChildById(30).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(30).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(30).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(30).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(30).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(30).getComponentData().normalSprite.setSpriteIndex((int)6);
             return;
          }
          break;
@@ -724,12 +724,12 @@ public final class C9 implements DialogHandler {
       case 19:
          this.C9_f122.currentDialog.getChildById(30).setVisible(false);
          this.C9_f122.currentDialog.getChildById(30).cleanUp();
-         if (this.C9_f122.currentDialog.getChildById(31).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(31).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(31).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(31).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(31).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
-            this.C9_f122.currentDialog.getChildById(31).getComponentData().C12_f195.setSpriteIndex((int)6);
+         if (this.C9_f122.currentDialog.getChildById(31).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(31).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(31).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(31).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(31).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
+            this.C9_f122.currentDialog.getChildById(31).getComponentData().normalSprite.setSpriteIndex((int)6);
             return;
          }
          break;
@@ -754,11 +754,11 @@ public final class C9 implements DialogHandler {
       case 24:
          C30.a().c(16777215, 1);
          C30.a().C30_f482 = 255;
-         if (this.C9_f122.currentDialog.getChildById(32).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(32).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(32).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(32).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(32).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(32).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(32).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(32).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(32).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(32).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
             return;
          }
          break;
@@ -767,20 +767,20 @@ public final class C9 implements DialogHandler {
          this.C9_f122.currentDialog.getChildById(32).cleanUp();
 
          for(var1 = 0; var1 < 5; ++var1) {
-            if (this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
                if (var1 == 0) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.setSpriteIndex((int)0);
+                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().normalSprite.setSpriteIndex((int)0);
                } else if (var1 == 1) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.setSpriteIndex((int)8);
+                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().normalSprite.setSpriteIndex((int)8);
                } else if (var1 == 2) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.setSpriteIndex((int)5);
+                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().normalSprite.setSpriteIndex((int)5);
                } else if (var1 == 3) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.setSpriteIndex((int)7);
+                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().normalSprite.setSpriteIndex((int)7);
                } else if (var1 == 4) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().C12_f195.setSpriteIndex((int)6);
+                  this.C9_f122.currentDialog.getChildById(var1 + 33).getComponentData().normalSprite.setSpriteIndex((int)6);
                }
             }
          }
@@ -795,11 +795,11 @@ public final class C9 implements DialogHandler {
             this.C9_f122.currentDialog.getChildById(var2 - 1).cleanUp();
          }
 
-         if (this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195.setSpriteIndex((int)4);
-            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var2).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().normalSprite.setSpriteIndex((int)4);
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
             return;
          }
          break;
@@ -809,11 +809,11 @@ public final class C9 implements DialogHandler {
             this.C9_f122.currentDialog.getChildById(var2 - 1).cleanUp();
          }
 
-         if (this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195.setSpriteIndex((int)1);
-            this.C9_f122.currentDialog.getChildById(var2).getComponentData().C12_f195.initializeSprite(336, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var2).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().normalSprite.setSpriteIndex((int)1);
+            this.C9_f122.currentDialog.getChildById(var2).getComponentData().normalSprite.initializeSprite(336, false, (byte)0);
          }
       }
 
@@ -887,35 +887,35 @@ public final class C9 implements DialogHandler {
       this.C9_f122.showDialog("/data/ui/petstate.ui", 257, this);
       this.C9_f131 = 0;
       if (this.C9_f123.C53_f792.size() > 6) {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
       } else {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(-1);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(-1);
       }
 
-      this.C9_f122.currentDialog.getChildById(2).getComponentData().C12_f179 = "Ngân hàng Sủng vật";
+      this.C9_f122.currentDialog.getChildById(2).getComponentData().text = "Ngân hàng Sủng vật";
       this.C9_f122.currentDialog.getChildById(75).setVisible(false);
       this.C9_f122.currentDialog.getChildById(76).setVisible(false);
       this.aX();
    }
 
    private void aX() {
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f123.C53_f792.size();
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = this.C9_f123.C53_f792.size();
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex;
       if (this.C9_f123.C53_f792.size() >= 6) {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f577 = 6;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.visibleItemCount = 6;
       } else {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f577 = this.C9_f123.C53_f792.size();
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.visibleItemCount = this.C9_f123.C53_f792.size();
       }
 
       if (this.C9_f136 >= this.C9_f123.C53_f792.size()) {
          this.C9_f136 = this.C9_f123.C53_f792.size() - 1;
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f136;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = this.C9_f136;
       }
 
       if (this.C9_f135 > 0 && this.C9_f136 - this.C9_f135 < 5) {
          --this.C9_f135;
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = this.C9_f135;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset = this.C9_f135;
       }
 
       int var1;
@@ -923,16 +923,16 @@ public final class C9 implements DialogHandler {
          if (this.C9_f135 + var1 < this.C9_f123.C53_f792.size()) {
             int[] var2 = (int[])this.C9_f123.C53_f792.elementAt(this.C9_f135 + var1);
             if (var1 == 0) {
-               this.C9_f122.currentDialog.getChildById(14 + var1 * 6).getComponentData().C12_f179 = "" + (this.C9_f135 + var1 + 1);
+               this.C9_f122.currentDialog.getChildById(14 + var1 * 6).getComponentData().text = "" + (this.C9_f135 + var1 + 1);
             } else {
-               this.C9_f122.currentDialog.getChildById(15 + var1 * 6).getComponentData().C12_f179 = "" + (this.C9_f135 + var1 + 1);
+               this.C9_f122.currentDialog.getChildById(15 + var1 * 6).getComponentData().text = "" + (this.C9_f135 + var1 + 1);
             }
 
-            this.C9_f122.currentDialog.getChildById(16 + var1 * 6).getComponentData().C12_f179 = "#P" + var2[6] * 100 / C41.a(var2[0], var2[1], var2[4], 1);
-            this.C9_f122.currentDialog.getChildById(17 + var1 * 6).getComponentData().C12_f179 = "#P" + C41.a((short)var2[7], (short)var2[1]);
+            this.C9_f122.currentDialog.getChildById(16 + var1 * 6).getComponentData().text = "#P" + var2[6] * 100 / C41.a(var2[0], var2[1], var2[4], 1);
+            this.C9_f122.currentDialog.getChildById(17 + var1 * 6).getComponentData().text = "#P" + C41.a((short)var2[7], (short)var2[1]);
          } else {
-            this.C9_f122.currentDialog.getChildById(16 + var1 * 6).getComponentData().C12_f179 = "#P0";
-            this.C9_f122.currentDialog.getChildById(17 + var1 * 6).getComponentData().C12_f179 = "#P0";
+            this.C9_f122.currentDialog.getChildById(16 + var1 * 6).getComponentData().text = "#P0";
+            this.C9_f122.currentDialog.getChildById(17 + var1 * 6).getComponentData().text = "#P0";
          }
       }
 
@@ -945,70 +945,70 @@ public final class C9 implements DialogHandler {
       }
 
       if (var4 != null) {
-         if (this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195 != null) {
-            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.cleanup();
+         if (this.C9_f122.currentDialog.getChildById(48).getComponentData().normalSprite != null) {
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().normalSprite.cleanup();
          } else {
-            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.spriteType = 3;
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().normalSprite.spriteType = 3;
          }
 
-         this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.initializeSprite(ResourceManager.getDatabaseValue((byte)0, (short)var4[0], (byte)17), false, (byte)-1);
-         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.getDatabaseValue((byte)0, (short)var4[0], (byte)0));
-         this.C9_f122.currentDialog.getChildById(52).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(365 + ResourceManager.getDatabaseValue((byte)0, (short)var4[0], (byte)1));
+         this.C9_f122.currentDialog.getChildById(48).getComponentData().normalSprite.initializeSprite(ResourceManager.getDatabaseValue((byte)0, (short)var4[0], (byte)17), false, (byte)-1);
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.getDatabaseValue((byte)0, (short)var4[0], (byte)0));
+         this.C9_f122.currentDialog.getChildById(52).getComponentData().text = GameEngineBase.getLocalizedText(365 + ResourceManager.getDatabaseValue((byte)0, (short)var4[0], (byte)1));
          if (ResourceManager.getDatabaseValue((byte)0, (short)var4[0], (byte)19) == -1) {
-            this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(62).getComponentData().text = "";
          } else if (ResourceManager.gameDatabase[0][ResourceManager.getDatabaseValue((byte)0, (short)var4[0], (byte)19)][2] != 1 && ResourceManager.gameDatabase[0][ResourceManager.getDatabaseValue((byte)0, (short)var4[0], (byte)19)][2] != 2) {
             if (ResourceManager.gameDatabase[0][ResourceManager.getDatabaseValue((byte)0, (short)var4[0], (byte)19)][2] == 3) {
-               this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "Có thể dị hoá";
+               this.C9_f122.currentDialog.getChildById(62).getComponentData().text = "Có thể dị hoá";
             }
          } else {
-            this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "Có thể tiến hóa";
+            this.C9_f122.currentDialog.getChildById(62).getComponentData().text = "Có thể tiến hóa";
          }
 
-         this.C9_f122.currentDialog.getChildById(61).getComponentData().C12_f179 = C41.y(var4[0]);
-         if (this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.initializeSprite(258, false, (byte)-1);
+         this.C9_f122.currentDialog.getChildById(61).getComponentData().text = C41.y(var4[0]);
+         if (this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite.initializeSprite(258, false, (byte)-1);
          }
 
          if (var4[2] != -1) {
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[3][var4[2]][1]);
-            this.C9_f122.currentDialog.getChildById(60).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][var4[2]][0]);
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[3][var4[2]][1]);
+            this.C9_f122.currentDialog.getChildById(60).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][var4[2]][0]);
          } else {
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(60).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(60).getComponentData().text = "";
          }
 
-         this.C9_f122.currentDialog.getChildById(65).getComponentData().C12_f179 = "" + var4[1];
-         this.C9_f122.currentDialog.getChildById(66).getComponentData().C12_f179 = "" + C41.a(var4[0], var4[1], var4[4], 2);
-         this.C9_f122.currentDialog.getChildById(67).getComponentData().C12_f179 = "" + C41.a(var4[0], var4[1], var4[4], 3);
-         this.C9_f122.currentDialog.getChildById(68).getComponentData().C12_f179 = "" + C41.a(var4[0], var4[1], var4[4], 4);
+         this.C9_f122.currentDialog.getChildById(65).getComponentData().text = "" + var4[1];
+         this.C9_f122.currentDialog.getChildById(66).getComponentData().text = "" + C41.a(var4[0], var4[1], var4[4], 2);
+         this.C9_f122.currentDialog.getChildById(67).getComponentData().text = "" + C41.a(var4[0], var4[1], var4[4], 3);
+         this.C9_f122.currentDialog.getChildById(68).getComponentData().text = "" + C41.a(var4[0], var4[1], var4[4], 4);
          int var5 = var4[4];
          var1 = ResourceManager.getDatabaseValue((byte)0, (short)var4[0], (byte)4) - 1;
 
          for(int var3 = 0; var3 < 5; ++var3) {
             this.C9_f122.currentDialog.getChildById(74 - var3).setVisible(true);
-            this.C9_f122.currentDialog.getChildById(74 - var3).getComponentData().C12_f195.spriteType = 3;
+            this.C9_f122.currentDialog.getChildById(74 - var3).getComponentData().normalSprite.spriteType = 3;
             if (var3 > var1) {
                this.C9_f122.currentDialog.getChildById(74 - var3).setVisible(false);
             } else if (var5 > 0) {
-               this.C9_f122.currentDialog.getChildById(74 - var3).getComponentData().C12_f195.setAnimationFrame((byte)14, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(74 - var3).getComponentData().normalSprite.setAnimationFrame((byte)14, (byte)-1);
                --var5;
             } else {
-               this.C9_f122.currentDialog.getChildById(74 - var3).getComponentData().C12_f195.setAnimationFrame((byte)16, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(74 - var3).getComponentData().normalSprite.setAnimationFrame((byte)16, (byte)-1);
             }
          }
 
          if (this.C9_f125 == 1) {
-            this.C9_f122.currentDialog.getChildById(64).getComponentData().C12_f179 = "Lấy ra";
+            this.C9_f122.currentDialog.getChildById(64).getComponentData().text = "Lấy ra";
             return;
          }
 
          if (this.C9_f125 == 2) {
-            this.C9_f122.currentDialog.getChildById(64).getComponentData().C12_f179 = "Phóng sinh";
+            this.C9_f122.currentDialog.getChildById(64).getComponentData().text = "Phóng sinh";
          }
       }
 
@@ -1099,10 +1099,10 @@ public final class C9 implements DialogHandler {
       this.aU();
       this.C9_f122.showDialog("/data/ui/shop.ui", 257, this);
       this.C9_f125 = 0;
-      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Ngân hàng Sủng vật";
-      this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f179 = "Gởi lại";
-      this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Lấy ra";
-      this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Phóng sinh";
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Ngân hàng Sủng vật";
+      this.C9_f122.currentDialog.getChildById(6).getComponentData().text = "Gởi lại";
+      this.C9_f122.currentDialog.getChildById(7).getComponentData().text = "Lấy ra";
+      this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "Phóng sinh";
    }
 
    public final void E() {
@@ -1185,10 +1185,10 @@ public final class C9 implements DialogHandler {
                   this.b("Ba lô sủng vật trạng thái toàn bộ khôi phục");
                } else {
                   this.C9_f122.showDialog("/data/ui/msgRecover.ui", 257, this);
-                  this.C9_f122.currentDialog.getChildById(4).getComponentData().C12_f179 = "Có khôi phục trạng thái ba lô sủng vật không?";
-                  this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Cần tiền tài: ";
-                  this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f179 = "" + C53.p().B();
-                  this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "" + C53.p().F();
+                  this.C9_f122.currentDialog.getChildById(4).getComponentData().text = "Có khôi phục trạng thái ba lô sủng vật không?";
+                  this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Cần tiền tài: ";
+                  this.C9_f122.currentDialog.getChildById(6).getComponentData().text = "" + C53.p().B();
+                  this.C9_f122.currentDialog.getChildById(8).getComponentData().text = "" + C53.p().F();
                   this.C9_f122.removeDialog("/data/ui/shop.ui");
                   this.C9_f131 = 1;
                }
@@ -1261,14 +1261,14 @@ public final class C9 implements DialogHandler {
       this.C9_f125 = 0;
       this.C9_f131 = 0;
       short[][] var10001 = ResourceManager.gameDatabase[var1];
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = var10001.length;
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
-      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Mua";
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = var10001.length;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Mua";
       if (this.C9_f121 instanceof C25) {
          this.C9_f122.currentDialog.getChildById(57).setVisible(true);
          this.C9_f122.currentDialog.getChildById(58).setVisible(true);
-         this.C9_f122.currentDialog.getChildById(57).getComponentData().C12_f179 = "Mua sắm";
-         this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "Quay lại";
+         this.C9_f122.currentDialog.getChildById(57).getComponentData().text = "Mua sắm";
+         this.C9_f122.currentDialog.getChildById(58).getComponentData().text = "Quay lại";
          this.C9_f122.currentDialog.getChildById(39).setVisible(false);
          this.C9_f122.currentDialog.getChildById(40).setVisible(false);
       } else if (this.C9_f121 instanceof C29) {
@@ -1276,58 +1276,58 @@ public final class C9 implements DialogHandler {
          this.C9_f122.currentDialog.getChildById(58).setVisible(false);
          this.C9_f122.currentDialog.getChildById(39).setVisible(true);
          this.C9_f122.currentDialog.getChildById(40).setVisible(true);
-         this.C9_f122.currentDialog.getChildById(39).getComponentData().C12_f179 = "Mua sắm";
-         this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = "Quay lại";
+         this.C9_f122.currentDialog.getChildById(39).getComponentData().text = "Mua sắm";
+         this.C9_f122.currentDialog.getChildById(40).getComponentData().text = "Quay lại";
       }
 
       this.b(var1, var2);
    }
 
    private void b(int var1, byte var2) {
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex;
 
       for(int var3 = 0; var3 < 5; ++var3) {
-         if (this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().C12_f195.initializeSprite(258, false, (byte)-1);
+         if (this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().normalSprite.initializeSprite(258, false, (byte)-1);
          }
 
-         this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[var1][this.C9_f135 + var3][1]);
-         this.C9_f122.currentDialog.getChildById(14 + var3 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[var1][this.C9_f135 + var3][0]);
+         this.C9_f122.currentDialog.getChildById(var3 + 51).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[var1][this.C9_f135 + var3][1]);
+         this.C9_f122.currentDialog.getChildById(14 + var3 * 5).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[var1][this.C9_f135 + var3][0]);
          if (this.C9_f121 instanceof C25) {
             if (this.C9_f141 != 1 && this.C9_f141 != 3) {
                if (this.C9_f141 == 2) {
                   if (ResourceManager.gameDatabase[var1][this.C9_f135 + var3][4] == 0) {
-                     this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().C12_f179 = "" + ResourceManager.gameDatabase[var1][this.C9_f135 + var3][3] * 3 / 2;
+                     this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().text = "" + ResourceManager.gameDatabase[var1][this.C9_f135 + var3][3] * 3 / 2;
                   } else {
-                     this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().C12_f179 = "" + ResourceManager.gameDatabase[var1][this.C9_f135 + var3][3];
+                     this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().text = "" + ResourceManager.gameDatabase[var1][this.C9_f135 + var3][3];
                   }
                }
             } else {
-               this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().C12_f179 = "" + ResourceManager.gameDatabase[var1][this.C9_f135 + var3][3];
+               this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().text = "" + ResourceManager.gameDatabase[var1][this.C9_f135 + var3][3];
             }
          } else if (var2 == 0 && var1 == 4 && this.C9_f135 + var3 == 0) {
-            this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().C12_f179 = "" + ResourceManager.gameDatabase[var1][this.C9_f135 + var3][3];
+            this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().text = "" + ResourceManager.gameDatabase[var1][this.C9_f135 + var3][3];
          } else {
-            this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().C12_f179 = "" + (ResourceManager.gameDatabase[var1][this.C9_f135 + var3][3] << 1);
+            this.C9_f122.currentDialog.getChildById(15 + var3 * 5).getComponentData().text = "" + (ResourceManager.gameDatabase[var1][this.C9_f135 + var3][3] << 1);
          }
 
          if (ResourceManager.gameDatabase[var1][this.C9_f135 + var3][4] == 0) {
-            this.C9_f122.currentDialog.getChildById(var3 + 45).getComponentData().C12_f195.setSpriteIndex((int)84);
+            this.C9_f122.currentDialog.getChildById(var3 + 45).getComponentData().normalSprite.setSpriteIndex((int)84);
          } else if (ResourceManager.gameDatabase[var1][this.C9_f135 + var3][4] == 1) {
-            this.C9_f122.currentDialog.getChildById(var3 + 45).getComponentData().C12_f195.setSpriteIndex((int)83);
+            this.C9_f122.currentDialog.getChildById(var3 + 45).getComponentData().normalSprite.setSpriteIndex((int)83);
          } else if (ResourceManager.gameDatabase[var1][this.C9_f135 + var3][4] == 2) {
-            this.C9_f122.currentDialog.getChildById(var3 + 45).getComponentData().C12_f195.setSpriteIndex((int)74);
+            this.C9_f122.currentDialog.getChildById(var3 + 45).getComponentData().normalSprite.setSpriteIndex((int)74);
          }
       }
 
-      this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[var1][this.C9_f136][2]);
-      this.C9_f122.currentDialog.getChildById(43).getComponentData().C12_f179 = "" + this.C9_f123.G();
-      this.C9_f122.currentDialog.getChildById(44).getComponentData().C12_f179 = "" + this.C9_f123.F();
-      this.C9_f122.currentDialog.getChildById(38).setOffsetY(102 + this.C9_f136 * 84 / ResourceManager.gameDatabase[var1].length, this.C9_f122.currentDialog.getRootComponent());
+      this.C9_f122.currentDialog.getChildById(56).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[var1][this.C9_f136][2]);
+      this.C9_f122.currentDialog.getChildById(43).getComponentData().text = "" + this.C9_f123.G();
+      this.C9_f122.currentDialog.getChildById(44).getComponentData().text = "" + this.C9_f123.F();
+      this.C9_f122.currentDialog.getChildById(38).setOffsetY(102 + this.C9_f136 * 84 / ResourceManager.gameDatabase[var1].length, this.C9_f122.currentDialog.getUIContainerComponent());
    }
 
    public final void a(byte var1, byte var2) {
@@ -1585,32 +1585,32 @@ public final class C9 implements DialogHandler {
 
    private void a(int var1, int var2, int var3, int var4) {
       if (var4 == 3 && this.C9_f136 == 17) {
-         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "" + var1 * 5;
+         this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "" + var1 * 5;
       } else {
-         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "" + var1;
+         this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "" + var1;
       }
 
       if (this.C9_f121 instanceof C25) {
          if (this.C9_f141 != 1 && this.C9_f141 != 3) {
             if (this.C9_f141 == 2) {
                if (var3 == 0) {
-                  this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "" + var2 * 3 / 2;
+                  this.C9_f122.currentDialog.getChildById(11).getComponentData().text = "" + var2 * 3 / 2;
                } else {
-                  this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "" + var2;
+                  this.C9_f122.currentDialog.getChildById(11).getComponentData().text = "" + var2;
                }
             }
          } else {
-            this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "" + var2;
+            this.C9_f122.currentDialog.getChildById(11).getComponentData().text = "" + var2;
          }
       } else {
-         this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "" + (var2 << 1);
+         this.C9_f122.currentDialog.getChildById(11).getComponentData().text = "" + (var2 << 1);
       }
 
       if (var3 == 0) {
-         this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f195.setSpriteIndex((int)84);
+         this.C9_f122.currentDialog.getChildById(12).getComponentData().normalSprite.setSpriteIndex((int)84);
       } else {
          if (var3 == 1) {
-            this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f195.setSpriteIndex((int)83);
+            this.C9_f122.currentDialog.getChildById(12).getComponentData().normalSprite.setSpriteIndex((int)83);
          }
 
       }
@@ -1629,8 +1629,8 @@ public final class C9 implements DialogHandler {
    }
 
    public final void a(String var1, String var2) {
-      this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f179 = var2;
-      this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(6).getComponentData().text = var2;
+      this.C9_f122.currentDialog.getChildById(7).getComponentData().text = var1;
    }
 
    public final void K() {
@@ -1646,7 +1646,7 @@ public final class C9 implements DialogHandler {
    }
 
    public final void a(String var1) {
-      this.C9_f122.currentDialog.getChildById(2).getComponentData().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(2).getComponentData().text = var1;
    }
 
    public final void M() {
@@ -1691,84 +1691,84 @@ public final class C9 implements DialogHandler {
    }
 
    private void b(String var1, String var2) {
-      this.C9_f122.currentDialog.getChildById(2).getComponentData().C12_f179 = var2;
-      this.C9_f122.currentDialog.getChildById(4).getComponentData().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(2).getComponentData().text = var2;
+      this.C9_f122.currentDialog.getChildById(4).getComponentData().text = var1;
    }
 
    public final void O() {
       this.C9_f122.showDialog("/data/ui/shopbuy.ui", 257, this);
       this.C9_f125 = 0;
       this.C9_f131 = 0;
-      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Bán ra";
-      this.C9_f122.currentDialog.getChildById(39).getComponentData().C12_f179 = "";
-      this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = "";
-      this.C9_f122.currentDialog.getChildById(57).getComponentData().C12_f179 = "Bán đi";
-      this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "Quay lại";
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Bán ra";
+      this.C9_f122.currentDialog.getChildById(39).getComponentData().text = "";
+      this.C9_f122.currentDialog.getChildById(40).getComponentData().text = "";
+      this.C9_f122.currentDialog.getChildById(57).getComponentData().text = "Bán đi";
+      this.C9_f122.currentDialog.getChildById(58).getComponentData().text = "Quay lại";
       this.C9_f123.y();
       this.aZ();
    }
 
    private void aZ() {
       if (this.C9_f123.C53_f796.size() > 5) {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
       } else {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(0);
       }
 
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f123.C53_f796.size();
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = this.C9_f123.C53_f796.size();
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex;
       if (this.C9_f136 >= this.C9_f123.C53_f796.size()) {
          this.C9_f136 = this.C9_f123.C53_f796.size() - 1;
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f136;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = this.C9_f136;
       }
 
       if (this.C9_f135 > 0 && this.C9_f136 - this.C9_f135 < 4) {
          --this.C9_f135;
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = this.C9_f135;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset = this.C9_f135;
       }
 
       for(int var1 = 0; var1 < 5; ++var1) {
          if (this.C9_f135 + var1 < this.C9_f123.C53_f796.size()) {
             int var2 = ((int[])this.C9_f123.C53_f796.elementAt(this.C9_f135 + var1))[0];
-            if (this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195.initializeSprite(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().normalSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().normalSprite.initializeSprite(258, false, (byte)-1);
             }
 
-            this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[4][var2][1]);
-            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][var2][0]);
-            this.C9_f122.currentDialog.getChildById(15 + var1 * 5).getComponentData().C12_f179 = "" + ResourceManager.gameDatabase[4][var2][3] / 2;
+            this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[4][var2][1]);
+            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][var2][0]);
+            this.C9_f122.currentDialog.getChildById(15 + var1 * 5).getComponentData().text = "" + ResourceManager.gameDatabase[4][var2][3] / 2;
             if (ResourceManager.gameDatabase[4][var2][4] == 0) {
-               this.C9_f122.currentDialog.getChildById(var1 + 45).getComponentData().C12_f195.setSpriteIndex((int)84);
+               this.C9_f122.currentDialog.getChildById(var1 + 45).getComponentData().normalSprite.setSpriteIndex((int)84);
             } else if (ResourceManager.gameDatabase[4][var2][4] == 1) {
-               this.C9_f122.currentDialog.getChildById(var1 + 45).getComponentData().C12_f195.setSpriteIndex((int)83);
+               this.C9_f122.currentDialog.getChildById(var1 + 45).getComponentData().normalSprite.setSpriteIndex((int)83);
             } else if (ResourceManager.gameDatabase[4][var2][4] == 2) {
-               this.C9_f122.currentDialog.getChildById(var1 + 45).getComponentData().C12_f195.setSpriteIndex((int)74);
+               this.C9_f122.currentDialog.getChildById(var1 + 45).getComponentData().normalSprite.setSpriteIndex((int)74);
             }
          } else {
-            if (this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195 != null) {
-               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().C12_f195.cleanup();
+            if (this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().normalSprite != null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 51).getComponentData().normalSprite.cleanup();
             }
 
-            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "";
-            this.C9_f122.currentDialog.getChildById(15 + var1 * 5).getComponentData().C12_f179 = "";
-            this.C9_f122.currentDialog.getChildById(var1 + 45).getComponentData().C12_f195.setSpriteIndex((int)86);
+            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().text = "";
+            this.C9_f122.currentDialog.getChildById(15 + var1 * 5).getComponentData().text = "";
+            this.C9_f122.currentDialog.getChildById(var1 + 45).getComponentData().normalSprite.setSpriteIndex((int)86);
          }
       }
 
       if (this.C9_f123.C53_f796.size() > 0) {
-         this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((int[])this.C9_f123.C53_f796.elementAt(this.C9_f136))[0]][2]);
+         this.C9_f122.currentDialog.getChildById(56).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((int[])this.C9_f123.C53_f796.elementAt(this.C9_f136))[0]][2]);
       } else {
-         this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(56).getComponentData().text = "";
       }
 
       if (this.C9_f123.C53_f796.size() > 0) {
-         this.C9_f122.currentDialog.getChildById(43).getComponentData().C12_f179 = "" + this.C9_f123.G();
-         this.C9_f122.currentDialog.getChildById(44).getComponentData().C12_f179 = "" + this.C9_f123.F();
-         this.C9_f122.currentDialog.getChildById(38).setOffsetY(102 + this.C9_f136 * 84 / this.C9_f123.C53_f796.size(), this.C9_f122.currentDialog.getRootComponent());
+         this.C9_f122.currentDialog.getChildById(43).getComponentData().text = "" + this.C9_f123.G();
+         this.C9_f122.currentDialog.getChildById(44).getComponentData().text = "" + this.C9_f123.F();
+         this.C9_f122.currentDialog.getChildById(38).setOffsetY(102 + this.C9_f136 * 84 / this.C9_f123.C53_f796.size(), this.C9_f122.currentDialog.getUIContainerComponent());
       }
    }
 
@@ -1824,7 +1824,7 @@ public final class C9 implements DialogHandler {
                   this.C9_f121.changeState((byte)1);
                   this.C9_f122.removeDialog("/data/ui/shopbuy.ui");
                   this.C9_f125 = 1;
-                  ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f125;
+                  ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = this.C9_f125;
                   return;
                }
             }
@@ -1840,10 +1840,10 @@ public final class C9 implements DialogHandler {
    public final void Q() {
       this.C9_f122.showDialog("/data/ui/record.ui", 257, this);
       this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
-      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "" + (this.C9_f123.C53_f778 + this.C9_f123.C53_f792.size());
-      this.C9_f122.currentDialog.getChildById(17).getComponentData().C12_f179 = "" + this.C9_f123.C53_f783;
-      this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f179 = "" + this.C9_f123.C53_f785;
-      this.C9_f122.currentDialog.getChildById(26).getComponentData().C12_f179 = "" + this.C9_f123.C53_f784;
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().text = "" + (this.C9_f123.C53_f778 + this.C9_f123.C53_f792.size());
+      this.C9_f122.currentDialog.getChildById(17).getComponentData().text = "" + this.C9_f123.C53_f783;
+      this.C9_f122.currentDialog.getChildById(20).getComponentData().text = "" + this.C9_f123.C53_f785;
+      this.C9_f122.currentDialog.getChildById(26).getComponentData().text = "" + this.C9_f123.C53_f784;
       int var1 = 0;
 
       for(byte var2 = 0; var2 < this.C9_f123.C53_f779.length; ++var2) {
@@ -1852,12 +1852,12 @@ public final class C9 implements DialogHandler {
          }
       }
 
-      this.C9_f122.currentDialog.getChildById(29).getComponentData().C12_f179 = "" + var1;
+      this.C9_f122.currentDialog.getChildById(29).getComponentData().text = "" + var1;
       long var4 = GameScreenManager.getInstance().storyStartTime + GameScreenManager.getInstance().worldMapTime - GameScreenManager.getInstance().currentTime;
-      DialogData var10000 = this.C9_f122.currentDialog.getChildById(31).getComponentData();
+      ComponentData var10000 = this.C9_f122.currentDialog.getChildById(31).getComponentData();
       C25.B();
-      var10000.C12_f179 = C25.a(var4)[1];
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).additionalChildComponent.C38_f580 = this.C9_f126;
+      var10000.text = C25.a(var4)[1];
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).secondaryListComponent.selectedIndex = this.C9_f126;
       this.C9_f125 = 0;
       this.C9_f131 = 0;
       this.C9_f132 = true;
@@ -1909,33 +1909,33 @@ public final class C9 implements DialogHandler {
       this.C9_f125 = 0;
       this.C9_f126 = 0;
       this.C9_f131 = 0;
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
       this.bb();
       this.C9_f132 = true;
    }
 
    private void ba() {
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = 0;
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = 0;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset = 0;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = 0;
    }
 
    private void bb() {
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f123.C53_f803[this.C9_f125];
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = this.C9_f123.C53_f803[this.C9_f125];
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex;
       short var1 = ResourceManager.gameDatabase[0][this.C9_f123.C53_f802[this.C9_f125] + this.C9_f136][17];
       if (this.C9_f123.a((byte)this.C9_f125, this.C9_f136 + this.C9_f123.C53_f802[this.C9_f125]) > 0) {
          this.C9_f122.currentDialog.getChildById(21).setVisible(true);
-         if (this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195 != null) {
-            this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195.cleanup();
+         if (this.C9_f122.currentDialog.getChildById(21).getComponentData().normalSprite != null) {
+            this.C9_f122.currentDialog.getChildById(21).getComponentData().normalSprite.cleanup();
          } else {
-            this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195.spriteType = 3;
+            this.C9_f122.currentDialog.getChildById(21).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(21).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(21).getComponentData().normalSprite.spriteType = 3;
          }
 
-         this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195.initializeSprite(var1, false, (byte)-1);
-         this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f195.setSpriteState((byte)1);
+         this.C9_f122.currentDialog.getChildById(21).getComponentData().normalSprite.initializeSprite(var1, false, (byte)-1);
+         this.C9_f122.currentDialog.getChildById(21).getComponentData().normalSprite.setSpriteState((byte)1);
       } else {
          this.C9_f122.currentDialog.getChildById(21).setVisible(false);
       }
@@ -1950,24 +1950,24 @@ public final class C9 implements DialogHandler {
       }
 
       for(var2 = 0; var2 < 5; ++var2) {
-         if (this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195.setSpriteIndex((int)102);
-            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195.initializeSprite(257, false, (byte)-1);
+         if (this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().normalSprite.setSpriteIndex((int)102);
+            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().normalSprite.initializeSprite(257, false, (byte)-1);
          }
 
          if (this.C9_f123.a((byte)this.C9_f125, var2 + this.C9_f135 + this.C9_f123.C53_f802[this.C9_f125]) == 2) {
-            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195.setSpriteIndex((int)101);
+            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().normalSprite.setSpriteIndex((int)101);
          } else {
-            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().C12_f195.setSpriteIndex((int)102);
+            this.C9_f122.currentDialog.getChildById(var2 + 44).getComponentData().normalSprite.setSpriteIndex((int)102);
          }
 
-         this.C9_f122.currentDialog.getChildById(24 + (var2 << 2) + 3).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[0][this.C9_f123.C53_f802[this.C9_f125] + var2 + this.C9_f135][0]);
+         this.C9_f122.currentDialog.getChildById(24 + (var2 << 2) + 3).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[0][this.C9_f123.C53_f802[this.C9_f125] + var2 + this.C9_f135][0]);
       }
 
-      this.C9_f122.currentDialog.getChildById(20).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(365 + this.C9_f125) + var3 + "/" + this.C9_f123.C53_f803[this.C9_f125];
-      this.C9_f122.currentDialog.getChildById(23).setOffsetY(99 + (this.C9_f136 << 6) / this.C9_f123.C53_f803[this.C9_f125], this.C9_f122.currentDialog.getRootComponent());
+      this.C9_f122.currentDialog.getChildById(20).getComponentData().text = GameEngineBase.getLocalizedText(365 + this.C9_f125) + var3 + "/" + this.C9_f123.C53_f803[this.C9_f125];
+      this.C9_f122.currentDialog.getChildById(23).setOffsetY(99 + (this.C9_f136 << 6) / this.C9_f123.C53_f803[this.C9_f125], this.C9_f122.currentDialog.getUIContainerComponent());
    }
 
    public final void T() {
@@ -2002,7 +2002,7 @@ public final class C9 implements DialogHandler {
    public final void U() {
       this.C9_f122.showDialog("/data/ui/task.ui", 257, this);
       this.C9_f122.removeDialog("/data/ui/gamemenu.ui");
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).additionalChildComponent.C38_f580 = this.C9_f125;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).secondaryListComponent.selectedIndex = this.C9_f125;
       this.C9_f126 = 0;
       this.C9_f127 = 0;
       this.bc();
@@ -2016,14 +2016,14 @@ public final class C9 implements DialogHandler {
       case 0:
          if (C7.C7_f106 >= C7.C7_f103.length / 2 - 1) {
             int var10001 = C7.C7_f103.length;
-            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = var10001 / 2;
-            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = C7.C7_f103.length / 2 - 1;
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = var10001 / 2;
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = C7.C7_f103.length / 2 - 1;
          } else {
-            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = C7.C7_f106 + 1;
-            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = C7.C7_f106;
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = C7.C7_f106 + 1;
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = C7.C7_f106;
          }
 
-         this.C9_f122.currentDialog.getChildById(36).getComponentData().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(36).getComponentData().text = "";
          this.C9_f136 = C7.C7_f106;
          this.C9_f135 = C7.C7_f106 - 4;
          if (this.C9_f136 <= 0) {
@@ -2034,12 +2034,12 @@ public final class C9 implements DialogHandler {
             this.C9_f135 = 0;
          }
 
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = this.C9_f135;
-         this.C9_f122.currentDialog.getChildById(37).getComponentData().C12_f179 = "Đầu mối chính hoàn thành độ: ";
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset = this.C9_f135;
+         this.C9_f122.currentDialog.getChildById(37).getComponentData().text = "Đầu mối chính hoàn thành độ: ";
          if (C7.C7_f106 >= C7.C7_f103.length / 2) {
-            this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = C7.C7_f103[C7.C7_f103.length - 1];
+            this.C9_f122.currentDialog.getChildById(38).getComponentData().text = C7.C7_f103[C7.C7_f103.length - 1];
          } else {
-            this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = C7.C7_f103[C7.C7_f103.length / 2 + C7.C7_f106];
+            this.C9_f122.currentDialog.getChildById(38).getComponentData().text = C7.C7_f103[C7.C7_f103.length / 2 + C7.C7_f106];
          }
 
          var1 = C7.C7_f106 * 1000 / (C7.C7_f103.length / 2);
@@ -2048,25 +2048,25 @@ public final class C9 implements DialogHandler {
                var2 = 1;
             }
 
-            this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = var1 / 50 + "." + var2 + "%";
+            this.C9_f122.currentDialog.getChildById(38).getComponentData().text = var1 / 50 + "." + var2 + "%";
          } else {
-            this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = var1 / 10 + "." + var1 % 10 + "%";
+            this.C9_f122.currentDialog.getChildById(38).getComponentData().text = var1 / 10 + "." + var1 % 10 + "%";
          }
 
          if (C7.C7_f106 > 4) {
-            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
          } else {
-            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(0);
          }
 
-         this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f187 = 11290624;
+         this.C9_f122.currentDialog.getChildById(8).getComponentData().focusedTextColor = 11290624;
          break;
       case 1:
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = C7.C7_f107;
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = 0;
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = 0;
-         this.C9_f122.currentDialog.getChildById(36).getComponentData().C12_f179 = "";
-         this.C9_f122.currentDialog.getChildById(37).getComponentData().C12_f179 = "Chi nhánh hoàn thành độ: ";
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = C7.C7_f107;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = 0;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset = 0;
+         this.C9_f122.currentDialog.getChildById(36).getComponentData().text = "";
+         this.C9_f122.currentDialog.getChildById(37).getComponentData().text = "Chi nhánh hoàn thành độ: ";
          var1 = 0;
 
          for(var2 = 0; var2 < C7.C7_f105.length; ++var2) {
@@ -2076,74 +2076,74 @@ public final class C9 implements DialogHandler {
          }
 
          var2 = var1 * 1000 / (C7.C7_f102.length / 2);
-         this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = var2 / 10 + "." + var2 % 10 + "%";
+         this.C9_f122.currentDialog.getChildById(38).getComponentData().text = var2 / 10 + "." + var2 % 10 + "%";
          if (C7.C7_f107 > 5) {
-            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
          } else {
-            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(0);
          }
 
-         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f187 = 11290624;
+         this.C9_f122.currentDialog.getChildById(9).getComponentData().focusedTextColor = 11290624;
       }
 
       this.bd();
    }
 
    private void bd() {
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex;
 
       for(int var1 = 0; var1 < 5; ++var1) {
          if (this.C9_f125 == 0) {
             if (C7.C7_f106 > 0) {
                if (this.C9_f135 + var1 < C7.C7_f106) {
-                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().C12_f179 = "" + (var1 + this.C9_f135 + 1);
-                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().C12_f179 = C7.C7_f103[this.C9_f135 + var1];
-                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().C12_f179 = "Hoàn thành";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().text = "" + (var1 + this.C9_f135 + 1);
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().text = C7.C7_f103[this.C9_f135 + var1];
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().text = "Hoàn thành";
                } else if (this.C9_f135 + var1 == C7.C7_f106 && this.C9_f135 + var1 <= C7.C7_f103.length / 2 - 1) {
-                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().C12_f179 = "" + (var1 + this.C9_f135 + 1);
-                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().C12_f179 = C7.C7_f103[this.C9_f135 + var1];
-                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().C12_f179 = "";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().text = "" + (var1 + this.C9_f135 + 1);
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().text = C7.C7_f103[this.C9_f135 + var1];
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().text = "";
                } else {
-                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().C12_f179 = "";
-                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().C12_f179 = "";
-                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().C12_f179 = "";
-                  this.C9_f122.currentDialog.getChildById(36).getComponentData().C12_f179 = "";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().text = "";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().text = "";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().text = "";
+                  this.C9_f122.currentDialog.getChildById(36).getComponentData().text = "";
                }
             } else {
-               this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = "1";
-               this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = C7.C7_f103[0];
-               this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(12).getComponentData().text = "1";
+               this.C9_f122.currentDialog.getChildById(13).getComponentData().text = C7.C7_f103[0];
+               this.C9_f122.currentDialog.getChildById(14).getComponentData().text = "";
             }
          } else if (this.C9_f125 == 1) {
             if (this.C9_f135 + var1 < C7.C7_f107) {
-               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().C12_f179 = "" + (var1 + this.C9_f135 + 1);
-               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().C12_f179 = C7.C7_f102[C7.C7_f105[this.C9_f135 + var1][0]];
+               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().text = "" + (var1 + this.C9_f135 + 1);
+               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().text = C7.C7_f102[C7.C7_f105[this.C9_f135 + var1][0]];
                if (C7.C7_f105[this.C9_f135 + var1][1] == 3) {
-                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().C12_f179 = "Hoàn thành";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().text = "Hoàn thành";
                } else {
-                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().C12_f179 = "";
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().text = "";
                }
             } else {
-               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().C12_f179 = "";
-               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().C12_f179 = "";
-               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().text = "";
+               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().text = "";
+               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().text = "";
             }
          }
       }
 
       switch(this.C9_f125) {
       case 0:
-         this.C9_f122.currentDialog.getChildById(36).getComponentData().C12_f179 = C7.C7_f103[C7.C7_f103.length / 2 + this.C9_f136];
+         this.C9_f122.currentDialog.getChildById(36).getComponentData().text = C7.C7_f103[C7.C7_f103.length / 2 + this.C9_f136];
          break;
       case 1:
          if (C7.C7_f107 > 0) {
-            this.C9_f122.currentDialog.getChildById(36).getComponentData().C12_f179 = C7.C7_f102[C7.C7_f102.length / 2 + C7.C7_f105[this.C9_f136][0]];
+            this.C9_f122.currentDialog.getChildById(36).getComponentData().text = C7.C7_f102[C7.C7_f102.length / 2 + C7.C7_f105[this.C9_f136][0]];
          }
       }
 
-      if (((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 > 0) {
-         this.C9_f122.currentDialog.getChildById(40).setOffsetY(104 + (this.C9_f136 << 6) / ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574, this.C9_f122.currentDialog.getRootComponent());
+      if (((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount > 0) {
+         this.C9_f122.currentDialog.getChildById(40).setOffsetY(104 + (this.C9_f136 << 6) / ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount, this.C9_f122.currentDialog.getUIContainerComponent());
       }
 
    }
@@ -2194,7 +2194,7 @@ public final class C9 implements DialogHandler {
 
       for(int var1 = 0; var1 < 8; ++var1) {
          if (this.C9_f123.C53_f779[var1][0] != 0) {
-            this.C9_f122.currentDialog.getChildById(var1 + 25).getComponentData().C12_f195.setSpriteIndex(var1 + 46);
+            this.C9_f122.currentDialog.getChildById(var1 + 25).getComponentData().normalSprite.setSpriteIndex(var1 + 46);
          }
       }
 
@@ -2202,14 +2202,14 @@ public final class C9 implements DialogHandler {
    }
 
    private void be() {
-      this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[2][this.C9_f125][0]);
-      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[2][this.C9_f125][2 + this.C9_f123.b((byte)this.C9_f125, (byte)1)]);
+      this.C9_f122.currentDialog.getChildById(13).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[2][this.C9_f125][0]);
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[2][this.C9_f125][2 + this.C9_f123.b((byte)this.C9_f125, (byte)1)]);
       if (this.C9_f123.b((byte)this.C9_f125, (byte)0) == 0) {
-         this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f179 = "Chưa đạt";
+         this.C9_f122.currentDialog.getChildById(16).getComponentData().text = "Chưa đạt";
       } else {
-         this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f179 = "Đã đạt được";
+         this.C9_f122.currentDialog.getChildById(16).getComponentData().text = "Đã đạt được";
          this.C9_f123.b((byte)this.C9_f125, (byte)1);
-         this.C9_f122.currentDialog.getChildById(33).getComponentData().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(33).getComponentData().text = "";
       }
    }
 
@@ -2243,16 +2243,16 @@ public final class C9 implements DialogHandler {
 
    public final void a(int var1) {
       this.C9_f122.showDialog("/data/ui/smsTip.ui", 257, this);
-      if (this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f195 == null) {
-         this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f195 = new SpriteRenderer();
-         this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f195.spriteType = 2;
-         this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f195.setSpriteIndex((int)-1);
-         this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f195.initializeSprite(257, false, (byte)-1);
-         this.C9_f122.currentDialog.getChildById(6).getComponentData().C12_f195.setSpriteIndex(var1 + 46);
+      if (this.C9_f122.currentDialog.getChildById(6).getComponentData().normalSprite == null) {
+         this.C9_f122.currentDialog.getChildById(6).getComponentData().normalSprite = new SpriteRenderer();
+         this.C9_f122.currentDialog.getChildById(6).getComponentData().normalSprite.spriteType = 2;
+         this.C9_f122.currentDialog.getChildById(6).getComponentData().normalSprite.setSpriteIndex((int)-1);
+         this.C9_f122.currentDialog.getChildById(6).getComponentData().normalSprite.initializeSprite(257, false, (byte)-1);
+         this.C9_f122.currentDialog.getChildById(6).getComponentData().normalSprite.setSpriteIndex(var1 + 46);
       }
 
-      this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var1 + 187) + ":" + GameEngineBase.getLocalizedText(var1 + 195);
-      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)377);
+      this.C9_f122.currentDialog.getChildById(7).getComponentData().text = GameEngineBase.getLocalizedText(var1 + 187) + ":" + GameEngineBase.getLocalizedText(var1 + 195);
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().text = GameEngineBase.getLocalizedText((int)377);
    }
 
    public final void Y() {
@@ -2274,16 +2274,16 @@ public final class C9 implements DialogHandler {
       if (this.C9_f121 instanceof C25) {
          for(var4 = 0; var4 < 6; ++var4) {
             if (var2[var4] != null) {
-               var5.C9_f122.currentDialog.getChildById(16 + var4 * 6).getComponentData().C12_f179 = "#P" + var2[var4].M();
-               var5.C9_f122.currentDialog.getChildById(17 + var4 * 6).getComponentData().C12_f179 = "#P" + var2[var4].P();
+               var5.C9_f122.currentDialog.getChildById(16 + var4 * 6).getComponentData().text = "#P" + var2[var4].M();
+               var5.C9_f122.currentDialog.getChildById(17 + var4 * 6).getComponentData().text = "#P" + var2[var4].P();
             } else {
-               var5.C9_f122.currentDialog.getChildById(16 + var4 * 6).getComponentData().C12_f179 = "#P0";
-               var5.C9_f122.currentDialog.getChildById(17 + var4 * 6).getComponentData().C12_f179 = "#P0";
+               var5.C9_f122.currentDialog.getChildById(16 + var4 * 6).getComponentData().text = "#P0";
+               var5.C9_f122.currentDialog.getChildById(17 + var4 * 6).getComponentData().text = "#P0";
             }
          }
 
          if (var5.C9_f121.C44_f699 == 16) {
-            var5.C9_f122.currentDialog.getChildById(64).getComponentData().C12_f179 = "Gởi lại";
+            var5.C9_f122.currentDialog.getChildById(64).getComponentData().text = "Gởi lại";
          }
 
          var5.C9_f122.currentDialog.getChildById(75).setVisible(false);
@@ -2291,65 +2291,65 @@ public final class C9 implements DialogHandler {
       } else if (this.C9_f121 instanceof C29) {
          for(var4 = 0; var4 < 6; ++var4) {
             if (var4 < ((C29)var5.C9_f121).C29_f405.length && var2[((C29)var5.C9_f121).C29_f405[var4]] != null) {
-               var5.C9_f122.currentDialog.getChildById(16 + var4 * 6).getComponentData().C12_f179 = "#P" + var2[((C29)var5.C9_f121).C29_f405[var4]].M();
-               var5.C9_f122.currentDialog.getChildById(17 + var4 * 6).getComponentData().C12_f179 = "#P" + var2[((C29)var5.C9_f121).C29_f405[var4]].P();
+               var5.C9_f122.currentDialog.getChildById(16 + var4 * 6).getComponentData().text = "#P" + var2[((C29)var5.C9_f121).C29_f405[var4]].M();
+               var5.C9_f122.currentDialog.getChildById(17 + var4 * 6).getComponentData().text = "#P" + var2[((C29)var5.C9_f121).C29_f405[var4]].P();
             } else {
-               var5.C9_f122.currentDialog.getChildById(16 + var4 * 6).getComponentData().C12_f179 = "#P0";
-               var5.C9_f122.currentDialog.getChildById(17 + var4 * 6).getComponentData().C12_f179 = "#P0";
+               var5.C9_f122.currentDialog.getChildById(16 + var4 * 6).getComponentData().text = "#P0";
+               var5.C9_f122.currentDialog.getChildById(17 + var4 * 6).getComponentData().text = "#P0";
             }
          }
 
          var5.C9_f122.currentDialog.getChildById(63).setVisible(false);
          var5.C9_f122.currentDialog.getChildById(64).setVisible(false);
          if (var5.C9_f121.C44_f699 == 4) {
-            var5.C9_f122.currentDialog.getChildById(75).getComponentData().C12_f179 = "Sử dụng";
+            var5.C9_f122.currentDialog.getChildById(75).getComponentData().text = "Sử dụng";
          } else if (var5.C9_f121.C44_f698 == 5) {
-            var5.C9_f122.currentDialog.getChildById(75).getComponentData().C12_f179 = "Xuất chiến";
+            var5.C9_f122.currentDialog.getChildById(75).getComponentData().text = "Xuất chiến";
          }
       }
 
-      ((RootComponent)var5.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = var5.C9_f123.C53_f778;
-      ((RootComponent)var5.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f577 = var5.C9_f123.C53_f778;
-      ((RootComponent)var5.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = var1;
+      ((UIContainerComponent)var5.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = var5.C9_f123.C53_f778;
+      ((UIContainerComponent)var5.C9_f122.currentDialog.getChildById(0)).primaryListComponent.visibleItemCount = var5.C9_f123.C53_f778;
+      ((UIContainerComponent)var5.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = var1;
       var5.C9_f132 = true;
    }
 
    private void a(C41[] var1, int var2) {
       if (var1[var2] != null) {
-         if (this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195 != null) {
-            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.cleanup();
+         if (this.C9_f122.currentDialog.getChildById(48).getComponentData().normalSprite != null) {
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().normalSprite.cleanup();
          } else {
-            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.spriteType = 3;
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(48).getComponentData().normalSprite.spriteType = 3;
          }
 
          short var10001 = var1[var2].C41_f655;
-         this.C9_f122.currentDialog.getChildById(48).getComponentData().C12_f195.initializeSprite(var10001, false, (byte)-1);
-         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var1[var2].j((byte)0));
-         this.C9_f122.currentDialog.getChildById(52).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(365 + var1[var2].j((byte)1));
+         this.C9_f122.currentDialog.getChildById(48).getComponentData().normalSprite.initializeSprite(var10001, false, (byte)-1);
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().text = GameEngineBase.getLocalizedText(var1[var2].j((byte)0));
+         this.C9_f122.currentDialog.getChildById(52).getComponentData().text = GameEngineBase.getLocalizedText(365 + var1[var2].j((byte)1));
          if (var1[var2].j((byte)19) == -1) {
-            this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(62).getComponentData().text = "";
          } else if (ResourceManager.gameDatabase[0][var1[var2].j((byte)19)][2] != 1 && ResourceManager.gameDatabase[0][var1[var2].j((byte)19)][2] != 2) {
             if (ResourceManager.gameDatabase[0][var1[var2].j((byte)19)][2] == 3) {
-               this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "Có thể dị hoá";
+               this.C9_f122.currentDialog.getChildById(62).getComponentData().text = "Có thể dị hoá";
             }
          } else {
-            this.C9_f122.currentDialog.getChildById(62).getComponentData().C12_f179 = "Có thể tiến hóa";
+            this.C9_f122.currentDialog.getChildById(62).getComponentData().text = "Có thể tiến hóa";
          }
 
-         this.C9_f122.currentDialog.getChildById(61).getComponentData().C12_f179 = var1[var2].U();
+         this.C9_f122.currentDialog.getChildById(61).getComponentData().text = var1[var2].U();
          if (this.C9_f121 instanceof C29) {
-            this.C9_f122.currentDialog.getChildById(64).getComponentData().C12_f179 = "Xuất chiến";
+            this.C9_f122.currentDialog.getChildById(64).getComponentData().text = "Xuất chiến";
          } else if (this.C9_f121 instanceof C25) {
-            this.C9_f122.currentDialog.getChildById(64).getComponentData().C12_f179 = "Xác nhận";
+            this.C9_f122.currentDialog.getChildById(64).getComponentData().text = "Xác nhận";
          }
 
-         if (this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.initializeSprite(258, false, (byte)-1);
+         if (this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite.initializeSprite(258, false, (byte)-1);
          }
 
          C41 var10000 = var1[var2];
@@ -2359,21 +2359,21 @@ public final class C9 implements DialogHandler {
             C41 var10002 = var1[var2];
             var4 = 5;
             short[] var8 = var7[var10002.C60_f855[var4]];
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.setSpriteIndex((int)var8[1]);
-            DialogData var6 = this.C9_f122.currentDialog.getChildById(60).getComponentData();
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite.setSpriteIndex((int)var8[1]);
+            ComponentData var6 = this.C9_f122.currentDialog.getChildById(60).getComponentData();
             var7 = ResourceManager.gameDatabase[3];
             var10002 = var1[var2];
             var4 = 5;
-            var6.C12_f179 = GameEngineBase.getLocalizedText((int)var7[var10002.C60_f855[var4]][0]);
+            var6.text = GameEngineBase.getLocalizedText((int)var7[var10002.C60_f855[var4]][0]);
          } else {
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(60).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(60).getComponentData().text = "";
          }
 
-         this.C9_f122.currentDialog.getChildById(65).getComponentData().C12_f179 = "" + var1[var2].t();
-         this.C9_f122.currentDialog.getChildById(66).getComponentData().C12_f179 = "" + var1[var2].a((byte)2);
-         this.C9_f122.currentDialog.getChildById(67).getComponentData().C12_f179 = "" + var1[var2].a((byte)3);
-         this.C9_f122.currentDialog.getChildById(68).getComponentData().C12_f179 = "" + var1[var2].a((byte)4);
+         this.C9_f122.currentDialog.getChildById(65).getComponentData().text = "" + var1[var2].t();
+         this.C9_f122.currentDialog.getChildById(66).getComponentData().text = "" + var1[var2].a((byte)2);
+         this.C9_f122.currentDialog.getChildById(67).getComponentData().text = "" + var1[var2].a((byte)3);
+         this.C9_f122.currentDialog.getChildById(68).getComponentData().text = "" + var1[var2].a((byte)4);
          var10000 = var1[var2];
          var4 = 0;
          int var3 = var10000.C60_f856[var4];
@@ -2381,15 +2381,15 @@ public final class C9 implements DialogHandler {
 
          for(var2 = 0; var2 < 5; ++var2) {
             this.C9_f122.currentDialog.getChildById(74 - var2).setVisible(true);
-            this.C9_f122.currentDialog.getChildById(74 - var2).getComponentData().C12_f195.initializeSprite(257, false, (byte)-1);
-            this.C9_f122.currentDialog.getChildById(74 - var2).getComponentData().C12_f195.spriteType = 3;
+            this.C9_f122.currentDialog.getChildById(74 - var2).getComponentData().normalSprite.initializeSprite(257, false, (byte)-1);
+            this.C9_f122.currentDialog.getChildById(74 - var2).getComponentData().normalSprite.spriteType = 3;
             if (var2 > var5) {
                this.C9_f122.currentDialog.getChildById(74 - var2).setVisible(false);
             } else if (var3 > 0) {
-               this.C9_f122.currentDialog.getChildById(74 - var2).getComponentData().C12_f195.setAnimationFrame((byte)14, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(74 - var2).getComponentData().normalSprite.setAnimationFrame((byte)14, (byte)-1);
                --var3;
             } else {
-               this.C9_f122.currentDialog.getChildById(74 - var2).getComponentData().C12_f195.setAnimationFrame((byte)16, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(74 - var2).getComponentData().normalSprite.setAnimationFrame((byte)16, (byte)-1);
             }
          }
       }
@@ -2481,19 +2481,19 @@ public final class C9 implements DialogHandler {
                   this.C9_f121.r();
                   this.C9_f131 = 1;
                   this.C9_f122.showDialog("/data/ui/petsetting.ui", 257, this);
-                  ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f126;
+                  ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = this.C9_f126;
                   if (this.C9_f123.C53_f777[this.C9_f125].S() == 2) {
-                     this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Dị hoá";
-                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 6;
-                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f577 = 6;
+                     this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "Dị hoá";
+                     ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = 6;
+                     ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.visibleItemCount = 6;
                   } else if (this.C9_f123.C53_f777[this.C9_f125].S() == 1) {
-                     this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Tiến hóa";
-                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 6;
-                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f577 = 6;
+                     this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "Tiến hóa";
+                     ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = 6;
+                     ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.visibleItemCount = 6;
                   } else {
-                     this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "";
-                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 5;
-                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f577 = 5;
+                     this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "";
+                     ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = 5;
+                     ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.visibleItemCount = 5;
                   }
                }
             }
@@ -2566,8 +2566,8 @@ public final class C9 implements DialogHandler {
                      this.C9_f125 = 0;
                      this.f(this.C9_f125);
                      this.C9_f122.removeDialog("/data/ui/petsetting.ui");
-                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = 0;
-                     ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = 0;
+                     ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = 0;
+                     ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset = 0;
                   }
                   break;
                case 2:
@@ -2679,20 +2679,20 @@ public final class C9 implements DialogHandler {
       this.C9_f122.showDialog("/data/ui/choice.ui", 257, this);
       this.C9_f122.removeDialog("/data/ui/petsetting.ui");
       this.C9_f122.removeDialog("/data/ui/petstate.ui");
-      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Vật phẩm trang sức";
-      this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Trạng thái";
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().text = "Vật phẩm trang sức";
+      this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "Trạng thái";
       if (this.C9_f121 instanceof C25) {
          this.C9_f122.currentDialog.getChildById(5).setVisible(false);
          this.C9_f122.currentDialog.getChildById(6).setVisible(false);
          this.C9_f122.currentDialog.getChildById(59).setVisible(true);
          this.C9_f122.currentDialog.getChildById(60).setVisible(true);
-         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "Mang theo";
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().text = "Mang theo";
       } else {
          this.C9_f122.currentDialog.getChildById(5).setVisible(true);
          this.C9_f122.currentDialog.getChildById(6).setVisible(true);
          this.C9_f122.currentDialog.getChildById(59).setVisible(false);
          this.C9_f122.currentDialog.getChildById(60).setVisible(false);
-         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Mang theo";
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Mang theo";
       }
 
       this.bg();
@@ -2701,22 +2701,22 @@ public final class C9 implements DialogHandler {
 
    private void bg() {
       if (this.C9_f123.C53_f789.size() > 5) {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
       } else {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(0);
       }
 
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f123.C53_f789.size();
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = this.C9_f123.C53_f789.size();
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex;
       if (this.C9_f136 >= this.C9_f123.C53_f789.size()) {
          this.C9_f136 = this.C9_f123.C53_f789.size() - 1;
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f136;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = this.C9_f136;
       }
 
       if (this.C9_f135 > 0 && this.C9_f136 - this.C9_f135 < 4) {
          --this.C9_f135;
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = this.C9_f135;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset = this.C9_f135;
       }
 
       if (this.C9_f123.C53_f789.size() > 0) {
@@ -2724,57 +2724,57 @@ public final class C9 implements DialogHandler {
          byte var4 = 5;
          if (var10000.C60_f855[var4] == ((int[])this.C9_f123.C53_f789.elementAt(this.C9_f136))[0]) {
             if (this.C9_f121 instanceof C25) {
-               this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "Dỡ xuống";
+               this.C9_f122.currentDialog.getChildById(59).getComponentData().text = "Dỡ xuống";
             } else {
-               this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Dỡ xuống";
+               this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Dỡ xuống";
             }
          } else if (this.C9_f121 instanceof C25) {
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "Mang theo";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().text = "Mang theo";
          } else {
-            this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Mang theo";
+            this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Mang theo";
          }
 
          for(int var1 = 0; var1 < 5; ++var1) {
             if (this.C9_f135 + var1 < this.C9_f123.C53_f789.size()) {
                int[] var2 = (int[])this.C9_f123.C53_f789.elementAt(this.C9_f135 + var1);
-               if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 == null) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 = new SpriteRenderer();
-                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.setSpriteIndex((int)0);
-                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.spriteType = 2;
-                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.initializeSprite(258, false, (byte)-1);
+               if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite == null) {
+                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite = new SpriteRenderer();
+                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.setSpriteIndex((int)0);
+                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.spriteType = 2;
+                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.initializeSprite(258, false, (byte)-1);
                }
 
-               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[3][var2[0]][1]);
-               this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][var2[0]][0]);
+               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[3][var2[0]][1]);
+               this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][var2[0]][0]);
                var10000 = C53.p().C53_f777[this.C9_f125];
                var4 = 5;
                if (var10000.C60_f855[var4] == var2[0]) {
-                  this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "Đã mang theo";
+                  this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().text = "Đã mang theo";
                } else if (var2[1] == 1) {
-                  this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "Bị mang theo";
+                  this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().text = "Bị mang theo";
                } else {
-                  this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "";
+                  this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().text = "";
                }
             } else {
-               if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 != null) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.cleanup();
+               if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite != null) {
+                  this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.cleanup();
                }
 
-               this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = "";
-               this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().text = "";
+               this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().text = "";
             }
          }
 
          if (this.C9_f123.C53_f789.size() > 0) {
-            this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((int[])this.C9_f123.C53_f789.elementAt(this.C9_f136))[0]][2]);
+            this.C9_f122.currentDialog.getChildById(53).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((int[])this.C9_f123.C53_f789.elementAt(this.C9_f136))[0]][2]);
          } else {
-            this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(53).getComponentData().text = "";
          }
 
          if (this.C9_f123.C53_f789.size() > 0) {
-            this.C9_f122.currentDialog.getChildById(51).setOffsetY(98 + this.C9_f136 * 62 / this.C9_f123.C53_f789.size(), this.C9_f122.currentDialog.getRootComponent());
+            this.C9_f122.currentDialog.getChildById(51).setOffsetY(98 + this.C9_f136 * 62 / this.C9_f123.C53_f789.size(), this.C9_f122.currentDialog.getUIContainerComponent());
          } else {
-            this.C9_f122.currentDialog.getChildById(51).setOffsetY(98, this.C9_f122.currentDialog.getRootComponent());
+            this.C9_f122.currentDialog.getChildById(51).setOffsetY(98, this.C9_f122.currentDialog.getUIContainerComponent());
          }
       }
    }
@@ -2785,20 +2785,20 @@ public final class C9 implements DialogHandler {
       this.C9_f122.showDialog("/data/ui/choice.ui", 257, this);
       this.C9_f122.removeDialog("/data/ui/petsetting.ui");
       this.C9_f122.removeDialog("/data/ui/petstate.ui");
-      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Đạo cụ";
-      this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Số lượng";
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().text = "Đạo cụ";
+      this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "Số lượng";
       if (this.C9_f121 instanceof C25) {
          this.C9_f122.currentDialog.getChildById(5).setVisible(false);
          this.C9_f122.currentDialog.getChildById(6).setVisible(false);
          this.C9_f122.currentDialog.getChildById(59).setVisible(true);
          this.C9_f122.currentDialog.getChildById(60).setVisible(true);
-         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "Sử dụng";
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().text = "Sử dụng";
       } else {
          this.C9_f122.currentDialog.getChildById(5).setVisible(true);
          this.C9_f122.currentDialog.getChildById(6).setVisible(true);
          this.C9_f122.currentDialog.getChildById(59).setVisible(false);
          this.C9_f122.currentDialog.getChildById(60).setVisible(false);
-         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Sử dụng";
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Sử dụng";
       }
 
       this.bi();
@@ -2807,57 +2807,57 @@ public final class C9 implements DialogHandler {
 
    private void bi() {
       if (this.C9_f123.C53_f787.size() > 5) {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
       } else {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(0);
       }
 
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f123.C53_f787.size();
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = this.C9_f123.C53_f787.size();
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex;
       if (this.C9_f136 >= this.C9_f123.C53_f787.size()) {
          this.C9_f136 = this.C9_f123.C53_f787.size() - 1;
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f136;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = this.C9_f136;
       }
 
       if (this.C9_f135 > 0 && this.C9_f136 - this.C9_f135 < 4) {
          --this.C9_f135;
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579 = this.C9_f135;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset = this.C9_f135;
       }
 
       for(int var1 = 0; var1 < 5; ++var1) {
          if (this.C9_f135 + var1 < this.C9_f123.C53_f787.size()) {
             int[] var2 = (int[])this.C9_f123.C53_f787.elementAt(this.C9_f135 + var1);
-            if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.initializeSprite(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.initializeSprite(258, false, (byte)-1);
             }
 
-            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[4][var2[0]][1]);
-            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][var2[0]][0]);
-            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "" + var2[1];
+            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[4][var2[0]][1]);
+            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][var2[0]][0]);
+            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().text = "" + var2[1];
          } else {
-            if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 != null) {
-               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.cleanup();
+            if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite != null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.cleanup();
             }
 
-            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = "";
-            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().text = "";
+            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().text = "";
          }
       }
 
       if (this.C9_f123.C53_f787.size() > 0) {
-         this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((int[])this.C9_f123.C53_f787.elementAt(this.C9_f136))[0]][2]);
+         this.C9_f122.currentDialog.getChildById(53).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((int[])this.C9_f123.C53_f787.elementAt(this.C9_f136))[0]][2]);
       } else {
-         this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(53).getComponentData().text = "";
       }
 
       if (this.C9_f123.C53_f787.size() > 0) {
-         this.C9_f122.currentDialog.getChildById(51).setOffsetY(98 + this.C9_f136 * 80 / this.C9_f123.C53_f787.size(), this.C9_f122.currentDialog.getRootComponent());
+         this.C9_f122.currentDialog.getChildById(51).setOffsetY(98 + this.C9_f136 * 80 / this.C9_f123.C53_f787.size(), this.C9_f122.currentDialog.getUIContainerComponent());
       } else {
-         this.C9_f122.currentDialog.getChildById(51).setOffsetY(98, this.C9_f122.currentDialog.getRootComponent());
+         this.C9_f122.currentDialog.getChildById(51).setOffsetY(98, this.C9_f122.currentDialog.getUIContainerComponent());
       }
    }
 
@@ -2867,22 +2867,22 @@ public final class C9 implements DialogHandler {
       this.C9_f122.showDialog("/data/ui/skill.ui", 257, this);
       this.C9_f122.removeDialog("/data/ui/petsetting.ui");
       this.C9_f122.removeDialog("/data/ui/petstate.ui");
-      this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(this.C9_f123.C53_f777[this.C9_f125].j((byte)0));
-      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "" + this.C9_f123.C53_f777[this.C9_f125].t();
-      if (this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195 != null) {
-         this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195.cleanup();
+      this.C9_f122.currentDialog.getChildById(12).getComponentData().text = GameEngineBase.getLocalizedText(this.C9_f123.C53_f777[this.C9_f125].j((byte)0));
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().text = "" + this.C9_f123.C53_f777[this.C9_f125].t();
+      if (this.C9_f122.currentDialog.getChildById(16).getComponentData().normalSprite != null) {
+         this.C9_f122.currentDialog.getChildById(16).getComponentData().normalSprite.cleanup();
       } else {
-         this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195 = new SpriteRenderer();
-         this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195.setSpriteIndex((int)0);
-         this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195.spriteType = 3;
+         this.C9_f122.currentDialog.getChildById(16).getComponentData().normalSprite = new SpriteRenderer();
+         this.C9_f122.currentDialog.getChildById(16).getComponentData().normalSprite.setSpriteIndex((int)0);
+         this.C9_f122.currentDialog.getChildById(16).getComponentData().normalSprite.spriteType = 3;
       }
 
       short var10001 = this.C9_f123.C53_f777[this.C9_f125].C41_f655;
-      this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f195.initializeSprite(var10001, false, (byte)-1);
+      this.C9_f122.currentDialog.getChildById(16).getComponentData().normalSprite.initializeSprite(var10001, false, (byte)-1);
       int var1 = this.C9_f123.C53_f777[this.C9_f125].F();
 
       for(int var2 = 0; var2 < var1; ++var2) {
-         this.C9_f122.currentDialog.getChildById(var2 + 18).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[1][this.C9_f123.C53_f777[this.C9_f125].t(var2)][1]);
+         this.C9_f122.currentDialog.getChildById(var2 + 18).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[1][this.C9_f123.C53_f777[this.C9_f125].t(var2)][1]);
       }
 
       this.bk();
@@ -2892,9 +2892,9 @@ public final class C9 implements DialogHandler {
    private void bk() {
       if (this.C9_f123.C53_f777[this.C9_f125].t(this.C9_f127) != -1) {
          String[] var1 = new String[]{"Nhất định", "Nhất định"};
-         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = GameEngineBase.a(ResourceManager.gameDatabase[1][this.C9_f123.C53_f777[this.C9_f125].t(this.C9_f127)][2], (String[])var1);
+         this.C9_f122.currentDialog.getChildById(9).getComponentData().text = GameEngineBase.a(ResourceManager.gameDatabase[1][this.C9_f123.C53_f777[this.C9_f125].t(this.C9_f127)][2], (String[])var1);
       } else {
-         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "";
       }
    }
 
@@ -2904,34 +2904,34 @@ public final class C9 implements DialogHandler {
       this.C9_f122.showDialog("/data/ui/evolve.ui", 257, this);
       this.C9_f122.removeDialog("/data/ui/petsetting.ui");
       this.C9_f122.removeDialog("/data/ui/petstate.ui");
-      if (this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 == null) {
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 = new SpriteRenderer();
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.setSpriteIndex((int)0);
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.spriteType = 3;
+      if (this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite == null) {
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite = new SpriteRenderer();
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite.setSpriteIndex((int)0);
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite.spriteType = 3;
       }
 
       short var10001 = this.C9_f123.C53_f777[this.C9_f125].C41_f655;
-      this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.initializeSprite(var10001, false, (byte)-1);
+      this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite.initializeSprite(var10001, false, (byte)-1);
       short var1 = (short)(ResourceManager.getDatabaseValue((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)20) + 12);
       short var2 = ResourceManager.getDatabaseValue((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)21);
-      this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.getDatabaseValue((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)0));
-      this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = "" + this.C9_f123.C53_f777[this.C9_f125].t();
-      this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.getDatabaseValue((byte)3, var1, (byte)0));
-      this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = this.C9_f123.a((int)var1, (byte)2) + "/" + var2;
+      this.C9_f122.currentDialog.getChildById(38).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.getDatabaseValue((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)0));
+      this.C9_f122.currentDialog.getChildById(40).getComponentData().text = "" + this.C9_f123.C53_f777[this.C9_f125].t();
+      this.C9_f122.currentDialog.getChildById(45).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.getDatabaseValue((byte)3, var1, (byte)0));
+      this.C9_f122.currentDialog.getChildById(46).getComponentData().text = this.C9_f123.a((int)var1, (byte)2) + "/" + var2;
       var1 = ResourceManager.getDatabaseValue((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)19);
       C41 var6;
       (var6 = new C41()).a(var1, (byte)this.C9_f123.C53_f777[this.C9_f125].t(), (short)-1, (byte)-1, (short)-1, (byte)-1);
 
       for(int var5 = 0; var5 < 4; ++var5) {
-         DialogData var10000 = this.C9_f122.currentDialog.getChildById(var5 + 19).getComponentData();
+         ComponentData var10000 = this.C9_f122.currentDialog.getChildById(var5 + 19).getComponentData();
          StringBuffer var7 = new StringBuffer();
          C41 var10002 = this.C9_f123.C53_f777[this.C9_f125];
          byte var4 = (byte)(var5 + 1);
-         var10000.C12_f179 = var7.append(var10002.C60_f855[var4]).toString();
+         var10000.text = var7.append(var10002.C60_f855[var4]).toString();
          var10000 = this.C9_f122.currentDialog.getChildById(var5 + 31).getComponentData();
          var7 = new StringBuffer();
          var4 = (byte)(var5 + 1);
-         var10000.C12_f179 = var7.append(var6.C60_f855[var4]).toString();
+         var10000.text = var7.append(var6.C60_f855[var4]).toString();
       }
 
       this.C9_f132 = true;
@@ -3106,8 +3106,8 @@ public final class C9 implements DialogHandler {
             var4 = ResourceManager.getDatabaseValue((byte)0, var3, (byte)17);
             ResourceManager.getDatabaseValue((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)21);
             this.C9_f122.currentDialog.getChildById(10).setVisible(true);
-            this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.initializeSprite(var4, false, (byte)-1);
-            this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.getDatabaseValue((byte)0, var3, (byte)0));
+            this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite.initializeSprite(var4, false, (byte)-1);
+            this.C9_f122.currentDialog.getChildById(38).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.getDatabaseValue((byte)0, var3, (byte)0));
             C41 var11 = new C41();
             short var5 = ResourceManager.getDatabaseValue((byte)0, var3, (byte)3);
             byte var6 = -1;
@@ -3136,12 +3136,12 @@ public final class C9 implements DialogHandler {
             var3 = ResourceManager.getDatabaseValue((byte)0, (byte)this.C9_f123.C53_f777[this.C9_f125].r(), (byte)19);
             int var12 = this.C9_f123.a((int)var5, (byte)2);
             if (var3 == -1) {
-               this.C9_f122.currentDialog.getChildById(42).getComponentData().C12_f179 = "";
-               this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f179 = "";
-               this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(42).getComponentData().text = "";
+               this.C9_f122.currentDialog.getChildById(45).getComponentData().text = "";
+               this.C9_f122.currentDialog.getChildById(46).getComponentData().text = "";
             } else {
-               this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.getDatabaseValue((byte)3, var5, (byte)0));
-               this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = var12 + "/" + var4;
+               this.C9_f122.currentDialog.getChildById(45).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.getDatabaseValue((byte)3, var5, (byte)0));
+               this.C9_f122.currentDialog.getChildById(46).getComponentData().text = var12 + "/" + var4;
             }
 
             if (this.C9_f123.C53_f777[this.C9_f125].S() == 2) {
@@ -3230,13 +3230,13 @@ public final class C9 implements DialogHandler {
       this.C9_f125 = 0;
       this.bq();
       this.C9_f122.currentDialog.handleAction(5);
-      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "Vật phẩm";
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().text = "Vật phẩm";
       this.C9_f125 = 0;
    }
 
    private void bq() {
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(8 + this.C9_f125 * 39)).otherChildComponent.C38_f579 = 0;
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(8 + this.C9_f125 * 39)).otherChildComponent.C38_f580 = 0;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(8 + this.C9_f125 * 39)).primaryListComponent.scrollOffset = 0;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(8 + this.C9_f125 * 39)).primaryListComponent.selectedIndex = 0;
       this.br();
    }
 
@@ -3248,61 +3248,61 @@ public final class C9 implements DialogHandler {
       case 1:
          C9 var4 = this;
          if (this.C9_f123.C53_f789.size() > 5) {
-            ((RootComponent)this.C9_f122.currentDialog.getChildById(47)).otherChildComponent.a(1);
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(47)).primaryListComponent.setDisplayMode(1);
          } else {
-            ((RootComponent)this.C9_f122.currentDialog.getChildById(47)).otherChildComponent.a(0);
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(47)).primaryListComponent.setDisplayMode(0);
          }
 
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(47)).otherChildComponent.C38_f574 = this.C9_f123.C53_f789.size();
-         this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(47)).otherChildComponent.C38_f579;
-         this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(47)).otherChildComponent.C38_f580;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(47)).primaryListComponent.totalItemCount = this.C9_f123.C53_f789.size();
+         this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(47)).primaryListComponent.scrollOffset;
+         this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(47)).primaryListComponent.selectedIndex;
          this.C9_f122.currentDialog.getChildById(7).setVisible(false);
 
          for(int var2 = 0; var2 < 5; ++var2) {
             if (var4.C9_f135 + var2 < var4.C9_f123.C53_f789.size()) {
                int[] var3 = (int[])var4.C9_f123.C53_f789.elementAt(var4.C9_f135 + var2);
-               if (var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195 == null) {
-                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195 = new SpriteRenderer();
-                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195.setSpriteIndex((int)0);
-                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195.spriteType = 2;
-                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195.initializeSprite(258, false, (byte)-1);
+               if (var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().normalSprite == null) {
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().normalSprite = new SpriteRenderer();
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().normalSprite.setSpriteIndex((int)0);
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().normalSprite.spriteType = 2;
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().normalSprite.initializeSprite(258, false, (byte)-1);
                }
 
-               if (var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f191 == null) {
-                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f191 = new SpriteRenderer();
-                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f191.setSpriteIndex((int)0);
-                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f191.spriteType = 2;
-                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f191.initializeSprite(258, false, (byte)-1);
+               if (var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().focusedSprite == null) {
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().focusedSprite = new SpriteRenderer();
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().focusedSprite.setSpriteIndex((int)0);
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().focusedSprite.spriteType = 2;
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().focusedSprite.initializeSprite(258, false, (byte)-1);
                }
 
-               var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[3][var3[0]][1]);
-               var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f191.setSpriteIndex((int) ResourceManager.gameDatabase[3][var3[0]][1]);
-               var4.C9_f122.currentDialog.getChildById(60 + var2 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][var3[0]][0]);
+               var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[3][var3[0]][1]);
+               var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().focusedSprite.setSpriteIndex((int) ResourceManager.gameDatabase[3][var3[0]][1]);
+               var4.C9_f122.currentDialog.getChildById(60 + var2 * 5).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][var3[0]][0]);
                if (var3[1] == 1) {
-                  var4.C9_f122.currentDialog.getChildById(61 + var2 * 5).getComponentData().C12_f179 = "Đã mang theo";
+                  var4.C9_f122.currentDialog.getChildById(61 + var2 * 5).getComponentData().text = "Đã mang theo";
                } else {
-                  var4.C9_f122.currentDialog.getChildById(61 + var2 * 5).getComponentData().C12_f179 = "";
+                  var4.C9_f122.currentDialog.getChildById(61 + var2 * 5).getComponentData().text = "";
                }
             } else {
-               if (var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195 != null) {
-                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().C12_f195.cleanup();
+               if (var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().normalSprite != null) {
+                  var4.C9_f122.currentDialog.getChildById(59 + var2 * 5).getComponentData().normalSprite.cleanup();
                }
 
-               var4.C9_f122.currentDialog.getChildById(60 + var2 * 5).getComponentData().C12_f179 = "";
-               var4.C9_f122.currentDialog.getChildById(61 + var2 * 5).getComponentData().C12_f179 = "";
+               var4.C9_f122.currentDialog.getChildById(60 + var2 * 5).getComponentData().text = "";
+               var4.C9_f122.currentDialog.getChildById(61 + var2 * 5).getComponentData().text = "";
             }
          }
 
          if (var4.C9_f123.C53_f789.size() > 0) {
-            var4.C9_f122.currentDialog.getChildById(85).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((int[])var4.C9_f123.C53_f789.elementAt(var4.C9_f136))[0]][2]);
+            var4.C9_f122.currentDialog.getChildById(85).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((int[])var4.C9_f123.C53_f789.elementAt(var4.C9_f136))[0]][2]);
          } else {
-            var4.C9_f122.currentDialog.getChildById(85).getComponentData().C12_f179 = "";
+            var4.C9_f122.currentDialog.getChildById(85).getComponentData().text = "";
          }
 
          if (var4.C9_f123.C53_f789.size() > 0) {
-            var4.C9_f122.currentDialog.getChildById(84).setOffsetY(127 + var4.C9_f136 * 72 / var4.C9_f123.C53_f789.size(), var4.C9_f122.currentDialog.getRootComponent());
+            var4.C9_f122.currentDialog.getChildById(84).setOffsetY(127 + var4.C9_f136 * 72 / var4.C9_f123.C53_f789.size(), var4.C9_f122.currentDialog.getUIContainerComponent());
          } else {
-            var4.C9_f122.currentDialog.getChildById(84).setOffsetY(127, var4.C9_f122.currentDialog.getRootComponent());
+            var4.C9_f122.currentDialog.getChildById(84).setOffsetY(127, var4.C9_f122.currentDialog.getUIContainerComponent());
          }
          break;
       case 2:
@@ -3321,15 +3321,15 @@ public final class C9 implements DialogHandler {
          case 0:
             if (this.C9_f123.l(var1[0])) {
                this.C9_f122.currentDialog.getChildById(7).setVisible(true);
-               this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Ấp trứng";
+               this.C9_f122.currentDialog.getChildById(7).getComponentData().text = "Ấp trứng";
                this.C9_f122.currentDialog.getChildById(164).setVisible(true);
                this.C9_f122.currentDialog.getChildById(165).setVisible(true);
                if (this.C9_f123.C53_f786 == 0) {
-                  this.C9_f122.currentDialog.getChildById(164).getComponentData().C12_f179 = "#P" + C25.C25_f314 * 100 / 10;
-                  this.C9_f122.currentDialog.getChildById(165).getComponentData().C12_f179 = C25.C25_f314 + "/10";
+                  this.C9_f122.currentDialog.getChildById(164).getComponentData().text = "#P" + C25.C25_f314 * 100 / 10;
+                  this.C9_f122.currentDialog.getChildById(165).getComponentData().text = C25.C25_f314 + "/10";
                } else {
-                  this.C9_f122.currentDialog.getChildById(164).getComponentData().C12_f179 = "#P" + C25.C25_f314 * 100 / 30;
-                  this.C9_f122.currentDialog.getChildById(165).getComponentData().C12_f179 = C25.C25_f314 + "/30";
+                  this.C9_f122.currentDialog.getChildById(164).getComponentData().text = "#P" + C25.C25_f314 * 100 / 30;
+                  this.C9_f122.currentDialog.getChildById(165).getComponentData().text = C25.C25_f314 + "/30";
                }
             } else {
                this.C9_f122.currentDialog.getChildById(7).setVisible(false);
@@ -3344,12 +3344,12 @@ public final class C9 implements DialogHandler {
          case 5:
          case 6:
          case 10:
-            this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Mở ra";
+            this.C9_f122.currentDialog.getChildById(7).getComponentData().text = "Mở ra";
             break;
          case 7:
          case 8:
          case 9:
-            this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Sử dụng";
+            this.C9_f122.currentDialog.getChildById(7).getComponentData().text = "Sử dụng";
          }
       }
 
@@ -3359,16 +3359,16 @@ public final class C9 implements DialogHandler {
    private void bs() {
       int var1;
       if ((var1 = this.C9_f123.C53_f788.size() + this.C9_f123.C53_f787.size()) > 5) {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.a(1);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(8)).primaryListComponent.setDisplayMode(1);
       } else {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.a(0);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(8)).primaryListComponent.setDisplayMode(0);
       }
 
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f574 = var1;
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f580;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(8)).primaryListComponent.totalItemCount = var1;
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(8)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(8)).primaryListComponent.selectedIndex;
       this.C9_f122.currentDialog.getChildById(7).setVisible(true);
-      this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Sử dụng";
+      this.C9_f122.currentDialog.getChildById(7).getComponentData().text = "Sử dụng";
 
       for(int var2 = 0; var2 < 5; ++var2) {
          if (this.C9_f135 + var2 < var1) {
@@ -3379,203 +3379,203 @@ public final class C9 implements DialogHandler {
                var3 = (int[])this.C9_f123.C53_f787.elementAt(this.C9_f135 + var2 - this.C9_f123.C53_f788.size());
             }
 
-            if (this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195.initializeSprite(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().normalSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().normalSprite.initializeSprite(258, false, (byte)-1);
             }
 
-            if (this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f191 == null) {
-               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f191 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f191.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f191.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f191.initializeSprite(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().focusedSprite == null) {
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().focusedSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().focusedSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().focusedSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().focusedSprite.initializeSprite(258, false, (byte)-1);
             }
 
-            this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[4][var3[0]][1]);
-            this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f191.setSpriteIndex((int) ResourceManager.gameDatabase[4][var3[0]][1]);
-            this.C9_f122.currentDialog.getChildById(19 + var2 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][var3[0]][0]);
-            this.C9_f122.currentDialog.getChildById(20 + var2 * 5).getComponentData().C12_f179 = "" + var3[1];
+            this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[4][var3[0]][1]);
+            this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().focusedSprite.setSpriteIndex((int) ResourceManager.gameDatabase[4][var3[0]][1]);
+            this.C9_f122.currentDialog.getChildById(19 + var2 * 5).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][var3[0]][0]);
+            this.C9_f122.currentDialog.getChildById(20 + var2 * 5).getComponentData().text = "" + var3[1];
          } else {
-            if (this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195 != null) {
-               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().C12_f195.cleanup();
+            if (this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().normalSprite != null) {
+               this.C9_f122.currentDialog.getChildById(18 + var2 * 5).getComponentData().normalSprite.cleanup();
             }
 
-            this.C9_f122.currentDialog.getChildById(19 + var2 * 5).getComponentData().C12_f179 = "";
-            this.C9_f122.currentDialog.getChildById(20 + var2 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(19 + var2 * 5).getComponentData().text = "";
+            this.C9_f122.currentDialog.getChildById(20 + var2 * 5).getComponentData().text = "";
          }
       }
 
       if (var1 > 0) {
          if (this.C9_f136 < this.C9_f123.C53_f788.size()) {
-            this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((int[])this.C9_f123.C53_f788.elementAt(this.C9_f136))[0]][2]);
+            this.C9_f122.currentDialog.getChildById(46).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((int[])this.C9_f123.C53_f788.elementAt(this.C9_f136))[0]][2]);
          } else {
-            this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((int[])this.C9_f123.C53_f787.elementAt(this.C9_f136 - this.C9_f123.C53_f788.size()))[0]][2]);
+            this.C9_f122.currentDialog.getChildById(46).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((int[])this.C9_f123.C53_f787.elementAt(this.C9_f136 - this.C9_f123.C53_f788.size()))[0]][2]);
          }
       } else {
-         this.C9_f122.currentDialog.getChildById(46).getComponentData().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(46).getComponentData().text = "";
       }
 
       if (var1 > 0) {
-         this.C9_f122.currentDialog.getChildById(43).setOffsetY(127 + this.C9_f136 * 72 / var1, this.C9_f122.currentDialog.getRootComponent());
+         this.C9_f122.currentDialog.getChildById(43).setOffsetY(127 + this.C9_f136 * 72 / var1, this.C9_f122.currentDialog.getUIContainerComponent());
       } else {
-         this.C9_f122.currentDialog.getChildById(43).setOffsetY(127, this.C9_f122.currentDialog.getRootComponent());
+         this.C9_f122.currentDialog.getChildById(43).setOffsetY(127, this.C9_f122.currentDialog.getUIContainerComponent());
       }
    }
 
    private void bt() {
       if (this.C9_f123.C53_f790.size() > 5) {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(86)).otherChildComponent.a(1);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(86)).primaryListComponent.setDisplayMode(1);
       } else {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(86)).otherChildComponent.a(0);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(86)).primaryListComponent.setDisplayMode(0);
       }
 
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(86)).otherChildComponent.C38_f574 = this.C9_f123.C53_f790.size();
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(86)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(86)).otherChildComponent.C38_f580;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(86)).primaryListComponent.totalItemCount = this.C9_f123.C53_f790.size();
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(86)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(86)).primaryListComponent.selectedIndex;
       this.C9_f122.currentDialog.getChildById(7).setVisible(false);
 
       for(int var1 = 0; var1 < 5; ++var1) {
          if (this.C9_f135 + var1 < this.C9_f123.C53_f790.size()) {
             int[] var2 = (int[])this.C9_f123.C53_f790.elementAt(this.C9_f135 + var1);
-            if (this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195.initializeSprite(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().normalSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().normalSprite.initializeSprite(258, false, (byte)-1);
             }
 
-            if (this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f191 == null) {
-               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f191 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f191.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f191.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f191.initializeSprite(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().focusedSprite == null) {
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().focusedSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().focusedSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().focusedSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().focusedSprite.initializeSprite(258, false, (byte)-1);
             }
 
-            this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[3][var2[0]][1]);
-            this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f191.setSpriteIndex((int) ResourceManager.gameDatabase[3][var2[0]][1]);
+            this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[3][var2[0]][1]);
+            this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().focusedSprite.setSpriteIndex((int) ResourceManager.gameDatabase[3][var2[0]][1]);
             if (var2[0] == 17) {
-               this.C9_f122.currentDialog.getChildById(99 + var1 * 5).getComponentData().C12_f179 = "Chìa khóa vàng";
+               this.C9_f122.currentDialog.getChildById(99 + var1 * 5).getComponentData().text = "Chìa khóa vàng";
             } else {
-               this.C9_f122.currentDialog.getChildById(99 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][var2[0]][0]);
+               this.C9_f122.currentDialog.getChildById(99 + var1 * 5).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][var2[0]][0]);
             }
 
-            this.C9_f122.currentDialog.getChildById(100 + var1 * 5).getComponentData().C12_f179 = "" + var2[1];
+            this.C9_f122.currentDialog.getChildById(100 + var1 * 5).getComponentData().text = "" + var2[1];
          } else {
-            if (this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195 != null) {
-               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().C12_f195.cleanup();
+            if (this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().normalSprite != null) {
+               this.C9_f122.currentDialog.getChildById(98 + var1 * 5).getComponentData().normalSprite.cleanup();
             }
 
-            this.C9_f122.currentDialog.getChildById(99 + var1 * 5).getComponentData().C12_f179 = "";
-            this.C9_f122.currentDialog.getChildById(100 + var1 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(99 + var1 * 5).getComponentData().text = "";
+            this.C9_f122.currentDialog.getChildById(100 + var1 * 5).getComponentData().text = "";
          }
       }
 
       if (this.C9_f123.C53_f790.size() > 0) {
-         this.C9_f122.currentDialog.getChildById(124).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((int[])this.C9_f123.C53_f790.elementAt(this.C9_f136))[0]][2]);
+         this.C9_f122.currentDialog.getChildById(124).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((int[])this.C9_f123.C53_f790.elementAt(this.C9_f136))[0]][2]);
       } else {
-         this.C9_f122.currentDialog.getChildById(124).getComponentData().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(124).getComponentData().text = "";
       }
 
       if (this.C9_f123.C53_f790.size() > 0) {
-         this.C9_f122.currentDialog.getChildById(123).setOffsetY(127 + this.C9_f136 * 72 / this.C9_f123.C53_f790.size(), this.C9_f122.currentDialog.getRootComponent());
+         this.C9_f122.currentDialog.getChildById(123).setOffsetY(127 + this.C9_f136 * 72 / this.C9_f123.C53_f790.size(), this.C9_f122.currentDialog.getUIContainerComponent());
       } else {
-         this.C9_f122.currentDialog.getChildById(123).setOffsetY(127, this.C9_f122.currentDialog.getRootComponent());
+         this.C9_f122.currentDialog.getChildById(123).setOffsetY(127, this.C9_f122.currentDialog.getUIContainerComponent());
       }
    }
 
    private void bu() {
       if (this.C9_f123.C53_f791.size() > 5) {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(125)).otherChildComponent.a(1);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(125)).primaryListComponent.setDisplayMode(1);
       } else {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(125)).otherChildComponent.a(0);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(125)).primaryListComponent.setDisplayMode(0);
       }
 
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(125)).otherChildComponent.C38_f574 = this.C9_f123.C53_f791.size();
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(125)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(125)).otherChildComponent.C38_f580;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(125)).primaryListComponent.totalItemCount = this.C9_f123.C53_f791.size();
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(125)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(125)).primaryListComponent.selectedIndex;
 
       int var1;
       for(var1 = 0; var1 < 5; ++var1) {
          if (this.C9_f135 + var1 < this.C9_f123.C53_f791.size()) {
             int[] var2 = (int[])this.C9_f123.C53_f791.elementAt(this.C9_f135 + var1);
-            if (this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195.initializeSprite(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().normalSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().normalSprite.initializeSprite(258, false, (byte)-1);
             }
 
-            if (this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f191 == null) {
-               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f191 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f191.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f191.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f191.initializeSprite(258, false, (byte)-1);
+            if (this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().focusedSprite == null) {
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().focusedSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().focusedSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().focusedSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().focusedSprite.initializeSprite(258, false, (byte)-1);
             }
 
-            this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[5][var2[0]][1]);
-            this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f191.setSpriteIndex((int) ResourceManager.gameDatabase[5][var2[0]][1]);
-            this.C9_f122.currentDialog.getChildById(138 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[5][var2[0]][0]);
+            this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[5][var2[0]][1]);
+            this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().focusedSprite.setSpriteIndex((int) ResourceManager.gameDatabase[5][var2[0]][1]);
+            this.C9_f122.currentDialog.getChildById(138 + var1 * 5).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[5][var2[0]][0]);
             switch(var2[0]) {
             case 0:
                if (this.C9_f123.l(var2[0])) {
-                  this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[5][var2[0]][2]);
+                  this.C9_f122.currentDialog.getChildById(163).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[5][var2[0]][2]);
                   if (C25.B().O()) {
-                     this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().C12_f179 = "Hoàn thành";
+                     this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().text = "Hoàn thành";
                   } else {
-                     this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().C12_f179 = "1 cái";
+                     this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().text = "1 cái";
                   }
                } else {
-                  this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)634);
-                  this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().C12_f179 = "0 cái";
+                  this.C9_f122.currentDialog.getChildById(163).getComponentData().text = GameEngineBase.getLocalizedText((int)634);
+                  this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().text = "0 cái";
                }
                break;
             default:
-               this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().text = "";
             }
          } else {
-            if (this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195 != null) {
-               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().C12_f195.cleanup();
+            if (this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().normalSprite != null) {
+               this.C9_f122.currentDialog.getChildById(137 + var1 * 5).getComponentData().normalSprite.cleanup();
             }
 
-            this.C9_f122.currentDialog.getChildById(138 + var1 * 5).getComponentData().C12_f179 = "";
-            this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(138 + var1 * 5).getComponentData().text = "";
+            this.C9_f122.currentDialog.getChildById(139 + var1 * 5).getComponentData().text = "";
          }
       }
 
       if (this.C9_f123.C53_f791.size() > 0) {
          if ((var1 = ((int[])this.C9_f123.C53_f791.elementAt(this.C9_f136))[0]) != 0) {
-            this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[5][var1][2]);
+            this.C9_f122.currentDialog.getChildById(163).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[5][var1][2]);
             this.C9_f122.currentDialog.getChildById(7).setVisible(true);
          }
 
          if (var1 == 0) {
             if (((int[])this.C9_f123.C53_f791.elementAt(this.C9_f136))[1] == 1) {
-               this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Đóng cửa";
+               this.C9_f122.currentDialog.getChildById(7).getComponentData().text = "Đóng cửa";
             } else {
-               this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Mở ra";
+               this.C9_f122.currentDialog.getChildById(7).getComponentData().text = "Mở ra";
             }
          } else if (var1 <= 0 && var1 > 4) {
             if (var1 == 10) {
-               this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Gia tốc";
+               this.C9_f122.currentDialog.getChildById(7).getComponentData().text = "Gia tốc";
             } else {
-               this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Sử dụng";
+               this.C9_f122.currentDialog.getChildById(7).getComponentData().text = "Sử dụng";
             }
          } else if (this.C9_f123.C53_f765 == var1 - 1) {
-            this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Triệu hồi";
+            this.C9_f122.currentDialog.getChildById(7).getComponentData().text = "Triệu hồi";
          } else {
-            this.C9_f122.currentDialog.getChildById(7).getComponentData().C12_f179 = "Triệu hoán";
+            this.C9_f122.currentDialog.getChildById(7).getComponentData().text = "Triệu hoán";
          }
       } else {
-         this.C9_f122.currentDialog.getChildById(163).getComponentData().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(163).getComponentData().text = "";
          this.C9_f122.currentDialog.getChildById(7).setVisible(false);
       }
 
       if (this.C9_f123.C53_f791.size() > 0) {
-         this.C9_f122.currentDialog.getChildById(162).setOffsetY(127 + this.C9_f136 * 72 / this.C9_f123.C53_f791.size(), this.C9_f122.currentDialog.getRootComponent());
+         this.C9_f122.currentDialog.getChildById(162).setOffsetY(127 + this.C9_f136 * 72 / this.C9_f123.C53_f791.size(), this.C9_f122.currentDialog.getUIContainerComponent());
       } else {
-         this.C9_f122.currentDialog.getChildById(162).setOffsetY(127, this.C9_f122.currentDialog.getRootComponent());
+         this.C9_f122.currentDialog.getChildById(162).setOffsetY(127, this.C9_f122.currentDialog.getUIContainerComponent());
       }
    }
 
@@ -3743,12 +3743,12 @@ public final class C9 implements DialogHandler {
                            var5 = this.C9_f123.C53_f788.size() + this.C9_f123.C53_f787.size();
                            if (this.C9_f136 >= var5) {
                               this.C9_f136 = var5 - 1;
-                              ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f580 = this.C9_f136;
+                              ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(8)).primaryListComponent.selectedIndex = this.C9_f136;
                            }
 
                            if (this.C9_f135 > 0 && this.C9_f136 - this.C9_f135 < 4) {
                               --this.C9_f135;
-                              ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f579 = this.C9_f135;
+                              ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(8)).primaryListComponent.scrollOffset = this.C9_f135;
                            }
 
                            this.bs();
@@ -3781,12 +3781,12 @@ public final class C9 implements DialogHandler {
                         var5 = this.C9_f123.C53_f788.size() + this.C9_f123.C53_f787.size();
                         if (this.C9_f136 >= var5) {
                            this.C9_f136 = var5 - 1;
-                           ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f580 = this.C9_f136;
+                           ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(8)).primaryListComponent.selectedIndex = this.C9_f136;
                         }
 
                         if (this.C9_f135 > 0 && this.C9_f136 - this.C9_f135 < 4) {
                            --this.C9_f135;
-                           ((RootComponent)this.C9_f122.currentDialog.getChildById(8)).otherChildComponent.C38_f579 = this.C9_f135;
+                           ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(8)).primaryListComponent.scrollOffset = this.C9_f135;
                         }
 
                         this.bs();
@@ -3961,35 +3961,35 @@ public final class C9 implements DialogHandler {
 
    private void bv() {
       for(int var1 = 0; var1 < 4; ++var1) {
-         if (this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195.spriteType = 3;
-            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195.initializeSprite(260, false, (byte)-1);
+         if (this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().normalSprite.spriteType = 3;
+            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().normalSprite.initializeSprite(260, false, (byte)-1);
          }
 
-         if (this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.setSpriteIndex((int)131);
-            this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().C12_f195.initializeSprite(257, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().normalSprite.setSpriteIndex((int)131);
+            this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(var1 + 16).getComponentData().normalSprite.initializeSprite(257, false, (byte)0);
          }
 
          if (this.C9_f123.f(var1)) {
             if (this.C9_f125 == var1) {
-               this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195.setAnimationFrame((byte)var1, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().normalSprite.setAnimationFrame((byte)var1, (byte)-1);
                if (this.C9_f125 == 0) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().C12_f179 = "Lục đi điểu";
+                  this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().text = "Lục đi điểu";
                } else if (this.C9_f125 == 1) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().C12_f179 = "Hư không hành giả";
+                  this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().text = "Hư không hành giả";
                } else if (this.C9_f125 == 2) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().C12_f179 = "Hải âu";
+                  this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().text = "Hải âu";
                } else if (this.C9_f125 == 3) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().C12_f179 = "Nham sơn long";
+                  this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().text = "Nham sơn long";
                }
             } else {
-               this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195.setAnimationFrame((byte)(var1 + 8), (byte)-1);
-               this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().C12_f179 = "";
+               this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().normalSprite.setAnimationFrame((byte)(var1 + 8), (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().text = "";
             }
 
             if (!this.C9_f123.g(var1)) {
@@ -3999,8 +3999,8 @@ public final class C9 implements DialogHandler {
             }
          } else {
             this.C9_f122.currentDialog.getChildById(var1 + 16).setVisible(false);
-            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().C12_f195.setAnimationFrame((byte)(var1 + 4), (byte)-1);
-            this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(var1 + 4).getComponentData().normalSprite.setAnimationFrame((byte)(var1 + 4), (byte)-1);
+            this.C9_f122.currentDialog.getChildById(var1 + 8).getComponentData().text = "";
          }
       }
 
@@ -4041,8 +4041,8 @@ public final class C9 implements DialogHandler {
       this.C9_f129 = 0;
       this.a(var1, false);
       this.b(var2, false);
-      this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "100%";
-      this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "100%";
+      this.C9_f122.currentDialog.getChildById(59).getComponentData().text = "100%";
+      this.C9_f122.currentDialog.getChildById(58).getComponentData().text = "100%";
       ((C29)this.C9_f121).D();
       this.C9_f122.removeDialog("/data/ui/world.ui");
    }
@@ -4050,23 +4050,23 @@ public final class C9 implements DialogHandler {
    public final void b(C41 var1, C41 var2) {
       if (var1.a(var2) == 0) {
          if (var1.s() == 0) {
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "300%";
-            this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "60%";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().text = "300%";
+            this.C9_f122.currentDialog.getChildById(58).getComponentData().text = "60%";
          } else {
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "60%";
-            this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "300%";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().text = "60%";
+            this.C9_f122.currentDialog.getChildById(58).getComponentData().text = "300%";
          }
       } else if (var1.a(var2) == 1) {
          if (var1.s() == 0) {
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "60%";
-            this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "300%";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().text = "60%";
+            this.C9_f122.currentDialog.getChildById(58).getComponentData().text = "300%";
          } else {
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "300%";
-            this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "60%";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().text = "300%";
+            this.C9_f122.currentDialog.getChildById(58).getComponentData().text = "60%";
          }
       } else {
-         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "100%";
-         this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "100%";
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().text = "100%";
+         this.C9_f122.currentDialog.getChildById(58).getComponentData().text = "100%";
       }
    }
 
@@ -4077,7 +4077,7 @@ public final class C9 implements DialogHandler {
                var4 = 200;
             }
 
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = var4 + 100 + "%";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().text = var4 + 100 + "%";
             return;
          }
 
@@ -4086,7 +4086,7 @@ public final class C9 implements DialogHandler {
                var4 = 40;
             }
 
-            this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = 100 - var4 + "%";
+            this.C9_f122.currentDialog.getChildById(58).getComponentData().text = 100 - var4 + "%";
             return;
          }
       } else if (var1.a(var2) == 1) {
@@ -4095,7 +4095,7 @@ public final class C9 implements DialogHandler {
                var4 = 40;
             }
 
-            this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = 100 - var4 + "%";
+            this.C9_f122.currentDialog.getChildById(59).getComponentData().text = 100 - var4 + "%";
             return;
          }
 
@@ -4104,12 +4104,12 @@ public final class C9 implements DialogHandler {
                var4 = 200;
             }
 
-            this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = var4 + 100 + "%";
+            this.C9_f122.currentDialog.getChildById(58).getComponentData().text = var4 + 100 + "%";
             return;
          }
       } else {
-         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "100%";
-         this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "100%";
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().text = "100%";
+         this.C9_f122.currentDialog.getChildById(58).getComponentData().text = "100%";
       }
 
    }
@@ -4122,29 +4122,29 @@ public final class C9 implements DialogHandler {
             this.C9_f145 = 200;
          }
 
-         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = 100 + this.C9_f145 + "%";
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().text = 100 + this.C9_f145 + "%";
          this.C9_f146 += var3 * (40 / var4);
          if (this.C9_f146 == var4 && this.C9_f146 != 40) {
             this.C9_f146 = 40;
          }
 
-         this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = 100 - this.C9_f146 + "%";
+         this.C9_f122.currentDialog.getChildById(58).getComponentData().text = 100 - this.C9_f146 + "%";
       } else if (var1.a(var2) == 1) {
          this.C9_f145 += var3 * (40 / var4);
          if (this.C9_f145 == var4 && this.C9_f145 != 40) {
             this.C9_f145 = 40;
          }
 
-         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = 100 - this.C9_f145 + "%";
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().text = 100 - this.C9_f145 + "%";
          this.C9_f146 += var3 * (200 / var4);
          if (this.C9_f146 == var4 && this.C9_f146 != 200) {
             this.C9_f146 = 200;
          }
 
-         this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = 100 + this.C9_f146 + "%";
+         this.C9_f122.currentDialog.getChildById(58).getComponentData().text = 100 + this.C9_f146 + "%";
       } else {
-         this.C9_f122.currentDialog.getChildById(59).getComponentData().C12_f179 = "100%";
-         this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "100%";
+         this.C9_f122.currentDialog.getChildById(59).getComponentData().text = "100%";
+         this.C9_f122.currentDialog.getChildById(58).getComponentData().text = "100%";
       }
    }
 
@@ -4166,11 +4166,11 @@ public final class C9 implements DialogHandler {
          ++this.C9_f148;
          if (this.C9_f148 < 4) {
             if (var2) {
-               this.C9_f122.currentDialog.getChildById(55).getComponentData().C12_f179 = "#P" + var1.M();
-               this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "#P" + var1.N();
+               this.C9_f122.currentDialog.getChildById(55).getComponentData().text = "#P" + var1.M();
+               this.C9_f122.currentDialog.getChildById(11).getComponentData().text = "#P" + var1.N();
             } else {
-               this.C9_f122.currentDialog.getChildById(55).getComponentData().C12_f179 = "#P" + var1.N();
-               this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "#P" + var1.M();
+               this.C9_f122.currentDialog.getChildById(55).getComponentData().text = "#P" + var1.N();
+               this.C9_f122.currentDialog.getChildById(11).getComponentData().text = "#P" + var1.M();
             }
 
             return false;
@@ -4184,29 +4184,29 @@ public final class C9 implements DialogHandler {
          }
 
          var1.u(var4);
-         this.C9_f122.currentDialog.getChildById(41).getComponentData().C12_f179 = "#P" + var1.M();
-         this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "#P" + var1.N();
-         this.C9_f122.currentDialog.getChildById(55).getComponentData().C12_f179 = "#P" + var1.N();
+         this.C9_f122.currentDialog.getChildById(41).getComponentData().text = "#P" + var1.M();
+         this.C9_f122.currentDialog.getChildById(11).getComponentData().text = "#P" + var1.N();
+         this.C9_f122.currentDialog.getChildById(55).getComponentData().text = "#P" + var1.N();
       } else {
          if ((var4 -= this.C9_f147) <= var5) {
             var4 = var5;
          }
 
          var1.u(var4);
-         this.C9_f122.currentDialog.getChildById(41).getComponentData().C12_f179 = "#P" + var1.N();
-         this.C9_f122.currentDialog.getChildById(55).getComponentData().C12_f179 = "#P" + var1.M();
-         this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "#P" + var1.M();
+         this.C9_f122.currentDialog.getChildById(41).getComponentData().text = "#P" + var1.N();
+         this.C9_f122.currentDialog.getChildById(55).getComponentData().text = "#P" + var1.M();
+         this.C9_f122.currentDialog.getChildById(11).getComponentData().text = "#P" + var1.M();
       }
 
-      DialogData var8 = this.C9_f122.currentDialog.getChildById(38).getComponentData();
+      ComponentData var8 = this.C9_f122.currentDialog.getChildById(38).getComponentData();
       StringBuffer var10001 = (new StringBuffer()).append(var1.O()).append("/");
       var7 = 1;
-      var8.C12_f179 = var10001.append(var1.C60_f855[var7]).toString();
-      this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "#P" + var1.P();
-      this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = var1.A() + "/" + var1.v();
-      this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var1.j((byte)0));
-      this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = "lv" + var1.t();
-      this.C9_f122.currentDialog.getChildById(17).getComponentData().C12_f195.setSpriteIndex(94 + var1.j((byte)1));
+      var8.text = var10001.append(var1.C60_f855[var7]).toString();
+      this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "#P" + var1.P();
+      this.C9_f122.currentDialog.getChildById(40).getComponentData().text = var1.A() + "/" + var1.v();
+      this.C9_f122.currentDialog.getChildById(12).getComponentData().text = GameEngineBase.getLocalizedText(var1.j((byte)0));
+      this.C9_f122.currentDialog.getChildById(13).getComponentData().text = "lv" + var1.t();
+      this.C9_f122.currentDialog.getChildById(17).getComponentData().normalSprite.setSpriteIndex(94 + var1.j((byte)1));
       if (var4 == var5) {
          this.C9_f147 = 0;
          this.C9_f148 = 0;
@@ -4220,37 +4220,37 @@ public final class C9 implements DialogHandler {
    public final void a(C41 var1) {
       int var2;
       for(var2 = 0; var2 < 6; ++var2) {
-         if (this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().C12_f195.initializeSprite(325, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().normalSprite.initializeSprite(325, false, (byte)0);
          }
 
-         if (this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().C12_f195.setSpriteIndex((int)145);
-            this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().C12_f195.initializeSprite(257, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().normalSprite.setSpriteIndex((int)145);
+            this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().normalSprite.initializeSprite(257, false, (byte)0);
          }
 
-         this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().C12_f195.setSpriteIndex((int)145);
-         this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().C12_f195.setSpriteIndex((int)0);
+         this.C9_f122.currentDialog.getChildById(var2 + 43).getComponentData().normalSprite.setSpriteIndex((int)145);
+         this.C9_f122.currentDialog.getChildById(var2 + 26).getComponentData().normalSprite.setSpriteIndex((int)0);
       }
 
       for(var2 = 0; var2 < 3; ++var2) {
          short[] var10002;
          if (var1.C41_f643[0][var2] != -1 && var1.C41_f641[var1.C41_f643[0][var2]][0] > 0) {
             var10002 = var1.C41_f641[var1.C41_f643[0][var2]];
-            this.C9_f122.currentDialog.getChildById(43 + this.C9_f149).getComponentData().C12_f195.setSpriteIndex(134 + var10002[0]);
-            this.C9_f122.currentDialog.getChildById(26 + this.C9_f149).getComponentData().C12_f195.setSpriteIndex(var1.C41_f643[0][var2] + 12);
+            this.C9_f122.currentDialog.getChildById(43 + this.C9_f149).getComponentData().normalSprite.setSpriteIndex(134 + var10002[0]);
+            this.C9_f122.currentDialog.getChildById(26 + this.C9_f149).getComponentData().normalSprite.setSpriteIndex(var1.C41_f643[0][var2] + 12);
             ++this.C9_f149;
          }
 
          if (var1.C41_f643[1][var2] != -1 && var1.C41_f642[var1.C41_f643[1][var2]][0] > 0) {
             var10002 = var1.C41_f642[var1.C41_f643[1][var2]];
-            this.C9_f122.currentDialog.getChildById(43 + this.C9_f149).getComponentData().C12_f195.setSpriteIndex(134 + var10002[0]);
-            this.C9_f122.currentDialog.getChildById(26 + this.C9_f149).getComponentData().C12_f195.setSpriteIndex(var1.C41_f643[1][var2] + 1);
+            this.C9_f122.currentDialog.getChildById(43 + this.C9_f149).getComponentData().normalSprite.setSpriteIndex(134 + var10002[0]);
+            this.C9_f122.currentDialog.getChildById(26 + this.C9_f149).getComponentData().normalSprite.setSpriteIndex(var1.C41_f643[1][var2] + 1);
             ++this.C9_f149;
          }
       }
@@ -4258,12 +4258,12 @@ public final class C9 implements DialogHandler {
    }
 
    private void g(C41 var1) {
-      this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "#P" + var1.M();
-      DialogData var10000 = this.C9_f122.currentDialog.getChildById(38).getComponentData();
+      this.C9_f122.currentDialog.getChildById(11).getComponentData().text = "#P" + var1.M();
+      ComponentData var10000 = this.C9_f122.currentDialog.getChildById(38).getComponentData();
       StringBuffer var10001 = (new StringBuffer()).append(var1.O()).append("/");
       byte var3 = 1;
-      var10000.C12_f179 = var10001.append(var1.C60_f855[var3]).toString();
-      this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f179 = "lv" + var1.t();
+      var10000.text = var10001.append(var1.C60_f855[var3]).toString();
+      this.C9_f122.currentDialog.getChildById(16).getComponentData().text = "lv" + var1.t();
    }
 
    public final boolean b(C41 var1, boolean var2) {
@@ -4284,11 +4284,11 @@ public final class C9 implements DialogHandler {
          ++this.C9_f148;
          if (this.C9_f148 < 4) {
             if (var2) {
-               this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "#P" + var1.M();
-               this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "#P" + var1.N();
+               this.C9_f122.currentDialog.getChildById(56).getComponentData().text = "#P" + var1.M();
+               this.C9_f122.currentDialog.getChildById(14).getComponentData().text = "#P" + var1.N();
             } else {
-               this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "#P" + var1.N();
-               this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "#P" + var1.M();
+               this.C9_f122.currentDialog.getChildById(56).getComponentData().text = "#P" + var1.N();
+               this.C9_f122.currentDialog.getChildById(14).getComponentData().text = "#P" + var1.M();
             }
 
             return false;
@@ -4302,33 +4302,33 @@ public final class C9 implements DialogHandler {
          }
 
          var1.u(var4);
-         this.C9_f122.currentDialog.getChildById(42).getComponentData().C12_f179 = "#P" + var1.M();
-         this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "#P" + var1.N();
-         this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "#P" + var1.N();
+         this.C9_f122.currentDialog.getChildById(42).getComponentData().text = "#P" + var1.M();
+         this.C9_f122.currentDialog.getChildById(14).getComponentData().text = "#P" + var1.N();
+         this.C9_f122.currentDialog.getChildById(56).getComponentData().text = "#P" + var1.N();
       } else {
          if ((var4 -= this.C9_f147) <= var5) {
             var4 = var5;
          }
 
          var1.u(var4);
-         this.C9_f122.currentDialog.getChildById(42).getComponentData().C12_f179 = "#P" + var1.N();
-         this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = "#P" + var1.M();
-         this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "#P" + var1.M();
+         this.C9_f122.currentDialog.getChildById(42).getComponentData().text = "#P" + var1.N();
+         this.C9_f122.currentDialog.getChildById(14).getComponentData().text = "#P" + var1.M();
+         this.C9_f122.currentDialog.getChildById(56).getComponentData().text = "#P" + var1.M();
       }
 
-      DialogData var8 = this.C9_f122.currentDialog.getChildById(39).getComponentData();
+      ComponentData var8 = this.C9_f122.currentDialog.getChildById(39).getComponentData();
       StringBuffer var10001 = (new StringBuffer()).append(var1.O()).append("/");
       var7 = 1;
-      var8.C12_f179 = var10001.append(var1.C60_f855[var7]).toString();
+      var8.text = var10001.append(var1.C60_f855[var7]).toString();
       if (this.C9_f123.a((byte)var1.j((byte)1), var1.r()) == 2) {
-         this.C9_f122.currentDialog.getChildById(19).getComponentData().C12_f195.setSpriteIndex((int)101);
+         this.C9_f122.currentDialog.getChildById(19).getComponentData().normalSprite.setSpriteIndex((int)101);
       } else {
-         this.C9_f122.currentDialog.getChildById(19).getComponentData().C12_f195.setSpriteIndex((int)102);
+         this.C9_f122.currentDialog.getChildById(19).getComponentData().normalSprite.setSpriteIndex((int)102);
       }
 
-      this.C9_f122.currentDialog.getChildById(15).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var1.j((byte)0));
-      this.C9_f122.currentDialog.getChildById(16).getComponentData().C12_f179 = "lv" + var1.t();
-      this.C9_f122.currentDialog.getChildById(18).getComponentData().C12_f195.setSpriteIndex(94 + var1.j((byte)1));
+      this.C9_f122.currentDialog.getChildById(15).getComponentData().text = GameEngineBase.getLocalizedText(var1.j((byte)0));
+      this.C9_f122.currentDialog.getChildById(16).getComponentData().text = "lv" + var1.t();
+      this.C9_f122.currentDialog.getChildById(18).getComponentData().normalSprite.setSpriteIndex(94 + var1.j((byte)1));
       if (var4 == var5) {
          this.C9_f147 = 0;
          this.C9_f148 = 0;
@@ -4342,37 +4342,37 @@ public final class C9 implements DialogHandler {
    public final void b(C41 var1) {
       int var2;
       for(var2 = 0; var2 < 6; ++var2) {
-         if (this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().C12_f195.initializeSprite(325, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().normalSprite.initializeSprite(325, false, (byte)0);
          }
 
-         if (this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().C12_f195.setSpriteIndex((int)145);
-            this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().C12_f195.initializeSprite(257, false, (byte)0);
+         if (this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().normalSprite.setSpriteIndex((int)145);
+            this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().normalSprite.initializeSprite(257, false, (byte)0);
          }
 
-         this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().C12_f195.setSpriteIndex((int)145);
-         this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().C12_f195.setSpriteIndex((int)0);
+         this.C9_f122.currentDialog.getChildById(var2 + 49).getComponentData().normalSprite.setSpriteIndex((int)145);
+         this.C9_f122.currentDialog.getChildById(var2 + 32).getComponentData().normalSprite.setSpriteIndex((int)0);
       }
 
       for(var2 = 0; var2 < 3; ++var2) {
          short[] var10002;
          if (var1.C41_f643[0][var2] != -1 && var1.C41_f641[var1.C41_f643[0][var2]][0] > 0) {
             var10002 = var1.C41_f641[var1.C41_f643[0][var2]];
-            this.C9_f122.currentDialog.getChildById(49 + this.C9_f149).getComponentData().C12_f195.setSpriteIndex(134 + var10002[0]);
-            this.C9_f122.currentDialog.getChildById(32 + this.C9_f149).getComponentData().C12_f195.setSpriteIndex(var1.C41_f643[0][var2] + 12);
+            this.C9_f122.currentDialog.getChildById(49 + this.C9_f149).getComponentData().normalSprite.setSpriteIndex(134 + var10002[0]);
+            this.C9_f122.currentDialog.getChildById(32 + this.C9_f149).getComponentData().normalSprite.setSpriteIndex(var1.C41_f643[0][var2] + 12);
             ++this.C9_f149;
          }
 
          if (var1.C41_f643[1][var2] != -1 && var1.C41_f642[var1.C41_f643[1][var2]][0] > 0) {
             var10002 = var1.C41_f642[var1.C41_f643[1][var2]];
-            this.C9_f122.currentDialog.getChildById(49 + this.C9_f149).getComponentData().C12_f195.setSpriteIndex(134 + var10002[0]);
-            this.C9_f122.currentDialog.getChildById(32 + this.C9_f149).getComponentData().C12_f195.setSpriteIndex(var1.C41_f643[1][var2] + 1);
+            this.C9_f122.currentDialog.getChildById(49 + this.C9_f149).getComponentData().normalSprite.setSpriteIndex(134 + var10002[0]);
+            this.C9_f122.currentDialog.getChildById(32 + this.C9_f149).getComponentData().normalSprite.setSpriteIndex(var1.C41_f643[1][var2] + 1);
             ++this.C9_f149;
          }
       }
@@ -4386,7 +4386,7 @@ public final class C9 implements DialogHandler {
    }
 
    public final void aj() {
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).additionalChildComponent.C38_f580 = this.C9_f124;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).secondaryListComponent.selectedIndex = this.C9_f124;
       this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(true);
    }
 
@@ -4517,44 +4517,44 @@ public final class C9 implements DialogHandler {
 
    public final void e(C41 var1) {
       this.C9_f122.showDialog("/data/ui/choiceskill.ui", 257, this);
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = var1.F();
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = var1.F();
       if (this.C9_f129 >= var1.F()) {
          this.C9_f129 = var1.F() - 1;
       }
 
       if (var1.F() > 5) {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
       } else {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(-1);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(-1);
       }
 
-      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Sử dụng";
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f129;
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Sử dụng";
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = this.C9_f129;
       this.h(var1);
       this.C9_f131 = 0;
    }
 
    private void h(C41 var1) {
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex;
       int var2 = var1.F();
 
       for(int var3 = 0; var3 < 5; ++var3) {
          if (var3 >= var2) {
-            this.C9_f122.currentDialog.getChildById(13 + var3 * 5).getComponentData().C12_f179 = "";
-            this.C9_f122.currentDialog.getChildById(14 + var3 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(13 + var3 * 5).getComponentData().text = "";
+            this.C9_f122.currentDialog.getChildById(14 + var3 * 5).getComponentData().text = "";
          } else {
-            this.C9_f122.currentDialog.getChildById(13 + var3 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[1][var1.t(this.C9_f135 + var3)][1]);
-            this.C9_f122.currentDialog.getChildById(14 + var3 * 5).getComponentData().C12_f179 = var1.C41_f645[this.C9_f135 + var3] + "/" + ResourceManager.gameDatabase[1][var1.t(this.C9_f135 + var3)][5];
+            this.C9_f122.currentDialog.getChildById(13 + var3 * 5).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[1][var1.t(this.C9_f135 + var3)][1]);
+            this.C9_f122.currentDialog.getChildById(14 + var3 * 5).getComponentData().text = var1.C41_f645[this.C9_f135 + var3] + "/" + ResourceManager.gameDatabase[1][var1.t(this.C9_f135 + var3)][5];
          }
       }
 
       this.i(var1.C41_f646[this.C9_f129]);
-      this.C9_f122.currentDialog.getChildById(51).setOffsetY(98 + this.C9_f136 * 80 / var2, this.C9_f122.currentDialog.getRootComponent());
+      this.C9_f122.currentDialog.getChildById(51).setOffsetY(98 + this.C9_f136 * 80 / var2, this.C9_f122.currentDialog.getUIContainerComponent());
    }
 
    private void i(int var1) {
-      this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[1][var1][2]);
+      this.C9_f122.currentDialog.getChildById(53).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[1][var1][2]);
    }
 
    public final void f(C41 var1) {
@@ -4613,25 +4613,25 @@ public final class C9 implements DialogHandler {
    public final void ak() {
       this.C9_f131 = 0;
       this.C9_f122.showDialog("/data/ui/choice.ui", 257, this);
-      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Pokemon ball";
-      this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Tỉ lệ bắt";
-      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Sử dụng";
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f125;
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f123.C53_f788.size();
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().text = "Pokemon ball";
+      this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "Tỉ lệ bắt";
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Sử dụng";
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = this.C9_f125;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(0);
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = this.C9_f123.C53_f788.size();
 
       for(int var1 = 0; var1 < this.C9_f123.C53_f788.size(); ++var1) {
          int[] var2 = (int[])this.C9_f123.C53_f788.elementAt(var1);
-         if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.spriteType = 2;
-            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.initializeSprite(258, false, (byte)-1);
+         if (this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.spriteType = 2;
+            this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.initializeSprite(258, false, (byte)-1);
          }
 
-         this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[4][var2[0]][1]);
-         this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][var2[0]][0]);
-         this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = ((C29)this.C9_f121).m(var2[0]) + "%";
+         this.C9_f122.currentDialog.getChildById(var1 + 54).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[4][var2[0]][1]);
+         this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][var2[0]][0]);
+         this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().text = ((C29)this.C9_f121).m(var2[0]) + "%";
       }
 
       this.C9_f122.currentDialog.getChildById(59).setVisible(false);
@@ -4641,7 +4641,7 @@ public final class C9 implements DialogHandler {
 
    private void bw() {
       int[] var1 = (int[])this.C9_f123.C53_f788.elementAt(this.C9_f125);
-      this.C9_f122.currentDialog.getChildById(53).getComponentData().C12_f179 = "Số lượng: " + var1[1] + " cái ";
+      this.C9_f122.currentDialog.getChildById(53).getComponentData().text = "Số lượng: " + var1[1] + " cái ";
    }
 
    public final void al() {
@@ -4694,9 +4694,9 @@ public final class C9 implements DialogHandler {
       this.C9_f131 = 0;
       this.C9_f125 = 0;
       this.C9_f122.showDialog("/data/ui/choice.ui", 257, this);
-      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Đạo cụ";
-      this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Số lượng";
-      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Sử dụng";
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().text = "Đạo cụ";
+      this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "Số lượng";
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Sử dụng";
       this.C9_f122.currentDialog.getChildById(59).setVisible(false);
       this.C9_f122.currentDialog.getChildById(60).setVisible(false);
       this.bi();
@@ -4917,19 +4917,19 @@ public final class C9 implements DialogHandler {
 
          if (this.C9_f121.g(196640)) {
             if (var4 >= var3) {
-               this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = var3 + "/" + var3;
-               this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "#P" + var1.v(var3);
+               this.C9_f122.currentDialog.getChildById(40).getComponentData().text = var3 + "/" + var3;
+               this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "#P" + var1.v(var3);
                var1.j((int)0);
                this.C9_f137 = 0;
                ((C29)this.C9_f121).changeState((byte)22);
             } else if (var2 < var4) {
                this.C9_f153 = 0;
                var1.j(var4);
-               this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = var4 + "/" + var1.v();
-               this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "#P" + var1.v(var4);
+               this.C9_f122.currentDialog.getChildById(40).getComponentData().text = var4 + "/" + var1.v();
+               this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "#P" + var1.v(var4);
             } else {
-               this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = var4 + "/" + var1.v();
-               this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "#P" + var1.v(var4);
+               this.C9_f122.currentDialog.getChildById(40).getComponentData().text = var4 + "/" + var1.v();
+               this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "#P" + var1.v(var4);
                var1.j(var2);
                ++this.C9_f138;
 
@@ -4948,11 +4948,11 @@ public final class C9 implements DialogHandler {
                this.C9_f153 = 0;
             }
          } else {
-            this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = var2 + "/" + var1.v();
-            this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "#P" + var1.v(var2);
-            this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var1.j((byte)0));
-            this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = "lv" + var1.t();
-            this.C9_f122.currentDialog.getChildById(17).getComponentData().C12_f195.setSpriteIndex(94 + var1.j((byte)1));
+            this.C9_f122.currentDialog.getChildById(40).getComponentData().text = var2 + "/" + var1.v();
+            this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "#P" + var1.v(var2);
+            this.C9_f122.currentDialog.getChildById(12).getComponentData().text = GameEngineBase.getLocalizedText(var1.j((byte)0));
+            this.C9_f122.currentDialog.getChildById(13).getComponentData().text = "lv" + var1.t();
+            this.C9_f122.currentDialog.getChildById(17).getComponentData().normalSprite.setSpriteIndex(94 + var1.j((byte)1));
             if (var2 >= var3) {
                var1.j((int)0);
                ((C29)this.C9_f121).changeState((byte)22);
@@ -5003,30 +5003,30 @@ public final class C9 implements DialogHandler {
       this.C9_f122.showDialog("/data/ui/levelUp.ui", 257, this);
 
       for(var3 = 0; var3 < 4; ++var3) {
-         this.C9_f122.currentDialog.getChildById(var3 + 19).getComponentData().C12_f179 = var2[var3];
+         this.C9_f122.currentDialog.getChildById(var3 + 19).getComponentData().text = var2[var3];
       }
 
       if (var1.F() < 5 && var1.F() < var1.t() / 10 + 1) {
          this.C9_f139 = var1.G();
-         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = "Có thể học tập kỹ năng mới";
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().text = "Có thể học tập kỹ năng mới";
       } else {
-         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().text = "";
       }
 
-      this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[0][var1.r()][0]);
-      this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = "" + var1.t();
-      if (this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 == null) {
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 = new SpriteRenderer();
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.spriteType = 3;
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.setSpriteIndex((int)0);
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.initializeSprite(var1.C41_f655, false, (byte)-1);
+      this.C9_f122.currentDialog.getChildById(38).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[0][var1.r()][0]);
+      this.C9_f122.currentDialog.getChildById(40).getComponentData().text = "" + var1.t();
+      if (this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite == null) {
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite = new SpriteRenderer();
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite.spriteType = 3;
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite.setSpriteIndex((int)0);
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite.initializeSprite(var1.C41_f655, false, (byte)-1);
       }
 
       for(var3 = 0; var3 < 4; ++var3) {
-         DialogData var10000 = this.C9_f122.currentDialog.getChildById(var3 + 31).getComponentData();
+         ComponentData var10000 = this.C9_f122.currentDialog.getChildById(var3 + 31).getComponentData();
          StringBuffer var10001 = new StringBuffer();
          var5 = (byte)(var3 + 1);
-         var10000.C12_f179 = var10001.append(var1.C60_f855[var5]).toString();
+         var10000.text = var10001.append(var1.C60_f855[var5]).toString();
       }
 
    }
@@ -5082,21 +5082,21 @@ public final class C9 implements DialogHandler {
       this.C9_f122.removeDialog("/data/ui/levelUp.ui");
       this.C9_f125 = 0;
       this.C9_f131 = 0;
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f139.length;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = this.C9_f139.length;
       if (this.C9_f139.length > 5) {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
       } else {
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(-1);
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(-1);
       }
 
-      if (this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195 == null) {
-         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195 = new SpriteRenderer();
-         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.spriteType = 3;
-         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.setSpriteIndex((int)0);
-         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.initializeSprite(257, false, (byte)-1);
+      if (this.C9_f122.currentDialog.getChildById(5).getComponentData().normalSprite == null) {
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().normalSprite = new SpriteRenderer();
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().normalSprite.spriteType = 3;
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().normalSprite.setSpriteIndex((int)0);
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().normalSprite.initializeSprite(257, false, (byte)-1);
       }
 
-      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.setAnimationFrame((byte)11, (byte)-1);
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().normalSprite.setAnimationFrame((byte)11, (byte)-1);
       this.C9_f122.currentDialog.getChildById(6).setVisible(false);
       this.by();
       if (!C25.C25_f332) {
@@ -5107,21 +5107,21 @@ public final class C9 implements DialogHandler {
    }
 
    private void by() {
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex;
 
       for(int var1 = 0; var1 < 5; ++var1) {
          if (var1 >= this.C9_f139.length) {
-            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = "";
-            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "";
+            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().text = "";
+            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().text = "";
          } else {
-            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[1][this.C9_f139[this.C9_f135 + var1]][1]);
-            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().C12_f179 = "" + ResourceManager.gameDatabase[1][this.C9_f139[this.C9_f135 + var1]][5];
+            this.C9_f122.currentDialog.getChildById(13 + var1 * 5).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[1][this.C9_f139[this.C9_f135 + var1]][1]);
+            this.C9_f122.currentDialog.getChildById(14 + var1 * 5).getComponentData().text = "" + ResourceManager.gameDatabase[1][this.C9_f139[this.C9_f135 + var1]][5];
          }
       }
 
       this.i(this.C9_f139[this.C9_f136]);
-      this.C9_f122.currentDialog.getChildById(51).setOffsetY(98 + this.C9_f136 * 62 / this.C9_f139.length, this.C9_f122.currentDialog.getRootComponent());
+      this.C9_f122.currentDialog.getChildById(51).setOffsetY(98 + this.C9_f136 * 62 / this.C9_f139.length, this.C9_f122.currentDialog.getUIContainerComponent());
    }
 
    public final void at() {
@@ -5230,21 +5230,21 @@ public final class C9 implements DialogHandler {
          this.C9_f122.removeDialog("/data/ui/levelUp.ui");
          this.C9_f125 = 0;
          this.C9_f131 = 3;
-         ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = this.C9_f139.length;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = this.C9_f139.length;
          if (this.C9_f139.length > 5) {
-            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(1);
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
          } else {
-            ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(-1);
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(-1);
          }
 
-         if (this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.spriteType = 3;
-            this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.setSpriteIndex((int)0);
-            this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.initializeSprite(257, false, (byte)-1);
+         if (this.C9_f122.currentDialog.getChildById(5).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById(5).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById(5).getComponentData().normalSprite.spriteType = 3;
+            this.C9_f122.currentDialog.getChildById(5).getComponentData().normalSprite.setSpriteIndex((int)0);
+            this.C9_f122.currentDialog.getChildById(5).getComponentData().normalSprite.initializeSprite(257, false, (byte)-1);
          }
 
-         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f195.setAnimationFrame((byte)11, (byte)-1);
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().normalSprite.setAnimationFrame((byte)11, (byte)-1);
          this.C9_f122.currentDialog.getChildById(6).setVisible(false);
          this.by();
          this.C9_f132 = true;
@@ -5260,148 +5260,148 @@ public final class C9 implements DialogHandler {
 
       int var2;
       for(var2 = 0; var2 < 4; ++var2) {
-         this.C9_f122.currentDialog.getChildById(var2 + 19).getComponentData().C12_f179 = "" + var1.i((int)((byte)(var2 + 1 - 1)));
+         this.C9_f122.currentDialog.getChildById(var2 + 19).getComponentData().text = "" + var1.i((int)((byte)(var2 + 1 - 1)));
       }
 
       if (var1.F() < 5 && var1.F() < var1.t() / 10 + 1) {
          this.C9_f139 = var1.G();
-         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = "Nhấn nút 5 học tập kỹ năng mới";
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().text = "Nhấn nút 5 học tập kỹ năng mới";
       } else {
-         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f179 = "";
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().text = "";
       }
 
-      this.C9_f122.currentDialog.getChildById(38).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[0][var1.r()][0]);
-      this.C9_f122.currentDialog.getChildById(40).getComponentData().C12_f179 = "" + var1.t();
-      if (this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 == null) {
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195 = new SpriteRenderer();
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.spriteType = 3;
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.setSpriteIndex((int)0);
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f195.initializeSprite(var1.C41_f655, false, (byte)-1);
+      this.C9_f122.currentDialog.getChildById(38).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[0][var1.r()][0]);
+      this.C9_f122.currentDialog.getChildById(40).getComponentData().text = "" + var1.t();
+      if (this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite == null) {
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite = new SpriteRenderer();
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite.spriteType = 3;
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite.setSpriteIndex((int)0);
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().normalSprite.initializeSprite(var1.C41_f655, false, (byte)-1);
       }
 
       for(var2 = 0; var2 < 4; ++var2) {
-         DialogData var10000 = this.C9_f122.currentDialog.getChildById(var2 + 31).getComponentData();
+         ComponentData var10000 = this.C9_f122.currentDialog.getChildById(var2 + 31).getComponentData();
          StringBuffer var10001 = new StringBuffer();
          byte var4 = (byte)(var2 + 1);
-         var10000.C12_f179 = var10001.append(var1.C60_f855[var4]).toString();
+         var10000.text = var10001.append(var1.C60_f855[var4]).toString();
       }
 
    }
 
    public final void aw() {
       this.C9_f122.showDialog("/data/ui/npcEnemy.ui", 296, this);
-      if (this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195 == null) {
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195 = new SpriteRenderer();
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.spriteType = 2;
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.initializeSprite(296, false, (byte)0);
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.setSpriteIndex((int)0);
+      if (this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite == null) {
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite = new SpriteRenderer();
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.spriteType = 2;
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.initializeSprite(296, false, (byte)0);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.setSpriteIndex((int)0);
       }
 
       this.C9_f122.currentDialog.getChildById(36).setVisible(false);
    }
 
    private void a(int var1, int var2, int var3) {
-      if (var3 != -1 && this.C9_f122.currentDialog.getChildById(var3).getComponentData().C12_f195 != null) {
+      if (var3 != -1 && this.C9_f122.currentDialog.getChildById(var3).getComponentData().normalSprite != null) {
          this.C9_f122.currentDialog.getChildById(var3).setVisible(false);
       }
 
-      if (this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195 == null) {
-         this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195 = new SpriteRenderer();
-         this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.spriteType = 2;
-         this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.initializeSprite(296, false, (byte)0);
-         this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.setSpriteIndex((int)0);
+      if (this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite == null) {
+         this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite = new SpriteRenderer();
+         this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite.spriteType = 2;
+         this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite.initializeSprite(296, false, (byte)0);
+         this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite.setSpriteIndex((int)0);
       }
 
-      this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.setSpriteIndex(var2);
+      this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite.setSpriteIndex(var2);
    }
 
    public final void c(int var1, int var2) {
       switch(var1) {
       case 0:
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.setSpriteIndex(var2);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.setSpriteIndex(var2);
          return;
       case 1:
          for(var1 = 2; var1 < 4; ++var1) {
-            if (this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.setSpriteIndex((int)0);
+            if (this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite.setSpriteIndex((int)0);
             }
 
             if (var1 % 2 == 1) {
-               this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.initializeSprite(0, false, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite.initializeSprite(0, false, (byte)-1);
             } else if (C25.C25_f318 == -1) {
                if (C25.C25_f319 == -1) {
-                  this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.initializeSprite(C25.B().C25_f287[8].C20_f261.spriteSetId, false, (byte)-1);
+                  this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite.initializeSprite(C25.B().C25_f287[8].C20_f261.spriteSetId, false, (byte)-1);
                } else {
-                  this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.initializeSprite(C25.B().C25_f287[C25.C25_f319].C20_f261.spriteSetId, false, (byte)-1);
+                  this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite.initializeSprite(C25.B().C25_f287[C25.C25_f319].C20_f261.spriteSetId, false, (byte)-1);
                }
             } else {
-               this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.initializeSprite(C25.B().C25_f287[C25.C25_f318].C20_f261.spriteSetId, false, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite.initializeSprite(C25.B().C25_f287[C25.C25_f318].C20_f261.spriteSetId, false, (byte)-1);
             }
 
-            this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195.setSpriteIndex((int)1);
+            this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite.setSpriteIndex((int)1);
          }
 
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.setSpriteIndex(var2);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.setSpriteIndex(var2);
          return;
       case 2:
          for(var1 = 2; var1 < 4; ++var1) {
-            if (this.C9_f122.currentDialog.getChildById(var1).getComponentData().C12_f195 != null) {
+            if (this.C9_f122.currentDialog.getChildById(var1).getComponentData().normalSprite != null) {
                this.C9_f122.currentDialog.getChildById(var1).setVisible(false);
             }
 
-            if (this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.setSpriteIndex((int)0);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().normalSprite.setSpriteIndex((int)0);
             }
 
             if (var1 % 2 == 1) {
-               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.initializeSprite(0, false, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().normalSprite.initializeSprite(0, false, (byte)-1);
             } else if (C25.C25_f318 == -1) {
                if (C25.C25_f319 == -1) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.initializeSprite(C25.B().C25_f287[8].C20_f261.spriteSetId, false, (byte)-1);
+                  this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().normalSprite.initializeSprite(C25.B().C25_f287[8].C20_f261.spriteSetId, false, (byte)-1);
                } else {
-                  this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.initializeSprite(C25.B().C25_f287[C25.C25_f319].C20_f261.spriteSetId, false, (byte)-1);
+                  this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().normalSprite.initializeSprite(C25.B().C25_f287[C25.C25_f319].C20_f261.spriteSetId, false, (byte)-1);
                }
             } else {
-               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.initializeSprite(C25.B().C25_f287[C25.C25_f318].C20_f261.spriteSetId, false, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().normalSprite.initializeSprite(C25.B().C25_f287[C25.C25_f318].C20_f261.spriteSetId, false, (byte)-1);
             }
 
-            this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195.setSpriteIndex((int)1);
+            this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().normalSprite.setSpriteIndex((int)1);
          }
 
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.setSpriteIndex(var2);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.setSpriteIndex(var2);
          return;
       case 3:
          for(var1 = 2; var1 < 4; ++var1) {
-            if (this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().C12_f195 != null) {
+            if (this.C9_f122.currentDialog.getChildById(var1 + 32).getComponentData().normalSprite != null) {
                this.C9_f122.currentDialog.getChildById(var1 + 32).setVisible(false);
             }
 
-            if (this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.spriteType = 2;
-               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.setSpriteIndex((int)0);
+            if (this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().normalSprite.spriteType = 2;
+               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().normalSprite.setSpriteIndex((int)0);
             }
 
             if (var1 % 2 == 1) {
-               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.initializeSprite(0, false, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().normalSprite.initializeSprite(0, false, (byte)-1);
             } else if (C25.C25_f318 == -1) {
                if (C25.C25_f319 == -1) {
-                  this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.initializeSprite(C25.B().C25_f287[8].C20_f261.spriteSetId, false, (byte)-1);
+                  this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().normalSprite.initializeSprite(C25.B().C25_f287[8].C20_f261.spriteSetId, false, (byte)-1);
                } else {
-                  this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.initializeSprite(C25.B().C25_f287[C25.C25_f319].C20_f261.spriteSetId, false, (byte)-1);
+                  this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().normalSprite.initializeSprite(C25.B().C25_f287[C25.C25_f319].C20_f261.spriteSetId, false, (byte)-1);
                }
             } else {
-               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.initializeSprite(C25.B().C25_f287[C25.C25_f318].C20_f261.spriteSetId, false, (byte)-1);
+               this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().normalSprite.initializeSprite(C25.B().C25_f287[C25.C25_f318].C20_f261.spriteSetId, false, (byte)-1);
             }
 
-            this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().C12_f195.setSpriteIndex((int)1);
+            this.C9_f122.currentDialog.getChildById(var1 + 2).getComponentData().normalSprite.setSpriteIndex((int)1);
          }
 
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.setSpriteIndex(var2);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.setSpriteIndex(var2);
          this.C9_f155 = C29.B().H();
          this.C9_f156 = this.C9_f123.C53_f778;
          if (var2 - 3 < this.C9_f155) {
@@ -5476,8 +5476,8 @@ public final class C9 implements DialogHandler {
          }
 
          for(var1 = 7; var1 < 19; var1 += 2) {
-            this.C9_f122.currentDialog.getChildById(var1).setOffsetX(172 + 17 * (var1 - 7) / 2, this.C9_f122.currentDialog.getRootComponent());
-            this.C9_f122.currentDialog.getChildById(var1 + 12).setOffsetX(-30 + 17 * (var1 - 7) / 2, this.C9_f122.currentDialog.getRootComponent());
+            this.C9_f122.currentDialog.getChildById(var1).setOffsetX(172 + 17 * (var1 - 7) / 2, this.C9_f122.currentDialog.getUIContainerComponent());
+            this.C9_f122.currentDialog.getChildById(var1 + 12).setOffsetX(-30 + 17 * (var1 - 7) / 2, this.C9_f122.currentDialog.getUIContainerComponent());
          }
 
          return;
@@ -5497,15 +5497,15 @@ public final class C9 implements DialogHandler {
    }
 
    private void e(String var1) {
-      if (this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195 == null) {
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195 = new SpriteRenderer();
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.setSpriteIndex((int)0);
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.spriteType = 3;
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.initializeSprite(257, false, (byte)-2);
+      if (this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite == null) {
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite = new SpriteRenderer();
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.setSpriteIndex((int)0);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.spriteType = 3;
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.initializeSprite(257, false, (byte)-2);
       }
 
-      this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.setAnimationFrame((byte)9, (byte)-2);
-      this.C9_f122.currentDialog.getChildById(2).getComponentData().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.setAnimationFrame((byte)9, (byte)-2);
+      this.C9_f122.currentDialog.getChildById(2).getComponentData().text = var1;
       this.C9_f134 = 0;
    }
 
@@ -5542,15 +5542,15 @@ public final class C9 implements DialogHandler {
 
    public final void c(String var1) {
       this.C9_f122.showDialog("/data/ui/taskTip.ui", 257, this);
-      if (this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195 == null) {
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195 = new SpriteRenderer();
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.setSpriteIndex((int)0);
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.spriteType = 3;
-         this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.initializeSprite(257, false, (byte)-2);
+      if (this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite == null) {
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite = new SpriteRenderer();
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.setSpriteIndex((int)0);
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.spriteType = 3;
+         this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.initializeSprite(257, false, (byte)-2);
       }
 
-      this.C9_f122.currentDialog.getChildById(1).getComponentData().C12_f195.setAnimationFrame((byte)10, (byte)-2);
-      this.C9_f122.currentDialog.getChildById(2).getComponentData().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(1).getComponentData().normalSprite.setAnimationFrame((byte)10, (byte)-2);
+      this.C9_f122.currentDialog.getChildById(2).getComponentData().text = var1;
       this.C9_f134 = 0;
    }
 
@@ -5585,7 +5585,7 @@ public final class C9 implements DialogHandler {
          var1 = GameEngineBase.getLocalizedText((int)601) + GameEngineBase.formatString(604, (int[])var2);
       }
 
-      this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(11).getComponentData().text = var1;
       if (this.C9_f126 > 0) {
          this.C9_f121.c((byte)0);
          this.bB();
@@ -5687,7 +5687,7 @@ public final class C9 implements DialogHandler {
                   return;
                }
 
-               if (this.C9_f122.currentDialog.getChildById(11).getComponentData().b()) {
+               if (this.C9_f122.currentDialog.getChildById(11).getComponentData().isScrollingComplete()) {
                   this.C9_f121.e(1);
                   return;
                }
@@ -5763,9 +5763,9 @@ public final class C9 implements DialogHandler {
 
    public final void a(String var1, String var2, int var3, int var4) {
       this.C9_f122.showDialog("/data/ui/dialog.ui", 257, this);
-      GameUtils.a(var2, GameEngineBase.getFontHeight(), this.C9_f122.currentDialog.getChildById(14).getWidth(), GameEngineBase.getDefaultFont(), true, (byte)-1, this.C9_f121.dialogManager.dialogConfig);
+      GameUtils.a(var2, GameEngineBase.getFontHeight(), this.C9_f122.currentDialog.getChildById(14).getWidth(), GameEngineBase.getDefaultFont(), true, (byte)-1, this.C9_f121.dialogManager.textRenderer);
       GameUtils.d(this.C9_f122.currentDialog.getChildById(14).getHeight());
-      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameUtils.e(1);
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().text = GameUtils.e(1);
       C25.C25_f317 = (byte)var3;
       C25.C25_f316 = (byte)var4;
       this.C9_f122.currentDialog.getChildById(8).setVisible(false);
@@ -5780,41 +5780,41 @@ public final class C9 implements DialogHandler {
       switch(var3) {
       case 0:
          if (var4 != -1) {
-            if (this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195.spriteType = 3;
-               this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195.initializeSprite(323, false, (byte)-2);
+            if (this.C9_f122.currentDialog.getChildById(11).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(11).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(11).getComponentData().normalSprite.spriteType = 3;
+               this.C9_f122.currentDialog.getChildById(11).getComponentData().normalSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(11).getComponentData().normalSprite.initializeSprite(323, false, (byte)-2);
             }
 
             this.C9_f122.currentDialog.getChildById(11).setVisible(true);
-            this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195.setAnimationFrame((byte)(var3 + (var4 << 1)), (byte)-2);
+            this.C9_f122.currentDialog.getChildById(11).getComponentData().normalSprite.setAnimationFrame((byte)(var3 + (var4 << 1)), (byte)-2);
          }
 
          this.C9_f122.currentDialog.getChildById(13).setVisible(false);
-         this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = var1;
+         this.C9_f122.currentDialog.getChildById(12).getComponentData().text = var1;
          return;
       case 1:
          if (var4 != -1) {
-            if (this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195 == null) {
-               this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195 = new SpriteRenderer();
-               this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195.spriteType = 3;
-               this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195.initializeSprite(323, false, (byte)-2);
+            if (this.C9_f122.currentDialog.getChildById(8).getComponentData().normalSprite == null) {
+               this.C9_f122.currentDialog.getChildById(8).getComponentData().normalSprite = new SpriteRenderer();
+               this.C9_f122.currentDialog.getChildById(8).getComponentData().normalSprite.spriteType = 3;
+               this.C9_f122.currentDialog.getChildById(8).getComponentData().normalSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById(8).getComponentData().normalSprite.initializeSprite(323, false, (byte)-2);
             }
 
             this.C9_f122.currentDialog.getChildById(8).setVisible(true);
-            this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195.setAnimationFrame((byte)(var3 + (var4 << 1)), (byte)-2);
+            this.C9_f122.currentDialog.getChildById(8).getComponentData().normalSprite.setAnimationFrame((byte)(var3 + (var4 << 1)), (byte)-2);
          }
 
          this.C9_f122.currentDialog.getChildById(12).setVisible(false);
-         this.C9_f122.currentDialog.getChildById(13).getComponentData().C12_f179 = var1;
+         this.C9_f122.currentDialog.getChildById(13).getComponentData().text = var1;
       default:
       }
    }
 
    public final void b(int var1) {
-      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameUtils.e(var1);
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().text = GameUtils.e(var1);
    }
 
    public final void aF() {
@@ -5827,12 +5827,12 @@ public final class C9 implements DialogHandler {
       } else {
          switch(var1) {
          case 0:
-            if (this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f195.getSpriteManager().isAtLastFrame()) {
+            if (this.C9_f122.currentDialog.getChildById(11).getComponentData().normalSprite.getSpriteManager().isAtLastFrame()) {
                return true;
             }
             break;
          case 1:
-            if (this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f195.getSpriteManager().isAtLastFrame()) {
+            if (this.C9_f122.currentDialog.getChildById(8).getComponentData().normalSprite.getSpriteManager().isAtLastFrame()) {
                return true;
             }
          }
@@ -5845,29 +5845,29 @@ public final class C9 implements DialogHandler {
    public final void a(int var1, int var2, String[] var3, String var4) {
       this.C9_f125 = 0;
       this.C9_f122.showDialog(this.C9_f157[var1], 257, this);
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = var2;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = var2;
       switch(var1) {
       case 0:
          for(var1 = 0; var1 < var3.length; ++var1) {
-            this.C9_f122.currentDialog.getChildById(var1 + 12).getComponentData().C12_f179 = var3[var1];
+            this.C9_f122.currentDialog.getChildById(var1 + 12).getComponentData().text = var3[var1];
          }
 
          return;
       case 1:
-         this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = var4;
+         this.C9_f122.currentDialog.getChildById(5).getComponentData().text = var4;
 
          for(var1 = 0; var1 < var3.length; ++var1) {
-            this.C9_f122.currentDialog.getChildById(9 + (var1 << 2)).getComponentData().C12_f179 = var3[var1];
+            this.C9_f122.currentDialog.getChildById(9 + (var1 << 2)).getComponentData().text = var3[var1];
          }
 
          return;
       case 2:
          this.C9_f122.currentDialog.getChildById(10).setVisible(false);
-         this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = "Trò chơi";
-         this.C9_f122.currentDialog.getChildById(9).getComponentData().C12_f179 = "Xác nhận";
+         this.C9_f122.currentDialog.getChildById(8).getComponentData().text = "Trò chơi";
+         this.C9_f122.currentDialog.getChildById(9).getComponentData().text = "Xác nhận";
 
          for(var1 = 0; var1 < var3.length; ++var1) {
-            this.C9_f122.currentDialog.getChildById(var1 + 5).getComponentData().C12_f179 = var3[var1];
+            this.C9_f122.currentDialog.getChildById(var1 + 5).getComponentData().text = var3[var1];
          }
       default:
       }
@@ -5894,47 +5894,47 @@ public final class C9 implements DialogHandler {
 
       int var5;
       for(var5 = 0; var5 < var4.length; ++var5) {
-         this.C9_f122.currentDialog.getChildById(var5 + 17).getComponentData().C12_f179 = var4[var5];
+         this.C9_f122.currentDialog.getChildById(var5 + 17).getComponentData().text = var4[var5];
       }
 
       for(var5 = 0; var5 < var1.length; ++var5) {
-         if (this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195 == null) {
-            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195 = new SpriteRenderer();
-            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.spriteType = 2;
+         if (this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().normalSprite == null) {
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().normalSprite = new SpriteRenderer();
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().normalSprite.spriteType = 2;
             if (var1[var5] >= 3 && var1[var5] < 5) {
-               this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.setSpriteIndex((int)-1);
-               this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.initializeSprite(257, false, (byte)0);
+               this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().normalSprite.setSpriteIndex((int)-1);
+               this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().normalSprite.initializeSprite(257, false, (byte)0);
             } else {
-               this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.setSpriteIndex((int)0);
-               this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.initializeSprite(258, false, (byte)0);
+               this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().normalSprite.setSpriteIndex((int)0);
+               this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().normalSprite.initializeSprite(258, false, (byte)0);
             }
          }
 
          switch(var1[var5]) {
          case 0:
-            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[4][var2[var5]][1]);
-            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().C12_f179 = var3[var5];
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[4][var2[var5]][1]);
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().text = var3[var5];
             break;
          case 1:
-            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[3][var2[var5]][1]);
-            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().C12_f179 = var3[var5];
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[3][var2[var5]][1]);
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().text = var3[var5];
             break;
          case 2:
-            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[5][var2[var5]][1]);
-            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().C12_f179 = var3[var5];
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[5][var2[var5]][1]);
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().text = var3[var5];
             break;
          case 3:
-            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.setSpriteIndex((int)84);
-            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().C12_f179 = var3[var5];
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().normalSprite.setSpriteIndex((int)84);
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().text = var3[var5];
             break;
          case 4:
-            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().C12_f195.setSpriteIndex((int)83);
-            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().C12_f179 = var3[var5];
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 13).getComponentData().normalSprite.setSpriteIndex((int)83);
+            this.C9_f122.currentDialog.getChildById((var5 << 1) + 14).getComponentData().text = var3[var5];
          case 5:
          default:
             break;
          case 6:
-            this.C9_f122.currentDialog.getChildById(21).getComponentData().C12_f179 = "#2" + GameEngineBase.getLocalizedText((int) ResourceManager.getDatabaseValue((byte)0, (short)var2[var5], (byte)0)) + " #0" + var3[var5];
+            this.C9_f122.currentDialog.getChildById(21).getComponentData().text = "#2" + GameEngineBase.getLocalizedText((int) ResourceManager.getDatabaseValue((byte)0, (short)var2[var5], (byte)0)) + " #0" + var3[var5];
          }
       }
 
@@ -6112,14 +6112,14 @@ public final class C9 implements DialogHandler {
          this.C9_f122.currentDialog.getChildById(7).setVisible(false);
          this.C9_f122.currentDialog.getChildById(10).setVisible(true);
          this.C9_f122.currentDialog.getChildById(11).setVisible(true);
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f179 = "Xác nhận";
-         this.C9_f122.currentDialog.getChildById(11).getComponentData().C12_f179 = "Quay lại";
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().text = "Xác nhận";
+         this.C9_f122.currentDialog.getChildById(11).getComponentData().text = "Quay lại";
       }
    }
 
    private void c(String var1, String var2) {
-      this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = var1;
-      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = var2;
+      this.C9_f122.currentDialog.getChildById(8).getComponentData().text = var1;
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().text = var2;
    }
 
    private void bF() {
@@ -6140,7 +6140,7 @@ public final class C9 implements DialogHandler {
 
    public final void d(String var1) {
       this.C9_f132 = true;
-      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = var1;
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().text = var1;
    }
 
    public final void aN() {
@@ -6225,7 +6225,7 @@ public final class C9 implements DialogHandler {
       switch(var2) {
       case 0:
          this.C9_f122.showDialog("/data/ui/wharf1.ui", 257, this);
-         this.C9_f122.currentDialog.getChildById(8).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var3);
+         this.C9_f122.currentDialog.getChildById(8).getComponentData().text = GameEngineBase.getLocalizedText(var3);
          var2 = 0;
 
          while(true) {
@@ -6233,19 +6233,19 @@ public final class C9 implements DialogHandler {
                break label23;
             }
 
-            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)this.C9_f160[var1][var2]);
+            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().text = GameEngineBase.getLocalizedText((int)this.C9_f160[var1][var2]);
             ++var2;
          }
       case 1:
          this.C9_f122.showDialog("/data/ui/wharf2.ui", 257, this);
-         this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(var3);
+         this.C9_f122.currentDialog.getChildById(10).getComponentData().text = GameEngineBase.getLocalizedText(var3);
 
          for(var2 = 0; var2 < this.C9_f160[var1].length; ++var2) {
-            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int)this.C9_f160[var1][var2]);
+            this.C9_f122.currentDialog.getChildById(var2 + 5).getComponentData().text = GameEngineBase.getLocalizedText((int)this.C9_f160[var1][var2]);
          }
       }
 
-      this.C9_f122.currentDialog.getChildById(5 + this.C9_f160[var1].length).getComponentData().C12_f179 = "Không ra hàng";
+      this.C9_f122.currentDialog.getChildById(5 + this.C9_f160[var1].length).getComponentData().text = "Không ra hàng";
    }
 
    public final void aP() {
@@ -6323,33 +6323,33 @@ public final class C9 implements DialogHandler {
       this.C9_f122.showDialog("/data/ui/shopbuy.ui", 257, this);
       this.C9_f125 = 0;
       this.C9_f131 = 0;
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f574 = 1;
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.a(0);
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = 1;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(0);
       this.C9_f122.currentDialog.getChildById(41).setVisible(false);
       this.C9_f122.currentDialog.getChildById(43).setVisible(false);
-      this.C9_f122.currentDialog.getChildById(5).getComponentData().C12_f179 = "Mua";
+      this.C9_f122.currentDialog.getChildById(5).getComponentData().text = "Mua";
       this.C9_f122.currentDialog.getChildById(57).setVisible(true);
       this.C9_f122.currentDialog.getChildById(58).setVisible(true);
-      this.C9_f122.currentDialog.getChildById(57).getComponentData().C12_f179 = "Mua sắm";
-      this.C9_f122.currentDialog.getChildById(58).getComponentData().C12_f179 = "Quay lại";
+      this.C9_f122.currentDialog.getChildById(57).getComponentData().text = "Mua sắm";
+      this.C9_f122.currentDialog.getChildById(58).getComponentData().text = "Quay lại";
       this.C9_f122.currentDialog.getChildById(39).setVisible(false);
       this.C9_f122.currentDialog.getChildById(40).setVisible(false);
-      this.C9_f135 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f579;
-      this.C9_f136 = ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580;
-      if (this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f195 == null) {
-         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f195 = new SpriteRenderer();
-         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f195.setSpriteIndex((int)0);
-         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f195.spriteType = 2;
-         this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f195.initializeSprite(258, false, (byte)-1);
+      this.C9_f135 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset;
+      this.C9_f136 = ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex;
+      if (this.C9_f122.currentDialog.getChildById(51).getComponentData().normalSprite == null) {
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().normalSprite = new SpriteRenderer();
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().normalSprite.setSpriteIndex((int)0);
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().normalSprite.spriteType = 2;
+         this.C9_f122.currentDialog.getChildById(51).getComponentData().normalSprite.initializeSprite(258, false, (byte)-1);
       }
 
-      this.C9_f122.currentDialog.getChildById(51).getComponentData().C12_f195.setSpriteIndex((int) ResourceManager.gameDatabase[5][0][1]);
-      this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[5][0][0]);
-      this.C9_f122.currentDialog.getChildById(15).getComponentData().C12_f179 = "5000";
-      this.C9_f122.currentDialog.getChildById(45).getComponentData().C12_f195.setSpriteIndex((int)84);
-      this.C9_f122.currentDialog.getChildById(56).getComponentData().C12_f179 = "Ấp trứng ra sủng vật";
-      this.C9_f122.currentDialog.getChildById(44).getComponentData().C12_f179 = "" + this.C9_f123.F();
-      this.C9_f122.currentDialog.getChildById(38).setOffsetY(102 + this.C9_f136 * 84 / ResourceManager.gameDatabase[5].length, this.C9_f122.currentDialog.getRootComponent());
+      this.C9_f122.currentDialog.getChildById(51).getComponentData().normalSprite.setSpriteIndex((int) ResourceManager.gameDatabase[5][0][1]);
+      this.C9_f122.currentDialog.getChildById(14).getComponentData().text = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[5][0][0]);
+      this.C9_f122.currentDialog.getChildById(15).getComponentData().text = "5000";
+      this.C9_f122.currentDialog.getChildById(45).getComponentData().normalSprite.setSpriteIndex((int)84);
+      this.C9_f122.currentDialog.getChildById(56).getComponentData().text = "Ấp trứng ra sủng vật";
+      this.C9_f122.currentDialog.getChildById(44).getComponentData().text = "" + this.C9_f123.F();
+      this.C9_f122.currentDialog.getChildById(38).setOffsetY(102 + this.C9_f136 * 84 / ResourceManager.gameDatabase[5].length, this.C9_f122.currentDialog.getUIContainerComponent());
    }
 
    private void bG() {
@@ -6396,13 +6396,13 @@ public final class C9 implements DialogHandler {
 
    public final void aS() {
       this.C9_f122.showDialog("/data/ui/wharf2.ui", 257, this);
-      ((RootComponent)this.C9_f122.currentDialog.getChildById(0)).otherChildComponent.C38_f580 = this.C9_f128;
+      ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = this.C9_f128;
       this.C9_f131 = 0;
-      this.C9_f122.currentDialog.getChildById(10).getComponentData().C12_f179 = "Tiện lợi điếm";
-      this.C9_f122.currentDialog.getChildById(12).getComponentData().C12_f179 = "Tiến vào";
+      this.C9_f122.currentDialog.getChildById(10).getComponentData().text = "Tiện lợi điếm";
+      this.C9_f122.currentDialog.getChildById(12).getComponentData().text = "Tiến vào";
 
       for(int var1 = 0; var1 < this.C9_f164.length; ++var1) {
-         this.C9_f122.currentDialog.getChildById(var1 + 5).getComponentData().C12_f179 = this.C9_f164[var1];
+         this.C9_f122.currentDialog.getChildById(var1 + 5).getComponentData().text = this.C9_f164[var1];
       }
 
    }
@@ -6456,109 +6456,109 @@ public final class C9 implements DialogHandler {
       }
    }
 
-   public final void a(int[] var1, int[] var2) {
-      this.C9_f140 = var1;
+   public final void action(int[] navigationData, int[] selectionData) {
+      this.C9_f140 = navigationData;
       if (this.C9_f121 instanceof C25) {
          switch(((C25)this.C9_f121).C44_f698) {
          case 0:
             return;
          case 1:
-            this.C9_f125 = var1[0];
+            this.C9_f125 = navigationData[0];
             return;
          case 2:
          case 26:
          case 32:
-            this.c(var1);
+            this.c(navigationData);
             return;
          case 3:
             if (this.C9_f131 != 0) {
-               this.C9_f127 = var1[0];
+               this.C9_f127 = navigationData[0];
                return;
             }
 
-            this.C9_f125 = var1[0];
+            this.C9_f125 = navigationData[0];
             this.aZ();
             break;
          case 4:
             return;
          case 5:
-            this.C9_f125 = var1[1];
+            this.C9_f125 = navigationData[1];
             this.bv();
             return;
          case 6:
-            this.C9_f125 = var1[0];
+            this.C9_f125 = navigationData[0];
             if (!GameEngineBase.paymentActive) {
-               this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(606 + this.C9_f125);
+               this.C9_f122.currentDialog.getChildById(14).getComponentData().text = GameEngineBase.getLocalizedText(606 + this.C9_f125);
                return;
             }
 
-            this.C9_f122.currentDialog.getChildById(14).getComponentData().C12_f179 = GameEngineBase.getLocalizedText(605 + this.C9_f125);
+            this.C9_f122.currentDialog.getChildById(14).getComponentData().text = GameEngineBase.getLocalizedText(605 + this.C9_f125);
             break;
          case 7:
-            this.b(var1);
+            this.b(navigationData);
             return;
          case 8:
-            if (var1[0] >= 0) {
-               this.C9_f126 = var1[0];
+            if (navigationData[0] >= 0) {
+               this.C9_f126 = navigationData[0];
             }
 
-            if (var1[1] >= 0) {
-               this.C9_f125 = var1[1];
+            if (navigationData[1] >= 0) {
+               this.C9_f125 = navigationData[1];
             }
 
             this.br();
             return;
          case 9:
-            this.C9_f126 = var1[1];
+            this.C9_f126 = navigationData[1];
             return;
          case 10:
-            this.C9_f125 = var1[1];
+            this.C9_f125 = navigationData[1];
             switch(this.C9_f125) {
             case 0:
-               this.C9_f126 = var1[0];
+               this.C9_f126 = navigationData[0];
                return;
             case 1:
-               this.C9_f127 = var1[0];
+               this.C9_f127 = navigationData[0];
             default:
                return;
             }
          case 11:
-            this.C9_f126 = var1[0];
-            this.C9_f125 = var1[1];
+            this.C9_f126 = navigationData[0];
+            this.C9_f125 = navigationData[1];
             return;
          case 12:
-            this.C9_f125 = var1[1];
+            this.C9_f125 = navigationData[1];
             return;
          case 13:
             if (this.C9_f131 == 0) {
-               this.C9_f125 = var1[0];
+               this.C9_f125 = navigationData[0];
                return;
             }
 
-            this.C9_f126 = var1[0];
+            this.C9_f126 = navigationData[0];
             return;
          case 14:
-            this.C9_f126 = var1[0];
+            this.C9_f126 = navigationData[0];
             return;
          case 15:
-            this.C9_f126 = var1[0];
+            this.C9_f126 = navigationData[0];
             return;
          case 16:
-            this.C9_f125 = var1[0];
+            this.C9_f125 = navigationData[0];
             return;
          case 17:
          case 18:
          case 19:
-            this.C9_f126 = var1[0];
+            this.C9_f126 = navigationData[0];
             return;
          case 20:
-            this.C9_f126 = var1[1];
+            this.C9_f126 = navigationData[1];
             return;
          case 24:
-            this.C9_f126 = var1[0];
+            this.C9_f126 = navigationData[0];
             return;
          case 27:
-            this.C9_f128 = var1[0];
+            this.C9_f128 = navigationData[0];
          case 21:
          case 22:
          case 23:
@@ -6569,7 +6569,7 @@ public final class C9 implements DialogHandler {
          default:
             return;
          case 28:
-            this.C9_f126 = var1[0];
+            this.C9_f126 = navigationData[0];
             return;
          }
       } else if (this.C9_f121 instanceof C29) {
@@ -6577,14 +6577,14 @@ public final class C9 implements DialogHandler {
          case 2:
             return;
          case 3:
-            this.C9_f129 = var1[0];
+            this.C9_f129 = navigationData[0];
             return;
          case 4:
-            this.C9_f125 = var1[0];
+            this.C9_f125 = navigationData[0];
             this.bi();
             return;
          case 5:
-            this.b(var1);
+            this.b(navigationData);
             return;
          case 6:
             return;
@@ -6597,7 +6597,7 @@ public final class C9 implements DialogHandler {
          case 10:
             return;
          case 11:
-            this.c(var1);
+            this.c(navigationData);
             return;
          case 12:
             return;
@@ -6608,7 +6608,7 @@ public final class C9 implements DialogHandler {
          case 15:
             return;
          case 16:
-            this.C9_f126 = var1[0];
+            this.C9_f126 = navigationData[0];
             this.g(this.C9_f126);
             return;
          case 17:
@@ -6618,13 +6618,13 @@ public final class C9 implements DialogHandler {
          case 19:
             return;
          case 20:
-            this.C9_f124 = var1[1];
+            this.C9_f124 = navigationData[1];
             this.C9_f122.currentDialog.getChildById(20 + this.C9_f124).setVisible(true);
             return;
          case 21:
-            this.C9_f125 = var1[0];
+            this.C9_f125 = navigationData[0];
          case 23:
-            this.C9_f125 = var1[0];
+            this.C9_f125 = navigationData[0];
          case 22:
          }
       }

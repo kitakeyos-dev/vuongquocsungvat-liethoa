@@ -18,16 +18,16 @@ public final class DialogComponent implements IComponent {
    private int zIndex = 1;
 
    // Component data and configuration
-   private DialogData dialogData = new DialogData();
+   private ComponentData componentData = new ComponentData();
    private int activeComponentId = -1;
    private byte anchorPosition = 9; // 9 = no anchoring
-   private Component childComponent = null;
+   private ScrollableListComponent childScrollableListComponent = null;
    private IComponent[] childComponents = null;
 
    // Rendering states
    public byte focusedState = -1;
    public byte enabledState = -1;
-   DialogConfig dialogConfig;
+   TextRenderer textRenderer;
    private boolean isVisible = true;
 
    // Anchor position constants
@@ -54,8 +54,8 @@ public final class DialogComponent implements IComponent {
     */
    public final void initializeDialog() {
       Rectangle bounds = new Rectangle(this.offsetX, this.offsetY, this.width, this.height);
-      this.dialogData.a(bounds);
-      this.dialogData.a();
+      this.componentData.setBounds(bounds);
+      this.componentData.resetScrollPosition();
    }
 
    /**
@@ -64,9 +64,9 @@ public final class DialogComponent implements IComponent {
    @Override
    public final void render(Graphics graphics, boolean isFocused, boolean isEnabled, IComponent parentComponent, int[] renderParams) {
       if (this.isVisible) {
-         if (this.dialogData != null) {
-            this.dialogData.a(graphics, this.offsetX, this.offsetY, this.width, this.height,
-                    isFocused, this.focusedState, this.enabledState, this.dialogConfig);
+         if (this.componentData != null) {
+            this.componentData.render(graphics, this.offsetX, this.offsetY, this.width, this.height,
+                    isFocused, this.focusedState, this.enabledState, this.textRenderer);
          }
       }
    }
@@ -76,14 +76,14 @@ public final class DialogComponent implements IComponent {
     */
    @Override
    public final void update(boolean isFocused, boolean isEnabled, IComponent parentComponent, int[] updateParams) {
-      if (this.dialogData != null) {
-         DialogData data = this.dialogData;
+      if (this.componentData != null) {
+         ComponentData data = this.componentData;
          if (isFocused) {
-            if (data.C12_f191 != null) {
-               data.C12_f191.update();
+            if (data.focusedSprite != null) {
+               data.focusedSprite.update();
             }
-         } else if (data.C12_f195 != null) {
-            data.C12_f195.update();
+         } else if (data.normalSprite != null) {
+            data.normalSprite.update();
          }
       }
    }
@@ -157,12 +157,12 @@ public final class DialogComponent implements IComponent {
    // === CHILD COMPONENT MANAGEMENT ===
 
    @Override
-   public final Component getChildComponent() {
-      return this.childComponent;
+   public final ScrollableListComponent getChildComponent() {
+      return this.childScrollableListComponent;
    }
 
-   public final void setChildComponent(Component child) {
-      this.childComponent = child;
+   public final void setChildComponent(ScrollableListComponent child) {
+      this.childScrollableListComponent = child;
    }
 
    @Override
@@ -173,13 +173,13 @@ public final class DialogComponent implements IComponent {
    // === DATA MANAGEMENT ===
 
    @Override
-   public final DialogData getComponentData() {
-      return this.dialogData;
+   public final ComponentData getComponentData() {
+      return this.componentData;
    }
 
    @Override
-   public final void setComponentData(DialogData data) {
-      this.dialogData = data;
+   public final void setComponentData(ComponentData data) {
+      this.componentData = data;
    }
 
    // === Z-INDEX MANAGEMENT ===
@@ -310,16 +310,16 @@ public final class DialogComponent implements IComponent {
     * Set dialog configuration
     * @param config Dialog configuration object
     */
-   public final void setDialogConfig(DialogConfig config) {
-      this.dialogConfig = config;
+   public final void setDialogConfig(TextRenderer config) {
+      this.textRenderer = config;
    }
 
    /**
     * Get dialog configuration
     * @return Dialog configuration object
     */
-   public final DialogConfig getDialogConfig() {
-      return this.dialogConfig;
+   public final TextRenderer getDialogConfig() {
+      return this.textRenderer;
    }
 
    /**
@@ -350,17 +350,17 @@ public final class DialogComponent implements IComponent {
 
    @Override
    public final void cleanUp() {
-      if (this.childComponent != null) {
-         this.childComponent = null;
+      if (this.childScrollableListComponent != null) {
+         this.childScrollableListComponent = null;
       }
 
-      if (this.dialogData != null) {
-         this.dialogData.c();
-         this.dialogData = null;
+      if (this.componentData != null) {
+         this.componentData.cleanup();
+         this.componentData = null;
       }
 
-      if (this.dialogConfig != null) {
-         this.dialogConfig = null;
+      if (this.textRenderer != null) {
+         this.textRenderer = null;
       }
    }
 

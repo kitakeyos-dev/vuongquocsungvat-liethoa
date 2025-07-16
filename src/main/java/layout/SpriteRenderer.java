@@ -11,7 +11,7 @@ import javax.microedition.lcdui.Graphics;
 public final class SpriteRenderer {
 
     // Sprite data and resource manager
-    private SpriteManager spriteManager = null;
+    private SpriteManager spriteManager;
     private byte spriteState = 0;
     private short spriteIndex = -1;
     public byte spriteType = 4;
@@ -67,7 +67,7 @@ public final class SpriteRenderer {
      * @param animationState Animation state
      */
     public final void setAnimationFrame(byte frameIndex, byte animationState) {
-        this.spriteIndex = (short) frameIndex;
+        this.spriteIndex = frameIndex;
         if (this.spriteManager != null) {
             this.spriteManager.setAnimation(frameIndex, animationState, true);
         }

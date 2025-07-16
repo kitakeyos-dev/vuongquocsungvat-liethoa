@@ -327,7 +327,7 @@ public final class MainMenuScreen extends GameEngineBase {
 
     public final void cleanupCurrentScreen() {
         this.particleImage = null;
-        this.dialogManager.clearDialogs();
+        this.dialogManager.clearAllDialogs();
     }
 
     private void removeMenuDialog() {

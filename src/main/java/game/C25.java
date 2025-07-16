@@ -1673,7 +1673,7 @@ public final class C25 extends GameEngineBase {
          C25_f336 = null;
       }
 
-      this.dialogManager.clearDialogs();
+      this.dialogManager.clearAllDialogs();
       this.C25_f348.cleanupCurrentScreen();
       C25_f318 = -1;
       C30.c();
@@ -2321,7 +2321,7 @@ public final class C25 extends GameEngineBase {
             int var8 = (var7 = C4.a(GameEngineBase.getLocalizedText(var5[var4 + 4]), var5[var4 + 5] << 4)).length;
 
             for(var9 = 0; var9 < var8; ++var9) {
-               GameUtils.a(var3, var7[var9], var2.C25_f366[(var2.C25_f352 << 1) + 1], var2.C25_f356 + (var5[var4] << 4) + 16 * var5[var4 + 5] / 2, var2.C25_f357 + (var5[var4 + 1] << 3) + 8 * var5[var4 + 6] / 2 + (var9 - var8 / 2) * (C4.C4_f33 + 1), 17, 17, var2.dialogManager.dialogConfig, -1);
+               GameUtils.a(var3, var7[var9], var2.C25_f366[(var2.C25_f352 << 1) + 1], var2.C25_f356 + (var5[var4] << 4) + 16 * var5[var4 + 5] / 2, var2.C25_f357 + (var5[var4 + 1] << 3) + 8 * var5[var4 + 6] / 2 + (var9 - var8 / 2) * (C4.C4_f33 + 1), 17, 17, var2.dialogManager.textRenderer, -1);
             }
          }
 
@@ -2403,7 +2403,7 @@ public final class C25 extends GameEngineBase {
 
          for(var4 = 0; var4 < var2.C25_f286.C53_f799.size(); ++var4) {
             var5 = (int[])var2.C25_f286.C53_f799.elementAt(var4);
-            GameUtils.a(var3, "+" + var5[0], 16704699, var5[1] + 12 - var2.C25_f283.C68_f943, var5[2] - var5[3] - var2.C25_f283.C68_f944, 17, 17, var2.dialogManager.dialogConfig, 2);
+            GameUtils.a(var3, "+" + var5[0], 16704699, var5[1] + 12 - var2.C25_f283.C68_f943, var5[2] - var5[3] - var2.C25_f283.C68_f944, 17, 17, var2.dialogManager.textRenderer, 2);
             var3.drawImage(C25_f299, var5[1] - var2.C25_f283.C68_f943 - 6, var5[2] - var5[3] - var2.C25_f283.C68_f944, 20);
          }
 

@@ -511,7 +511,7 @@ public final class GridComponent implements IComponent {
 
     }
 
-    public final Component getChildComponent() {
+    public final ScrollableListComponent getChildComponent() {
         return null;
     }
 
@@ -519,11 +519,11 @@ public final class GridComponent implements IComponent {
         return null;
     }
 
-    public final DialogData getComponentData() {
+    public final ComponentData getComponentData() {
         return null;
     }
 
-    public final void setComponentData(DialogData var1) {
+    public final void setComponentData(ComponentData var1) {
     }
 
     public final int getZIndex() {

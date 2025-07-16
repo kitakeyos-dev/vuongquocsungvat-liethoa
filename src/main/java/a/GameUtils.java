@@ -1,7 +1,7 @@
 package a;
 
 import a.a.C16;
-import layout.DialogConfig;
+import layout.TextRenderer;
 import layout.IComponent;
 import game.C4;
 import me.kitakeyos.ManagedInputStream;
@@ -695,7 +695,7 @@ public final class GameUtils {
 
     }
 
-    public static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, int var6, int var7, Font var8, boolean var9, int var10, int[] var11, int var12, byte var13, DialogConfig var14, byte var15, boolean[] var16) {
+    public static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, int var6, int var7, Font var8, boolean var9, int var10, int[] var11, int var12, byte var13, TextRenderer var14, byte var15, boolean[] var16) {
         if (var13 != -1 && var14 != null) {
             var5 = C4.C4_f33;
         }
@@ -810,7 +810,7 @@ public final class GameUtils {
 
     }
 
-    private static C27 a(String var0, int var1, int var2, boolean var3, Font var4, byte var5, DialogConfig var6) {
+    private static C27 a(String var0, int var1, int var2, boolean var3, Font var4, byte var5, TextRenderer var6) {
         C27 var7 = new C27();
         int var8 = 0;
         int var9 = 0;
@@ -833,7 +833,7 @@ public final class GameUtils {
                     var7.C27_f389[var7.C27_f392++] = new int[]{var8, var14, var9, var10, var11};
                     var15 = var4.charsWidth(var0.substring(var8, var14).toCharArray(), 0, var14 - var8);
                     if (var5 != -1 && var6 != null) {
-                        var15 = DialogConfig.a(var0.substring(var8, var14), 0, var14 - var8);
+                        var15 = TextRenderer.calculateTextWidth(var0.substring(var8, var14), 0, var14 - var8);
                     }
 
                     var9 += var15;
@@ -841,7 +841,7 @@ public final class GameUtils {
                     var8 = var14 + 2;
                 }
             } else if (var14 - var8 >= 0) {
-                var15 = DialogConfig.a(var0.substring(var8, var14 + 1), 0, var14 - var8 + 1);
+                var15 = TextRenderer.calculateTextWidth(var0.substring(var8, var14 + 1), 0, var14 - var8 + 1);
                 var7.C27_f390 = var15;
                 if (var3 && (var9 + var15 >= var2 || var16 == ' ' && var9 + var15 >= var13)) {
                     var7.C27_f389[var7.C27_f392++] = new int[]{var8, var14, var9, var10, var11};
@@ -874,16 +874,16 @@ public final class GameUtils {
         return var7;
     }
 
-    private static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, DialogConfig var6) {
-        DialogConfig.a(var1, var3, var4, 20, var2, var0);
+    private static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, TextRenderer var6) {
+        TextRenderer.renderText(var1, var3, var4, 20, var2, var0);
     }
 
-    public static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, int var6, DialogConfig var7, int var8) {
+    public static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, int var6, TextRenderer var7, int var8) {
         switch (var8) {
             case 0:
                 if (var7 != null) {
-                    DialogConfig.a(var1, var3 - 1, var4, 17, 8607289, var0);
-                    DialogConfig.a(var1, var3 + 1, var4, 17, 8607289, var0);
+                    TextRenderer.renderText(var1, var3 - 1, var4, 17, 8607289, var0);
+                    TextRenderer.renderText(var1, var3 + 1, var4, 17, 8607289, var0);
                 } else {
                     var0.setColor(8607289);
                     var0.drawString(var1, var3 - 1, var4, 17);
@@ -892,8 +892,8 @@ public final class GameUtils {
                 break;
             case 1:
                 if (var7 != null) {
-                    DialogConfig.a(var1, var3, var4 - 1, 17, 8607289, var0);
-                    DialogConfig.a(var1, var3, var4 + 1, 17, 8607289, var0);
+                    TextRenderer.renderText(var1, var3, var4 - 1, 17, 8607289, var0);
+                    TextRenderer.renderText(var1, var3, var4 + 1, 17, 8607289, var0);
                 } else {
                     var0.setColor(8607289);
                     var0.drawString(var1, var3, var4 - 1, 17);
@@ -902,10 +902,10 @@ public final class GameUtils {
                 break;
             case 2:
                 if (var7 != null) {
-                    DialogConfig.a(var1, var3, var4 - 1, 17, 8607289, var0);
-                    DialogConfig.a(var1, var3, var4 + 1, 17, 8607289, var0);
-                    DialogConfig.a(var1, var3 - 1, var4, 17, 8607289, var0);
-                    DialogConfig.a(var1, var3 + 1, var4, 17, 8607289, var0);
+                    TextRenderer.renderText(var1, var3, var4 - 1, 17, 8607289, var0);
+                    TextRenderer.renderText(var1, var3, var4 + 1, 17, 8607289, var0);
+                    TextRenderer.renderText(var1, var3 - 1, var4, 17, 8607289, var0);
+                    TextRenderer.renderText(var1, var3 + 1, var4, 17, 8607289, var0);
                 } else {
                     var0.setColor(8607289);
                     var0.drawString(var1, var3, var4 - 1, 17);
@@ -916,14 +916,14 @@ public final class GameUtils {
         }
 
         if (var7 != null) {
-            DialogConfig.a(var1, var3, var4, 17, var2, var0);
+            TextRenderer.renderText(var1, var3, var4, 17, var2, var0);
         } else {
             var0.setColor(var2);
             var0.drawString(var1, var3, var4, 17);
         }
     }
 
-    public static void a(String var0, int var1, int var2, Font var3, boolean var4, byte var5, DialogConfig var6) {
+    public static void a(String var0, int var1, int var2, Font var3, boolean var4, byte var5, TextRenderer var6) {
         C27 var8 = a(var0, var1, var2, true, var3, (byte) -1, var6);
         var2 = var8.C27_f392;
         int[][] var9 = var8.C27_f389;

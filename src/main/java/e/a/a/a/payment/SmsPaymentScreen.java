@@ -1,6 +1,6 @@
 package e.a.a.a.payment;
 
-import a.a.C42;
+import a.a.ImageData;
 import script.*;
 import e.a.a.a.config.MessageConfig;
 import me.kitakeyos.SmsConfigLoader;
@@ -8,6 +8,11 @@ import me.kitakeyos.ManagedInputStream;
 
 import javax.microedition.lcdui.*;
 import javax.microedition.midlet.MIDlet;
+import javax.microedition.rms.RecordStore;
+import javax.microedition.rms.RecordStoreException;
+import javax.microedition.rms.RecordStoreNotOpenException;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.InputStream;
 
 public final class SmsPaymentScreen extends Canvas implements Runnable {
@@ -85,7 +90,7 @@ public final class SmsPaymentScreen extends Canvas implements Runnable {
     private void calculateButtonBounds() {
         Font var1 = Font.getFont(0, 1, 0);
         int var2 = var1.getHeight() + 4;
-        int var3 = C42.a("Gửi tin", var1) + 4;
+        int var3 = ImageData.calculateTextWidth("Gửi tin", var1) + 4;
         this.buttonBounds[0][0] = 2;
         this.buttonBounds[0][1] = screenHeight - var2;
         this.buttonBounds[0][2] = var3;
@@ -353,7 +358,7 @@ public final class SmsPaymentScreen extends Canvas implements Runnable {
         var1.drawString(this.headerText, 2, var3, 0);
         var1.setFont(var2);
         int var4 = var2.getHeight() + 8;
-        int[] var6 = C42.a(var1, this.displayText, var2, screenWidth - 10, screenHeight - var4 - 10, this.scrollPosition, 5, 35, 5);
+        int[] var6 = ImageData.renderWrappedText(var1, this.displayText, var2, screenWidth - 10, screenHeight - var4 - 10, this.scrollPosition, 5, 35, 5);
         this.maxScrollPosition = var6[1];
         var1.setColor(255, 102, 0);
         var3 = screenHeight - var4;
@@ -361,7 +366,7 @@ public final class SmsPaymentScreen extends Canvas implements Runnable {
         var1.setColor(16777215);
         var3 = screenHeight - (var4 + var2.getHeight()) / 2;
         var1.drawString(this.leftButtonText, 2, var3, 0);
-        int var5 = screenWidth - C42.a(this.rightButtonText, var2) - 2 - 2;
+        int var5 = screenWidth - ImageData.calculateTextWidth(this.rightButtonText, var2) - 2 - 2;
         var1.drawString(this.rightButtonText, var5, var3, 0);
         var5 = screenHeight - var4 / 2;
         this.scrollState = -1;
@@ -416,7 +421,7 @@ public final class SmsPaymentScreen extends Canvas implements Runnable {
                 this.messageConfig.setCounter2((Integer) context.getStackValue(0));
                 return 0;
             case 5:
-                C42.a(this.messageConfig, this.itemName, this.itemDescription, this.itemCode, this.paymentCode, this.requiredPayments);
+                saveMessageConfig(this.messageConfig, this.itemName, this.itemDescription, this.itemCode, this.paymentCode, this.requiredPayments);
                 return 0;
             case 6:
                 this.leftButtonText = (String) context.getStackValue(0);
@@ -442,6 +447,87 @@ public final class SmsPaymentScreen extends Canvas implements Runnable {
                 return 0;
             default:
                 return 0;
+        }
+    }
+
+    /**
+     * Create RecordStore for data storage
+     * @param param1 First parameter for store name
+     * @param param2 Second parameter for store name
+     * @param param3 Third parameter for store name (defaults to "00" if null/empty)
+     * @param param4 Fourth parameter for store name
+     * @param param5 Fifth parameter for store name
+     * @return Opened RecordStore or null if failed
+     */
+    private static RecordStore createDataStore(String param1, String param2, String param3, String param4, int param5) {
+        RecordStore recordStore = null;
+
+        try {
+            // Handle null or empty param3
+            if (param3 == null || param3.length() == 0) {
+                param3 = "00";
+            }
+
+            // Validate param4 (though not used in logic)
+            if (param4 != null) {
+                param4.length(); // Just check length, result not used
+            }
+
+            // Build store name
+            StringBuffer storeName = new StringBuffer();
+            storeName.append("dcn").append(param1).append(param2).append(param3).append(param5);
+
+            // Open RecordStore with encryption
+            recordStore = RecordStore.openRecordStore(storeName.toString(), true, 1, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return recordStore;
+    }
+
+
+    public static void saveMessageConfig(MessageConfig var0, String var1, String var2, String var3, String var4, int var5) {
+        RecordStore var19 = createDataStore(var1, var2, var3, var4, var5);
+        if (var19 != null) {
+            try {
+                ByteArrayOutputStream var20 = new ByteArrayOutputStream();
+                DataOutputStream var21;
+                (var21 = new DataOutputStream(var20)).writeInt(var0.getCounter1());
+                if (var0.getCounter1() < var5) {
+                    var21.writeInt(var0.getPaidPrice());
+                    var21.writeUTF(var0.getPaidNumber());
+                    var21.writeUTF(var0.getPaidContent());
+                    var21.writeUTF(var0.getPaidReminder());
+                    var21.writeInt(var0.getPaidCondition());
+                    var21.writeUTF(var0.getFreeNumber());
+                    var21.writeUTF(var0.getFreeContent());
+                    var21.writeBoolean(var0.getSomeFlag());
+                    var21.writeInt(var0.getCounter2());
+                    var21.writeLong(var0.getTimestamp());
+                }
+
+                byte[] var18 = var20.toByteArray();
+                if (var19.getNumRecords() == 0) {
+                    var19.addRecord(var18, 0, var18.length);
+                } else {
+                    var19.setRecord(1, var18, 0, var18.length);
+                }
+
+                return;
+            } catch (Exception var16) {
+                var16.printStackTrace();
+            } finally {
+                try {
+                    var19.closeRecordStore();
+                } catch (RecordStoreNotOpenException var14) {
+                    var14.printStackTrace();
+                } catch (RecordStoreException var15) {
+                    var15.printStackTrace();
+                }
+
+            }
+
         }
     }
 }

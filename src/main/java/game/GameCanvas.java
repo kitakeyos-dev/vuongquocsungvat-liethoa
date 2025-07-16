@@ -2,14 +2,14 @@ package game;
 
 import a.GameUtils;
 import a.GameEngineBase;
-import a.C65;
+import a.InputHandler;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
 public final class GameCanvas extends Canvas implements Runnable {
    private static GameCanvas instance = null;
    private static GameMIDLet gameMIDlet;
-   private static C65 currentScreen;
+   private static InputHandler currentScreen;
    private GameScreenManager gameScreen;
    public static GameCanvas publicInstance;
    private long frameStartTime = 0L;
@@ -88,14 +88,14 @@ public final class GameCanvas extends Canvas implements Runnable {
 
    protected final void keyPressed(int var1) {
       if (this.gameScreen != null) {
-         this.gameScreen.j(var1);
+         this.gameScreen.onKeyPressed(var1);
       }
 
    }
 
    protected final void keyReleased(int var1) {
       if (this.gameScreen != null) {
-         this.gameScreen.k(var1);
+         this.gameScreen.onKeyReleased(var1);
       }
 
    }
@@ -116,7 +116,7 @@ public final class GameCanvas extends Canvas implements Runnable {
 
       this.keyPressed(this.lastTouchKeyCode);
       if (this.gameScreen != null) {
-         this.gameScreen.c(var1, var2);
+         this.gameScreen.onPointerPressed(var1, var2);
       }
 
    }
@@ -124,7 +124,7 @@ public final class GameCanvas extends Canvas implements Runnable {
    protected final void pointerReleased(int var1, int var2) {
       this.keyReleased(this.lastTouchKeyCode);
       if (this.gameScreen != null) {
-         this.gameScreen.d(var1, var2);
+         this.gameScreen.onPointerReleased(var1, var2);
       }
 
    }

@@ -1,6 +1,6 @@
 package layout;
 
-import game.C4;
+import game.BitmapFontRenderer;
 
 import javax.microedition.lcdui.Graphics;
 
@@ -21,7 +21,7 @@ public final class TextRenderer {
      */
     public static void renderText(String text, int x, int y, int alignment, int color, Graphics graphics) {
         graphics.setColor(color);
-        C4.b(graphics, text, x, y, alignment);
+        BitmapFontRenderer.drawTextWithAlignment(graphics, text, x, y, alignment);
     }
 
     /**
@@ -33,6 +33,6 @@ public final class TextRenderer {
      * @return Calculated text width
      */
     public static int calculateTextWidth(String text, int fontType, int maxWidth) {
-        return C4.a(text, fontType, maxWidth + fontType);
+        return BitmapFontRenderer.calculateStringWidth(text, fontType, maxWidth + fontType);
     }
 }

@@ -29,13 +29,13 @@ public final class ComponentData {
     public byte spriteBlendMode = -1;                 // C12_f190 - Blend mode for sprites
 
     // Sprite renderers for visual elements
-    public SpriteRenderer focusedSprite;              // C12_f191 - shown when focused
+    public AnimatedRenderer focusedRenderer;              // C12_f191 - shown when focused
 
     // Color scheme for normal/unfocused state
     public int backgroundColor;                 // C12_f192 - Background color when normal
     public int borderColor;                     // C12_f193 - Border color when normal
     public int textColor;                       // C12_f194 - Text color when normal
-    public SpriteRenderer normalSprite;               // C12_f195 - Sprite shown when normal
+    public AnimatedRenderer renderer;               // C12_f195 - Sprite shown when normal
 
     // Layout and rendering state
     private Rectangle bounds = null;                  // C12_f196 - Component bounds
@@ -60,8 +60,8 @@ public final class ComponentData {
         this.borderColor = 16777215;
         this.textColor = 16777215;
 
-        this.focusedSprite = null;
-        this.normalSprite = null;
+        this.focusedRenderer = null;
+        this.renderer = null;
         this.isAnimating = false;
         this.spriteBlendMode = -1;
         this.animationFrame = 0;
@@ -202,8 +202,8 @@ public final class ComponentData {
             fillRect(graphics, this.bounds, this.focusedBackgroundColor);
             drawRect(graphics, this.bounds, this.focusedBorderColor);
 
-            if (this.focusedSprite != null) {
-                this.focusedSprite.render(graphics, this.bounds, this.paddingVertical);
+            if (this.focusedRenderer != null) {
+                this.focusedRenderer.render(graphics, this.bounds, this.paddingVertical);
             }
 
             this.renderText(graphics, this.bounds, this.text, this.focusedTextColor,
@@ -214,8 +214,8 @@ public final class ComponentData {
             fillRect(graphics, this.bounds, this.backgroundColor);
             drawRect(graphics, this.bounds, this.borderColor);
 
-            if (this.normalSprite != null) {
-                this.normalSprite.render(graphics, this.bounds, this.paddingVertical);
+            if (this.renderer != null) {
+                this.renderer.render(graphics, this.bounds, this.paddingVertical);
             }
 
             this.renderText(graphics, this.bounds, this.text, this.textColor,
@@ -228,14 +228,14 @@ public final class ComponentData {
      * Clean up sprite resources
      */
     public final void cleanup() {
-        if (this.focusedSprite != null) {
-            this.focusedSprite.cleanup();
-            this.focusedSprite = null;
+        if (this.focusedRenderer != null) {
+            this.focusedRenderer.cleanup();
+            this.focusedRenderer = null;
         }
 
-        if (this.normalSprite != null) {
-            this.normalSprite.cleanup();
-            this.normalSprite = null;
+        if (this.renderer != null) {
+            this.renderer.cleanup();
+            this.renderer = null;
         }
     }
 }

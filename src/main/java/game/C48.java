@@ -31,31 +31,31 @@ public final class C48 extends GameEngineBase {
    }
 
    public final void update() {
-      if (this.C8_f110) {
-         this.A();
+      if (this.isActive) {
+         this.updateInputState();
          switch(this.C44_f698) {
          case 0:
-            if (this.g(196640)) {
+            if (this.isKeyPressed(196640)) {
                this.changeState((byte)1);
                return;
             }
             break;
          case 1:
-            if (this.g(16400)) {
+            if (this.isKeyPressed(16400)) {
                this.C48_f741 = 0;
                --this.C48_f739;
                if (this.C48_f739 <= 0) {
                   this.C48_f739 = 0;
                   return;
                }
-            } else if (this.g(32832)) {
+            } else if (this.isKeyPressed(32832)) {
                this.C48_f741 = 0;
                ++this.C48_f739;
                if (this.C48_f739 > this.C48_f745.length - 1) {
                   this.C48_f739 = (byte)(this.C48_f745.length - 1);
                   return;
                }
-            } else if (this.g(4100)) {
+            } else if (this.isKeyPressed(4100)) {
                if (this.C48_f739 == 0) {
                   --this.C48_f740;
                   if (this.C48_f740 <= 0) {
@@ -72,7 +72,7 @@ public final class C48 extends GameEngineBase {
                   C48_f743 = !C48_f743;
                   return;
                }
-            } else if (this.g(8448)) {
+            } else if (this.isKeyPressed(8448)) {
                if (this.C48_f739 == 0) {
                   ++this.C48_f740;
                   if (this.C48_f740 >= this.C48_f736.length - 1) {
@@ -90,7 +90,7 @@ public final class C48 extends GameEngineBase {
                   return;
                }
             } else {
-               if (this.g(196640)) {
+               if (this.isKeyPressed(196640)) {
                   this.C48_f734.C25_f290 = this.C48_f740;
                   this.C48_f734.C25_f291 = this.C48_f741;
                   C25.B().C25_f295 = -1;
@@ -103,26 +103,26 @@ public final class C48 extends GameEngineBase {
                   return;
                }
 
-               if (this.g(1024)) {
+               if (this.isKeyPressed(1024)) {
                   GameScreenManager.getInstance().changeState((byte)10);
                   return;
                }
             }
             break;
          case 2:
-            if (this.g(4100)) {
+            if (this.isKeyPressed(4100)) {
                --this.C48_f742;
                if (this.C48_f742 <= 0) {
                   this.C48_f742 = (byte)(ResourceManager.gameDatabase[0].length - 1);
                   return;
                }
-            } else if (this.g(8448)) {
+            } else if (this.isKeyPressed(8448)) {
                ++this.C48_f742;
                if (this.C48_f742 >= ResourceManager.gameDatabase[0].length - 1) {
                   this.C48_f742 = 0;
                   return;
                }
-            } else if (this.g(196640)) {
+            } else if (this.isKeyPressed(196640)) {
                this.C48_f735.cleanupCurrentScreen();
                this.C48_f734.M();
                GameScreenManager.getInstance().changeState((byte)12);

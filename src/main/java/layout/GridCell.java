@@ -4,7 +4,7 @@ public final class GridCell {
     /**
      * Cell renderer for drawing content
      */
-    public SpriteRenderer cellRenderer;
+    public AnimatedRenderer cellRenderer;
 
     /**
      * Navigation indices to adjacent cells
@@ -57,7 +57,7 @@ public final class GridCell {
     public GridCell(int rendererId, byte rendererFlags, int upIndex, int downIndex, int leftIndex, int rightIndex) {
         // Setup renderer if valid ID provided
         if (rendererId != -1) {
-            this.cellRenderer = new SpriteRenderer();
+            this.cellRenderer = new AnimatedRenderer();
             this.cellRenderer.setSpriteIndex(rendererId);
             this.cellRenderer.spriteType = rendererFlags;
         } else {

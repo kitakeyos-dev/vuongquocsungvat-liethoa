@@ -256,11 +256,11 @@ public final class DialogSystem {
                 short focusedSpriteIndex = GameUtils.readShortFromBytes(data, readPosition);
                 byte focusedSpriteType = GameUtils.readByte(data, readPosition);
                 if (focusedSpriteIndex < 0) {
-                    textComponent.getComponentData().focusedSprite = null;
+                    textComponent.getComponentData().focusedRenderer = null;
                 } else {
-                    textComponent.getComponentData().focusedSprite = new SpriteRenderer();
-                    textComponent.getComponentData().focusedSprite.spriteType = focusedSpriteType;
-                    textComponent.getComponentData().focusedSprite.setSpriteIndex((int) focusedSpriteIndex);
+                    textComponent.getComponentData().focusedRenderer = new AnimatedRenderer();
+                    textComponent.getComponentData().focusedRenderer.spriteType = focusedSpriteType;
+                    textComponent.getComponentData().focusedRenderer.setSpriteIndex((int) focusedSpriteIndex);
                 }
 
                 // Read normal state colors
@@ -272,21 +272,21 @@ public final class DialogSystem {
                 short normalSpriteIndex = GameUtils.readShortFromBytes(data, readPosition);
                 byte normalSpriteType = GameUtils.readByte(data, readPosition);
                 if (normalSpriteIndex < 0) {
-                    textComponent.getComponentData().normalSprite = null;
+                    textComponent.getComponentData().renderer = null;
                 } else {
-                    textComponent.getComponentData().normalSprite = new SpriteRenderer();
-                    textComponent.getComponentData().normalSprite.setSpriteIndex((int) normalSpriteIndex);
-                    textComponent.getComponentData().normalSprite.spriteType = normalSpriteType;
+                    textComponent.getComponentData().renderer = new AnimatedRenderer();
+                    textComponent.getComponentData().renderer.setSpriteIndex((int) normalSpriteIndex);
+                    textComponent.getComponentData().renderer.spriteType = normalSpriteType;
                 }
 
                 textComponent.getComponentData().spriteBlendMode = GameUtils.readByte(data, readPosition);
 
                 // Initialize sprites
-                if (textComponent.getComponentData().focusedSprite != null) {
-                    textComponent.getComponentData().focusedSprite.initializeSprite(resourceType, enableAnimations, textComponent.getComponentData().spriteBlendMode);
+                if (textComponent.getComponentData().focusedRenderer != null) {
+                    textComponent.getComponentData().focusedRenderer.initializeSprite(resourceType, enableAnimations, textComponent.getComponentData().spriteBlendMode);
                 }
-                if (textComponent.getComponentData().normalSprite != null) {
-                    textComponent.getComponentData().normalSprite.initializeSprite(resourceType, enableAnimations, textComponent.getComponentData().spriteBlendMode);
+                if (textComponent.getComponentData().renderer != null) {
+                    textComponent.getComponentData().renderer.initializeSprite(resourceType, enableAnimations, textComponent.getComponentData().spriteBlendMode);
                 }
 
                 textComponent.setActiveComponentId(parentComponent.getSelectedComponentId());
@@ -346,7 +346,7 @@ public final class DialogSystem {
                 if (backgroundSpriteIndex < 0) {
                     gridComponent.backgroundRenderer = null;
                 } else {
-                    gridComponent.backgroundRenderer = new SpriteRenderer();
+                    gridComponent.backgroundRenderer = new AnimatedRenderer();
                     gridComponent.backgroundRenderer.setSpriteIndex((int) backgroundSpriteIndex);
                     gridComponent.backgroundRenderer.spriteType = backgroundSpriteType;
                     gridComponent.backgroundRenderer.initializeSprite(resourceType, enableAnimations, backgroundSpriteType);
@@ -358,7 +358,7 @@ public final class DialogSystem {
                 if (selectionSpriteIndex < 0) {
                     gridComponent.selectionRenderer = null;
                 } else {
-                    gridComponent.selectionRenderer = new SpriteRenderer();
+                    gridComponent.selectionRenderer = new AnimatedRenderer();
                     gridComponent.selectionRenderer.setSpriteIndex((int) selectionSpriteIndex);
                     gridComponent.selectionRenderer.spriteType = selectionSpriteType;
                     gridComponent.selectionRenderer.initializeSprite(resourceType, enableAnimations, selectionSpriteType);

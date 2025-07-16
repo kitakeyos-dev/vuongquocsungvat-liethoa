@@ -1,15 +1,15 @@
 package a.b;
 
-import a.a.C69;
+import a.a.ImageProcessor;
 import game.C7;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
 /**
- * Sprite Manager - comprehensive sprite and animation management system
- * Handles sprite loading, animation, transformation, and rendering with multiple flip modes
+ * Animated Sprite - comprehensive sprite and animation management system
+ * Handles sprite loading, animation playback, transformation, and rendering with multiple flip modes
  */
-public final class SpriteManager {
+public final class AnimatedSprite {
 
     // Transformation lookup tables for different flip modes
     private static int[] FLIP_NONE = new int[]{0, 5, 3, 6, 2, 4, 1, 7};
@@ -19,7 +19,7 @@ public final class SpriteManager {
 
     // Sprite resources
     private Image[] spriteImages;
-    private C37 animationData;
+    private SpriteAnimationData animationData;
     private int[] imageResourceIds;
 
     // Sprite identification
@@ -67,8 +67,8 @@ public final class SpriteManager {
 
         // Store sprite set ID and initialize animation data
         this.spriteSetId = spriteSetResourceId;
-        this.animationData = C64.b(spriteSetData[0]);
-        this.animationData.C37_f573 = enableCaching;
+        this.animationData = SpriteDataCache.getSpriteData(spriteSetData[0]);
+        this.animationData.useExtendedFormat = enableCaching;
 
         // Initialize animation to first frame
         this.initializeFrame(0);
@@ -86,7 +86,7 @@ public final class SpriteManager {
 
         this.imageResourceIds = null;
         this.animationData = null;
-        C64.c(this.spriteSetId);
+        SpriteDataCache.releaseSpriteReference(this.spriteSetId);
     }
 
     /**
@@ -101,7 +101,7 @@ public final class SpriteManager {
 
             this.imageResourceIds = null;
             this.animationData = null;
-            C64.d(this.spriteSetId);
+            SpriteDataCache.tryUnloadSprite(this.spriteSetId);
         }
     }
 
@@ -130,7 +130,7 @@ public final class SpriteManager {
     public final void applyColorEffects() {
         if (C7.C7_f51 == 1) {
             for (int i = 0; i < this.spriteImages.length; i++) {
-                this.spriteImages[i] = C69.a(ResourceManager.getCachedImage(this.imageResourceIds[i]));
+                this.spriteImages[i] = ImageProcessor.convertToGrayscale(ResourceManager.getCachedImage(this.imageResourceIds[i]));
             }
         }
     }
@@ -141,7 +141,7 @@ public final class SpriteManager {
     public final void resetWithColorEffects() {
         for (int i = 0; i < this.spriteImages.length; i++) {
             if (C7.C7_f51 == 1) {
-                this.spriteImages[i] = C69.a(ResourceManager.getCachedImage(this.imageResourceIds[i]));
+                this.spriteImages[i] = ImageProcessor.convertToGrayscale(ResourceManager.getCachedImage(this.imageResourceIds[i]));
             } else {
                 this.forceCleanup();
             }
@@ -159,7 +159,7 @@ public final class SpriteManager {
     public final void applyBrightnessEffect(int brightnessMode) {
         for (int i = 0; i < this.spriteImages.length; i++) {
             if (brightnessMode == 1) {
-                this.spriteImages[i] = C69.a(ResourceManager.getCachedImage(this.imageResourceIds[i]), 100);
+                this.spriteImages[i] = ImageProcessor.createBrightenedImage(ResourceManager.getCachedImage(this.imageResourceIds[i]), 100);
             } else {
                 this.forceCleanup();
             }
@@ -206,15 +206,15 @@ public final class SpriteManager {
     private void initializeFrame(int frameIndex) {
         this.currentFrameIndex = frameIndex;
 
-        if (this.animationData.C37_f572 != null) {
-            if (this.animationData.C37_f573) {
+        if (this.animationData.animationSequences != null) {
+            if (this.animationData.useExtendedFormat) {
                 // Extended animation data (4 values per frame)
-                this.frameTimer = this.animationData.C37_f572[this.currentAnimationId][this.currentFrameIndex << 2];
-                this.totalFramesInAnimation = this.animationData.C37_f572[this.currentAnimationId].length / 4;
+                this.frameTimer = this.animationData.animationSequences[this.currentAnimationId][this.currentFrameIndex << 2];
+                this.totalFramesInAnimation = this.animationData.animationSequences[this.currentAnimationId].length / 4;
             } else {
                 // Simple animation data (2 values per frame)
-                this.frameTimer = this.animationData.C37_f572[this.currentAnimationId][this.currentFrameIndex << 1];
-                this.totalFramesInAnimation = this.animationData.C37_f572[this.currentAnimationId].length / 2;
+                this.frameTimer = this.animationData.animationSequences[this.currentAnimationId][this.currentFrameIndex << 1];
+                this.totalFramesInAnimation = this.animationData.animationSequences[this.currentAnimationId].length / 2;
             }
 
             this.frameDelay = 0;
@@ -315,26 +315,26 @@ public final class SpriteManager {
      * @return int array [x, y, width, height] or null if invalid
      */
     public final int[] getAnimationBounds(int animationId, byte flipMode) {
-        if (animationId < 0 || animationId >= this.animationData.C37_f572.length) {
+        if (animationId < 0 || animationId >= this.animationData.animationSequences.length) {
             return null;
         }
 
         // Get first sprite bounds
-        int[] firstSpriteBounds = getSpritePartBounds(this.animationData.C37_f572[animationId][1], flipMode);
+        int[] firstSpriteBounds = getSpritePartBounds(this.animationData.animationSequences[animationId][1], flipMode);
         int minX = firstSpriteBounds[0];
         int maxX = firstSpriteBounds[0] + firstSpriteBounds[2];
         int minY = firstSpriteBounds[1];
         int maxY = firstSpriteBounds[1] + firstSpriteBounds[3];
 
         // Find bounding box that encompasses all sprite parts
-        int frameCount = this.animationData.C37_f573 ?
-                this.animationData.C37_f572[animationId].length / 4 :
-                this.animationData.C37_f572[animationId].length / 2;
+        int frameCount = this.animationData.useExtendedFormat ?
+                this.animationData.animationSequences[animationId].length / 4 :
+                this.animationData.animationSequences[animationId].length / 2;
 
         for (int frame = 1; frame < frameCount; frame++) {
-            int spriteIndex = this.animationData.C37_f573 ?
-                    this.animationData.C37_f572[animationId][(frame << 2) + 1] :
-                    this.animationData.C37_f572[animationId][(frame << 1) + 1];
+            int spriteIndex = this.animationData.useExtendedFormat ?
+                    this.animationData.animationSequences[animationId][(frame << 2) + 1] :
+                    this.animationData.animationSequences[animationId][(frame << 1) + 1];
 
             int[] spriteBounds = getSpritePartBounds(spriteIndex, flipMode);
             if (spriteBounds != null) {
@@ -355,20 +355,20 @@ public final class SpriteManager {
      * @return int array [x, y, width, height] or null if invalid
      */
     public final int[] getSpritePartBounds(int spritePartId, byte flipMode) {
-        if (this.animationData.C37_f571[spritePartId].length <= 0) {
+        if (this.animationData.spriteCompositions[spritePartId].length <= 0) {
             return null;
         }
 
         // Calculate bounds based on sprite parts and flip mode
-        short spriteId = this.animationData.C37_f571[spritePartId][0];
-        int minX = this.animationData.C37_f571[spritePartId][1];
-        int minY = this.animationData.C37_f571[spritePartId][2];
+        short spriteId = this.animationData.spriteCompositions[spritePartId][0];
+        int minX = this.animationData.spriteCompositions[spritePartId][1];
+        int minY = this.animationData.spriteCompositions[spritePartId][2];
 
         // Find minimum bounds from all sprite parts
-        for (int i = 0; i < this.animationData.C37_f571[spritePartId].length; i += 4) {
-            spriteId = this.animationData.C37_f571[spritePartId][i];
-            minX = Math.min(minX, this.animationData.C37_f571[spritePartId][i + 1]);
-            minY = Math.min(minY, this.animationData.C37_f571[spritePartId][i + 2]);
+        for (int i = 0; i < this.animationData.spriteCompositions[spritePartId].length; i += 4) {
+            spriteId = this.animationData.spriteCompositions[spritePartId][i];
+            minX = Math.min(minX, this.animationData.spriteCompositions[spritePartId][i + 1]);
+            minY = Math.min(minY, this.animationData.spriteCompositions[spritePartId][i + 2]);
         }
 
         // Calculate dimensions
@@ -378,8 +378,8 @@ public final class SpriteManager {
         int maxHeight = maxDimensions[1];
 
         // Find maximum bounds
-        for (int i = 0; i < this.animationData.C37_f571[spritePartId].length; i += 4) {
-            spriteId = this.animationData.C37_f571[spritePartId][i];
+        for (int i = 0; i < this.animationData.spriteCompositions[spritePartId].length; i += 4) {
+            spriteId = this.animationData.spriteCompositions[spritePartId][i];
             int[] partDimensions = calculateSpriteDimensions(i, spriteId, spritePartId, minX, minY, dimensions);
             maxWidth = Math.max(maxWidth, partDimensions[0]);
             maxHeight = Math.max(maxHeight, partDimensions[1]);
@@ -393,19 +393,19 @@ public final class SpriteManager {
      * Apply flip mode transformation to sprite bounds
      */
     private int[] applyFlipModeTransformation(int spritePartId, byte flipMode, int minX, int minY, int maxWidth, int maxHeight) {
-        short spriteId = this.animationData.C37_f571[spritePartId][0];
+        short spriteId = this.animationData.spriteCompositions[spritePartId][0];
 
         switch (flipMode) {
             case FLIP_MODE_HORIZONTAL:
-                if (this.animationData.C37_f571[spritePartId][3] % 2 == 1) {
-                    minX = -this.animationData.C37_f571[spritePartId][1] - this.animationData.C37_f568[spriteId * 5 + 4];
+                if (this.animationData.spriteCompositions[spritePartId][3] % 2 == 1) {
+                    minX = -this.animationData.spriteCompositions[spritePartId][1] - this.animationData.spriteDefinitions[spriteId * 5 + 4];
                 } else {
-                    minX = -this.animationData.C37_f571[spritePartId][1] - this.animationData.C37_f568[spriteId * 5 + 3];
+                    minX = -this.animationData.spriteCompositions[spritePartId][1] - this.animationData.spriteDefinitions[spriteId * 5 + 3];
                 }
 
                 // Process all sprite parts for horizontal flip
-                for (int i = 0; i < this.animationData.C37_f571[spritePartId].length; i += 4) {
-                    spriteId = this.animationData.C37_f571[spritePartId][i];
+                for (int i = 0; i < this.animationData.spriteCompositions[spritePartId].length; i += 4) {
+                    spriteId = this.animationData.spriteCompositions[spritePartId][i];
                     int flippedX = calculateHorizontalFlipX(spritePartId, i, spriteId);
                     minX = Math.min(minX, flippedX);
                 }
@@ -427,12 +427,12 @@ public final class SpriteManager {
      * Calculate horizontal flip X coordinate
      */
     private int calculateHorizontalFlipX(int spritePartId, int partIndex, short spriteId) {
-        if (this.animationData.C37_f571[spritePartId][partIndex + 3] % 2 == 1) {
-            return -this.animationData.C37_f571[spritePartId][partIndex + 1] -
-                    this.animationData.C37_f568[spriteId * 5 + 4];
+        if (this.animationData.spriteCompositions[spritePartId][partIndex + 3] % 2 == 1) {
+            return -this.animationData.spriteCompositions[spritePartId][partIndex + 1] -
+                    this.animationData.spriteDefinitions[spriteId * 5 + 4];
         } else {
-            return -this.animationData.C37_f571[spritePartId][partIndex + 1] -
-                    this.animationData.C37_f568[spriteId * 5 + 3];
+            return -this.animationData.spriteCompositions[spritePartId][partIndex + 1] -
+                    this.animationData.spriteDefinitions[spriteId * 5 + 3];
         }
     }
 
@@ -440,29 +440,29 @@ public final class SpriteManager {
      * Calculate bounds for both horizontal and vertical flip
      */
     private int[] calculateBothFlipBounds(int spritePartId, int maxWidth, int maxHeight) {
-        short spriteId = this.animationData.C37_f571[spritePartId][0];
+        short spriteId = this.animationData.spriteCompositions[spritePartId][0];
         int minX, minY;
 
-        if (this.animationData.C37_f571[spritePartId][3] % 2 == 1) {
-            minX = -this.animationData.C37_f571[spritePartId][1] - this.animationData.C37_f568[spriteId * 5 + 4];
-            minY = -this.animationData.C37_f571[spritePartId][2] - this.animationData.C37_f568[spriteId * 5 + 3];
+        if (this.animationData.spriteCompositions[spritePartId][3] % 2 == 1) {
+            minX = -this.animationData.spriteCompositions[spritePartId][1] - this.animationData.spriteDefinitions[spriteId * 5 + 4];
+            minY = -this.animationData.spriteCompositions[spritePartId][2] - this.animationData.spriteDefinitions[spriteId * 5 + 3];
         } else {
-            minX = -this.animationData.C37_f571[spritePartId][1] - this.animationData.C37_f568[spriteId * 5 + 3];
-            minY = -this.animationData.C37_f571[spritePartId][2] - this.animationData.C37_f568[spriteId * 5 + 4];
+            minX = -this.animationData.spriteCompositions[spritePartId][1] - this.animationData.spriteDefinitions[spriteId * 5 + 3];
+            minY = -this.animationData.spriteCompositions[spritePartId][2] - this.animationData.spriteDefinitions[spriteId * 5 + 4];
         }
 
         // Process all parts for both flip
-        for (int i = 0; i < this.animationData.C37_f571[spritePartId].length; i += 4) {
-            spriteId = this.animationData.C37_f571[spritePartId][i];
+        for (int i = 0; i < this.animationData.spriteCompositions[spritePartId].length; i += 4) {
+            spriteId = this.animationData.spriteCompositions[spritePartId][i];
 
-            if (this.animationData.C37_f571[spritePartId][i + 3] % 2 == 1) {
-                int flippedX = -this.animationData.C37_f571[spritePartId][i + 1] - this.animationData.C37_f568[spriteId * 5 + 4];
-                int flippedY = -this.animationData.C37_f571[spritePartId][i + 2] - this.animationData.C37_f568[spriteId * 5 + 3];
+            if (this.animationData.spriteCompositions[spritePartId][i + 3] % 2 == 1) {
+                int flippedX = -this.animationData.spriteCompositions[spritePartId][i + 1] - this.animationData.spriteDefinitions[spriteId * 5 + 4];
+                int flippedY = -this.animationData.spriteCompositions[spritePartId][i + 2] - this.animationData.spriteDefinitions[spriteId * 5 + 3];
                 minX = Math.min(minX, flippedX);
                 minY = Math.min(minY, flippedY);
             } else {
-                int flippedX = -this.animationData.C37_f571[spritePartId][i + 1] - this.animationData.C37_f568[spriteId * 5 + 3];
-                int flippedY = -this.animationData.C37_f571[spritePartId][i + 2] - this.animationData.C37_f568[spriteId * 5 + 4];
+                int flippedX = -this.animationData.spriteCompositions[spritePartId][i + 1] - this.animationData.spriteDefinitions[spriteId * 5 + 3];
+                int flippedY = -this.animationData.spriteCompositions[spritePartId][i + 2] - this.animationData.spriteDefinitions[spriteId * 5 + 4];
                 minX = Math.min(minX, flippedX);
                 minY = Math.min(minY, flippedY);
             }
@@ -475,40 +475,40 @@ public final class SpriteManager {
      * Calculate bounds for 180-degree rotation
      */
     private int[] calculateRotatedBounds(int spritePartId, int maxWidth, int maxHeight) {
-        short spriteId = this.animationData.C37_f571[spritePartId][0];
+        short spriteId = this.animationData.spriteCompositions[spritePartId][0];
         int minY;
 
-        if (this.animationData.C37_f571[spritePartId][3] % 2 == 1) {
-            minY = -this.animationData.C37_f571[spritePartId][2] - this.animationData.C37_f568[spriteId * 5 + 3];
+        if (this.animationData.spriteCompositions[spritePartId][3] % 2 == 1) {
+            minY = -this.animationData.spriteCompositions[spritePartId][2] - this.animationData.spriteDefinitions[spriteId * 5 + 3];
         } else {
-            minY = -this.animationData.C37_f571[spritePartId][2] - this.animationData.C37_f568[spriteId * 5 + 4];
+            minY = -this.animationData.spriteCompositions[spritePartId][2] - this.animationData.spriteDefinitions[spriteId * 5 + 4];
         }
 
-        for (int i = 0; i < this.animationData.C37_f571[spritePartId].length; i += 4) {
-            spriteId = this.animationData.C37_f571[spritePartId][i];
+        for (int i = 0; i < this.animationData.spriteCompositions[spritePartId].length; i += 4) {
+            spriteId = this.animationData.spriteCompositions[spritePartId][i];
 
-            if (this.animationData.C37_f571[spritePartId][i + 3] % 2 == 1) {
-                int rotatedY = -this.animationData.C37_f571[spritePartId][i + 2] - this.animationData.C37_f568[spriteId * 5 + 3];
+            if (this.animationData.spriteCompositions[spritePartId][i + 3] % 2 == 1) {
+                int rotatedY = -this.animationData.spriteCompositions[spritePartId][i + 2] - this.animationData.spriteDefinitions[spriteId * 5 + 3];
                 minY = Math.min(minY, rotatedY);
             } else {
-                int rotatedY = -this.animationData.C37_f571[spritePartId][i + 2] - this.animationData.C37_f568[spriteId * 5 + 4];
+                int rotatedY = -this.animationData.spriteCompositions[spritePartId][i + 2] - this.animationData.spriteDefinitions[spriteId * 5 + 4];
                 minY = Math.min(minY, rotatedY);
             }
         }
 
-        return new int[]{this.animationData.C37_f571[spritePartId][1], minY, maxWidth, maxHeight};
+        return new int[]{this.animationData.spriteCompositions[spritePartId][1], minY, maxWidth, maxHeight};
     }
 
     /**
      * Calculate sprite dimensions
      */
     private int[] calculateSpriteDimensions(int partIndex, int spriteId, int spritePartId, int minX, int minY, int[] result) {
-        if (this.animationData.C37_f571[spritePartId][partIndex + 3] % 2 == 1) {
-            result[1] = this.animationData.C37_f571[spritePartId][partIndex + 2] - minY + this.animationData.C37_f568[spriteId * 5 + 3];
-            result[0] = this.animationData.C37_f571[spritePartId][partIndex + 1] - minX + this.animationData.C37_f568[spriteId * 5 + 4];
+        if (this.animationData.spriteCompositions[spritePartId][partIndex + 3] % 2 == 1) {
+            result[1] = this.animationData.spriteCompositions[spritePartId][partIndex + 2] - minY + this.animationData.spriteDefinitions[spriteId * 5 + 3];
+            result[0] = this.animationData.spriteCompositions[spritePartId][partIndex + 1] - minX + this.animationData.spriteDefinitions[spriteId * 5 + 4];
         } else {
-            result[0] = this.animationData.C37_f571[spritePartId][partIndex + 1] - minX + this.animationData.C37_f568[spriteId * 5 + 3];
-            result[1] = this.animationData.C37_f571[spritePartId][partIndex + 2] - minY + this.animationData.C37_f568[spriteId * 5 + 4];
+            result[0] = this.animationData.spriteCompositions[spritePartId][partIndex + 1] - minX + this.animationData.spriteDefinitions[spriteId * 5 + 3];
+            result[1] = this.animationData.spriteCompositions[spritePartId][partIndex + 2] - minY + this.animationData.spriteDefinitions[spriteId * 5 + 4];
         }
         return result;
     }
@@ -521,10 +521,10 @@ public final class SpriteManager {
      * @param flipMode Flip mode
      */
     public final void renderCurrentFrame(Graphics graphics, int x, int y, byte flipMode) {
-        if (this.animationData.C37_f573) {
-            this.renderSpriteComposite(graphics, this.animationData.C37_f572[this.currentAnimationId][(this.currentFrameIndex << 2) + 1], x, y, flipMode, 20);
+        if (this.animationData.useExtendedFormat) {
+            this.renderSpriteComposite(graphics, this.animationData.animationSequences[this.currentAnimationId][(this.currentFrameIndex << 2) + 1], x, y, flipMode, 20);
         } else {
-            this.renderSpriteComposite(graphics, this.animationData.C37_f572[this.currentAnimationId][(this.currentFrameIndex << 1) + 1], x, y, flipMode, 20);
+            this.renderSpriteComposite(graphics, this.animationData.animationSequences[this.currentAnimationId][(this.currentFrameIndex << 1) + 1], x, y, flipMode, 20);
         }
     }
 
@@ -538,7 +538,7 @@ public final class SpriteManager {
      * @param anchor Anchor point
      */
     public final void renderSpriteComposite(Graphics graphics, int spriteCompositeId, int x, int y, byte flipMode, int anchor) {
-        if (this.animationData.C37_f571[spriteCompositeId].length > 0) {
+        if (this.animationData.spriteCompositions[spriteCompositeId].length > 0) {
             switch (flipMode) {
                 case FLIP_MODE_NONE:
                     renderNormalSprite(graphics, spriteCompositeId, x, y);
@@ -560,11 +560,11 @@ public final class SpriteManager {
      * Render sprite without transformation
      */
     private void renderNormalSprite(Graphics graphics, int spriteCompositeId, int x, int y) {
-        for (int i = 0; i < this.animationData.C37_f571[spriteCompositeId].length; i += 4) {
-            int spriteId = this.animationData.C37_f571[spriteCompositeId][i];
-            int spriteX = x + this.animationData.C37_f571[spriteCompositeId][i + 1];
-            int spriteY = y + this.animationData.C37_f571[spriteCompositeId][i + 2];
-            int transform = FLIP_NONE[this.animationData.C37_f571[spriteCompositeId][i + 3]];
+        for (int i = 0; i < this.animationData.spriteCompositions[spriteCompositeId].length; i += 4) {
+            int spriteId = this.animationData.spriteCompositions[spriteCompositeId][i];
+            int spriteX = x + this.animationData.spriteCompositions[spriteCompositeId][i + 1];
+            int spriteY = y + this.animationData.spriteCompositions[spriteCompositeId][i + 2];
+            int transform = FLIP_NONE[this.animationData.spriteCompositions[spriteCompositeId][i + 3]];
 
             this.renderIndividualSprite(graphics, spriteId, spriteX, spriteY, transform, 20);
         }
@@ -574,18 +574,18 @@ public final class SpriteManager {
      * Render horizontally flipped sprite
      */
     private void renderHorizontalFlippedSprite(Graphics graphics, int spriteCompositeId, int x, int y) {
-        for (int i = 0; i < this.animationData.C37_f571[spriteCompositeId].length; i += 4) {
-            int spriteId = this.animationData.C37_f571[spriteCompositeId][i];
+        for (int i = 0; i < this.animationData.spriteCompositions[spriteCompositeId].length; i += 4) {
+            int spriteId = this.animationData.spriteCompositions[spriteCompositeId][i];
             int spriteX, spriteY;
 
-            if (this.animationData.C37_f571[spriteCompositeId][i + 3] % 2 == 1) {
-                spriteX = x - this.animationData.C37_f571[spriteCompositeId][i + 1] - this.animationData.C37_f568[spriteId * 5 + 4];
+            if (this.animationData.spriteCompositions[spriteCompositeId][i + 3] % 2 == 1) {
+                spriteX = x - this.animationData.spriteCompositions[spriteCompositeId][i + 1] - this.animationData.spriteDefinitions[spriteId * 5 + 4];
             } else {
-                spriteX = x - this.animationData.C37_f571[spriteCompositeId][i + 1] - this.animationData.C37_f568[spriteId * 5 + 3];
+                spriteX = x - this.animationData.spriteCompositions[spriteCompositeId][i + 1] - this.animationData.spriteDefinitions[spriteId * 5 + 3];
             }
 
-            spriteY = y + this.animationData.C37_f571[spriteCompositeId][i + 2];
-            int transform = FLIP_HORIZONTAL[this.animationData.C37_f571[spriteCompositeId][i + 3]];
+            spriteY = y + this.animationData.spriteCompositions[spriteCompositeId][i + 2];
+            int transform = FLIP_HORIZONTAL[this.animationData.spriteCompositions[spriteCompositeId][i + 3]];
 
             this.renderIndividualSprite(graphics, spriteId, spriteX, spriteY, transform, 20);
         }
@@ -595,19 +595,19 @@ public final class SpriteManager {
      * Render sprite with both horizontal and vertical flip
      */
     private void renderBothFlippedSprite(Graphics graphics, int spriteCompositeId, int x, int y) {
-        for (int i = 0; i < this.animationData.C37_f571[spriteCompositeId].length; i += 4) {
-            int spriteId = this.animationData.C37_f571[spriteCompositeId][i];
+        for (int i = 0; i < this.animationData.spriteCompositions[spriteCompositeId].length; i += 4) {
+            int spriteId = this.animationData.spriteCompositions[spriteCompositeId][i];
             int spriteX, spriteY;
 
-            if (this.animationData.C37_f571[spriteCompositeId][i + 3] % 2 == 1) {
-                spriteX = x - this.animationData.C37_f571[spriteCompositeId][i + 1] - this.animationData.C37_f568[spriteId * 5 + 4];
-                spriteY = y - this.animationData.C37_f571[spriteCompositeId][i + 2] - this.animationData.C37_f568[spriteId * 5 + 3];
+            if (this.animationData.spriteCompositions[spriteCompositeId][i + 3] % 2 == 1) {
+                spriteX = x - this.animationData.spriteCompositions[spriteCompositeId][i + 1] - this.animationData.spriteDefinitions[spriteId * 5 + 4];
+                spriteY = y - this.animationData.spriteCompositions[spriteCompositeId][i + 2] - this.animationData.spriteDefinitions[spriteId * 5 + 3];
             } else {
-                spriteX = x - this.animationData.C37_f571[spriteCompositeId][i + 1] - this.animationData.C37_f568[spriteId * 5 + 3];
-                spriteY = y - this.animationData.C37_f571[spriteCompositeId][i + 2] - this.animationData.C37_f568[spriteId * 5 + 4];
+                spriteX = x - this.animationData.spriteCompositions[spriteCompositeId][i + 1] - this.animationData.spriteDefinitions[spriteId * 5 + 3];
+                spriteY = y - this.animationData.spriteCompositions[spriteCompositeId][i + 2] - this.animationData.spriteDefinitions[spriteId * 5 + 4];
             }
 
-            int transform = FLIP_VERTICAL[this.animationData.C37_f571[spriteCompositeId][i + 3]];
+            int transform = FLIP_VERTICAL[this.animationData.spriteCompositions[spriteCompositeId][i + 3]];
             this.renderIndividualSprite(graphics, spriteId, spriteX, spriteY, transform, 20);
         }
     }
@@ -616,18 +616,18 @@ public final class SpriteManager {
      * Render sprite with 180-degree rotation
      */
     private void renderRotatedSprite(Graphics graphics, int spriteCompositeId, int x, int y) {
-        for (int i = 0; i < this.animationData.C37_f571[spriteCompositeId].length; i += 4) {
-            int spriteId = this.animationData.C37_f571[spriteCompositeId][i];
-            int spriteX = x + this.animationData.C37_f571[spriteCompositeId][i + 1];
+        for (int i = 0; i < this.animationData.spriteCompositions[spriteCompositeId].length; i += 4) {
+            int spriteId = this.animationData.spriteCompositions[spriteCompositeId][i];
+            int spriteX = x + this.animationData.spriteCompositions[spriteCompositeId][i + 1];
             int spriteY;
 
-            if (this.animationData.C37_f571[spriteCompositeId][i + 3] % 2 == 1) {
-                spriteY = y - this.animationData.C37_f571[spriteCompositeId][i + 2] - this.animationData.C37_f568[spriteId * 5 + 3];
+            if (this.animationData.spriteCompositions[spriteCompositeId][i + 3] % 2 == 1) {
+                spriteY = y - this.animationData.spriteCompositions[spriteCompositeId][i + 2] - this.animationData.spriteDefinitions[spriteId * 5 + 3];
             } else {
-                spriteY = y - this.animationData.C37_f571[spriteCompositeId][i + 2] - this.animationData.C37_f568[spriteId * 5 + 4];
+                spriteY = y - this.animationData.spriteCompositions[spriteCompositeId][i + 2] - this.animationData.spriteDefinitions[spriteId * 5 + 4];
             }
 
-            int transform = FLIP_BOTH[this.animationData.C37_f571[spriteCompositeId][i + 3]];
+            int transform = FLIP_BOTH[this.animationData.spriteCompositions[spriteCompositeId][i + 3]];
             this.renderIndividualSprite(graphics, spriteId, spriteX, spriteY, transform, 20);
         }
     }
@@ -643,11 +643,11 @@ public final class SpriteManager {
      */
     private void renderIndividualSprite(Graphics graphics, int spriteId, int x, int y, int transform, int anchor) {
         // Get sprite data: [imageIndex, srcX, srcY, width, height]
-        int imageIndex = this.animationData.C37_f568[spriteId * 5];
-        int srcX = this.animationData.C37_f568[spriteId * 5 + 1];
-        int srcY = this.animationData.C37_f568[spriteId * 5 + 2];
-        int width = this.animationData.C37_f568[spriteId * 5 + 3];
-        int height = this.animationData.C37_f568[spriteId * 5 + 4];
+        int imageIndex = this.animationData.spriteDefinitions[spriteId * 5];
+        int srcX = this.animationData.spriteDefinitions[spriteId * 5 + 1];
+        int srcY = this.animationData.spriteDefinitions[spriteId * 5 + 2];
+        int width = this.animationData.spriteDefinitions[spriteId * 5 + 3];
+        int height = this.animationData.spriteDefinitions[spriteId * 5 + 4];
 
         graphics.drawRegion(this.spriteImages[imageIndex], srcX, srcY, width, height, transform, x, y, anchor);
     }
@@ -657,7 +657,7 @@ public final class SpriteManager {
      * @return true if sprite data is null or invalid
      */
     public final boolean isInvalid() {
-        return this.animationData == null || this.animationData.C37_f569 == null;
+        return this.animationData == null || this.animationData.frameTriggers == null;
     }
 
     /**
@@ -665,15 +665,15 @@ public final class SpriteManager {
      * @return Frame trigger data array or null
      */
     public final short[] getCurrentFrameTriggers() {
-        if (this.animationData.C37_f569 == null) {
+        if (this.animationData.frameTriggers == null) {
             return null;
         }
 
-        int frameDataIndex = this.animationData.C37_f573 ?
-                this.animationData.C37_f572[this.currentAnimationId][(this.currentFrameIndex << 2) + 1] :
-                this.animationData.C37_f572[this.currentAnimationId][(this.currentFrameIndex << 1) + 1];
+        int frameDataIndex = this.animationData.useExtendedFormat ?
+                this.animationData.animationSequences[this.currentAnimationId][(this.currentFrameIndex << 2) + 1] :
+                this.animationData.animationSequences[this.currentAnimationId][(this.currentFrameIndex << 1) + 1];
 
-        return this.animationData.C37_f569[frameDataIndex];
+        return this.animationData.frameTriggers[frameDataIndex];
     }
 
     /**
@@ -681,15 +681,15 @@ public final class SpriteManager {
      * @return Frame event data array or null
      */
     public final short[] getCurrentFrameEvents() {
-        if (this.animationData.C37_f570 == null) {
+        if (this.animationData.frameEvents == null) {
             return null;
         }
 
-        int frameDataIndex = this.animationData.C37_f573 ?
-                this.animationData.C37_f572[this.currentAnimationId][(this.currentFrameIndex << 2) + 1] :
-                this.animationData.C37_f572[this.currentAnimationId][(this.currentFrameIndex << 1) + 1];
+        int frameDataIndex = this.animationData.useExtendedFormat ?
+                this.animationData.animationSequences[this.currentAnimationId][(this.currentFrameIndex << 2) + 1] :
+                this.animationData.animationSequences[this.currentAnimationId][(this.currentFrameIndex << 1) + 1];
 
-        return this.animationData.C37_f570[frameDataIndex];
+        return this.animationData.frameEvents[frameDataIndex];
     }
 
     /**
@@ -697,8 +697,8 @@ public final class SpriteManager {
      * @return Number of animations in this sprite set
      */
     public final int getAnimationCount() {
-        return this.animationData != null && this.animationData.C37_f572 != null ?
-                this.animationData.C37_f572.length : 0;
+        return this.animationData != null && this.animationData.animationSequences != null ?
+                this.animationData.animationSequences.length : 0;
     }
 
     /**

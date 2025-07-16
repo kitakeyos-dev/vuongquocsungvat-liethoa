@@ -114,19 +114,19 @@ public final class MainMenuScreen extends GameEngineBase {
     }
 
     public final void update() {
-        if (this.C8_f110) {
-            this.A();
+        if (this.isActive) {
+            this.updateInputState();
             switch (this.C44_f698) {
                 case 0:
-                    if (this.menuConfirmState == 0 && this.g(16400)) {
+                    if (this.menuConfirmState == 0 && this.isKeyPressed(16400)) {
                         if (--selectedMenuIndex < 0) {
                             selectedMenuIndex = menuItems.length - 1;
                         }
-                    } else if (this.menuConfirmState == 0 && this.g(32832)) {
+                    } else if (this.menuConfirmState == 0 && this.isKeyPressed(32832)) {
                         if (++selectedMenuIndex > menuItems.length - 1) {
                             selectedMenuIndex = 0;
                         }
-                    } else if (this.g(196640)) {
+                    } else if (this.isKeyPressed(196640)) {
                         if (inputEnabled) {
                             switch (selectedMenuIndex) {
                                 case 0:
@@ -234,18 +234,18 @@ public final class MainMenuScreen extends GameEngineBase {
                     this.gameController.r();
                     break;
                 case 4:
-                    if (this.g(131072)) {
+                    if (this.isKeyPressed(131072)) {
                         GameScreenManager.getInstance().changeState((byte) 1);
-                    } else if (this.g(262144)) {
+                    } else if (this.isKeyPressed(262144)) {
                         this.changeState((byte) 0);
                     }
                     break;
                 case 5:
-                    if (this.g(131104)) {
+                    if (this.isKeyPressed(131104)) {
                         C25.B();
                         C25.K();
                         this.startNewGame();
-                    } else if (this.g(262144)) {
+                    } else if (this.isKeyPressed(262144)) {
                         this.changeState((byte) 0);
                         this.dialogManager.removeDialog("/data/ui/msgtip.ui");
                     }

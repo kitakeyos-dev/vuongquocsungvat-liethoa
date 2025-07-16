@@ -79,11 +79,11 @@ public final class DialogComponent implements IComponent {
       if (this.componentData != null) {
          ComponentData data = this.componentData;
          if (isFocused) {
-            if (data.focusedSprite != null) {
-               data.focusedSprite.update();
+            if (data.focusedRenderer != null) {
+               data.focusedRenderer.update();
             }
-         } else if (data.normalSprite != null) {
-            data.normalSprite.update();
+         } else if (data.renderer != null) {
+            data.renderer.update();
          }
       }
    }

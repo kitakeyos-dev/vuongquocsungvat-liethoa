@@ -16,7 +16,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
-public abstract class GameEngineBase extends C8 implements PaymentCallback, C2 {
+public abstract class GameEngineBase extends InputStateManager implements PaymentCallback, C2 {
     private static short screenWidth;
     private static short screenHeight;
     private static int frameRate;
@@ -61,7 +61,7 @@ public abstract class GameEngineBase extends C8 implements PaymentCallback, C2 {
         if (!timerStarted) {
             if (gameTimer == null || gameTimerTask == null) {
                 gameTimer = new Timer();
-                gameTimerTask = new C45();
+                gameTimerTask = new RepaintTimerTask();
             }
 
             gameTimer.schedule(gameTimerTask, 10L, 200L);

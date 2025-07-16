@@ -45,8 +45,8 @@ public final class GridComponent implements IComponent {
     public int backgroundColor;
 
     // Rendering resources
-    public SpriteRenderer backgroundRenderer;
-    public SpriteRenderer selectionRenderer;
+    public AnimatedRenderer backgroundRenderer;
+    public AnimatedRenderer selectionRenderer;
     public boolean showSelection;
 
     // Component state
@@ -410,7 +410,7 @@ public final class GridComponent implements IComponent {
                 for (int var11 = this.scrollOffsetY; var11 <= var9; ++var11) {
                     for (int var6 = this.visibleRows; var6 <= var10; ++var6) {
                         var8 = new Rectangle(this.offsetX + this.cellSpacingX + (var6 - this.visibleRows) * (this.cellSpacingX + this.cellWidth), this.offsetY + this.cellSpacingY + (var11 - this.scrollOffsetY) * (this.cellSpacingY + this.cellHeight), this.cellWidth, this.cellHeight);
-                        SpriteRenderer var7;
+                        AnimatedRenderer var7;
                         if ((var7 = this.gridCells[var11 * this.totalColumns + var6].cellRenderer) != null) {
                             var7.render(var1, var8, 0);
                         }

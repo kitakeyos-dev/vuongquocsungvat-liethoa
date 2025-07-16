@@ -2,7 +2,7 @@ package a.a;
 
 import a.GameUtils;
 import a.GameEngineBase;
-import a.b.C6;
+import a.b.CameraController;
 import a.b.ResourceManager;
 import layout.DialogManager;
 import game.C25;
@@ -53,7 +53,7 @@ public final class C30 {
     private int C30_f507 = 0;
     private int C30_f508 = 0;
     private Image C30_f509 = null;
-    private C42 C30_f510 = null;
+    private ImageData C30_f510 = null;
     private int C30_f511;
     private int C30_f512;
     private int C30_f513 = 0;
@@ -357,8 +357,8 @@ public final class C30 {
                     }
 
                     if (this.C30_f510 != null) {
-                        this.C30_f510 = C69.b(this.C30_f510, var5);
-                        var1.drawRGB(this.C30_f510.C42_f671, 0, this.C30_f510.C42_f672, this.C30_f511 - this.C30_f510.C42_f672 / 2, this.C30_f512 - this.C30_f510.C42_f673 / 2, this.C30_f510.C42_f672, this.C30_f510.C42_f673, true);
+                        this.C30_f510 = ImageProcessor.applyAlpha(this.C30_f510, var5);
+                        var1.drawRGB(this.C30_f510.pixels, 0, this.C30_f510.width, this.C30_f511 - this.C30_f510.width / 2, this.C30_f512 - this.C30_f510.height / 2, this.C30_f510.width, this.C30_f510.height, true);
                     }
 
                     if (var17) {
@@ -410,7 +410,7 @@ public final class C30 {
                         var3 = new short[]{8, 118, 160, var2, 0, 1, 0, 4, 0, 2, 1, 8, 0, -16, 10, 0, 0};
                         this.C30_f520 = new C21();
                         this.C30_f520.a(var3);
-                        this.C30_f520.d(true);
+                        this.C30_f520.setInteractable(true);
                         this.C30_f520.a();
                         return;
                     case 1:
@@ -485,22 +485,22 @@ public final class C30 {
                             this.C30_f472 = -1;
                             this.C30_f476 = true;
                             this.C30_f501 = 0;
-                            C6.a().C6_f46 = 1;
+                            CameraController.getInstance().cameraMode = 1;
                             return;
                         }
 
-                        C6.a().d(this.C30_f497[this.C30_f499][this.C30_f501 % this.C30_f497[this.C30_f499].length]);
+                        CameraController.getInstance().moveX(this.C30_f497[this.C30_f499][this.C30_f501 % this.C30_f497[this.C30_f499].length]);
                         ++this.C30_f501;
                     } else {
                         if (this.C30_f501 >= this.C30_f497[this.C30_f499].length * this.C30_f500) {
                             this.C30_f472 = -1;
                             this.C30_f476 = true;
                             this.C30_f501 = 0;
-                            C6.a().C6_f46 = 1;
+                            CameraController.getInstance().cameraMode = 1;
                             return;
                         }
 
-                        C6.a().e(this.C30_f497[this.C30_f499][this.C30_f501 % this.C30_f497[this.C30_f499].length]);
+                        CameraController.getInstance().moveY(this.C30_f497[this.C30_f499][this.C30_f501 % this.C30_f497[this.C30_f499].length]);
                         ++this.C30_f501;
                     }
                     break;
@@ -574,7 +574,7 @@ public final class C30 {
             } else {
                 C25.B();
                 C25.b(var1);
-                C25.B().C25_f285.a(var1);
+                C25.B().C25_f285.renderWorld(var1);
             }
 
             ++this.C30_f478;
@@ -937,7 +937,7 @@ public final class C30 {
     }
 
     public final void a(int var1, int var2, int var3) {
-        C6.a().C6_f46 = 3;
+        CameraController.getInstance().cameraMode = 3;
         this.C30_f498 = var1;
         this.C30_f499 = var2;
         this.C30_f500 = var3;
@@ -967,13 +967,13 @@ public final class C30 {
     public final void a(String var1, int var2, int var3, int var4) {
         if (C7.C7_f51 == 1) {
             this.C30_f509 = GameUtils.loadImage("/data/tex/", var1);
-            this.C30_f509 = C69.a(this.C30_f509);
+            this.C30_f509 = ImageProcessor.convertToGrayscale(this.C30_f509);
         } else {
             this.C30_f509 = GameUtils.loadImage("/data/tex/", var1);
         }
 
-        this.C30_f510 = new C42();
-        this.C30_f510 = C69.a(this.C30_f509, this.C30_f510);
+        this.C30_f510 = new ImageData();
+        this.C30_f510 = ImageProcessor.convertImageWithColorCorrection(this.C30_f509, this.C30_f510);
         this.C30_f511 = var2;
         this.C30_f512 = var3;
         this.C30_f482 = var4;

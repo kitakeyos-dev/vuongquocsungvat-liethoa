@@ -4,10 +4,10 @@ import a.GameUtils;
 import a.GameEngineBase;
 import a.a.C20;
 import a.a.C30;
-import a.b.C6;
-import a.b.C60;
+import a.b.CameraController;
+import a.b.GameEntity;
 import a.b.ResourceManager;
-import a.b.C68;
+import a.b.TileMapRenderer;
 import event.EventScript;
 import event.ScriptCommand;
 import java.io.DataInputStream;
@@ -152,11 +152,11 @@ public final class C7 extends GameEngineBase {
                   int var15;
                   switch(var3.getCommandId()) {
                   case 13:
-                     if (!GameUtils.checkCollisionWithShortArray(var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3], var1.C7_f54.C60_f861, var1.C7_f54.C60_f862, var1.C7_f54.C20_f261.getCurrentFrameEvents())) {
+                     if (!GameUtils.checkCollisionWithShortArray(var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3], var1.C7_f54.worldX, var1.C7_f54.worldY, var1.C7_f54.C20_f261.getCurrentFrameEvents())) {
                         break label218;
                      }
 
-                     var1.C7_f54.a((byte)0, (byte)var1.C7_f54.C60_f866);
+                     var1.C7_f54.a((byte)0, (byte)var1.C7_f54.currentDirection);
                      break;
                   case 15:
                      if (var1.C7_f60[C25.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])] != null && (var1.C7_f60[C25.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] == 3 || var1.C7_f60[C25.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] == 4)) {
@@ -173,7 +173,7 @@ public final class C7 extends GameEngineBase {
                         break label218;
                      }
 
-                     var1.C7_f54.a((byte)0, (byte)var1.C7_f54.C60_f866);
+                     var1.C7_f54.a((byte)0, (byte)var1.C7_f54.currentDirection);
                      C7_f69 = false;
                      break;
                   case 43:
@@ -203,7 +203,7 @@ public final class C7 extends GameEngineBase {
                            if (var2 >= var10001) {
                               var4 = true;
                               C7_f68 = false;
-                              var1.C7_f54.a((byte)0, (byte)var1.C7_f54.C60_f866);
+                              var1.C7_f54.a((byte)0, (byte)var1.C7_f54.currentDirection);
                               if (var3.getNumericParameters()[1] == 1) {
                                  C7_f105[C7_f107][0] = var3.getNumericParameters()[0];
                               }
@@ -217,14 +217,14 @@ public final class C7 extends GameEngineBase {
                         if (C7_f69 && var2 >= var1.l(var2)) {
                            C7_f68 = false;
                            var4 = true;
-                           var1.C7_f54.a((byte)0, (byte)var1.C7_f54.C60_f866);
+                           var1.C7_f54.a((byte)0, (byte)var1.C7_f54.currentDirection);
                         }
                      }
                      break label218;
                   case 57:
-                     if (var1.C7_f54.C60_f868 != null && ((C18)var1.C7_f54.C60_f868).C18_f223 == 0 && ((C18)var1.C7_f54.C60_f868).C18_f225 == 11 && ((C18)var1.C7_f54.C60_f868).C18_f248 == var3.getNumericParameters()[3] && C7_f69) {
-                        if (var1.C7_f53.C25_f287[var3.getNumericParameters()[0]].C60_f861 == var3.getNumericParameters()[1] && var1.C7_f53.C25_f287[var3.getNumericParameters()[0]].C60_f862 == var3.getNumericParameters()[2]) {
-                           ((C18)var1.C7_f54.C60_f868).a((byte)0);
+                     if (var1.C7_f54.followTarget != null && ((C18)var1.C7_f54.followTarget).C18_f223 == 0 && ((C18)var1.C7_f54.followTarget).C18_f225 == 11 && ((C18)var1.C7_f54.followTarget).C18_f248 == var3.getNumericParameters()[3] && C7_f69) {
+                        if (var1.C7_f53.C25_f287[var3.getNumericParameters()[0]].worldX == var3.getNumericParameters()[1] && var1.C7_f53.C25_f287[var3.getNumericParameters()[0]].worldY == var3.getNumericParameters()[2]) {
+                           ((C18)var1.C7_f54.followTarget).a((byte)0);
                         } else {
                            var4 = true;
                         }
@@ -237,7 +237,7 @@ public final class C7 extends GameEngineBase {
 
                      for(var15 = 0; var15 < var12.length; ++var15) {
                         var12[var15] = GameUtils.parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]);
-                        if (var1.C7_f53.C25_f287[var12[var15]].i() == 0) {
+                        if (var1.C7_f53.C25_f287[var12[var15]].getFacingDirection() == 0) {
                            break;
                         }
                      }
@@ -251,13 +251,13 @@ public final class C7 extends GameEngineBase {
 
                      for(var15 = 0; var15 < var12.length; ++var15) {
                         var12[var15] = GameUtils.parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]);
-                        if (var1.C7_f53.C25_f287[var12[var15]].i() == 0) {
+                        if (var1.C7_f53.C25_f287[var12[var15]].getFacingDirection() == 0) {
                            break;
                         }
                      }
 
                      if (var15 >= var12.length) {
-                        var1.C7_f54.a((byte)0, (byte)var1.C7_f54.C60_f866);
+                        var1.C7_f54.a((byte)0, (byte)var1.C7_f54.currentDirection);
                         var4 = true;
                      }
                      break label218;
@@ -343,14 +343,14 @@ public final class C7 extends GameEngineBase {
          for(var1 = 0; var1 < C7_f63.size(); ++var1) {
             C20 var2;
             C20 var10000 = var2 = (C20)C7_f63.elementAt(var1);
-            var10000.b(var10000.C60_f868.C60_f861, var2.C60_f868.C60_f862 - 40);
-            var2.a(var0, C68.a().C68_f943, C68.a().C68_f944);
+            var10000.setWorldPosition(var10000.followTarget.worldX, var2.followTarget.worldY - 40);
+            var2.a(var0, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY);
          }
       }
 
       if (C7_f64 != null) {
          for(var1 = 0; var1 < C7_f64.size(); ++var1) {
-            ((C20)C7_f64.elementAt(var1)).a(var0, C68.a().C68_f943, C68.a().C68_f944);
+            ((C20)C7_f64.elementAt(var1)).a(var0, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY);
          }
       }
 
@@ -391,7 +391,7 @@ public final class C7 extends GameEngineBase {
       }
 
       if (this.C7_f97 != null && this.C7_f98 == C25.e(this.C7_f53.C25_f290, this.C7_f53.C25_f291)) {
-         this.C7_f97.a(var1, C68.a().C68_f943, C68.a().C68_f944);
+         this.C7_f97.a(var1, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY);
       }
 
       this.C7_f65.a(var1);
@@ -540,7 +540,7 @@ public final class C7 extends GameEngineBase {
                      break label1202;
                   }
 
-                  if (!C39.C39_f608 || !this.C7_f55.g(65537) && !this.C7_f55.a(80, 294, 80, 18)) {
+                  if (!C39.C39_f608 || !this.C7_f55.isKeyPressed(65537) && !this.C7_f55.isPointerClickInBounds(80, 294, 80, 18)) {
                      break label1202;
                   }
 
@@ -566,7 +566,7 @@ public final class C7 extends GameEngineBase {
                         break label1202;
                      }
 
-                     this.C7_f53.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].d(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
+                     this.C7_f53.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].setCurrentDirection(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
                      if (this.C7_f53.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].C18_f225 == 1) {
                         this.C7_f53.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].a((byte)0);
                      }
@@ -593,17 +593,17 @@ public final class C7 extends GameEngineBase {
                   }
                case 4:
                   if (var2.getExecutionState() != 5) {
-                     this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
+                     this.C7_f54.a((byte)0, (byte)this.C7_f54.currentDirection);
                      this.C7_f53.gameController.a((String)var3.getStringParameters()[0], (String)var3.getStringParameters()[1], var3.getNumericParameters()[1], var3.getNumericParameters()[0]);
                      var2.setExecutionState((byte)5);
-                  } else if (this.C7_f53.gameController.d(var3.getNumericParameters()[1], var3.getNumericParameters()[0]) && this.C7_f55.g(196640)) {
+                  } else if (this.C7_f53.gameController.d(var3.getNumericParameters()[1], var3.getNumericParameters()[0]) && this.C7_f55.isKeyPressed(196640)) {
                      C25.B().D();
                      if (GameUtils.pageCount < GameUtils.b()) {
                         GameUtils.c();
                         this.C7_f53.gameController.b(GameUtils.pageCount);
                      } else {
                         if (C25.C25_f318 != -1 && this.C7_f53.C25_f287[C25.C25_f318].C20_f261.spriteSetId <= 85 && this.C7_f53.C25_f287[C25.C25_f318].v() == 0) {
-                           C25.B().a((byte)13, C25.B().C25_f287[C25.C25_f318].C60_f861, C25.B().C25_f287[C25.C25_f318].C60_f862 - 40, C25.B().C25_f287[C25.C25_f318]);
+                           C25.B().a((byte)13, C25.B().C25_f287[C25.C25_f318].worldX, C25.B().C25_f287[C25.C25_f318].worldY - 40, C25.B().C25_f287[C25.C25_f318]);
                         }
 
                         C7_f68 = false;
@@ -619,14 +619,14 @@ public final class C7 extends GameEngineBase {
                   var30.g();
                   var30.a((byte)var3.getNumericParameters()[2], (byte)-1, true);
                   if (var3.getNumericParameters()[0] == 0) {
-                     var30.b(this.C7_f54.m(), this.C7_f54.n() - this.C7_f54.C20_f261.getSpritePartBounds(this.C7_f54.i(), this.C7_f54.C60_f866)[3]);
-                     var30.a(this.C7_f54);
+                     var30.setWorldPosition(this.C7_f54.getWorldX(), this.C7_f54.getWorldY() - this.C7_f54.C20_f261.getSpritePartBounds(this.C7_f54.getFacingDirection(), this.C7_f54.currentDirection)[3]);
+                     var30.setFollowTarget(this.C7_f54);
                   } else if (var3.getNumericParameters()[0] == 1) {
                      if (var3.getNumericParameters()[3] == 0 && var3.getNumericParameters()[4] == 0) {
-                        var30.b(this.C7_f53.C25_f287[var3.getNumericParameters()[1]].m(), this.C7_f53.C25_f287[var3.getNumericParameters()[1]].n());
-                        var30.a(this.C7_f53.C25_f287[var3.getNumericParameters()[1]]);
+                        var30.setWorldPosition(this.C7_f53.C25_f287[var3.getNumericParameters()[1]].getWorldX(), this.C7_f53.C25_f287[var3.getNumericParameters()[1]].getWorldY());
+                        var30.setFollowTarget(this.C7_f53.C25_f287[var3.getNumericParameters()[1]]);
                      } else {
-                        var30.b(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
+                        var30.setWorldPosition(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
                      }
                   }
 
@@ -655,7 +655,7 @@ public final class C7 extends GameEngineBase {
                         if (this.C7_f76[var10] == -1) {
                            this.C7_f54.a(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[0]), var5);
                         } else {
-                           this.C7_f53.C25_f287[this.C7_f76[var10]].d(var5);
+                           this.C7_f53.C25_f287[this.C7_f76[var10]].setCurrentDirection(var5);
                            this.C7_f53.C25_f287[this.C7_f76[var10]].a(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
                         }
                      }
@@ -668,7 +668,7 @@ public final class C7 extends GameEngineBase {
                   for(var10 = 0; var10 < this.C7_f76.length; ++var10) {
                      if (this.C7_f76[var10] == -1) {
                         if (this.C7_f54.b()) {
-                           this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
+                           this.C7_f54.a((byte)0, (byte)this.C7_f54.currentDirection);
                            ++this.C7_f61;
                         }
                      } else if (this.C7_f53.C25_f287[this.C7_f76[var10]].b()) {
@@ -686,9 +686,9 @@ public final class C7 extends GameEngineBase {
                case 8:
                   this.C7_f54.c();
                   C25.C25_f318 = -1;
-                  this.C7_f54.b(var3.getNumericParameters()[0], var3.getNumericParameters()[1]);
-                  this.C7_f54.C20_f262.b(var3.getNumericParameters()[0], var3.getNumericParameters()[1]);
-                  this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
+                  this.C7_f54.setWorldPosition(var3.getNumericParameters()[0], var3.getNumericParameters()[1]);
+                  this.C7_f54.C20_f262.setWorldPosition(var3.getNumericParameters()[0], var3.getNumericParameters()[1]);
+                  this.C7_f54.a((byte)0, (byte)this.C7_f54.currentDirection);
                   break label1202;
                case 9:
                   if (var2.getExecutionState() != 5) {
@@ -749,9 +749,9 @@ public final class C7 extends GameEngineBase {
                   if (var2.getExecutionState() != 5) {
                      if (var3.getNumericParameters()[0] == -1) {
                         this.C7_f77 = new byte[1];
-                        this.C7_f54.d(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[0]));
-                        this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
-                        this.C7_f54.b((byte)0, (short) GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[0]));
+                        this.C7_f54.setCurrentDirection(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[0]));
+                        this.C7_f54.a((byte)0, (byte)this.C7_f54.currentDirection);
+                        this.C7_f54.setSecondaryState((byte)0, (short) GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[0]));
                         this.C7_f77[0] = GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[3], ',')[0]);
                      } else {
                         this.C7_f76 = new short[var3.getNumericParameters()[0]];
@@ -760,13 +760,13 @@ public final class C7 extends GameEngineBase {
                         for(var10 = 0; var10 < this.C7_f76.length; ++var10) {
                            this.C7_f76[var10] = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10]);
                            if (this.C7_f76[var10] != -1) {
-                              this.C7_f53.C25_f287[this.C7_f76[var10]].d(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
-                              this.C7_f53.C25_f287[this.C7_f76[var10]].b((byte)0, (short) GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[var10]));
+                              this.C7_f53.C25_f287[this.C7_f76[var10]].setCurrentDirection(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
+                              this.C7_f53.C25_f287[this.C7_f76[var10]].setSecondaryState((byte)0, (short) GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[var10]));
                               this.C7_f53.C25_f287[this.C7_f76[var10]].a((byte)0);
                            } else {
-                              this.C7_f54.d(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
-                              this.C7_f54.b((byte)0, (short) GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[var10]));
-                              this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
+                              this.C7_f54.setCurrentDirection(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
+                              this.C7_f54.setSecondaryState((byte)0, (short) GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[var10]));
+                              this.C7_f54.a((byte)0, (byte)this.C7_f54.currentDirection);
                            }
 
                            this.C7_f77[var10] = GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[3], ',')[var10]);
@@ -779,8 +779,8 @@ public final class C7 extends GameEngineBase {
                   }
 
                   if (var3.getNumericParameters()[0] == -1) {
-                     if (this.C7_f54.i() == 0) {
-                        this.C7_f54.a((byte)1, (byte)this.C7_f54.C60_f866);
+                     if (this.C7_f54.getFacingDirection() == 0) {
+                        this.C7_f54.a((byte)1, (byte)this.C7_f54.currentDirection);
                         break label1202;
                      }
 
@@ -789,11 +789,11 @@ public final class C7 extends GameEngineBase {
                         break label1202;
                      }
 
-                     this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
+                     this.C7_f54.a((byte)0, (byte)this.C7_f54.currentDirection);
                      if (this.C7_f54.C53_f793[0] != 2 && this.C7_f54.C53_f793[1] != 2) {
-                        this.C7_f54.b((byte)0, (short)4);
+                        this.C7_f54.setSecondaryState((byte)0, (short)4);
                      } else {
-                        this.C7_f54.b((byte)0, (short)8);
+                        this.C7_f54.setSecondaryState((byte)0, (short)8);
                      }
 
                      var2.setExecutionState((byte)1);
@@ -801,12 +801,12 @@ public final class C7 extends GameEngineBase {
                   }
 
                   for(var10 = 0; var10 < this.C7_f76.length; ++var10) {
-                     if (this.C7_f76[var10] != -1 && this.C7_f53.C25_f287[this.C7_f76[var10]].i() == 0 || this.C7_f76[var10] == -1 && this.C7_f54.i() == 0) {
+                     if (this.C7_f76[var10] != -1 && this.C7_f53.C25_f287[this.C7_f76[var10]].getFacingDirection() == 0 || this.C7_f76[var10] == -1 && this.C7_f54.getFacingDirection() == 0) {
                         if (this.C7_f77[var10] > 0) {
                            if (this.C7_f76[var10] != -1) {
                               this.C7_f53.C25_f287[this.C7_f76[var10]].a((byte)3);
                            } else {
-                              this.C7_f54.a((byte)1, (byte)this.C7_f54.C60_f866);
+                              this.C7_f54.a((byte)1, (byte)this.C7_f54.currentDirection);
                            }
                         }
                      } else {
@@ -816,13 +816,13 @@ public final class C7 extends GameEngineBase {
                            this.C7_f77[var10] = 0;
                            if (this.C7_f76[var10] != -1) {
                               this.C7_f53.C25_f287[this.C7_f76[var10]].a((byte)0);
-                              this.C7_f53.C25_f287[this.C7_f76[var10]].b((byte)0, (short)4);
+                              this.C7_f53.C25_f287[this.C7_f76[var10]].setSecondaryState((byte)0, (short)4);
                            } else {
-                              this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
+                              this.C7_f54.a((byte)0, (byte)this.C7_f54.currentDirection);
                               if (this.C7_f54.C53_f793[0] != 2 && this.C7_f54.C53_f793[1] != 2) {
-                                 this.C7_f54.b((byte)0, (short)4);
+                                 this.C7_f54.setSecondaryState((byte)0, (short)4);
                               } else {
-                                 this.C7_f54.b((byte)0, (short)8);
+                                 this.C7_f54.setSecondaryState((byte)0, (short)8);
                               }
                            }
                         }
@@ -840,23 +840,23 @@ public final class C7 extends GameEngineBase {
                         var24 = true;
                      }
 
-                     C6.a().a(var3.getNumericParameters()[7]);
+                     CameraController.getInstance().setCameraLag(var3.getNumericParameters()[7]);
                      if (var3.getNumericParameters()[2] == 1) {
-                        C6.a().a(var3.getNumericParameters()[4], var3.getNumericParameters()[5], var3.getNumericParameters()[0], var3.getNumericParameters()[1], var24);
+                        CameraController.getInstance().setFixedPosition(var3.getNumericParameters()[4], var3.getNumericParameters()[5], var24);
                      } else if (var3.getNumericParameters()[2] == 0) {
                         if (var3.getNumericParameters()[3] == -1) {
-                           C6.a().a(this.C7_f54, var3.getNumericParameters()[0], var3.getNumericParameters()[1], var24);
+                           CameraController.getInstance().setFollowEntity(this.C7_f54, var24);
                         } else {
-                           C6.a().a(this.C7_f53.C25_f287[var3.getNumericParameters()[3]], var3.getNumericParameters()[0], var3.getNumericParameters()[1], var24);
+                           CameraController.getInstance().setFollowEntity(this.C7_f53.C25_f287[var3.getNumericParameters()[3]], var24);
                         }
                      }
 
-                     this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
+                     this.C7_f54.a((byte)0, (byte)this.C7_f54.currentDirection);
                      var2.setExecutionState((byte)5);
                      break label1202;
                   }
 
-                  if (!C6.a().b()) {
+                  if (!CameraController.getInstance().isLocked()) {
                      break label1202;
                   }
                   break;
@@ -874,9 +874,9 @@ public final class C7 extends GameEngineBase {
                   this.C7_f61 = 0;
                   break;
                case 13:
-                  if (GameUtils.checkCollisionWithShortArray(var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3], this.C7_f54.C60_f861, this.C7_f54.C60_f862, this.C7_f54.C20_f261.getCurrentFrameEvents())) {
+                  if (GameUtils.checkCollisionWithShortArray(var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3], this.C7_f54.worldX, this.C7_f54.worldY, this.C7_f54.C20_f261.getCurrentFrameEvents())) {
                      var2.setExecutionState((byte)1);
-                     this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
+                     this.C7_f54.a((byte)0, (byte)this.C7_f54.currentDirection);
                   } else {
                      var2.setExecutionState((byte)6);
                   }
@@ -1062,18 +1062,18 @@ public final class C7 extends GameEngineBase {
                         --this.C7_f78[var18];
                         --this.C7_f79[var18];
                         if (var3.getNumericParameters()[0] == -1) {
-                           var12 = this.C7_f54.m() + this.C7_f82[var18];
-                           var15 = this.C7_f54.n() + this.C7_f83[var18];
-                           this.C7_f54.b(var12, var15);
+                           var12 = this.C7_f54.getWorldX() + this.C7_f82[var18];
+                           var15 = this.C7_f54.getWorldY() + this.C7_f83[var18];
+                           this.C7_f54.setWorldPosition(var12, var15);
                            if (this.C7_f54.C20_f262 != null) {
-                              this.C7_f54.C20_f262.b(var12, var15);
+                              this.C7_f54.C20_f262.setWorldPosition(var12, var15);
                            }
                         } else {
-                           var12 = this.C7_f53.C25_f287[this.C7_f76[var18]].m() + this.C7_f82[var18];
-                           var15 = this.C7_f53.C25_f287[this.C7_f76[var18]].n() + this.C7_f83[var18];
-                           this.C7_f53.C25_f287[this.C7_f76[var18]].b(var12, var15);
+                           var12 = this.C7_f53.C25_f287[this.C7_f76[var18]].getWorldX() + this.C7_f82[var18];
+                           var15 = this.C7_f53.C25_f287[this.C7_f76[var18]].getWorldY() + this.C7_f83[var18];
+                           this.C7_f53.C25_f287[this.C7_f76[var18]].setWorldPosition(var12, var15);
                            if (this.C7_f53.C25_f287[this.C7_f76[var18]].C20_f262 != null) {
-                              this.C7_f53.C25_f287[this.C7_f76[var18]].C20_f262.b(var12, var15);
+                              this.C7_f53.C25_f287[this.C7_f76[var18]].C20_f262.setWorldPosition(var12, var15);
                            }
                         }
                      }
@@ -1119,7 +1119,7 @@ public final class C7 extends GameEngineBase {
                   }
 
                   for(var10 = 0; var10 < this.C7_f76.length; ++var10) {
-                     this.C7_f53.C25_f287[this.C7_f76[var10]].b(this.C7_f80[var10][this.C7_f61], this.C7_f81[var10][this.C7_f61]);
+                     this.C7_f53.C25_f287[this.C7_f76[var10]].setWorldPosition(this.C7_f80[var10][this.C7_f61], this.C7_f81[var10][this.C7_f61]);
                   }
 
                   ++this.C7_f61;
@@ -1160,7 +1160,7 @@ public final class C7 extends GameEngineBase {
                   C29.B().C29_f397 = var3.getNumericParameters()[0];
                   C29.B().C29_f398 = (byte)var3.getNumericParameters()[1];
                   this.C7_f53.N();
-                  this.C7_f54.a((byte)0, (byte)this.C7_f54.C60_f866);
+                  this.C7_f54.a((byte)0, (byte)this.C7_f54.currentDirection);
                   var2.setExecutionState((byte)1);
                   C25 var10000 = this.C7_f53;
                   if ((var14 = C25.a(var2.getEventId(), (byte)1)) != -1) {
@@ -1174,7 +1174,7 @@ public final class C7 extends GameEngineBase {
                case 33:
                   if ((C7_f51 = (byte)var3.getNumericParameters()[0]) == 2) {
                      C7_f51 = 1;
-                     C68.a().c();
+                     TileMapRenderer.getInstance().refreshTileset();
                      var12 = 0;
 
                      while(true) {
@@ -1182,7 +1182,7 @@ public final class C7 extends GameEngineBase {
                            break label1202;
                         }
 
-                        if (this.C7_f53.C25_f287[var12].k()) {
+                        if (this.C7_f53.C25_f287[var12].isVisible()) {
                            this.C7_f53.C25_f287[var12].p();
                         }
 
@@ -1195,7 +1195,7 @@ public final class C7 extends GameEngineBase {
                   }
 
                   C7_f51 = 0;
-                  C68.a().c();
+                  TileMapRenderer.getInstance().refreshTileset();
                   var12 = 0;
 
                   while(true) {
@@ -1203,7 +1203,7 @@ public final class C7 extends GameEngineBase {
                         break label1202;
                      }
 
-                     if (this.C7_f53.C25_f287[var12].k()) {
+                     if (this.C7_f53.C25_f287[var12].isVisible()) {
                         C25.B().C25_f287[var12].p();
                      }
 
@@ -1348,11 +1348,11 @@ public final class C7 extends GameEngineBase {
                   }
 
                   if (this.C7_f55.gameController.C9_f131 == 0) {
-                     if (this.C7_f55.g(196640)) {
+                     if (this.C7_f55.isKeyPressed(196640)) {
                         this.C7_f55.gameController.C9_f131 = 1;
                         this.C7_f55.gameController.a("Đang lưu...");
                         this.C7_f55.gameController.M();
-                     } else if (this.C7_f55.g(262144)) {
+                     } else if (this.C7_f55.isKeyPressed(262144)) {
                         var2.setExecutionState((byte)1);
                         this.C7_f55.gameController.L();
                         this.C7_f55.gameController.C9_f131 = 0;
@@ -1399,7 +1399,7 @@ public final class C7 extends GameEngineBase {
                      break label1202;
                   }
 
-                  if (!C39.C39_f608 || !this.C7_f55.g(1) && !this.C7_f55.a(80, 294, 80, 18)) {
+                  if (!C39.C39_f608 || !this.C7_f55.isKeyPressed(1) && !this.C7_f55.isPointerClickInBounds(80, 294, 80, 18)) {
                      break label1202;
                   }
 
@@ -1491,7 +1491,7 @@ public final class C7 extends GameEngineBase {
                      break label1202;
                   }
 
-                  if (!this.C7_f53.g(65537) && !this.C7_f55.a(94, 200, 60, 18)) {
+                  if (!this.C7_f53.isKeyPressed(65537) && !this.C7_f55.isPointerClickInBounds(94, 200, 60, 18)) {
                      break label1202;
                   }
 
@@ -1517,7 +1517,7 @@ public final class C7 extends GameEngineBase {
                         this.C7_f98 = C25.e(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
                      }
 
-                     this.C7_f97.b(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
+                     this.C7_f97.setWorldPosition(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
                   } else if (var3.getNumericParameters()[0] == 1 && this.C7_f97 != null) {
                      this.C7_f97.d();
                      this.C7_f97 = null;
@@ -1537,7 +1537,7 @@ public final class C7 extends GameEngineBase {
 
                         var25 = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var18]);
                         var14 = GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var18]);
-                        this.C7_f53.C25_f287[var25].d(var14);
+                        this.C7_f53.C25_f287[var25].setCurrentDirection(var14);
                         if (this.C7_f53.C25_f287[var25].C18_f225 == 1) {
                            this.C7_f53.C25_f287[var25].a((byte)0);
                         }
@@ -1572,12 +1572,12 @@ public final class C7 extends GameEngineBase {
                      ++var18;
                   }
                case 58:
-                  if (((C18)this.C7_f54.C60_f868).i() == 1 && ((C18)this.C7_f54.C60_f868).C20_f261.isAtLastFrame()) {
-                     ((C18)this.C7_f54.C60_f868).a((byte)0);
-                     this.C7_f53.C25_f287[var3.getNumericParameters()[0]].b(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
-                     if ((C18)this.C7_f53.C25_f287[var3.getNumericParameters()[0]].C60_f868 != null) {
-                        ((C18)this.C7_f53.C25_f287[var3.getNumericParameters()[0]].C60_f868).s();
-                        this.C7_f53.C25_f287[var3.getNumericParameters()[0]].a((C60)null);
+                  if (((C18)this.C7_f54.followTarget).getFacingDirection() == 1 && ((C18)this.C7_f54.followTarget).C20_f261.isAtLastFrame()) {
+                     ((C18)this.C7_f54.followTarget).a((byte)0);
+                     this.C7_f53.C25_f287[var3.getNumericParameters()[0]].setWorldPosition(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
+                     if ((C18)this.C7_f53.C25_f287[var3.getNumericParameters()[0]].followTarget != null) {
+                        ((C18)this.C7_f53.C25_f287[var3.getNumericParameters()[0]].followTarget).s();
+                        this.C7_f53.C25_f287[var3.getNumericParameters()[0]].setFollowTarget((GameEntity)null);
                      }
                   }
                   break label1202;
@@ -1588,9 +1588,9 @@ public final class C7 extends GameEngineBase {
                      for(var15 = 0; var15 < this.C7_f76.length; ++var15) {
                         this.C7_f76[var15] = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]);
                         this.C7_f53.C25_f287[this.C7_f76[var15]].a(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var15]));
-                        if (this.C7_f53.C25_f287[this.C7_f76[var15]].C18_f223 == 0 && this.C7_f53.C25_f287[this.C7_f76[var15]].C18_f225 == 6 && this.C7_f53.C25_f287[this.C7_f76[var15]].i() == 2) {
+                        if (this.C7_f53.C25_f287[this.C7_f76[var15]].C18_f223 == 0 && this.C7_f53.C25_f287[this.C7_f76[var15]].C18_f225 == 6 && this.C7_f53.C25_f287[this.C7_f76[var15]].getFacingDirection() == 2) {
                            short var10002 = this.C7_f76[var15];
-                           C25.B().C25_f285.a(C25.B().C25_f287[var10002], 2);
+                           C25.B().C25_f285.moveEntityToForeground(C25.B().C25_f287[var10002], 2);
                         }
                      }
 
@@ -1618,7 +1618,7 @@ public final class C7 extends GameEngineBase {
 
                   for(var18 = 0; var18 < var13.length; ++var18) {
                      var13[var18] = GameUtils.parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var18]);
-                     if (this.C7_f53.C25_f287[var13[var18]].i() == 2) {
+                     if (this.C7_f53.C25_f287[var13[var18]].getFacingDirection() == 2) {
                         var22 = var13[var18];
                         break;
                      }
@@ -1724,13 +1724,13 @@ public final class C7 extends GameEngineBase {
                      if (GameUtils.parseInt(var6[var10]) == -1) {
                         var20[var10].a(GameUtils.parseByte(var17[var10]), (byte)-1, true);
                         var20[var10].c();
-                        var20[var10].b(this.C7_f54.m(), this.C7_f54.n() - 40);
-                        var20[var10].a(this.C7_f54);
+                        var20[var10].setWorldPosition(this.C7_f54.getWorldX(), this.C7_f54.getWorldY() - 40);
+                        var20[var10].setFollowTarget(this.C7_f54);
                      } else {
                         var20[var10].a(GameUtils.parseByte(var17[var10]), (byte)-1, true);
                         var20[var10].c();
-                        var20[var10].b(this.C7_f53.C25_f287[GameUtils.parseInt(var6[var10])].m(), this.C7_f53.C25_f287[GameUtils.parseInt(var6[var10])].n() - 40);
-                        var20[var10].a(this.C7_f53.C25_f287[GameUtils.parseInt(var6[var10])]);
+                        var20[var10].setWorldPosition(this.C7_f53.C25_f287[GameUtils.parseInt(var6[var10])].getWorldX(), this.C7_f53.C25_f287[GameUtils.parseInt(var6[var10])].getWorldY() - 40);
+                        var20[var10].setFollowTarget(this.C7_f53.C25_f287[GameUtils.parseInt(var6[var10])]);
                      }
 
                      C7_f63.addElement(var20[var10]);
@@ -1869,14 +1869,14 @@ public final class C7 extends GameEngineBase {
                      String var9 = a(var3.getStringParameters()[1], var4);
                      this.C7_f53.gameController.a((String)var3.getStringParameters()[0], (String)var9, var3.getNumericParameters()[1], var3.getNumericParameters()[0]);
                      var2.setExecutionState((byte)5);
-                  } else if (this.C7_f53.gameController.d(var3.getNumericParameters()[1], var3.getNumericParameters()[0]) && this.C7_f55.g(196640)) {
+                  } else if (this.C7_f53.gameController.d(var3.getNumericParameters()[1], var3.getNumericParameters()[0]) && this.C7_f55.isKeyPressed(196640)) {
                      C25.B().D();
                      if (GameUtils.pageCount < GameUtils.b()) {
                         GameUtils.c();
                         this.C7_f53.gameController.b(GameUtils.pageCount);
                      } else {
                         if (C25.C25_f318 != -1 && this.C7_f53.C25_f287[C25.C25_f318].C20_f261.spriteSetId <= 85 && this.C7_f53.C25_f287[C25.C25_f318].v() == 0) {
-                           C25.B().a((byte)13, C25.B().C25_f287[C25.C25_f318].C60_f861, C25.B().C25_f287[C25.C25_f318].C60_f862 - 40, C25.B().C25_f287[C25.C25_f318]);
+                           C25.B().a((byte)13, C25.B().C25_f287[C25.C25_f318].worldX, C25.B().C25_f287[C25.C25_f318].worldY - 40, C25.B().C25_f287[C25.C25_f318]);
                         }
 
                         C7_f68 = false;
@@ -2109,10 +2109,10 @@ public final class C7 extends GameEngineBase {
                if (this.b(var1)) {
                   (var7 = new C20()).a(259, false);
                   var7.a((byte)1, (byte)-1, true);
-                  var7.b(this.C7_f53.C25_f287[var1.getNumericParameters()[4]].C60_f861, this.C7_f53.C25_f287[var1.getNumericParameters()[4]].C60_f862 - 40);
+                  var7.setWorldPosition(this.C7_f53.C25_f287[var1.getNumericParameters()[4]].worldX, this.C7_f53.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
                   this.C7_f53.C25_f287[var1.getNumericParameters()[4]].f((byte)1);
                   var6 = this.C7_f53.C25_f287[var1.getNumericParameters()[4]];
-                  var7.C60_f868 = var6;
+                  var7.followTarget = var6;
                   var7.c();
                   C7_f64.addElement(var7);
                   var2.addElement("" + var1.getNumericParameters()[4]);
@@ -2121,10 +2121,10 @@ public final class C7 extends GameEngineBase {
                   if (var1.getNumericParameters()[1] == 0 && this.C7_f60[C25.e(C7_f108[var3][0], C7_f108[var3][1])][C7_f108[var3][2]] == 3 && this.C7_f60[C25.e(C7_f109[var3][0], C7_f109[var3][1])][C7_f109[var3][2]] != 3 || var1.getNumericParameters()[1] == 1 && var4 != -1 && C7_f105[var4][1] == 1) {
                      (var7 = new C20()).a(259, false);
                      var7.a((byte)15, (byte)-1, true);
-                     var7.b(this.C7_f53.C25_f287[var1.getNumericParameters()[4]].C60_f861, this.C7_f53.C25_f287[var1.getNumericParameters()[4]].C60_f862 - 40);
+                     var7.setWorldPosition(this.C7_f53.C25_f287[var1.getNumericParameters()[4]].worldX, this.C7_f53.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
                      this.C7_f53.C25_f287[var1.getNumericParameters()[4]].f((byte)1);
                      var6 = this.C7_f53.C25_f287[var1.getNumericParameters()[4]];
-                     var7.C60_f868 = var6;
+                     var7.followTarget = var6;
                      var7.c();
                      C7_f64.addElement(var7);
                      var2.addElement("" + var1.getNumericParameters()[4]);
@@ -2140,10 +2140,10 @@ public final class C7 extends GameEngineBase {
             if (!var2.contains("" + var1.getNumericParameters()[4]) && this.a(var1)) {
                (var7 = new C20()).a(259, false);
                var7.a((byte)7, (byte)-1, true);
-               var7.b(this.C7_f53.C25_f287[var1.getNumericParameters()[4]].C60_f861, this.C7_f53.C25_f287[var1.getNumericParameters()[4]].C60_f862 - 40);
+               var7.setWorldPosition(this.C7_f53.C25_f287[var1.getNumericParameters()[4]].worldX, this.C7_f53.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
                this.C7_f53.C25_f287[var1.getNumericParameters()[4]].f((byte)1);
                var6 = this.C7_f53.C25_f287[var1.getNumericParameters()[4]];
-               var7.C60_f868 = var6;
+               var7.followTarget = var6;
                var7.c();
                C7_f64.addElement(var7);
             }

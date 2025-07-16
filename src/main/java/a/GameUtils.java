@@ -1,9 +1,9 @@
 package a;
 
-import a.a.C16;
-import layout.TextRenderer;
+import a.a.DebugLogger;
+import game.BitmapFontRenderer;
 import layout.IComponent;
-import game.C4;
+import layout.TextRenderer;
 import me.kitakeyos.ManagedInputStream;
 
 import javax.microedition.lcdui.Font;
@@ -17,6 +17,11 @@ import java.util.List;
 import java.util.Random;
 
 public final class GameUtils {
+
+    private static final char[] PUNCTUATION_MARKS = {'.', ',', '!', '?', ';', ':', '-'};
+    private static final int MAX_TEXT_SEGMENTS = 100;           // Maximum number of text segments
+    private static final int MARGIN_CONSTANT = 10;
+
     private static int DEFAULT_VALUE = 5;
     private static int MAX_SIZE = 300;
     private static int[] precomputedValues = null;
@@ -368,7 +373,7 @@ public final class GameUtils {
         try {
             return Image.createImage(var0 + var1 + ".png");
         } catch (Exception var3) {
-            C16.a(var3, var0 + var1 + ".png error!!");
+            DebugLogger.logError(var3, var0 + var1 + ".png error!!");
             return null;
         }
     }
@@ -697,7 +702,7 @@ public final class GameUtils {
 
     public static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, int var6, int var7, Font var8, boolean var9, int var10, int[] var11, int var12, byte var13, TextRenderer var14, byte var15, boolean[] var16) {
         if (var13 != -1 && var14 != null) {
-            var5 = C4.C4_f33;
+            var5 = BitmapFontRenderer.fontHeight;
         }
 
         int[] var20;
@@ -707,13 +712,13 @@ public final class GameUtils {
             var20[var2] = colors[var2 - 1];
         }
 
-        C27 var18 = a(var1, var5, var6, var9, var8, var13, var14);
+        TextLayout var18 = parseAndFormatText(var1, var5, var6, var9, var8, var13, var14);
         int var17 = 0;
-        if (var18.C27_f392 > 0) {
+        if (var18.segmentCount > 0) {
             if (var9) {
-                if (var18.C27_f389[var18.C27_f392 - 1][3] + var5 > var7) {
+                if (var18.textSegments[var18.segmentCount - 1][3] + var5 > var7) {
                     var16[0] = true;
-                    if (var18.C27_f389[var18.C27_f392 - 1][3] + var5 > var11[1]) {
+                    if (var18.textSegments[var18.segmentCount - 1][3] + var5 > var11[1]) {
                         var11[1] += var12;
                     } else {
                         var11[1] = -var7;
@@ -726,7 +731,7 @@ public final class GameUtils {
             } else {
                 var17 = var8.stringWidth(var1);
                 if (var13 != -1 && var14 != null) {
-                    var17 = C4.a(var1);
+                    var17 = BitmapFontRenderer.calculateStringWidth(var1);
                 }
 
                 if (var17 > var6) {
@@ -746,10 +751,10 @@ public final class GameUtils {
             }
         }
 
-        for (int var19 = 0; var19 < var18.C27_f392; ++var19) {
+        for (int var19 = 0; var19 < var18.segmentCount; ++var19) {
             if (var9) {
                 var0.clipRect(var3, var4, var6, var7);
-                a(var0, var1.substring(var18.C27_f389[var19][0], var18.C27_f389[var19][1]), var20[var18.C27_f389[var19][4]], var3 + var18.C27_f389[var19][2], var4 + var18.C27_f389[var19][3] - var11[1], 20, var14);
+                a(var0, var1.substring(var18.textSegments[var19][0], var18.textSegments[var19][1]), var20[var18.textSegments[var19][4]], var3 + var18.textSegments[var19][2], var4 + var18.textSegments[var19][3] - var11[1], 20, var14);
                 var0.clipRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
             } else {
                 var12 = 0;
@@ -760,11 +765,11 @@ public final class GameUtils {
                         var21 = var4;
                         break;
                     case 1:
-                        var12 = var3 + (var6 - (var18.C27_f391 + var18.C27_f390)) / 2;
+                        var12 = var3 + (var6 - (var18.totalWidth + var18.currentSegmentWidth)) / 2;
                         var21 = var4;
                         break;
                     case 2:
-                        var12 = var3 + (var6 - (var18.C27_f391 + var18.C27_f390));
+                        var12 = var3 + (var6 - (var18.totalWidth + var18.currentSegmentWidth));
                         var21 = var4;
                         break;
                     case 3:
@@ -775,13 +780,13 @@ public final class GameUtils {
                         if (var17 > var6) {
                             var12 = var3;
                         } else {
-                            var12 = var3 + (var6 - (var18.C27_f391 + var18.C27_f390)) / 2;
+                            var12 = var3 + (var6 - (var18.totalWidth + var18.currentSegmentWidth)) / 2;
                         }
 
                         var21 = var4 + (var7 - var5) / 2;
                         break;
                     case 5:
-                        var12 = var3 + (var6 - (var18.C27_f391 + var18.C27_f390));
+                        var12 = var3 + (var6 - (var18.totalWidth + var18.currentSegmentWidth));
                         var21 = var4 + (var7 - var5) / 2;
                         break;
                     case 6:
@@ -792,86 +797,199 @@ public final class GameUtils {
                         if (var17 > var6) {
                             var12 = var3;
                         } else {
-                            var12 = var3 + (var6 - (var18.C27_f391 + var18.C27_f390)) / 2;
+                            var12 = var3 + (var6 - (var18.totalWidth + var18.currentSegmentWidth)) / 2;
                         }
 
                         var21 = var4 + (var7 - var5);
                         break;
                     case 8:
-                        var12 = var3 + (var6 - (var18.C27_f391 + var18.C27_f390));
+                        var12 = var3 + (var6 - (var18.totalWidth + var18.currentSegmentWidth));
                         var21 = var4 + (var7 - var5);
                 }
 
                 var0.clipRect(var3, var4, var6, var7);
-                a(var0, var1.substring(var18.C27_f389[var19][0], var18.C27_f389[var19][1]), var20[var18.C27_f389[var19][4]], var12 + var18.C27_f389[var19][2] - var11[0], var21 + var18.C27_f389[var19][3], 20, var14);
+                a(var0, var1.substring(var18.textSegments[var19][0], var18.textSegments[var19][1]), var20[var18.textSegments[var19][4]], var12 + var18.textSegments[var19][2] - var11[0], var21 + var18.textSegments[var19][3], 20, var14);
                 var0.clipRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
             }
         }
 
     }
 
-    private static C27 a(String var0, int var1, int var2, boolean var3, Font var4, byte var5, TextRenderer var6) {
-        C27 var7 = new C27();
-        int var8 = 0;
-        int var9 = 0;
-        int var10 = 0;
-        int var11 = 0;
-        int var12 = var0.length() - 1;
-        int var13 = var2 - C4.C4_f38;
+    /**
+     * Parse and format text with line breaks, color codes, and word wrapping
+     *
+     * @param text           Text to parse and format
+     * @param lineHeight     Height of each line in pixels
+     * @param maxWidth       Maximum width before wrapping
+     * @param enableWordWrap Whether to enable automatic word wrapping
+     * @param font           Font to use for width calculations
+     * @param renderMode     Text rendering mode (-1 for default)
+     * @param textRenderer   Text renderer for advanced width calculations
+     * @return TextLayout object containing formatted text segments
+     */
+    private static TextLayout parseAndFormatText(String text, int lineHeight, int maxWidth,
+                                                 boolean enableWordWrap, Font font, byte renderMode,
+                                                 TextRenderer textRenderer) {
+        TextLayout layout = new TextLayout();
 
-        for (int var14 = 0; var14 <= var12; ++var14) {
-            int var15;
-            char var16;
-            if ((var16 = var0.charAt(var14)) == '#' && var14 != var12) {
-                if (var0.charAt(var14 + 1) == 'n') {
-                    var7.C27_f389[var7.C27_f392++] = new int[]{var8, var14, var9, var10, var11};
-                    var9 = 0;
-                    var10 += var1 + 1;
-                    var8 = var14 + 2;
-                } else if (var0.charAt(var14 + 1) >= '0' && var0.charAt(var14 + 1) <= '7') {
-                    var7.C27_f391 += var7.C27_f390;
-                    var7.C27_f389[var7.C27_f392++] = new int[]{var8, var14, var9, var10, var11};
-                    var15 = var4.charsWidth(var0.substring(var8, var14).toCharArray(), 0, var14 - var8);
-                    if (var5 != -1 && var6 != null) {
-                        var15 = TextRenderer.calculateTextWidth(var0.substring(var8, var14), 0, var14 - var8);
-                    }
+        // Text parsing state
+        int segmentStartIndex = 0;          // Start of current text segment
+        int currentLineWidth = 0;           // Current line width in pixels
+        int currentLineY = 0;              // Current line Y position
+        int currentColorCode = 0;           // Current text color code
+        int textLength = text.length() - 1; // Last character index
+        int wordWrapThreshold = maxWidth - MARGIN_CONSTANT; // Threshold for word wrapping
 
-                    var9 += var15;
-                    var11 = var0.charAt(var14 + 1) - 48;
-                    var8 = var14 + 2;
+        // Parse each character in the text
+        for (int charIndex = 0; charIndex <= textLength; charIndex++) {
+            char currentChar = text.charAt(charIndex);
+            int segmentWidth;
+
+            // Handle special formatting codes
+            if (currentChar == '#' && charIndex != textLength) {
+                char nextChar = text.charAt(charIndex + 1);
+
+                if (nextChar == 'n') {
+                    // Manual line break (#n)
+                    layout.textSegments[layout.segmentCount++] = new int[]{
+                            segmentStartIndex, charIndex, currentLineWidth, currentLineY, currentColorCode
+                    };
+                    currentLineWidth = 0;
+                    currentLineY += lineHeight + 1;
+                    segmentStartIndex = charIndex + 2;
+
+                } else if (nextChar >= '0' && nextChar <= '7') {
+                    // Color code (#0 to #7)
+                    layout.totalWidth += layout.currentSegmentWidth;
+                    layout.textSegments[layout.segmentCount++] = new int[]{
+                            segmentStartIndex, charIndex, currentLineWidth, currentLineY, currentColorCode
+                    };
+
+                    // Calculate width of text segment before color change
+                    segmentWidth = calculateTextWidth(text, font, segmentStartIndex, charIndex,
+                            renderMode, textRenderer);
+                    currentLineWidth += segmentWidth;
+
+                    // Extract color code (0-7)
+                    currentColorCode = nextChar - '0';
+                    segmentStartIndex = charIndex + 2;
                 }
-            } else if (var14 - var8 >= 0) {
-                var15 = TextRenderer.calculateTextWidth(var0.substring(var8, var14 + 1), 0, var14 - var8 + 1);
-                var7.C27_f390 = var15;
-                if (var3 && (var9 + var15 >= var2 || var16 == ' ' && var9 + var15 >= var13)) {
-                    var7.C27_f389[var7.C27_f392++] = new int[]{var8, var14, var9, var10, var11};
-                    var9 = 0;
-                    var10 += var1 + 1;
-                    var8 = var14;
+
+            } else if (charIndex - segmentStartIndex >= 0) {
+                // Regular character - check for word wrapping
+                segmentWidth = calculateSegmentWidth(text, segmentStartIndex, charIndex + 1,
+                        renderMode, textRenderer);
+                layout.currentSegmentWidth = segmentWidth;
+
+                // Check if word wrapping is needed
+                if (enableWordWrap && shouldWrapLine(currentLineWidth, segmentWidth, maxWidth,
+                        currentChar, wordWrapThreshold)) {
+                    layout.textSegments[layout.segmentCount++] = new int[]{
+                            segmentStartIndex, charIndex, currentLineWidth, currentLineY, currentColorCode
+                    };
+                    currentLineWidth = 0;
+                    currentLineY += lineHeight + 1;
+                    segmentStartIndex = charIndex;
                 }
             }
 
-            if (var14 == var12) {
-                if (var14 == var8) {
-                    for (var15 = 0; var15 < punctuationMarks.length; ++var15) {
-                        if (var0.charAt(var14) == punctuationMarks[var15]) {
-                            var7.C27_f389[var7.C27_f392 - 1][1] = var14 + 1;
-                            break;
-                        }
-                    }
-
-                    if (var15 < punctuationMarks.length) {
+            // Handle end of text
+            if (charIndex == textLength) {
+                if (charIndex == segmentStartIndex) {
+                    // Check if last character is punctuation
+                    if (handlePunctuationAtEnd(text, charIndex, layout)) {
                         continue;
                     }
-                } else if (var14 + 1 - var8 <= 0) {
+                } else if (charIndex + 1 - segmentStartIndex <= 0) {
+                    // Empty segment at end
                     continue;
                 }
 
-                var7.C27_f389[var7.C27_f392++] = new int[]{var8, var14 + 1, var9, var10, var11};
+                // Add final text segment
+                layout.textSegments[layout.segmentCount++] = new int[]{
+                        segmentStartIndex, charIndex + 1, currentLineWidth, currentLineY, currentColorCode
+                };
             }
         }
 
-        return var7;
+        return layout;
+    }
+
+    /**
+     * Calculate width of text segment using appropriate method
+     *
+     * @param text         Full text string
+     * @param font         Font for calculations
+     * @param startIndex   Start index of segment
+     * @param endIndex     End index of segment
+     * @param renderMode   Rendering mode
+     * @param textRenderer Text renderer instance
+     * @return Width in pixels
+     */
+    private static int calculateTextWidth(String text, Font font, int startIndex, int endIndex,
+                                          byte renderMode, TextRenderer textRenderer) {
+        String segment = text.substring(startIndex, endIndex);
+
+        if (renderMode != -1 && textRenderer != null) {
+            return TextRenderer.calculateTextWidth(segment, 0, endIndex - startIndex);
+        } else {
+            return font.charsWidth(segment.toCharArray(), 0, endIndex - startIndex);
+        }
+    }
+
+    /**
+     * Calculate width of a text segment
+     *
+     * @param text         Full text string
+     * @param startIndex   Start index
+     * @param endIndex     End index
+     * @param renderMode   Rendering mode
+     * @param textRenderer Text renderer
+     * @return Segment width in pixels
+     */
+    private static int calculateSegmentWidth(String text, int startIndex, int endIndex,
+                                             byte renderMode, TextRenderer textRenderer) {
+        return TextRenderer.calculateTextWidth(text.substring(startIndex, endIndex),
+                0, endIndex - startIndex);
+    }
+
+    /**
+     * Determine if line should be wrapped
+     *
+     * @param currentLineWidth  Current width of line
+     * @param segmentWidth      Width of current segment
+     * @param maxWidth          Maximum allowed width
+     * @param currentChar       Current character being processed
+     * @param wordWrapThreshold Threshold for word wrapping
+     * @return true if line should be wrapped
+     */
+    private static boolean shouldWrapLine(int currentLineWidth, int segmentWidth, int maxWidth,
+                                          char currentChar, int wordWrapThreshold) {
+        return (currentLineWidth + segmentWidth >= maxWidth) ||
+                (currentChar == ' ' && currentLineWidth + segmentWidth >= wordWrapThreshold);
+    }
+
+    /**
+     * Handle punctuation at end of text
+     *
+     * @param text      Full text string
+     * @param charIndex Current character index
+     * @param layout    Text layout being built
+     * @return true if punctuation was handled
+     */
+    private static boolean handlePunctuationAtEnd(String text, int charIndex, TextLayout layout) {
+        char lastChar = text.charAt(charIndex);
+
+        // Check if last character is punctuation
+        for (int i = 0; i < PUNCTUATION_MARKS.length; i++) {
+            if (lastChar == PUNCTUATION_MARKS[i]) {
+                // Extend previous segment to include punctuation
+                layout.textSegments[layout.segmentCount - 1][1] = charIndex + 1;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5, TextRenderer var6) {
@@ -924,9 +1042,9 @@ public final class GameUtils {
     }
 
     public static void a(String var0, int var1, int var2, Font var3, boolean var4, byte var5, TextRenderer var6) {
-        C27 var8 = a(var0, var1, var2, true, var3, (byte) -1, var6);
-        var2 = var8.C27_f392;
-        int[][] var9 = var8.C27_f389;
+        TextLayout var8 = parseAndFormatText(var0, var1, var2, true, var3, (byte) -1, var6);
+        var2 = var8.segmentCount;
+        int[][] var9 = var8.textSegments;
         var0 = var0;
         pageCount = 1;
         totalTextPages = 0;

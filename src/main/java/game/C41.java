@@ -3,7 +3,7 @@ package game;
 import a.GameUtils;
 import a.a.C20;
 import a.a.C21;
-import a.b.SpriteManager;
+import a.b.AnimatedSprite;
 import a.b.ResourceManager;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
@@ -44,8 +44,8 @@ public final class C41 extends C20 {
    private byte C41_f670 = 0;
 
    public C41() {
-      this.C60_f855 = new short[23];
-      this.C60_f856 = new short[23];
+      this.primaryStates = new short[23];
+      this.secondaryStates = new short[23];
       this.C41_f645 = new short[5];
       this.C41_f646 = new byte[5];
       this.C41_f648 = new short[4];
@@ -70,43 +70,43 @@ public final class C41 extends C20 {
       if (var5 == -1) {
          var7 = (short) GameUtils.getRandomInRange(ResourceManager.gameDatabase[0][this.C41_f657][3], ResourceManager.gameDatabase[0][this.C41_f657][3]);
          var8 = 0;
-         super.C60_f855[var8] = var7;
+         super.primaryStates[var8] = var7;
       } else {
          var7 = var5;
          var8 = 0;
-         super.C60_f855[var8] = var7;
+         super.primaryStates[var8] = var7;
       }
 
       int var10002 = ResourceManager.gameDatabase[0][this.C41_f657][5] + ResourceManager.gameDatabase[0][this.C41_f657][6] * var2 + ResourceManager.gameDatabase[0][this.C41_f657][7];
       var8 = 0;
-      var7 = (short)(var10002 * C41_f638[super.C60_f855[var8] - 1] / 100);
+      var7 = (short)(var10002 * C41_f638[super.primaryStates[var8] - 1] / 100);
       var8 = 1;
-      super.C60_f855[var8] = var7;
+      super.primaryStates[var8] = var7;
       var10002 = ResourceManager.gameDatabase[0][this.C41_f657][8] + ResourceManager.gameDatabase[0][this.C41_f657][9] * var2 + ResourceManager.gameDatabase[0][this.C41_f657][10];
       var8 = 0;
-      var7 = (short)(var10002 * C41_f638[super.C60_f855[var8] - 1] / 100);
+      var7 = (short)(var10002 * C41_f638[super.primaryStates[var8] - 1] / 100);
       var8 = 2;
-      super.C60_f855[var8] = var7;
+      super.primaryStates[var8] = var7;
       var10002 = ResourceManager.gameDatabase[0][this.C41_f657][11] + ResourceManager.gameDatabase[0][this.C41_f657][12] * var2 / 10 + ResourceManager.gameDatabase[0][this.C41_f657][13];
       var8 = 0;
-      var7 = (short)(var10002 * C41_f638[super.C60_f855[var8] - 1] / 100);
+      var7 = (short)(var10002 * C41_f638[super.primaryStates[var8] - 1] / 100);
       var8 = 3;
-      super.C60_f855[var8] = var7;
+      super.primaryStates[var8] = var7;
       var10002 = ResourceManager.gameDatabase[0][this.C41_f657][14] + ResourceManager.gameDatabase[0][this.C41_f657][15] * var2 / 10 + ResourceManager.gameDatabase[0][this.C41_f657][16];
       var8 = 0;
-      var7 = (short)(var10002 * C41_f638[super.C60_f855[var8] - 1] / 100);
+      var7 = (short)(var10002 * C41_f638[super.primaryStates[var8] - 1] / 100);
       var8 = 4;
-      super.C60_f855[var8] = var7;
+      super.primaryStates[var8] = var7;
       var8 = 5;
-      super.C60_f855[var8] = var3;
+      super.primaryStates[var8] = var3;
       var7 = (short)var4;
       var8 = 6;
-      super.C60_f855[var8] = var7;
+      super.primaryStates[var8] = var7;
       this.i(var6);
-      this.h();
+      this.saveCurrentStates();
       this.C41_f655 = ResourceManager.gameDatabase[0][this.C41_f657][17];
       var8 = 1;
-      this.u(super.C60_f856[var8]);
+      this.u(super.secondaryStates[var8]);
    }
 
    public final void a(int[] var1) {
@@ -125,9 +125,9 @@ public final class C41 extends C20 {
    public final void a(short var1, int var2, int var3) {
       this.V();
       byte var4 = 1;
-      super.C60_f856[var4] = var1;
+      super.secondaryStates[var4] = var1;
       var4 = 1;
-      this.u(super.C60_f856[var4]);
+      this.u(super.secondaryStates[var4]);
       this.C41_f652 = var2;
       this.C41_f662 = (byte)var3;
    }
@@ -135,7 +135,7 @@ public final class C41 extends C20 {
    public final void c() {
       super.c();
       if (this.C20_f261 == null) {
-         this.C20_f261 = new SpriteManager();
+         this.C20_f261 = new AnimatedSprite();
       }
 
       this.C20_f261.loadSpriteSet(this.C41_f655, false);
@@ -152,17 +152,17 @@ public final class C41 extends C20 {
    }
 
    public final void a(short var1, byte var2) {
-      byte var3 = this.C60_f866;
+      byte var3 = this.currentDirection;
       this.C41_f640 = null;
       this.C41_f640 = new C21();
       this.C41_f640.a(new short[]{var1, (short)var2, (short)var3});
-      this.C41_f640.b(this.C60_f861, this.C60_f862);
+      this.C41_f640.setWorldPosition(this.worldX, this.worldY);
       if (var1 == 20 && var2 == 3 || var1 == 22 && var2 == 4) {
          int[] var4 = this.C20_f261.getSpritePartBounds(0, var3);
-         this.C41_f640.b(this.C60_f861, this.C60_f862 - var4[3]);
+         this.C41_f640.setWorldPosition(this.worldX, this.worldY - var4[3]);
       }
 
-      this.C41_f640.d(true);
+      this.C41_f640.setInteractable(true);
    }
 
    private void z(int var1) {
@@ -170,9 +170,9 @@ public final class C41 extends C20 {
       short[] var3;
       short[] var2 = new short[(var3 = C29.C29_f450[var1]).length + 5];
       System.arraycopy(var3, 1, var2, 6, var3.length - 1);
-      System.arraycopy(var3 = new short[]{var3[0], (short)super.C60_f861, (short)super.C60_f862, ResourceManager.gameDatabase[0][this.C41_f657][17], 0, (short)this.C60_f866}, 0, var2, 0, var3.length);
+      System.arraycopy(var3 = new short[]{var3[0], (short)super.worldX, (short)super.worldY, ResourceManager.gameDatabase[0][this.C41_f657][17], 0, (short)this.currentDirection}, 0, var2, 0, var3.length);
       this.C41_f669.a(var2);
-      this.C41_f669.d(true);
+      this.C41_f669.setInteractable(true);
    }
 
    public final void a(byte var1, boolean var2) {
@@ -246,9 +246,9 @@ public final class C41 extends C20 {
             this.C41_f669 = new C21();
             short[] var4 = new short[var3.length + 5];
             System.arraycopy(var3, 1, var4, 6, var3.length - 1);
-            System.arraycopy(var3 = new short[]{var3[0], (short)super.C60_f861, (short)super.C60_f862, ResourceManager.gameDatabase[0][this.C41_f657][17], 0, (short)this.C60_f866}, 0, var4, 0, var3.length);
+            System.arraycopy(var3 = new short[]{var3[0], (short)super.worldX, (short)super.worldY, ResourceManager.gameDatabase[0][this.C41_f657][17], 0, (short)this.currentDirection}, 0, var4, 0, var3.length);
             this.C41_f669.a(var4);
-            this.C41_f669.d(true);
+            this.C41_f669.setInteractable(true);
             this.C41_f669.a();
          }
          break;
@@ -356,8 +356,8 @@ public final class C41 extends C20 {
          this.C41_f640.a(var1, 0, 0);
       }
 
-      if (this.C60_f858) {
-         this.C20_f261.renderCurrentFrame(var1, this.C60_f861, this.C60_f862, this.C60_f866);
+      if (this.isVisible) {
+         this.C20_f261.renderCurrentFrame(var1, this.worldX, this.worldY, this.currentDirection);
       }
 
       if (this.C41_f669 != null && this.C41_f670 == 1) {
@@ -437,20 +437,20 @@ public final class C41 extends C20 {
       byte var3;
       if (C53.p().b((byte)1, (byte)0) == 2 && C53.p().b((byte)1, (byte)1) == 1) {
          var3 = 1;
-         var1 = (short)(super.C60_f855[var3] * ResourceManager.gameDatabase[2][1][6] / 100);
+         var1 = (short)(super.primaryStates[var3] * ResourceManager.gameDatabase[2][1][6] / 100);
          var3 = 1;
-         var1 += super.C60_f855[var3];
+         var1 += super.primaryStates[var3];
          var3 = 1;
-         super.C60_f855[var3] = var1;
+         super.primaryStates[var3] = var1;
       }
 
       if (C53.p().b((byte)2, (byte)0) == 2 && C53.p().b((byte)2, (byte)1) == 1) {
          var3 = 3;
-         var1 = (short)(super.C60_f855[var3] * ResourceManager.gameDatabase[2][2][6] / 100);
+         var1 = (short)(super.primaryStates[var3] * ResourceManager.gameDatabase[2][2][6] / 100);
          var3 = 3;
-         var1 += super.C60_f855[var3];
+         var1 += super.primaryStates[var3];
          var3 = 3;
-         super.C60_f855[var3] = var1;
+         super.primaryStates[var3] = var1;
       }
 
    }
@@ -458,27 +458,27 @@ public final class C41 extends C20 {
    private void W() {
       int var10002 = ResourceManager.gameDatabase[0][this.C41_f657][5] + ResourceManager.gameDatabase[0][this.C41_f657][6] * this.C41_f654 + ResourceManager.gameDatabase[0][this.C41_f657][7];
       byte var2 = 0;
-      short var3 = (short)(var10002 * C41_f638[super.C60_f855[var2] - 1] / 100);
+      short var3 = (short)(var10002 * C41_f638[super.primaryStates[var2] - 1] / 100);
       var2 = 1;
-      super.C60_f855[var2] = var3;
+      super.primaryStates[var2] = var3;
       var10002 = ResourceManager.gameDatabase[0][this.C41_f657][8] + ResourceManager.gameDatabase[0][this.C41_f657][9] * this.C41_f654 + ResourceManager.gameDatabase[0][this.C41_f657][10];
       var2 = 0;
-      var3 = (short)(var10002 * C41_f638[super.C60_f855[var2] - 1] / 100);
+      var3 = (short)(var10002 * C41_f638[super.primaryStates[var2] - 1] / 100);
       var2 = 2;
-      super.C60_f855[var2] = var3;
+      super.primaryStates[var2] = var3;
       var10002 = ResourceManager.gameDatabase[0][this.C41_f657][11] + ResourceManager.gameDatabase[0][this.C41_f657][12] * this.C41_f654 / 10 + ResourceManager.gameDatabase[0][this.C41_f657][13];
       var2 = 0;
-      var3 = (short)(var10002 * C41_f638[super.C60_f855[var2] - 1] / 100);
+      var3 = (short)(var10002 * C41_f638[super.primaryStates[var2] - 1] / 100);
       var2 = 3;
-      super.C60_f855[var2] = var3;
+      super.primaryStates[var2] = var3;
       var10002 = ResourceManager.gameDatabase[0][this.C41_f657][14] + ResourceManager.gameDatabase[0][this.C41_f657][15] * this.C41_f654 / 10 + ResourceManager.gameDatabase[0][this.C41_f657][16];
       var2 = 0;
-      var3 = (short)(var10002 * C41_f638[super.C60_f855[var2] - 1] / 100);
+      var3 = (short)(var10002 * C41_f638[super.primaryStates[var2] - 1] / 100);
       var2 = 4;
-      super.C60_f855[var2] = var3;
-      this.h();
+      super.primaryStates[var2] = var3;
+      this.saveCurrentStates();
       var2 = 1;
-      this.u(super.C60_f856[var2]);
+      this.u(super.secondaryStates[var2]);
    }
 
    public static short b(int var0, int var1, int var2) {
@@ -489,7 +489,7 @@ public final class C41 extends C20 {
       for(int var1 = 0; var1 < this.C41_f648.length; ++var1) {
          int var10003 = this.C41_f654 - 5;
          byte var3 = 0;
-         this.C41_f648[var1] = a(this.C41_f657, var10003, super.C60_f855[var3], var1 + 1);
+         this.C41_f648[var1] = a(this.C41_f657, var10003, super.primaryStates[var3], var1 + 1);
       }
 
    }
@@ -497,7 +497,7 @@ public final class C41 extends C20 {
    public final void y() {
       for(int var1 = 0; var1 < this.C41_f648.length; ++var1) {
          byte var3 = (byte)(var1 + 1);
-         this.C41_f648[var1] = super.C60_f855[var3];
+         this.C41_f648[var1] = super.primaryStates[var3];
       }
 
    }
@@ -510,23 +510,23 @@ public final class C41 extends C20 {
       if (this.C41_f663 < 20) {
          ++this.C41_f663;
          byte var2 = 2;
-         short var10002 = super.C60_f855[var2];
+         short var10002 = super.primaryStates[var2];
          var2 = 2;
-         short var3 = (short)(var10002 + super.C60_f855[var2] * this.C41_f663 / 100);
+         short var3 = (short)(var10002 + super.primaryStates[var2] * this.C41_f663 / 100);
          var2 = 2;
-         super.C60_f856[var2] = var3;
+         super.secondaryStates[var2] = var3;
          var2 = 3;
-         var10002 = super.C60_f855[var2];
+         var10002 = super.primaryStates[var2];
          var2 = 3;
-         var3 = (short)(var10002 + super.C60_f855[var2] * this.C41_f663 / 100);
+         var3 = (short)(var10002 + super.primaryStates[var2] * this.C41_f663 / 100);
          var2 = 3;
-         super.C60_f856[var2] = var3;
+         super.secondaryStates[var2] = var3;
          var2 = 4;
-         var10002 = super.C60_f855[var2];
+         var10002 = super.primaryStates[var2];
          var2 = 4;
-         var3 = (short)(var10002 + super.C60_f855[var2] * this.C41_f663 / 100);
+         var3 = (short)(var10002 + super.primaryStates[var2] * this.C41_f663 / 100);
          var2 = 4;
-         super.C60_f856[var2] = var3;
+         super.secondaryStates[var2] = var3;
       }
 
    }
@@ -545,72 +545,72 @@ public final class C41 extends C20 {
 
    public final int C() {
       byte var3;
-      if (((C41)this.C60_f868).C41_f660 == 0 && C53.p().b((byte)4, (byte)0) == 2) {
+      if (((C41)this.followTarget).C41_f660 == 0 && C53.p().b((byte)4, (byte)0) == 2) {
          var3 = 3;
-         short var1 = (short)(this.C60_f868.C60_f855[var3] * (100 + ResourceManager.gameDatabase[2][4][5]) / 100);
+         short var1 = (short)(this.followTarget.primaryStates[var3] * (100 + ResourceManager.gameDatabase[2][4][5]) / 100);
          var3 = 3;
-         this.C60_f868.C60_f856[var3] = var1;
+         this.followTarget.secondaryStates[var3] = var1;
       }
 
       short var10000;
       int var4;
-      if (((C41)this.C60_f868).f((byte)2)) {
+      if (((C41)this.followTarget).f((byte)2)) {
          var3 = 2;
-         var10000 = super.C60_f856[var3];
+         var10000 = super.secondaryStates[var3];
          var3 = 3;
-         var4 = var10000 - this.C60_f868.C60_f856[var3] * (100 + ResourceManager.gameDatabase[3][2][5]) / 100;
+         var4 = var10000 - this.followTarget.secondaryStates[var3] * (100 + ResourceManager.gameDatabase[3][2][5]) / 100;
       } else {
          var3 = 2;
-         var10000 = super.C60_f856[var3];
+         var10000 = super.secondaryStates[var3];
          var3 = 3;
-         var4 = var10000 - this.C60_f868.C60_f856[var3];
+         var4 = var10000 - this.followTarget.secondaryStates[var3];
       }
 
       int var5;
       if (this.f((byte)0)) {
          var3 = 1;
-         var10000 = super.C60_f856[var3];
+         var10000 = super.secondaryStates[var3];
          short var10001 = ResourceManager.gameDatabase[3][0][5];
          var3 = 1;
-         if (var10000 <= var10001 * super.C60_f855[var3] / 100) {
+         if (var10000 <= var10001 * super.primaryStates[var3] / 100) {
             var3 = 2;
-            var5 = super.C60_f856[var3] * (100 + ResourceManager.gameDatabase[3][0][6]) / 100;
+            var5 = super.secondaryStates[var3] * (100 + ResourceManager.gameDatabase[3][0][6]) / 100;
             var3 = 3;
-            var4 = var5 - this.C60_f868.C60_f856[var3];
+            var4 = var5 - this.followTarget.secondaryStates[var3];
          }
       } else if (this.f((byte)1)) {
          var3 = 2;
-         var5 = super.C60_f856[var3] * (100 + ResourceManager.gameDatabase[3][1][5]) / 100;
+         var5 = super.secondaryStates[var3] * (100 + ResourceManager.gameDatabase[3][1][5]) / 100;
          var3 = 3;
-         var4 = var5 - this.C60_f868.C60_f856[var3];
+         var4 = var5 - this.followTarget.secondaryStates[var3];
       }
 
       return var4;
    }
 
    public final int a(byte var1) {
-      int var2 = super.C60_f855[var1];
+      int var2 = super.primaryStates[var1];
       byte var4;
       switch(var1) {
       case 2:
          if (this.f((byte)0)) {
             var4 = 1;
-            short var10000 = super.C60_f856[var4];
+            short var10000 = super.secondaryStates[var4];
             short var10001 = ResourceManager.gameDatabase[3][0][5];
             var4 = 1;
-            if (var10000 <= var10001 * super.C60_f855[var4] / 100) {
+            if (var10000 <= var10001 * super.primaryStates[var4] / 100) {
                var4 = 2;
-               var2 = super.C60_f855[var4] * (100 + ResourceManager.gameDatabase[3][0][6]) / 100;
+               var2 = super.primaryStates[var4] * (100 + ResourceManager.gameDatabase[3][0][6]) / 100;
             }
          } else if (this.f((byte)1)) {
             var4 = 2;
-            var2 = super.C60_f855[var4] * (100 + ResourceManager.gameDatabase[3][1][5]) / 100;
+            var2 = super.primaryStates[var4] * (100 + ResourceManager.gameDatabase[3][1][5]) / 100;
          }
          break;
       case 3:
          if (this.f((byte)2)) {
             var4 = 3;
-            var2 = super.C60_f856[var4] * (100 + ResourceManager.gameDatabase[3][2][5]) / 100;
+            var2 = super.secondaryStates[var4] * (100 + ResourceManager.gameDatabase[3][2][5]) / 100;
          }
       case 4:
       }
@@ -625,33 +625,33 @@ public final class C41 extends C20 {
       }
 
       byte var3 = 1;
-      this.u(super.C60_f856[var3]);
+      this.u(super.secondaryStates[var3]);
       var3 = 1;
-      short var4 = (short)(super.C60_f856[var3] - var2);
+      short var4 = (short)(super.secondaryStates[var3] - var2);
       var3 = 1;
-      super.C60_f856[var3] = var4;
+      super.secondaryStates[var3] = var4;
       var3 = 1;
-      if (super.C60_f856[var3] <= 0) {
+      if (super.secondaryStates[var3] <= 0) {
          byte var5 = 0;
          var3 = 1;
-         super.C60_f856[var3] = var5;
+         super.secondaryStates[var3] = var5;
       }
 
    }
 
    public final void l(int var1) {
       byte var3 = 1;
-      short var4 = (short)(super.C60_f856[var3] + var1);
+      short var4 = (short)(super.secondaryStates[var3] + var1);
       var3 = 1;
-      super.C60_f856[var3] = var4;
+      super.secondaryStates[var3] = var4;
       var3 = 1;
-      short var10000 = super.C60_f856[var3];
+      short var10000 = super.secondaryStates[var3];
       var3 = 1;
-      if (var10000 >= super.C60_f855[var3]) {
+      if (var10000 >= super.primaryStates[var3]) {
          var3 = 1;
-         var4 = super.C60_f855[var3];
+         var4 = super.primaryStates[var3];
          var3 = 1;
-         super.C60_f856[var3] = var4;
+         super.secondaryStates[var3] = var4;
       }
 
    }
@@ -686,51 +686,51 @@ public final class C41 extends C20 {
          case 0:
             var10000 = this.C41_f641[var1];
             var7 = 3;
-            var10000[1] = (short)(super.C60_f855[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
             this.C41_f641[var1][2] = (short)(ResourceManager.gameDatabase[6][var1][4] * this.C() / 100);
             var7 = 3;
-            var8 = (short)(super.C60_f855[var7] + this.C41_f641[var1][1]);
+            var8 = (short)(super.primaryStates[var7] + this.C41_f641[var1][1]);
             var7 = 3;
-            super.C60_f856[var7] = var8;
+            super.secondaryStates[var7] = var8;
             break;
          case 1:
             var10000 = this.C41_f641[var1];
             var7 = 3;
-            var10000[1] = (short)(super.C60_f855[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
             this.C41_f641[var1][2] = ResourceManager.gameDatabase[6][var1][4];
             var7 = 3;
-            var8 = (short)(super.C60_f855[var7] - this.C41_f641[var1][1]);
+            var8 = (short)(super.primaryStates[var7] - this.C41_f641[var1][1]);
             var7 = 3;
-            super.C60_f856[var7] = var8;
+            super.secondaryStates[var7] = var8;
             break;
          case 2:
             var10000 = this.C41_f641[var1];
             var7 = 3;
-            var10000[1] = (short)(super.C60_f855[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
             this.C41_f641[var1][2] = ResourceManager.gameDatabase[6][var1][4];
             var7 = 3;
-            var8 = (short)(super.C60_f855[var7] + this.C41_f641[var1][1]);
+            var8 = (short)(super.primaryStates[var7] + this.C41_f641[var1][1]);
             var7 = 3;
-            super.C60_f856[var7] = var8;
+            super.secondaryStates[var7] = var8;
             break;
          case 3:
             var10000 = this.C41_f641[var1];
             var7 = 1;
-            var10000[1] = (short)(super.C60_f855[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
             var4 = this.C41_f641[var1][1];
             var7 = 1;
-            this.u(super.C60_f856[var7]);
+            this.u(super.secondaryStates[var7]);
             this.l(this.C41_f641[var1][1]);
             break;
          case 4:
             this.C41_f668[4] = (short)var3;
             var10000 = this.C41_f641[var1];
             var7 = 3;
-            var10000[1] = (short)(super.C60_f855[var7] * ResourceManager.gameDatabase[1][var3][8] / 100);
+            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[1][var3][8] / 100);
             var7 = 3;
-            var8 = (short)(super.C60_f855[var7] + this.C41_f641[var1][1]);
+            var8 = (short)(super.primaryStates[var7] + this.C41_f641[var1][1]);
             var7 = 3;
-            super.C60_f856[var7] = var8;
+            super.secondaryStates[var7] = var8;
             break;
          case 5:
             this.C41_f641[var1][1] = ResourceManager.gameDatabase[6][var1][3];
@@ -743,11 +743,11 @@ public final class C41 extends C20 {
             this.C41_f668[7] = (short)var3;
             var10000 = this.C41_f641[var1];
             var7 = 4;
-            var10000[1] = (short)(super.C60_f855[var7] * ResourceManager.gameDatabase[1][var3][8] / 100);
+            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[1][var3][8] / 100);
             var7 = 4;
-            var8 = (short)(super.C60_f855[var7] + this.C41_f641[var1][1]);
+            var8 = (short)(super.primaryStates[var7] + this.C41_f641[var1][1]);
             var7 = 4;
-            super.C60_f856[var7] = var8;
+            super.secondaryStates[var7] = var8;
             break;
          case 8:
             this.C41_f641[var1][1] = ResourceManager.gameDatabase[6][var1][3];
@@ -755,27 +755,27 @@ public final class C41 extends C20 {
          case 9:
             var10000 = this.C41_f641[var1];
             var7 = 4;
-            var10000[1] = (short)(super.C60_f855[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
             var10000 = this.C41_f641[var1];
             var7 = 3;
-            var10000[2] = (short)(super.C60_f855[var7] * ResourceManager.gameDatabase[6][var1][4] / 100);
+            var10000[2] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][4] / 100);
             var7 = 4;
-            var8 = (short)(super.C60_f855[var7] + this.C41_f641[var1][1]);
+            var8 = (short)(super.primaryStates[var7] + this.C41_f641[var1][1]);
             var7 = 4;
-            super.C60_f856[var7] = var8;
+            super.secondaryStates[var7] = var8;
             var7 = 3;
-            var8 = (short)(super.C60_f855[var7] - this.C41_f641[var1][2]);
+            var8 = (short)(super.primaryStates[var7] - this.C41_f641[var1][2]);
             var7 = 3;
-            super.C60_f856[var7] = var8;
+            super.secondaryStates[var7] = var8;
             break;
          case 10:
             var10000 = this.C41_f641[var1];
             var7 = 2;
-            var10000[1] = (short)(super.C60_f855[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
             var7 = 2;
-            var8 = (short)(super.C60_f855[var7] + this.C41_f641[var1][1]);
+            var8 = (short)(super.primaryStates[var7] + this.C41_f641[var1][1]);
             var7 = 2;
-            super.C60_f856[var7] = var8;
+            super.secondaryStates[var7] = var8;
             break;
          case 11:
             this.C41_f641[var1][1] = (short)var2;
@@ -798,10 +798,10 @@ public final class C41 extends C20 {
          case 13:
             var10000 = this.C41_f641[var1];
             var7 = 1;
-            var10000[1] = (short)(super.C60_f855[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
             var4 = this.C41_f641[var1][1];
             var7 = 1;
-            this.u(super.C60_f856[var7]);
+            this.u(super.secondaryStates[var7]);
             this.l(this.C41_f641[var1][1]);
             this.D();
             break;
@@ -823,8 +823,8 @@ public final class C41 extends C20 {
       this.C41_f641[var1][4] = 0;
 
       for(byte var5 = 2; var5 <= 4; ++var5) {
-         short var4 = super.C60_f855[var5];
-         super.C60_f856[var5] = var4;
+         short var4 = super.primaryStates[var5];
+         super.secondaryStates[var5] = var4;
       }
 
    }
@@ -844,49 +844,49 @@ public final class C41 extends C20 {
          break;
       case 1:
          var5 = 3;
-         var7 = (short)(super.C60_f855[var5] - this.C41_f641[var1][1]);
+         var7 = (short)(super.primaryStates[var5] - this.C41_f641[var1][1]);
          var5 = 3;
-         super.C60_f856[var5] = var7;
+         super.secondaryStates[var5] = var7;
          break;
       case 2:
          var5 = 3;
-         var7 = (short)(super.C60_f855[var5] + this.C41_f641[var1][1]);
+         var7 = (short)(super.primaryStates[var5] + this.C41_f641[var1][1]);
          var5 = 3;
-         super.C60_f856[var5] = var7;
+         super.secondaryStates[var5] = var7;
          break;
       case 3:
          var2 = this.C41_f641[var1][1];
          var5 = 1;
-         this.u(super.C60_f856[var5]);
+         this.u(super.secondaryStates[var5]);
          this.l(this.C41_f641[var1][1]);
          break;
       case 4:
          var5 = 3;
-         var7 = (short)(super.C60_f856[var5] + this.C41_f641[var1][1]);
+         var7 = (short)(super.secondaryStates[var5] + this.C41_f641[var1][1]);
          var5 = 3;
-         super.C60_f856[var5] = var7;
+         super.secondaryStates[var5] = var7;
          break;
       case 7:
          var5 = 4;
-         var7 = (short)(super.C60_f855[var5] + this.C41_f641[var1][1]);
+         var7 = (short)(super.primaryStates[var5] + this.C41_f641[var1][1]);
          var5 = 4;
-         super.C60_f856[var5] = var7;
+         super.secondaryStates[var5] = var7;
          break;
       case 9:
          var5 = 4;
-         var7 = (short)(super.C60_f855[var5] + this.C41_f641[var1][1]);
+         var7 = (short)(super.primaryStates[var5] + this.C41_f641[var1][1]);
          var5 = 4;
-         super.C60_f856[var5] = var7;
+         super.secondaryStates[var5] = var7;
          var5 = 3;
-         var7 = (short)(super.C60_f855[var5] - this.C41_f641[var1][2]);
+         var7 = (short)(super.primaryStates[var5] - this.C41_f641[var1][2]);
          var5 = 3;
-         super.C60_f856[var5] = var7;
+         super.secondaryStates[var5] = var7;
          break;
       case 10:
          var5 = 2;
-         var7 = (short)(super.C60_f855[var5] + this.C41_f641[var1][1]);
+         var7 = (short)(super.primaryStates[var5] + this.C41_f641[var1][1]);
          var5 = 2;
-         super.C60_f856[var5] = var7;
+         super.secondaryStates[var5] = var7;
          break;
       case 11:
          short[] var10001 = this.C41_f641[11];
@@ -912,7 +912,7 @@ public final class C41 extends C20 {
       case 13:
          var2 = this.C41_f641[var1][1];
          var5 = 1;
-         this.u(super.C60_f856[var5]);
+         this.u(super.secondaryStates[var5]);
          this.l(this.C41_f641[var1][1]);
       }
 
@@ -955,8 +955,8 @@ public final class C41 extends C20 {
       this.C41_f642[var1][4] = 0;
 
       for(byte var5 = 2; var5 <= 4; ++var5) {
-         short var4 = super.C60_f855[var5];
-         super.C60_f856[var5] = var4;
+         short var4 = super.primaryStates[var5];
+         super.secondaryStates[var5] = var4;
       }
 
    }
@@ -1003,17 +1003,17 @@ public final class C41 extends C20 {
          return;
       case 5:
          var3 = 4;
-         var4 = (short)(super.C60_f855[var3] - this.C41_f642[var1][1]);
+         var4 = (short)(super.primaryStates[var3] - this.C41_f642[var1][1]);
          var3 = 4;
-         super.C60_f856[var3] = var4;
+         super.secondaryStates[var3] = var4;
          return;
       case 6:
          return;
       case 7:
          var3 = 3;
-         var4 = (short)(super.C60_f855[var3] - this.C41_f642[var1][1]);
+         var4 = (short)(super.primaryStates[var3] - this.C41_f642[var1][1]);
          var3 = 3;
-         super.C60_f856[var3] = var4;
+         super.secondaryStates[var3] = var4;
       case 8:
       case 9:
       case 10:
@@ -1082,7 +1082,7 @@ public final class C41 extends C20 {
 
    public final boolean f(byte var1) {
       byte var3 = 5;
-      return super.C60_f855[var3] == var1;
+      return super.primaryStates[var3] == var1;
    }
 
    public final int F() {
@@ -1184,7 +1184,7 @@ public final class C41 extends C20 {
    }
 
    public final void a(byte var1, C41 var2) {
-      super.C60_f868 = var2;
+      super.followTarget = var2;
       this.C41_f659 = var1;
 
       for(int var4 = 0; var4 < this.C41_f646.length; ++var4) {
@@ -1241,11 +1241,11 @@ public final class C41 extends C20 {
       return this.C41_f659;
    }
 
-   public final void h() {
+   public final void saveCurrentStates() {
       this.V();
-      super.h();
+      super.saveCurrentStates();
       byte var2 = 1;
-      this.u(super.C60_f855[var2]);
+      this.u(super.primaryStates[var2]);
    }
 
    public final void J() {
@@ -1255,7 +1255,7 @@ public final class C41 extends C20 {
          }
       }
 
-      this.h();
+      this.saveCurrentStates();
       this.c();
    }
 
@@ -1293,45 +1293,45 @@ public final class C41 extends C20 {
       switch(var1) {
       case 7:
          var2 = 2;
-         var3 = (short)(super.C60_f855[var2] * 90 / 100);
+         var3 = (short)(super.primaryStates[var2] * 90 / 100);
          var2 = 2;
-         super.C60_f855[var2] = var3;
+         super.primaryStates[var2] = var3;
          var2 = 4;
-         var3 = (short)(super.C60_f855[var2] + 7);
+         var3 = (short)(super.primaryStates[var2] + 7);
          var2 = 4;
-         super.C60_f855[var2] = var3;
+         super.primaryStates[var2] = var3;
          var2 = 1;
-         var3 = (short)(super.C60_f855[var2] * 80 / 100);
+         var3 = (short)(super.primaryStates[var2] * 80 / 100);
          var2 = 1;
-         super.C60_f855[var2] = var3;
+         super.primaryStates[var2] = var3;
          return;
       case 8:
          var2 = 2;
-         var3 = (short)(super.C60_f855[var2] * 130 / 100);
+         var3 = (short)(super.primaryStates[var2] * 130 / 100);
          var2 = 2;
-         super.C60_f855[var2] = var3;
+         super.primaryStates[var2] = var3;
          var2 = 4;
-         var3 = (short)(super.C60_f855[var2] + -2);
+         var3 = (short)(super.primaryStates[var2] + -2);
          var2 = 4;
-         super.C60_f855[var2] = var3;
+         super.primaryStates[var2] = var3;
          var2 = 1;
-         var3 = (short)(super.C60_f855[var2] * 80 / 100);
+         var3 = (short)(super.primaryStates[var2] * 80 / 100);
          var2 = 1;
-         super.C60_f855[var2] = var3;
+         super.primaryStates[var2] = var3;
          return;
       case 9:
          var2 = 2;
-         var3 = (short)(super.C60_f855[var2] * 90 / 100);
+         var3 = (short)(super.primaryStates[var2] * 90 / 100);
          var2 = 2;
-         super.C60_f855[var2] = var3;
+         super.primaryStates[var2] = var3;
          var2 = 4;
-         var3 = (short)(super.C60_f855[var2] + -2);
+         var3 = (short)(super.primaryStates[var2] + -2);
          var2 = 4;
-         super.C60_f855[var2] = var3;
+         super.primaryStates[var2] = var3;
          var2 = 1;
-         var3 = (short)(super.C60_f855[var2] * 130 / 100);
+         var3 = (short)(super.primaryStates[var2] * 130 / 100);
          var2 = 1;
-         super.C60_f855[var2] = var3;
+         super.primaryStates[var2] = var3;
       default:
       }
    }
@@ -1365,15 +1365,15 @@ public final class C41 extends C20 {
 
    public final int M() {
       byte var2 = 1;
-      int var10000 = super.C60_f856[var2] * 100;
+      int var10000 = super.secondaryStates[var2] * 100;
       var2 = 1;
-      return var10000 / super.C60_f855[var2];
+      return var10000 / super.primaryStates[var2];
    }
 
    public final int N() {
       int var10000 = this.C41_f650 * 100;
       byte var2 = 1;
-      return var10000 / super.C60_f855[var2];
+      return var10000 / super.primaryStates[var2];
    }
 
    public final int O() {
@@ -1382,9 +1382,9 @@ public final class C41 extends C20 {
 
    public final void u(int var1) {
       byte var3 = 1;
-      if (var1 >= super.C60_f855[var3]) {
+      if (var1 >= super.primaryStates[var3]) {
          var3 = 1;
-         this.C41_f650 = super.C60_f855[var3];
+         this.C41_f650 = super.primaryStates[var3];
       } else {
          this.C41_f650 = var1;
       }
@@ -1414,14 +1414,14 @@ public final class C41 extends C20 {
       (var1 = new int[9 + (this.C41_f647 << 1) + 1])[0] = this.C41_f657;
       var1[1] = this.C41_f654;
       byte var2 = 5;
-      var1[2] = super.C60_f855[var2];
+      var1[2] = super.primaryStates[var2];
       var2 = 6;
-      var1[3] = super.C60_f856[var2];
+      var1[3] = super.secondaryStates[var2];
       var2 = 0;
-      var1[4] = super.C60_f855[var2];
+      var1[4] = super.primaryStates[var2];
       var1[5] = this.C41_f658;
       var2 = 1;
-      var1[6] = super.C60_f856[var2];
+      var1[6] = super.secondaryStates[var2];
       var1[7] = this.C41_f652;
       var1[8] = this.C41_f662;
       var1[9] = this.C41_f647;
@@ -1465,9 +1465,9 @@ public final class C41 extends C20 {
       switch(ResourceManager.gameDatabase[4][var1][5]) {
       case 1:
          var5 = 1;
-         var6 = (short)(super.C60_f855[var5] * ResourceManager.gameDatabase[4][var1][6] / 100 + ResourceManager.gameDatabase[4][var1][7]);
+         var6 = (short)(super.primaryStates[var5] * ResourceManager.gameDatabase[4][var1][6] / 100 + ResourceManager.gameDatabase[4][var1][7]);
          var5 = 1;
-         this.u(super.C60_f856[var5] + var6);
+         this.u(super.secondaryStates[var5] + var6);
          this.l(var6);
          break;
       case 2:
@@ -1476,17 +1476,17 @@ public final class C41 extends C20 {
          break;
       case 3:
          var5 = 1;
-         var6 = (short)(super.C60_f855[var5] * ResourceManager.gameDatabase[4][var1][6] / 100 + ResourceManager.gameDatabase[4][var1][7]);
+         var6 = (short)(super.primaryStates[var5] * ResourceManager.gameDatabase[4][var1][6] / 100 + ResourceManager.gameDatabase[4][var1][7]);
          var3 = ResourceManager.gameDatabase[4][var1][8];
          var5 = 1;
-         this.u(super.C60_f856[var5] + var6);
+         this.u(super.secondaryStates[var5] + var6);
          this.l(var6);
          this.B(var3);
          break;
       case 4:
          this.c();
          var5 = 1;
-         var6 = (short)(super.C60_f855[var5] * ResourceManager.gameDatabase[4][var1][6] / 100 + ResourceManager.gameDatabase[4][var1][7]);
+         var6 = (short)(super.primaryStates[var5] * ResourceManager.gameDatabase[4][var1][6] / 100 + ResourceManager.gameDatabase[4][var1][7]);
          var3 = ResourceManager.gameDatabase[4][var1][8];
          this.u(var6);
          this.l(var6);
@@ -1498,7 +1498,7 @@ public final class C41 extends C20 {
       case 6:
          byte var2 = 2;
          var5 = 6;
-         super.C60_f856[var5] = var2;
+         super.secondaryStates[var5] = var2;
       }
 
       C53.p().d(var1, 1, (byte)0);
@@ -1516,9 +1516,9 @@ public final class C41 extends C20 {
             return 6;
          case 1:
             var3 = 1;
-            var10000 = super.C60_f855[var3];
+            var10000 = super.primaryStates[var3];
             var3 = 1;
-            if (var10000 == super.C60_f856[var3]) {
+            if (var10000 == super.secondaryStates[var3]) {
                return 2;
             }
             break;
@@ -1535,9 +1535,9 @@ public final class C41 extends C20 {
          case 3:
             var4 = -1;
             var3 = 1;
-            var10000 = super.C60_f855[var3];
+            var10000 = super.primaryStates[var3];
             var3 = 1;
-            if (var10000 == super.C60_f856[var3] || !this.T()) {
+            if (var10000 == super.secondaryStates[var3] || !this.T()) {
                var4 = 2;
             }
 
@@ -1568,7 +1568,7 @@ public final class C41 extends C20 {
             return 4;
          case 6:
             var3 = 6;
-            if (super.C60_f856[var3] >= 2) {
+            if (super.secondaryStates[var3] >= 2) {
                return 5;
             }
          }
@@ -1579,7 +1579,7 @@ public final class C41 extends C20 {
 
    public final boolean T() {
       byte var2 = 1;
-      return super.C60_f856[var2] > 0;
+      return super.secondaryStates[var2] > 0;
    }
 
    public final byte a(C41 var1) {
@@ -1627,7 +1627,7 @@ public final class C41 extends C20 {
       }
 
       byte var9 = 4;
-      int var10 = var3 + super.C60_f856[var9] / 2;
+      int var10 = var3 + super.secondaryStates[var9] / 2;
       if (this.f((byte)4)) {
          var10 += ResourceManager.gameDatabase[3][4][5];
       }
@@ -1737,9 +1737,9 @@ public final class C41 extends C20 {
       case 53:
       case 59:
          var9 = 1;
-         int var10000 = super.C60_f856[var9] * 100;
+         int var10000 = super.secondaryStates[var9] * 100;
          var9 = 1;
-         int var7 = var10000 / super.C60_f855[var9];
+         int var7 = var10000 / super.primaryStates[var9];
          var4 = var4 * (ResourceManager.gameDatabase[1][this.C41_f659][8] - var7) / 100;
       }
 
@@ -1792,11 +1792,11 @@ public final class C41 extends C20 {
             case 5:
                var18 = var1.C41_f642[var12];
                var9 = 4;
-               var18[1] = (short)(var1.C60_f855[var9] * ResourceManager.gameDatabase[1][var15][8] / 100);
+               var18[1] = (short)(var1.primaryStates[var9] * ResourceManager.gameDatabase[1][var15][8] / 100);
                var9 = 4;
-               var14 = (short)(var1.C60_f855[var9] - var1.C41_f642[var12][1]);
+               var14 = (short)(var1.primaryStates[var9] - var1.C41_f642[var12][1]);
                var9 = 4;
-               var1.C60_f856[var9] = var14;
+               var1.secondaryStates[var9] = var14;
                break;
             case 6:
                var1.C41_f642[var12][1] = ResourceManager.gameDatabase[1][var15][8];
@@ -1804,11 +1804,11 @@ public final class C41 extends C20 {
             case 7:
                var18 = var1.C41_f642[var12];
                var9 = 3;
-               var18[1] = (short)(var1.C60_f855[var9] * ResourceManager.gameDatabase[1][var15][8] / 100);
+               var18[1] = (short)(var1.primaryStates[var9] * ResourceManager.gameDatabase[1][var15][8] / 100);
                var9 = 3;
-               var14 = (short)(var1.C60_f855[var9] - var1.C41_f642[var12][1]);
+               var14 = (short)(var1.primaryStates[var9] - var1.C41_f642[var12][1]);
                var9 = 3;
-               var1.C60_f856[var9] = var14;
+               var1.secondaryStates[var9] = var14;
             }
 
             var1.a((int)1, (byte)var12);

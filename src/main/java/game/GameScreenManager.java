@@ -3,10 +3,10 @@ package game;
 import a.GameEngineBase;
 import a.GameUtils;
 import a.a.C30;
-import a.a.C42;
-import a.b.C64;
+import a.a.ImageData;
+import a.b.SpriteDataCache;
 import a.b.ResourceManager;
-import a.b.C68;
+import a.b.TileMapRenderer;
 import layout.DialogManager;
 
 import javax.microedition.lcdui.Graphics;
@@ -29,7 +29,7 @@ public final class GameScreenManager extends GameEngineBase {
     public long storyStartTime = 0L;
     public long worldMapTime = 0L;
     public long currentTime = 0L;
-    C42 backgroundEffect = null;
+    ImageData backgroundEffect = null;
     private String currentMessage = "";
     public byte difficultyLevel = 0;
 
@@ -183,15 +183,15 @@ public final class GameScreenManager extends GameEngineBase {
         this.dialogManager = DialogManager.getInstance();
         this.gameController.a(this);
         ResourceManager.initializeImageCache(50000);
-        C64.a(1000);
+        SpriteDataCache.initialize(1000);
         ResourceManager.initializeAllResources();
         setBackgroundColor(0);
         getDefaultFont();
         this.tutorialManager.initializeGame();
         Image var1;
         int[] var2 = GameUtils.extractImageRGB(var1 = GameUtils.loadImage("/data/img/", "img_22"));
-        this.backgroundEffect = new C42();
-        this.backgroundEffect.a(var2, var1.getWidth(), var1.getHeight());
+        this.backgroundEffect = new ImageData();
+        this.backgroundEffect.setPixelData(var2, var1.getWidth(), var1.getHeight());
         C25.B();
         C25.G();
         stopGameTimer();
@@ -207,11 +207,11 @@ public final class GameScreenManager extends GameEngineBase {
     }
 
     public final void update() {
-        if (this.C8_f110) {
-            this.A();
+        if (this.isActive) {
+            this.updateInputState();
             switch (this.currentState) {
                 case 2:
-                    if (this.g(262144)) {
+                    if (this.isKeyPressed(262144)) {
                         this.resumeGame();
                     }
                     break;
@@ -225,9 +225,9 @@ public final class GameScreenManager extends GameEngineBase {
                     }
                     break;
                 case 4:
-                    if (this.g(131072)) {
+                    if (this.isKeyPressed(131072)) {
                         this.deactivate();
-                    } else if (this.g(262144)) {
+                    } else if (this.isKeyPressed(262144)) {
                         this.resumeGame();
                     }
                 case 5:
@@ -238,11 +238,11 @@ public final class GameScreenManager extends GameEngineBase {
                     break;
                 case 6:
                     byte var2;
-                    if (this.g(131072)) {
+                    if (this.isKeyPressed(131072)) {
                         var2 = 1;
                         this.difficultyLevel = (byte) var2;
                         this.changeState((byte) 21);
-                    } else if (this.g(262144)) {
+                    } else if (this.isKeyPressed(262144)) {
                         var2 = 0;
                         this.difficultyLevel = (byte) var2;
                         this.changeState((byte) 21);
@@ -252,7 +252,7 @@ public final class GameScreenManager extends GameEngineBase {
                     this.cleanupCurrentScreen();
                     this.currentScreen = MainMenuScreen.getInstance();
                     this.currentScreen.initializeGame();
-                    this.a(this.currentScreen);
+                    this.setChildHandler(this.currentScreen);
                     this.changeState((byte) 8);
                     break;
                 case 8:
@@ -268,7 +268,7 @@ public final class GameScreenManager extends GameEngineBase {
                     this.cleanupCurrentScreen();
                     this.currentScreen = C25.B();
                     this.currentScreen.initializeGame();
-                    this.a(this.currentScreen);
+                    this.setChildHandler(this.currentScreen);
                     if (this.currentState == 9 || this.currentState == 22) {
                         this.changeState((byte) 11);
                     }
@@ -279,7 +279,7 @@ public final class GameScreenManager extends GameEngineBase {
                     this.cleanupCurrentScreen();
                     this.currentScreen = C25.B();
                     ((C25) this.currentScreen).L();
-                    this.a(this.currentScreen);
+                    this.setChildHandler(this.currentScreen);
                     this.changeState((byte) 11);
                     break;
                 case 12:
@@ -287,7 +287,7 @@ public final class GameScreenManager extends GameEngineBase {
                         this.currentScreen = null;
                         this.currentScreen = C29.B();
                         this.currentScreen.initializeGame();
-                        this.a(this.currentScreen);
+                        this.setChildHandler(this.currentScreen);
                         if (((C29) this.currentScreen).C29_f398 == 0) {
                             C30.a().c(-2013265920, 6);
                         } else if (((C29) this.currentScreen).C29_f398 == 2) {
@@ -332,19 +332,19 @@ public final class GameScreenManager extends GameEngineBase {
 
                     this.currentScreen = C48.B();
                     this.currentScreen.initializeGame();
-                    this.a(this.currentScreen);
+                    this.setChildHandler(this.currentScreen);
                     this.currentScreen.changeState(var1);
                     this.changeState((byte) 20);
                     break;
                 case 21:
                     C30.a().d();
-                    if (C30.a().C30_f475 == -1 || this.g(65568) && MainMenuScreen.inputEnabled) {
+                    if (C30.a().C30_f475 == -1 || this.isKeyPressed(65568) && MainMenuScreen.inputEnabled) {
                         C30.a().C30_f475 = -1;
                         C30.a().C30_f474 = -1;
                         C30.a().C30_f479 = 0;
                         C30.a().C30_f472 = -1;
                         this.currentImage = null;
-                        this.backgroundEffect.C42_f671 = null;
+                        this.backgroundEffect.pixels = null;
                         this.backgroundEffect = null;
                         this.changeState((byte) 7);
                     }
@@ -358,7 +358,7 @@ public final class GameScreenManager extends GameEngineBase {
                             this.cleanupCurrentScreen();
                             this.currentScreen = C25.B();
                             this.currentScreen.initializeGame();
-                            this.a(this.currentScreen);
+                            this.setChildHandler(this.currentScreen);
                             this.tutorialManager.changeState((byte) 3);
                         }
                     } else if (this.tutorialManager.C44_f698 == 3 && C30.a().C30_f477) {
@@ -380,7 +380,7 @@ public final class GameScreenManager extends GameEngineBase {
     }
 
     public final void renderPauseScreen(Graphics var1) {
-        if (this.C8_f110) {
+        if (this.isActive) {
             var1.setFont(getDefaultFont());
             switch (this.currentState) {
                 case 2:
@@ -438,8 +438,8 @@ public final class GameScreenManager extends GameEngineBase {
 
                         C53 var10000 = C53.p();
                         byte var4 = (byte) (loadingProgress % 4);
-                        var10000.C60_f866 = var4;
-                        C53.p().a(var1, C68.a().C68_f943, C68.a().C68_f944 - loadingProgress);
+                        var10000.currentDirection = var4;
+                        C53.p().a(var1, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY - loadingProgress);
                     } else {
                         var1.setColor(0);
                         var1.fillRect(0, 0, getScreenWidth(), getScreenHeight());
@@ -468,7 +468,7 @@ public final class GameScreenManager extends GameEngineBase {
                 case 10:
                     return;
                 case 12:
-                    C25.B().C25_f285.a(var1);
+                    C25.B().C25_f285.renderWorld(var1);
                     if (isEngineStopped()) {
                         C30.a().a(var1);
                         C53.C53_f798 = false;
@@ -497,7 +497,7 @@ public final class GameScreenManager extends GameEngineBase {
                     var1.drawImage(this.currentImage, 0, 0, 20);
 
                     for (int var2 = 0; var2 < getScreenWidth() / 10; ++var2) {
-                        var1.drawRGB(this.backgroundEffect.C42_f671, 0, this.backgroundEffect.C42_f672, var2 * 10, 0, this.backgroundEffect.C42_f672, this.backgroundEffect.C42_f673, true);
+                        var1.drawRGB(this.backgroundEffect.pixels, 0, this.backgroundEffect.width, var2 * 10, 0, this.backgroundEffect.width, this.backgroundEffect.height, true);
                     }
 
                     C30.a().a(var1);

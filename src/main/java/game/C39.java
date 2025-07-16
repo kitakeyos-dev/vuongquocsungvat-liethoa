@@ -147,13 +147,13 @@ public final class C39 {
                      break label71;
                   }
 
-                  C4.a(var2, GameUtils.textChunks[var15], var14.C39_f604, var14.C39_f605 + var15 * (C4.C4_f33 + 1) + var16, 16777215);
+                  BitmapFontRenderer.drawTextWithOutline(var2, GameUtils.textChunks[var15], var14.C39_f604, var14.C39_f605 + var15 * (BitmapFontRenderer.fontHeight + 1) + var16, 16777215);
                   ++var15;
                }
             case 1:
                for(var15 = 0; var15 < GameUtils.textChunks.length; ++var15) {
                   var2.setColor(16777215);
-                  C4.b(var2, GameUtils.textChunks[var15], var14.C39_f604, var14.C39_f605 + (C4.C4_f33 + 1) * (GameUtils.textChunks.length >> var15 + 1) + var16, 17);
+                  BitmapFontRenderer.drawTextWithAlignment(var2, GameUtils.textChunks[var15], var14.C39_f604, var14.C39_f605 + (BitmapFontRenderer.fontHeight + 1) * (GameUtils.textChunks.length >> var15 + 1) + var16, 17);
                }
             default:
                break label71;
@@ -174,7 +174,7 @@ public final class C39 {
                   break;
                }
 
-               int var9 = C4.C4_f33 * (var8 - var3.C39_f616 * var3.C39_f607) + var6;
+               int var9 = BitmapFontRenderer.fontHeight * (var8 - var3.C39_f616 * var3.C39_f607) + var6;
                int var10 = var5;
 
                for(int var11 = var3.C39_f615[var8][0]; var11 < var3.C39_f615[var8][1]; ++var11) {
@@ -194,8 +194,8 @@ public final class C39 {
                   var4.setColor(var3.C39_f599[var3.C39_f600]);
                   if (var11 < var7) {
                      char var17 = var3.C39_f594[var11];
-                     C4.a(var4, var17, var10, var9);
-                     var10 += C4.a(var17);
+                     BitmapFontRenderer.drawCharacter(var4, var17, var10, var9);
+                     var10 += BitmapFontRenderer.getCharacterWidth(var17);
                   }
                }
 
@@ -227,7 +227,7 @@ public final class C39 {
          int var4 = 0;
          int var5 = 0;
          int var6;
-         int var7 = (var6 = this.C39_f622 - 10) - C4.C4_f38;
+         int var7 = (var6 = this.C39_f622 - 10) - BitmapFontRenderer.specialCharacterWidth;
          StringBuffer var8 = new StringBuffer();
 
          while(true) {
@@ -238,7 +238,7 @@ public final class C39 {
                   var12.C39_f597 += 7;
                } else {
                   ++var12.C39_f597;
-                  int var10 = C4.a(var9);
+                  int var10 = BitmapFontRenderer.getCharacterWidth(var9);
                   int var11 = var5 + var10;
                   var8.append(var9);
                   if (var5 > var6 || var9 == ' ' && var5 > var7) {
@@ -296,7 +296,7 @@ public final class C39 {
       int[][] var4 = new int[50][2];
       int var5 = 0;
       int var6;
-      int var7 = (var6 = this.C39_f622 - 10) - C4.C4_f38;
+      int var7 = (var6 = this.C39_f622 - 10) - BitmapFontRenderer.specialCharacterWidth;
       int var8 = 0;
       int var9 = 0;
 
@@ -306,7 +306,7 @@ public final class C39 {
             if ((var10 = var2[var9]) == '#') {
                var9 += 7;
             } else {
-               int var11 = C4.a(var10);
+               int var11 = BitmapFontRenderer.getCharacterWidth(var10);
                int var12 = var5 + var11;
                if (var5 > var6 || var10 == ' ' && var5 > var7) {
                   var12 = 0;
@@ -343,10 +343,10 @@ public final class C39 {
 
    public final void b(int var1, int var2) {
       this.C39_f622 = var1;
-      int var3 = C4.a('w');
+      int var3 = BitmapFontRenderer.getCharacterWidth('w');
       this.C39_f595 = var1 / var3;
       int var10000 = this.C39_f595;
-      this.C39_f607 = var2 / (C4.C4_f33 + 1);
+      this.C39_f607 = var2 / (BitmapFontRenderer.fontHeight + 1);
    }
 
    private void a(Graphics var1, int var2, int var3) {
@@ -356,7 +356,7 @@ public final class C39 {
       int var6 = var2;
       var3 = var3;
       int var7;
-      int var8 = (var7 = this.C39_f622 + var2 - 10) - C4.C4_f38;
+      int var8 = (var7 = this.C39_f622 + var2 - 10) - BitmapFontRenderer.specialCharacterWidth;
 
       for(int var9 = this.C39_f596; var9 < this.C39_f597; ++var9) {
          int var11;
@@ -376,7 +376,7 @@ public final class C39 {
          var1.setColor(this.C39_f599[this.C39_f600]);
          if (var9 < var5) {
             char var13;
-            var11 = C4.a(var13 = var4[var9]);
+            var11 = BitmapFontRenderer.getCharacterWidth(var13 = var4[var9]);
             int var12;
             if ((var12 = var6 + var11) > var7 || var13 == ' ' && var12 > var8) {
                var12 = var2;
@@ -385,10 +385,10 @@ public final class C39 {
                   var12 = var2 + var11;
                }
 
-               var3 += C4.C4_f33 + 1;
+               var3 += BitmapFontRenderer.fontHeight + 1;
             }
 
-            C4.a(var1, var13, var6, var3);
+            BitmapFontRenderer.drawCharacter(var1, var13, var6, var3);
             var6 = var12;
          }
 
@@ -438,7 +438,7 @@ public final class C39 {
          case 0:
             int var3 = var2.length;
             int var4;
-            int var5 = (var4 = this.C39_f622 - 10) - C4.C4_f38;
+            int var5 = (var4 = this.C39_f622 - 10) - BitmapFontRenderer.specialCharacterWidth;
             int var6 = 1;
 
             for(int var7 = 0; var7 < 2; ++var7) {
@@ -453,7 +453,7 @@ public final class C39 {
                      var1.C39_f598 += 7;
                      var1.C39_f597 += 7;
                   } else {
-                     int var9 = C4.a(var8);
+                     int var9 = BitmapFontRenderer.getCharacterWidth(var8);
                      int var10;
                      if ((var10 = var1.C39_f620 + var9) > var4 || var8 == ' ' && var10 > var5) {
                         var10 = 0;

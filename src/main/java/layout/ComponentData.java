@@ -29,13 +29,13 @@ public final class ComponentData {
     public byte spriteBlendMode = -1;                 // C12_f190 - Blend mode for sprites
 
     // Sprite renderers for visual elements
-    public AnimatedRenderer focusedRenderer;              // C12_f191 - shown when focused
+    public SpriteRenderer focusedRenderer;              // C12_f191 - shown when focused
 
     // Color scheme for normal/unfocused state
     public int backgroundColor;                 // C12_f192 - Background color when normal
     public int borderColor;                     // C12_f193 - Border color when normal
     public int textColor;                       // C12_f194 - Text color when normal
-    public AnimatedRenderer renderer;               // C12_f195 - Sprite shown when normal
+    public SpriteRenderer renderer;               // C12_f195 - Sprite shown when normal
 
     // Layout and rendering state
     private Rectangle bounds = null;                  // C12_f196 - Component bounds

@@ -22,7 +22,7 @@ public final class GameScreenManager extends GameEngineBase {
     private static int loadingProgress = 0;
     private static int loadingSpeed = 10;
     private String[] elementalDescriptions = new String[]{"Hỏa hệ khắc mộc hệ", "Mộc hệ khắc thổ hệ", "Thổ hệ khắc thủy hệ", "Thủy hệ khắc hỏa hệ", "Quỷ hệ khắc phong hệ", "Phong hệ khắc điện hệ", "Điện hệ khắc quỷ hệ"};
-    private C33 tutorialManager = C33.B();
+    private TransitionScreen tutorialManager = TransitionScreen.getInstance();
     public long gameStartTime = 0L;
     public long pauseStartTime = 0L;
     public long battleStartTime = 0L;
@@ -354,7 +354,7 @@ public final class GameScreenManager extends GameEngineBase {
                     if (this.tutorialManager.C44_f698 == 1 && C30.a().C30_f477) {
                         this.tutorialManager.changeState((byte) 2);
                     } else if (this.tutorialManager.C44_f698 == 2) {
-                        if (this.tutorialManager.C33_f547) {
+                        if (this.tutorialManager.transitionComplete) {
                             this.cleanupCurrentScreen();
                             this.currentScreen = C25.B();
                             this.currentScreen.initializeGame();
@@ -363,7 +363,7 @@ public final class GameScreenManager extends GameEngineBase {
                         }
                     } else if (this.tutorialManager.C44_f698 == 3 && C30.a().C30_f477) {
                         C30.a().C30_f474 = -1;
-                        this.tutorialManager.C();
+                        this.tutorialManager.stopAnimation();
                         this.changeState((byte) 11);
                     }
             }
@@ -431,15 +431,15 @@ public final class GameScreenManager extends GameEngineBase {
                         var1.setColor(0);
                         var1.fillRect(0, 0, getScreenWidth(), getScreenHeight());
                         if (loadingProgress % 4 == 3) {
-                            C53.p().a((byte) 1, (byte) -1, false);
+                            C53.p().setAnimation((byte) 1, (byte) -1, false);
                         } else {
-                            C53.p().a((byte) (loadingProgress % 4), (byte) -1, false);
+                            C53.p().setAnimation((byte) (loadingProgress % 4), (byte) -1, false);
                         }
 
                         C53 var10000 = C53.p();
                         byte var4 = (byte) (loadingProgress % 4);
                         var10000.currentDirection = var4;
-                        C53.p().a(var1, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY - loadingProgress);
+                        C53.p().render(var1, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY - loadingProgress);
                     } else {
                         var1.setColor(0);
                         var1.fillRect(0, 0, getScreenWidth(), getScreenHeight());

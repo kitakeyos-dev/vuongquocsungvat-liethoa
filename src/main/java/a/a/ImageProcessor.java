@@ -1,7 +1,7 @@
 package a.a;
 
 import a.GameUtils;
-import a.b.AnimatedSprite;
+import a.b.Sprite;
 import javax.microedition.lcdui.Image;
 
 /**
@@ -47,7 +47,7 @@ public final class ImageProcessor {
     * @param targetImageData Target ImageData to store result
     * @return ImageData with rendered sprite
     */
-   public static ImageData renderSpriteToImageData(AnimatedSprite sprite, int compositeId, int[] spriteBounds,
+   public static ImageData renderSpriteToImageData(Sprite sprite, int compositeId, int[] spriteBounds,
                                                    byte flipMode, ImageData targetImageData) {
       // Create temporary image
       Image tempImage = Image.createImage(spriteBounds[2], spriteBounds[3]);

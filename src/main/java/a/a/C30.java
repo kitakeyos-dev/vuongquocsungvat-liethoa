@@ -63,7 +63,7 @@ public final class C30 {
     private int[] C30_f517 = new int[]{16777215, 9115396};
     private static int C30_f518 = 0;
     private static int[] C30_f519 = new int[5];
-    private C21 C30_f520;
+    private EffectEntity C30_f520;
     private int C30_f521 = 0;
     private int C30_f522 = 0;
     public byte C30_f523 = -1;
@@ -300,7 +300,7 @@ public final class C30 {
                     }
 
                     if (this.C30_f520 != null) {
-                        this.C30_f520.a(var1, 0, 0);
+                        this.C30_f520.render(var1);
                     }
                     break;
                 case 8:
@@ -408,25 +408,25 @@ public final class C30 {
                 switch (this.C30_f522) {
                     case 0:
                         var3 = new short[]{8, 118, 160, var2, 0, 1, 0, 4, 0, 2, 1, 8, 0, -16, 10, 0, 0};
-                        this.C30_f520 = new C21();
-                        this.C30_f520.a(var3);
+                        this.C30_f520 = new EffectEntity();
+                        this.C30_f520.initializeEffect(var3);
                         this.C30_f520.setInteractable(true);
-                        this.C30_f520.a();
+                        this.C30_f520.activateEffect();
                         return;
                     case 1:
                         var3 = new short[]{17, 118, 160, var2, 0, 1, 100, 255, 255, 255, 12, 0, 1, 1, 9};
-                        this.C30_f520.a(var3);
-                        this.C30_f520.a();
+                        this.C30_f520.initializeEffect(var3);
+                        this.C30_f520.activateEffect();
                         return;
                     case 2:
                         var3 = new short[]{17, 118, 160, var2, 0, 1, 255, 255, 255, 255, 15, 0, 1, 1, 13};
-                        this.C30_f520.a(var3);
-                        this.C30_f520.a();
+                        this.C30_f520.initializeEffect(var3);
+                        this.C30_f520.activateEffect();
                         return;
                     case 3:
                         var3 = new short[]{9, 118, 160, var2, 0, 1, 160, 255, 255, 255, 0, 4, 1};
-                        this.C30_f520.a(var3);
-                        this.C30_f520.a();
+                        this.C30_f520.initializeEffect(var3);
+                        this.C30_f520.activateEffect();
                     default:
                         return;
                 }
@@ -439,7 +439,7 @@ public final class C30 {
         if (this.C30_f472 != -1 || this.C30_f474 != -1 || this.C30_f475 != -1) {
             switch (this.C30_f472) {
                 case 7:
-                    if (this.C30_f520 != null && !this.C30_f520.d()) {
+                    if (this.C30_f520 != null && !this.C30_f520.updateEffect()) {
                         ++this.C30_f522;
                         if (this.C30_f522 >= 4) {
                             this.C30_f476 = true;

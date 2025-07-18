@@ -1,11 +1,11 @@
 package game;
 
 import a.GameUtils;
-import a.a.C20;
+import a.a.GameObject;
 import a.b.TileMapRenderer;
 import javax.microedition.lcdui.Graphics;
 
-public final class C18 extends C20 {
+public final class C18 extends GameObject {
    public byte C18_f223;
    public boolean C18_f224;
    public byte C18_f225;
@@ -29,16 +29,16 @@ public final class C18 extends C20 {
    private boolean C18_f243;
    private byte[] C18_f244 = new byte[]{2, 3, 0, 1};
    private byte C18_f245 = 0;
-   public C20 C18_f246;
-   public C20 C18_f247;
+   public GameObject C18_f246;
+   public GameObject C18_f247;
    public short C18_f248 = -1;
    private short[] C18_f249 = new short[]{8, 9, 2, 96, 320, 0};
 
    public final void a(short[] var1, int var2) {
       this.C18_f248 = (short)var2;
       this.C18_f223 = (byte)var1[0];
-      this.C20_f261.loadSpriteSet(var1[1], false);
-      this.C20_f261.applyColorEffects();
+      this.sprite.loadSpriteSet(var1[1], false);
+      this.sprite.applyColorEffects();
       this.C18_f225 = (byte)var1[6];
       if (this.C18_f223 == 0 && (this.C18_f225 == 1 || this.C18_f225 == 18)) {
          byte var4 = (byte)(var1[2] % 3);
@@ -59,10 +59,10 @@ public final class C18 extends C20 {
          this.layer = (byte)var1[7];
          this.C18_f226 = (byte)var1[8];
          if (this.C18_f226 != 0 && this.C18_f246 == null && this.isVisible()) {
-            this.C18_f246 = new C20();
-            this.C18_f246.a(259, false);
-            this.C18_f246.C20_f261.applyColorEffects();
-            this.C18_f246.a(this.C18_f226, (byte)-1, true);
+            this.C18_f246 = new GameObject();
+            this.C18_f246.loadSpriteSet(259, false);
+            this.C18_f246.sprite.applyColorEffects();
+            this.C18_f246.setAnimation(this.C18_f226, (byte)-1, true);
             this.C18_f246.setWorldPosition(this.worldX, this.worldY - 40);
             this.C18_f246.followTarget = this;
          }
@@ -98,20 +98,20 @@ public final class C18 extends C20 {
             }
          }
 
-         if (this.C18_f225 == 1 && this.C20_f261.spriteSetId != 226 || this.C18_f225 == 2 || this.C18_f225 == 3 || this.C18_f225 == 17) {
-            if (this.C20_f262 == null) {
-               this.C20_f262 = new C20();
-               this.C20_f262.a(337, false);
+         if (this.C18_f225 == 1 && this.sprite.spriteSetId != 226 || this.C18_f225 == 2 || this.C18_f225 == 3 || this.C18_f225 == 17) {
+            if (this.attachedObject == null) {
+               this.attachedObject = new GameObject();
+               this.attachedObject.loadSpriteSet(337, false);
             }
 
-            this.C20_f262.setWorldPosition(this.worldX, this.worldY);
-            if (this.C20_f261.spriteSetId == 4) {
-               this.C20_f262.a((byte)0, (byte)0, this.C18_f243);
+            this.attachedObject.setWorldPosition(this.worldX, this.worldY);
+            if (this.sprite.spriteSetId == 4) {
+               this.attachedObject.setAnimation((byte)0, (byte)0, this.C18_f243);
             } else {
-               this.C20_f262.a((byte)1, (byte)0, this.C18_f243);
+               this.attachedObject.setAnimation((byte)1, (byte)0, this.C18_f243);
             }
 
-            this.C20_f262.c();
+            this.attachedObject.activate();
          }
          break;
       case 1:
@@ -168,8 +168,8 @@ public final class C18 extends C20 {
    }
 
    public final void p() {
-      if (this.C20_f261 != null) {
-         this.C20_f261.resetWithColorEffects();
+      if (this.sprite != null) {
+         this.sprite.resetWithColorEffects();
       }
 
    }
@@ -178,14 +178,14 @@ public final class C18 extends C20 {
       switch(this.C18_f223) {
       case 0:
          if (this.C18_f225 == 8) {
-            this.a((byte)0, (byte)-1, false);
+            this.setAnimation((byte)0, (byte)-1, false);
             this.C18_f229 = 0;
             this.facingDirection = var1;
             return;
          }
 
          if (this.C18_f225 != 1 && this.C18_f225 != 18) {
-            this.a(var1, (byte)-1, false);
+            this.setAnimation(var1, (byte)-1, false);
             this.facingDirection = var1;
             C25.B().a(this.C18_f248, 0, this.facingDirection, true);
             return;
@@ -194,21 +194,21 @@ public final class C18 extends C20 {
          this.facingDirection = (byte)(var1 / 3);
          if (this.facingDirection == 0) {
             if (this.currentDirection == 3) {
-               this.a((byte)1, (byte)-1, false);
+               this.setAnimation((byte)1, (byte)-1, false);
                return;
             }
 
-            this.a(this.currentDirection, (byte)-1, false);
+            this.setAnimation(this.currentDirection, (byte)-1, false);
             return;
          }
 
          if (this.facingDirection == 1) {
             if (this.currentDirection == 3) {
-               this.a((byte)(this.facingDirection * 3 + 1), (byte)-1, false);
+               this.setAnimation((byte)(this.facingDirection * 3 + 1), (byte)-1, false);
                return;
             }
 
-            this.a((byte)(this.facingDirection * 3 + this.currentDirection), (byte)-1, false);
+            this.setAnimation((byte)(this.facingDirection * 3 + this.currentDirection), (byte)-1, false);
             return;
          }
          break;
@@ -216,19 +216,19 @@ public final class C18 extends C20 {
          if (this.C18_f225 == 0) {
             switch(var1) {
             case 0:
-               this.a(var1, (byte)-1, false);
+               this.setAnimation(var1, (byte)-1, false);
                break;
             case 1:
-               this.a(var1, (byte)-2, false);
+               this.setAnimation(var1, (byte)-2, false);
                break;
             case 2:
-               this.a(var1, (byte)-1, false);
+               this.setAnimation(var1, (byte)-1, false);
                break;
             case 3:
-               this.a(var1, (byte)-2, false);
+               this.setAnimation(var1, (byte)-2, false);
             }
          } else {
-            this.a(var1, (byte)-1, false);
+            this.setAnimation(var1, (byte)-1, false);
             if (this.C18_f225 == 3) {
                C25.B().a(this.C18_f248, 0, var1, true);
             }
@@ -240,7 +240,7 @@ public final class C18 extends C20 {
          this.facingDirection = var1;
          return;
       case 3:
-         this.a(var1, (byte)-2, false);
+         this.setAnimation(var1, (byte)-2, false);
          this.facingDirection = var1;
          C25.B().a(this.C18_f248, 0, this.facingDirection, true);
       }
@@ -254,25 +254,25 @@ public final class C18 extends C20 {
          break;
       case 1:
          if (this.C18_f225 == 0) {
-            if (this.facingDirection == 0 && GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents())) {
+            if (this.facingDirection == 0 && GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
                this.a((byte)1);
-            } else if (this.facingDirection == 2 && !GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents())) {
+            } else if (this.facingDirection == 2 && !GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
                this.a((byte)3);
-            } else if (this.facingDirection == 1 && this.C20_f261.isAtLastFrame()) {
+            } else if (this.facingDirection == 1 && this.sprite.isAtLastFrame()) {
                this.a((byte)2);
-            } else if (this.facingDirection == 3 && this.C20_f261.isAtLastFrame()) {
+            } else if (this.facingDirection == 3 && this.sprite.isAtLastFrame()) {
                this.a((byte)0);
             }
          }
 
          byte var10001;
-         if (this.C18_f225 == 0 && this.C20_f261.isAtLastFrame() || this.C18_f225 == 1 || this.C18_f225 == 3 && this.getFacingDirection() == 2) {
-            if (this.C20_f261.spriteSetId == 320 && !this.isVisible()) {
+         if (this.C18_f225 == 0 && this.sprite.isAtLastFrame() || this.C18_f225 == 1 || this.C18_f225 == 3 && this.getFacingDirection() == 2) {
+            if (this.sprite.spriteSetId == 320 && !this.isVisible()) {
                return;
             }
 
             var10001 = this.C18_f244[this.C18_f236];
-            if ((C53.p().visualState == var10001 && this.C20_f261.spriteSetId != 320 && this.C20_f261.spriteSetId != 310 || this.C20_f261.spriteSetId == 320 || this.C20_f261.spriteSetId == 310) && GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameTriggers())) {
+            if ((C53.p().visualState == var10001 && this.sprite.spriteSetId != 320 && this.sprite.spriteSetId != 310 || this.sprite.spriteSetId == 320 || this.sprite.spriteSetId == 310) && GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
                C25.B().C25_f290 = this.C18_f237;
                C25.B().C25_f291 = this.C18_f238;
                C25.B().C25_f295 = this.C18_f239;
@@ -280,7 +280,7 @@ public final class C18 extends C20 {
             }
          } else if (this.C18_f225 == 2) {
             var10001 = this.C18_f244[this.C18_f236];
-            if ((C53.p().visualState == var10001 && this.C20_f261.spriteSetId != 320 || this.C20_f261.spriteSetId == 320) && GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameTriggers())) {
+            if ((C53.p().visualState == var10001 && this.sprite.spriteSetId != 320 || this.sprite.spriteSetId == 320) && GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
                for(int var1 = 0; var1 < this.C18_f249.length / 6; ++var1) {
                   if (this.C18_f249[var1 * 6] == this.C18_f248 && this.C18_f249[var1 * 6 + 1] == C25.B().C25_f290 && this.C18_f249[var1 * 6 + 2] == C25.B().C25_f291) {
                      C25.B().C25_f293 = this.C18_f249[var1 * 6 + 3];
@@ -295,9 +295,9 @@ public final class C18 extends C20 {
                C25.B().C25_f295 = -1;
                GameScreenManager.getInstance().changeState((byte)9);
             }
-         } else if (this.C18_f225 == 4 && C53.p().getFacingDirection() != 9 && C53.p().getFacingDirection() != 10 && GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameTriggers())) {
+         } else if (this.C18_f225 == 4 && C53.p().getFacingDirection() != 9 && C53.p().getFacingDirection() != 10 && GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
             C53.p().setWorldPosition(this.worldX, this.worldY);
-            C53.p().C20_f262.setWorldPosition(this.worldX, this.worldY);
+            C53.p().attachedObject.setWorldPosition(this.worldX, this.worldY);
             C53.p().a((byte)9, (byte)this.currentDirection);
             C25.B().C25_f295 = this.C18_f239;
          }
@@ -305,7 +305,7 @@ public final class C18 extends C20 {
       case 3:
       }
 
-      this.f();
+      this.updateInteractableState();
    }
 
    private void z() {
@@ -316,25 +316,25 @@ public final class C18 extends C20 {
       case 1:
          if (this.facingDirection == 1) {
             var2 = 0;
-            this.a((int)super.secondaryStates[var2]);
-            if (C25.B().C25_f313 != null && C25.B().C25_f313.followTarget.equals(this) && !C53.p().a(this, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents())) {
+            this.moveInDirection((int)super.secondaryStates[var2]);
+            if (C25.B().C25_f313 != null && C25.B().C25_f313.followTarget.equals(this) && !C53.p().a(this, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
                C25.B().D();
             }
          }
 
-         if (C25.B().C25_f313 != null && C25.B().C25_f313.followTarget.equals(this) && (!this.isVisible() || !C53.p().a(this, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents()))) {
+         if (C25.B().C25_f313 != null && C25.B().C25_f313.followTarget.equals(this) && (!this.isVisible() || !C53.p().a(this, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents()))) {
             C25.C25_f318 = -1;
             C25.B().D();
          }
 
-         if (this.C18_f246 != null && this.isVisible() && this.C18_f246.followTarget.equals(this) && !C53.p().a(this, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents())) {
+         if (this.C18_f246 != null && this.isVisible() && this.C18_f246.followTarget.equals(this) && !C53.p().a(this, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
             this.B();
          }
 
-         if (C7.C7_f64 != null && C7.C7_f64.size() > 0 && this.C18_f245 == 1 && !C53.p().a(this, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents())) {
+         if (C7.C7_f64 != null && C7.C7_f64.size() > 0 && this.C18_f245 == 1 && !C53.p().a(this, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
             for(var1 = 0; var1 < C7.C7_f64.size(); ++var1) {
-               if (((C20)C7.C7_f64.elementAt(var1)).followTarget.equals(this)) {
-                  ((C20)C7.C7_f64.elementAt(var1)).c();
+               if (((GameObject)C7.C7_f64.elementAt(var1)).followTarget.equals(this)) {
+                  ((GameObject)C7.C7_f64.elementAt(var1)).activate();
                   return;
                }
             }
@@ -369,7 +369,7 @@ public final class C18 extends C20 {
                return;
             }
 
-            this.a((int)4);
+            this.moveInDirection((int)4);
             this.C18_f229 += 4;
             return;
          }
@@ -380,7 +380,7 @@ public final class C18 extends C20 {
                return;
             }
 
-            this.a((int)4);
+            this.moveInDirection((int)4);
             this.C18_f229 -= 4;
             return;
          }
@@ -411,7 +411,7 @@ public final class C18 extends C20 {
                   return;
                }
 
-               this.a((int)4);
+               this.moveInDirection((int)4);
                this.C18_f229 += 4;
                return;
             }
@@ -422,7 +422,7 @@ public final class C18 extends C20 {
                   return;
                }
 
-               this.a((int)4);
+               this.moveInDirection((int)4);
                this.C18_f229 -= 4;
                return;
             }
@@ -433,11 +433,11 @@ public final class C18 extends C20 {
       case 6:
       case 7:
       case 15:
-         if (this.C18_f247 != null && this.isVisible() && this.C18_f247.followTarget.equals(this) && (this.facingDirection != 0 || !C53.p().a(this, C53.p().C20_f261.getCurrentFrameEvents(), this.C20_f261.getCurrentFrameEvents()))) {
+         if (this.C18_f247 != null && this.isVisible() && this.C18_f247.followTarget.equals(this) && (this.facingDirection != 0 || !C53.p().a(this, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents()))) {
             this.y();
          }
 
-         if (this.facingDirection == 1 && this.C20_f261.isAtLastFrame()) {
+         if (this.facingDirection == 1 && this.sprite.isAtLastFrame()) {
             this.a((byte)2);
             if (this.C18_f225 == 6 && this.C18_f225 == 7) {
                C25.B().a(this.C18_f248, 0, this.facingDirection, false);
@@ -459,7 +459,7 @@ public final class C18 extends C20 {
          if (this.facingDirection == 1) {
             if (this.C18_f229 < 2 && this.a(this.currentDirection, 8, (byte)0)) {
                ++this.C18_f229;
-               this.a((int)8);
+               this.moveInDirection((int)8);
                this.t();
                return;
             }
@@ -471,15 +471,15 @@ public final class C18 extends C20 {
       case 9:
       case 10:
          if (this.C18_f233 == 1) {
-            if ((this.C20_f261.spriteSetId == 302 || this.C20_f261.spriteSetId == 298) && this.a(this.currentDirection, 4, (byte)1)) {
-               this.a((int)4);
-               ((C20)this.followTarget).a(4);
+            if ((this.sprite.spriteSetId == 302 || this.sprite.spriteSetId == 298) && this.a(this.currentDirection, 4, (byte)1)) {
+               this.moveInDirection((int)4);
+               ((GameObject)this.followTarget).moveInDirection(4);
                return;
             }
 
             if (this.a(this.currentDirection, 4, (byte)2)) {
-               this.a((int)4);
-               ((C20)this.followTarget).a(4);
+               this.moveInDirection((int)4);
+               ((GameObject)this.followTarget).moveInDirection(4);
                return;
             }
 
@@ -493,9 +493,9 @@ public final class C18 extends C20 {
          return;
       case 12:
          if (this.isVisible()) {
-            if (!GameUtils.isPointInShortArrayRectangle(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, this.C20_f261.getCurrentFrameEvents())) {
+            if (!GameUtils.isPointInShortArrayRectangle(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents())) {
                if (this.a(this.currentDirection, 4, (byte)0)) {
-                  this.a((int)4);
+                  this.moveInDirection((int)4);
                   return;
                }
 
@@ -516,9 +516,9 @@ public final class C18 extends C20 {
          break;
       case 13:
          if (this.isVisible()) {
-            if (!GameUtils.isPointInShortArrayRectangle(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, this.C20_f261.getCurrentFrameEvents())) {
+            if (!GameUtils.isPointInShortArrayRectangle(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents())) {
                if (this.a(this.currentDirection, 4, (byte)0)) {
-                  this.a((int)4);
+                  this.moveInDirection((int)4);
                   return;
                }
 
@@ -547,7 +547,7 @@ public final class C18 extends C20 {
          this.C18_f232 = 0;
          return;
       case 16:
-         if (GameUtils.isPointInShortArrayRectangle(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, this.C20_f261.getCurrentFrameEvents()) && C53.p().getFacingDirection() != 5) {
+         if (GameUtils.isPointInShortArrayRectangle(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents()) && C53.p().getFacingDirection() != 5) {
             C53.p().a((byte)5, (byte)C53.p().currentDirection);
             return;
          }
@@ -559,7 +559,7 @@ public final class C18 extends C20 {
       byte var2;
       if (this.C18_f225 == 9) {
          this.a((byte)1);
-         if ((this.C20_f261.spriteSetId == 302 || this.C20_f261.spriteSetId == 298) && this.a((byte)1, 4, (byte)1)) {
+         if ((this.sprite.spriteSetId == 302 || this.sprite.spriteSetId == 298) && this.a((byte)1, 4, (byte)1)) {
             var2 = 1;
             super.currentDirection = var2;
          } else if (this.a((byte)1, 4, (byte)2)) {
@@ -569,7 +569,7 @@ public final class C18 extends C20 {
             var2 = 3;
             super.currentDirection = var2;
          }
-      } else if ((this.C20_f261.spriteSetId == 302 || this.C20_f261.spriteSetId == 298) && this.a((byte)2, 4, (byte)1)) {
+      } else if ((this.sprite.spriteSetId == 302 || this.sprite.spriteSetId == 298) && this.a((byte)2, 4, (byte)1)) {
          this.a((byte)2);
          var2 = 2;
          super.currentDirection = var2;
@@ -593,7 +593,7 @@ public final class C18 extends C20 {
          boolean var10000;
          label86: {
             byte var4;
-            byte var10001 = super.C20_f261.getCurrentAnimationId();
+            byte var10001 = super.sprite.getCurrentAnimationId();
             int var10002 = 16 * (this.C18_f234 + 1);
             boolean var1 = false;
             int var3 = var10002;
@@ -612,7 +612,7 @@ public final class C18 extends C20 {
                      break label83;
                   }
 
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX, var5.worldY + var3, C25.B().C25_f287[var6].worldX, C25.B().C25_f287[var6].worldY, C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents())) {
+                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX, var5.worldY + var3, C25.B().C25_f287[var6].worldX, C25.B().C25_f287[var6].worldY, C25.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
                      C25.B().C25_f287[var6].followTarget = var5;
                      var10000 = false;
                      break label86;
@@ -629,7 +629,7 @@ public final class C18 extends C20 {
                      break label83;
                   }
 
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX + var3, var5.worldY, C25.B().C25_f287[var6].worldX, C25.B().C25_f287[var6].worldY, C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents())) {
+                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX + var3, var5.worldY, C25.B().C25_f287[var6].worldX, C25.B().C25_f287[var6].worldY, C25.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
                      C25.B().C25_f287[var6].followTarget = var5;
                      var10000 = false;
                      break label86;
@@ -646,7 +646,7 @@ public final class C18 extends C20 {
                      break label83;
                   }
 
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX, var5.worldY - var3, C25.B().C25_f287[var6].worldX, C25.B().C25_f287[var6].worldY, C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents())) {
+                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX, var5.worldY - var3, C25.B().C25_f287[var6].worldX, C25.B().C25_f287[var6].worldY, C25.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
                      C25.B().C25_f287[var6].followTarget = var5;
                      var10000 = false;
                      break label86;
@@ -658,7 +658,7 @@ public final class C18 extends C20 {
                var4 = TileMapRenderer.getInstance().getTileAt(0, this.worldX - var3, this.worldY);
 
                for(var6 = 0; var6 < C25.B().C25_f287.length; ++var6) {
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX - var3, var5.worldY, C25.B().C25_f287[var6].worldX, C25.B().C25_f287[var6].worldY, C25.B().C25_f287[var6].C20_f261.getCurrentFrameEvents())) {
+                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX - var3, var5.worldY, C25.B().C25_f287[var6].worldX, C25.B().C25_f287[var6].worldY, C25.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
                      C25.B().C25_f287[var6].followTarget = var5;
                      var10000 = false;
                      break label86;
@@ -695,44 +695,44 @@ public final class C18 extends C20 {
          var4 = TileMapRenderer.getInstance().getTileAt(0, this.worldX, this.worldY + var2);
          break;
       case 1:
-         var4 = TileMapRenderer.getInstance().getTileAt(0, this.worldX + var2 + this.C20_f261.getCurrentFrameEvents()[2] / 2, this.worldY);
+         var4 = TileMapRenderer.getInstance().getTileAt(0, this.worldX + var2 + this.sprite.getCurrentFrameEvents()[2] / 2, this.worldY);
          break;
       case 2:
-         var4 = TileMapRenderer.getInstance().getTileAt(0, this.worldX, this.worldY - this.C20_f261.getCurrentFrameEvents()[3] - var2);
+         var4 = TileMapRenderer.getInstance().getTileAt(0, this.worldX, this.worldY - this.sprite.getCurrentFrameEvents()[3] - var2);
          break;
       case 3:
-         var4 = TileMapRenderer.getInstance().getTileAt(0, this.worldX - var2 - this.C20_f261.getCurrentFrameEvents()[2] / 2, this.worldY);
+         var4 = TileMapRenderer.getInstance().getTileAt(0, this.worldX - var2 - this.sprite.getCurrentFrameEvents()[2] / 2, this.worldY);
       }
 
       return var4 == var3;
    }
 
    public final void c(Graphics var1, int var2, int var3) {
-      switch(super.C20_f261.getCurrentAnimationId()) {
+      switch(super.sprite.getCurrentAnimationId()) {
       case 0:
          var1.setColor(65280);
-         var1.fillRect(this.worldX - var2 - (this.C18_f232 + 5) / 2, this.worldY - this.C20_f261.getCurrentFrameTriggers()[3] - var3 + 20, this.C18_f232 + 5, this.C18_f234 + 1 << 4);
+         var1.fillRect(this.worldX - var2 - (this.C18_f232 + 5) / 2, this.worldY - this.sprite.getCurrentFrameTriggers()[3] - var3 + 20, this.C18_f232 + 5, this.C18_f234 + 1 << 4);
          var1.setColor(16777215);
-         var1.fillRect(this.worldX - var2 - (this.C18_f232 + 3) / 2, this.worldY - this.C20_f261.getCurrentFrameTriggers()[3] - var3 + 20, this.C18_f232 + 3, this.C18_f234 + 1 << 4);
+         var1.fillRect(this.worldX - var2 - (this.C18_f232 + 3) / 2, this.worldY - this.sprite.getCurrentFrameTriggers()[3] - var3 + 20, this.C18_f232 + 3, this.C18_f234 + 1 << 4);
          return;
       case 1:
          var1.setColor(65280);
-         var1.fillRect(this.worldX - var2 + 7, this.worldY - this.C20_f261.getCurrentFrameTriggers()[3] - var3 - (this.C18_f232 + 5) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 5);
+         var1.fillRect(this.worldX - var2 + 7, this.worldY - this.sprite.getCurrentFrameTriggers()[3] - var3 - (this.C18_f232 + 5) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 5);
          var1.setColor(16777215);
-         var1.fillRect(this.worldX - var2 + 7, this.worldY - this.C20_f261.getCurrentFrameTriggers()[3] - var3 - (this.C18_f232 + 3) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 3);
+         var1.fillRect(this.worldX - var2 + 7, this.worldY - this.sprite.getCurrentFrameTriggers()[3] - var3 - (this.C18_f232 + 3) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 3);
       default:
          return;
       case 2:
          var1.setColor(65280);
-         var1.fillRect(this.worldX - var2 - (this.C18_f232 + 5) / 2, this.worldY - this.C20_f261.getCurrentFrameTriggers()[3] - var3 - (this.C18_f234 << 4) + 8, this.C18_f232 + 5, this.C18_f234 << 4);
+         var1.fillRect(this.worldX - var2 - (this.C18_f232 + 5) / 2, this.worldY - this.sprite.getCurrentFrameTriggers()[3] - var3 - (this.C18_f234 << 4) + 8, this.C18_f232 + 5, this.C18_f234 << 4);
          var1.setColor(16777215);
-         var1.fillRect(this.worldX - var2 - (this.C18_f232 + 3) / 2, this.worldY - this.C20_f261.getCurrentFrameTriggers()[3] - var3 - (this.C18_f234 << 4) + 8, this.C18_f232 + 3, this.C18_f234 << 4);
+         var1.fillRect(this.worldX - var2 - (this.C18_f232 + 3) / 2, this.worldY - this.sprite.getCurrentFrameTriggers()[3] - var3 - (this.C18_f234 << 4) + 8, this.C18_f232 + 3, this.C18_f234 << 4);
          return;
       case 3:
          var1.setColor(65280);
-         var1.fillRect(this.worldX - var2 - 8 - (this.C18_f234 << 4), this.worldY - this.C20_f261.getCurrentFrameTriggers()[3] - var3 - (this.C18_f232 + 5) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 5);
+         var1.fillRect(this.worldX - var2 - 8 - (this.C18_f234 << 4), this.worldY - this.sprite.getCurrentFrameTriggers()[3] - var3 - (this.C18_f232 + 5) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 5);
          var1.setColor(16777215);
-         var1.fillRect(this.worldX - var2 - 8 - (this.C18_f234 << 4), this.worldY - this.C20_f261.getCurrentFrameTriggers()[3] - var3 - (this.C18_f232 + 3) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 3);
+         var1.fillRect(this.worldX - var2 - 8 - (this.C18_f234 << 4), this.worldY - this.sprite.getCurrentFrameTriggers()[3] - var3 - (this.C18_f232 + 3) / 2 + 13, this.C18_f234 << 4, this.C18_f232 + 3);
       }
    }
 
@@ -752,10 +752,10 @@ public final class C18 extends C20 {
       C25.B().a(this.C18_f248, 2, this.currentDirection, true);
    }
 
-   public final void a(int var1) {
+   public final void moveInDirection(int var1) {
       int var10000 = this.worldX;
       var10000 = this.worldY;
-      super.a(var1);
+      super.moveInDirection(var1);
    }
 
    public final void f(byte var1) {
@@ -768,16 +768,16 @@ public final class C18 extends C20 {
 
    public final void f(int var1) {
       if (this.C18_f247 == null && this.isVisible()) {
-         this.C18_f247 = new C20();
-         this.C18_f247.a(259, false);
-         this.C18_f247.C20_f261.applyColorEffects();
-         this.C18_f247.a((byte)7, (byte)-1, true);
+         this.C18_f247 = new GameObject();
+         this.C18_f247.loadSpriteSet(259, false);
+         this.C18_f247.sprite.applyColorEffects();
+         this.C18_f247.setAnimation((byte)7, (byte)-1, true);
          this.C18_f247.setWorldPosition(this.worldX, this.worldY - var1);
          this.C18_f247.followTarget = this;
       }
 
       if (this.C18_f247 != null) {
-         this.C18_f247.c();
+         this.C18_f247.activate();
       }
 
    }
@@ -791,36 +791,36 @@ public final class C18 extends C20 {
 
    private void B() {
       if (this.C18_f246 != null) {
-         this.C18_f246.c();
+         this.C18_f246.activate();
       }
 
    }
 
-   public final void d() {
-      super.d();
+   public final void deactivate() {
+      super.deactivate();
       this.x();
-      this.e();
+      this.deactivateAttachedObject();
       this.y();
    }
 
    public final void x() {
       if (this.C18_f246 != null) {
-         this.C18_f246.d();
+         this.C18_f246.deactivate();
       }
 
    }
 
    public final void y() {
       if (this.C18_f247 != null) {
-         this.C18_f247.d();
+         this.C18_f247.deactivate();
       }
 
    }
 
    public final void setWorldPosition(int var1, int var2) {
       super.setWorldPosition(var1, var2);
-      if (this.C20_f262 != null && this.C20_f262.isVisible()) {
-         this.C20_f262.setWorldPosition(var1, var2);
+      if (this.attachedObject != null && this.attachedObject.isVisible()) {
+         this.attachedObject.setWorldPosition(var1, var2);
       }
 
    }

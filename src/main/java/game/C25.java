@@ -4,8 +4,8 @@ import a.GameUtils;
 import a.GameEngineBase;
 import a.a.AudioManager;
 import a.a.DebugLogger;
-import a.a.C20;
-import a.a.C21;
+import a.a.GameObject;
+import a.a.EffectEntity;
 import a.a.C30;
 import a.a.WorldRenderer;
 import a.b.RecordStoreManager;
@@ -44,7 +44,7 @@ public final class C25 extends GameEngineBase {
    public static int[] C25_f297 = new int[]{0, 2, 9, 17, 25, 38, 45, 47, 60, 67, 75, 90};
    public static Image C25_f298 = null;
    private static Image C25_f299 = null;
-   public static C21 C25_f300 = null;
+   public static EffectEntity C25_f300 = null;
    private static RecordStoreManager[] C25_f301 = new RecordStoreManager[10];
    private static byte[][][] C25_f302 = null;
    private static short[][][] C25_f303 = null;
@@ -55,9 +55,9 @@ public final class C25 extends GameEngineBase {
    private static Vector C25_f308 = new Vector();
    private static Vector C25_f309 = new Vector();
    private static Vector C25_f310 = new Vector();
-   public C20 C25_f311;
-   private C20 C25_f312;
-   public C20 C25_f313;
+   public GameObject C25_f311;
+   private GameObject C25_f312;
+   public GameObject C25_f313;
    public static int C25_f314 = 0;
    public static byte C25_f315 = 0;
    public static byte C25_f316;
@@ -105,8 +105,8 @@ public final class C25 extends GameEngineBase {
    private int C25_f358;
    private int C25_f359;
    private boolean C25_f360;
-   private C20 C25_f361;
-   private C20[] C25_f362;
+   private GameObject C25_f361;
+   private GameObject[] C25_f362;
    private int C25_f363;
    private int[] C25_f364;
    private int[] C25_f365;
@@ -399,7 +399,7 @@ public final class C25 extends GameEngineBase {
                this.C25_f285.updateWorld();
             }
 
-            this.C25_f286.a(false);
+            this.C25_f286.setAlternativeRender(false);
             C25_f321 = true;
          }
 
@@ -407,7 +407,7 @@ public final class C25 extends GameEngineBase {
          if (this.C25_f290 == 3 && this.C25_f291 == 7) {
             if (this.C25_f286.C53_f775 > 0) {
                this.C25_f286.C53_f775 = 0;
-               this.C25_f286.b(0);
+               this.C25_f286.applyBrightnessEffect(0);
             }
 
             this.C25_f341 = new Image[4];
@@ -455,21 +455,21 @@ public final class C25 extends GameEngineBase {
 
    private void P() {
       for(int var1 = 0; var1 < this.C25_f287.length; ++var1) {
-         this.C25_f287[var1].f();
+         this.C25_f287[var1].updateInteractableState();
          this.C25_f285.addEntity((GameEntity)this.C25_f287[var1]);
       }
 
    }
 
-   public final void a(byte var1, int var2, int var3, C20 var4) {
+   public final void a(byte var1, int var2, int var3, GameObject var4) {
       if (this.C25_f313 == null) {
-         this.C25_f313 = new C20();
-         this.C25_f313.a(259, false);
-         this.C25_f313.C20_f261.setAnimationProperties((byte)13, (byte)-1);
+         this.C25_f313 = new GameObject();
+         this.C25_f313.loadSpriteSet(259, false);
+         this.C25_f313.sprite.setAnimationProperties((byte)13, (byte)-1);
          this.C25_f285.addEntity((GameEntity)this.C25_f313);
-         this.C25_f313.C20_f261.applyColorEffects();
+         this.C25_f313.sprite.applyColorEffects();
          this.C25_f313.layer = 0;
-         this.C25_f313.c();
+         this.C25_f313.activate();
       }
 
       this.C25_f313.setWorldPosition(var2, var3);
@@ -486,25 +486,25 @@ public final class C25 extends GameEngineBase {
 
    public final void l(int var1) {
       if (this.C25_f311 == null) {
-         this.C25_f311 = new C20();
-         this.C25_f311.a(var1, false);
-         this.C25_f311.C20_f261.applyColorEffects();
+         this.C25_f311 = new GameObject();
+         this.C25_f311.loadSpriteSet(var1, false);
+         this.C25_f311.sprite.applyColorEffects();
          this.C25_f311.layer = 1;
       }
 
    }
 
-   public final void a(C20 var1) {
+   public final void a(GameObject var1) {
       if (this.C25_f311 != null) {
          this.C25_f312 = var1;
          this.C25_f311.followTarget = var1;
-         this.C25_f311.initializeMovementTrail(var1.C20_f261.getCurrentAnimationId());
-         this.C25_f311.c();
+         this.C25_f311.initializeMovementTrail(var1.sprite.getCurrentAnimationId());
+         this.C25_f311.activate();
          this.C25_f285.addEntity((GameEntity)this.C25_f311);
          if (C25_f298 != null) {
-            this.C25_f311.a(true);
+            this.C25_f311.setAlternativeRender(true);
          } else {
-            this.C25_f311.a(false);
+            this.C25_f311.setAlternativeRender(false);
          }
       }
    }
@@ -639,7 +639,7 @@ public final class C25 extends GameEngineBase {
                if (this.C25_f311 == null) {
                   var3.writeByte(-1);
                } else {
-                  var3.writeByte(this.C25_f311.C20_f261.spriteSetId);
+                  var3.writeByte(this.C25_f311.sprite.spriteSetId);
                }
 
                var3.write(this.C25_f286.C53_f768);
@@ -1366,12 +1366,12 @@ public final class C25 extends GameEngineBase {
          var3 = 2;
          int var2 = this.C25_f287[this.C25_f295].worldY - this.C25_f287[this.C25_f295].worldY % this.C25_f286.primaryStates[var3];
          this.C25_f286.setWorldPosition(var4, var2);
-         this.C25_f286.C20_f262.setWorldPosition(var4, var2);
+         this.C25_f286.attachedObject.setWorldPosition(var4, var2);
          this.C25_f286.a((byte)0, (byte)this.C25_f287[this.C25_f295].C18_f236);
-         if (this.C25_f287[this.C25_f295].C20_f261.spriteSetId == 222) {
-            this.C25_f286.a((int)24);
+         if (this.C25_f287[this.C25_f295].sprite.spriteSetId == 222) {
+            this.C25_f286.moveInDirection((int)24);
          } else {
-            this.C25_f286.a((int)32);
+            this.C25_f286.moveInDirection((int)32);
          }
       } else {
          var1 = new short[]{this.C25_f293, this.C25_f294, (short)C25_f320, 4, 4, 8, 40, 100, 0};
@@ -1380,12 +1380,12 @@ public final class C25 extends GameEngineBase {
 
       this.C25_f285.addEntity((GameEntity)this.C25_f286);
       this.C25_f286.C();
-      this.C25_f286.c();
-      this.a((C20)this.C25_f286);
+      this.C25_f286.activate();
+      this.a((GameObject)this.C25_f286);
       if (C25_f298 != null) {
-         this.C25_f286.a(false);
+         this.C25_f286.setAlternativeRender(false);
       } else {
-         this.C25_f286.a(true);
+         this.C25_f286.setAlternativeRender(true);
       }
    }
 
@@ -1396,7 +1396,7 @@ public final class C25 extends GameEngineBase {
             (var2 = this.C25_f287[var1]).C18_f234 = 0;
 
             while(true) {
-               byte var10001 = var2.C20_f261.getCurrentAnimationId();
+               byte var10001 = var2.sprite.getCurrentAnimationId();
                int var10002 = 16 * (var2.C18_f234 + 1);
                boolean var3 = false;
                int var5 = var10002;
@@ -1634,21 +1634,21 @@ public final class C25 extends GameEngineBase {
       if (this.C25_f287 != null) {
          for(int var1 = 0; var1 < this.C25_f287.length; ++var1) {
             C18 var2;
-            (var2 = this.C25_f287[var1]).e();
-            if (var2.C20_f262 != null) {
-               var2.C20_f262.C20_f261.forceCleanup();
-               var2.C20_f262 = null;
+            (var2 = this.C25_f287[var1]).deactivateAttachedObject();
+            if (var2.attachedObject != null) {
+               var2.attachedObject.sprite.forceCleanup();
+               var2.attachedObject = null;
             }
 
-            var2.C20_f261.forceCleanup();
-            var2.C20_f261 = null;
+            var2.sprite.forceCleanup();
+            var2.sprite = null;
             if (var2.C18_f246 != null) {
-               var2.C18_f246.C20_f261.forceCleanup();
+               var2.C18_f246.sprite.forceCleanup();
                var2.C18_f246 = null;
             }
 
             if (var2.C18_f247 != null) {
-               var2.C18_f247.C20_f261.forceCleanup();
+               var2.C18_f247.sprite.forceCleanup();
                var2.C18_f247 = null;
             }
 
@@ -1699,9 +1699,9 @@ public final class C25 extends GameEngineBase {
          this.gameController.F();
          break;
       case 2:
-         if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].C20_f261.spriteSetId == 24) {
+         if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].sprite.spriteSetId == 24) {
             this.gameController.a((int)4, (byte)0);
-         } else if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].C20_f261.spriteSetId == 20) {
+         } else if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].sprite.spriteSetId == 20) {
             this.gameController.a((int)3, (byte)2);
          }
          break;
@@ -1836,7 +1836,7 @@ public final class C25 extends GameEngineBase {
          if (this.C44_f699 == 7) {
             this.gameController.a((String)"", (String)this.C25_f351, -1, -1);
          } else if (this.C25_f287 != null) {
-            if (this.C25_f287[C25_f318].C20_f261.spriteSetId == 68) {
+            if (this.C25_f287[C25_f318].sprite.spriteSetId == 68) {
                this.gameController.a((String)C25_f305[this.C25_f287[C25_f318].C18_f228], (String)"Muốn lên thuyền đi đâu?", 1, -1);
             } else if (this.C25_f287[C25_f318].C18_f227 < 0) {
                this.gameController.a((String)C25_f305[this.C25_f287[C25_f318].C18_f228], (String)C25_f349[0], 1, -1);
@@ -1935,8 +1935,8 @@ public final class C25 extends GameEngineBase {
             this.gameController.G();
             break;
          case 2:
-            if ((C25_f318 == -1 || this.C25_f287[C25_f318] == null || this.C25_f287[C25_f318].C20_f261.spriteSetId != 24) && this.C25_f348.C7_f62 != 0) {
-               if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].C20_f261.spriteSetId == 20 || this.C25_f348.C7_f62 == 1) {
+            if ((C25_f318 == -1 || this.C25_f287[C25_f318] == null || this.C25_f287[C25_f318].sprite.spriteSetId != 24) && this.C25_f348.C7_f62 != 0) {
+               if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].sprite.spriteSetId == 20 || this.C25_f348.C7_f62 == 1) {
                   this.gameController.a((byte)3, (byte)2);
                }
             } else {
@@ -1985,7 +1985,7 @@ public final class C25 extends GameEngineBase {
                }
             }
 
-            this.C25_f361.a();
+            this.C25_f361.updateAnimation();
             var1 = 0;
 
             while(true) {
@@ -1994,7 +1994,7 @@ public final class C25 extends GameEngineBase {
                }
 
                this.o(var1);
-               this.C25_f362[var1].a();
+               this.C25_f362[var1].updateAnimation();
                ++var1;
             }
          case 5:
@@ -2061,7 +2061,7 @@ public final class C25 extends GameEngineBase {
                   label227: {
                      this.gameController.aF();
                      if (this.C44_f699 != 7) {
-                        if (this.C25_f287[C25_f318].C20_f261.spriteSetId <= 85) {
+                        if (this.C25_f287[C25_f318].sprite.spriteSetId <= 85) {
                            C18 var10000 = this.C25_f287[C25_f318];
                            byte var3 = this.C25_f287[C25_f318].currentAnimationId;
                            var10000.currentDirection = var3;
@@ -2069,17 +2069,17 @@ public final class C25 extends GameEngineBase {
 
                         this.C25_f287[C25_f318].a((byte)0);
                         this.C25_f286.a((byte)0, (byte)this.C25_f286.currentDirection);
-                        if (this.C25_f287[C25_f318].C20_f261.spriteSetId == 24 || this.C25_f287[C25_f318].C20_f261.spriteSetId == 20) {
+                        if (this.C25_f287[C25_f318].sprite.spriteSetId == 24 || this.C25_f287[C25_f318].sprite.spriteSetId == 20) {
                            this.changeState((byte)1);
                            break label227;
                         }
 
-                        if (this.C25_f287[C25_f318].C20_f261.spriteSetId == 25) {
+                        if (this.C25_f287[C25_f318].sprite.spriteSetId == 25) {
                            this.changeState((byte)16);
                            break label227;
                         }
 
-                        if (this.C25_f287[C25_f318].C20_f261.spriteSetId == 68) {
+                        if (this.C25_f287[C25_f318].sprite.spriteSetId == 68) {
                            this.changeState((byte)28);
                            break label227;
                         }
@@ -2232,7 +2232,7 @@ public final class C25 extends GameEngineBase {
 
          this.dialogManager.closeCurrentDialog();
          if (C25_f300 != null) {
-            C25_f300.d();
+            C25_f300.updateEffect();
          }
 
       }
@@ -2256,34 +2256,34 @@ public final class C25 extends GameEngineBase {
       switch(var1) {
       case 0:
          if (this.C25_f357 >= 0) {
-            this.C25_f362[var1].d();
+            this.C25_f362[var1].deactivate();
             return;
          }
 
-         this.C25_f362[var1].c();
+         this.C25_f362[var1].activate();
          return;
       case 1:
          if (this.C25_f357 + (this.C25_f368[(this.C25_f352 << 1) + 1] << 3) * 5 <= getScreenHeight()) {
-            this.C25_f362[var1].d();
+            this.C25_f362[var1].deactivate();
             return;
          }
 
-         this.C25_f362[var1].c();
+         this.C25_f362[var1].activate();
          return;
       case 2:
          if (this.C25_f356 >= 0) {
-            this.C25_f362[var1].d();
+            this.C25_f362[var1].deactivate();
             return;
          }
 
-         this.C25_f362[var1].c();
+         this.C25_f362[var1].activate();
          return;
       case 3:
          if (this.C25_f356 + (this.C25_f368[this.C25_f352 << 1] << 4) * 5 <= getScreenWidth()) {
-            this.C25_f362[var1].d();
+            this.C25_f362[var1].deactivate();
             return;
          } else {
-            this.C25_f362[var1].c();
+            this.C25_f362[var1].activate();
          }
       default:
       }
@@ -2314,7 +2314,7 @@ public final class C25 extends GameEngineBase {
             var3.drawRoundRect(var2.C25_f356 + (var5[var4] << 4), var2.C25_f357 + (var5[var4 + 1] << 3), var5[var4 + 5] << 4, var5[var4 + 6] << 3, 12, 12);
             if (var4 == var6) {
                var2.C25_f361.setWorldPosition(var2.C25_f356 + (var5[var4] << 4) + 16 * var5[var4 + 5] / 2, var2.C25_f357 + (var5[var4 + 1] << 3) + 8 * var5[var4 + 6] / 2 + 20);
-               var2.C25_f361.a(var3, 0, 0);
+               var2.C25_f361.render(var3, 0, 0);
             }
 
             String[] var7;
@@ -2356,7 +2356,7 @@ public final class C25 extends GameEngineBase {
          }
 
          for(var9 = 0; var9 < var2.C25_f362.length; ++var9) {
-            var2.C25_f362[var9].a(var3, 0, 0);
+            var2.C25_f362[var9].render(var3, 0, 0);
          }
 
          var3.setColor(1862801);
@@ -2395,7 +2395,7 @@ public final class C25 extends GameEngineBase {
          C7.b(var1);
          this.dialogManager.render(var1);
          if (C25_f300 != null) {
-            C25_f300.a(var1, 0, 0);
+            C25_f300.render(var1);
          }
 
          var3 = var1;
@@ -2447,7 +2447,7 @@ public final class C25 extends GameEngineBase {
                   C7.C7_f69 = true;
                   C7.C7_f68 = false;
                } else {
-                  if (this.C25_f287[C25_f318].C20_f261.spriteSetId <= 85) {
+                  if (this.C25_f287[C25_f318].sprite.spriteSetId <= 85) {
                      this.C25_f287[C25_f318].currentAnimationId = this.C25_f287[C25_f318].currentDirection;
                      byte var2;
                      C18 var10000;
@@ -2476,7 +2476,7 @@ public final class C25 extends GameEngineBase {
                      this.C25_f287[C25_f318].a((byte)0);
                   }
 
-                  if (this.C25_f287[C25_f318].C20_f261.spriteSetId == 17) {
+                  if (this.C25_f287[C25_f318].sprite.spriteSetId == 17) {
                      this.gameController.C9_f128 = 0;
                      this.changeState((byte)27);
                   } else {
@@ -2527,25 +2527,25 @@ public final class C25 extends GameEngineBase {
                var1.C25_f359 = (getScreenHeight() >> 1) - (var1.C25_f367[var1.C25_f352][var1.C25_f355 * 7 + 1] << 3) - 20;
                var1.C25_f360 = true;
                if (var1.C25_f361 == null) {
-                  var1.C25_f361 = new C20();
-                  var1.C25_f361.a(0, false);
-                  var1.C25_f361.a((byte)3, (byte)-1, false);
-                  var1.C25_f361.c();
+                  var1.C25_f361 = new GameObject();
+                  var1.C25_f361.loadSpriteSet(0, false);
+                  var1.C25_f361.setAnimation((byte)3, (byte)-1, false);
+                  var1.C25_f361.activate();
                }
 
                if (var1.C25_f362 == null) {
-                  var1.C25_f362 = new C20[4];
+                  var1.C25_f362 = new GameObject[4];
 
                   for(var6 = 0; var6 < var1.C25_f362.length; ++var6) {
-                     var1.C25_f362[var6] = new C20();
-                     var1.C25_f362[var6].a(223, false);
+                     var1.C25_f362[var6] = new GameObject();
+                     var1.C25_f362[var6].loadSpriteSet(223, false);
                      if (var6 <= 1) {
                         var1.C25_f362[var6].setWorldPosition(getScreenWidth() >> 1, 20 + var6 * (getScreenHeight() - 20));
                      } else {
                         var1.C25_f362[var6].setWorldPosition(10 + var6 % 2 * (getScreenWidth() - 20), getScreenHeight() >> 1);
                      }
 
-                     var1.C25_f362[var6].a(var6, (byte)-1, false);
+                     var1.C25_f362[var6].setAnimation(var6, (byte)-1, false);
                      var1.o(var6);
                   }
                }
@@ -2596,7 +2596,7 @@ public final class C25 extends GameEngineBase {
       }
 
       if (this.C25_f311 != null && this.C25_f311.isActive()) {
-         this.C25_f311.updateMovementTrail(this.C25_f312.C20_f261, this.C25_f311.C20_f261);
+         this.C25_f311.updateMovementTrail(this.C25_f312.sprite, this.C25_f311.sprite);
       }
 
       this.C25_f286.visualState = this.C25_f286.currentDirection;
@@ -2647,7 +2647,7 @@ public final class C25 extends GameEngineBase {
             this.gameController.b(GameUtils.pageCount);
          } else {
             this.gameController.aF();
-            if (this.C25_f287[C25_f318].C20_f261.spriteSetId <= 85) {
+            if (this.C25_f287[C25_f318].sprite.spriteSetId <= 85) {
                C18 var10000 = this.C25_f287[C25_f318];
                byte var2 = this.C25_f287[C25_f318].currentAnimationId;
                var10000.currentDirection = var2;
@@ -2738,9 +2738,9 @@ public final class C25 extends GameEngineBase {
                var2 = this.C25_f290;
                short var5 = C25_f306[C25_f297[var2] + var4][5 + (var3 << 2) + 4];
                if (var1) {
-                  this.C25_f287[var5].c();
+                  this.C25_f287[var5].activate();
                } else {
-                  this.C25_f287[var5].d();
+                  this.C25_f287[var5].deactivate();
                }
 
                ++var3;

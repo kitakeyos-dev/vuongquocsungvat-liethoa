@@ -86,7 +86,7 @@ public final class WorldRenderer {
       }
 
       for(var1 = 0; var1 < this.backgroundEntities.size(); ++var1) {
-         ((C20)this.backgroundEntities.elementAt(var1)).a();
+         ((GameObject)this.backgroundEntities.elementAt(var1)).updateAnimation();
       }
 
       for(var1 = 0; var1 < this.middleLayerEntities.size(); ++var1) {
@@ -100,12 +100,12 @@ public final class WorldRenderer {
       }
 
       for(var1 = 0; var1 < this.middleLayerEntities.size(); ++var1) {
-         ((C20)this.middleLayerEntities.elementAt(var1)).a();
+         ((GameObject)this.middleLayerEntities.elementAt(var1)).updateAnimation();
          if (this.middleLayerEntities.elementAt(var1) instanceof C18) {
             if (((C18)this.middleLayerEntities.elementAt(var1)).C18_f246 != null && ((C18)this.middleLayerEntities.elementAt(var1)).C18_f246.isActive()) {
-               ((C18)this.middleLayerEntities.elementAt(var1)).C18_f246.a();
+               ((C18)this.middleLayerEntities.elementAt(var1)).C18_f246.updateAnimation();
             } else if (((C18)this.middleLayerEntities.elementAt(var1)).C18_f247 != null && ((C18)this.middleLayerEntities.elementAt(var1)).C18_f247.isActive()) {
-               ((C18)this.middleLayerEntities.elementAt(var1)).C18_f247.a();
+               ((C18)this.middleLayerEntities.elementAt(var1)).C18_f247.updateAnimation();
             }
          }
       }
@@ -121,7 +121,7 @@ public final class WorldRenderer {
       }
 
       for(var1 = 0; var1 < this.foregroundEntities.size(); ++var1) {
-         ((C20)this.foregroundEntities.elementAt(var1)).a();
+         ((GameObject)this.foregroundEntities.elementAt(var1)).updateAnimation();
       }
 
    }
@@ -129,26 +129,26 @@ public final class WorldRenderer {
    public final void renderWorld(Graphics graphics) {
       int var2;
       for(var2 = 0; var2 < this.middleLayerEntities.size(); ++var2) {
-         ((C20)this.middleLayerEntities.elementAt(var2)).b(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+         ((GameObject)this.middleLayerEntities.elementAt(var2)).renderAlternative(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
       }
 
       this.tileMapRenderer.renderLayer(graphics, 1);
       this.tileMapRenderer.renderLayer(graphics, 2);
 
       for(var2 = 0; var2 < this.foregroundEntities.size(); ++var2) {
-         if (((C20)this.foregroundEntities.elementAt(var2)).isInteractable()) {
-            ((C20)this.foregroundEntities.elementAt(var2)).a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+         if (((GameObject)this.foregroundEntities.elementAt(var2)).isInteractable()) {
+            ((GameObject)this.foregroundEntities.elementAt(var2)).render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
          }
       }
 
       if (C25.B().C25_f286.C53_f793[2] == 2) {
          for(var2 = 0; var2 < this.middleLayerEntities.size(); ++var2) {
-            if (((C20)this.middleLayerEntities.elementAt(var2)).isInteractable()) {
+            if (((GameObject)this.middleLayerEntities.elementAt(var2)).isInteractable()) {
                if (this.middleLayerEntities.elementAt(var2) instanceof C53) {
                   continue;
                }
 
-               ((C20)this.middleLayerEntities.elementAt(var2)).a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+               ((GameObject)this.middleLayerEntities.elementAt(var2)).render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
             }
 
             if (this.middleLayerEntities.elementAt(var2) instanceof C18 && ((C18)this.middleLayerEntities.elementAt(var2)).C18_f225 == 14) {
@@ -157,26 +157,26 @@ public final class WorldRenderer {
 
             if (this.middleLayerEntities.elementAt(var2) instanceof C18) {
                if (((C18)this.middleLayerEntities.elementAt(var2)).C18_f246 != null && ((C18)this.middleLayerEntities.elementAt(var2)).C18_f246.isVisible()) {
-                  ((C18)this.middleLayerEntities.elementAt(var2)).C18_f246.a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+                  ((C18)this.middleLayerEntities.elementAt(var2)).C18_f246.render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
                } else if (((C18)this.middleLayerEntities.elementAt(var2)).C18_f247 != null && ((C18)this.middleLayerEntities.elementAt(var2)).C18_f247.isVisible()) {
-                  ((C18)this.middleLayerEntities.elementAt(var2)).C18_f247.a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+                  ((C18)this.middleLayerEntities.elementAt(var2)).C18_f247.render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
                }
             }
          }
 
-         if (TileMapRenderer.getInstance().getTileAt(0, C53.p().worldX, C53.p().worldY) != 1 && C25.B().C25_f286.C20_f262 != null && C25.B().C25_f286.isVisible()) {
-            C25.B().C25_f286.C20_f262.a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+         if (TileMapRenderer.getInstance().getTileAt(0, C53.p().worldX, C53.p().worldY) != 1 && C25.B().C25_f286.attachedObject != null && C25.B().C25_f286.isVisible()) {
+            C25.B().C25_f286.attachedObject.render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
          }
 
-         C25.B().C25_f286.a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+         C25.B().C25_f286.render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
       } else {
          for(var2 = 0; var2 < this.middleLayerEntities.size(); ++var2) {
-            if (((C20)this.middleLayerEntities.elementAt(var2)).isInteractable()) {
-               if (((C20)this.middleLayerEntities.elementAt(var2)).C20_f262 != null && ((C20)this.middleLayerEntities.elementAt(var2)).isVisible()) {
-                  ((C20)this.middleLayerEntities.elementAt(var2)).C20_f262.a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+            if (((GameObject)this.middleLayerEntities.elementAt(var2)).isInteractable()) {
+               if (((GameObject)this.middleLayerEntities.elementAt(var2)).attachedObject != null && ((GameObject)this.middleLayerEntities.elementAt(var2)).isVisible()) {
+                  ((GameObject)this.middleLayerEntities.elementAt(var2)).attachedObject.render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
                }
 
-               ((C20)this.middleLayerEntities.elementAt(var2)).a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+               ((GameObject)this.middleLayerEntities.elementAt(var2)).render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
             }
 
             if (this.middleLayerEntities.elementAt(var2) instanceof C18 && ((C18)this.middleLayerEntities.elementAt(var2)).C18_f225 == 14) {
@@ -185,9 +185,9 @@ public final class WorldRenderer {
 
             if (this.middleLayerEntities.elementAt(var2) instanceof C18) {
                if (((C18)this.middleLayerEntities.elementAt(var2)).C18_f246 != null && ((C18)this.middleLayerEntities.elementAt(var2)).C18_f246.isVisible()) {
-                  ((C18)this.middleLayerEntities.elementAt(var2)).C18_f246.a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+                  ((C18)this.middleLayerEntities.elementAt(var2)).C18_f246.render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
                } else if (((C18)this.middleLayerEntities.elementAt(var2)).C18_f247 != null && ((C18)this.middleLayerEntities.elementAt(var2)).C18_f247.isVisible()) {
-                  ((C18)this.middleLayerEntities.elementAt(var2)).C18_f247.a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+                  ((C18)this.middleLayerEntities.elementAt(var2)).C18_f247.render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
                }
             }
          }
@@ -196,8 +196,8 @@ public final class WorldRenderer {
       this.tileMapRenderer.renderLayer(graphics, 3);
 
       for(var2 = 0; var2 < this.backgroundEntities.size(); ++var2) {
-         if (((C20)this.backgroundEntities.elementAt(var2)).isInteractable()) {
-            ((C20)this.backgroundEntities.elementAt(var2)).a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+         if (((GameObject)this.backgroundEntities.elementAt(var2)).isInteractable()) {
+            ((GameObject)this.backgroundEntities.elementAt(var2)).render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
          }
       }
 
@@ -211,22 +211,22 @@ public final class WorldRenderer {
 
       int var2;
       for(var2 = 0; var2 < this.foregroundEntities.size(); ++var2) {
-         if (((C20)this.foregroundEntities.elementAt(var2)).isInteractable() && this.foregroundEntities.elementAt(var2) instanceof C18 && ((C18)this.foregroundEntities.elementAt(var2)).C18_f225 == 0) {
-            ((C20)this.foregroundEntities.elementAt(var2)).a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+         if (((GameObject)this.foregroundEntities.elementAt(var2)).isInteractable() && this.foregroundEntities.elementAt(var2) instanceof C18 && ((C18)this.foregroundEntities.elementAt(var2)).C18_f225 == 0) {
+            ((GameObject)this.foregroundEntities.elementAt(var2)).render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
          }
       }
 
       for(var2 = 0; var2 < this.middleLayerEntities.size(); ++var2) {
-         if (((C20)this.middleLayerEntities.elementAt(var2)).isInteractable() && this.middleLayerEntities.elementAt(var2) instanceof C18 && ((C18)this.middleLayerEntities.elementAt(var2)).C18_f225 == 0) {
-            ((C20)this.middleLayerEntities.elementAt(var2)).a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+         if (((GameObject)this.middleLayerEntities.elementAt(var2)).isInteractable() && this.middleLayerEntities.elementAt(var2) instanceof C18 && ((C18)this.middleLayerEntities.elementAt(var2)).C18_f225 == 0) {
+            ((GameObject)this.middleLayerEntities.elementAt(var2)).render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
          }
       }
 
       this.tileMapRenderer.renderLayer(graphics, 3);
 
       for(var2 = 0; var2 < this.backgroundEntities.size(); ++var2) {
-         if (((C20)this.backgroundEntities.elementAt(var2)).isInteractable() && this.backgroundEntities.elementAt(var2) instanceof C18 && ((C18)this.backgroundEntities.elementAt(var2)).C18_f225 == 0) {
-            ((C20)this.backgroundEntities.elementAt(var2)).a(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+         if (((GameObject)this.backgroundEntities.elementAt(var2)).isInteractable() && this.backgroundEntities.elementAt(var2) instanceof C18 && ((C18)this.backgroundEntities.elementAt(var2)).C18_f225 == 0) {
+            ((GameObject)this.backgroundEntities.elementAt(var2)).render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
          }
       }
 

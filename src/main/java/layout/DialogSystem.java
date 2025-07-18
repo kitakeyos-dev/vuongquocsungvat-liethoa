@@ -258,7 +258,7 @@ public final class DialogSystem {
                 if (focusedSpriteIndex < 0) {
                     textComponent.getComponentData().focusedRenderer = null;
                 } else {
-                    textComponent.getComponentData().focusedRenderer = new AnimatedRenderer();
+                    textComponent.getComponentData().focusedRenderer = new SpriteRenderer();
                     textComponent.getComponentData().focusedRenderer.spriteType = focusedSpriteType;
                     textComponent.getComponentData().focusedRenderer.setSpriteIndex((int) focusedSpriteIndex);
                 }
@@ -274,7 +274,7 @@ public final class DialogSystem {
                 if (normalSpriteIndex < 0) {
                     textComponent.getComponentData().renderer = null;
                 } else {
-                    textComponent.getComponentData().renderer = new AnimatedRenderer();
+                    textComponent.getComponentData().renderer = new SpriteRenderer();
                     textComponent.getComponentData().renderer.setSpriteIndex((int) normalSpriteIndex);
                     textComponent.getComponentData().renderer.spriteType = normalSpriteType;
                 }
@@ -346,7 +346,7 @@ public final class DialogSystem {
                 if (backgroundSpriteIndex < 0) {
                     gridComponent.backgroundRenderer = null;
                 } else {
-                    gridComponent.backgroundRenderer = new AnimatedRenderer();
+                    gridComponent.backgroundRenderer = new SpriteRenderer();
                     gridComponent.backgroundRenderer.setSpriteIndex((int) backgroundSpriteIndex);
                     gridComponent.backgroundRenderer.spriteType = backgroundSpriteType;
                     gridComponent.backgroundRenderer.initializeSprite(resourceType, enableAnimations, backgroundSpriteType);
@@ -358,7 +358,7 @@ public final class DialogSystem {
                 if (selectionSpriteIndex < 0) {
                     gridComponent.selectionRenderer = null;
                 } else {
-                    gridComponent.selectionRenderer = new AnimatedRenderer();
+                    gridComponent.selectionRenderer = new SpriteRenderer();
                     gridComponent.selectionRenderer.setSpriteIndex((int) selectionSpriteIndex);
                     gridComponent.selectionRenderer.spriteType = selectionSpriteType;
                     gridComponent.selectionRenderer.initializeSprite(resourceType, enableAnimations, selectionSpriteType);

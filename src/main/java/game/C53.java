@@ -2,7 +2,7 @@ package game;
 
 import a.GameUtils;
 import a.GameEngineBase;
-import a.a.C20;
+import a.a.GameObject;
 import a.a.C30;
 import a.b.CameraController;
 import a.b.GameEntity;
@@ -10,7 +10,7 @@ import a.b.ResourceManager;
 import a.b.TileMapRenderer;
 import java.util.Vector;
 
-public final class C53 extends C20 {
+public final class C53 extends GameObject {
    private static C53 C53_f764;
    public int C53_f765;
    private int C53_f766;
@@ -125,13 +125,13 @@ public final class C53 extends C20 {
 
    public final void a(short[] var1) {
       if (this.C53_f765 == -1) {
-         this.a(0, false);
+         this.loadSpriteSet(0, false);
       }
 
       this.worldX = var1[0];
       this.worldY = var1[1];
       this.h(this.C53_f765);
-      super.C20_f261.applyColorEffects();
+      super.sprite.applyColorEffects();
       this.a((byte)0, (byte)((byte)var1[2]));
       short var4 = var1[3];
       byte var3 = 0;
@@ -151,22 +151,22 @@ public final class C53 extends C20 {
       this.C53_f773 = var1[7];
       this.C53_f771 = this.D();
       if (this.C53_f768 == 1) {
-         this.a(0, 107, true);
+         this.replaceImage(0, 107, true);
       }
 
-      if (this.C20_f262 == null) {
-         this.C20_f262 = new C20();
-         this.C20_f262.a(337, false);
+      if (this.attachedObject == null) {
+         this.attachedObject = new GameObject();
+         this.attachedObject.loadSpriteSet(337, false);
       }
 
-      this.C20_f262.setWorldPosition(this.worldX, this.worldY);
-      if (this.C20_f261.spriteSetId == 4) {
-         this.C20_f262.a((byte)0, (byte)0, false);
+      this.attachedObject.setWorldPosition(this.worldX, this.worldY);
+      if (this.sprite.spriteSetId == 4) {
+         this.attachedObject.setAnimation((byte)0, (byte)0, false);
       } else {
-         this.C20_f262.a((byte)1, (byte)0, false);
+         this.attachedObject.setAnimation((byte)1, (byte)0, false);
       }
 
-      this.C20_f262.c();
+      this.attachedObject.activate();
       Object var5 = null;
       super.followTarget = (GameEntity)var5;
       this.C53_f776 = true;
@@ -174,7 +174,7 @@ public final class C53 extends C20 {
 
    public final void r() {
       if (this.isTrailEnabled() && this.followTarget.getFacingDirection() != 0) {
-         this.updateMovementTrail(((C20)this.followTarget).C20_f261, this.C20_f261);
+         this.updateMovementTrail(((GameObject)this.followTarget).sprite, this.sprite);
       } else {
          int var1;
          int var2;
@@ -189,7 +189,7 @@ public final class C53 extends C20 {
             if (this.C53_f793[2] != 2) {
                C25.C25_f318 = this.J();
                if (this.K() && this.L()) {
-                  this.a((int)this.C53_f766);
+                  this.moveInDirection((int)this.C53_f766);
                   if (this.C53_f767 < 8) {
                      this.C53_f767 += this.C53_f766;
                   } else {
@@ -234,7 +234,7 @@ public final class C53 extends C20 {
                }
 
                byte var6 = 0;
-               this.a((int)super.secondaryStates[var6]);
+               this.moveInDirection((int)super.secondaryStates[var6]);
                if (this.C53_f767 < 8) {
                   var6 = 0;
                   this.C53_f767 += super.secondaryStates[var6];
@@ -248,7 +248,7 @@ public final class C53 extends C20 {
             break;
          case 2:
             if (this.K() && this.L()) {
-               this.a((int)this.C53_f766);
+               this.moveInDirection((int)this.C53_f766);
                if (this.C53_f767 < 8) {
                   this.C53_f767 += this.C53_f766;
                } else {
@@ -273,7 +273,7 @@ public final class C53 extends C20 {
                case 2:
                   if (this.currentAnimationId == 2) {
                      if (this.worldY > this.followTarget.getWorldY() - 16) {
-                        this.moveRelative((int)this.currentAnimationId, 4);
+                        this.moveRelative(this.currentAnimationId, 4);
                      }
                   } else if (this.worldY < this.followTarget.getWorldY() - 16) {
                      this.moveRelative(this.currentAnimationId, 4);
@@ -283,47 +283,47 @@ public final class C53 extends C20 {
                      if (this.worldX <= this.followTarget.getWorldX()) {
                         this.setWorldX(this.followTarget.getWorldX());
                      } else {
-                        this.moveRelative((int)3, (int)4);
+                        this.moveRelative(3, 4);
                      }
-                  } else if (this.targetX < ((C18)this.followTarget).getWorldX()) {
-                     if (this.worldX >= ((C18)this.followTarget).getWorldX()) {
-                        this.setWorldX(((C18)this.followTarget).getWorldX());
+                  } else if (this.targetX < this.followTarget.getWorldX()) {
+                     if (this.worldX >= this.followTarget.getWorldX()) {
+                        this.setWorldX(this.followTarget.getWorldX());
                      } else {
-                        this.moveRelative((int)1, (int)4);
+                        this.moveRelative(1, 4);
                      }
                   }
                   break;
                case 1:
                case 3:
                   if (this.currentAnimationId == 3) {
-                     if (this.worldX > ((C18)this.followTarget).worldX) {
-                        this.moveRelative((int)this.currentAnimationId, (int)4);
+                     if (this.worldX > this.followTarget.worldX) {
+                        this.moveRelative(this.currentAnimationId, 4);
                      }
-                  } else if (this.worldX < ((C18)this.followTarget).worldX) {
-                     this.moveRelative((int)this.currentAnimationId, (int)4);
+                  } else if (this.worldX < this.followTarget.worldX) {
+                     this.moveRelative(this.currentAnimationId, 4);
                   }
 
-                  if (this.targetY > ((C18)this.followTarget).worldY - 16) {
-                     if (this.worldY <= ((C18)this.followTarget).worldY - 16) {
-                        var2 = ((C18)this.followTarget).worldY - 16;
+                  if (this.targetY > this.followTarget.worldY - 16) {
+                     if (this.worldY <= this.followTarget.worldY - 16) {
+                        var2 = this.followTarget.worldY - 16;
                         super.worldY = var2;
                      } else {
-                        this.moveRelative((int)2, (int)4);
+                        this.moveRelative(2, 4);
                      }
-                  } else if (this.targetY < ((C18)this.followTarget).worldY - 16) {
-                     if (this.worldY >= ((C18)this.followTarget).worldY - 16) {
-                        var2 = ((C18)this.followTarget).worldY - 16;
+                  } else if (this.targetY < this.followTarget.worldY - 16) {
+                     if (this.worldY >= this.followTarget.worldY - 16) {
+                        var2 = this.followTarget.worldY - 16;
                         super.worldY = var2;
                      } else {
-                        this.moveRelative((int)0, (int)4);
+                        this.moveRelative(0, 4);
                      }
                   }
                }
 
                if (this.C53_f769 % 4 == 3) {
-                  this.a((byte)1, (byte)-1, false);
+                  this.setAnimation((byte)1, (byte)-1, false);
                } else {
-                  this.a((byte)(this.C53_f769 % 4), (byte)-1, false);
+                  this.setAnimation((byte)(this.C53_f769 % 4), (byte)-1, false);
                }
 
                this.setCurrentDirection((byte)(this.C53_f769 % 4));
@@ -360,26 +360,26 @@ public final class C53 extends C20 {
             return;
          case 6:
             if (this.M()) {
-               this.a((int)this.getPrimaryState((byte)2));
+               this.moveInDirection((int)this.getPrimaryState((byte)2));
                return;
             }
 
-            this.a((int)this.getSecondaryState((byte)1));
+            this.moveInDirection((int)this.getSecondaryState((byte)1));
             this.a((byte)0, (byte)this.currentDirection);
             return;
          case 7:
             if (((C18)this.followTarget).C18_f233 == 0) {
                if (this.C53_f769 < 7) {
-                  this.a((int)4);
+                  this.moveInDirection((int)4);
                   ++this.C53_f769;
                   return;
                }
 
                if (this.C53_f769 == 7) {
                   if (this.currentDirection == 3) {
-                     this.a((byte)1, (byte)-1, false);
+                     this.setAnimation((byte)1, (byte)-1, false);
                   } else {
-                     this.a(this.currentDirection, (byte)-1, false);
+                     this.setAnimation(this.currentDirection, (byte)-1, false);
                   }
 
                   this.setCurrentDirection(this.currentDirection);
@@ -389,7 +389,7 @@ public final class C53 extends C20 {
                }
             } else if (((C18)this.followTarget).C18_f233 == 2) {
                if (this.C53_f769 < 8 && this.C53_f769 > 0) {
-                  this.a((int)4);
+                  this.moveInDirection((int)4);
                   --this.C53_f769;
                   return;
                }
@@ -410,9 +410,9 @@ public final class C53 extends C20 {
          case 8:
             if (this.C53_f769 < 16) {
                if (this.C53_f769 % 4 == 3) {
-                  this.a((byte)1, (byte)-1, false);
+                  this.setAnimation((byte)1, (byte)-1, false);
                } else {
-                  this.a((byte)(this.C53_f769 % 4), (byte)-1, false);
+                  this.setAnimation((byte)(this.C53_f769 % 4), (byte)-1, false);
                }
 
                this.setCurrentDirection((byte)(this.C53_f769 % 4));
@@ -423,18 +423,18 @@ public final class C53 extends C20 {
             var1 = C25.B().C25_f287[C25.B().C25_f295].worldX - C25.B().C25_f287[C25.B().C25_f295].worldX % this.getPrimaryState((byte)2);
             var2 = C25.B().C25_f287[C25.B().C25_f295].worldY - C25.B().C25_f287[C25.B().C25_f295].worldY % this.getPrimaryState((byte)2);
             this.setWorldPosition(var1, var2);
-            this.C20_f262.setWorldPosition(var1, var2);
+            this.attachedObject.setWorldPosition(var1, var2);
             this.a((byte)0, (byte)C25.B().C25_f287[C25.B().C25_f295].C18_f236);
-            this.a((int)32);
+            this.moveInDirection((int)32);
             CameraController.getInstance().setCameraLag(8);
             CameraController.getInstance().setLocked(false);
             return;
          case 9:
             if (this.C53_f769 < 16) {
                if (this.C53_f769 % 4 == 3) {
-                  this.a((byte)1, (byte)-1, false);
+                  this.setAnimation((byte)1, (byte)-1, false);
                } else {
-                  this.a((byte)(this.C53_f769 % 4), (byte)-1, false);
+                  this.setAnimation((byte)(this.C53_f769 % 4), (byte)-1, false);
                }
 
                this.setCurrentDirection((byte)(this.C53_f769 % 4));
@@ -445,7 +445,7 @@ public final class C53 extends C20 {
             var1 = C25.B().C25_f287[C25.B().C25_f295].worldX - C25.B().C25_f287[C25.B().C25_f295].worldX % this.getPrimaryState((byte)2);
             var2 = C25.B().C25_f287[C25.B().C25_f295].worldY - C25.B().C25_f287[C25.B().C25_f295].worldY % this.getPrimaryState((byte)2);
             this.setWorldPosition(var1, var2);
-            this.C20_f262.setWorldPosition(var1, var2);
+            this.attachedObject.setWorldPosition(var1, var2);
             this.a((byte)10, (byte)this.currentDirection);
             CameraController.getInstance().setCameraLag(8);
             CameraController.getInstance().setLocked(false);
@@ -453,9 +453,9 @@ public final class C53 extends C20 {
          case 10:
             if (this.C53_f769 > 0) {
                if (this.C53_f769 % 4 == 3) {
-                  this.a((byte)1, (byte)-1, false);
+                  this.setAnimation((byte)1, (byte)-1, false);
                } else {
-                  this.a((byte)(this.C53_f769 % 4), (byte)-1, false);
+                  this.setAnimation((byte)(this.C53_f769 % 4), (byte)-1, false);
                }
 
                this.setCurrentDirection((byte)(this.C53_f769 % 4));
@@ -464,7 +464,7 @@ public final class C53 extends C20 {
             }
 
             this.a((byte)0, (byte)C25.B().C25_f287[C25.B().C25_f295].C18_f236);
-            this.a((int)32);
+            this.moveInDirection((int)32);
          }
 
       }
@@ -480,9 +480,9 @@ public final class C53 extends C20 {
             }
 
             if (var2 == 3) {
-               this.a((byte)1, (byte)-1, false);
+               this.setAnimation((byte)1, (byte)-1, false);
             } else {
-               this.a(var2, (byte)-1, false);
+               this.setAnimation(var2, (byte)-1, false);
             }
 
             super.currentDirection = var2;
@@ -493,17 +493,17 @@ public final class C53 extends C20 {
                continue;
             }
 
-            if (super.C20_f261.getCurrentAnimationId() < 6) {
+            if (super.sprite.getCurrentAnimationId() < 6) {
                if (var2 == 3) {
-                  this.a((byte)4, (byte)-1, var2);
+                  this.setAnimationAndDirection((byte)4, (byte)-1, var2);
                } else {
-                  this.a((byte)((byte)(var2 + 3)), (byte)-1, var2);
+                  this.setAnimationAndDirection((byte)((byte)(var2 + 3)), (byte)-1, var2);
                }
             } else {
                if (var2 == 3) {
-                  this.a((byte)(var1 * 3 + 1), (byte)-1, false);
+                  this.setAnimation((byte)(var1 * 3 + 1), (byte)-1, false);
                } else {
-                  this.a((byte)(var1 * 3 + var2), (byte)-1, false);
+                  this.setAnimation((byte)(var1 * 3 + var2), (byte)-1, false);
                }
 
                super.currentDirection = var2;
@@ -511,36 +511,36 @@ public final class C53 extends C20 {
             break;
          case 2:
             if (this.N()) {
-               if (super.C20_f261.getCurrentAnimationId() < 9) {
+               if (super.sprite.getCurrentAnimationId() < 9) {
                   if (var2 == 3) {
-                     this.a((byte)7, (byte)-1, var2);
+                     this.setAnimationAndDirection((byte)7, (byte)-1, var2);
                   } else {
-                     this.a((byte)(var2 + 6), (byte)-1, var2);
+                     this.setAnimationAndDirection((byte)(var2 + 6), (byte)-1, var2);
                   }
                } else if (var2 == 3) {
-                  this.a((byte)(var1 * 3 + 1), (byte)-1, false);
+                  this.setAnimation((byte)(var1 * 3 + 1), (byte)-1, false);
                } else {
-                  this.a((byte)(var1 * 3 + var2), (byte)-1, false);
+                  this.setAnimation((byte)(var1 * 3 + var2), (byte)-1, false);
                }
             } else if (var2 == 3) {
-               this.a((byte)(this.facingDirection * 3 + 1), (byte)-1, false);
+               this.setAnimation((byte)(this.facingDirection * 3 + 1), (byte)-1, false);
             } else {
-               this.a((byte)(this.facingDirection * 3 + var2), (byte)-1, false);
+               this.setAnimation((byte)(this.facingDirection * 3 + var2), (byte)-1, false);
             }
 
             super.currentDirection = var2;
             break;
          case 3:
             if (var2 == 3) {
-               this.a((byte)(var1 * 3 + 1), (byte)-1, false);
+               this.setAnimation((byte)(var1 * 3 + 1), (byte)-1, false);
             } else {
-               this.a((byte)(var1 * 3 + var2), (byte)-1, false);
+               this.setAnimation((byte)(var1 * 3 + var2), (byte)-1, false);
             }
 
             super.currentDirection = var2;
             break;
          case 4:
-            this.a((byte)(var1 * 3), (byte)-2, false);
+            this.setAnimation((byte)(var1 * 3), (byte)-2, false);
             super.currentDirection = var2;
             this.C53_f767 = 0;
             break;
@@ -552,27 +552,27 @@ public final class C53 extends C20 {
             super.targetX = var4;
             super.targetY = var5;
             if (var2 == 3) {
-               this.a((byte)1, (byte)-1, false);
+               this.setAnimation((byte)1, (byte)-1, false);
             } else {
-               this.a(var2, (byte)-1, false);
+               this.setAnimation(var2, (byte)-1, false);
             }
 
             super.currentDirection = var2;
             break;
          case 6:
             if (var2 == 3) {
-               this.a((byte)1, (byte)-1, false);
+               this.setAnimation((byte)1, (byte)-1, false);
             } else {
-               this.a(var2, (byte)-1, false);
+               this.setAnimation(var2, (byte)-1, false);
             }
 
             super.currentDirection = var2;
             break;
          case 7:
             if (var2 == 3) {
-               this.a((byte)4, (byte)-1, false);
+               this.setAnimation((byte)4, (byte)-1, false);
             } else {
-               this.a((byte)(var2 + 3), (byte)-1, false);
+               this.setAnimation((byte)(var2 + 3), (byte)-1, false);
             }
 
             super.currentDirection = var2;
@@ -612,12 +612,12 @@ public final class C53 extends C20 {
    public final void h(int var1) {
       if (var1 != -1) {
          this.C53_f793[var1] = 2;
-         this.C20_f261.forceCleanup();
-         this.a(var1 + 1, false);
-         super.C20_f261.applyColorEffects();
+         this.sprite.forceCleanup();
+         this.loadSpriteSet(var1 + 1, false);
+         super.sprite.applyColorEffects();
          this.a((byte)0, (byte)this.currentDirection);
          if (this.C53_f768 == 1) {
-            this.a(1, 107, true);
+            this.replaceImage(1, 107, true);
          }
 
          byte var3;
@@ -633,7 +633,7 @@ public final class C53 extends C20 {
          }
 
          if (this.C53_f793[2] == 2 && C25.B().C25_f311 != null) {
-            C25.B().C25_f311.d();
+            C25.B().C25_f311.deactivate();
          }
 
          this.C53_f765 = var1;
@@ -643,9 +643,9 @@ public final class C53 extends C20 {
    }
 
    public final void t() {
-      this.C20_f261.forceCleanup();
-      this.a(0, false);
-      super.C20_f261.applyColorEffects();
+      this.sprite.forceCleanup();
+      this.loadSpriteSet(0, false);
+      super.sprite.applyColorEffects();
 
       for(int var1 = 0; var1 < 4; ++var1) {
          if (this.C53_f793[var1] == 2) {
@@ -654,11 +654,11 @@ public final class C53 extends C20 {
       }
 
       if (this.C53_f768 == 1) {
-         this.a(0, 107, true);
+         this.replaceImage(0, 107, true);
       }
 
       if (C25.B().C25_f311 != null) {
-         C25.B().C25_f311.c();
+         C25.B().C25_f311.activate();
       }
 
       byte var2 = 0;
@@ -680,9 +680,9 @@ public final class C53 extends C20 {
       }
 
       if (var1) {
-         this.a(1, 107, true);
+         this.replaceImage(1, 107, true);
       } else {
-         this.a(0, 107, true);
+         this.replaceImage(0, 107, true);
       }
    }
 
@@ -698,27 +698,27 @@ public final class C53 extends C20 {
       }
 
       if (var1) {
-         this.a(1, 100, true);
+         this.replaceImage(1, 100, true);
       } else {
-         this.a(0, 100, true);
+         this.replaceImage(0, 100, true);
       }
    }
 
    private short J() {
       for(short var1 = 0; var1 < C25.B().C25_f287.length; ++var1) {
          if (C25.B().C25_f287[var1].isVisible()) {
-            if ((C25.B().C25_f287[var1].C20_f261.spriteSetId <= 85 || C25.B().C25_f287[var1].C20_f261.spriteSetId == 226 || C25.B().C25_f287[var1].C20_f261.spriteSetId == 92 || C25.B().C25_f287[var1].C20_f261.spriteSetId == 102 || C25.B().C25_f287[var1].C20_f261.spriteSetId == 137) && C25.B().C25_f287[var1].C18_f223 == 0 && (C25.B().C25_f287[var1].C18_f225 == 1 || C25.B().C25_f287[var1].C18_f225 == 18) && this.a(C25.B().C25_f287[var1], this.C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var1].C20_f261.getCurrentFrameEvents())) {
+            if ((C25.B().C25_f287[var1].sprite.spriteSetId <= 85 || C25.B().C25_f287[var1].sprite.spriteSetId == 226 || C25.B().C25_f287[var1].sprite.spriteSetId == 92 || C25.B().C25_f287[var1].sprite.spriteSetId == 102 || C25.B().C25_f287[var1].sprite.spriteSetId == 137) && C25.B().C25_f287[var1].C18_f223 == 0 && (C25.B().C25_f287[var1].C18_f225 == 1 || C25.B().C25_f287[var1].C18_f225 == 18) && this.a(C25.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), C25.B().C25_f287[var1].sprite.getCurrentFrameEvents())) {
                if (C25.B().C25_f287[var1].v() == 0) {
                   C25.B().a((byte)13, C25.B().C25_f287[var1].worldX, C25.B().C25_f287[var1].worldY - 40, C25.B().C25_f287[var1]);
                   if (C25.B().C25_f287[var1].C18_f246 != null) {
-                     C25.B().C25_f287[var1].C18_f246.d();
+                     C25.B().C25_f287[var1].C18_f246.deactivate();
                   }
                } else if (C25.B().C25_f287[var1].v() == 1) {
                   C25.B().a((byte)13, C25.B().C25_f287[var1].worldX, C25.B().C25_f287[var1].worldY - 40, C25.B().C25_f287[var1]);
                   if (C7.C7_f64 != null && C7.C7_f64.size() > 0) {
                      for(int var2 = 0; var2 < C7.C7_f64.size(); ++var2) {
-                        if (((C20)C7.C7_f64.elementAt(var2)).followTarget.equals(C25.B().C25_f287[var1])) {
-                           ((C20)C7.C7_f64.elementAt(var2)).d();
+                        if (((GameObject)C7.C7_f64.elementAt(var2)).followTarget.equals(C25.B().C25_f287[var1])) {
+                           ((GameObject)C7.C7_f64.elementAt(var2)).deactivate();
                            break;
                         }
                      }
@@ -733,7 +733,7 @@ public final class C53 extends C20 {
                return var1;
             }
 
-            if (C25.B().C25_f287[var1].C18_f223 == 2 && this.a(C25.B().C25_f287[var1], this.C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var1].C20_f261.getCurrentFrameEvents())) {
+            if (C25.B().C25_f287[var1].C18_f223 == 2 && this.a(C25.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), C25.B().C25_f287[var1].sprite.getCurrentFrameEvents())) {
                C25.B().m(var1);
             }
          }
@@ -748,11 +748,11 @@ public final class C53 extends C20 {
       switch(C25.B().C25_f287[var1].C18_f223) {
       case 3:
          short[] var2;
-         short var3 = (var2 = C25.B().C25_f287[var1].C20_f261.getCurrentFrameEvents())[0];
+         short var3 = (var2 = C25.B().C25_f287[var1].sprite.getCurrentFrameEvents())[0];
          short var4 = var2[1];
          short var5 = (short)(var2[2] + 16);
          short var6 = (short)(var2[3] + 16);
-         if (C25.B().C25_f287[var1].C18_f224 && this.a(C25.B().C25_f287[var1], this.C20_f261.getCurrentFrameEvents(), new short[]{var3, var4, var5, var6})) {
+         if (C25.B().C25_f287[var1].C18_f224 && this.a(C25.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), new short[]{var3, var4, var5, var6})) {
             C18 var7 = C25.B().C25_f287[var1];
             super.followTarget = var7;
          }
@@ -771,7 +771,7 @@ public final class C53 extends C20 {
 
       for(int var2 = 0; var2 < C25.B().C25_f287.length; ++var2) {
          this.y(var2);
-         if (C25.B().C25_f287[var2].C18_f224 && this.a(C25.B().C25_f287[var2], this.C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var2].C20_f261.getCurrentFrameEvents())) {
+         if (C25.B().C25_f287[var2].C18_f224 && this.a(C25.B().C25_f287[var2], this.sprite.getCurrentFrameEvents(), C25.B().C25_f287[var2].sprite.getCurrentFrameEvents())) {
             switch(C25.B().C25_f287[var2].C18_f223) {
             case 0:
                switch(C25.B().C25_f287[var2].C18_f225) {
@@ -853,22 +853,22 @@ public final class C53 extends C20 {
                         if (C25.B().C25_f287[var5].C18_f224 && !C25.B().C25_f287[var5].equals(C25.B().C25_f287[var2]) && C25.B().C25_f287[var5].C18_f223 == 0 && (C25.B().C25_f287[var5].C18_f225 == 8 || C25.B().C25_f287[var5].C18_f225 == 11)) {
                            switch(this.currentDirection) {
                            case 0:
-                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].worldX, C25.B().C25_f287[var2].worldY + 8, C25.B().C25_f287[var5].worldX, C25.B().C25_f287[var5].worldY, C25.B().C25_f287[var2].C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var5].C20_f261.getCurrentFrameEvents())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].worldX, C25.B().C25_f287[var2].worldY + 8, C25.B().C25_f287[var5].worldX, C25.B().C25_f287[var5].worldY, C25.B().C25_f287[var2].sprite.getCurrentFrameEvents(), C25.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
                                  return false;
                               }
                               break;
                            case 1:
-                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].worldX + 8, C25.B().C25_f287[var2].worldY, C25.B().C25_f287[var5].worldX, C25.B().C25_f287[var5].worldY, C25.B().C25_f287[var2].C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var5].C20_f261.getCurrentFrameEvents())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].worldX + 8, C25.B().C25_f287[var2].worldY, C25.B().C25_f287[var5].worldX, C25.B().C25_f287[var5].worldY, C25.B().C25_f287[var2].sprite.getCurrentFrameEvents(), C25.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
                                  return false;
                               }
                               break;
                            case 2:
-                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].worldX, C25.B().C25_f287[var2].worldY - 8, C25.B().C25_f287[var5].worldX, C25.B().C25_f287[var5].worldY, C25.B().C25_f287[var2].C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var5].C20_f261.getCurrentFrameEvents())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].worldX, C25.B().C25_f287[var2].worldY - 8, C25.B().C25_f287[var5].worldX, C25.B().C25_f287[var5].worldY, C25.B().C25_f287[var2].sprite.getCurrentFrameEvents(), C25.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
                                  return false;
                               }
                               break;
                            case 3:
-                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].worldX - 8, C25.B().C25_f287[var2].worldY, C25.B().C25_f287[var5].worldX, C25.B().C25_f287[var5].worldY, C25.B().C25_f287[var2].C20_f261.getCurrentFrameEvents(), C25.B().C25_f287[var5].C20_f261.getCurrentFrameEvents())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].worldX - 8, C25.B().C25_f287[var2].worldY, C25.B().C25_f287[var5].worldX, C25.B().C25_f287[var5].worldY, C25.B().C25_f287[var2].sprite.getCurrentFrameEvents(), C25.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
                                  return false;
                               }
                            }
@@ -1192,7 +1192,7 @@ public final class C53 extends C20 {
    }
 
    private static boolean a(C18 var0, short[] var1, short[] var2, int var3, int var4) {
-      switch(var0.C20_f261.getCurrentAnimationId()) {
+      switch(var0.sprite.getCurrentAnimationId()) {
       case 0:
          if (GameUtils.checkCollisionWithShortArray(var0.worldX + var1[0], var0.worldY + var1[1], var1[2], var1[3] + (var0.C18_f234 << 4), var3, var4, var2)) {
             return true;
@@ -2023,7 +2023,7 @@ public final class C53 extends C20 {
 
          --this.C53_f775;
          if (this.C53_f775 == 0) {
-            this.C20_f261.applyBrightnessEffect(0);
+            this.sprite.applyBrightnessEffect(0);
             this.C53_f775 = -1;
          }
 
@@ -2081,10 +2081,10 @@ public final class C53 extends C20 {
       this.j(0);
    }
 
-   public final boolean a(int var1, boolean var2) {
-      super.a(var1, var2);
+   public final boolean loadSpriteSet(int var1, boolean var2) {
+      super.loadSpriteSet(var1, var2);
       if (this.C53_f775 > 0) {
-         this.C20_f261.applyBrightnessEffect(1);
+         this.sprite.applyBrightnessEffect(1);
       }
 
       return true;

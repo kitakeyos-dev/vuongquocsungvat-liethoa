@@ -240,7 +240,7 @@ public class GameEntity {
     * @param leaderSprite Leader entity's sprite for animation sync
     * @param followerSprite Follower entity's sprite to update
     */
-   public final void updateMovementTrail(AnimatedSprite leaderSprite, AnimatedSprite followerSprite) {
+   public final void updateMovementTrail(Sprite leaderSprite, Sprite followerSprite) {
       if (this.trailEnabled) {
          if (this.followTarget.facingDirection != 0) {
             // Record leader's current state

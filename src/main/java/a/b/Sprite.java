@@ -9,7 +9,7 @@ import javax.microedition.lcdui.Image;
  * Animated Sprite - comprehensive sprite and animation management system
  * Handles sprite loading, animation playback, transformation, and rendering with multiple flip modes
  */
-public final class AnimatedSprite {
+public final class Sprite {
 
     // Transformation lookup tables for different flip modes
     private static int[] FLIP_NONE = new int[]{0, 5, 3, 6, 2, 4, 1, 7};

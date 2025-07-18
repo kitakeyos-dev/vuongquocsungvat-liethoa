@@ -1,17 +1,17 @@
 package game;
 
 import a.GameUtils;
-import a.a.C20;
-import a.a.C21;
-import a.b.AnimatedSprite;
+import a.a.GameObject;
+import a.a.EffectEntity;
+import a.b.Sprite;
 import a.b.ResourceManager;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 
-public final class C41 extends C20 {
+public final class C41 extends GameObject {
    private static short[] C41_f638 = new short[]{90, 95, 100, 110, 125};
    public static final byte[] C41_f639 = new byte[]{12, 30, 5};
-   C21 C41_f640;
+   EffectEntity C41_f640;
    short[][] C41_f641;
    short[][] C41_f642;
    byte[][] C41_f643;
@@ -40,7 +40,7 @@ public final class C41 extends C20 {
    public byte C41_f666 = 0;
    protected boolean C41_f667;
    protected short[] C41_f668;
-   protected C21 C41_f669 = null;
+   protected EffectEntity C41_f669 = null;
    private byte C41_f670 = 0;
 
    public C41() {
@@ -59,7 +59,7 @@ public final class C41 extends C20 {
       this.C41_f642 = new short[11][5];
       this.C41_f643 = new byte[][]{{-1, -1, -1}, {-1, -1, -1}};
       this.C41_f644 = new byte[2];
-      this.C20_f263 = false;
+      this.useAlternativeRender = false;
    }
 
    public final void a(int var1, int var2, short var3, byte var4, short var5, byte var6) {
@@ -132,21 +132,21 @@ public final class C41 extends C20 {
       this.C41_f662 = (byte)var3;
    }
 
-   public final void c() {
-      super.c();
-      if (this.C20_f261 == null) {
-         this.C20_f261 = new AnimatedSprite();
+   public final void activate() {
+      super.activate();
+      if (this.sprite == null) {
+         this.sprite = new Sprite();
       }
 
-      this.C20_f261.loadSpriteSet(this.C41_f655, false);
+      this.sprite.loadSpriteSet(this.C41_f655, false);
       this.a((byte)0, true);
    }
 
-   public final void d() {
-      super.d();
-      if (this.C20_f261 != null) {
-         this.C20_f261.forceCleanup();
-         this.C20_f261 = null;
+   public final void deactivate() {
+      super.deactivate();
+      if (this.sprite != null) {
+         this.sprite.forceCleanup();
+         this.sprite = null;
       }
 
    }
@@ -154,11 +154,11 @@ public final class C41 extends C20 {
    public final void a(short var1, byte var2) {
       byte var3 = this.currentDirection;
       this.C41_f640 = null;
-      this.C41_f640 = new C21();
-      this.C41_f640.a(new short[]{var1, (short)var2, (short)var3});
+      this.C41_f640 = new EffectEntity();
+      this.C41_f640.initializeEffect(new short[]{var1, (short)var2, (short)var3});
       this.C41_f640.setWorldPosition(this.worldX, this.worldY);
       if (var1 == 20 && var2 == 3 || var1 == 22 && var2 == 4) {
-         int[] var4 = this.C20_f261.getSpritePartBounds(0, var3);
+         int[] var4 = this.sprite.getSpritePartBounds(0, var3);
          this.C41_f640.setWorldPosition(this.worldX, this.worldY - var4[3]);
       }
 
@@ -166,12 +166,12 @@ public final class C41 extends C20 {
    }
 
    private void z(int var1) {
-      this.C41_f669 = new C21();
+      this.C41_f669 = new EffectEntity();
       short[] var3;
       short[] var2 = new short[(var3 = C29.C29_f450[var1]).length + 5];
       System.arraycopy(var3, 1, var2, 6, var3.length - 1);
       System.arraycopy(var3 = new short[]{var3[0], (short)super.worldX, (short)super.worldY, ResourceManager.gameDatabase[0][this.C41_f657][17], 0, (short)this.currentDirection}, 0, var2, 0, var3.length);
-      this.C41_f669.a(var2);
+      this.C41_f669.initializeEffect(var2);
       this.C41_f669.setInteractable(true);
    }
 
@@ -179,10 +179,10 @@ public final class C41 extends C20 {
       label31:
       switch(var1) {
       case 0:
-         this.C20_f261.setAnimation(var1, (byte)-1, true);
+         this.sprite.setAnimation(var1, (byte)-1, true);
          break;
       case 1:
-         this.C20_f261.setAnimation((byte)var1, (byte)0, true);
+         this.sprite.setAnimation((byte)var1, (byte)0, true);
          switch(this.C41_f657) {
          case 0:
             this.z(27);
@@ -237,36 +237,36 @@ public final class C41 extends C20 {
             break label31;
          }
       case 2:
-         this.C20_f261.setAnimation((byte)var1, (byte)0, true);
+         this.sprite.setAnimation((byte)var1, (byte)0, true);
          break;
       case 3:
          if (C29.B().C29_f398 == 0) {
-            this.d();
+            this.deactivate();
             short[] var3 = new short[]{16, 0, 0, 4};
-            this.C41_f669 = new C21();
+            this.C41_f669 = new EffectEntity();
             short[] var4 = new short[var3.length + 5];
             System.arraycopy(var3, 1, var4, 6, var3.length - 1);
             System.arraycopy(var3 = new short[]{var3[0], (short)super.worldX, (short)super.worldY, ResourceManager.gameDatabase[0][this.C41_f657][17], 0, (short)this.currentDirection}, 0, var4, 0, var3.length);
-            this.C41_f669.a(var4);
+            this.C41_f669.initializeEffect(var4);
             this.C41_f669.setInteractable(true);
-            this.C41_f669.a();
+            this.C41_f669.activateEffect();
          }
          break;
       case 4:
-         this.C20_f261.setAnimation(var1, (byte)-1, true);
+         this.sprite.setAnimation(var1, (byte)-1, true);
       }
 
       this.C41_f656 = var1;
    }
 
    public final void p() {
-      this.a();
+      this.updateAnimation();
       if (this.C41_f640 != null) {
-         this.C41_f640.d();
+         this.C41_f640.updateEffect();
       }
 
       if (this.C41_f669 != null) {
-         this.C41_f669.d();
+         this.C41_f669.updateEffect();
       }
 
    }
@@ -275,97 +275,97 @@ public final class C41 extends C20 {
       if (this.C41_f669 != null && this.C41_f656 == 1) {
          switch(this.C41_f657) {
          case 0:
-            if (this.C20_f261.isAtFrame(5)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(5)) {
+               this.C41_f669.activateEffect();
             }
             break;
          case 10:
-            if (this.C20_f261.isAtFrame(5)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(5)) {
+               this.C41_f669.activateEffect();
             }
             break;
          case 60:
          case 61:
-            if (this.C20_f261.isAtFrame(3)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(3)) {
+               this.C41_f669.activateEffect();
             }
             break;
          case 62:
-            if (this.C20_f261.isAtFrame(8)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(8)) {
+               this.C41_f669.activateEffect();
             }
             break;
          case 67:
-            if (this.C20_f261.isAtFrame(1)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(1)) {
+               this.C41_f669.activateEffect();
             }
             break;
          case 68:
-            if (this.C20_f261.isAtFrame(3)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(3)) {
+               this.C41_f669.activateEffect();
             }
             break;
          case 70:
-            if (this.C20_f261.isAtFrame(9)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(9)) {
+               this.C41_f669.activateEffect();
             }
             break;
          case 71:
-            if (this.C20_f261.isAtFrame(7)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(7)) {
+               this.C41_f669.activateEffect();
             }
             break;
          case 72:
-            if (this.C20_f261.isAtFrame(4)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(4)) {
+               this.C41_f669.activateEffect();
             }
             break;
          case 75:
-            if (this.C20_f261.isAtFrame(15)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(15)) {
+               this.C41_f669.activateEffect();
             }
             break;
          case 87:
-            if (this.C20_f261.isAtFrame(1)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(1)) {
+               this.C41_f669.activateEffect();
             }
             break;
          case 91:
-            if (this.C20_f261.isAtFrame(2)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(2)) {
+               this.C41_f669.activateEffect();
             }
             break;
          case 92:
-            if (this.C20_f261.isAtFrame(4)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(4)) {
+               this.C41_f669.activateEffect();
             }
             break;
          case 97:
          case 98:
-            if (this.C20_f261.isAtFrame(8)) {
-               this.C41_f669.a();
+            if (this.sprite.isAtFrame(8)) {
+               this.C41_f669.activateEffect();
             }
          }
       }
 
       if (this.C41_f669 != null && this.C41_f670 == 0) {
-         this.C41_f669.a(var1, 0, 0);
+         this.C41_f669.render(var1);
       }
 
-      if (this.C41_f640 != null && C29.C29_f448[this.C41_f640.C21_f266 - 20][this.C41_f640.C21_f270.getCurrentAnimationId()][this.C41_f640.C21_f270.getCurrentFrameIndex()] == 0) {
-         this.C41_f640.a(var1, 0, 0);
+      if (this.C41_f640 != null && C29.C29_f448[this.C41_f640.effectType - 20][this.C41_f640.sprite.getCurrentAnimationId()][this.C41_f640.sprite.getCurrentFrameIndex()] == 0) {
+         this.C41_f640.render(var1);
       }
 
       if (this.isVisible) {
-         this.C20_f261.renderCurrentFrame(var1, this.worldX, this.worldY, this.currentDirection);
+         this.sprite.renderCurrentFrame(var1, this.worldX, this.worldY, this.currentDirection);
       }
 
       if (this.C41_f669 != null && this.C41_f670 == 1) {
-         this.C41_f669.a(var1, 0, 0);
+         this.C41_f669.render(var1);
       }
 
-      if (this.C41_f640 != null && C29.C29_f448[this.C41_f640.C21_f266 - 20][this.C41_f640.C21_f270.getCurrentAnimationId()][this.C41_f640.C21_f270.getCurrentFrameIndex()] == 1) {
-         this.C41_f640.a(var1, 0, 0);
+      if (this.C41_f640 != null && C29.C29_f448[this.C41_f640.effectType - 20][this.C41_f640.sprite.getCurrentAnimationId()][this.C41_f640.sprite.getCurrentFrameIndex()] == 1) {
+         this.C41_f640.render(var1);
       }
 
    }
@@ -1256,7 +1256,7 @@ public final class C41 extends C20 {
       }
 
       this.saveCurrentStates();
-      this.c();
+      this.activate();
    }
 
    public final void K() {
@@ -1484,7 +1484,7 @@ public final class C41 extends C20 {
          this.B(var3);
          break;
       case 4:
-         this.c();
+         this.activate();
          var5 = 1;
          var6 = (short)(super.primaryStates[var5] * ResourceManager.gameDatabase[4][var1][6] / 100 + ResourceManager.gameDatabase[4][var1][7]);
          var3 = ResourceManager.gameDatabase[4][var1][8];

@@ -1,6 +1,6 @@
 package layout;
 
-import a.b.AnimatedSprite;
+import a.b.Sprite;
 
 import javax.microedition.lcdui.Graphics;
 
@@ -8,10 +8,10 @@ import javax.microedition.lcdui.Graphics;
  * Sprite Renderer - component for rendering sprites and images with alignment
  * Supports different sprite types and 9 alignment positions within target rectangles
  */
-public final class AnimatedRenderer {
+public final class SpriteRenderer {
 
     // Sprite data and resource manager
-    private AnimatedSprite animatedSprite;
+    private Sprite sprite;
     private byte spriteState = 0;
     private short spriteIndex = -1;
     public byte spriteType = 4;
@@ -35,8 +35,8 @@ public final class AnimatedRenderer {
     /**
      * Default constructor
      */
-    public AnimatedRenderer() {
-        this.animatedSprite = null;
+    public SpriteRenderer() {
+        this.sprite = null;
         this.spriteIndex = -1;
         this.spriteType = TYPE_STATIC_IMAGE;
     }
@@ -50,12 +50,12 @@ public final class AnimatedRenderer {
      */
     public final void initializeSprite(int resourceId, boolean enableCaching, byte animationState) {
         if (resourceId != -1) {
-            this.animatedSprite = new AnimatedSprite();
-            this.animatedSprite.loadSpriteSet(resourceId, enableCaching);
+            this.sprite = new Sprite();
+            this.sprite.loadSpriteSet(resourceId, enableCaching);
 
             // Setup animated sprite if needed
             if (this.spriteType == TYPE_ANIMATED_SPRITE) {
-                this.animatedSprite.setAnimation((byte) this.spriteIndex, animationState, true);
+                this.sprite.setAnimation((byte) this.spriteIndex, animationState, true);
             }
         }
     }
@@ -68,8 +68,8 @@ public final class AnimatedRenderer {
      */
     public final void setAnimationFrame(byte frameIndex, byte animationState) {
         this.spriteIndex = frameIndex;
-        if (this.animatedSprite != null) {
-            this.animatedSprite.setAnimation(frameIndex, animationState, true);
+        if (this.sprite != null) {
+            this.sprite.setAnimation(frameIndex, animationState, true);
         }
     }
 
@@ -78,8 +78,8 @@ public final class AnimatedRenderer {
      *
      * @return Sprite manager instance
      */
-    public final AnimatedSprite getSpriteManager() {
-        return this.animatedSprite;
+    public final Sprite getSpriteManager() {
+        return this.sprite;
     }
 
     /**
@@ -144,7 +144,7 @@ public final class AnimatedRenderer {
      * @param alignment  Alignment mode (0-8 for different positions)
      */
     public final void render(Graphics graphics, Rectangle targetArea, int alignment) {
-        if (this.animatedSprite == null) {
+        if (this.sprite == null) {
             return;
         }
 
@@ -176,10 +176,10 @@ public final class AnimatedRenderer {
 
         switch (this.spriteType) {
             case TYPE_UNKNOWN_1:
-                bounds = this.animatedSprite.getSpritePartBounds(this.spriteIndex, (byte) 0);
+                bounds = this.sprite.getSpritePartBounds(this.spriteIndex, (byte) 0);
                 break;
             case TYPE_ANIMATED_SPRITE:
-                bounds = this.animatedSprite.getAnimationBounds((int) this.spriteIndex, (byte) 0);
+                bounds = this.sprite.getAnimationBounds((int) this.spriteIndex, (byte) 0);
                 break;
             default:
                 return null;
@@ -264,10 +264,10 @@ public final class AnimatedRenderer {
     private void renderSprite(Graphics graphics, int x, int y) {
         if (this.spriteType == TYPE_ANIMATED_SPRITE) {
             // Render animated sprite
-            this.animatedSprite.renderCurrentFrame(graphics, x, y, this.spriteState);
+            this.sprite.renderCurrentFrame(graphics, x, y, this.spriteState);
         } else if (this.spriteType == TYPE_UNKNOWN_1) {
             // Render static sprite/image
-            this.animatedSprite.renderSpriteComposite(graphics, this.spriteIndex, x, y, (byte) 0, 20);
+            this.sprite.renderSpriteComposite(graphics, this.spriteIndex, x, y, (byte) 0, 20);
         }
     }
 
@@ -276,8 +276,8 @@ public final class AnimatedRenderer {
      * Called each frame to update animated sprites
      */
     public final void update() {
-        if (this.spriteType == TYPE_ANIMATED_SPRITE && this.animatedSprite != null) {
-            this.animatedSprite.updateAnimation();
+        if (this.spriteType == TYPE_ANIMATED_SPRITE && this.sprite != null) {
+            this.sprite.updateAnimation();
         }
     }
 
@@ -285,9 +285,9 @@ public final class AnimatedRenderer {
      * Clean up sprite resources
      */
     public final void cleanup() {
-        if (this.animatedSprite != null) {
-            this.animatedSprite.forceCleanup();
-            this.animatedSprite = null;
+        if (this.sprite != null) {
+            this.sprite.forceCleanup();
+            this.sprite = null;
         }
     }
 
@@ -297,7 +297,7 @@ public final class AnimatedRenderer {
      * @return true if sprite manager is loaded
      */
     public final boolean isInitialized() {
-        return this.animatedSprite != null;
+        return this.sprite != null;
     }
 
     /**

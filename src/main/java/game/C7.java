@@ -2,7 +2,7 @@ package game;
 
 import a.GameUtils;
 import a.GameEngineBase;
-import a.a.C20;
+import a.a.GameObject;
 import a.a.C30;
 import a.b.CameraController;
 import a.b.GameEntity;
@@ -65,7 +65,7 @@ public final class C7 extends GameEngineBase {
    private int[] C7_f94;
    private int[] C7_f95;
    private String[] C7_f96 = null;
-   private C20 C7_f97 = null;
+   private GameObject C7_f97 = null;
    private int C7_f98 = -1;
    private Calendar C7_f99 = null;
    private int[] C7_f100;
@@ -152,7 +152,7 @@ public final class C7 extends GameEngineBase {
                   int var15;
                   switch(var3.getCommandId()) {
                   case 13:
-                     if (!GameUtils.checkCollisionWithShortArray(var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3], var1.C7_f54.worldX, var1.C7_f54.worldY, var1.C7_f54.C20_f261.getCurrentFrameEvents())) {
+                     if (!GameUtils.checkCollisionWithShortArray(var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3], var1.C7_f54.worldX, var1.C7_f54.worldY, var1.C7_f54.sprite.getCurrentFrameEvents())) {
                         break label218;
                      }
 
@@ -341,16 +341,16 @@ public final class C7 extends GameEngineBase {
       int var1;
       if (C7_f63 != null) {
          for(var1 = 0; var1 < C7_f63.size(); ++var1) {
-            C20 var2;
-            C20 var10000 = var2 = (C20)C7_f63.elementAt(var1);
+            GameObject var2;
+            GameObject var10000 = var2 = (GameObject)C7_f63.elementAt(var1);
             var10000.setWorldPosition(var10000.followTarget.worldX, var2.followTarget.worldY - 40);
-            var2.a(var0, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY);
+            var2.render(var0, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY);
          }
       }
 
       if (C7_f64 != null) {
          for(var1 = 0; var1 < C7_f64.size(); ++var1) {
-            ((C20)C7_f64.elementAt(var1)).a(var0, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY);
+            ((GameObject)C7_f64.elementAt(var1)).render(var0, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY);
          }
       }
 
@@ -360,10 +360,10 @@ public final class C7 extends GameEngineBase {
       int var1;
       if (C7_f63 != null) {
          for(var1 = 0; var1 < C7_f63.size(); ++var1) {
-            C20 var2;
-            (var2 = (C20)C7_f63.elementAt(var1)).a();
-            if (var2.C20_f261.isAtLastFrame()) {
-               var2.d();
+            GameObject var2;
+            (var2 = (GameObject)C7_f63.elementAt(var1)).updateAnimation();
+            if (var2.sprite.isAtLastFrame()) {
+               var2.deactivate();
                C7_f63.removeElementAt(var1);
                --var1;
             }
@@ -372,12 +372,12 @@ public final class C7 extends GameEngineBase {
 
       if (C7_f64 != null) {
          for(var1 = 0; var1 < C7_f64.size(); ++var1) {
-            ((C20)C7_f64.elementAt(var1)).a();
+            ((GameObject)C7_f64.elementAt(var1)).updateAnimation();
          }
       }
 
       if (this.C7_f97 != null) {
-         this.C7_f97.a();
+         this.C7_f97.updateAnimation();
       }
 
    }
@@ -391,7 +391,7 @@ public final class C7 extends GameEngineBase {
       }
 
       if (this.C7_f97 != null && this.C7_f98 == C25.e(this.C7_f53.C25_f290, this.C7_f53.C25_f291)) {
-         this.C7_f97.a(var1, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY);
+         this.C7_f97.render(var1, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY);
       }
 
       this.C7_f65.a(var1);
@@ -554,7 +554,7 @@ public final class C7 extends GameEngineBase {
                   break;
                case 2:
                   if (var3.getNumericParameters()[0] == -1) {
-                     this.C7_f54.c();
+                     this.C7_f54.activate();
                      this.C7_f54.a((byte)0, (byte) GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[0]));
                      break label1202;
                   }
@@ -571,12 +571,12 @@ public final class C7 extends GameEngineBase {
                         this.C7_f53.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].a((byte)0);
                      }
 
-                     this.C7_f53.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].c();
+                     this.C7_f53.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].activate();
                      ++var10;
                   }
                case 3:
                   if (var3.getNumericParameters()[0] == -1) {
-                     this.C7_f54.d();
+                     this.C7_f54.deactivate();
                      break label1202;
                   }
 
@@ -588,7 +588,7 @@ public final class C7 extends GameEngineBase {
                      }
 
                      var27 = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var12]);
-                     this.C7_f53.C25_f287[var27].d();
+                     this.C7_f53.C25_f287[var27].deactivate();
                      ++var12;
                   }
                case 4:
@@ -602,7 +602,7 @@ public final class C7 extends GameEngineBase {
                         GameUtils.c();
                         this.C7_f53.gameController.b(GameUtils.pageCount);
                      } else {
-                        if (C25.C25_f318 != -1 && this.C7_f53.C25_f287[C25.C25_f318].C20_f261.spriteSetId <= 85 && this.C7_f53.C25_f287[C25.C25_f318].v() == 0) {
+                        if (C25.C25_f318 != -1 && this.C7_f53.C25_f287[C25.C25_f318].sprite.spriteSetId <= 85 && this.C7_f53.C25_f287[C25.C25_f318].v() == 0) {
                            C25.B().a((byte)13, C25.B().C25_f287[C25.C25_f318].worldX, C25.B().C25_f287[C25.C25_f318].worldY - 40, C25.B().C25_f287[C25.C25_f318]);
                         }
 
@@ -614,12 +614,12 @@ public final class C7 extends GameEngineBase {
                   }
                   break label1202;
                case 5:
-                  C20 var30;
-                  (var30 = new C20()).a(259, false);
-                  var30.g();
-                  var30.a((byte)var3.getNumericParameters()[2], (byte)-1, true);
+                  GameObject var30;
+                  (var30 = new GameObject()).loadSpriteSet(259, false);
+                  var30.applyColorEffects();
+                  var30.setAnimation((byte)var3.getNumericParameters()[2], (byte)-1, true);
                   if (var3.getNumericParameters()[0] == 0) {
-                     var30.setWorldPosition(this.C7_f54.getWorldX(), this.C7_f54.getWorldY() - this.C7_f54.C20_f261.getSpritePartBounds(this.C7_f54.getFacingDirection(), this.C7_f54.currentDirection)[3]);
+                     var30.setWorldPosition(this.C7_f54.getWorldX(), this.C7_f54.getWorldY() - this.C7_f54.sprite.getSpritePartBounds(this.C7_f54.getFacingDirection(), this.C7_f54.currentDirection)[3]);
                      var30.setFollowTarget(this.C7_f54);
                   } else if (var3.getNumericParameters()[0] == 1) {
                      if (var3.getNumericParameters()[3] == 0 && var3.getNumericParameters()[4] == 0) {
@@ -630,7 +630,7 @@ public final class C7 extends GameEngineBase {
                      }
                   }
 
-                  var30.c();
+                  var30.activate();
                   C7_f63.addElement(var30);
                   break label1202;
                case 6:
@@ -667,11 +667,11 @@ public final class C7 extends GameEngineBase {
 
                   for(var10 = 0; var10 < this.C7_f76.length; ++var10) {
                      if (this.C7_f76[var10] == -1) {
-                        if (this.C7_f54.b()) {
+                        if (this.C7_f54.isAnimationComplete()) {
                            this.C7_f54.a((byte)0, (byte)this.C7_f54.currentDirection);
                            ++this.C7_f61;
                         }
-                     } else if (this.C7_f53.C25_f287[this.C7_f76[var10]].b()) {
+                     } else if (this.C7_f53.C25_f287[this.C7_f76[var10]].isAnimationComplete()) {
                         this.C7_f53.C25_f287[this.C7_f76[var10]].a((byte)0);
                         ++this.C7_f61;
                      }
@@ -684,10 +684,10 @@ public final class C7 extends GameEngineBase {
                   this.C7_f61 = 0;
                   break;
                case 8:
-                  this.C7_f54.c();
+                  this.C7_f54.activate();
                   C25.C25_f318 = -1;
                   this.C7_f54.setWorldPosition(var3.getNumericParameters()[0], var3.getNumericParameters()[1]);
-                  this.C7_f54.C20_f262.setWorldPosition(var3.getNumericParameters()[0], var3.getNumericParameters()[1]);
+                  this.C7_f54.attachedObject.setWorldPosition(var3.getNumericParameters()[0], var3.getNumericParameters()[1]);
                   this.C7_f54.a((byte)0, (byte)this.C7_f54.currentDirection);
                   break label1202;
                case 9:
@@ -874,7 +874,7 @@ public final class C7 extends GameEngineBase {
                   this.C7_f61 = 0;
                   break;
                case 13:
-                  if (GameUtils.checkCollisionWithShortArray(var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3], this.C7_f54.worldX, this.C7_f54.worldY, this.C7_f54.C20_f261.getCurrentFrameEvents())) {
+                  if (GameUtils.checkCollisionWithShortArray(var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3], this.C7_f54.worldX, this.C7_f54.worldY, this.C7_f54.sprite.getCurrentFrameEvents())) {
                      var2.setExecutionState((byte)1);
                      this.C7_f54.a((byte)0, (byte)this.C7_f54.currentDirection);
                   } else {
@@ -1065,15 +1065,15 @@ public final class C7 extends GameEngineBase {
                            var12 = this.C7_f54.getWorldX() + this.C7_f82[var18];
                            var15 = this.C7_f54.getWorldY() + this.C7_f83[var18];
                            this.C7_f54.setWorldPosition(var12, var15);
-                           if (this.C7_f54.C20_f262 != null) {
-                              this.C7_f54.C20_f262.setWorldPosition(var12, var15);
+                           if (this.C7_f54.attachedObject != null) {
+                              this.C7_f54.attachedObject.setWorldPosition(var12, var15);
                            }
                         } else {
                            var12 = this.C7_f53.C25_f287[this.C7_f76[var18]].getWorldX() + this.C7_f82[var18];
                            var15 = this.C7_f53.C25_f287[this.C7_f76[var18]].getWorldY() + this.C7_f83[var18];
                            this.C7_f53.C25_f287[this.C7_f76[var18]].setWorldPosition(var12, var15);
-                           if (this.C7_f53.C25_f287[this.C7_f76[var18]].C20_f262 != null) {
-                              this.C7_f53.C25_f287[this.C7_f76[var18]].C20_f262.setWorldPosition(var12, var15);
+                           if (this.C7_f53.C25_f287[this.C7_f76[var18]].attachedObject != null) {
+                              this.C7_f53.C25_f287[this.C7_f76[var18]].attachedObject.setWorldPosition(var12, var15);
                            }
                         }
                      }
@@ -1511,15 +1511,15 @@ public final class C7 extends GameEngineBase {
                case 55:
                   if (var3.getNumericParameters()[0] == 0) {
                      if (this.C7_f97 == null) {
-                        this.C7_f97 = new C20();
-                        this.C7_f97.a(340, false);
-                        this.C7_f97.c();
+                        this.C7_f97 = new GameObject();
+                        this.C7_f97.loadSpriteSet(340, false);
+                        this.C7_f97.activate();
                         this.C7_f98 = C25.e(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
                      }
 
                      this.C7_f97.setWorldPosition(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
                   } else if (var3.getNumericParameters()[0] == 1 && this.C7_f97 != null) {
-                     this.C7_f97.d();
+                     this.C7_f97.deactivate();
                      this.C7_f97 = null;
                      this.C7_f98 = -1;
                   }
@@ -1542,7 +1542,7 @@ public final class C7 extends GameEngineBase {
                            this.C7_f53.C25_f287[var25].a((byte)0);
                         }
 
-                        this.C7_f53.C25_f287[var25].c();
+                        this.C7_f53.C25_f287[var25].activate();
                         this.C7_f53.a(var25, 1, (byte)1, true);
                         this.C7_f53.a(var25, 2, var14, true);
                         this.C7_f53.C25_f287[var25].t();
@@ -1566,13 +1566,13 @@ public final class C7 extends GameEngineBase {
                         this.C7_f53.C25_f287[var25].a((byte)0);
                      }
 
-                     this.C7_f53.C25_f287[var25].d();
+                     this.C7_f53.C25_f287[var25].deactivate();
                      this.C7_f53.a(var25, 1, (byte)0, true);
                      this.C7_f53.C25_f287[var25].t();
                      ++var18;
                   }
                case 58:
-                  if (((C18)this.C7_f54.followTarget).getFacingDirection() == 1 && ((C18)this.C7_f54.followTarget).C20_f261.isAtLastFrame()) {
+                  if (((C18)this.C7_f54.followTarget).getFacingDirection() == 1 && ((C18)this.C7_f54.followTarget).sprite.isAtLastFrame()) {
                      ((C18)this.C7_f54.followTarget).a((byte)0);
                      this.C7_f53.C25_f287[var3.getNumericParameters()[0]].setWorldPosition(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
                      if ((C18)this.C7_f53.C25_f287[var3.getNumericParameters()[0]].followTarget != null) {
@@ -1600,7 +1600,7 @@ public final class C7 extends GameEngineBase {
                   }
 
                   for(var15 = 0; var15 < this.C7_f76.length; ++var15) {
-                     if (this.C7_f53.C25_f287[this.C7_f76[var15]].b()) {
+                     if (this.C7_f53.C25_f287[this.C7_f76[var15]].isAnimationComplete()) {
                         ++this.C7_f61;
                      }
                   }
@@ -1649,9 +1649,9 @@ public final class C7 extends GameEngineBase {
                   if (var3.getNumericParameters()[0] == 0) {
                      this.C7_f53.l(var3.getNumericParameters()[1]);
                      if (var3.getNumericParameters()[2] == -1) {
-                        this.C7_f53.a((C20)this.C7_f54);
+                        this.C7_f53.a((GameObject)this.C7_f54);
                      } else {
-                        this.C7_f53.a((C20)this.C7_f53.C25_f287[var3.getNumericParameters()[2]]);
+                        this.C7_f53.a((GameObject)this.C7_f53.C25_f287[var3.getNumericParameters()[2]]);
                      }
                   } else {
                      this.C7_f53.E();
@@ -1710,7 +1710,7 @@ public final class C7 extends GameEngineBase {
                case 72:
                   String[] var6 = GameUtils.splitString(var3.getStringParameters()[0], ',');
                   String[] var17 = GameUtils.splitString(var3.getStringParameters()[1], ',');
-                  C20[] var20 = new C20[var6.length];
+                  GameObject[] var20 = new GameObject[var6.length];
                   var10 = 0;
 
                   while(true) {
@@ -1718,17 +1718,17 @@ public final class C7 extends GameEngineBase {
                         break label1202;
                      }
 
-                     var20[var10] = new C20();
-                     var20[var10].a(259, false);
-                     var20[var10].g();
+                     var20[var10] = new GameObject();
+                     var20[var10].loadSpriteSet(259, false);
+                     var20[var10].applyColorEffects();
                      if (GameUtils.parseInt(var6[var10]) == -1) {
-                        var20[var10].a(GameUtils.parseByte(var17[var10]), (byte)-1, true);
-                        var20[var10].c();
+                        var20[var10].setAnimation(GameUtils.parseByte(var17[var10]), (byte)-1, true);
+                        var20[var10].activate();
                         var20[var10].setWorldPosition(this.C7_f54.getWorldX(), this.C7_f54.getWorldY() - 40);
                         var20[var10].setFollowTarget(this.C7_f54);
                      } else {
-                        var20[var10].a(GameUtils.parseByte(var17[var10]), (byte)-1, true);
-                        var20[var10].c();
+                        var20[var10].setAnimation(GameUtils.parseByte(var17[var10]), (byte)-1, true);
+                        var20[var10].activate();
                         var20[var10].setWorldPosition(this.C7_f53.C25_f287[GameUtils.parseInt(var6[var10])].getWorldX(), this.C7_f53.C25_f287[GameUtils.parseInt(var6[var10])].getWorldY() - 40);
                         var20[var10].setFollowTarget(this.C7_f53.C25_f287[GameUtils.parseInt(var6[var10])]);
                      }
@@ -1875,7 +1875,7 @@ public final class C7 extends GameEngineBase {
                         GameUtils.c();
                         this.C7_f53.gameController.b(GameUtils.pageCount);
                      } else {
-                        if (C25.C25_f318 != -1 && this.C7_f53.C25_f287[C25.C25_f318].C20_f261.spriteSetId <= 85 && this.C7_f53.C25_f287[C25.C25_f318].v() == 0) {
+                        if (C25.C25_f318 != -1 && this.C7_f53.C25_f287[C25.C25_f318].sprite.spriteSetId <= 85 && this.C7_f53.C25_f287[C25.C25_f318].v() == 0) {
                            C25.B().a((byte)13, C25.B().C25_f287[C25.C25_f318].worldX, C25.B().C25_f287[C25.C25_f318].worldY - 40, C25.B().C25_f287[C25.C25_f318]);
                         }
 
@@ -2101,31 +2101,31 @@ public final class C7 extends GameEngineBase {
       ScriptCommand var1;
       int var3;
       C18 var6;
-      C20 var7;
+      GameObject var7;
       for(var3 = 0; var3 < C7_f109.length; ++var3) {
          if (C25.e(C7_f109[var3][0], C7_f109[var3][1]) == C25.e(C25.B().C25_f290, C25.B().C25_f291) && (this.C7_f56[C7_f109[var3][2]].getExecutionState() == 0 || this.C7_f56[C7_f109[var3][2]].getExecutionState() == 4)) {
             var1 = this.C7_f56[C7_f109[var3][2]].getFirstCommand();
             if (!var2.contains("" + var1.getNumericParameters()[4])) {
                if (this.b(var1)) {
-                  (var7 = new C20()).a(259, false);
-                  var7.a((byte)1, (byte)-1, true);
+                  (var7 = new GameObject()).loadSpriteSet(259, false);
+                  var7.setAnimation((byte)1, (byte)-1, true);
                   var7.setWorldPosition(this.C7_f53.C25_f287[var1.getNumericParameters()[4]].worldX, this.C7_f53.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
                   this.C7_f53.C25_f287[var1.getNumericParameters()[4]].f((byte)1);
                   var6 = this.C7_f53.C25_f287[var1.getNumericParameters()[4]];
                   var7.followTarget = var6;
-                  var7.c();
+                  var7.activate();
                   C7_f64.addElement(var7);
                   var2.addElement("" + var1.getNumericParameters()[4]);
                } else {
                   int var4 = n(var1.getNumericParameters()[0]);
                   if (var1.getNumericParameters()[1] == 0 && this.C7_f60[C25.e(C7_f108[var3][0], C7_f108[var3][1])][C7_f108[var3][2]] == 3 && this.C7_f60[C25.e(C7_f109[var3][0], C7_f109[var3][1])][C7_f109[var3][2]] != 3 || var1.getNumericParameters()[1] == 1 && var4 != -1 && C7_f105[var4][1] == 1) {
-                     (var7 = new C20()).a(259, false);
-                     var7.a((byte)15, (byte)-1, true);
+                     (var7 = new GameObject()).loadSpriteSet(259, false);
+                     var7.setAnimation((byte)15, (byte)-1, true);
                      var7.setWorldPosition(this.C7_f53.C25_f287[var1.getNumericParameters()[4]].worldX, this.C7_f53.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
                      this.C7_f53.C25_f287[var1.getNumericParameters()[4]].f((byte)1);
                      var6 = this.C7_f53.C25_f287[var1.getNumericParameters()[4]];
                      var7.followTarget = var6;
-                     var7.c();
+                     var7.activate();
                      C7_f64.addElement(var7);
                      var2.addElement("" + var1.getNumericParameters()[4]);
                   }
@@ -2138,13 +2138,13 @@ public final class C7 extends GameEngineBase {
          if (C25.e(C7_f108[var3][0], C7_f108[var3][1]) == C25.e(C25.B().C25_f290, C25.B().C25_f291) && (this.C7_f56[C7_f108[var3][2]].getExecutionState() == 0 || this.C7_f56[C7_f108[var3][2]].getExecutionState() == 4)) {
             var1 = this.C7_f56[C7_f108[var3][2]].getFirstCommand();
             if (!var2.contains("" + var1.getNumericParameters()[4]) && this.a(var1)) {
-               (var7 = new C20()).a(259, false);
-               var7.a((byte)7, (byte)-1, true);
+               (var7 = new GameObject()).loadSpriteSet(259, false);
+               var7.setAnimation((byte)7, (byte)-1, true);
                var7.setWorldPosition(this.C7_f53.C25_f287[var1.getNumericParameters()[4]].worldX, this.C7_f53.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
                this.C7_f53.C25_f287[var1.getNumericParameters()[4]].f((byte)1);
                var6 = this.C7_f53.C25_f287[var1.getNumericParameters()[4]];
                var7.followTarget = var6;
-               var7.c();
+               var7.activate();
                C7_f64.addElement(var7);
             }
          }

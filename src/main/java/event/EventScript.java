@@ -99,7 +99,7 @@ public final class EventScript {
         if (this.currentCommandIndex >= this.activeCommands.size()) {
             return null;
         }
-        return (ScriptCommand) this.activeCommands.elementAt(this.currentCommandIndex);
+        return this.activeCommands.elementAt(this.currentCommandIndex);
     }
 
     /**

@@ -92,7 +92,7 @@ public final class C25 extends GameEngineBase {
    public static boolean C25_f345;
    private static byte[] C25_f346 = null;
    private static byte C25_f347 = -1;
-   public C7 C25_f348;
+   public QuestManager C25_f348;
    public static String[] C25_f349;
    private int C25_f350;
    private String C25_f351;
@@ -200,11 +200,11 @@ public final class C25 extends GameEngineBase {
             }
          }
 
-         this.C25_f348 = C7.B();
-         this.C25_f348.a((GameEngineBase)this);
+         this.C25_f348 = QuestManager.getInstance();
+         this.C25_f348.setGameEngine((GameEngineBase)this);
          this.C25_f286 = C53.p();
          C25_f340[0] = C25_f340[1] = -1;
-         if (C7.C7_f51 != 0) {
+         if (QuestManager.questState != 0) {
             ResourceManager.clearImageCache();
          }
 
@@ -269,7 +269,7 @@ public final class C25 extends GameEngineBase {
          } else {
             var4 = this.C25_f291;
             var3 = this.C25_f290;
-            if (this.C25_f348.C7_f60[C25_f297[var3] + var4][var9] == 3) {
+            if (this.C25_f348.questStates[C25_f297[var3] + var4][var9] == 3) {
                C25_f345 = false;
             } else {
                C25_f345 = true;
@@ -377,7 +377,7 @@ public final class C25 extends GameEngineBase {
          this.C25_f285.setTileMapRenderer(this.C25_f283);
          this.ae();
          if (C25_f321) {
-            C7.C7_f67 = false;
+            QuestManager.isQuestActive = false;
             this.ad();
             this.C25_f284.setFollowEntity(this.C25_f286, true);
             this.C25_f285.setCameraController(this.C25_f284);
@@ -433,12 +433,12 @@ public final class C25 extends GameEngineBase {
          this.gameController = C9.a();
          this.gameController.a((GameEngineBase)this);
          this.dialogManager = DialogManager.getInstance();
-         this.C25_f348.G();
+         this.C25_f348.updateQuestEffects();
          this.C25_f348.update();
          C25_f338 = true;
          this.changeState((byte)0);
-         if (C7.C7_f51 == 2) {
-            C7.C7_f51 = 0;
+         if (QuestManager.questState == 2) {
+            QuestManager.questState = 0;
          }
 
          if (!C25_f345) {
@@ -947,28 +947,28 @@ public final class C25 extends GameEngineBase {
 
          int var3;
          int var4;
-         for(var3 = 0; var3 < this.C25_f348.C7_f60.length; ++var3) {
-            if (this.C25_f348.C7_f60[var3] == null) {
+         for(var3 = 0; var3 < this.C25_f348.questStates.length; ++var3) {
+            if (this.C25_f348.questStates[var3] == null) {
                var2.writeByte(-1);
             } else {
-               var2.writeByte(this.C25_f348.C7_f60[var3].length);
+               var2.writeByte(this.C25_f348.questStates[var3].length);
 
-               for(var4 = 0; var4 < this.C25_f348.C7_f60[var3].length; ++var4) {
-                  var2.writeByte(this.C25_f348.C7_f60[var3][var4]);
+               for(var4 = 0; var4 < this.C25_f348.questStates[var3].length; ++var4) {
+                  var2.writeByte(this.C25_f348.questStates[var3][var4]);
                }
             }
          }
 
-         var2.writeByte(C7.C7_f106);
-         var2.writeByte(C7.C7_f107);
+         var2.writeByte(QuestManager.questDialogState);
+         var2.writeByte(QuestManager.questFlagCount);
 
-         for(var3 = 0; var3 < C7.C7_f107; ++var3) {
-            var2.writeShort(C7.C7_f105[var3][0]);
-            var2.writeShort(C7.C7_f105[var3][1]);
+         for(var3 = 0; var3 < QuestManager.questFlagCount; ++var3) {
+            var2.writeShort(QuestManager.questFlags[var3][0]);
+            var2.writeShort(QuestManager.questFlags[var3][1]);
          }
 
          int[] var6;
-         if ((var6 = this.C25_f348.I()) == null) {
+         if ((var6 = this.C25_f348.getSavedTimeArray()) == null) {
             var2.writeByte(-1);
          } else {
             var2.writeByte(var6.length);
@@ -977,7 +977,7 @@ public final class C25 extends GameEngineBase {
                var2.writeInt(var6[var4]);
             }
 
-            var2.writeByte(this.C25_f348.C7_f101);
+            var2.writeByte(this.C25_f348.questProgress);
          }
 
          C25_f301[2].writeData(var1);
@@ -995,45 +995,45 @@ public final class C25 extends GameEngineBase {
          DataInputStream var2 = new DataInputStream(var1);
 
          int var4;
-         for(var4 = 0; var4 < this.C25_f348.C7_f60.length; ++var4) {
+         for(var4 = 0; var4 < this.C25_f348.questStates.length; ++var4) {
             byte var3;
             if ((var3 = var2.readByte()) == -1) {
-               this.C25_f348.C7_f60[var4] = null;
+               this.C25_f348.questStates[var4] = null;
             } else {
-               this.C25_f348.C7_f60[var4] = new byte[var3];
+               this.C25_f348.questStates[var4] = new byte[var3];
 
-               for(int var8 = 0; var8 < this.C25_f348.C7_f60[var4].length; ++var8) {
-                  this.C25_f348.C7_f60[var4][var8] = var2.readByte();
+               for(int var8 = 0; var8 < this.C25_f348.questStates[var4].length; ++var8) {
+                  this.C25_f348.questStates[var4][var8] = var2.readByte();
                }
             }
          }
 
-         C7.C7_f106 = var2.readByte();
-         C7.C7_f107 = var2.readByte();
+         QuestManager.questDialogState = var2.readByte();
+         QuestManager.questFlagCount = var2.readByte();
 
-         for(var4 = 0; var4 < C7.C7_f107; ++var4) {
-            C7.C7_f105[var4][0] = var2.readShort();
-            C7.C7_f105[var4][1] = var2.readShort();
+         for(var4 = 0; var4 < QuestManager.questFlagCount; ++var4) {
+            QuestManager.questFlags[var4][0] = var2.readShort();
+            QuestManager.questFlags[var4][1] = var2.readShort();
          }
 
          byte var10;
          if ((var10 = var2.readByte()) != -1) {
             int[] var9 = new int[var10];
-            int[] var5 = this.C25_f348.H();
+            int[] var5 = this.C25_f348.getCurrentTimeArray();
 
             for(int var6 = 0; var6 < var10; ++var6) {
                var9[var6] = var2.readInt();
             }
 
-            this.C25_f348.a(var9);
+            this.C25_f348.setSavedTimeArray(var9);
             boolean var11 = false;
             if (var5[0] > var9[0] || var5[1] > var9[1] || var5[2] > var9[2] || var5[3] - var9[3] >= 20) {
                var11 = true;
             }
 
-            this.C25_f348.C7_f101 = var2.readByte();
+            this.C25_f348.questProgress = var2.readByte();
             if (var11) {
-               this.C25_f348.C7_f101 = 0;
+               this.C25_f348.questProgress = 0;
             }
          }
 
@@ -1336,13 +1336,13 @@ public final class C25 extends GameEngineBase {
    }
 
    public final boolean L() {
-      this.C25_f348.a((GameEngineBase)this);
+      this.C25_f348.setGameEngine((GameEngineBase)this);
       this.gameController.a((GameEngineBase)this);
-      C7.C7_f67 = false;
+      QuestManager.isQuestActive = false;
       C25_f338 = true;
       this.changeState((byte)0);
       if (C25_f345) {
-         this.C25_f342.playBackgroundMusic(a(this.C25_f348.C7_f59, (byte)0), 1);
+         this.C25_f342.playBackgroundMusic(a(this.C25_f348.lastEventIndex, (byte)0), 1);
       } else {
          this.C25_f342.playBackgroundMusic(C25_f344, 1);
       }
@@ -1618,7 +1618,7 @@ public final class C25 extends GameEngineBase {
          var5 = var4.readShort();
          this.C25_f350 = 2;
          if (var5 > 0) {
-            this.C25_f348.a(var4, this.C25_f290, this.C25_f291, var5, var18);
+            this.C25_f348.loadQuests(var4, this.C25_f290, this.C25_f291, var5, var18);
          }
 
          var4.close();
@@ -1684,7 +1684,7 @@ public final class C25 extends GameEngineBase {
       switch(var1) {
       case 0:
          u();
-         if (!C7.C7_f67) {
+         if (!QuestManager.isQuestActive) {
             if (C25_f338) {
                this.gameController.c();
             } else {
@@ -1935,8 +1935,8 @@ public final class C25 extends GameEngineBase {
             this.gameController.G();
             break;
          case 2:
-            if ((C25_f318 == -1 || this.C25_f287[C25_f318] == null || this.C25_f287[C25_f318].sprite.spriteSetId != 24) && this.C25_f348.C7_f62 != 0) {
-               if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].sprite.spriteSetId == 20 || this.C25_f348.C7_f62 == 1) {
+            if ((C25_f318 == -1 || this.C25_f287[C25_f318] == null || this.C25_f287[C25_f318].sprite.spriteSetId != 24) && this.C25_f348.questChangeState != 0) {
+               if (C25_f318 != -1 && this.C25_f287[C25_f318] != null && this.C25_f287[C25_f318].sprite.spriteSetId == 20 || this.C25_f348.questChangeState == 1) {
                   this.gameController.a((byte)3, (byte)2);
                }
             } else {
@@ -2203,7 +2203,7 @@ public final class C25 extends GameEngineBase {
             this.gameController.aO();
          }
 
-         if (this.C44_f698 == 0 && !this.C25_f348.F() && C25_f337 == 0 && C25_f336 != null && C25_f336.size() > 0) {
+         if (this.C44_f698 == 0 && !this.C25_f348.hasActiveEvent() && C25_f337 == 0 && C25_f336 != null && C25_f336.size() > 0) {
             if (this.C25_f292 >= C25_f336.size()) {
                C25_f336.removeAllElements();
                this.C25_f292 = 0;
@@ -2391,8 +2391,8 @@ public final class C25 extends GameEngineBase {
             C30.a().a(var1, 0, 0);
          }
 
-         C7 var10000 = this.C25_f348;
-         C7.b(var1);
+         QuestManager var10000 = this.C25_f348;
+         QuestManager.renderEffects(var1);
          this.dialogManager.render(var1);
          if (C25_f300 != null) {
             C25_f300.render(var1);
@@ -2412,9 +2412,9 @@ public final class C25 extends GameEngineBase {
          }
 
          if (this.C25_f290 == 3 && this.C25_f291 == 7 && this.C44_f698 == 0) {
-            if (this.C25_f348.C7_f84 > 0) {
+            if (this.C25_f348.questEffectCounter > 0) {
                if (this.C25_f341 != null) {
-                  var1.drawImage(this.C25_f341[this.C25_f348.C7_f84 - 1], getScreenWidth() >> 1, getScreenHeight() >> 1, 3);
+                  var1.drawImage(this.C25_f341[this.C25_f348.questEffectCounter - 1], getScreenWidth() >> 1, getScreenHeight() >> 1, 3);
                   return;
                }
             } else if (GameScreenManager.getInstance().pauseStartTime != 0L) {
@@ -2429,7 +2429,7 @@ public final class C25 extends GameEngineBase {
 
    private void af() {
       C25 var1;
-      if (!this.C25_f348.F() && this.C25_f286.getFacingDirection() < 5 && !this.gameController.j() && this.gameController.J()) {
+      if (!this.C25_f348.hasActiveEvent() && this.C25_f286.getFacingDirection() < 5 && !this.gameController.j() && this.gameController.J()) {
          if (this.isKeyHeld(4100)) {
             this.C25_f286.a((byte)1, (byte)2);
          } else if (this.isKeyHeld(8448)) {
@@ -2443,9 +2443,9 @@ public final class C25 extends GameEngineBase {
          if (this.isKeyPressed(65568)) {
             if (C25_f318 != -1) {
                this.C25_f286.a((byte)0, (byte)this.C25_f286.currentDirection);
-               if (C7.C7_f68) {
-                  C7.C7_f69 = true;
-                  C7.C7_f68 = false;
+               if (QuestManager.isQuestTriggered) {
+                  QuestManager.isQuestReady = true;
+                  QuestManager.isQuestTriggered = false;
                } else {
                   if (this.C25_f287[C25_f318].sprite.spriteSetId <= 85) {
                      this.C25_f287[C25_f318].currentAnimationId = this.C25_f287[C25_f318].currentDirection;
@@ -2568,7 +2568,7 @@ public final class C25 extends GameEngineBase {
             label235: {
                boolean var10;
                if (this.C25_f290 != 3 || this.C25_f291 != 7) {
-                  if (this.C25_f286.C53_f765 >= 0 && this.C25_f348.C7_f73) {
+                  if (this.C25_f286.C53_f765 >= 0 && this.C25_f348.isEventVisible) {
                      if (this.C25_f286.s()) {
                         this.C25_f286.t();
                      }
@@ -2577,7 +2577,7 @@ public final class C25 extends GameEngineBase {
                      break label235;
                   }
 
-                  if (this.C25_f348.C7_f73) {
+                  if (this.C25_f348.isEventVisible) {
                      this.changeState((byte)5);
                      var10 = true;
                      break label235;
@@ -2606,7 +2606,7 @@ public final class C25 extends GameEngineBase {
          this.changeState((byte)25);
       }
 
-      if (!this.C25_f348.F() && !this.gameController.J() && !C25_f339 && C25_f340[0] != -1 && this.isKeyPressed(65568)) {
+      if (!this.C25_f348.hasActiveEvent() && !this.gameController.J() && !C25_f339 && C25_f340[0] != -1 && this.isKeyPressed(65568)) {
          actionType = 4;
          C25_f339 = true;
          this.gameController.C9_f126 = 0;
@@ -2619,7 +2619,7 @@ public final class C25 extends GameEngineBase {
          C25_f315 = 1;
       }
 
-      this.C25_f348.C();
+      this.C25_f348.updateEffects();
       this.gameController.e();
       var1 = this;
 
@@ -2664,7 +2664,7 @@ public final class C25 extends GameEngineBase {
                } else if (this.C25_f286.b((byte)7, (byte)0) == 0) {
                   this.gameController.b("Đạt được hoàng kim huy hiệu");
                   this.C25_f286.b((byte)7, (byte)0, (byte)2);
-                  C7.C7_f106 = (byte)(C7.C7_f103.length / 2);
+                  QuestManager.questDialogState = (byte)(QuestManager.questDescriptions.length / 2);
                }
             }
          }
@@ -2802,9 +2802,9 @@ public final class C25 extends GameEngineBase {
          }
 
          if (this.C25_f290 == 3 && this.C25_f291 == 7) {
-            C7.C7_f71 = false;
+            QuestManager.isMapControl = false;
          } else {
-            C7.C7_f71 = true;
+            QuestManager.isMapControl = true;
          }
 
          this.ah();
@@ -3135,9 +3135,9 @@ public final class C25 extends GameEngineBase {
             ++currentAction;
             int var2 = this.C25_f291;
             var1 = this.C25_f290;
-            this.C25_f348.C7_f60[C25_f297[var1] + var2][this.C25_f348.E()] = 3;
-            if (this.C25_f348.C7_f56 != null) {
-               this.C25_f348.C7_f56[this.C25_f348.E()].setExecutionState((byte)3);
+            this.C25_f348.questStates[C25_f297[var1] + var2][this.C25_f348.getCurrentEventIndex()] = 3;
+            if (this.C25_f348.eventScripts != null) {
+               this.C25_f348.eventScripts[this.C25_f348.getCurrentEventIndex()].setExecutionState((byte)3);
                return;
             }
          }

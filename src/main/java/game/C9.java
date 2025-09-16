@@ -110,7 +110,7 @@ public final class C9 implements DialogHandler {
    }
 
    public void e() {
-      if (this.C9_f133 < 2 && !C7.C7_f67 && C25.C25_f338 && this.C9_f122.containsDialog("/data/ui/world.ui")) {
+      if (this.C9_f133 < 2 && !QuestManager.isQuestActive && C25.C25_f338 && this.C9_f122.containsDialog("/data/ui/world.ui")) {
          DialogSystem var2 = this.C9_f122.getDialog("/data/ui/world.ui");
           if (var2.getChildById(1).getComponentData().renderer.getSpriteManager().isAtFrame(4)) {
             this.C9_f122.getDialog("/data/ui/world.ui").getChildById(6).getComponentData().text = ((C25)this.C9_f121).C25_f296;
@@ -1126,14 +1126,14 @@ public final class C9 implements DialogHandler {
             this.C9_f122.removeDialog("/data/ui/shop.ui");
             return;
          case 3:
-            C7.C7_f66 = true;
+            QuestManager.isChangingState = true;
             this.C9_f122.removeDialog("/data/ui/shop.ui");
             this.C9_f121.changeState((byte)0);
          default:
          }
       } else {
          if (this.C9_f121.isKeyPressed(262144)) {
-            C7.C7_f66 = true;
+            QuestManager.isChangingState = true;
             this.C9_f122.removeDialog("/data/ui/shop.ui");
             this.C9_f121.changeState((byte)0);
          }
@@ -1220,7 +1220,7 @@ public final class C9 implements DialogHandler {
             }
             break;
          case 3:
-            C7.C7_f66 = true;
+            QuestManager.isChangingState = true;
             this.C9_f122.removeDialog("/data/ui/shop.ui");
             this.C9_f121.changeState((byte)0);
          }
@@ -1231,7 +1231,7 @@ public final class C9 implements DialogHandler {
             this.C9_f125 = 0;
             this.C9_f131 = 0;
          } else if (this.C9_f131 == 0) {
-            C7.C7_f66 = true;
+            QuestManager.isChangingState = true;
             this.C9_f122.removeDialog("/data/ui/shop.ui");
             this.C9_f121.changeState((byte)0);
          }
@@ -1418,7 +1418,7 @@ public final class C9 implements DialogHandler {
             } else if (this.C9_f131 == 1) {
                this.b(var1, var2);
             } else if (this.C9_f131 == 2) {
-               C25.B().C25_f348.G();
+               C25.B().C25_f348.updateQuestEffects();
                this.C9_f131 = 0;
                this.C9_f126 = 0;
                this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
@@ -2014,18 +2014,18 @@ public final class C9 implements DialogHandler {
       int var2;
       switch(this.C9_f125) {
       case 0:
-         if (C7.C7_f106 >= C7.C7_f103.length / 2 - 1) {
-            int var10001 = C7.C7_f103.length;
+         if (QuestManager.questDialogState >= QuestManager.questDescriptions.length / 2 - 1) {
+            int var10001 = QuestManager.questDescriptions.length;
             ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = var10001 / 2;
-            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = C7.C7_f103.length / 2 - 1;
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = QuestManager.questDescriptions.length / 2 - 1;
          } else {
-            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = C7.C7_f106 + 1;
-            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = C7.C7_f106;
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = QuestManager.questDialogState + 1;
+            ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = QuestManager.questDialogState;
          }
 
          this.C9_f122.currentDialog.getChildById(36).getComponentData().text = "";
-         this.C9_f136 = C7.C7_f106;
-         this.C9_f135 = C7.C7_f106 - 4;
+         this.C9_f136 = QuestManager.questDialogState;
+         this.C9_f135 = QuestManager.questDialogState - 4;
          if (this.C9_f136 <= 0) {
             this.C9_f136 = 0;
          }
@@ -2036,13 +2036,13 @@ public final class C9 implements DialogHandler {
 
          ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset = this.C9_f135;
          this.C9_f122.currentDialog.getChildById(37).getComponentData().text = "Đầu mối chính hoàn thành độ: ";
-         if (C7.C7_f106 >= C7.C7_f103.length / 2) {
-            this.C9_f122.currentDialog.getChildById(38).getComponentData().text = C7.C7_f103[C7.C7_f103.length - 1];
+         if (QuestManager.questDialogState >= QuestManager.questDescriptions.length / 2) {
+            this.C9_f122.currentDialog.getChildById(38).getComponentData().text = QuestManager.questDescriptions[QuestManager.questDescriptions.length - 1];
          } else {
-            this.C9_f122.currentDialog.getChildById(38).getComponentData().text = C7.C7_f103[C7.C7_f103.length / 2 + C7.C7_f106];
+            this.C9_f122.currentDialog.getChildById(38).getComponentData().text = QuestManager.questDescriptions[QuestManager.questDescriptions.length / 2 + QuestManager.questDialogState];
          }
 
-         var1 = C7.C7_f106 * 1000 / (C7.C7_f103.length / 2);
+         var1 = QuestManager.questDialogState * 1000 / (QuestManager.questDescriptions.length / 2);
          if (!GameEngineBase.paymentActive) {
             if ((var2 = var1 % 10) == 0) {
                var2 = 1;
@@ -2053,7 +2053,7 @@ public final class C9 implements DialogHandler {
             this.C9_f122.currentDialog.getChildById(38).getComponentData().text = var1 / 10 + "." + var1 % 10 + "%";
          }
 
-         if (C7.C7_f106 > 4) {
+         if (QuestManager.questDialogState > 4) {
             ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
          } else {
             ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(0);
@@ -2062,22 +2062,22 @@ public final class C9 implements DialogHandler {
          this.C9_f122.currentDialog.getChildById(8).getComponentData().focusedTextColor = 11290624;
          break;
       case 1:
-         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = C7.C7_f107;
+         ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.totalItemCount = QuestManager.questFlagCount;
          ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.selectedIndex = 0;
          ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.scrollOffset = 0;
          this.C9_f122.currentDialog.getChildById(36).getComponentData().text = "";
          this.C9_f122.currentDialog.getChildById(37).getComponentData().text = "Chi nhánh hoàn thành độ: ";
          var1 = 0;
 
-         for(var2 = 0; var2 < C7.C7_f105.length; ++var2) {
-            if (C7.C7_f105[var2][1] == 3) {
+         for(var2 = 0; var2 < QuestManager.questFlags.length; ++var2) {
+            if (QuestManager.questFlags[var2][1] == 3) {
                ++var1;
             }
          }
 
-         var2 = var1 * 1000 / (C7.C7_f102.length / 2);
+         var2 = var1 * 1000 / (QuestManager.questNames.length / 2);
          this.C9_f122.currentDialog.getChildById(38).getComponentData().text = var2 / 10 + "." + var2 % 10 + "%";
-         if (C7.C7_f107 > 5) {
+         if (QuestManager.questFlagCount > 5) {
             ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(1);
          } else {
             ((UIContainerComponent)this.C9_f122.currentDialog.getChildById(0)).primaryListComponent.setDisplayMode(0);
@@ -2095,14 +2095,14 @@ public final class C9 implements DialogHandler {
 
       for(int var1 = 0; var1 < 5; ++var1) {
          if (this.C9_f125 == 0) {
-            if (C7.C7_f106 > 0) {
-               if (this.C9_f135 + var1 < C7.C7_f106) {
+            if (QuestManager.questDialogState > 0) {
+               if (this.C9_f135 + var1 < QuestManager.questDialogState) {
                   this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().text = "" + (var1 + this.C9_f135 + 1);
-                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().text = C7.C7_f103[this.C9_f135 + var1];
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().text = QuestManager.questDescriptions[this.C9_f135 + var1];
                   this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().text = "Hoàn thành";
-               } else if (this.C9_f135 + var1 == C7.C7_f106 && this.C9_f135 + var1 <= C7.C7_f103.length / 2 - 1) {
+               } else if (this.C9_f135 + var1 == QuestManager.questDialogState && this.C9_f135 + var1 <= QuestManager.questDescriptions.length / 2 - 1) {
                   this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().text = "" + (var1 + this.C9_f135 + 1);
-                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().text = C7.C7_f103[this.C9_f135 + var1];
+                  this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().text = QuestManager.questDescriptions[this.C9_f135 + var1];
                   this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().text = "";
                } else {
                   this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().text = "";
@@ -2112,14 +2112,14 @@ public final class C9 implements DialogHandler {
                }
             } else {
                this.C9_f122.currentDialog.getChildById(12).getComponentData().text = "1";
-               this.C9_f122.currentDialog.getChildById(13).getComponentData().text = C7.C7_f103[0];
+               this.C9_f122.currentDialog.getChildById(13).getComponentData().text = QuestManager.questDescriptions[0];
                this.C9_f122.currentDialog.getChildById(14).getComponentData().text = "";
             }
          } else if (this.C9_f125 == 1) {
-            if (this.C9_f135 + var1 < C7.C7_f107) {
+            if (this.C9_f135 + var1 < QuestManager.questFlagCount) {
                this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 2).getComponentData().text = "" + (var1 + this.C9_f135 + 1);
-               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().text = C7.C7_f102[C7.C7_f105[this.C9_f135 + var1][0]];
-               if (C7.C7_f105[this.C9_f135 + var1][1] == 3) {
+               this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 3).getComponentData().text = QuestManager.questNames[QuestManager.questFlags[this.C9_f135 + var1][0]];
+               if (QuestManager.questFlags[this.C9_f135 + var1][1] == 3) {
                   this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().text = "Hoàn thành";
                } else {
                   this.C9_f122.currentDialog.getChildById(10 + var1 * 5 + 4).getComponentData().text = "";
@@ -2134,11 +2134,11 @@ public final class C9 implements DialogHandler {
 
       switch(this.C9_f125) {
       case 0:
-         this.C9_f122.currentDialog.getChildById(36).getComponentData().text = C7.C7_f103[C7.C7_f103.length / 2 + this.C9_f136];
+         this.C9_f122.currentDialog.getChildById(36).getComponentData().text = QuestManager.questDescriptions[QuestManager.questDescriptions.length / 2 + this.C9_f136];
          break;
       case 1:
-         if (C7.C7_f107 > 0) {
-            this.C9_f122.currentDialog.getChildById(36).getComponentData().text = C7.C7_f102[C7.C7_f102.length / 2 + C7.C7_f105[this.C9_f136][0]];
+         if (QuestManager.questFlagCount > 0) {
+            this.C9_f122.currentDialog.getChildById(36).getComponentData().text = QuestManager.questNames[QuestManager.questNames.length / 2 + QuestManager.questFlags[this.C9_f136][0]];
          }
       }
 
@@ -2497,7 +2497,7 @@ public final class C9 implements DialogHandler {
                   }
                }
             }
-         } else if (C7.t() && !this.j() && this.C9_f121.isKeyPressed(262144)) {
+         } else if (QuestManager.t() && !this.j() && this.C9_f121.isKeyPressed(262144)) {
             if (this.C9_f121 instanceof C25) {
                if (this.C9_f121.C44_f699 == 16) {
                   this.C9_f121.changeState((byte)16);
@@ -2595,7 +2595,7 @@ public final class C9 implements DialogHandler {
                   this.bl();
                }
             }
-         } else if (C7.t() && !this.j() && this.C9_f121.isKeyPressed(262144)) {
+         } else if (QuestManager.t() && !this.j() && this.C9_f121.isKeyPressed(262144)) {
             if (this.C9_f121.C44_f699 == 16) {
                return;
             }
@@ -2642,7 +2642,7 @@ public final class C9 implements DialogHandler {
                         }
 
                         this.f(this.C9_f125);
-                        ((C25)this.C9_f121).C25_f348.G();
+                        ((C25)this.C9_f121).C25_f348.updateQuestEffects();
                         this.C9_f122.removeDialog("/data/ui/msgconfirm.ui");
                         this.C9_f131 = 0;
                      } else {
@@ -2978,7 +2978,7 @@ public final class C9 implements DialogHandler {
             }
          }
       } else {
-         if (C7.t() && !this.j() && this.C9_f131 == 2 && this.C9_f121.isKeyPressed(262144)) {
+         if (QuestManager.t() && !this.j() && this.C9_f131 == 2 && this.C9_f121.isKeyPressed(262144)) {
             this.f(this.C9_f125);
             this.C9_f122.removeDialog("/data/ui/choice.ui");
          }
@@ -3808,10 +3808,10 @@ public final class C9 implements DialogHandler {
                            this.C9_f131 = 1;
                         } else {
                            C25.C25_f314 = 0;
-                           if (C25.B().C25_f348.C7_f60[C25.e(4, 5)] != null) {
-                              C25.B().C25_f348.C7_f60[C25.e(4, 5)][15] = 4;
+                           if (C25.B().C25_f348.questStates[C25.e(4, 5)] != null) {
+                              C25.B().C25_f348.questStates[C25.e(4, 5)][15] = 4;
                               if (C25.B().C25_f290 == 4 && C25.B().C25_f291 == 5) {
-                                 C25.B().C25_f348.C7_f56[15].setExecutionState((byte)4);
+                                 C25.B().C25_f348.eventScripts[15].setExecutionState((byte)4);
                               }
                            }
 
@@ -4462,7 +4462,7 @@ public final class C9 implements DialogHandler {
                   this.C9_f122.showDialog("/data/ui/msgwarm.ui", 257, this);
                   this.a("Trạng thái bị quấn, không thể chạy trốn", "Nhấn nút 5 tiếp tục");
                   this.C9_f131 = 1;
-               } else if (((C29)this.C9_f121).C29_f398 <= 0 && C7.C7_f71) {
+               } else if (((C29)this.C9_f121).C29_f398 <= 0 && QuestManager.isMapControl) {
                   boolean var3 = false;
                   if (((C29)this.C9_f121).C29_f408.t() > ((C29)this.C9_f121).C29_f402[0].t()) {
                      var3 = true;
@@ -4657,7 +4657,7 @@ public final class C9 implements DialogHandler {
             return;
          }
 
-         C7.C7_f72 = true;
+         QuestManager.isSpecialState = true;
          if (this.C9_f131 == 0) {
             int[] var1 = (int[])this.C9_f123.C53_f788.elementAt(this.C9_f125);
             if (!this.C9_f123.b((int)var1[0], (int)1, (byte)0)) {
@@ -4681,7 +4681,7 @@ public final class C9 implements DialogHandler {
             this.C9_f131 = 0;
             this.C9_f122.removeDialog("/data/ui/msgwarm.ui");
          }
-      } else if (C7.t() && this.C9_f131 == 0 && this.C9_f121.isKeyPressed(262144) && !this.j()) {
+      } else if (QuestManager.t() && this.C9_f131 == 0 && this.C9_f121.isKeyPressed(262144) && !this.j()) {
          this.C9_f122.removeDialog("/data/ui/choice.ui");
          this.C9_f121.changeState((byte)20);
       }
@@ -6272,10 +6272,10 @@ public final class C9 implements DialogHandler {
             label59: {
                short var10001 = this.C9_f161[this.C9_f162][this.C9_f126 * 9 + 6];
                short[] var10002 = this.C9_f161[this.C9_f162];
-               if (C25.B().C25_f348.C7_f60[C25.e(var10001, var10002[this.C9_f126 * 9 + 7])] != null) {
+               if (C25.B().C25_f348.questStates[C25.e(var10001, var10002[this.C9_f126 * 9 + 7])] != null) {
                   var10001 = this.C9_f161[this.C9_f162][this.C9_f126 * 9 + 6];
                   var10002 = this.C9_f161[this.C9_f162];
-                  if (C25.B().C25_f348.C7_f60[C25.e(var10001, var10002[this.C9_f126 * 9 + 7])][this.C9_f161[this.C9_f162][this.C9_f126 * 9 + 8]] == 3) {
+                  if (C25.B().C25_f348.questStates[C25.e(var10001, var10002[this.C9_f126 * 9 + 7])][this.C9_f161[this.C9_f162][this.C9_f126 * 9 + 8]] == 3) {
                      C25.B().C25_f290 = this.C9_f161[this.C9_f162][this.C9_f126 * 9];
                      C25.B().C25_f291 = this.C9_f161[this.C9_f162][this.C9_f126 * 9 + 1];
                      C25.B().C25_f293 = this.C9_f161[this.C9_f162][this.C9_f126 * 9 + 2];
@@ -6380,13 +6380,13 @@ public final class C9 implements DialogHandler {
             if (this.C9_f131 == 1) {
                this.C9_f121.changeState((byte)102);
             } else if (this.C9_f131 == 2) {
-               C7.C7_f75 = 0;
+               QuestManager.questOptionIndex = 0;
                this.bG();
                this.C9_f121.changeState((byte)0);
             }
          }
       } else if (this.C9_f121.isKeyPressed(262144) && this.C9_f131 == 0) {
-         C7.C7_f75 = 1;
+         QuestManager.questOptionIndex = 1;
          this.bG();
          this.C9_f121.changeState((byte)0);
       }

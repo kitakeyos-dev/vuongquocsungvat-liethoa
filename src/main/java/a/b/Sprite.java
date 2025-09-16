@@ -1,7 +1,7 @@
 package a.b;
 
 import a.a.ImageProcessor;
-import game.C7;
+import game.QuestManager;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
@@ -128,7 +128,7 @@ public final class Sprite {
      * Apply color effects to sprites
      */
     public final void applyColorEffects() {
-        if (C7.C7_f51 == 1) {
+        if (QuestManager.questState == 1) {
             for (int i = 0; i < this.spriteImages.length; i++) {
                 this.spriteImages[i] = ImageProcessor.convertToGrayscale(ResourceManager.getCachedImage(this.imageResourceIds[i]));
             }
@@ -140,14 +140,14 @@ public final class Sprite {
      */
     public final void resetWithColorEffects() {
         for (int i = 0; i < this.spriteImages.length; i++) {
-            if (C7.C7_f51 == 1) {
+            if (QuestManager.questState == 1) {
                 this.spriteImages[i] = ImageProcessor.convertToGrayscale(ResourceManager.getCachedImage(this.imageResourceIds[i]));
             } else {
                 this.forceCleanup();
             }
         }
 
-        if (C7.C7_f51 == 0) {
+        if (QuestManager.questState == 0) {
             this.loadSpriteSet(this.spriteSetId, false);
         }
     }

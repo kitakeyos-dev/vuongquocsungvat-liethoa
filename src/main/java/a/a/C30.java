@@ -7,7 +7,7 @@ import a.b.ResourceManager;
 import layout.DialogManager;
 import game.C25;
 import game.C29;
-import game.C7;
+import game.QuestManager;
 import game.C9;
 
 import javax.microedition.lcdui.Graphics;
@@ -965,7 +965,7 @@ public final class C30 {
     }
 
     public final void a(String var1, int var2, int var3, int var4) {
-        if (C7.C7_f51 == 1) {
+        if (QuestManager.questState == 1) {
             this.C30_f509 = GameUtils.loadImage("/data/tex/", var1);
             this.C30_f509 = ImageProcessor.convertToGrayscale(this.C30_f509);
         } else {

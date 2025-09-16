@@ -715,10 +715,10 @@ public final class C53 extends GameObject {
                   }
                } else if (C25.B().C25_f287[var1].v() == 1) {
                   C25.B().a((byte)13, C25.B().C25_f287[var1].worldX, C25.B().C25_f287[var1].worldY - 40, C25.B().C25_f287[var1]);
-                  if (C7.C7_f64 != null && C7.C7_f64.size() > 0) {
-                     for(int var2 = 0; var2 < C7.C7_f64.size(); ++var2) {
-                        if (((GameObject)C7.C7_f64.elementAt(var2)).followTarget.equals(C25.B().C25_f287[var1])) {
-                           ((GameObject)C7.C7_f64.elementAt(var2)).deactivate();
+                  if (QuestManager.questEffectObjects != null && QuestManager.questEffectObjects.size() > 0) {
+                     for(int var2 = 0; var2 < QuestManager.questEffectObjects.size(); ++var2) {
+                        if (((GameObject)QuestManager.questEffectObjects.elementAt(var2)).followTarget.equals(C25.B().C25_f287[var1])) {
+                           ((GameObject)QuestManager.questEffectObjects.elementAt(var2)).deactivate();
                            break;
                         }
                      }
@@ -740,7 +740,7 @@ public final class C53 extends GameObject {
       }
 
       C25.B().D();
-      C7.C7_f68 = false;
+      QuestManager.isQuestTriggered = false;
       return -1;
    }
 
@@ -1350,7 +1350,7 @@ public final class C53 extends GameObject {
       } else if (((C18)this.followTarget).getFacingDirection() != 0) {
          return false;
       } else {
-         C7.C7_f69 = true;
+         QuestManager.isQuestReady = true;
          if (((C18)this.followTarget).C18_f225 != 7 && ((C18)this.followTarget).C18_f225 != 6) {
             if (((C18)this.followTarget).C18_f225 != 16) {
                ((C18)this.followTarget).a((byte)1);
@@ -2014,7 +2014,7 @@ public final class C53 extends GameObject {
    }
 
    private void O() {
-      if (!C25.B().C25_f348.F() && C7.C7_f106 != 0) {
+      if (!C25.B().C25_f348.hasActiveEvent() && QuestManager.questDialogState != 0) {
          --this.C53_f774;
          if (this.C53_f774 <= 0) {
             C25.B().e(false);

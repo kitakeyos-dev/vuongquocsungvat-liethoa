@@ -88,11 +88,11 @@ public final class MainMenuScreen extends GameEngineBase {
         C25.C25_f321 = false;
         C25.C25_f332 = false;
         C25.C25_f335 = 0;
-        C7.C7_f67 = true;
+        QuestManager.isQuestActive = true;
         C25.B().C25_f290 = 0;
         C25.B().C25_f291 = 0;
         if (C25.B().C25_f348 != null) {
-            C25.B().C25_f348.D();
+            C25.B().C25_f348.resetManager();
         }
 
         if (C25.B().C25_f286 != null) {
@@ -134,7 +134,7 @@ public final class MainMenuScreen extends GameEngineBase {
                                         GameUtils.a();
                                         this.removeMenuDialog();
                                         if (C25.B().C25_f348 != null) {
-                                            C25.B().C25_f348.D();
+                                            C25.B().C25_f348.resetManager();
                                         }
 
                                         if (C25.B().C25_f286 != null) {

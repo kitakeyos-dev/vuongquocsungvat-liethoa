@@ -88,7 +88,7 @@ public final class C39 {
             }
          }
 
-         C7.C7_f85 = null;
+         QuestManager.questEffectImage = null;
          this.C39_f599[0] = this.C39_f599[this.C39_f601];
          C39_f610 = false;
          this.C39_f596 = 0;

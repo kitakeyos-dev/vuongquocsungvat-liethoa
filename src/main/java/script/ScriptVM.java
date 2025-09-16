@@ -45,338 +45,438 @@ public final class ScriptVM {
         }
     }
 
+    /**
+     * Executes the virtual machine for script interpretation.
+     * This is the main execution loop that processes Lua bytecode instructions.
+     */
     private void executeVM(ScriptEngine engine) throws Exception {
-        ScriptContext context = engine.getCurrentContext();
-        ScriptFunction function = context.currentFunction;
-        FunctionData functionData = function.functionData;
-        int[] instructions = functionData.instructions;
-        int localBase = context.localVariable;
+        boolean vmRunning = true;
 
-        while (true) {
-            while (true) {
-                ScriptContext tempContext;
-                try {
-                    while (true) {
-                        int instruction;
-                        int opcode = (instruction = instructions[context.programCounter++]) & 63;
-                        int regA = instruction >>> 6 & 255;
-                        int regB;
-                        Object callable;
-                        int argCount;
-                        Object leftOperand;
-                        int loopIndex;
-                        int loopLimit;
-                        int loopStep;
-                        Object operand;
-                        Integer intResult;
-                        Object rightOperand;
-                        String stringResult;
+        while (vmRunning) {
+            ScriptContext context = engine.getCurrentContext();
+            if (context == null || context.currentFunction == null) {
+                break; // No more contexts to execute
+            }
 
-                        switch (opcode) {
-                            case 0: // MOVE
-                                regB = instruction >>> 23 & 511;
-                                context.setStackValue(regA, context.getStackValue(regB));
-                                break;
+            ScriptFunction function = context.currentFunction;
+            FunctionData functionData = function.functionData;
+            int[] instructions = functionData.instructions;
+            int localVariableBase = context.localVariable;
 
-                            case 1: // LOADK
-                                regB = instruction >>> 14;
-                                context.setStackValue(regA, functionData.constants[regB]);
-                                break;
+            try {
+                // Execute instructions until function returns or exception
+                boolean functionRunning = true;
 
-                            case 2: // LOADBOOL
-                                regB = instruction >>> 23 & 511;
-                                instruction = instruction >>> 14 & 511;
-                                context.setStackValue(regA, regB == 0 ? Boolean.FALSE : Boolean.TRUE);
-                                if (instruction != 0) {
-                                    ++context.programCounter;
-                                }
-                                break;
+                while (functionRunning && context.programCounter < instructions.length) {
+                    int instruction = instructions[context.programCounter++];
+                    int opcode = instruction & 63;  // Extract opcode (6 bits)
+                    int regA = (instruction >>> 6) & 255;  // Register A (8 bits)
 
-                            case 3: // LOADNIL
-                                regB = instruction >>> 23 & 511;
-                                context.clearStackRange(regA, regB);
-                                break;
+                    switch (opcode) {
+                        case 0: // MOVE - Copy value between registers
+                            handleMoveInstruction(context, instruction, regA);
+                            break;
 
-                            case 4: // GETUPVAL
-                                regB = instruction >>> 23 & 511;
-                                context.setStackValue(regA, function.upvalues[regB].getValue());
-                                break;
+                        case 1: // LOADK - Load constant
+                            handleLoadConstantInstruction(context, functionData, instruction, regA);
+                            break;
 
-                            case 5: // GETGLOBAL
-                                regB = instruction >>> 14;
-                                context.setStackValue(regA, getTableValue(function.globalTable, functionData.constants[regB]));
-                                break;
+                        case 2: // LOADBOOL - Load boolean value
+                            handleLoadBooleanInstruction(context, instruction, regA);
+                            break;
 
-                            case 6: // GETTABLE
-                                regB = instruction >>> 23 & 511;
-                                instruction = instruction >>> 14 & 511;
-                                leftOperand = context.getStackValue(regB);
-                                rightOperand = getRKValue(context, instruction, functionData);
-                                context.setStackValue(regA, getTableValue(leftOperand, rightOperand));
-                                break;
+                        case 3: // LOADNIL - Load nil values
+                            handleLoadNilInstruction(context, instruction, regA);
+                            break;
 
-                            case 7: // SETGLOBAL
-                                regB = instruction >>> 14;
-                                leftOperand = context.getStackValue(regA);
-                                rightOperand = functionData.constants[regB];
-                                setTableValue(function.globalTable, rightOperand, leftOperand);
-                                break;
+                        case 4: // GETUPVAL - Get upvalue
+                            handleGetUpvalueInstruction(context, function, instruction, regA);
+                            break;
 
-                            case 8: // SETUPVAL
-                                regB = instruction >>> 23 & 511;
-                                function.upvalues[regB].setValue(context.getStackValue(regA));
-                                break;
+                        case 5: // GETGLOBAL - Get global variable
+                            handleGetGlobalInstruction(context, function, functionData, instruction, regA);
+                            break;
 
-                            case 9: // SETTABLE
-                                regB = instruction >>> 23 & 511;
-                                instruction = instruction >>> 14 & 511;
-                                leftOperand = context.getStackValue(regA);
-                                rightOperand = getRKValue(context, regB, functionData);
-                                operand = getRKValue(context, instruction, functionData);
-                                setTableValue(leftOperand, rightOperand, operand);
-                                break;
+                        case 6: // GETTABLE - Get table element
+                            handleGetTableInstruction(context, functionData, instruction, regA);
+                            break;
 
-                            case 10: // NEWTABLE
-                                CommandRegistry newTable = new CommandRegistry();
-                                context.setStackValue(regA, newTable);
-                                break;
+                        case 7: // SETGLOBAL - Set global variable
+                            handleSetGlobalInstruction(context, function, functionData, instruction, regA);
+                            break;
 
-                            case 11: // SELF
-                                regB = instruction >>> 23 & 511;
-                                instruction = instruction >>> 14 & 511;
-                                leftOperand = getRKValue(context, instruction, functionData);
-                                operand = getTableValue(rightOperand = context.getStackValue(regB), leftOperand);
-                                context.setStackValue(regA, operand);
-                                context.setStackValue(regA + 1, rightOperand);
-                                break;
+                        case 8: // SETUPVAL - Set upvalue
+                            handleSetUpvalueInstruction(context, function, instruction, regA);
+                            break;
 
-                            case 12: // ADD
-                            case 13: // SUB
-                            case 14: // MUL
-                            case 15: // DIV
-                            case 16: // MOD
-                            case 17: // POW
-                                regB = instruction >>> 23 & 511;
-                                instruction = instruction >>> 14 & 511;
-                                leftOperand = getRKValue(context, regB, functionData);
-                                rightOperand = getRKValue(context, instruction, functionData);
-                                Integer leftInt;
-                                Integer rightInt;
-                                if ((leftInt = StandardFunctions.toNumber(leftOperand)) != null && (rightInt = StandardFunctions.toNumber(rightOperand)) != null) {
-                                    intResult = performArithmetic(leftInt, rightInt, opcode);
-                                } else {
-                                    intResult = null;
-                                }
-                                context.setStackValue(regA, intResult);
-                                break;
+                        case 9: // SETTABLE - Set table element
+                            handleSetTableInstruction(context, functionData, instruction, regA);
+                            break;
 
-                            case 19: // NOT
-                                regB = instruction >>> 23 & 511;
-                                leftOperand = context.getStackValue(regB);
-                                context.setStackValue(regA, createBoolean(!isTruthy(leftOperand)));
-                                break;
+                        case 10: // NEWTABLE - Create new table
+                            handleNewTableInstruction(context, regA);
+                            break;
 
-                            case 20: // LEN
-                                regB = instruction >>> 23 & 511;
-                                Integer lengthResult;
-                                if ((leftOperand = context.getStackValue(regB)) instanceof CommandRegistry) {
-                                    lengthResult = createInteger(((CommandRegistry) leftOperand).getArraySize());
-                                } else if (leftOperand instanceof String) {
-                                    lengthResult = createInteger(((String) leftOperand).length());
-                                } else {
-                                    lengthResult = null;
-                                }
-                                context.setStackValue(regA, lengthResult);
-                                break;
+                        case 11: // SELF - Prepare method call
+                            handleSelfInstruction(context, functionData, instruction, regA);
+                            break;
 
-                            case 21: // CONCAT
-                                regB = instruction >>> 23 & 511;
-                                instruction = instruction >>> 14 & 511;
-                                argCount = regB;
-                                operand = context.getStackValue(instruction);
-                                loopLimit = instruction - 1;
+                        case 12: // ADD
+                        case 13: // SUB
+                        case 14: // MUL
+                        case 15: // DIV
+                        case 16: // MOD
+                        case 17: // POW
+                            handleArithmeticInstruction(context, functionData, instruction, regA, opcode);
+                            break;
 
-                                while (argCount <= loopLimit) {
-                                    stringResult = StandardFunctions.toString(operand);
-                                    if (operand != null) {
-                                        instruction = 0;
+                        case 19: // NOT - Logical NOT
+                            handleNotInstruction(context, instruction, regA);
+                            break;
 
-                                        for (regB = loopLimit; argCount <= regB; ++instruction) {
-                                            Object element = context.getStackValue(regB);
-                                            --regB;
-                                            if (StandardFunctions.toString(element) == null) {
-                                                break;
-                                            }
-                                        }
+                        case 20: // LEN - Length operator
+                            handleLengthInstruction(context, instruction, regA);
+                            break;
 
-                                        if (instruction > 0) {
-                                            StringBuilder buffer = new StringBuilder();
+                        case 21: // CONCAT - String concatenation
+                            handleConcatInstruction(context, instruction, regA);
+                            break;
 
-                                            for (regB = loopLimit - instruction + 1; regB <= loopLimit; ++regB) {
-                                                buffer.append(StandardFunctions.toString(context.getStackValue(regB)));
-                                            }
+                        case 22: // JMP - Unconditional jump
+                            handleJumpInstruction(context, instruction);
+                            break;
 
-                                            buffer.append(stringResult);
-                                            operand = buffer.toString();
-                                            loopLimit -= instruction;
-                                        }
-                                    }
+                        case 23: // EQ - Equality comparison
+                        case 24: // LT - Less than comparison
+                        case 25: // LE - Less than or equal comparison
+                            handleComparisonInstruction(context, functionData, instruction, regA, opcode);
+                            break;
 
-                                    if (argCount <= loopLimit) {
-                                        context.getStackValue(loopLimit);
-                                        --loopLimit;
-                                    }
-                                }
+                        case 26: // TEST - Test register and jump
+                            handleTestInstruction(context, instruction, regA);
+                            break;
 
-                                context.setStackValue(regA, operand);
-                                break;
+                        case 27: // TESTSET - Test register, set if true, jump if false
+                            handleTestSetInstruction(context, instruction, regA);
+                            break;
 
-                            case 22: // JMP
-                                context.programCounter += decodeSignedOffset(instruction);
-                                break;
-
-                            case 23: // EQ
-                            case 24: // LT
-                            case 25: // LE
-                                regB = instruction >>> 23 & 511;
-                                instruction = instruction >>> 14 & 511;
-                                leftOperand = getRKValue(context, regB, functionData);
-                                rightOperand = getRKValue(context, instruction, functionData);
-
-                                if (leftOperand instanceof Integer && rightOperand instanceof Integer) {
-                                    loopIndex = toInteger(leftOperand);
-                                    loopStep = toInteger(rightOperand);
-                                    if (opcode == 23) {
-                                        if (loopIndex == loopStep == (regA == 0)) {
-                                            ++context.programCounter;
-                                        }
-                                    } else if (opcode == 24) {
-                                        if (loopIndex < loopStep == (regA == 0)) {
-                                            ++context.programCounter;
-                                        }
-                                    } else if (loopIndex <= loopStep == (regA == 0)) {
-                                        ++context.programCounter;
-                                    }
-                                } else if (leftOperand instanceof String && rightOperand instanceof String) {
-                                    if (opcode == 23) {
-                                        if (leftOperand.equals(rightOperand) == (regA == 0)) {
-                                            ++context.programCounter;
-                                        }
-                                    } else {
-                                        String leftStr = (String) leftOperand;
-                                        stringResult = (String) rightOperand;
-                                        instruction = leftStr.compareTo(stringResult);
-                                        if (opcode == 24) {
-                                            if (instruction < 0 == (regA == 0)) {
-                                                ++context.programCounter;
-                                            }
-                                        } else if (instruction <= 0 == (regA == 0)) {
-                                            ++context.programCounter;
-                                        }
-                                    }
-                                } else {
-                                    boolean isEqual = false;
-                                    if (leftOperand == rightOperand) {
-                                        isEqual = true;
-                                    } else if (opcode == 23) {
-                                        isEqual = objectEquals(leftOperand, rightOperand);
-                                    } else {
-                                        StandardFunctions.error(opcode + " not defined for operand");
-                                    }
-
-                                    if (isEqual == (regA == 0)) {
-                                        ++context.programCounter;
-                                    }
-                                }
-                                break;
-
-                            case 26: // TEST
-                                instruction = instruction >>> 14 & 511;
-                                if (isTruthy(context.getStackValue(regA)) == (instruction == 0)) {
-                                    ++context.programCounter;
-                                }
-                                break;
-
-                            case 27: // TESTSET
-                                regB = instruction >>> 23 & 511;
-                                instruction = instruction >>> 14 & 511;
-                                if (isTruthy(leftOperand = context.getStackValue(regB)) != (instruction == 0)) {
-                                    context.setStackValue(regA, leftOperand);
-                                } else {
-                                    ++context.programCounter;
-                                }
-                                break;
-
-                            case 30: // RETURN
-                                regB = (instruction >>> 23 & 511) - 1;
-                                argCount = context.stackBaseOffset;
-                                engine.shrinkDataStackAndUpdateReferences(argCount);
-                                if (regB == -1) {
-                                    regB = context.getStackSize() - regA;
-                                }
-
-                                engine.copyDataRange(context.stackBaseOffset + regA, localBase, regB);
-                                engine.ensureDataStackCapacity(localBase + regB);
-                                if (!context.isActive) {
-                                    engine.popContext();
-                                    return;
-                                }
-
-                                engine.popContext();
-                                if ((context = engine.getCurrentContext()).currentFunction != null) {
-                                    instructions = (functionData = (function = context.currentFunction).functionData).instructions;
-                                    localBase = context.localVariable;
-                                }
-
-                                if (context.hasError) {
-                                    context.ensureStackCapacity(functionData.maxStackSize);
-                                }
-                                break;
-
-                            default:
-                                // Handle other opcodes (28, 29, 31-37)
-                                break;
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                    while (!engine.getCurrentContext().hasFunction()) {
-                        engine.popContext();
-                    }
-
-                    boolean shouldRethrow = true;
-
-                    do {
-                        if ((context = engine.getCurrentContext()) == null) {
-                            ScriptEngine parentEngine;
-                            if ((parentEngine = engine.parentEngine) != null) {
-                                engine.parentEngine = null;
-                                (tempContext = parentEngine.getCurrentContext()).pushValue(Boolean.FALSE);
-                                tempContext.pushValue(e.getMessage());
-                                tempContext.pushValue(engine.engineName);
-                                engine.vm.scriptEngine = parentEngine;
-                                engine = parentEngine;
-                                instructions = (functionData = (function = (context = parentEngine.getCurrentContext()).currentFunction).functionData).instructions;
-                                localBase = context.localVariable;
-                                shouldRethrow = false;
+                        case 30: // RETURN - Return from function
+                            boolean vmShouldExit = handleReturnInstruction(engine, context, functionData, instruction, regA, localVariableBase);
+                            functionRunning = false; // Exit current function
+                            if (vmShouldExit) {
+                                vmRunning = false; // Exit entire VM
                             }
                             break;
-                        }
 
-                        engine.popContext();
-                    } while (context.isActive);
-
-                    if (context != null) {
-                        context.shrinkStack(0);
-                    }
-
-                    if (shouldRethrow) {
-                        throw e;
+                        default:
+                            // Handle other opcodes (28, 29, 31-37) - not implemented
+                            throw new Exception("Unimplemented opcode: " + opcode);
                     }
                 }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                // Handle exception by unwinding to nearest function context
+                boolean shouldContinue = handleVMException(engine, e);
+                if (!shouldContinue) {
+                    throw e; // Rethrow if cannot handle
+                }
+                // Continue with next iteration to process remaining contexts
             }
         }
+    }
+
+    private void handleMoveInstruction(ScriptContext context, int instruction, int regA) {
+        int regB = (instruction >>> 23) & 511;
+        context.setStackValue(regA, context.getStackValue(regB));
+    }
+
+    private void handleLoadConstantInstruction(ScriptContext context, FunctionData functionData, int instruction, int regA) {
+        int constantIndex = instruction >>> 14;
+        context.setStackValue(regA, functionData.constants[constantIndex]);
+    }
+
+    private void handleLoadBooleanInstruction(ScriptContext context, int instruction, int regA) {
+        int boolValue = (instruction >>> 23) & 511;
+        int skipNext = (instruction >>> 14) & 511;
+        context.setStackValue(regA, boolValue == 0 ? Boolean.FALSE : Boolean.TRUE);
+        if (skipNext != 0) {
+            context.programCounter++;
+        }
+    }
+
+    private void handleLoadNilInstruction(ScriptContext context, int instruction, int regA) {
+        int regB = (instruction >>> 23) & 511;
+        context.clearStackRange(regA, regB);
+    }
+
+    private void handleGetUpvalueInstruction(ScriptContext context, ScriptFunction function, int instruction, int regA) {
+        int upvalueIndex = (instruction >>> 23) & 511;
+        context.setStackValue(regA, function.upvalues[upvalueIndex].getValue());
+    }
+
+    private void handleGetGlobalInstruction(ScriptContext context, ScriptFunction function, FunctionData functionData, int instruction, int regA) throws Exception {
+        int constantIndex = instruction >>> 14;
+        Object key = functionData.constants[constantIndex];
+        Object value = getTableValue(function.globalTable, key);
+        context.setStackValue(regA, value);
+    }
+
+    private void handleGetTableInstruction(ScriptContext context, FunctionData functionData, int instruction, int regA) throws Exception {
+        int regB = (instruction >>> 23) & 511;
+        int regC = (instruction >>> 14) & 511;
+        Object table = context.getStackValue(regB);
+        Object key = getRKValue(context, regC, functionData);
+        Object value = getTableValue(table, key);
+        context.setStackValue(regA, value);
+    }
+
+    private void handleSetGlobalInstruction(ScriptContext context, ScriptFunction function, FunctionData functionData, int instruction, int regA) {
+        int constantIndex = instruction >>> 14;
+        Object value = context.getStackValue(regA);
+        Object key = functionData.constants[constantIndex];
+        setTableValue(function.globalTable, key, value);
+    }
+
+    private void handleSetUpvalueInstruction(ScriptContext context, ScriptFunction function, int instruction, int regA) {
+        int upvalueIndex = (instruction >>> 23) & 511;
+        function.upvalues[upvalueIndex].setValue(context.getStackValue(regA));
+    }
+
+    private void handleSetTableInstruction(ScriptContext context, FunctionData functionData, int instruction, int regA) {
+        int regB = (instruction >>> 23) & 511;
+        int regC = (instruction >>> 14) & 511;
+        Object table = context.getStackValue(regA);
+        Object key = getRKValue(context, regB, functionData);
+        Object value = getRKValue(context, regC, functionData);
+        setTableValue(table, key, value);
+    }
+
+    private void handleNewTableInstruction(ScriptContext context, int regA) {
+        CommandRegistry newTable = new CommandRegistry();
+        context.setStackValue(regA, newTable);
+    }
+
+    private void handleSelfInstruction(ScriptContext context, FunctionData functionData, int instruction, int regA) throws Exception {
+        int regB = (instruction >>> 23) & 511;
+        int regC = (instruction >>> 14) & 511;
+        Object key = getRKValue(context, regC, functionData);
+        Object table = context.getStackValue(regB);
+        Object method = getTableValue(table, key);
+        context.setStackValue(regA, method);
+        context.setStackValue(regA + 1, table);
+    }
+
+    private void handleArithmeticInstruction(ScriptContext context, FunctionData functionData, int instruction, int regA, int opcode) throws Exception {
+        int regB = (instruction >>> 23) & 511;
+        int regC = (instruction >>> 14) & 511;
+        Object leftOperand = getRKValue(context, regB, functionData);
+        Object rightOperand = getRKValue(context, regC, functionData);
+
+        Integer leftInt = StandardFunctions.toNumber(leftOperand);
+        Integer rightInt = StandardFunctions.toNumber(rightOperand);
+
+        Integer result = null;
+        if (leftInt != null && rightInt != null) {
+            result = performArithmetic(leftInt, rightInt, opcode);
+        }
+        context.setStackValue(regA, result);
+    }
+
+    private void handleNotInstruction(ScriptContext context, int instruction, int regA) {
+        int regB = (instruction >>> 23) & 511;
+        Object operand = context.getStackValue(regB);
+        context.setStackValue(regA, createBoolean(!isTruthy(operand)));
+    }
+
+    private void handleLengthInstruction(ScriptContext context, int instruction, int regA) throws Exception {
+        int regB = (instruction >>> 23) & 511;
+        Object operand = context.getStackValue(regB);
+
+        Integer lengthResult = null;
+        if (operand instanceof CommandRegistry) {
+            lengthResult = createInteger(((CommandRegistry) operand).getArraySize());
+        } else if (operand instanceof String) {
+            lengthResult = createInteger(((String) operand).length());
+        }
+        context.setStackValue(regA, lengthResult);
+    }
+
+    private void handleConcatInstruction(ScriptContext context, int instruction, int regA) {
+        int regB = (instruction >>> 23) & 511;
+        int regC = (instruction >>> 14) & 511;
+
+        int startReg = regB;
+        Object result = context.getStackValue(regC);
+        int endReg = regC - 1;
+
+        while (startReg <= endReg) {
+            String currentStr = StandardFunctions.toString(result);
+            if (result != null) {
+                int consecutiveStrings = 0;
+
+                // Count consecutive string values from end
+                for (int i = endReg; startReg <= i; consecutiveStrings++) {
+                    Object element = context.getStackValue(i);
+                    i--;
+                    if (StandardFunctions.toString(element) == null) {
+                        break;
+                    }
+                }
+
+                // Concatenate consecutive strings
+                if (consecutiveStrings > 0) {
+                    StringBuilder buffer = new StringBuilder();
+                    for (int i = endReg - consecutiveStrings + 1; i <= endReg; i++) {
+                        buffer.append(StandardFunctions.toString(context.getStackValue(i)));
+                    }
+                    buffer.append(currentStr);
+                    result = buffer.toString();
+                    endReg -= consecutiveStrings;
+                }
+            }
+
+            if (startReg <= endReg) {
+                context.getStackValue(endReg);
+                endReg--;
+            }
+        }
+
+        context.setStackValue(regA, result);
+    }
+
+    private void handleJumpInstruction(ScriptContext context, int instruction) {
+        context.programCounter += decodeSignedOffset(instruction);
+    }
+
+    private void handleComparisonInstruction(ScriptContext context, FunctionData functionData, int instruction, int regA, int opcode) throws Exception {
+        int regB = (instruction >>> 23) & 511;
+        int regC = (instruction >>> 14) & 511;
+        Object leftOperand = getRKValue(context, regB, functionData);
+        Object rightOperand = getRKValue(context, regC, functionData);
+
+        boolean conditionMet = false;
+
+        if (leftOperand instanceof Integer && rightOperand instanceof Integer) {
+            int leftValue = toInteger(leftOperand);
+            int rightValue = toInteger(rightOperand);
+
+            switch (opcode) {
+                case 23: // EQ
+                    conditionMet = (leftValue == rightValue);
+                    break;
+                case 24: // LT
+                    conditionMet = (leftValue < rightValue);
+                    break;
+                case 25: // LE
+                    conditionMet = (leftValue <= rightValue);
+                    break;
+            }
+        } else if (leftOperand instanceof String && rightOperand instanceof String) {
+            String leftStr = (String) leftOperand;
+            String rightStr = (String) rightOperand;
+
+            switch (opcode) {
+                case 23: // EQ
+                    conditionMet = leftStr.equals(rightStr);
+                    break;
+                case 24: // LT
+                    conditionMet = (leftStr.compareTo(rightStr) < 0);
+                    break;
+                case 25: // LE
+                    conditionMet = (leftStr.compareTo(rightStr) <= 0);
+                    break;
+            }
+        } else {
+            if (opcode == 23) { // EQ
+                conditionMet = (leftOperand == rightOperand) || objectEquals(leftOperand, rightOperand);
+            } else {
+                StandardFunctions.error(opcode + " not defined for operand");
+            }
+        }
+
+        if (conditionMet == (regA == 0)) {
+            context.programCounter++;
+        }
+    }
+
+    private void handleTestInstruction(ScriptContext context, int instruction, int regA) {
+        int condition = (instruction >>> 14) & 511;
+        if (isTruthy(context.getStackValue(regA)) == (condition == 0)) {
+            context.programCounter++;
+        }
+    }
+
+    private void handleTestSetInstruction(ScriptContext context, int instruction, int regA) {
+        int regB = (instruction >>> 23) & 511;
+        int condition = (instruction >>> 14) & 511;
+        Object operand = context.getStackValue(regB);
+
+        if (isTruthy(operand) != (condition == 0)) {
+            context.setStackValue(regA, operand);
+        } else {
+            context.programCounter++;
+        }
+    }
+
+    private boolean handleReturnInstruction(ScriptEngine engine, ScriptContext context, FunctionData functionData, int instruction, int regA, int localVariableBase) throws Exception {
+        int returnCount = ((instruction >>> 23) & 511) - 1;
+        int stackBaseOffset = context.stackBaseOffset;
+
+        engine.shrinkDataStackAndUpdateReferences(stackBaseOffset);
+
+        if (returnCount == -1) {
+            returnCount = context.getStackSize() - regA;
+        }
+
+        engine.copyDataRange(context.stackBaseOffset + regA, localVariableBase, returnCount);
+        engine.ensureDataStackCapacity(localVariableBase + returnCount);
+
+        if (!context.isActive) {
+            engine.popContext();
+            return true; // Signal to exit VM completely
+        }
+
+        engine.popContext();
+        ScriptContext newContext = engine.getCurrentContext();
+
+        if (newContext != null && newContext.hasError) {
+            newContext.ensureStackCapacity(functionData.maxStackSize);
+        }
+
+        return newContext == null; // Exit VM if no more contexts
+    }
+
+    private boolean handleVMException(ScriptEngine engine, Exception exception) throws Exception {
+        // Unwind stack to nearest function context
+        while (engine.getCurrentContext() != null && !engine.getCurrentContext().hasFunction()) {
+            engine.popContext();
+        }
+
+        ScriptContext context;
+
+        do {
+            context = engine.getCurrentContext();
+            if (context == null) {
+                ScriptEngine parentEngine = engine.parentEngine;
+                if (parentEngine != null) {
+                    engine.parentEngine = null;
+                    ScriptContext parentContext = parentEngine.getCurrentContext();
+                    parentContext.pushValue(Boolean.FALSE);
+                    parentContext.pushValue(exception.getMessage());
+                    parentContext.pushValue(engine.engineName);
+                    engine.vm.scriptEngine = parentEngine;
+                    return true; // Continue execution with parent engine
+                }
+                return false; // No parent, should rethrow
+            }
+            engine.popContext();
+        } while (context.isActive);
+
+        context.shrinkStack(0);
+
+        return engine.getCurrentContext() != null; // Continue if there are more contexts
     }
 
     private static int callNativeFunction(ScriptEngine engine, NativeFunction nativeFunc, int stackBase, int localBase, int paramCount) throws Exception {
@@ -403,7 +503,7 @@ public final class ScriptVM {
         this.scriptEngine.ensureDataStackCapacity(stackBase + 1 + 3);
         Object[] dataStack = this.scriptEngine.dataStack;
         dataStack[stackBase] = function;
-        dataStack[stackBase + 1] = null;
+        dataStack[stackBase + 1] = param;
         dataStack[stackBase + 2] = null;
         dataStack[stackBase + 3] = null;
         int returnCount = this.callFunctionInternal(this.scriptEngine, 3);

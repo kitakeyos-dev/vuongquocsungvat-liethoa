@@ -331,10 +331,10 @@ public final class C18 extends GameObject {
             this.B();
          }
 
-         if (C7.C7_f64 != null && C7.C7_f64.size() > 0 && this.C18_f245 == 1 && !C53.p().a(this, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
-            for(var1 = 0; var1 < C7.C7_f64.size(); ++var1) {
-               if (((GameObject)C7.C7_f64.elementAt(var1)).followTarget.equals(this)) {
-                  ((GameObject)C7.C7_f64.elementAt(var1)).activate();
+         if (QuestManager.questEffectObjects != null && QuestManager.questEffectObjects.size() > 0 && this.C18_f245 == 1 && !C53.p().a(this, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
+            for(var1 = 0; var1 < QuestManager.questEffectObjects.size(); ++var1) {
+               if (((GameObject)QuestManager.questEffectObjects.elementAt(var1)).followTarget.equals(this)) {
+                  ((GameObject)QuestManager.questEffectObjects.elementAt(var1)).activate();
                   return;
                }
             }
@@ -451,7 +451,7 @@ public final class C18 extends GameObject {
                C53.p().C53_f799.addElement(var3);
             }
 
-            C7.C7_f69 = false;
+            QuestManager.isQuestReady = false;
             return;
          }
          break;

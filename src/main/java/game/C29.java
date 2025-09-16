@@ -999,7 +999,7 @@ public final class C29 extends GameEngineBase {
          this.C29_f408.a((byte)0, true);
          return;
       case 8:
-         C25.B().C25_f348.C7_f74 = 0;
+         C25.B().C25_f348.selectOption = 0;
 
          for(var2 = 0; var2 < C29_f412.size(); ++var2) {
             var4 = ((C41)C29_f412.elementAt(var2)).C41_f649 - ((C41)C29_f412.elementAt(var2)).getSecondaryState((byte)1);
@@ -1901,7 +1901,7 @@ public final class C29 extends GameEngineBase {
                      this.gameController.C9_f131 = 4;
                   } else if (this.gameController.C9_f131 == 4 || this.gameController.C9_f131 == 1) {
                      this.gameController.C9_f131 = 0;
-                     C25.B().C25_f348.C7_f74 = -1;
+                     C25.B().C25_f348.selectOption = -1;
                      this.q();
                      GameScreenManager.getInstance().changeState((byte)10);
                   }
@@ -2271,7 +2271,7 @@ public final class C29 extends GameEngineBase {
    }
 
    private void N() {
-      if (C25.B().C25_f348.C7_f70) {
+      if (C25.B().C25_f348.isPlayerControl) {
          this.changeState((byte)24);
       } else {
          for(int var1 = 0; var1 < C29_f395.C53_f778; ++var1) {
@@ -2283,8 +2283,8 @@ public final class C29 extends GameEngineBase {
          GameScreenManager.getInstance().changeState((byte)10);
       }
 
-      C25.B().C25_f348.C7_f74 = 1;
-      C25.B().C25_f348.C7_f70 = true;
+      C25.B().C25_f348.selectOption = 1;
+      C25.B().C25_f348.isPlayerControl = true;
    }
 
    private static boolean d(C41 var0) {

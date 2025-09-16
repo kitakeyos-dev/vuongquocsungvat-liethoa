@@ -3,7 +3,7 @@ package a.b;
 import a.GameUtils;
 import a.GameEngineBase;
 import a.a.ImageProcessor;
-import game.C7;
+import game.QuestManager;
 import java.io.DataInputStream;
 import java.io.InputStream;
 import javax.microedition.lcdui.Graphics;
@@ -199,7 +199,7 @@ public final class TileMapRenderer {
         this.tilesetImages = new Image[ResourceManager.moduleInfoData[this.currentTilesetId].length];
 
         for (int i = 0; i < this.tilesetImages.length; i++) {
-            if (C7.C7_f51 == 1) {
+            if (QuestManager.questState == 1) {
                 this.tilesetImages[i] = ImageProcessor.convertToGrayscale(ResourceManager.getCachedImage(ResourceManager.moduleInfoData[this.currentTilesetId][i]));
             } else {
                 this.tilesetImages[i] = ResourceManager.getCachedImage(ResourceManager.moduleInfoData[this.currentTilesetId][i]);
@@ -234,7 +234,7 @@ public final class TileMapRenderer {
      */
     private void cleanupTileset() {
         if (this.tilesetImages != null) {
-            if (C7.C7_f51 != 0) {
+            if (QuestManager.questState != 0) {
                 // Force cleanup mode
                 for (int i = 0; i < this.tilesetImages.length; i++) {
                     if (this.tilesetImages[i] != null) {
@@ -271,7 +271,7 @@ public final class TileMapRenderer {
     public void refreshTileset() {
         // Release current images
         for (int i = 0; i < this.tilesetImages.length; i++) {
-            if (C7.C7_f51 == 1) {
+            if (QuestManager.questState == 1) {
                 this.tilesetImages[i] = ImageProcessor.convertToGrayscale(ResourceManager.getCachedImage(ResourceManager.moduleInfoData[this.currentTilesetId][i]));
             } else {
                 ResourceManager.forceReleaseImage(ResourceManager.moduleInfoData[this.currentTilesetId][i]);
@@ -280,7 +280,7 @@ public final class TileMapRenderer {
 
         // Reload images
         for (int i = 0; i < this.tilesetImages.length; i++) {
-            if (C7.C7_f51 == 0) {
+            if (QuestManager.questState == 0) {
                 this.tilesetImages[i] = ResourceManager.getCachedImage(ResourceManager.moduleInfoData[this.currentTilesetId][i]);
             }
         }

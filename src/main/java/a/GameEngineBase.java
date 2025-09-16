@@ -289,7 +289,7 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
     }
 
     public static byte d(int var0) {
-        return actionType == -1 ? -1 : actionData[actionType][1];
+        return actionType == -1 ? -1 : actionData[actionType][var0];
     }
 
     public static void u() {
@@ -314,8 +314,8 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
                             C53.p().c(4, 5, (byte) 0);
                             C53.p().c(11, 2, (byte) 0);
                             C53.p().v(5);
-                            C7.B().C7_f60[C25.e(9, 0)][5] = 3;
-                            C7.B().C7_f56[5].setExecutionState((byte) 3);
+                            QuestManager.getInstance().questStates[C25.e(9, 0)][5] = 3;
+                            QuestManager.getInstance().eventScripts[5].setExecutionState((byte) 3);
                             break;
                         case 1:
                             C53.p().c(0, 1, (byte) 0);

@@ -2,7 +2,7 @@ package game;
 
 import engine.GameUtils;
 import engine.GameEngineBase;
-import engine.graphics.GameObject;
+import engine.entity.GameObject;
 import engine.graphics.ScreenTransitionManager;
 import engine.entity.CameraController;
 import engine.entity.GameEntity;

@@ -3,6 +3,7 @@ package engine.graphics;
 import engine.GameEngineBase;
 import engine.entity.CameraController;
 import engine.entity.GameEntity;
+import engine.entity.GameObject;
 import engine.entity.ResourceManager;
 import engine.entity.TileMapRenderer;
 import game.NPCEntity;

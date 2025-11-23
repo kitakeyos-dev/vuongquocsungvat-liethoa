@@ -4,7 +4,7 @@ import engine.GameUtils;
 import engine.GameEngineBase;
 import engine.graphics.AudioManager;
 import engine.graphics.DebugLogger;
-import engine.graphics.GameObject;
+import engine.entity.GameObject;
 import engine.graphics.EffectEntity;
 import engine.graphics.ScreenTransitionManager;
 import engine.graphics.WorldRenderer;

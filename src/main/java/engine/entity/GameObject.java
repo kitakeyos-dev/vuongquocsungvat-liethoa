@@ -1,9 +1,7 @@
-package engine.graphics;
+package engine.entity;
 
 import engine.GameEngineBase;
 import engine.GameUtils;
-import engine.entity.Sprite;
-import engine.entity.GameEntity;
 import game.GameWorldManager;
 
 import javax.microedition.lcdui.Graphics;

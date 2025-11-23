@@ -2,7 +2,7 @@ package game;
 
 import engine.GameUtils;
 import engine.GameEngineBase;
-import engine.graphics.GameObject;
+import engine.entity.GameObject;
 import engine.graphics.EffectEntity;
 import engine.entity.GameEntity;
 import engine.entity.ResourceManager;

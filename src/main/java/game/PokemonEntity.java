@@ -1,7 +1,7 @@
 package game;
 
 import engine.GameUtils;
-import engine.graphics.GameObject;
+import engine.entity.GameObject;
 import engine.graphics.EffectEntity;
 import engine.entity.Sprite;
 import engine.entity.ResourceManager;

@@ -8,7 +8,7 @@ import a.b.ResourceManager;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 
-public final class C41 extends GameObject {
+public final class PokemonEntity extends GameObject {
    private static short[] C41_f638 = new short[]{90, 95, 100, 110, 125};
    public static final byte[] C41_f639 = new byte[]{12, 30, 5};
    EffectEntity C41_f640;
@@ -43,7 +43,7 @@ public final class C41 extends GameObject {
    protected EffectEntity C41_f669 = null;
    private byte C41_f670 = 0;
 
-   public C41() {
+   public PokemonEntity() {
       this.primaryStates = new short[23];
       this.secondaryStates = new short[23];
       this.C41_f645 = new short[5];
@@ -168,7 +168,7 @@ public final class C41 extends GameObject {
    private void z(int var1) {
       this.C41_f669 = new EffectEntity();
       short[] var3;
-      short[] var2 = new short[(var3 = C29.C29_f450[var1]).length + 5];
+      short[] var2 = new short[(var3 = BattleSystemManager.C29_f450[var1]).length + 5];
       System.arraycopy(var3, 1, var2, 6, var3.length - 1);
       System.arraycopy(var3 = new short[]{var3[0], (short)super.worldX, (short)super.worldY, ResourceManager.gameDatabase[0][this.C41_f657][17], 0, (short)this.currentDirection}, 0, var2, 0, var3.length);
       this.C41_f669.initializeEffect(var2);
@@ -240,7 +240,7 @@ public final class C41 extends GameObject {
          this.sprite.setAnimation((byte)var1, (byte)0, true);
          break;
       case 3:
-         if (C29.B().C29_f398 == 0) {
+         if (BattleSystemManager.B().C29_f398 == 0) {
             this.deactivate();
             short[] var3 = new short[]{16, 0, 0, 4};
             this.C41_f669 = new EffectEntity();
@@ -352,7 +352,7 @@ public final class C41 extends GameObject {
          this.C41_f669.render(var1);
       }
 
-      if (this.C41_f640 != null && C29.C29_f448[this.C41_f640.effectType - 20][this.C41_f640.sprite.getCurrentAnimationId()][this.C41_f640.sprite.getCurrentFrameIndex()] == 0) {
+      if (this.C41_f640 != null && BattleSystemManager.C29_f448[this.C41_f640.effectType - 20][this.C41_f640.sprite.getCurrentAnimationId()][this.C41_f640.sprite.getCurrentFrameIndex()] == 0) {
          this.C41_f640.render(var1);
       }
 
@@ -364,7 +364,7 @@ public final class C41 extends GameObject {
          this.C41_f669.render(var1);
       }
 
-      if (this.C41_f640 != null && C29.C29_f448[this.C41_f640.effectType - 20][this.C41_f640.sprite.getCurrentAnimationId()][this.C41_f640.sprite.getCurrentFrameIndex()] == 1) {
+      if (this.C41_f640 != null && BattleSystemManager.C29_f448[this.C41_f640.effectType - 20][this.C41_f640.sprite.getCurrentAnimationId()][this.C41_f640.sprite.getCurrentFrameIndex()] == 1) {
          this.C41_f640.render(var1);
       }
 
@@ -435,7 +435,7 @@ public final class C41 extends GameObject {
    private void V() {
       short var1;
       byte var3;
-      if (C53.p().b((byte)1, (byte)0) == 2 && C53.p().b((byte)1, (byte)1) == 1) {
+      if (PlayerCharacter.p().b((byte)1, (byte)0) == 2 && PlayerCharacter.p().b((byte)1, (byte)1) == 1) {
          var3 = 1;
          var1 = (short)(super.primaryStates[var3] * ResourceManager.gameDatabase[2][1][6] / 100);
          var3 = 1;
@@ -444,7 +444,7 @@ public final class C41 extends GameObject {
          super.primaryStates[var3] = var1;
       }
 
-      if (C53.p().b((byte)2, (byte)0) == 2 && C53.p().b((byte)2, (byte)1) == 1) {
+      if (PlayerCharacter.p().b((byte)2, (byte)0) == 2 && PlayerCharacter.p().b((byte)2, (byte)1) == 1) {
          var3 = 3;
          var1 = (short)(super.primaryStates[var3] * ResourceManager.gameDatabase[2][2][6] / 100);
          var3 = 3;
@@ -545,7 +545,7 @@ public final class C41 extends GameObject {
 
    public final int C() {
       byte var3;
-      if (((C41)this.followTarget).C41_f660 == 0 && C53.p().b((byte)4, (byte)0) == 2) {
+      if (((PokemonEntity)this.followTarget).C41_f660 == 0 && PlayerCharacter.p().b((byte)4, (byte)0) == 2) {
          var3 = 3;
          short var1 = (short)(this.followTarget.primaryStates[var3] * (100 + ResourceManager.gameDatabase[2][4][5]) / 100);
          var3 = 3;
@@ -554,7 +554,7 @@ public final class C41 extends GameObject {
 
       short var10000;
       int var4;
-      if (((C41)this.followTarget).f((byte)2)) {
+      if (((PokemonEntity)this.followTarget).f((byte)2)) {
          var3 = 2;
          var10000 = super.secondaryStates[var3];
          var3 = 3;
@@ -779,7 +779,7 @@ public final class C41 extends GameObject {
             break;
          case 11:
             this.C41_f641[var1][1] = (short)var2;
-            C41 var9 = C29.B().C29_f402[var2];
+            PokemonEntity var9 = BattleSystemManager.B().C29_f402[var2];
             int var5 = 0;
 
             while(true) {
@@ -789,7 +789,7 @@ public final class C41 extends GameObject {
                   break label34;
                }
 
-               this.a((byte)var9.C41_f643[0][var5], var9.C41_f641[var9.C41_f643[0][var5]][1], C29.B().C29_f402[var2].C41_f668[var5]);
+               this.a((byte)var9.C41_f643[0][var5], var9.C41_f641[var9.C41_f643[0][var5]][1], BattleSystemManager.B().C29_f402[var2].C41_f668[var5]);
                ++var5;
             }
          case 12:
@@ -890,7 +890,7 @@ public final class C41 extends GameObject {
          break;
       case 11:
          short[] var10001 = this.C41_f641[11];
-         C41 var6 = C29.B().C29_f402[var10001[1]];
+         PokemonEntity var6 = BattleSystemManager.B().C29_f402[var10001[1]];
          int var3 = 0;
 
          while(true) {
@@ -903,7 +903,7 @@ public final class C41 extends GameObject {
             byte var8 = var6.C41_f643[0][var3];
             short var10002 = var6.C41_f641[var6.C41_f643[0][var3]][1];
             short[] var10004 = this.C41_f641[11];
-            this.a((byte)var8, var10002, C29.B().C29_f402[var10004[1]].C41_f668[var3]);
+            this.a((byte)var8, var10002, BattleSystemManager.B().C29_f402[var10004[1]].C41_f668[var3]);
             ++var3;
          }
       case 12:
@@ -1183,7 +1183,7 @@ public final class C41 extends GameObject {
       }
    }
 
-   public final void a(byte var1, C41 var2) {
+   public final void a(byte var1, PokemonEntity var2) {
       super.followTarget = var2;
       this.C41_f659 = var1;
 
@@ -1260,8 +1260,8 @@ public final class C41 extends GameObject {
    }
 
    public final void K() {
-      if (C25.C25_f336 == null) {
-         C25.C25_f336 = new Vector();
+      if (GameWorldManager.C25_f336 == null) {
+         GameWorldManager.C25_f336 = new Vector();
       }
 
       short var1;
@@ -1269,7 +1269,7 @@ public final class C41 extends GameObject {
          short var2 = ResourceManager.getDatabaseValue((byte)0, (short)this.C41_f657, (byte)21);
          int var3 = ResourceManager.getDatabaseValue((byte)0, (short)this.C41_f657, (byte)20) + 12;
          boolean var4 = false;
-         if (!C25.C25_f339 && this.S() > 0 && this.C41_f654 >= C41_f639[ResourceManager.getDatabaseValue((byte)0, var1, (byte)2) - 1] && C53.p().a((int)var3, (byte)2) >= var2) {
+         if (!GameWorldManager.C25_f339 && this.S() > 0 && this.C41_f654 >= C41_f639[ResourceManager.getDatabaseValue((byte)0, var1, (byte)2) - 1] && PlayerCharacter.p().a((int)var3, (byte)2) >= var2) {
             var4 = true;
          } else if (this.S() > 0 && this.C41_f654 >= C41_f639[ResourceManager.getDatabaseValue((byte)0, var1, (byte)2) - 1]) {
             var4 = true;
@@ -1277,10 +1277,10 @@ public final class C41 extends GameObject {
 
          if (var4) {
             int[] var6 = new int[]{this.C41_f657, ResourceManager.gameDatabase[0][this.C41_f657][0]};
-            C25.C25_f336.addElement(var6);
-            C25.C25_f340[0] = (byte)this.C41_f654;
-            C25.C25_f340[1] = (byte)this.C41_f657;
-            C25.C25_f337 = 0;
+            GameWorldManager.C25_f336.addElement(var6);
+            GameWorldManager.C25_f340[0] = (byte)this.C41_f654;
+            GameWorldManager.C25_f340[1] = (byte)this.C41_f657;
+            GameWorldManager.C25_f337 = 0;
          }
 
       }
@@ -1501,7 +1501,7 @@ public final class C41 extends GameObject {
          super.secondaryStates[var5] = var2;
       }
 
-      C53.p().d(var1, 1, (byte)0);
+      PlayerCharacter.p().d(var1, 1, (byte)0);
    }
 
    public final int x(int var1) {
@@ -1582,7 +1582,7 @@ public final class C41 extends GameObject {
       return super.secondaryStates[var2] > 0;
    }
 
-   public final byte a(C41 var1) {
+   public final byte a(PokemonEntity var1) {
       short var2;
       short var3;
       boolean var5;
@@ -1617,12 +1617,12 @@ public final class C41 extends GameObject {
       }
    }
 
-   public final int[] b(C41 var1) {
+   public final int[] b(PokemonEntity var1) {
       byte var2 = 0;
       byte var3 = 5;
       int var4 = this.C();
       short var5 = ResourceManager.gameDatabase[0][this.C41_f657][1];
-      if (this.C41_f655 == C53.p().C53_f802[var5] + C53.p().C53_f803[var5] - 1) {
+      if (this.C41_f655 == PlayerCharacter.p().C53_f802[var5] + PlayerCharacter.p().C53_f803[var5] - 1) {
          var3 = 30;
       }
 
@@ -1812,7 +1812,7 @@ public final class C41 extends GameObject {
             }
 
             var1.a((int)1, (byte)var12);
-            if (var1.C41_f660 == 0 && C53.p().b((byte)6, (byte)0) == 2 && C53.p().b((byte)6, (byte)1) == 1) {
+            if (var1.C41_f660 == 0 && PlayerCharacter.p().b((byte)6, (byte)0) == 2 && PlayerCharacter.p().b((byte)6, (byte)1) == 1) {
                var1.C41_f642[var12][0] = (short)(ResourceManager.gameDatabase[7][var12][2] / 2);
             } else {
                var1.C41_f642[var12][0] = ResourceManager.gameDatabase[7][var12][2];
@@ -1845,11 +1845,11 @@ public final class C41 extends GameObject {
          var4 += var4 * this.C41_f641[8][1] / 100;
       }
 
-      if (this.C41_f660 == 0 && C53.p().b((byte)3, (byte)0) == 2 && C53.p().b((byte)3, (byte)1) == 1 && C25.C25_f369 == 2) {
+      if (this.C41_f660 == 0 && PlayerCharacter.p().b((byte)3, (byte)0) == 2 && PlayerCharacter.p().b((byte)3, (byte)1) == 1 && GameWorldManager.C25_f369 == 2) {
          var4 += var4 * ResourceManager.gameDatabase[2][3][5] / 100;
       }
 
-      if (this.C41_f660 == 0 && C53.p().b((byte)6, (byte)0) == 2) {
+      if (this.C41_f660 == 0 && PlayerCharacter.p().b((byte)6, (byte)0) == 2) {
          var4 += var4 * ResourceManager.gameDatabase[2][6][5] / 100;
       }
 

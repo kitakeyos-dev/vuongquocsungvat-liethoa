@@ -1,5 +1,5 @@
 package e.b.a.a;
 
-public interface C2 {
+public interface StateChangeCallback {
    void b(boolean var1);
 }

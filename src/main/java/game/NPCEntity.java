@@ -5,7 +5,7 @@ import a.a.GameObject;
 import a.b.TileMapRenderer;
 import javax.microedition.lcdui.Graphics;
 
-public final class C18 extends GameObject {
+public final class NPCEntity extends GameObject {
    public byte C18_f223;
    public boolean C18_f224;
    public byte C18_f225;
@@ -122,7 +122,7 @@ public final class C18 extends GameObject {
          }
 
          if (this.isVisible() && var1[0] > 0 && var1[0] <= 3) {
-            C25.B().C25_f288.addElement(this);
+            GameWorldManager.B().C25_f288.addElement(this);
          }
 
          if (this.C18_f225 == 3) {
@@ -187,7 +187,7 @@ public final class C18 extends GameObject {
          if (this.C18_f225 != 1 && this.C18_f225 != 18) {
             this.setAnimation(var1, (byte)-1, false);
             this.facingDirection = var1;
-            C25.B().a(this.C18_f248, 0, this.facingDirection, true);
+            GameWorldManager.B().a(this.C18_f248, 0, this.facingDirection, true);
             return;
          }
 
@@ -230,7 +230,7 @@ public final class C18 extends GameObject {
          } else {
             this.setAnimation(var1, (byte)-1, false);
             if (this.C18_f225 == 3) {
-               C25.B().a(this.C18_f248, 0, var1, true);
+               GameWorldManager.B().a(this.C18_f248, 0, var1, true);
             }
          }
 
@@ -242,7 +242,7 @@ public final class C18 extends GameObject {
       case 3:
          this.setAnimation(var1, (byte)-2, false);
          this.facingDirection = var1;
-         C25.B().a(this.C18_f248, 0, this.facingDirection, true);
+         GameWorldManager.B().a(this.C18_f248, 0, this.facingDirection, true);
       }
 
    }
@@ -254,9 +254,9 @@ public final class C18 extends GameObject {
          break;
       case 1:
          if (this.C18_f225 == 0) {
-            if (this.facingDirection == 0 && GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
+            if (this.facingDirection == 0 && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
                this.a((byte)1);
-            } else if (this.facingDirection == 2 && !GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
+            } else if (this.facingDirection == 2 && !GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
                this.a((byte)3);
             } else if (this.facingDirection == 1 && this.sprite.isAtLastFrame()) {
                this.a((byte)2);
@@ -272,34 +272,34 @@ public final class C18 extends GameObject {
             }
 
             var10001 = this.C18_f244[this.C18_f236];
-            if ((C53.p().visualState == var10001 && this.sprite.spriteSetId != 320 && this.sprite.spriteSetId != 310 || this.sprite.spriteSetId == 320 || this.sprite.spriteSetId == 310) && GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
-               C25.B().C25_f290 = this.C18_f237;
-               C25.B().C25_f291 = this.C18_f238;
-               C25.B().C25_f295 = this.C18_f239;
+            if ((PlayerCharacter.p().visualState == var10001 && this.sprite.spriteSetId != 320 && this.sprite.spriteSetId != 310 || this.sprite.spriteSetId == 320 || this.sprite.spriteSetId == 310) && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
+               GameWorldManager.B().C25_f290 = this.C18_f237;
+               GameWorldManager.B().C25_f291 = this.C18_f238;
+               GameWorldManager.B().C25_f295 = this.C18_f239;
                GameScreenManager.getInstance().changeState((byte)9);
             }
          } else if (this.C18_f225 == 2) {
             var10001 = this.C18_f244[this.C18_f236];
-            if ((C53.p().visualState == var10001 && this.sprite.spriteSetId != 320 || this.sprite.spriteSetId == 320) && GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
+            if ((PlayerCharacter.p().visualState == var10001 && this.sprite.spriteSetId != 320 || this.sprite.spriteSetId == 320) && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
                for(int var1 = 0; var1 < this.C18_f249.length / 6; ++var1) {
-                  if (this.C18_f249[var1 * 6] == this.C18_f248 && this.C18_f249[var1 * 6 + 1] == C25.B().C25_f290 && this.C18_f249[var1 * 6 + 2] == C25.B().C25_f291) {
-                     C25.B().C25_f293 = this.C18_f249[var1 * 6 + 3];
-                     C25.B().C25_f294 = this.C18_f249[var1 * 6 + 4];
-                     C25.C25_f320 = (byte)this.C18_f249[var1 * 6 + 5];
+                  if (this.C18_f249[var1 * 6] == this.C18_f248 && this.C18_f249[var1 * 6 + 1] == GameWorldManager.B().C25_f290 && this.C18_f249[var1 * 6 + 2] == GameWorldManager.B().C25_f291) {
+                     GameWorldManager.B().C25_f293 = this.C18_f249[var1 * 6 + 3];
+                     GameWorldManager.B().C25_f294 = this.C18_f249[var1 * 6 + 4];
+                     GameWorldManager.C25_f320 = (byte)this.C18_f249[var1 * 6 + 5];
                      break;
                   }
                }
 
-               C25.B().C25_f290 = this.C18_f237;
-               C25.B().C25_f291 = this.C18_f238;
-               C25.B().C25_f295 = -1;
+               GameWorldManager.B().C25_f290 = this.C18_f237;
+               GameWorldManager.B().C25_f291 = this.C18_f238;
+               GameWorldManager.B().C25_f295 = -1;
                GameScreenManager.getInstance().changeState((byte)9);
             }
-         } else if (this.C18_f225 == 4 && C53.p().getFacingDirection() != 9 && C53.p().getFacingDirection() != 10 && GameUtils.checkCollisionBetweenShortArrays(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
-            C53.p().setWorldPosition(this.worldX, this.worldY);
-            C53.p().attachedObject.setWorldPosition(this.worldX, this.worldY);
-            C53.p().a((byte)9, (byte)this.currentDirection);
-            C25.B().C25_f295 = this.C18_f239;
+         } else if (this.C18_f225 == 4 && PlayerCharacter.p().getFacingDirection() != 9 && PlayerCharacter.p().getFacingDirection() != 10 && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
+            PlayerCharacter.p().setWorldPosition(this.worldX, this.worldY);
+            PlayerCharacter.p().attachedObject.setWorldPosition(this.worldX, this.worldY);
+            PlayerCharacter.p().a((byte)9, (byte)this.currentDirection);
+            GameWorldManager.B().C25_f295 = this.C18_f239;
          }
       case 2:
       case 3:
@@ -317,21 +317,21 @@ public final class C18 extends GameObject {
          if (this.facingDirection == 1) {
             var2 = 0;
             this.moveInDirection((int)super.secondaryStates[var2]);
-            if (C25.B().C25_f313 != null && C25.B().C25_f313.followTarget.equals(this) && !C53.p().a(this, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
-               C25.B().D();
+            if (GameWorldManager.B().C25_f313 != null && GameWorldManager.B().C25_f313.followTarget.equals(this) && !PlayerCharacter.p().a(this, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
+               GameWorldManager.B().D();
             }
          }
 
-         if (C25.B().C25_f313 != null && C25.B().C25_f313.followTarget.equals(this) && (!this.isVisible() || !C53.p().a(this, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents()))) {
-            C25.C25_f318 = -1;
-            C25.B().D();
+         if (GameWorldManager.B().C25_f313 != null && GameWorldManager.B().C25_f313.followTarget.equals(this) && (!this.isVisible() || !PlayerCharacter.p().a(this, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents()))) {
+            GameWorldManager.C25_f318 = -1;
+            GameWorldManager.B().D();
          }
 
-         if (this.C18_f246 != null && this.isVisible() && this.C18_f246.followTarget.equals(this) && !C53.p().a(this, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
+         if (this.C18_f246 != null && this.isVisible() && this.C18_f246.followTarget.equals(this) && !PlayerCharacter.p().a(this, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
             this.B();
          }
 
-         if (QuestManager.questEffectObjects != null && QuestManager.questEffectObjects.size() > 0 && this.C18_f245 == 1 && !C53.p().a(this, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
+         if (QuestManager.questEffectObjects != null && QuestManager.questEffectObjects.size() > 0 && this.C18_f245 == 1 && !PlayerCharacter.p().a(this, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
             for(var1 = 0; var1 < QuestManager.questEffectObjects.size(); ++var1) {
                if (((GameObject)QuestManager.questEffectObjects.elementAt(var1)).followTarget.equals(this)) {
                   ((GameObject)QuestManager.questEffectObjects.elementAt(var1)).activate();
@@ -433,22 +433,22 @@ public final class C18 extends GameObject {
       case 6:
       case 7:
       case 15:
-         if (this.C18_f247 != null && this.isVisible() && this.C18_f247.followTarget.equals(this) && (this.facingDirection != 0 || !C53.p().a(this, C53.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents()))) {
+         if (this.C18_f247 != null && this.isVisible() && this.C18_f247.followTarget.equals(this) && (this.facingDirection != 0 || !PlayerCharacter.p().a(this, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents()))) {
             this.y();
          }
 
          if (this.facingDirection == 1 && this.sprite.isAtLastFrame()) {
             this.a((byte)2);
             if (this.C18_f225 == 6 && this.C18_f225 == 7) {
-               C25.B().a(this.C18_f248, 0, this.facingDirection, false);
+               GameWorldManager.B().a(this.C18_f248, 0, this.facingDirection, false);
             } else {
-               C25.B().a(this.C18_f248, 0, this.facingDirection, true);
+               GameWorldManager.B().a(this.C18_f248, 0, this.facingDirection, true);
             }
 
             if ((this.C18_f225 == 7 || this.C18_f225 == 6) && (var1 = GameUtils.getRandomInt(2)) > 0) {
-               C53.p().s(var1);
+               PlayerCharacter.p().s(var1);
                int[] var3 = new int[]{var1, super.worldX, super.worldY - 20, 0};
-               C53.p().C53_f799.addElement(var3);
+               PlayerCharacter.p().C53_f799.addElement(var3);
             }
 
             QuestManager.isQuestReady = false;
@@ -493,7 +493,7 @@ public final class C18 extends GameObject {
          return;
       case 12:
          if (this.isVisible()) {
-            if (!GameUtils.isPointInShortArrayRectangle(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents())) {
+            if (!GameUtils.isPointInShortArrayRectangle(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents())) {
                if (this.a(this.currentDirection, 4, (byte)0)) {
                   this.moveInDirection((int)4);
                   return;
@@ -508,15 +508,15 @@ public final class C18 extends GameObject {
                return;
             }
 
-            if (C53.p().getFacingDirection() != 8) {
-               C53.p().a((byte)8, (byte)this.currentDirection);
+            if (PlayerCharacter.p().getFacingDirection() != 8) {
+               PlayerCharacter.p().a((byte)8, (byte)this.currentDirection);
                return;
             }
          }
          break;
       case 13:
          if (this.isVisible()) {
-            if (!GameUtils.isPointInShortArrayRectangle(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents())) {
+            if (!GameUtils.isPointInShortArrayRectangle(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents())) {
                if (this.a(this.currentDirection, 4, (byte)0)) {
                   this.moveInDirection((int)4);
                   return;
@@ -531,8 +531,8 @@ public final class C18 extends GameObject {
                return;
             }
 
-            if (C53.p().getFacingDirection() != 8) {
-               C53.p().a((byte)8, (byte)this.currentDirection);
+            if (PlayerCharacter.p().getFacingDirection() != 8) {
+               PlayerCharacter.p().a((byte)8, (byte)this.currentDirection);
                return;
             }
          }
@@ -547,8 +547,8 @@ public final class C18 extends GameObject {
          this.C18_f232 = 0;
          return;
       case 16:
-         if (GameUtils.isPointInShortArrayRectangle(C53.p().worldX, C53.p().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents()) && C53.p().getFacingDirection() != 5) {
-            C53.p().a((byte)5, (byte)C53.p().currentDirection);
+         if (GameUtils.isPointInShortArrayRectangle(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents()) && PlayerCharacter.p().getFacingDirection() != 5) {
+            PlayerCharacter.p().a((byte)5, (byte) PlayerCharacter.p().currentDirection);
             return;
          }
       }
@@ -598,7 +598,7 @@ public final class C18 extends GameObject {
             boolean var1 = false;
             int var3 = var10002;
             byte var2 = var10001;
-            C18 var5 = this;
+            NPCEntity var5 = this;
             var4 = 0;
             int var6;
             label83:
@@ -608,12 +608,12 @@ public final class C18 extends GameObject {
                var6 = 0;
 
                while(true) {
-                  if (var6 >= C25.B().C25_f287.length) {
+                  if (var6 >= GameWorldManager.B().C25_f287.length) {
                      break label83;
                   }
 
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX, var5.worldY + var3, C25.B().C25_f287[var6].worldX, C25.B().C25_f287[var6].worldY, C25.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
-                     C25.B().C25_f287[var6].followTarget = var5;
+                  if (GameWorldManager.B().C25_f287[var6].C18_f225 != var5.C18_f225 && GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX, var5.worldY + var3, GameWorldManager.B().C25_f287[var6].worldX, GameWorldManager.B().C25_f287[var6].worldY, GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
+                     GameWorldManager.B().C25_f287[var6].followTarget = var5;
                      var10000 = false;
                      break label86;
                   }
@@ -625,12 +625,12 @@ public final class C18 extends GameObject {
                var6 = 0;
 
                while(true) {
-                  if (var6 >= C25.B().C25_f287.length) {
+                  if (var6 >= GameWorldManager.B().C25_f287.length) {
                      break label83;
                   }
 
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX + var3, var5.worldY, C25.B().C25_f287[var6].worldX, C25.B().C25_f287[var6].worldY, C25.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
-                     C25.B().C25_f287[var6].followTarget = var5;
+                  if (GameWorldManager.B().C25_f287[var6].C18_f225 != var5.C18_f225 && GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX + var3, var5.worldY, GameWorldManager.B().C25_f287[var6].worldX, GameWorldManager.B().C25_f287[var6].worldY, GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
+                     GameWorldManager.B().C25_f287[var6].followTarget = var5;
                      var10000 = false;
                      break label86;
                   }
@@ -642,12 +642,12 @@ public final class C18 extends GameObject {
                var6 = 0;
 
                while(true) {
-                  if (var6 >= C25.B().C25_f287.length) {
+                  if (var6 >= GameWorldManager.B().C25_f287.length) {
                      break label83;
                   }
 
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX, var5.worldY - var3, C25.B().C25_f287[var6].worldX, C25.B().C25_f287[var6].worldY, C25.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
-                     C25.B().C25_f287[var6].followTarget = var5;
+                  if (GameWorldManager.B().C25_f287[var6].C18_f225 != var5.C18_f225 && GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX, var5.worldY - var3, GameWorldManager.B().C25_f287[var6].worldX, GameWorldManager.B().C25_f287[var6].worldY, GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
+                     GameWorldManager.B().C25_f287[var6].followTarget = var5;
                      var10000 = false;
                      break label86;
                   }
@@ -657,9 +657,9 @@ public final class C18 extends GameObject {
             case 3:
                var4 = TileMapRenderer.getInstance().getTileAt(0, this.worldX - var3, this.worldY);
 
-               for(var6 = 0; var6 < C25.B().C25_f287.length; ++var6) {
-                  if (C25.B().C25_f287[var6].C18_f225 != var5.C18_f225 && C25.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX - var3, var5.worldY, C25.B().C25_f287[var6].worldX, C25.B().C25_f287[var6].worldY, C25.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
-                     C25.B().C25_f287[var6].followTarget = var5;
+               for(var6 = 0; var6 < GameWorldManager.B().C25_f287.length; ++var6) {
+                  if (GameWorldManager.B().C25_f287[var6].C18_f225 != var5.C18_f225 && GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX - var3, var5.worldY, GameWorldManager.B().C25_f287[var6].worldX, GameWorldManager.B().C25_f287[var6].worldY, GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
+                     GameWorldManager.B().C25_f287[var6].followTarget = var5;
                      var10000 = false;
                      break label86;
                   }
@@ -737,8 +737,8 @@ public final class C18 extends GameObject {
    }
 
    public final void t() {
-      C25.B().a(this.C18_f248, 0, this.worldX);
-      C25.B().a(this.C18_f248, 1, this.worldY);
+      GameWorldManager.B().a(this.C18_f248, 0, this.worldX);
+      GameWorldManager.B().a(this.C18_f248, 1, this.worldY);
    }
 
    public final void u() {
@@ -747,9 +747,9 @@ public final class C18 extends GameObject {
          var1 = 1;
       }
 
-      C25.B().a(this.C18_f248, 1, var1, true);
-      C25.B().a(this.C18_f248, 0, this.facingDirection, true);
-      C25.B().a(this.C18_f248, 2, this.currentDirection, true);
+      GameWorldManager.B().a(this.C18_f248, 1, var1, true);
+      GameWorldManager.B().a(this.C18_f248, 0, this.facingDirection, true);
+      GameWorldManager.B().a(this.C18_f248, 2, this.currentDirection, true);
    }
 
    public final void moveInDirection(int var1) {
@@ -783,7 +783,7 @@ public final class C18 extends GameObject {
    }
 
    public final void w() {
-      if (C25.B().n(this.C18_f248)) {
+      if (GameWorldManager.B().n(this.C18_f248)) {
          this.x();
       }
 

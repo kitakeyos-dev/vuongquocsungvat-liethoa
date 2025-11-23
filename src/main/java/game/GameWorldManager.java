@@ -6,7 +6,7 @@ import a.a.AudioManager;
 import a.a.DebugLogger;
 import a.a.GameObject;
 import a.a.EffectEntity;
-import a.a.C30;
+import a.a.ScreenTransitionManager;
 import a.a.WorldRenderer;
 import a.b.RecordStoreManager;
 import a.b.CameraController;
@@ -25,13 +25,13 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import me.kitakeyos.ManagedInputStream;
 
-public final class C25 extends GameEngineBase {
-   private static C25 C25_f282;
+public final class GameWorldManager extends GameEngineBase {
+   private static GameWorldManager C25_f282;
    public TileMapRenderer C25_f283;
    private CameraController C25_f284;
    public WorldRenderer C25_f285;
-   public C53 C25_f286;
-   public C18[] C25_f287;
+   public PlayerCharacter C25_f286;
+   public NPCEntity[] C25_f287;
    public Vector C25_f288;
    private int C25_f289;
    public int C25_f290;
@@ -121,16 +121,16 @@ public final class C25 extends GameEngineBase {
    private byte C25_f374;
    private boolean C25_f375;
 
-   public static C25 B() {
+   public static GameWorldManager B() {
       if (C25_f282 == null) {
-         C25_f282 = new C25();
+         C25_f282 = new GameWorldManager();
       }
 
       return C25_f282;
    }
 
-   public C25() {
-      C39.a();
+   public GameWorldManager() {
+      TextRenderingEngine.a();
       this.C25_f288 = new Vector();
       this.C25_f290 = 0;
       this.C25_f291 = 0;
@@ -202,7 +202,7 @@ public final class C25 extends GameEngineBase {
 
          this.C25_f348 = QuestManager.getInstance();
          this.C25_f348.setGameEngine((GameEngineBase)this);
-         this.C25_f286 = C53.p();
+         this.C25_f286 = PlayerCharacter.p();
          C25_f340[0] = C25_f340[1] = -1;
          if (QuestManager.questState != 0) {
             ResourceManager.clearImageCache();
@@ -224,8 +224,8 @@ public final class C25 extends GameEngineBase {
          }
 
          this.a(this.C25_f290, this.C25_f291, "/data/event/");
-         C30.b();
-         C25 var1 = this;
+         ScreenTransitionManager.b();
+         GameWorldManager var1 = this;
          C25_f306 = GameUtils.readShortMatrix(GameUtils.openInputStream("/data/script/petArea.mid"));
          int var3;
          if (this.C()) {
@@ -422,15 +422,15 @@ public final class C25 extends GameEngineBase {
 
          if (this.C25_f290 == 5 && this.C25_f291 == 6 || this.C25_f290 == 4 && (this.C25_f291 == 3 || this.C25_f291 == 4)) {
             if (this.C25_f286.C53_f779[0][0] == 2) {
-               C30.a().a((byte)0, this.C25_f284.getWorldX(), this.C25_f284.getWorldY() - this.C25_f328[this.C25_f286.C53_f765 + 1], getScreenWidth(), getScreenHeight(), 110, 110);
+               ScreenTransitionManager.a().a((byte)0, this.C25_f284.getWorldX(), this.C25_f284.getWorldY() - this.C25_f328[this.C25_f286.C53_f765 + 1], getScreenWidth(), getScreenHeight(), 110, 110);
             } else {
-               C30.a().a((byte)0, this.C25_f284.getWorldX(), this.C25_f284.getWorldY() - this.C25_f328[this.C25_f286.C53_f765 + 1], getScreenWidth(), getScreenHeight(), 50, 50);
+               ScreenTransitionManager.a().a((byte)0, this.C25_f284.getWorldX(), this.C25_f284.getWorldY() - this.C25_f328[this.C25_f286.C53_f765 + 1], getScreenWidth(), getScreenHeight(), 50, 50);
             }
          } else {
-            C30.a().a((byte)-1);
+            ScreenTransitionManager.a().a((byte)-1);
          }
 
-         this.gameController = C9.a();
+         this.gameController = DialogUIManager.a();
          this.gameController.a((GameEngineBase)this);
          this.dialogManager = DialogManager.getInstance();
          this.C25_f348.updateQuestEffects();
@@ -517,7 +517,7 @@ public final class C25 extends GameEngineBase {
 
    }
 
-   private boolean a(C53 var1) {
+   private boolean a(PlayerCharacter var1) {
       try {
          ByteArrayOutputStream var2 = new ByteArrayOutputStream();
          DataOutputStream var3 = new DataOutputStream(var2);
@@ -671,7 +671,7 @@ public final class C25 extends GameEngineBase {
       }
    }
 
-   private boolean b(C53 var1) {
+   private boolean b(PlayerCharacter var1) {
       try {
          ByteArrayInputStream var2 = new ByteArrayInputStream(C25_f301[0].readData());
          DataInputStream var3 = new DataInputStream(var2);
@@ -1392,7 +1392,7 @@ public final class C25 extends GameEngineBase {
    private void ae() {
       for(int var1 = 0; var1 < this.C25_f287.length; ++var1) {
          if (this.C25_f287[var1].C18_f223 == 0 && this.C25_f287[var1].C18_f225 == 14) {
-            C18 var2;
+            NPCEntity var2;
             (var2 = this.C25_f287[var1]).C18_f234 = 0;
 
             while(true) {
@@ -1495,11 +1495,11 @@ public final class C25 extends GameEngineBase {
          }
 
          if (var26 > 0) {
-            this.C25_f287 = new C18[var26];
+            this.C25_f287 = new NPCEntity[var26];
 
             for(var7 = 0; var7 < var26; ++var7) {
                try {
-                  this.C25_f287[var7] = new C18();
+                  this.C25_f287[var7] = new NPCEntity();
                   short[] var21;
                   (var21 = new short[var4.readShort()])[0] = (short)var4.readByte();
                   var21[1] = var4.readShort();
@@ -1542,7 +1542,7 @@ public final class C25 extends GameEngineBase {
                               var21[2] = (short)C25_f302[C25_f297[var1] + var2][var7][0];
                            }
 
-                           C18 var10000 = this.C25_f287[var7];
+                           NPCEntity var10000 = this.C25_f287[var7];
                            byte var11 = C25_f302[C25_f297[var1] + var2][var7][2];
                            var10000.currentDirection = var11;
                            this.C25_f287[var7].a((byte)var21[2]);
@@ -1633,7 +1633,7 @@ public final class C25 extends GameEngineBase {
       this.C25_f283.clearMapData();
       if (this.C25_f287 != null) {
          for(int var1 = 0; var1 < this.C25_f287.length; ++var1) {
-            C18 var2;
+            NPCEntity var2;
             (var2 = this.C25_f287[var1]).deactivateAttachedObject();
             if (var2.attachedObject != null) {
                var2.attachedObject.sprite.forceCleanup();
@@ -1676,7 +1676,7 @@ public final class C25 extends GameEngineBase {
       this.dialogManager.clearAllDialogs();
       this.C25_f348.cleanupCurrentScreen();
       C25_f318 = -1;
-      C30.c();
+      ScreenTransitionManager.c();
    }
 
    public final void changeState(byte var1) {
@@ -1868,7 +1868,7 @@ public final class C25 extends GameEngineBase {
          this.gameController.a((byte)var6, this.C25_f330[(var6 << 2) + 2], this.C25_f330[(var6 << 2) + 3]);
          break;
       case 29:
-         C30.a().c(0, 2);
+         ScreenTransitionManager.a().c(0, 2);
          break;
       case 30:
          this.gameController.aQ();
@@ -1980,7 +1980,7 @@ public final class C25 extends GameEngineBase {
                      this.C25_f357 -= this.C25_f363;
                   }
                } else if (this.isKeyPressed(262145) || this.isPointerClickInBounds(0, 270, getScreenWidth(), 30)) {
-                  C29.B().C29_f400 = null;
+                  BattleSystemManager.B().C29_f400 = null;
                   this.changeState((byte)0);
                }
             }
@@ -2062,7 +2062,7 @@ public final class C25 extends GameEngineBase {
                      this.gameController.aF();
                      if (this.C44_f699 != 7) {
                         if (this.C25_f287[C25_f318].sprite.spriteSetId <= 85) {
-                           C18 var10000 = this.C25_f287[C25_f318];
+                           NPCEntity var10000 = this.C25_f287[C25_f318];
                            byte var3 = this.C25_f287[C25_f318].currentAnimationId;
                            var10000.currentDirection = var3;
                         }
@@ -2112,9 +2112,9 @@ public final class C25 extends GameEngineBase {
             this.gameController.aP();
             break;
          case 29:
-            C30.a().d();
-            if (C30.a().C30_f476) {
-               C30.a().C30_f472 = -1;
+            ScreenTransitionManager.a().d();
+            if (ScreenTransitionManager.a().C30_f476) {
+               ScreenTransitionManager.a().C30_f472 = -1;
                GameScreenManager.getInstance().changeState((byte)23);
             }
             break;
@@ -2290,14 +2290,14 @@ public final class C25 extends GameEngineBase {
    }
 
    public final void renderPauseScreen(Graphics var1) {
-      C25 var2;
+      GameWorldManager var2;
       Graphics var3;
       int var4;
       int[] var5;
       if (this.C44_f698 == 4) {
          var3 = var1;
          var2 = this;
-         var1.drawImage(C29.B().C29_f400, 0, 0, 20);
+         var1.drawImage(BattleSystemManager.B().C29_f400, 0, 0, 20);
          int var11 = (var5 = this.C25_f367[this.C25_f352]).length;
          int var6 = this.C25_f355 * 7;
 
@@ -2331,10 +2331,10 @@ public final class C25 extends GameEngineBase {
 
          int var12;
          for(var9 = 0; var9 < var11; ++var9) {
-            C18 var10;
-            var4 = ((var10 = (C18)var2.C25_f288.elementAt(var9)).worldX * var5[var6 + 5] << 4) / var13.mapPixelWidth + (var5[var6] << 4) + var2.C25_f356;
+            NPCEntity var10;
+            var4 = ((var10 = (NPCEntity)var2.C25_f288.elementAt(var9)).worldX * var5[var6 + 5] << 4) / var13.mapPixelWidth + (var5[var6] << 4) + var2.C25_f356;
             var12 = (var10.worldY * var5[var6 + 6] << 3) / var13.mapPixelHeight + (var5[var6 + 1] << 3) + var2.C25_f357;
-            if (var10.getFacingDirection() != 0 && ((C18)var2.C25_f288.elementAt(var9)).getFacingDirection() != 1) {
+            if (var10.getFacingDirection() != 0 && ((NPCEntity)var2.C25_f288.elementAt(var9)).getFacingDirection() != 1) {
                var3.fillRect(var4, var12 - 5, 3, 9);
             } else {
                var3.fillRect(var4, var12 - 2, 9, 3);
@@ -2373,22 +2373,22 @@ public final class C25 extends GameEngineBase {
       } else {
          if (this.C44_f698 == 0 || this.C44_f698 == 23 || this.gameController.C9_f132) {
             b(var1);
-            C30.a().b(var1);
+            ScreenTransitionManager.a().b(var1);
             this.C25_f285.renderWorld(var1);
-            C30.a().c(var1);
+            ScreenTransitionManager.a().c(var1);
             if (this.gameController.C9_f132) {
                this.gameController.C9_f132 = false;
             }
          }
 
-         if (C30.a().C30_f523 != -1) {
-            if (this.C25_f284.followTarget instanceof C53) {
-               C30.a().b(this.C25_f284.worldX - TileMapRenderer.getInstance().cameraX, this.C25_f284.worldY - TileMapRenderer.getInstance().cameraY - this.C25_f328[this.C25_f286.C53_f765 + 1]);
+         if (ScreenTransitionManager.a().C30_f523 != -1) {
+            if (this.C25_f284.followTarget instanceof PlayerCharacter) {
+               ScreenTransitionManager.a().b(this.C25_f284.worldX - TileMapRenderer.getInstance().cameraX, this.C25_f284.worldY - TileMapRenderer.getInstance().cameraY - this.C25_f328[this.C25_f286.C53_f765 + 1]);
             } else {
-               C30.a().b(this.C25_f284.worldX - TileMapRenderer.getInstance().cameraX, this.C25_f284.worldY - TileMapRenderer.getInstance().cameraY - 20);
+               ScreenTransitionManager.a().b(this.C25_f284.worldX - TileMapRenderer.getInstance().cameraX, this.C25_f284.worldY - TileMapRenderer.getInstance().cameraY - 20);
             }
 
-            C30.a().a(var1, 0, 0);
+            ScreenTransitionManager.a().a(var1, 0, 0);
          }
 
          QuestManager var10000 = this.C25_f348;
@@ -2428,7 +2428,7 @@ public final class C25 extends GameEngineBase {
    }
 
    private void af() {
-      C25 var1;
+      GameWorldManager var1;
       if (!this.C25_f348.hasActiveEvent() && this.C25_f286.getFacingDirection() < 5 && !this.gameController.j() && this.gameController.J()) {
          if (this.isKeyHeld(4100)) {
             this.C25_f286.a((byte)1, (byte)2);
@@ -2450,7 +2450,7 @@ public final class C25 extends GameEngineBase {
                   if (this.C25_f287[C25_f318].sprite.spriteSetId <= 85) {
                      this.C25_f287[C25_f318].currentAnimationId = this.C25_f287[C25_f318].currentDirection;
                      byte var2;
-                     C18 var10000;
+                     NPCEntity var10000;
                      switch(this.C25_f286.currentDirection) {
                      case 0:
                         var10000 = this.C25_f287[C25_f318];
@@ -2485,7 +2485,7 @@ public final class C25 extends GameEngineBase {
                }
 
                B().D();
-            } else if ((C18)this.C25_f286.followTarget != null && ((C18)this.C25_f286.followTarget).C18_f223 == 3) {
+            } else if ((NPCEntity)this.C25_f286.followTarget != null && ((NPCEntity)this.C25_f286.followTarget).C18_f223 == 3) {
                this.C25_f286.w();
             } else {
                this.C25_f286.x();
@@ -2550,8 +2550,8 @@ public final class C25 extends GameEngineBase {
                   }
                }
 
-               C29.B().C29_f400 = Image.createImage(GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
-               Graphics var8 = C29.B().C29_f400.getGraphics();
+               BattleSystemManager.B().C29_f400 = Image.createImage(GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
+               Graphics var8 = BattleSystemManager.B().C29_f400.getGraphics();
                var1.C25_f286.a((byte)0, (byte)var1.C25_f286.currentDirection);
                var1.C25_f285.renderCutsceneMode(var8);
                var1.changeState((byte)4);
@@ -2648,7 +2648,7 @@ public final class C25 extends GameEngineBase {
          } else {
             this.gameController.aF();
             if (this.C25_f287[C25_f318].sprite.spriteSetId <= 85) {
-               C18 var10000 = this.C25_f287[C25_f318];
+               NPCEntity var10000 = this.C25_f287[C25_f318];
                byte var2 = this.C25_f287[C25_f318].currentAnimationId;
                var10000.currentDirection = var2;
             }
@@ -2690,7 +2690,7 @@ public final class C25 extends GameEngineBase {
       } else {
          int var3 = GameUtils.getRandomInRange(C25_f306[C25_f297[this.C25_f290] + this.C25_f291][3], C25_f306[C25_f297[this.C25_f290] + this.C25_f291][4]);
          this.C25_f286.a((byte)((byte) ResourceManager.gameDatabase[0][var1[0]][1]), var1[0], (byte)1);
-         C29.B().a(new int[][]{{var1[0], var3, var2}});
+         BattleSystemManager.B().a(new int[][]{{var1[0], var3, var2}});
          return true;
       }
    }
@@ -2753,7 +2753,7 @@ public final class C25 extends GameEngineBase {
       if (this.C25_f286.E()) {
          boolean var10000;
          label47: {
-            byte var2 = TileMapRenderer.getInstance().getTileAt(0, C53.p().worldX, C53.p().worldY);
+            byte var2 = TileMapRenderer.getInstance().getTileAt(0, PlayerCharacter.p().worldX, PlayerCharacter.p().worldY);
             int[] var3 = null;
             C25_f369 = var2;
             switch(var2) {
@@ -2813,16 +2813,16 @@ public final class C25 extends GameEngineBase {
    }
 
    public final void N() {
-      C29.B().C29_f400 = Image.createImage(GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
-      Graphics var1 = C29.B().C29_f400.getGraphics();
+      BattleSystemManager.B().C29_f400 = Image.createImage(GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
+      Graphics var1 = BattleSystemManager.B().C29_f400.getGraphics();
       this.C25_f285.renderCutsceneMode(var1);
    }
 
    private void ah() {
-      C29 var10000 = C29.B();
-      C29.B().getClass();
+      BattleSystemManager var10000 = BattleSystemManager.B();
+      BattleSystemManager.B().getClass();
       var10000.C29_f397 = 0;
-      C29.B().C29_f398 = 0;
+      BattleSystemManager.B().C29_f398 = 0;
       this.N();
       this.C25_f286.a((byte)0, (byte)this.C25_f286.currentDirection);
       this.C25_f286.C53_f771 = this.C25_f286.D();

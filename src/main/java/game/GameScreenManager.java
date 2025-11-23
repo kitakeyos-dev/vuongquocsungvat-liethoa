@@ -2,7 +2,7 @@ package game;
 
 import a.GameEngineBase;
 import a.GameUtils;
-import a.a.C30;
+import a.a.ScreenTransitionManager;
 import a.a.ImageData;
 import a.b.SpriteDataCache;
 import a.b.ResourceManager;
@@ -83,7 +83,7 @@ public final class GameScreenManager extends GameEngineBase {
                 default:
                     break;
                 case 3:
-                    C30.a().C30_f472 = -1;
+                    ScreenTransitionManager.a().C30_f472 = -1;
                     break;
                 case 7:
                 case 9:
@@ -96,13 +96,13 @@ public final class GameScreenManager extends GameEngineBase {
             this.currentState = var1;
             switch (var1) {
                 case 2:
-                    if (C25.B().C25_f286 != null) {
-                        C25.B().C25_f286.I();
+                    if (GameWorldManager.B().C25_f286 != null) {
+                        GameWorldManager.B().C25_f286.I();
                     }
                     break;
                 case 3:
                     loadingProgress = 0;
-                    C30.a().c(0, 19);
+                    ScreenTransitionManager.a().c(0, 19);
                 case 4:
                 case 5:
                 case 7:
@@ -127,7 +127,7 @@ public final class GameScreenManager extends GameEngineBase {
                     this.currentMessage = this.elementalDescriptions[var2];
                     break;
                 case 11:
-                    C25.B().gameController.C9_f132 = true;
+                    GameWorldManager.B().gameController.C9_f132 = true;
                     break;
                 case 12:
                 case 22:
@@ -139,8 +139,8 @@ public final class GameScreenManager extends GameEngineBase {
                     this.currentImage = GameUtils.loadPNG("/data/logo/", "0");
                     break;
                 case 21:
-                    C30.a().c(0, 18);
-                    C30.a().e();
+                    ScreenTransitionManager.a().c(0, 18);
+                    ScreenTransitionManager.a().e();
                     break;
                 case 23:
                     resetEngine(false);
@@ -157,8 +157,8 @@ public final class GameScreenManager extends GameEngineBase {
     }
 
     public final synchronized void pauseGame() {
-        if (C25.B().C25_f342 != null) {
-            C25.B().C25_f342.stopAllAudio();
+        if (GameWorldManager.B().C25_f342 != null) {
+            GameWorldManager.B().C25_f342.stopAllAudio();
         }
 
         if (this.currentState != 2) {
@@ -170,8 +170,8 @@ public final class GameScreenManager extends GameEngineBase {
 
     private void resumeGame() {
         this.changeState(this.previousState);
-        if (C25.B().C25_f342 != null) {
-            C25.B().C25_f342.resumeAllAudio();
+        if (GameWorldManager.B().C25_f342 != null) {
+            GameWorldManager.B().C25_f342.resumeAllAudio();
         }
 
         this.showSoftKeys();
@@ -179,7 +179,7 @@ public final class GameScreenManager extends GameEngineBase {
 
     public boolean initializeGame() {
         this.startGameTimer();
-        this.gameController = C9.a();
+        this.gameController = DialogUIManager.a();
         this.dialogManager = DialogManager.getInstance();
         this.gameController.a(this);
         ResourceManager.initializeImageCache(50000);
@@ -192,8 +192,8 @@ public final class GameScreenManager extends GameEngineBase {
         int[] var2 = GameUtils.extractImageRGB(var1 = GameUtils.loadImage("/data/img/", "img_22"));
         this.backgroundEffect = new ImageData();
         this.backgroundEffect.setPixelData(var2, var1.getWidth(), var1.getHeight());
-        C25.B();
-        C25.G();
+        GameWorldManager.B();
+        GameWorldManager.G();
         stopGameTimer();
         return true;
     }
@@ -220,7 +220,7 @@ public final class GameScreenManager extends GameEngineBase {
                         this.initializeGame();
                     }
 
-                    if (C30.a().C30_f476 && isEngineStopped()) {
+                    if (ScreenTransitionManager.a().C30_f476 && isEngineStopped()) {
                         this.changeState((byte) 15);
                     }
                     break;
@@ -266,44 +266,44 @@ public final class GameScreenManager extends GameEngineBase {
                 case 9:
                 case 22:
                     this.cleanupCurrentScreen();
-                    this.currentScreen = C25.B();
+                    this.currentScreen = GameWorldManager.B();
                     this.currentScreen.initializeGame();
                     this.setChildHandler(this.currentScreen);
                     if (this.currentState == 9 || this.currentState == 22) {
                         this.changeState((byte) 11);
                     }
 
-                    C53.C53_f798 = false;
+                    PlayerCharacter.C53_f798 = false;
                     break;
                 case 10:
                     this.cleanupCurrentScreen();
-                    this.currentScreen = C25.B();
-                    ((C25) this.currentScreen).L();
+                    this.currentScreen = GameWorldManager.B();
+                    ((GameWorldManager) this.currentScreen).L();
                     this.setChildHandler(this.currentScreen);
                     this.changeState((byte) 11);
                     break;
                 case 12:
                     if (!isEngineStopped()) {
                         this.currentScreen = null;
-                        this.currentScreen = C29.B();
+                        this.currentScreen = BattleSystemManager.B();
                         this.currentScreen.initializeGame();
                         this.setChildHandler(this.currentScreen);
-                        if (((C29) this.currentScreen).C29_f398 == 0) {
-                            C30.a().c(-2013265920, 6);
-                        } else if (((C29) this.currentScreen).C29_f398 == 2) {
-                            C30.a().c(-2013265920, 8);
-                        } else if (((C29) this.currentScreen).C29_f398 == 1) {
-                            C30.a().c(-2013265920, 7);
+                        if (((BattleSystemManager) this.currentScreen).C29_f398 == 0) {
+                            ScreenTransitionManager.a().c(-2013265920, 6);
+                        } else if (((BattleSystemManager) this.currentScreen).C29_f398 == 2) {
+                            ScreenTransitionManager.a().c(-2013265920, 8);
+                        } else if (((BattleSystemManager) this.currentScreen).C29_f398 == 1) {
+                            ScreenTransitionManager.a().c(-2013265920, 7);
                         }
                     }
 
                     if (isEngineStopped()) {
-                        C30.a().d();
-                        C53.C53_f798 = false;
+                        ScreenTransitionManager.a().d();
+                        PlayerCharacter.C53_f798 = false;
                     }
 
-                    if (C30.a().C30_f476) {
-                        ((C29) this.currentScreen).E();
+                    if (ScreenTransitionManager.a().C30_f476) {
+                        ((BattleSystemManager) this.currentScreen).E();
                         this.changeState((byte) 13);
                     }
                     break;
@@ -324,25 +324,25 @@ public final class GameScreenManager extends GameEngineBase {
                     break;
                 case 19:
                     byte var1;
-                    if (this.currentScreen instanceof C25) {
+                    if (this.currentScreen instanceof GameWorldManager) {
                         var1 = 1;
                     } else {
                         var1 = 2;
                     }
 
-                    this.currentScreen = C48.B();
+                    this.currentScreen = LocationSelectionManager.B();
                     this.currentScreen.initializeGame();
                     this.setChildHandler(this.currentScreen);
                     this.currentScreen.changeState(var1);
                     this.changeState((byte) 20);
                     break;
                 case 21:
-                    C30.a().d();
-                    if (C30.a().C30_f475 == -1 || this.isKeyPressed(65568) && MainMenuScreen.inputEnabled) {
-                        C30.a().C30_f475 = -1;
-                        C30.a().C30_f474 = -1;
-                        C30.a().C30_f479 = 0;
-                        C30.a().C30_f472 = -1;
+                    ScreenTransitionManager.a().d();
+                    if (ScreenTransitionManager.a().C30_f475 == -1 || this.isKeyPressed(65568) && MainMenuScreen.inputEnabled) {
+                        ScreenTransitionManager.a().C30_f475 = -1;
+                        ScreenTransitionManager.a().C30_f474 = -1;
+                        ScreenTransitionManager.a().C30_f479 = 0;
+                        ScreenTransitionManager.a().C30_f472 = -1;
                         this.currentImage = null;
                         this.backgroundEffect.pixels = null;
                         this.backgroundEffect = null;
@@ -350,26 +350,26 @@ public final class GameScreenManager extends GameEngineBase {
                     }
                     break;
                 case 23:
-                    C30.a().d();
-                    if (this.tutorialManager.C44_f698 == 1 && C30.a().C30_f477) {
+                    ScreenTransitionManager.a().d();
+                    if (this.tutorialManager.C44_f698 == 1 && ScreenTransitionManager.a().C30_f477) {
                         this.tutorialManager.changeState((byte) 2);
                     } else if (this.tutorialManager.C44_f698 == 2) {
                         if (this.tutorialManager.transitionComplete) {
                             this.cleanupCurrentScreen();
-                            this.currentScreen = C25.B();
+                            this.currentScreen = GameWorldManager.B();
                             this.currentScreen.initializeGame();
                             this.setChildHandler(this.currentScreen);
                             this.tutorialManager.changeState((byte) 3);
                         }
-                    } else if (this.tutorialManager.C44_f698 == 3 && C30.a().C30_f477) {
-                        C30.a().C30_f474 = -1;
+                    } else if (this.tutorialManager.C44_f698 == 3 && ScreenTransitionManager.a().C30_f477) {
+                        ScreenTransitionManager.a().C30_f474 = -1;
                         this.tutorialManager.stopAnimation();
                         this.changeState((byte) 11);
                     }
             }
 
             if (this.C44_f698 != 2) {
-                if (C25.B().C25_f290 == 3 && C25.B().C25_f291 == 7 && this.battleStartTime == 0L && this.gameStartTime != 0L) {
+                if (GameWorldManager.B().C25_f290 == 3 && GameWorldManager.B().C25_f291 == 7 && this.battleStartTime == 0L && this.gameStartTime != 0L) {
                     this.pauseStartTime = System.currentTimeMillis();
                 }
 
@@ -393,7 +393,7 @@ public final class GameScreenManager extends GameEngineBase {
                 case 3:
                     var1.setColor(16777215);
                     var1.fillRect(0, 0, getScreenWidth(), getScreenHeight());
-                    C30.a().a(var1);
+                    ScreenTransitionManager.a().a(var1);
                     return;
                 case 4:
                     return;
@@ -427,19 +427,19 @@ public final class GameScreenManager extends GameEngineBase {
                     }
                     break;
                 case 9:
-                    if (C53.C53_f798) {
+                    if (PlayerCharacter.C53_f798) {
                         var1.setColor(0);
                         var1.fillRect(0, 0, getScreenWidth(), getScreenHeight());
                         if (loadingProgress % 4 == 3) {
-                            C53.p().setAnimation((byte) 1, (byte) -1, false);
+                            PlayerCharacter.p().setAnimation((byte) 1, (byte) -1, false);
                         } else {
-                            C53.p().setAnimation((byte) (loadingProgress % 4), (byte) -1, false);
+                            PlayerCharacter.p().setAnimation((byte) (loadingProgress % 4), (byte) -1, false);
                         }
 
-                        C53 var10000 = C53.p();
+                        PlayerCharacter var10000 = PlayerCharacter.p();
                         byte var4 = (byte) (loadingProgress % 4);
                         var10000.currentDirection = var4;
-                        C53.p().render(var1, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY - loadingProgress);
+                        PlayerCharacter.p().render(var1, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY - loadingProgress);
                     } else {
                         var1.setColor(0);
                         var1.fillRect(0, 0, getScreenWidth(), getScreenHeight());
@@ -453,7 +453,7 @@ public final class GameScreenManager extends GameEngineBase {
                         loadingProgress = 148;
                     }
 
-                    if (!C53.C53_f798) {
+                    if (!PlayerCharacter.C53_f798) {
                         var1.setColor(0);
                         var1.fillRect(45, getScreenHeight() - 48, 150, 5);
                         var1.setColor(7877410);
@@ -468,10 +468,10 @@ public final class GameScreenManager extends GameEngineBase {
                 case 10:
                     return;
                 case 12:
-                    C25.B().C25_f285.renderWorld(var1);
+                    GameWorldManager.B().C25_f285.renderWorld(var1);
                     if (isEngineStopped()) {
-                        C30.a().a(var1);
-                        C53.C53_f798 = false;
+                        ScreenTransitionManager.a().a(var1);
+                        PlayerCharacter.C53_f798 = false;
                         return;
                     }
                     break;
@@ -500,12 +500,12 @@ public final class GameScreenManager extends GameEngineBase {
                         var1.drawRGB(this.backgroundEffect.pixels, 0, this.backgroundEffect.width, var2 * 10, 0, this.backgroundEffect.width, this.backgroundEffect.height, true);
                     }
 
-                    C30.a().a(var1);
+                    ScreenTransitionManager.a().a(var1);
                     return;
                 case 23:
                     this.tutorialManager.update();
                     this.tutorialManager.renderPauseScreen(var1);
-                    C30.a().a(var1);
+                    ScreenTransitionManager.a().a(var1);
             }
 
         }

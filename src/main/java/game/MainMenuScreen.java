@@ -45,7 +45,7 @@ public final class MainMenuScreen extends GameEngineBase {
     }
 
     public final boolean initializeGame() {
-        this.gameController = C9.a();
+        this.gameController = DialogUIManager.a();
         this.dialogManager = DialogManager.getInstance();
         this.gameController.a(this);
         selectedMenuIndex = 0;
@@ -62,12 +62,12 @@ public final class MainMenuScreen extends GameEngineBase {
         this.initializeParticleSystem();
         this.changeState((byte) 0);
         this.animationCounter = 0;
-        if (C25.B().C25_f342 != null) {
+        if (GameWorldManager.B().C25_f342 != null) {
             this.animationCounter = GameScreenManager.getInstance().difficultyLevel;
             GameScreenManager.getInstance().setDifficultyLevel(0);
-            C25.B().C25_f342.deallocateAudioResources((byte) 1);
-            C25.B().C25_f342.cleanup();
-            C25.B().C25_f342 = null;
+            GameWorldManager.B().C25_f342.deallocateAudioResources((byte) 1);
+            GameWorldManager.B().C25_f342.cleanup();
+            GameWorldManager.B().C25_f342 = null;
         }
 
         return true;
@@ -85,18 +85,18 @@ public final class MainMenuScreen extends GameEngineBase {
     }
 
     private void startNewGame() {
-        C25.C25_f321 = false;
-        C25.C25_f332 = false;
-        C25.C25_f335 = 0;
+        GameWorldManager.C25_f321 = false;
+        GameWorldManager.C25_f332 = false;
+        GameWorldManager.C25_f335 = 0;
         QuestManager.isQuestActive = true;
-        C25.B().C25_f290 = 0;
-        C25.B().C25_f291 = 0;
-        if (C25.B().C25_f348 != null) {
-            C25.B().C25_f348.resetManager();
+        GameWorldManager.B().C25_f290 = 0;
+        GameWorldManager.B().C25_f291 = 0;
+        if (GameWorldManager.B().C25_f348 != null) {
+            GameWorldManager.B().C25_f348.resetManager();
         }
 
-        if (C25.B().C25_f286 != null) {
-            C25.B().C25_f286.q();
+        if (GameWorldManager.B().C25_f286 != null) {
+            GameWorldManager.B().C25_f286.q();
         }
 
         if (this.gameController != null) {
@@ -104,7 +104,7 @@ public final class MainMenuScreen extends GameEngineBase {
         }
 
         this.menuConfirmState = 0;
-        C53.p().C53_f776 = false;
+        PlayerCharacter.p().C53_f776 = false;
         inputEnabled = false;
         GameScreenManager.getInstance().changeState((byte) 9);
         if (this.animationCounter > 0 && GameScreenManager.getInstance().difficultyLevel <= 0) {
@@ -133,12 +133,12 @@ public final class MainMenuScreen extends GameEngineBase {
                                     if (this.menuConfirmState == 0) {
                                         GameUtils.a();
                                         this.removeMenuDialog();
-                                        if (C25.B().C25_f348 != null) {
-                                            C25.B().C25_f348.resetManager();
+                                        if (GameWorldManager.B().C25_f348 != null) {
+                                            GameWorldManager.B().C25_f348.resetManager();
                                         }
 
-                                        if (C25.B().C25_f286 != null) {
-                                            C25.B().C25_f286.q();
+                                        if (GameWorldManager.B().C25_f286 != null) {
+                                            GameWorldManager.B().C25_f286.q();
                                         }
 
                                         if (this.gameController != null) {
@@ -146,7 +146,7 @@ public final class MainMenuScreen extends GameEngineBase {
                                         }
 
                                         this.menuConfirmState = 0;
-                                        C53.p().C53_f776 = false;
+                                        PlayerCharacter.p().C53_f776 = false;
                                         GameScreenManager.getInstance().changeState((byte) 9);
                                         GameScreenManager.getInstance().changeState((byte) 9);
                                         if (this.animationCounter > 0 && GameScreenManager.getInstance().difficultyLevel <= 0) {
@@ -242,8 +242,8 @@ public final class MainMenuScreen extends GameEngineBase {
                     break;
                 case 5:
                     if (this.isKeyPressed(131104)) {
-                        C25.B();
-                        C25.K();
+                        GameWorldManager.B();
+                        GameWorldManager.K();
                         this.startNewGame();
                     } else if (this.isKeyPressed(262144)) {
                         this.changeState((byte) 0);

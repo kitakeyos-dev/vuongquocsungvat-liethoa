@@ -3,15 +3,15 @@ package game;
 import a.GameUtils;
 import a.GameEngineBase;
 import a.a.GameObject;
-import a.a.C30;
+import a.a.ScreenTransitionManager;
 import a.b.CameraController;
 import a.b.GameEntity;
 import a.b.ResourceManager;
 import a.b.TileMapRenderer;
 import java.util.Vector;
 
-public final class C53 extends GameObject {
-   private static C53 C53_f764;
+public final class PlayerCharacter extends GameObject {
+   private static PlayerCharacter C53_f764;
    public int C53_f765;
    private int C53_f766;
    private int C53_f767;
@@ -24,7 +24,7 @@ public final class C53 extends GameObject {
    public int C53_f774;
    public int C53_f775;
    public boolean C53_f776;
-   public C41[] C53_f777;
+   public PokemonEntity[] C53_f777;
    public int C53_f778;
    public byte[][] C53_f779;
    public byte[][] C53_f780;
@@ -55,9 +55,9 @@ public final class C53 extends GameObject {
    private static short[][] C53_f805 = new short[][]{{0, 3, 112, 256}};
    private Vector C53_f806 = null;
 
-   public static C53 p() {
+   public static PlayerCharacter p() {
       if (C53_f764 == null) {
-         C53_f764 = new C53();
+         C53_f764 = new PlayerCharacter();
       }
 
       return C53_f764;
@@ -68,10 +68,10 @@ public final class C53 extends GameObject {
       C53_f764 = null;
    }
 
-   public C53() {
+   public PlayerCharacter() {
       this.primaryStates = new short[3];
       this.secondaryStates = new short[3];
-      this.C53_f777 = new C41[6];
+      this.C53_f777 = new PokemonEntity[6];
       this.C53_f779 = new byte[8][2];
       this.C53_f797 = new boolean[21];
       this.C53_f787 = new Vector();
@@ -187,7 +187,7 @@ public final class C53 extends GameObject {
             break;
          case 1:
             if (this.C53_f793[2] != 2) {
-               C25.C25_f318 = this.J();
+               GameWorldManager.C25_f318 = this.J();
                if (this.K() && this.L()) {
                   this.moveInDirection((int)this.C53_f766);
                   if (this.C53_f767 < 8) {
@@ -225,11 +225,11 @@ public final class C53 extends GameObject {
             }
 
             if (!var10000) {
-               C25.C25_f318 = this.J();
+               GameWorldManager.C25_f318 = this.J();
                Object var5 = null;
                super.followTarget = (GameEntity)var5;
 
-               for(var1 = 0; var1 < C25.B().C25_f287.length; ++var1) {
+               for(var1 = 0; var1 < GameWorldManager.B().C25_f287.length; ++var1) {
                   this.y(var1);
                }
 
@@ -335,11 +335,11 @@ public final class C53 extends GameObject {
 
             for(var2 = 0; var2 < C53_f804.length; ++var2) {
                byte[] var10001 = C53_f804[var2];
-               if (C25.B().C25_f290 == var10001[0]) {
+               if (GameWorldManager.B().C25_f290 == var10001[0]) {
                   var10001 = C53_f804[var2];
-                  if (C25.B().C25_f291 == var10001[1]) {
-                     C25.B().C25_f290 = C53_f804[var2][2];
-                     C25.B().C25_f291 = C53_f804[var2][3];
+                  if (GameWorldManager.B().C25_f291 == var10001[1]) {
+                     GameWorldManager.B().C25_f290 = C53_f804[var2][2];
+                     GameWorldManager.B().C25_f291 = C53_f804[var2][3];
                      var4 = C53_f804[var2][4];
                      break;
                   }
@@ -347,15 +347,15 @@ public final class C53 extends GameObject {
             }
 
             for(var2 = 0; var2 < C53_f805[var4].length / 4; ++var2) {
-               if (((C18)this.followTarget).C18_f248 >= C53_f805[var4][var2 << 2] && ((C18)this.followTarget).C18_f248 <= C53_f805[var4][(var2 << 2) + 1]) {
-                  C25.B().C25_f293 = C53_f805[var4][(var2 << 2) + 2];
-                  C25.B().C25_f294 = C53_f805[var4][(var2 << 2) + 3];
+               if (((NPCEntity)this.followTarget).C18_f248 >= C53_f805[var4][var2 << 2] && ((NPCEntity)this.followTarget).C18_f248 <= C53_f805[var4][(var2 << 2) + 1]) {
+                  GameWorldManager.B().C25_f293 = C53_f805[var4][(var2 << 2) + 2];
+                  GameWorldManager.B().C25_f294 = C53_f805[var4][(var2 << 2) + 3];
                   break;
                }
             }
 
             C53_f798 = true;
-            C25.B().C25_f295 = -1;
+            GameWorldManager.B().C25_f295 = -1;
             GameScreenManager.getInstance().changeState((byte)9);
             return;
          case 6:
@@ -368,7 +368,7 @@ public final class C53 extends GameObject {
             this.a((byte)0, (byte)this.currentDirection);
             return;
          case 7:
-            if (((C18)this.followTarget).C18_f233 == 0) {
+            if (((NPCEntity)this.followTarget).C18_f233 == 0) {
                if (this.C53_f769 < 7) {
                   this.moveInDirection((int)4);
                   ++this.C53_f769;
@@ -383,11 +383,11 @@ public final class C53 extends GameObject {
                   }
 
                   this.setCurrentDirection(this.currentDirection);
-                  ((C18)this.followTarget).r();
+                  ((NPCEntity)this.followTarget).r();
                   ++this.C53_f769;
                   return;
                }
-            } else if (((C18)this.followTarget).C18_f233 == 2) {
+            } else if (((NPCEntity)this.followTarget).C18_f233 == 2) {
                if (this.C53_f769 < 8 && this.C53_f769 > 0) {
                   this.moveInDirection((int)4);
                   --this.C53_f769;
@@ -400,8 +400,8 @@ public final class C53 extends GameObject {
                   return;
                }
 
-               ((C18)this.followTarget).C18_f233 = 0;
-               ((C18)this.followTarget).setFollowTarget((GameEntity)null);
+               ((NPCEntity)this.followTarget).C18_f233 = 0;
+               ((NPCEntity)this.followTarget).setFollowTarget((GameEntity)null);
                this.setFollowTarget((GameEntity)null);
                this.a((byte)0, (byte)this.currentDirection);
                return;
@@ -420,11 +420,11 @@ public final class C53 extends GameObject {
                return;
             }
 
-            var1 = C25.B().C25_f287[C25.B().C25_f295].worldX - C25.B().C25_f287[C25.B().C25_f295].worldX % this.getPrimaryState((byte)2);
-            var2 = C25.B().C25_f287[C25.B().C25_f295].worldY - C25.B().C25_f287[C25.B().C25_f295].worldY % this.getPrimaryState((byte)2);
+            var1 = GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldX - GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldX % this.getPrimaryState((byte)2);
+            var2 = GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldY - GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldY % this.getPrimaryState((byte)2);
             this.setWorldPosition(var1, var2);
             this.attachedObject.setWorldPosition(var1, var2);
-            this.a((byte)0, (byte)C25.B().C25_f287[C25.B().C25_f295].C18_f236);
+            this.a((byte)0, (byte) GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].C18_f236);
             this.moveInDirection((int)32);
             CameraController.getInstance().setCameraLag(8);
             CameraController.getInstance().setLocked(false);
@@ -442,8 +442,8 @@ public final class C53 extends GameObject {
                return;
             }
 
-            var1 = C25.B().C25_f287[C25.B().C25_f295].worldX - C25.B().C25_f287[C25.B().C25_f295].worldX % this.getPrimaryState((byte)2);
-            var2 = C25.B().C25_f287[C25.B().C25_f295].worldY - C25.B().C25_f287[C25.B().C25_f295].worldY % this.getPrimaryState((byte)2);
+            var1 = GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldX - GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldX % this.getPrimaryState((byte)2);
+            var2 = GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldY - GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldY % this.getPrimaryState((byte)2);
             this.setWorldPosition(var1, var2);
             this.attachedObject.setWorldPosition(var1, var2);
             this.a((byte)10, (byte)this.currentDirection);
@@ -463,7 +463,7 @@ public final class C53 extends GameObject {
                return;
             }
 
-            this.a((byte)0, (byte)C25.B().C25_f287[C25.B().C25_f295].C18_f236);
+            this.a((byte)0, (byte) GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].C18_f236);
             this.moveInDirection((int)32);
          }
 
@@ -585,11 +585,11 @@ public final class C53 extends GameObject {
 
          this.facingDirection = var1;
          if (this.facingDirection != 0 && this.facingDirection != 1) {
-            if (C25.B().C25_f311 != null) {
-               C25.B().C25_f311.setActive(false);
+            if (GameWorldManager.B().C25_f311 != null) {
+               GameWorldManager.B().C25_f311.setActive(false);
             }
-         } else if (C25.B().C25_f311 != null) {
-            C25.B().C25_f311.setActive(true);
+         } else if (GameWorldManager.B().C25_f311 != null) {
+            GameWorldManager.B().C25_f311.setActive(true);
             return;
          }
 
@@ -632,8 +632,8 @@ public final class C53 extends GameObject {
             super.secondaryStates[var3] = var4;
          }
 
-         if (this.C53_f793[2] == 2 && C25.B().C25_f311 != null) {
-            C25.B().C25_f311.deactivate();
+         if (this.C53_f793[2] == 2 && GameWorldManager.B().C25_f311 != null) {
+            GameWorldManager.B().C25_f311.deactivate();
          }
 
          this.C53_f765 = var1;
@@ -657,8 +657,8 @@ public final class C53 extends GameObject {
          this.replaceImage(0, 107, true);
       }
 
-      if (C25.B().C25_f311 != null) {
-         C25.B().C25_f311.activate();
+      if (GameWorldManager.B().C25_f311 != null) {
+         GameWorldManager.B().C25_f311.activate();
       }
 
       byte var2 = 0;
@@ -705,55 +705,55 @@ public final class C53 extends GameObject {
    }
 
    private short J() {
-      for(short var1 = 0; var1 < C25.B().C25_f287.length; ++var1) {
-         if (C25.B().C25_f287[var1].isVisible()) {
-            if ((C25.B().C25_f287[var1].sprite.spriteSetId <= 85 || C25.B().C25_f287[var1].sprite.spriteSetId == 226 || C25.B().C25_f287[var1].sprite.spriteSetId == 92 || C25.B().C25_f287[var1].sprite.spriteSetId == 102 || C25.B().C25_f287[var1].sprite.spriteSetId == 137) && C25.B().C25_f287[var1].C18_f223 == 0 && (C25.B().C25_f287[var1].C18_f225 == 1 || C25.B().C25_f287[var1].C18_f225 == 18) && this.a(C25.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), C25.B().C25_f287[var1].sprite.getCurrentFrameEvents())) {
-               if (C25.B().C25_f287[var1].v() == 0) {
-                  C25.B().a((byte)13, C25.B().C25_f287[var1].worldX, C25.B().C25_f287[var1].worldY - 40, C25.B().C25_f287[var1]);
-                  if (C25.B().C25_f287[var1].C18_f246 != null) {
-                     C25.B().C25_f287[var1].C18_f246.deactivate();
+      for(short var1 = 0; var1 < GameWorldManager.B().C25_f287.length; ++var1) {
+         if (GameWorldManager.B().C25_f287[var1].isVisible()) {
+            if ((GameWorldManager.B().C25_f287[var1].sprite.spriteSetId <= 85 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 226 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 92 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 102 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 137) && GameWorldManager.B().C25_f287[var1].C18_f223 == 0 && (GameWorldManager.B().C25_f287[var1].C18_f225 == 1 || GameWorldManager.B().C25_f287[var1].C18_f225 == 18) && this.a(GameWorldManager.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var1].sprite.getCurrentFrameEvents())) {
+               if (GameWorldManager.B().C25_f287[var1].v() == 0) {
+                  GameWorldManager.B().a((byte)13, GameWorldManager.B().C25_f287[var1].worldX, GameWorldManager.B().C25_f287[var1].worldY - 40, GameWorldManager.B().C25_f287[var1]);
+                  if (GameWorldManager.B().C25_f287[var1].C18_f246 != null) {
+                     GameWorldManager.B().C25_f287[var1].C18_f246.deactivate();
                   }
-               } else if (C25.B().C25_f287[var1].v() == 1) {
-                  C25.B().a((byte)13, C25.B().C25_f287[var1].worldX, C25.B().C25_f287[var1].worldY - 40, C25.B().C25_f287[var1]);
+               } else if (GameWorldManager.B().C25_f287[var1].v() == 1) {
+                  GameWorldManager.B().a((byte)13, GameWorldManager.B().C25_f287[var1].worldX, GameWorldManager.B().C25_f287[var1].worldY - 40, GameWorldManager.B().C25_f287[var1]);
                   if (QuestManager.questEffectObjects != null && QuestManager.questEffectObjects.size() > 0) {
                      for(int var2 = 0; var2 < QuestManager.questEffectObjects.size(); ++var2) {
-                        if (((GameObject)QuestManager.questEffectObjects.elementAt(var2)).followTarget.equals(C25.B().C25_f287[var1])) {
+                        if (((GameObject)QuestManager.questEffectObjects.elementAt(var2)).followTarget.equals(GameWorldManager.B().C25_f287[var1])) {
                            ((GameObject)QuestManager.questEffectObjects.elementAt(var2)).deactivate();
                            break;
                         }
                      }
                   }
                } else {
-                  C25.B().a((byte)13, C25.B().C25_f287[var1].worldX, C25.B().C25_f287[var1].worldY - 40, C25.B().C25_f287[var1]);
-                  if (C25.B().C25_f287[var1].C18_f226 != 0) {
-                     C25.B().C25_f287[var1].x();
+                  GameWorldManager.B().a((byte)13, GameWorldManager.B().C25_f287[var1].worldX, GameWorldManager.B().C25_f287[var1].worldY - 40, GameWorldManager.B().C25_f287[var1]);
+                  if (GameWorldManager.B().C25_f287[var1].C18_f226 != 0) {
+                     GameWorldManager.B().C25_f287[var1].x();
                   }
                }
 
                return var1;
             }
 
-            if (C25.B().C25_f287[var1].C18_f223 == 2 && this.a(C25.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), C25.B().C25_f287[var1].sprite.getCurrentFrameEvents())) {
-               C25.B().m(var1);
+            if (GameWorldManager.B().C25_f287[var1].C18_f223 == 2 && this.a(GameWorldManager.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var1].sprite.getCurrentFrameEvents())) {
+               GameWorldManager.B().m(var1);
             }
          }
       }
 
-      C25.B().D();
+      GameWorldManager.B().D();
       QuestManager.isQuestTriggered = false;
       return -1;
    }
 
    private boolean y(int var1) {
-      switch(C25.B().C25_f287[var1].C18_f223) {
+      switch(GameWorldManager.B().C25_f287[var1].C18_f223) {
       case 3:
          short[] var2;
-         short var3 = (var2 = C25.B().C25_f287[var1].sprite.getCurrentFrameEvents())[0];
+         short var3 = (var2 = GameWorldManager.B().C25_f287[var1].sprite.getCurrentFrameEvents())[0];
          short var4 = var2[1];
          short var5 = (short)(var2[2] + 16);
          short var6 = (short)(var2[3] + 16);
-         if (C25.B().C25_f287[var1].C18_f224 && this.a(C25.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), new short[]{var3, var4, var5, var6})) {
-            C18 var7 = C25.B().C25_f287[var1];
+         if (GameWorldManager.B().C25_f287[var1].C18_f224 && this.a(GameWorldManager.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), new short[]{var3, var4, var5, var6})) {
+            NPCEntity var7 = GameWorldManager.B().C25_f287[var1];
             super.followTarget = var7;
          }
       default:
@@ -762,19 +762,19 @@ public final class C53 extends GameObject {
    }
 
    private boolean K() {
-      C18 var4 = null;
+      NPCEntity var4 = null;
       super.followTarget = var4;
       boolean var1 = true;
       if (this.C53_f806 != null) {
          this.C53_f806.removeAllElements();
       }
 
-      for(int var2 = 0; var2 < C25.B().C25_f287.length; ++var2) {
+      for(int var2 = 0; var2 < GameWorldManager.B().C25_f287.length; ++var2) {
          this.y(var2);
-         if (C25.B().C25_f287[var2].C18_f224 && this.a(C25.B().C25_f287[var2], this.sprite.getCurrentFrameEvents(), C25.B().C25_f287[var2].sprite.getCurrentFrameEvents())) {
-            switch(C25.B().C25_f287[var2].C18_f223) {
+         if (GameWorldManager.B().C25_f287[var2].C18_f224 && this.a(GameWorldManager.B().C25_f287[var2], this.sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var2].sprite.getCurrentFrameEvents())) {
+            switch(GameWorldManager.B().C25_f287[var2].C18_f223) {
             case 0:
-               switch(C25.B().C25_f287[var2].C18_f225) {
+               switch(GameWorldManager.B().C25_f287[var2].C18_f225) {
                case 0:
                   return false;
                case 1:
@@ -786,97 +786,97 @@ public final class C53 extends GameObject {
                   continue;
                case 4:
                case 11:
-                  if (C25.B().C25_f287[var2].getFacingDirection() != 2 && C25.B().C25_f287[var2].isVisible()) {
-                     var4 = C25.B().C25_f287[var2];
+                  if (GameWorldManager.B().C25_f287[var2].getFacingDirection() != 2 && GameWorldManager.B().C25_f287[var2].isVisible()) {
+                     var4 = GameWorldManager.B().C25_f287[var2];
                      super.followTarget = var4;
                      return false;
                   }
                   continue;
                case 5:
-                  if (C25.B().C25_f287[var2].getFacingDirection() != 2) {
+                  if (GameWorldManager.B().C25_f287[var2].getFacingDirection() != 2) {
                      if (this.C53_f779[5][0] == 2) {
-                        var4 = C25.B().C25_f287[var2];
+                        var4 = GameWorldManager.B().C25_f287[var2];
                         super.followTarget = var4;
                      }
 
                      return false;
                   }
                case 6:
-                  if (C25.B().C25_f287[var2].getFacingDirection() != 2) {
+                  if (GameWorldManager.B().C25_f287[var2].getFacingDirection() != 2) {
                      if (this.C53_f793[3] != 2) {
                         if (this.C53_f779[2][0] == 2) {
-                           var4 = C25.B().C25_f287[var2];
+                           var4 = GameWorldManager.B().C25_f287[var2];
                            super.followTarget = var4;
                            if (this.C53_f806 == null) {
                               this.C53_f806 = new Vector();
                            }
 
-                           this.C53_f806.addElement(C25.B().C25_f287[var2]);
-                           C25.B().C25_f287[var2].f((int)20);
+                           this.C53_f806.addElement(GameWorldManager.B().C25_f287[var2]);
+                           GameWorldManager.B().C25_f287[var2].f((int)20);
                         }
 
                         var1 = false;
                      } else {
-                        C25.B().C25_f287[var2].a((byte)1);
-                        C25.B().C25_f285.moveEntityToForeground(C25.B().C25_f287[var2], 2);
+                        GameWorldManager.B().C25_f287[var2].a((byte)1);
+                        GameWorldManager.B().C25_f285.moveEntityToForeground(GameWorldManager.B().C25_f287[var2], 2);
                      }
                   }
                   continue;
                case 7:
-                  if (C25.B().C25_f287[var2].getFacingDirection() != 2) {
+                  if (GameWorldManager.B().C25_f287[var2].getFacingDirection() != 2) {
                      if (this.C53_f793[3] != 2) {
                         if (this.C53_f779[1][0] == 2) {
-                           var4 = C25.B().C25_f287[var2];
+                           var4 = GameWorldManager.B().C25_f287[var2];
                            super.followTarget = var4;
                            if (this.C53_f806 == null) {
                               this.C53_f806 = new Vector();
                            }
 
-                           this.C53_f806.addElement(C25.B().C25_f287[var2]);
-                           C25.B().C25_f287[var2].f((int)30);
+                           this.C53_f806.addElement(GameWorldManager.B().C25_f287[var2]);
+                           GameWorldManager.B().C25_f287[var2].f((int)30);
                         }
 
                         var1 = false;
                      } else {
-                        C25.B().C25_f287[var2].a((byte)1);
-                        C25.B().C25_f285.moveEntityToForeground(C25.B().C25_f287[var2], 2);
+                        GameWorldManager.B().C25_f287[var2].a((byte)1);
+                        GameWorldManager.B().C25_f285.moveEntityToForeground(GameWorldManager.B().C25_f287[var2], 2);
                      }
                   }
                   continue;
                case 8:
-                  if (C25.B().C25_f287[var2].isVisible()) {
-                     if ((C18)C25.B().C25_f287[var2].followTarget != null && ((C18)C25.B().C25_f287[var2].followTarget).C18_f235 > ((C18)C25.B().C25_f287[var2].followTarget).C18_f234) {
+                  if (GameWorldManager.B().C25_f287[var2].isVisible()) {
+                     if ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget != null && ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget).C18_f235 > ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget).C18_f234) {
                         return false;
                      }
 
-                     for(int var5 = 0; var5 < C25.B().C25_f287.length; ++var5) {
-                        if (C25.B().C25_f287[var5].C18_f224 && !C25.B().C25_f287[var5].equals(C25.B().C25_f287[var2]) && C25.B().C25_f287[var5].C18_f223 == 0 && (C25.B().C25_f287[var5].C18_f225 == 8 || C25.B().C25_f287[var5].C18_f225 == 11)) {
+                     for(int var5 = 0; var5 < GameWorldManager.B().C25_f287.length; ++var5) {
+                        if (GameWorldManager.B().C25_f287[var5].C18_f224 && !GameWorldManager.B().C25_f287[var5].equals(GameWorldManager.B().C25_f287[var2]) && GameWorldManager.B().C25_f287[var5].C18_f223 == 0 && (GameWorldManager.B().C25_f287[var5].C18_f225 == 8 || GameWorldManager.B().C25_f287[var5].C18_f225 == 11)) {
                            switch(this.currentDirection) {
                            case 0:
-                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].worldX, C25.B().C25_f287[var2].worldY + 8, C25.B().C25_f287[var5].worldX, C25.B().C25_f287[var5].worldY, C25.B().C25_f287[var2].sprite.getCurrentFrameEvents(), C25.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(GameWorldManager.B().C25_f287[var2].worldX, GameWorldManager.B().C25_f287[var2].worldY + 8, GameWorldManager.B().C25_f287[var5].worldX, GameWorldManager.B().C25_f287[var5].worldY, GameWorldManager.B().C25_f287[var2].sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
                                  return false;
                               }
                               break;
                            case 1:
-                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].worldX + 8, C25.B().C25_f287[var2].worldY, C25.B().C25_f287[var5].worldX, C25.B().C25_f287[var5].worldY, C25.B().C25_f287[var2].sprite.getCurrentFrameEvents(), C25.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(GameWorldManager.B().C25_f287[var2].worldX + 8, GameWorldManager.B().C25_f287[var2].worldY, GameWorldManager.B().C25_f287[var5].worldX, GameWorldManager.B().C25_f287[var5].worldY, GameWorldManager.B().C25_f287[var2].sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
                                  return false;
                               }
                               break;
                            case 2:
-                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].worldX, C25.B().C25_f287[var2].worldY - 8, C25.B().C25_f287[var5].worldX, C25.B().C25_f287[var5].worldY, C25.B().C25_f287[var2].sprite.getCurrentFrameEvents(), C25.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(GameWorldManager.B().C25_f287[var2].worldX, GameWorldManager.B().C25_f287[var2].worldY - 8, GameWorldManager.B().C25_f287[var5].worldX, GameWorldManager.B().C25_f287[var5].worldY, GameWorldManager.B().C25_f287[var2].sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
                                  return false;
                               }
                               break;
                            case 3:
-                              if (GameUtils.checkCollisionBetweenShortArrays(C25.B().C25_f287[var2].worldX - 8, C25.B().C25_f287[var2].worldY, C25.B().C25_f287[var5].worldX, C25.B().C25_f287[var5].worldY, C25.B().C25_f287[var2].sprite.getCurrentFrameEvents(), C25.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
+                              if (GameUtils.checkCollisionBetweenShortArrays(GameWorldManager.B().C25_f287[var2].worldX - 8, GameWorldManager.B().C25_f287[var2].worldY, GameWorldManager.B().C25_f287[var5].worldX, GameWorldManager.B().C25_f287[var5].worldY, GameWorldManager.B().C25_f287[var2].sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
                                  return false;
                               }
                            }
                         }
                      }
 
-                     C25.B().C25_f287[var2].a((byte)1);
-                     C18 var10000 = C25.B().C25_f287[var2];
+                     GameWorldManager.B().C25_f287[var2].a((byte)1);
+                     NPCEntity var10000 = GameWorldManager.B().C25_f287[var2];
                      byte var6 = this.currentDirection;
                      var10000.currentDirection = var6;
                      return false;
@@ -887,8 +887,8 @@ public final class C53 extends GameObject {
                      if (this.currentDirection == 3 || this.currentDirection == 1) {
                         this.C53_f769 = 0;
                         this.a((byte)7, (byte)this.currentDirection);
-                        C25.B().C25_f287[var2].followTarget = this;
-                        var4 = C25.B().C25_f287[var2];
+                        GameWorldManager.B().C25_f287[var2].followTarget = this;
+                        var4 = GameWorldManager.B().C25_f287[var2];
                         super.followTarget = var4;
                         return false;
                      }
@@ -904,8 +904,8 @@ public final class C53 extends GameObject {
                   if (this.currentDirection == 0 || this.currentDirection == 2) {
                      this.C53_f769 = 0;
                      this.a((byte)7, (byte)this.currentDirection);
-                     C25.B().C25_f287[var2].followTarget = this;
-                     var4 = C25.B().C25_f287[var2];
+                     GameWorldManager.B().C25_f287[var2].followTarget = this;
+                     var4 = GameWorldManager.B().C25_f287[var2];
                      super.followTarget = var4;
                      return false;
                   }
@@ -913,24 +913,24 @@ public final class C53 extends GameObject {
                case 14:
                   return false;
                case 15:
-                  if (C25.B().C25_f287[var2].getFacingDirection() != 2) {
+                  if (GameWorldManager.B().C25_f287[var2].getFacingDirection() != 2) {
                      if (this.C53_f797[6]) {
-                        var4 = C25.B().C25_f287[var2];
+                        var4 = GameWorldManager.B().C25_f287[var2];
                         super.followTarget = var4;
                         return false;
                      }
 
-                     C25.B().C25_f287[var2].a((byte)1);
-                     C25.B().C25_f285.moveEntityToForeground(C25.B().C25_f287[var2], 2);
+                     GameWorldManager.B().C25_f287[var2].a((byte)1);
+                     GameWorldManager.B().C25_f285.moveEntityToForeground(GameWorldManager.B().C25_f287[var2], 2);
                   }
                   continue;
                case 16:
-                  var4 = C25.B().C25_f287[var2];
+                  var4 = GameWorldManager.B().C25_f287[var2];
                   super.followTarget = var4;
                   continue;
                }
             case 1:
-               if (C25.B().C25_f287[var2].C18_f225 == 3) {
+               if (GameWorldManager.B().C25_f287[var2].C18_f225 == 3) {
                   return false;
                }
             case 2:
@@ -1136,7 +1136,7 @@ public final class C53 extends GameObject {
       }
    }
 
-   public final boolean a(C18 var1, short[] var2, short[] var3) {
+   public final boolean a(NPCEntity var1, short[] var2, short[] var3) {
       if (var3 == null) {
          return false;
       } else {
@@ -1191,7 +1191,7 @@ public final class C53 extends GameObject {
       }
    }
 
-   private static boolean a(C18 var0, short[] var1, short[] var2, int var3, int var4) {
+   private static boolean a(NPCEntity var0, short[] var1, short[] var2, int var3, int var4) {
       switch(var0.sprite.getCurrentAnimationId()) {
       case 0:
          if (GameUtils.checkCollisionWithShortArray(var0.worldX + var1[0], var0.worldY + var1[1], var1[2], var1[3] + (var0.C18_f234 << 4), var3, var4, var2)) {
@@ -1293,48 +1293,48 @@ public final class C53 extends GameObject {
    }
 
    public final void w() {
-      if (((C18)this.followTarget).getFacingDirection() == 1) {
-         C25.B().gameController.az();
-         C25.B().gameController.b("Bảo rương này đã trống");
+      if (((NPCEntity)this.followTarget).getFacingDirection() == 1) {
+         GameWorldManager.B().gameController.az();
+         GameWorldManager.B().gameController.b("Bảo rương này đã trống");
       } else {
          String var1;
-         if (((C18)this.followTarget).C18_f225 == 0) {
-            ((C18)this.followTarget).a((byte)1);
-            if (this.a((int)((C18)this.followTarget).C18_f242, ((C18)this.followTarget).C18_f240, (byte)((C18)this.followTarget).C18_f241)) {
-               this.c(((C18)this.followTarget).C18_f242, ((C18)this.followTarget).C18_f240, (byte)((C18)this.followTarget).C18_f241);
+         if (((NPCEntity)this.followTarget).C18_f225 == 0) {
+            ((NPCEntity)this.followTarget).a((byte)1);
+            if (this.a((int)((NPCEntity)this.followTarget).C18_f242, ((NPCEntity)this.followTarget).C18_f240, (byte)((NPCEntity)this.followTarget).C18_f241)) {
+               this.c(((NPCEntity)this.followTarget).C18_f242, ((NPCEntity)this.followTarget).C18_f240, (byte)((NPCEntity)this.followTarget).C18_f241);
                var1 = null;
-               if (((C18)this.followTarget).C18_f241 == 0) {
-                  var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((C18)this.followTarget).C18_f242][0]);
-               } else if (((C18)this.followTarget).C18_f241 == 2) {
-                  var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((C18)this.followTarget).C18_f242][0]);
+               if (((NPCEntity)this.followTarget).C18_f241 == 0) {
+                  var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((NPCEntity)this.followTarget).C18_f242][0]);
+               } else if (((NPCEntity)this.followTarget).C18_f241 == 2) {
+                  var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((NPCEntity)this.followTarget).C18_f242][0]);
                }
 
-               C25.B().gameController.a((String)("Đạt được: " + var1), ((C18)this.followTarget).C18_f240);
+               GameWorldManager.B().gameController.a((String)("Đạt được: " + var1), ((NPCEntity)this.followTarget).C18_f240);
             } else {
-               C25.B().gameController.ay();
+               GameWorldManager.B().gameController.ay();
             }
 
             this.a((byte)0, (byte)this.currentDirection);
          } else {
-            if (((C18)this.followTarget).C18_f225 == 1) {
+            if (((NPCEntity)this.followTarget).C18_f225 == 1) {
                if (this.b((int)17, (int)1, (byte)2)) {
-                  ((C18)this.followTarget).a((byte)1);
+                  ((NPCEntity)this.followTarget).a((byte)1);
                   this.d(17, 1, (byte)2);
-                  if (this.a((int)((C18)this.followTarget).C18_f242, ((C18)this.followTarget).C18_f240, (byte)((C18)this.followTarget).C18_f241)) {
-                     this.c(((C18)this.followTarget).C18_f242, ((C18)this.followTarget).C18_f240, (byte)((C18)this.followTarget).C18_f241);
+                  if (this.a((int)((NPCEntity)this.followTarget).C18_f242, ((NPCEntity)this.followTarget).C18_f240, (byte)((NPCEntity)this.followTarget).C18_f241)) {
+                     this.c(((NPCEntity)this.followTarget).C18_f242, ((NPCEntity)this.followTarget).C18_f240, (byte)((NPCEntity)this.followTarget).C18_f241);
                      var1 = null;
-                     if (((C18)this.followTarget).C18_f241 == 0) {
-                        var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((C18)this.followTarget).C18_f242][0]);
-                     } else if (((C18)this.followTarget).C18_f241 == 2) {
-                        var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((C18)this.followTarget).C18_f242][0]);
+                     if (((NPCEntity)this.followTarget).C18_f241 == 0) {
+                        var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((NPCEntity)this.followTarget).C18_f242][0]);
+                     } else if (((NPCEntity)this.followTarget).C18_f241 == 2) {
+                        var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((NPCEntity)this.followTarget).C18_f242][0]);
                      }
 
-                     C25.B().gameController.a((String)("Đạt được: " + var1), ((C18)this.followTarget).C18_f240);
+                     GameWorldManager.B().gameController.a((String)("Đạt được: " + var1), ((NPCEntity)this.followTarget).C18_f240);
                   } else {
-                     C25.B().gameController.ay();
+                     GameWorldManager.B().gameController.ay();
                   }
                } else {
-                  C25.B().gameController.ax();
+                  GameWorldManager.B().gameController.ax();
                }
 
                this.a((byte)0, (byte)this.currentDirection);
@@ -1347,18 +1347,18 @@ public final class C53 extends GameObject {
    public final boolean x() {
       if (this.followTarget == null) {
          return false;
-      } else if (((C18)this.followTarget).getFacingDirection() != 0) {
+      } else if (((NPCEntity)this.followTarget).getFacingDirection() != 0) {
          return false;
       } else {
          QuestManager.isQuestReady = true;
-         if (((C18)this.followTarget).C18_f225 != 7 && ((C18)this.followTarget).C18_f225 != 6) {
-            if (((C18)this.followTarget).C18_f225 != 16) {
-               ((C18)this.followTarget).a((byte)1);
+         if (((NPCEntity)this.followTarget).C18_f225 != 7 && ((NPCEntity)this.followTarget).C18_f225 != 6) {
+            if (((NPCEntity)this.followTarget).C18_f225 != 16) {
+               ((NPCEntity)this.followTarget).a((byte)1);
             }
          } else {
             for(int var1 = 0; var1 < this.C53_f806.size(); ++var1) {
-               C18 var2;
-               (var2 = (C18)this.C53_f806.elementAt(var1)).a((byte)1);
+               NPCEntity var2;
+               (var2 = (NPCEntity)this.C53_f806.elementAt(var1)).a((byte)1);
                var2.y();
             }
 
@@ -1466,7 +1466,7 @@ public final class C53 extends GameObject {
             return a(var1, var2, this.C53_f790);
          } else {
             var2 = var1;
-            C53 var4 = this;
+            PlayerCharacter var4 = this;
 
             for(int var5 = 0; var5 < var4.C53_f789.size(); ++var5) {
                if (((int[])var4.C53_f789.elementAt(var5))[0] == var2) {
@@ -1702,11 +1702,11 @@ public final class C53 extends GameObject {
    }
 
    public final void f(int var1, int var2) {
-      C41 var10000 = this.C53_f777[var2];
+      PokemonEntity var10000 = this.C53_f777[var2];
       byte var6 = 5;
       byte var3;
       if (var10000.primaryStates[var6] >= 0) {
-         C41 var10001 = this.C53_f777[var2];
+         PokemonEntity var10001 = this.C53_f777[var2];
          var6 = 5;
          this.m(var10001.primaryStates[var6]);
          var10000 = this.C53_f777[var2];
@@ -1716,7 +1716,7 @@ public final class C53 extends GameObject {
       }
 
       int var4 = var1;
-      C53 var7 = this;
+      PlayerCharacter var7 = this;
       int var5 = 0;
 
       int[] var11;
@@ -1801,7 +1801,7 @@ public final class C53 extends GameObject {
    }
 
    public final void a(int var1, int var2, short var3, byte var4, short var5, byte var6, int[] var7) {
-      this.C53_f777[this.C53_f778] = new C41();
+      this.C53_f777[this.C53_f778] = new PokemonEntity();
       this.C53_f777[this.C53_f778].a(var1, var2, (short)-1, var4, var5, (byte)-1);
       this.C53_f777[this.C53_f778].b(var7);
       this.a((byte)((byte)this.C53_f777[this.C53_f778].j((byte)1)), var1, (byte)2);
@@ -1809,17 +1809,17 @@ public final class C53 extends GameObject {
    }
 
    public final void a(int var1, int var2, int var3, short var4, byte var5, short var6, byte var7, int[] var8) {
-      this.C53_f777[this.C53_f778] = new C41();
+      this.C53_f777[this.C53_f778] = new PokemonEntity();
       System.arraycopy(this.C53_f777, var1, this.C53_f777, var1 + 1, this.C53_f778 - var1);
       this.C53_f777[var1] = null;
-      this.C53_f777[var1] = new C41();
+      this.C53_f777[var1] = new PokemonEntity();
       this.C53_f777[var1].a(var2, var3, (short)-1, var5, var6, (byte)-1);
       this.C53_f777[var1].b(var8);
       ++this.C53_f778;
    }
 
    public final void a(int[] var1) {
-      this.C53_f777[this.C53_f778] = new C41();
+      this.C53_f777[this.C53_f778] = new PokemonEntity();
       this.C53_f777[this.C53_f778].a(var1[0], var1[1], (short)var1[2], (byte)var1[3], (short)var1[4], (byte)var1[5]);
       this.C53_f777[this.C53_f778].a((short)var1[6], var1[7], var1[8]);
       int[] var2 = new int[var1.length - 9];
@@ -1857,10 +1857,10 @@ public final class C53 extends GameObject {
 
       int var2;
       for(var2 = 0; var2 < this.C53_f778; ++var2) {
-         C41 var10002 = this.C53_f777[var2];
+         PokemonEntity var10002 = this.C53_f777[var2];
          byte var4 = 1;
          short var5 = var10002.primaryStates[var4];
-         C41 var10003 = this.C53_f777[var2];
+         PokemonEntity var10003 = this.C53_f777[var2];
          var4 = 1;
          var1[var2] = var5 - var10003.secondaryStates[var4];
       }
@@ -1881,7 +1881,7 @@ public final class C53 extends GameObject {
    }
 
    public final void p(int var1) {
-      C41 var2;
+      PokemonEntity var2;
       for(var2 = this.C53_f777[var1]; var1 > 0; --var1) {
          this.C53_f777[var1] = this.C53_f777[var1 - 1];
       }
@@ -1915,9 +1915,9 @@ public final class C53 extends GameObject {
    }
 
    public final void r(int var1) {
-      C41[] var10000 = this.C53_f777;
+      PokemonEntity[] var10000 = this.C53_f777;
       int var10001 = this.C53_f778;
-      C41 var4 = new C41();
+      PokemonEntity var4 = new PokemonEntity();
       int[] var3 = (int[])this.C53_f792.elementAt(var1);
       var4.a(var3[0], var3[1], (short)var3[2], (byte)var3[3], (short)var3[4], (byte)var3[5]);
       var4.a((short)var3[6], var3[7], var3[8]);
@@ -1941,7 +1941,7 @@ public final class C53 extends GameObject {
    public final void b(byte var1, byte var2, byte var3) {
       this.C53_f779[var1][var2] = var3;
       if (this.C53_f779[0][0] == 2) {
-         C30.a().a(ResourceManager.getDatabaseValue((byte)2, (short)0, (byte)5) / 2, ResourceManager.getDatabaseValue((byte)2, (short)0, (byte)5) / 2);
+         ScreenTransitionManager.a().a(ResourceManager.getDatabaseValue((byte)2, (short)0, (byte)5) / 2, ResourceManager.getDatabaseValue((byte)2, (short)0, (byte)5) / 2);
       }
 
    }
@@ -1953,7 +1953,7 @@ public final class C53 extends GameObject {
    public final void a(byte var1, int var2, byte var3) {
       int var6 = var2;
       byte var5 = var1;
-      C53 var4 = this;
+      PlayerCharacter var4 = this;
       int var7 = 0;
 
       boolean var10000;
@@ -2010,14 +2010,14 @@ public final class C53 extends GameObject {
    }
 
    public final int D() {
-      return C25.B().C25_f290 == 4 && C25.B().C25_f291 == 1 ? GameUtils.getRandomInRange(4, 8) : GameUtils.getRandomInRange(this.C53_f772, this.C53_f773);
+      return GameWorldManager.B().C25_f290 == 4 && GameWorldManager.B().C25_f291 == 1 ? GameUtils.getRandomInRange(4, 8) : GameUtils.getRandomInRange(this.C53_f772, this.C53_f773);
    }
 
    private void O() {
-      if (!C25.B().C25_f348.hasActiveEvent() && QuestManager.questDialogState != 0) {
+      if (!GameWorldManager.B().C25_f348.hasActiveEvent() && QuestManager.questDialogState != 0) {
          --this.C53_f774;
          if (this.C53_f774 <= 0) {
-            C25.B().e(false);
+            GameWorldManager.B().e(false);
             this.C53_f774 = 0;
          }
 
@@ -2027,7 +2027,7 @@ public final class C53 extends GameObject {
             this.C53_f775 = -1;
          }
 
-         if (C25.B().C() && this.C53_f775 <= 0) {
+         if (GameWorldManager.B().C() && this.C53_f775 <= 0) {
             if (this.C53_f770 && this.C53_f771 > 0 && this.C53_f793[1] != 2 && this.C53_f793[3] != 2) {
                --this.C53_f771;
             }

@@ -2,7 +2,7 @@ package a.b;
 
 import a.GameUtils;
 import event.EventScript;
-import game.C25;
+import game.GameWorldManager;
 import me.kitakeyos.ManagedInputStream;
 
 import javax.microedition.lcdui.Image;
@@ -58,10 +58,10 @@ public class ResourceManager {
 
     private static void loadNpcDialogs(String filePath) {
         String[][] dialogMatrix = GameUtils.readStringMatrix(GameUtils.openInputStream(filePath));
-        C25.C25_f349 = new String[dialogMatrix.length];
+        GameWorldManager.C25_f349 = new String[dialogMatrix.length];
 
         for (int i = 0; i < dialogMatrix.length; ++i) {
-            System.arraycopy(dialogMatrix[i], 0, C25.C25_f349, i, dialogMatrix[i].length);
+            System.arraycopy(dialogMatrix[i], 0, GameWorldManager.C25_f349, i, dialogMatrix[i].length);
         }
     }
 

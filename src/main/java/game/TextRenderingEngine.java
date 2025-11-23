@@ -4,7 +4,7 @@ import a.GameUtils;
 import a.GameEngineBase;
 import javax.microedition.lcdui.Graphics;
 
-public final class C39 {
+public final class TextRenderingEngine {
    private static int C39_f593 = 0;
    private char[] C39_f594;
    private int C39_f595;
@@ -24,7 +24,7 @@ public final class C39 {
    private int C39_f609;
    public static boolean C39_f610 = false;
    private byte C39_f611;
-   private static C39 C39_f612;
+   private static TextRenderingEngine C39_f612;
    private boolean C39_f613;
    private int C39_f614;
    private int[][] C39_f615;
@@ -36,7 +36,7 @@ public final class C39 {
    private long C39_f621;
    private int C39_f622;
 
-   public C39() {
+   public TextRenderingEngine() {
       GameEngineBase.getFontHeight();
       this.C39_f596 = 0;
       this.C39_f597 = 0;
@@ -58,9 +58,9 @@ public final class C39 {
       this.C39_f619 = new String[]{"0000", "0001", "0010", "0011", "0100", "0101", "0110", "0111", "1000", "1001", "1010", "1011", "1100", "1101", "1110", "1111"};
    }
 
-   public static C39 a() {
+   public static TextRenderingEngine a() {
       if (C39_f612 == null) {
-         C39_f612 = new C39();
+         C39_f612 = new TextRenderingEngine();
       }
 
       return C39_f612;
@@ -119,7 +119,7 @@ public final class C39 {
 
    public final void a(Graphics var1) {
       Graphics var2 = var1;
-      C39 var14 = this;
+      TextRenderingEngine var14 = this;
       if (C39_f610) {
          label71:
          switch(C39_f593) {
@@ -162,7 +162,7 @@ public final class C39 {
             int var6 = this.C39_f605;
             int var5 = this.C39_f604;
             Graphics var4 = var1;
-            C39 var3 = this;
+            TextRenderingEngine var3 = this;
             int var7 = this.C39_f594.length;
             System.out.println("drawDialogRow: startLine=" + this.C39_f616 + ", m=" + this.C39_f607 + ", n=" + this.C39_f609);
             int var8 = this.C39_f616 * this.C39_f607;
@@ -222,7 +222,7 @@ public final class C39 {
       C39_f593 = var1;
       switch(var1) {
       case 0:
-         C39 var12 = this;
+         TextRenderingEngine var12 = this;
          int var13 = this.C39_f594.length;
          int var4 = 0;
          int var5 = 0;
@@ -431,7 +431,7 @@ public final class C39 {
    }
 
    public final void d() {
-      C39 var1 = this;
+      TextRenderingEngine var1 = this;
       char[] var2 = this.C39_f594;
       if (C39_f610) {
          switch(C39_f593) {
@@ -478,8 +478,8 @@ public final class C39 {
                   if (!var1.C39_f613) {
                      var1.c();
                      C39_f610 = false;
-                     if (C25.B().dialogManager.isTopDialog("/data/ui/dialog.ui")) {
-                        C25.B().gameController.aF();
+                     if (GameWorldManager.B().dialogManager.isTopDialog("/data/ui/dialog.ui")) {
+                        GameWorldManager.B().gameController.aF();
                      }
                   }
 

@@ -4,7 +4,7 @@ import a.b.ResourceManager;
 import layout.DialogManager;
 import e.a.a.a.payment.PaymentCallback;
 import e.a.a.a.payment.SmsPaymentScreen;
-import e.b.a.a.C2;
+import e.b.a.a.StateChangeCallback;
 import game.*;
 import me.kitakeyos.SmsConfigLoader;
 
@@ -16,7 +16,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
-public abstract class GameEngineBase extends InputStateManager implements PaymentCallback, C2 {
+public abstract class GameEngineBase extends InputStateManager implements PaymentCallback, StateChangeCallback {
     private static short screenWidth;
     private static short screenHeight;
     private static int frameRate;
@@ -26,7 +26,7 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
     public byte C44_f698;
     public byte C44_f699;
     public DialogManager dialogManager;
-    public C9 gameController;
+    public DialogUIManager gameController;
     private static boolean timerStarted = false;
     public static boolean gamePaused = false;
     public static byte actionType = -1;
@@ -309,60 +309,60 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
                     switch (this.currentPaymentIndex) {
                         case 0:
                             paymentActive = true;
-                            C53.p().s(2000);
-                            C53.p().c(1, 5, (byte) 0);
-                            C53.p().c(4, 5, (byte) 0);
-                            C53.p().c(11, 2, (byte) 0);
-                            C53.p().v(5);
-                            QuestManager.getInstance().questStates[C25.e(9, 0)][5] = 3;
+                            PlayerCharacter.p().s(2000);
+                            PlayerCharacter.p().c(1, 5, (byte) 0);
+                            PlayerCharacter.p().c(4, 5, (byte) 0);
+                            PlayerCharacter.p().c(11, 2, (byte) 0);
+                            PlayerCharacter.p().v(5);
+                            QuestManager.getInstance().questStates[GameWorldManager.e(9, 0)][5] = 3;
                             QuestManager.getInstance().eventScripts[5].setExecutionState((byte) 3);
                             break;
                         case 1:
-                            C53.p().c(0, 1, (byte) 0);
+                            PlayerCharacter.p().c(0, 1, (byte) 0);
                             break;
                         case 2:
-                            C53.p().s(10000);
+                            PlayerCharacter.p().s(10000);
                             break;
                         case 3:
-                            C25.C25_f335 = 0;
-                            if (C25.C25_f334 == null) {
-                                C25.C25_f334 = new Vector();
+                            GameWorldManager.C25_f335 = 0;
+                            if (GameWorldManager.C25_f334 == null) {
+                                GameWorldManager.C25_f334 = new Vector();
                             }
 
-                            if (C25.C25_f333 == null) {
-                                C25.C25_f333 = new Vector();
+                            if (GameWorldManager.C25_f333 == null) {
+                                GameWorldManager.C25_f333 = new Vector();
                             }
 
-                            C25.C25_f334.removeAllElements();
-                            C25.C25_f333.removeAllElements();
+                            GameWorldManager.C25_f334.removeAllElements();
+                            GameWorldManager.C25_f333.removeAllElements();
 
-                            for (int var2 = 0; var2 < C53.p().C53_f778; ++var2) {
-                                if (C53.p().C53_f777[var2].t() == 50) {
-                                    C53.p().C53_f777[var2].K();
+                            for (int var2 = 0; var2 < PlayerCharacter.p().C53_f778; ++var2) {
+                                if (PlayerCharacter.p().C53_f777[var2].t() == 50) {
+                                    PlayerCharacter.p().C53_f777[var2].K();
                                 } else {
-                                    C53.p().C53_f777[var2].y();
-                                    if (C53.p().C53_f777[var2].t() + 5 >= 50) {
-                                        C53.p().C53_f777[var2].h(50 - C53.p().C53_f777[var2].t());
+                                    PlayerCharacter.p().C53_f777[var2].y();
+                                    if (PlayerCharacter.p().C53_f777[var2].t() + 5 >= 50) {
+                                        PlayerCharacter.p().C53_f777[var2].h(50 - PlayerCharacter.p().C53_f777[var2].t());
                                     } else {
-                                        C53.p().C53_f777[var2].h((int) 5);
+                                        PlayerCharacter.p().C53_f777[var2].h((int) 5);
                                     }
 
-                                    C53.p().C53_f777[var2].J();
-                                    if (C53.p().C53_f777[var2].F() < 5 && C53.p().C53_f777[var2].F() < C53.p().C53_f777[var2].t() / 10 + 1) {
-                                        C25.C25_f333.addElement(C53.p().C53_f777[var2]);
-                                        C25.C25_f334.addElement("" + var2);
+                                    PlayerCharacter.p().C53_f777[var2].J();
+                                    if (PlayerCharacter.p().C53_f777[var2].F() < 5 && PlayerCharacter.p().C53_f777[var2].F() < PlayerCharacter.p().C53_f777[var2].t() / 10 + 1) {
+                                        GameWorldManager.C25_f333.addElement(PlayerCharacter.p().C53_f777[var2]);
+                                        GameWorldManager.C25_f334.addElement("" + var2);
                                     }
                                 }
                             }
 
-                            if (C25.C25_f333.size() <= 0) {
-                                C25.C25_f335 = 2;
+                            if (GameWorldManager.C25_f333.size() <= 0) {
+                                GameWorldManager.C25_f335 = 2;
                             } else {
-                                C25.C25_f335 = 1;
+                                GameWorldManager.C25_f335 = 1;
                             }
                             break;
                         case 4:
-                            C53.p().v(10);
+                            PlayerCharacter.p().v(10);
                     }
                 }
 

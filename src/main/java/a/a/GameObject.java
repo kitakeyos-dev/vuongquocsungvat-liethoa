@@ -4,7 +4,7 @@ import a.GameEngineBase;
 import a.GameUtils;
 import a.b.Sprite;
 import a.b.GameEntity;
-import game.C25;
+import game.GameWorldManager;
 
 import javax.microedition.lcdui.Graphics;
 
@@ -201,8 +201,8 @@ public class GameObject extends GameEntity {
         if (this.sprite.isInvalid()) {
             this.setInteractable(true);
         } else if (GameUtils.checkCollisionWithShortArray(
-                C25.B().C25_f283.cameraX,
-                C25.B().C25_f283.cameraY,
+                GameWorldManager.B().C25_f283.cameraX,
+                GameWorldManager.B().C25_f283.cameraY,
                 GameEngineBase.getScreenWidth(),
                 GameEngineBase.getScreenHeight(),
                 this.worldX,

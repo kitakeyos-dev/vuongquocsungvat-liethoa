@@ -4,11 +4,11 @@ import a.GameEngineBase;
 import a.b.ResourceManager;
 import javax.microedition.lcdui.Graphics;
 
-public final class C48 extends GameEngineBase {
-   private static C48 C48_f732 = null;
+public final class LocationSelectionManager extends GameEngineBase {
+   private static LocationSelectionManager C48_f732 = null;
    private StringBuffer C48_f733 = null;
-   private C25 C48_f734 = C25.B();
-   private C29 C48_f735 = C29.B();
+   private GameWorldManager C48_f734 = GameWorldManager.B();
+   private BattleSystemManager C48_f735 = BattleSystemManager.B();
    private int[] C48_f736 = new int[]{2, 7, 8, 8, 13, 7, 2, 13, 7, 8, 15, 29};
    private int[] C48_f737 = new int[]{0, 2, 9, 17, 25, 38, 45, 47, 60, 67, 75, 90};
    private byte C48_f738 = 0;
@@ -22,9 +22,9 @@ public final class C48 extends GameEngineBase {
    private short[] C48_f746 = new short[]{0, 0, 198, 198, 151, 55, 80, 63, 118, 118, 118, 132, 112, 174, 160, 368, 136, 136, 230, 245, 167, 135, 168, 198};
    private String[] C48_f747 = new String[]{"CG tràng cảnh", "Thôn trang", "Bích thủy", "Gỗ thô", "Niêm thổ", "Hắc thạch", "Hắc Long thần điện", "Thiên giới", "Viễn cổ", "Đạo quán", "Thần thú mê cung", "Trong phòng"};
 
-   public static C48 B() {
+   public static LocationSelectionManager B() {
       if (C48_f732 == null) {
-         C48_f732 = new C48();
+         C48_f732 = new LocationSelectionManager();
       }
 
       return C48_f732;
@@ -93,8 +93,8 @@ public final class C48 extends GameEngineBase {
                if (this.isKeyPressed(196640)) {
                   this.C48_f734.C25_f290 = this.C48_f740;
                   this.C48_f734.C25_f291 = this.C48_f741;
-                  C25.B().C25_f295 = -1;
-                  C25.C25_f321 = true;
+                  GameWorldManager.B().C25_f295 = -1;
+                  GameWorldManager.C25_f321 = true;
                   inputEnabled = false;
                   this.C48_f734.C25_f293 = this.C48_f746[this.C48_f740 << 1];
                   this.C48_f734.C25_f294 = this.C48_f746[(this.C48_f740 << 1) + 1];

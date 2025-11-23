@@ -5,16 +5,16 @@ import a.GameEngineBase;
 import a.b.CameraController;
 import a.b.ResourceManager;
 import layout.DialogManager;
-import game.C25;
-import game.C29;
+import game.GameWorldManager;
+import game.BattleSystemManager;
 import game.QuestManager;
-import game.C9;
+import game.DialogUIManager;
 
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
-public final class C30 {
-    private static C30 C30_f471;
+public final class ScreenTransitionManager {
+    private static ScreenTransitionManager C30_f471;
     public int C30_f472 = -1;
     private int C30_f473 = -1;
     public int C30_f474 = -1;
@@ -38,7 +38,7 @@ public final class C30 {
     private int C30_f492 = 20;
     private int C30_f493;
     private static DialogManager C30_f494;
-    private static C9 C30_f495;
+    private static DialogUIManager C30_f495;
     private static short[][] C30_f496 = null;
     private short[][] C30_f497 = new short[][]{{-20, 20, 20, -20, -15, 15, -15, 15, -5, 5, -5, 5}, {-5, 5, 5, -5}, {-5, 10, -5}};
     private int C30_f498 = 0;
@@ -84,13 +84,13 @@ public final class C30 {
     private boolean C30_f538 = false;
     private boolean C30_f539 = false;
 
-    public static C30 a() {
+    public static ScreenTransitionManager a() {
         if (C30_f471 == null) {
-            C30_f471 = new C30();
+            C30_f471 = new ScreenTransitionManager();
         }
 
         C30_f494 = DialogManager.getInstance();
-        C30_f495 = C9.a();
+        C30_f495 = DialogUIManager.a();
         return C30_f471;
     }
 
@@ -117,7 +117,7 @@ public final class C30 {
                 }
             }
 
-            C30 var2;
+            ScreenTransitionManager var2;
             int var4;
             int var5;
             int var7;
@@ -305,7 +305,7 @@ public final class C30 {
                     break;
                 case 8:
                     if (this.C30_f478 >= 5) {
-                        var1.drawImage(C29.B().C29_f400, 0, 0, 20);
+                        var1.drawImage(BattleSystemManager.B().C29_f400, 0, 0, 20);
                     }
 
                     C30_f494.render(var1);
@@ -403,7 +403,7 @@ public final class C30 {
         this.C30_f522 = var1;
         switch (this.C30_f472) {
             case 7:
-                short var2 = ResourceManager.gameDatabase[0][C29.B().p(0)][17];
+                short var2 = ResourceManager.gameDatabase[0][BattleSystemManager.B().p(0)][17];
                 short[] var3;
                 switch (this.C30_f522) {
                     case 0:
@@ -572,9 +572,9 @@ public final class C30 {
                 var1.setColor(16777215);
                 var1.fillRect(0, 0, GameEngineBase.getScreenWidth(), GameEngineBase.getScreenHeight());
             } else {
-                C25.B();
-                C25.b(var1);
-                C25.B().C25_f285.renderWorld(var1);
+                GameWorldManager.B();
+                GameWorldManager.b(var1);
+                GameWorldManager.B().C25_f285.renderWorld(var1);
             }
 
             ++this.C30_f478;

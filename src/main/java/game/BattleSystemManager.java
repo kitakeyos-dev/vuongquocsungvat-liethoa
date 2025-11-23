@@ -12,23 +12,23 @@ import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
-public final class C29 extends GameEngineBase {
+public final class BattleSystemManager extends GameEngineBase {
    private final byte[] C29_f393 = new byte[]{2, 4};
-   private static C29 C29_f394;
-   private static C53 C29_f395;
+   private static BattleSystemManager C29_f394;
+   private static PlayerCharacter C29_f395;
    private byte C29_f396 = 0;
    public int C29_f397;
    public byte C29_f398;
    private byte C29_f399;
    public Image C29_f400;
    private int[][] C29_f401;
-   public C41[] C29_f402;
+   public PokemonEntity[] C29_f402;
    private byte[] C29_f403;
    public byte[] C29_f404;
    public byte[] C29_f405;
    private byte[] C29_f406;
    public byte C29_f407 = 0;
-   public C41 C29_f408;
+   public PokemonEntity C29_f408;
    private Vector C29_f409;
    public byte C29_f410;
    private boolean C29_f411;
@@ -92,15 +92,15 @@ public final class C29 extends GameEngineBase {
    private byte[] C29_f469;
    private byte[] C29_f470;
 
-   public static C29 B() {
+   public static BattleSystemManager B() {
       if (C29_f394 == null) {
-         C29_f394 = new C29();
+         C29_f394 = new BattleSystemManager();
       }
 
       return C29_f394;
    }
 
-   public C29() {
+   public BattleSystemManager() {
       new Vector();
       new Vector();
       this.C29_f465 = 0;
@@ -134,8 +134,8 @@ public final class C29 extends GameEngineBase {
          this.n(var1).e(false);
          this.n(var1).C41_f664.removeAllElements();
          this.n(var1).C41_f665.removeAllElements();
-         C41 var10000 = this.n(var1);
-         C41 var10001 = this.n(var1);
+         PokemonEntity var10000 = this.n(var1);
+         PokemonEntity var10001 = this.n(var1);
          byte var3 = 1;
          var10000.u(var10001.secondaryStates[var3]);
       }
@@ -188,7 +188,7 @@ public final class C29 extends GameEngineBase {
       this.C29_f431 = null;
       C29_f451 = null;
       C29_f452 = null;
-      C25.C25_f315 = 0;
+      GameWorldManager.C25_f315 = 0;
       C29_f446 = null;
       C29_f447 = null;
       C29_f448 = null;
@@ -204,7 +204,7 @@ public final class C29 extends GameEngineBase {
    public final boolean initializeGame() {
       this.startGameTimer();
       this.C29_f406 = new byte[2];
-      C29_f395 = C53.p();
+      C29_f395 = PlayerCharacter.p();
       this.C29_f405 = new byte[C29_f395.C53_f778];
       int var1 = 0;
 
@@ -219,9 +219,9 @@ public final class C29 extends GameEngineBase {
       }
 
       if (var1 == 1 && this.C29_f397 == 1) {
-         this.C29_f402 = new C41[3];
+         this.C29_f402 = new PokemonEntity[3];
       } else {
-         this.C29_f402 = new C41[this.C29_f393[this.C29_f397]];
+         this.C29_f402 = new PokemonEntity[this.C29_f393[this.C29_f397]];
       }
 
       C29_f446 = GameUtils.readShortMatrix(GameUtils.openInputStream("/data/script/pos.mid"));
@@ -330,8 +330,8 @@ public final class C29 extends GameEngineBase {
       }
 
       for(var1 = 0; var1 < C29_f395.C53_f778; ++var1) {
-         C41 var10000 = C29_f395.C53_f777[var1];
-         C41 var10001 = C29_f395.C53_f777[var1];
+         PokemonEntity var10000 = C29_f395.C53_f777[var1];
+         PokemonEntity var10001 = C29_f395.C53_f777[var1];
          byte var3 = 1;
          var10000.C41_f649 = var10001.secondaryStates[var3];
       }
@@ -352,11 +352,11 @@ public final class C29 extends GameEngineBase {
          this.n(var2).j(this.n(var2).A());
       }
 
-      C41[] var4;
+      PokemonEntity[] var4;
       if (this.C29_f397 == 0) {
-         var4 = new C41[1];
+         var4 = new PokemonEntity[1];
       } else {
-         var4 = new C41[2];
+         var4 = new PokemonEntity[2];
       }
 
       for(byte var3 = 0; var3 < this.C29_f402.length; ++var3) {
@@ -366,9 +366,9 @@ public final class C29 extends GameEngineBase {
       }
 
       if (var1 == 1 && this.C29_f397 == 1) {
-         this.C29_f402 = new C41[3];
+         this.C29_f402 = new PokemonEntity[3];
       } else {
-         this.C29_f402 = new C41[this.C29_f393[this.C29_f397]];
+         this.C29_f402 = new PokemonEntity[this.C29_f393[this.C29_f397]];
       }
 
       this.C29_f445 = new GameObject[this.C29_f402.length + 2];
@@ -432,7 +432,7 @@ public final class C29 extends GameEngineBase {
    public final void D() {
       if (this.C29_f397 == 1) {
          int var1;
-         for(var1 = 0; ((C41)this.C29_f409.elementAt(var1)).s() != 0 || ((C41)this.C29_f409.elementAt(var1)).s() == 0 && !((C41)this.C29_f409.elementAt(var1)).T(); ++var1) {
+         for(var1 = 0; ((PokemonEntity)this.C29_f409.elementAt(var1)).s() != 0 || ((PokemonEntity)this.C29_f409.elementAt(var1)).s() == 0 && !((PokemonEntity)this.C29_f409.elementAt(var1)).T(); ++var1) {
          }
 
          if (this.C29_f402[0].T()) {
@@ -446,7 +446,7 @@ public final class C29 extends GameEngineBase {
    }
 
    public final void E() {
-      this.gameController = C9.a();
+      this.gameController = DialogUIManager.a();
       this.gameController.a((GameEngineBase)this);
       this.dialogManager = DialogManager.getInstance();
       if (this.C29_f397 == 0) {
@@ -460,7 +460,7 @@ public final class C29 extends GameEngineBase {
       this.C29_f402[var1] = this.n(this.C29_f405[var2]);
       this.C29_f402[var1].e(true);
       this.C29_f402[var1].f((int)0);
-      C41 var10000 = this.C29_f402[var1];
+      PokemonEntity var10000 = this.C29_f402[var1];
       byte var3 = 0;
       var10000.currentDirection = var3;
       this.C29_f402[var1].setWorldPosition(C29_f447[this.C29_f399][var1][0], C29_f447[this.C29_f399][var1][1]);
@@ -468,10 +468,10 @@ public final class C29 extends GameEngineBase {
    }
 
    private void q(int var1) {
-      this.C29_f402[var1] = new C41();
+      this.C29_f402[var1] = new PokemonEntity();
       this.C29_f402[var1].a(this.C29_f401[this.C29_f406[0]][0], this.C29_f401[this.C29_f406[0]][1], (short)-1, (byte)2, (short)this.C29_f401[this.C29_f406[0]][2], (byte)-1);
       this.C29_f402[var1].f((int)1);
-      C41 var10000 = this.C29_f402[var1];
+      PokemonEntity var10000 = this.C29_f402[var1];
       byte var3 = 1;
       var10000.currentDirection = var3;
       this.C29_f402[var1].setWorldPosition(C29_f447[this.C29_f399][var1][0], C29_f447[this.C29_f399][var1][1]);
@@ -494,12 +494,12 @@ public final class C29 extends GameEngineBase {
          short var4;
          short var5;
          if (this.C29_f431[this.C29_f426 * 7] == 0) {
-            var1 = (short)((C41)this.C29_f408.followTarget).worldX;
-            var2 = (short)((C41)this.C29_f408.followTarget).worldY;
-            var3 = (short)((C41)this.C29_f408.followTarget).r();
+            var1 = (short)((PokemonEntity)this.C29_f408.followTarget).worldX;
+            var2 = (short)((PokemonEntity)this.C29_f408.followTarget).worldY;
+            var3 = (short)((PokemonEntity)this.C29_f408.followTarget).r();
             var3 = ResourceManager.gameDatabase[0][var3][17];
-            var4 = (short)((C41)this.C29_f408.followTarget).q();
-            var5 = (short)((C41)this.C29_f408.followTarget).currentDirection;
+            var4 = (short)((PokemonEntity)this.C29_f408.followTarget).q();
+            var5 = (short)((PokemonEntity)this.C29_f408.followTarget).currentDirection;
          } else {
             var1 = (short)this.C29_f408.worldX;
             var2 = (short)this.C29_f408.worldY;
@@ -517,7 +517,7 @@ public final class C29 extends GameEngineBase {
          this.C29_f424.initializeEffect(var7);
          this.C29_f424.setInteractable(true);
       } else if (this.C29_f431[this.C29_f426 * 7] == 0) {
-         ((C41)this.C29_f408.followTarget).a((short)this.C29_f431[this.C29_f426 * 7 + 2], this.C29_f431[this.C29_f426 * 7 + 3]);
+         ((PokemonEntity)this.C29_f408.followTarget).a((short)this.C29_f431[this.C29_f426 * 7 + 2], this.C29_f431[this.C29_f426 * 7 + 3]);
       } else {
          this.C29_f408.a((short)this.C29_f431[this.C29_f426 * 7 + 2], this.C29_f431[this.C29_f426 * 7 + 3]);
       }
@@ -525,7 +525,7 @@ public final class C29 extends GameEngineBase {
       ++this.C29_f425;
    }
 
-   private boolean a(C41 var1) {
+   private boolean a(PokemonEntity var1) {
       while(!this.b(var1)) {
          for(int var2 = 0; var2 < this.C29_f441[this.C29_f439[this.C29_f436 << 1]].length; ++var2) {
             if (this.C29_f441[this.C29_f439[this.C29_f436 << 1]][var2] == this.C29_f439[(this.C29_f436 << 1) + 1]) {
@@ -556,7 +556,7 @@ public final class C29 extends GameEngineBase {
    }
 
    private void J() {
-      C41 var1 = (C41)this.C29_f409.elementAt(this.C29_f410);
+      PokemonEntity var1 = (PokemonEntity)this.C29_f409.elementAt(this.C29_f410);
       this.C29_f435 = this.C29_f434;
       this.C29_f437 = this.C29_f438[this.C29_f436];
       if (this.C29_f437[this.C29_f435 << 2] == 1) {
@@ -581,7 +581,7 @@ public final class C29 extends GameEngineBase {
       ++this.C29_f434;
    }
 
-   private void a(C41 var1, boolean var2) {
+   private void a(PokemonEntity var1, boolean var2) {
       if (!var1.T()) {
          var1.D();
          var1.E();
@@ -616,7 +616,7 @@ public final class C29 extends GameEngineBase {
       }
    }
 
-   private void b(C41 var1, boolean var2) {
+   private void b(PokemonEntity var1, boolean var2) {
       int var3;
       for(var3 = 0; var3 < this.C29_f405.length && !this.n(this.C29_f405[var3]).T(); ++var3) {
       }
@@ -658,7 +658,7 @@ public final class C29 extends GameEngineBase {
       }
    }
 
-   private boolean b(C41 var1) {
+   private boolean b(PokemonEntity var1) {
       if (this.C29_f436 >= this.C29_f438.length) {
          this.C29_f436 = 0;
          this.C29_f435 = this.C29_f434 = 0;
@@ -678,7 +678,7 @@ public final class C29 extends GameEngineBase {
       }
    }
 
-   private void c(C41 var1) {
+   private void c(PokemonEntity var1) {
       ++this.C29_f436;
       if (!this.b(var1)) {
          if (this.a(var1)) {
@@ -714,8 +714,8 @@ public final class C29 extends GameEngineBase {
    }
 
    private void K() {
-      C41 var1;
-      if ((var1 = (C41)this.C29_f409.elementAt(this.C29_f410)).C41_f640 != null) {
+      PokemonEntity var1;
+      if ((var1 = (PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).C41_f640 != null) {
          label101: {
             if (var1.C41_f640.isActive()) {
                if (!var1.C41_f640.sprite.isAtLastFrame()) {
@@ -848,8 +848,8 @@ public final class C29 extends GameEngineBase {
          break;
       case 1:
          this.C29_f402[0].setVisible(false);
-         var2 = ResourceManager.gameDatabase[0][((C41)this.C29_f408.followTarget).r()][17];
-         var4 = new short[]{8, (short)((C41)this.C29_f408.followTarget).worldX, (short)((C41)this.C29_f408.followTarget).worldY, var2, 0, (short)((C41)this.C29_f408.followTarget).currentDirection, 0, 9, 1, 3, 0, 10, 0, 0, 7, 0, -10, 4, 0, -20};
+         var2 = ResourceManager.gameDatabase[0][((PokemonEntity)this.C29_f408.followTarget).r()][17];
+         var4 = new short[]{8, (short)((PokemonEntity)this.C29_f408.followTarget).worldX, (short)((PokemonEntity)this.C29_f408.followTarget).worldY, var2, 0, (short)((PokemonEntity)this.C29_f408.followTarget).currentDirection, 0, 9, 1, 3, 0, 10, 0, 0, 7, 0, -10, 4, 0, -20};
          this.C29_f424 = new EffectEntity();
          this.C29_f424.initializeEffect(var4);
          this.C29_f424.setInteractable(true);
@@ -863,8 +863,8 @@ public final class C29 extends GameEngineBase {
          this.C29_f442.setAnimation(var1, (byte)-2, true);
          break;
       case 4:
-         var2 = ResourceManager.gameDatabase[0][((C41)this.C29_f408.followTarget).r()][17];
-         var4 = new short[]{8, (short)((C41)this.C29_f408.followTarget).worldX, (short)((C41)this.C29_f408.followTarget).worldY, var2, 0, (short)((C41)this.C29_f408.followTarget).currentDirection, 0, 8, 1, 4, 1, 4, 0, -20, 6, 0, -12, 8, 0, -4, 10, 0, 0};
+         var2 = ResourceManager.gameDatabase[0][((PokemonEntity)this.C29_f408.followTarget).r()][17];
+         var4 = new short[]{8, (short)((PokemonEntity)this.C29_f408.followTarget).worldX, (short)((PokemonEntity)this.C29_f408.followTarget).worldY, var2, 0, (short)((PokemonEntity)this.C29_f408.followTarget).currentDirection, 0, 8, 1, 4, 1, 4, 0, -20, 6, 0, -12, 8, 0, -4, 10, 0, 0};
          this.C29_f424 = new EffectEntity();
          this.C29_f424.initializeEffect(var4);
          this.C29_f424.setInteractable(true);
@@ -893,7 +893,7 @@ public final class C29 extends GameEngineBase {
       int var4;
       switch(var1) {
       case 0:
-         for(this.C29_f410 = 0; ((C41)this.C29_f409.elementAt(this.C29_f410)).s() != 0; ++this.C29_f410) {
+         for(this.C29_f410 = 0; ((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).s() != 0; ++this.C29_f410) {
          }
 
          return;
@@ -902,7 +902,7 @@ public final class C29 extends GameEngineBase {
             this.C29_f410 = 0;
          }
 
-         for(this.C29_f408 = (C41)this.C29_f409.elementAt(this.C29_f410); this.C29_f408.C41_f667 || !this.C29_f408.T(); this.C29_f408 = (C41)this.C29_f409.elementAt(this.C29_f410)) {
+         for(this.C29_f408 = (PokemonEntity)this.C29_f409.elementAt(this.C29_f410); this.C29_f408.C41_f667 || !this.C29_f408.T(); this.C29_f408 = (PokemonEntity)this.C29_f409.elementAt(this.C29_f410)) {
             ++this.C29_f410;
             if (this.C29_f408.C41_f667) {
                this.C29_f408.C41_f667 = false;
@@ -940,7 +940,7 @@ public final class C29 extends GameEngineBase {
       case 2:
          return;
       case 3:
-         this.gameController.e((C41)this.C29_f409.elementAt(this.C29_f410));
+         this.gameController.e((PokemonEntity)this.C29_f409.elementAt(this.C29_f410));
          return;
       case 4:
          this.gameController.am();
@@ -951,9 +951,9 @@ public final class C29 extends GameEngineBase {
          return;
       case 6:
          this.C29_f419 = 0;
-         this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
-         this.gameController.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
-         this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+         this.gameController.b((PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
+         this.gameController.b(this.C29_f408, (PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+         this.gameController.b((PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419));
          this.a(Integer.parseInt((String)this.C29_f408.C41_f665.elementAt(this.C29_f419)), true);
          return;
       case 7:
@@ -965,19 +965,19 @@ public final class C29 extends GameEngineBase {
             this.gameController.b(this.C29_f408);
          }
 
-         if (((C41)this.C29_f408.followTarget).s() == 1) {
-            this.gameController.b((C41)this.C29_f408.followTarget, false);
-            this.gameController.b((C41)this.C29_f408.followTarget);
+         if (((PokemonEntity)this.C29_f408.followTarget).s() == 1) {
+            this.gameController.b((PokemonEntity)this.C29_f408.followTarget, false);
+            this.gameController.b((PokemonEntity)this.C29_f408.followTarget);
          } else {
-            this.gameController.a((C41)this.C29_f408.followTarget, false);
-            this.gameController.a((C41)this.C29_f408.followTarget);
+            this.gameController.a((PokemonEntity)this.C29_f408.followTarget, false);
+            this.gameController.a((PokemonEntity)this.C29_f408.followTarget);
          }
 
          this.C29_f416 = false;
          this.C29_f417 = false;
          this.I();
          if (this.O()) {
-            this.C29_f432 = this.C29_f408.b((C41)this.C29_f408.followTarget);
+            this.C29_f432 = this.C29_f408.b((PokemonEntity)this.C29_f408.followTarget);
          }
 
          switch(this.C29_f408.C41_f659) {
@@ -999,10 +999,10 @@ public final class C29 extends GameEngineBase {
          this.C29_f408.a((byte)0, true);
          return;
       case 8:
-         C25.B().C25_f348.selectOption = 0;
+         GameWorldManager.B().C25_f348.selectOption = 0;
 
          for(var2 = 0; var2 < C29_f412.size(); ++var2) {
-            var4 = ((C41)C29_f412.elementAt(var2)).C41_f649 - ((C41)C29_f412.elementAt(var2)).getSecondaryState((byte)1);
+            var4 = ((PokemonEntity)C29_f412.elementAt(var2)).C41_f649 - ((PokemonEntity)C29_f412.elementAt(var2)).getSecondaryState((byte)1);
             if (paymentActive) {
                var4 = var4 % 20 / 100;
             } else {
@@ -1010,8 +1010,8 @@ public final class C29 extends GameEngineBase {
             }
 
             if (var4 > 0) {
-               ((C41)C29_f412.elementAt(var2)).l(var4);
-               ((C41)C29_f412.elementAt(var2)).u(((C41)C29_f412.elementAt(var2)).getSecondaryState((byte)1));
+               ((PokemonEntity)C29_f412.elementAt(var2)).l(var4);
+               ((PokemonEntity)C29_f412.elementAt(var2)).u(((PokemonEntity)C29_f412.elementAt(var2)).getSecondaryState((byte)1));
             }
          }
 
@@ -1036,8 +1036,8 @@ public final class C29 extends GameEngineBase {
             this.gameController.b(this.C29_f408);
          }
 
-         C41 var5;
-         if ((var5 = (C41)this.C29_f409.elementAt(this.C29_f410)).m(13) || var5.m(14)) {
+         PokemonEntity var5;
+         if ((var5 = (PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).m(13) || var5.m(14)) {
             var5.D();
          }
 
@@ -1193,7 +1193,7 @@ public final class C29 extends GameEngineBase {
       default:
          break;
       case 20:
-         this.C29_f408 = (C41)this.C29_f409.elementAt(this.C29_f410);
+         this.C29_f408 = (PokemonEntity)this.C29_f409.elementAt(this.C29_f410);
 
          for(var4 = 0; var4 < this.C29_f402.length; ++var4) {
             if (this.C29_f402[var4].s() == 1 && this.C29_f402[var4].T()) {
@@ -1301,10 +1301,10 @@ public final class C29 extends GameEngineBase {
                      this.C29_f414 = false;
                   }
 
-                  for(this.C29_f410 = 0; ((C41)this.C29_f409.elementAt(this.C29_f410)).s() != 0 || ((C41)this.C29_f409.elementAt(this.C29_f410)).s() == 0 && !((C41)this.C29_f409.elementAt(this.C29_f410)).T(); ++this.C29_f410) {
+                  for(this.C29_f410 = 0; ((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).s() != 0 || ((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).s() == 0 && !((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).T(); ++this.C29_f410) {
                   }
 
-                  if (d((C41)this.C29_f409.elementAt(this.C29_f410))) {
+                  if (d((PokemonEntity)this.C29_f409.elementAt(this.C29_f410))) {
                      this.changeState((byte)13);
                   } else {
                      this.changeState((byte)20);
@@ -1318,7 +1318,7 @@ public final class C29 extends GameEngineBase {
             this.C29_f445[this.C29_f402.length].updateAnimation();
             break;
          case 2:
-            C41 var12;
+            PokemonEntity var12;
             if (this.C29_f408.s() == 1) {
                var1 = (byte)e(this.C29_f408);
                if (this.C29_f408.p(9)) {
@@ -1326,7 +1326,7 @@ public final class C29 extends GameEngineBase {
                } else {
                   var2 = true;
                   var12 = this.C29_f408;
-                  if (C41.a((byte)var1, (byte)9) == 0 && this.C29_f408.p(8) && GameUtils.getRandomInt(100) > ResourceManager.getDatabaseValue((byte)1, (short)var1, (byte)8)) {
+                  if (PokemonEntity.a((byte)var1, (byte)9) == 0 && this.C29_f408.p(8) && GameUtils.getRandomInt(100) > ResourceManager.getDatabaseValue((byte)1, (short)var1, (byte)8)) {
                      this.f(this.C29_f408);
                      var2 = false;
                   }
@@ -1337,7 +1337,7 @@ public final class C29 extends GameEngineBase {
                }
 
                var5 = GameUtils.getRandomInt(this.C29_f408.C41_f664.size());
-               C41 var7 = (C41)this.C29_f408.C41_f664.elementAt(var5);
+               PokemonEntity var7 = (PokemonEntity)this.C29_f408.C41_f664.elementAt(var5);
                this.C29_f408.C41_f666 = Byte.parseByte((String)this.C29_f408.C41_f665.elementAt(var5));
                this.C29_f408.a(var1, var7);
                this.gameController.b(this.C29_f408, var7);
@@ -1345,7 +1345,7 @@ public final class C29 extends GameEngineBase {
             } else if (this.C29_f408.p(9)) {
                this.f(this.C29_f408);
                var6 = GameUtils.getRandomInt(this.C29_f408.C41_f664.size());
-               C41 var9 = (C41)this.C29_f408.C41_f664.elementAt(var6);
+               PokemonEntity var9 = (PokemonEntity)this.C29_f408.C41_f664.elementAt(var6);
                this.C29_f408.C41_f666 = Byte.parseByte((String)this.C29_f408.C41_f665.elementAt(var6));
                byte var8 = (byte)e(this.C29_f408);
                this.C29_f408.a(var8, var9);
@@ -1354,30 +1354,30 @@ public final class C29 extends GameEngineBase {
             } else {
                var4 = true;
                var12 = this.C29_f408;
-               if (C41.a((byte)this.C29_f408.I(), (byte)9) == 0 && this.C29_f408.p(8) && GameUtils.getRandomInt(100) > ResourceManager.getDatabaseValue((byte)1, (short)this.C29_f408.I(), (byte)8)) {
+               if (PokemonEntity.a((byte)this.C29_f408.I(), (byte)9) == 0 && this.C29_f408.p(8) && GameUtils.getRandomInt(100) > ResourceManager.getDatabaseValue((byte)1, (short)this.C29_f408.I(), (byte)8)) {
                   this.f(this.C29_f408);
                   var4 = false;
                }
 
                if (var4) {
-                  if ((C41)this.C29_f408.followTarget != null && !((C41)this.C29_f408.followTarget).T()) {
+                  if ((PokemonEntity)this.C29_f408.followTarget != null && !((PokemonEntity)this.C29_f408.followTarget).T()) {
                      for(var5 = 0; var5 < this.C29_f408.C41_f664.size(); ++var5) {
-                        if (((C41)this.C29_f408.C41_f664.elementAt(var5)).T()) {
+                        if (((PokemonEntity)this.C29_f408.C41_f664.elementAt(var5)).T()) {
                            this.C29_f408.C41_f666 = Byte.parseByte((String)this.C29_f408.C41_f665.elementAt(var5));
-                           this.C29_f408.a(this.C29_f408.I(), (C41)this.C29_f408.C41_f664.elementAt(var5));
+                           this.C29_f408.a(this.C29_f408.I(), (PokemonEntity)this.C29_f408.C41_f664.elementAt(var5));
                         }
                      }
                   } else {
-                     this.C29_f408.a(this.C29_f408.I(), (C41)this.C29_f408.followTarget);
+                     this.C29_f408.a(this.C29_f408.I(), (PokemonEntity)this.C29_f408.followTarget);
                   }
                }
 
-               this.gameController.b(this.C29_f408, (C41)this.C29_f408.followTarget);
+               this.gameController.b(this.C29_f408, (PokemonEntity)this.C29_f408.followTarget);
                this.changeState((byte)7);
             }
             break;
          case 3:
-            this.gameController.f((C41)this.C29_f409.elementAt(this.C29_f410));
+            this.gameController.f((PokemonEntity)this.C29_f409.elementAt(this.C29_f410));
             break;
          case 4:
             this.gameController.an();
@@ -1394,9 +1394,9 @@ public final class C29 extends GameEngineBase {
                   }
 
                   this.a(Integer.parseInt((String)this.C29_f408.C41_f665.elementAt(this.C29_f419)), true);
-                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
-                  this.gameController.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
-                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
+                  this.gameController.b(this.C29_f408, (PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419));
                }
             } else if (this.isKeyPressed(8448)) {
                if (this.C29_f397 == 1) {
@@ -1406,9 +1406,9 @@ public final class C29 extends GameEngineBase {
                   }
 
                   this.a(Integer.parseInt((String)this.C29_f408.C41_f665.elementAt(this.C29_f419)), true);
-                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
-                  this.gameController.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
-                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
+                  this.gameController.b(this.C29_f408, (PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419));
                }
             } else if (this.isKeyPressed(16400)) {
                if (this.C29_f397 == 1) {
@@ -1418,9 +1418,9 @@ public final class C29 extends GameEngineBase {
                   }
 
                   this.a(Integer.parseInt((String)this.C29_f408.C41_f665.elementAt(this.C29_f419)), true);
-                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
-                  this.gameController.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
-                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
+                  this.gameController.b(this.C29_f408, (PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419));
                }
             } else if (this.isKeyPressed(32832)) {
                if (this.C29_f397 == 1) {
@@ -1430,9 +1430,9 @@ public final class C29 extends GameEngineBase {
                   }
 
                   this.a(Integer.parseInt((String)this.C29_f408.C41_f665.elementAt(this.C29_f419)), true);
-                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
-                  this.gameController.b(this.C29_f408, (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
-                  this.gameController.b((C41)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419), false);
+                  this.gameController.b(this.C29_f408, (PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419));
+                  this.gameController.b((PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419));
                }
             } else if (this.isKeyPressed(196640)) {
                this.G();
@@ -1482,19 +1482,19 @@ public final class C29 extends GameEngineBase {
                } else if (this.C29_f408.q() == 1 && this.C29_f408.isAnimationComplete()) {
                   this.C29_f408.a((byte)0, true);
                }
-            } else if (((C41)this.C29_f408.followTarget).C41_f640 != null) {
-               if (((C41)this.C29_f408.followTarget).C41_f640.isActive()) {
-                  if (((C41)this.C29_f408.followTarget).C41_f640.isAnimationComplete()) {
-                     ((C41)this.C29_f408.followTarget).C41_f640.deactivateEffect();
+            } else if (((PokemonEntity)this.C29_f408.followTarget).C41_f640 != null) {
+               if (((PokemonEntity)this.C29_f408.followTarget).C41_f640.isActive()) {
+                  if (((PokemonEntity)this.C29_f408.followTarget).C41_f640.isAnimationComplete()) {
+                     ((PokemonEntity)this.C29_f408.followTarget).C41_f640.deactivateEffect();
                      if (this.C29_f425 <= this.C29_f431.length / 7 - 1 && !this.T()) {
                         if (this.C29_f431[this.C29_f425 * 7] == 1) {
-                           ((C41)this.C29_f408.followTarget).a((byte)2, true);
+                           ((PokemonEntity)this.C29_f408.followTarget).a((byte)2, true);
                         } else {
                            this.C29_f427 = 0;
-                           ((C41)this.C29_f408.followTarget).C41_f640 = null;
+                           ((PokemonEntity)this.C29_f408.followTarget).C41_f640 = null;
                            this.I();
-                           if (((C41)this.C29_f408.followTarget).C41_f640 != null) {
-                              ((C41)this.C29_f408.followTarget).C41_f640.activateEffect();
+                           if (((PokemonEntity)this.C29_f408.followTarget).C41_f640 != null) {
+                              ((PokemonEntity)this.C29_f408.followTarget).C41_f640.activateEffect();
                            }
 
                            if (this.C29_f424 != null) {
@@ -1502,19 +1502,19 @@ public final class C29 extends GameEngineBase {
                            }
                         }
                      } else {
-                        ((C41)this.C29_f408.followTarget).a((byte)2, true);
+                        ((PokemonEntity)this.C29_f408.followTarget).a((byte)2, true);
                      }
                   } else {
                      if (this.C29_f431[this.C29_f426 * 7 + 5] != -1) {
                         this.C29_f427 = this.C29_f426;
                      }
 
-                     if (this.C29_f431[this.C29_f427 * 7 + 5] != -1 && ((C41)this.C29_f408.followTarget).C41_f640.isAtFrame((int)this.C29_f431[this.C29_f427 * 7 + 5])) {
-                        ((C41)this.C29_f408.followTarget).a(this.C29_f431[this.C29_f427 * 7 + 6], true);
+                     if (this.C29_f431[this.C29_f427 * 7 + 5] != -1 && ((PokemonEntity)this.C29_f408.followTarget).C41_f640.isAtFrame((int)this.C29_f431[this.C29_f427 * 7 + 5])) {
+                        ((PokemonEntity)this.C29_f408.followTarget).a(this.C29_f431[this.C29_f427 * 7 + 6], true);
                         this.C29_f427 = 0;
                      }
 
-                     if (this.C29_f431[this.C29_f426 * 7 + 4] != -1 && ((C41)this.C29_f408.followTarget).C41_f640.isAtFrame((int)this.C29_f431[this.C29_f426 * 7 + 4])) {
+                     if (this.C29_f431[this.C29_f426 * 7 + 4] != -1 && ((PokemonEntity)this.C29_f408.followTarget).C41_f640.isAtFrame((int)this.C29_f431[this.C29_f426 * 7 + 4])) {
                         this.I();
                         if (this.C29_f424 != null) {
                            this.C29_f429 = true;
@@ -1522,9 +1522,9 @@ public final class C29 extends GameEngineBase {
                      }
                   }
                } else if ((this.C29_f408.q() != 1 || !this.C29_f408.isAnimationComplete()) && !this.C29_f430) {
-                  if (((C41)this.C29_f408.followTarget).q() == 2 && ((C41)this.C29_f408.followTarget).isAnimationComplete()) {
+                  if (((PokemonEntity)this.C29_f408.followTarget).q() == 2 && ((PokemonEntity)this.C29_f408.followTarget).isAnimationComplete()) {
                      this.C29_f416 = true;
-                     ((C41)this.C29_f408.followTarget).C41_f640 = null;
+                     ((PokemonEntity)this.C29_f408.followTarget).C41_f640 = null;
                      if (this.C29_f425 <= this.C29_f431.length / 7 - 1 && !this.T()) {
                         this.I();
                         if (this.C29_f424 != null) {
@@ -1536,7 +1536,7 @@ public final class C29 extends GameEngineBase {
                   }
                } else {
                   this.C29_f408.a((byte)0, true);
-                  ((C41)this.C29_f408.followTarget).C41_f640.activateEffect();
+                  ((PokemonEntity)this.C29_f408.followTarget).C41_f640.activateEffect();
                   this.C29_f430 = false;
                }
             }
@@ -1550,7 +1550,7 @@ public final class C29 extends GameEngineBase {
                this.C29_f424.activateEffect();
                this.C29_f428 = this.C29_f426;
                if (this.C29_f431[this.C29_f426 * 7] == 0) {
-                  ((C41)this.C29_f408.followTarget).setVisible(false);
+                  ((PokemonEntity)this.C29_f408.followTarget).setVisible(false);
                } else {
                   this.C29_f408.setVisible(false);
                }
@@ -1560,12 +1560,12 @@ public final class C29 extends GameEngineBase {
                this.C29_f424 = null;
                this.C29_f429 = false;
                if (this.C29_f431[this.C29_f428 * 7] == 0) {
-                  ((C41)this.C29_f408.followTarget).setVisible(true);
+                  ((PokemonEntity)this.C29_f408.followTarget).setVisible(true);
                } else {
                   this.C29_f408.setVisible(true);
                }
 
-               if (((C41)this.C29_f408.followTarget).C41_f640 == null && this.C29_f408.C41_f640 == null) {
+               if (((PokemonEntity)this.C29_f408.followTarget).C41_f640 == null && this.C29_f408.C41_f640 == null) {
                   if (this.C29_f425 <= this.C29_f431.length / 7 - 1 && !this.T()) {
                      if (this.C29_f431[this.C29_f425 * 7] == 1) {
                         this.C29_f416 = true;
@@ -1590,7 +1590,7 @@ public final class C29 extends GameEngineBase {
 
             if (this.C29_f416) {
                this.C29_f418 = false;
-               if (this.U() && (((C41)this.C29_f408.followTarget).T() || this.c((C41)this.C29_f408.followTarget, true))) {
+               if (this.U() && (((PokemonEntity)this.C29_f408.followTarget).T() || this.c((PokemonEntity)this.C29_f408.followTarget, true))) {
                   this.C29_f418 = true;
                   this.C29_f416 = false;
                }
@@ -1703,9 +1703,9 @@ public final class C29 extends GameEngineBase {
             break;
          case 15:
             if (this.C29_f397 == 0) {
-               C41 var10001 = this.C29_f402[1];
-               C41 var10002 = this.C29_f402[0];
-               C41[] var10003 = this.C29_f402;
+               PokemonEntity var10001 = this.C29_f402[1];
+               PokemonEntity var10002 = this.C29_f402[0];
+               PokemonEntity[] var10003 = this.C29_f402;
                int var13 = this.C29_f423;
                this.gameController.a(var10001, var10002, this.C29_f421[this.C29_f423] + 1, C29_f447[this.C29_f399][this.C29_f423].length / 4);
             }
@@ -1726,14 +1726,14 @@ public final class C29 extends GameEngineBase {
                this.C29_f420[this.C29_f423] = this.C29_f421[this.C29_f423] = (byte)(C29_f447[this.C29_f399][this.C29_f423].length / 4 - 1);
                var4 = true;
                if (this.C29_f415) {
-                  while(this.C29_f410 < this.C29_f409.size() && (!((C41)this.C29_f409.elementAt(this.C29_f410)).T() || ((C41)this.C29_f409.elementAt(this.C29_f410)).s() != 0)) {
+                  while(this.C29_f410 < this.C29_f409.size() && (!((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).T() || ((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).s() != 0)) {
                      ++this.C29_f410;
                   }
 
                   if (this.C29_f410 >= this.C29_f409.size()) {
                      this.C29_f410 = 0;
                      this.changeState((byte)1);
-                  } else if (d((C41)this.C29_f409.elementAt(this.C29_f410))) {
+                  } else if (d((PokemonEntity)this.C29_f409.elementAt(this.C29_f410))) {
                      this.changeState((byte)13);
                   } else {
                      var4 = false;
@@ -1761,7 +1761,7 @@ public final class C29 extends GameEngineBase {
                         var2 = false;
                         if (this.C29_f408.m(12) && this.C29_f408.C41_f668[12] == 2) {
                            --this.C29_f408.C41_f668[12];
-                           if (!((C41)this.C29_f408.followTarget).T()) {
+                           if (!((PokemonEntity)this.C29_f408.followTarget).T()) {
                               var2 = true;
                               --this.C29_f408.C41_f668[12];
                            } else {
@@ -1770,7 +1770,7 @@ public final class C29 extends GameEngineBase {
                            }
                         } else {
                            var3 = GameUtils.getRandomInt(100);
-                           if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][8] && ((C41)this.C29_f408.followTarget).T()) {
+                           if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][8] && ((PokemonEntity)this.C29_f408.followTarget).T()) {
                               --this.C29_f410;
                               this.changeState((byte)2);
                            } else {
@@ -1779,10 +1779,10 @@ public final class C29 extends GameEngineBase {
                         }
 
                         if (var2) {
-                           for(this.C29_f410 = 0; ((C41)this.C29_f409.elementAt(this.C29_f410)).s() != 0 || ((C41)this.C29_f409.elementAt(this.C29_f410)).s() == 0 && !((C41)this.C29_f409.elementAt(this.C29_f410)).T(); ++this.C29_f410) {
+                           for(this.C29_f410 = 0; ((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).s() != 0 || ((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).s() == 0 && !((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).T(); ++this.C29_f410) {
                            }
 
-                           if (d((C41)this.C29_f409.elementAt(this.C29_f410))) {
+                           if (d((PokemonEntity)this.C29_f409.elementAt(this.C29_f410))) {
                               this.changeState((byte)13);
                            } else {
                               var4 = false;
@@ -1790,10 +1790,10 @@ public final class C29 extends GameEngineBase {
                            }
                         }
                      } else {
-                        for(this.C29_f410 = 0; ((C41)this.C29_f409.elementAt(this.C29_f410)).s() != 0 || ((C41)this.C29_f409.elementAt(this.C29_f410)).s() == 0 && !((C41)this.C29_f409.elementAt(this.C29_f410)).T(); ++this.C29_f410) {
+                        for(this.C29_f410 = 0; ((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).s() != 0 || ((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).s() == 0 && !((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).T(); ++this.C29_f410) {
                         }
 
-                        if (d((C41)this.C29_f409.elementAt(this.C29_f410))) {
+                        if (d((PokemonEntity)this.C29_f409.elementAt(this.C29_f410))) {
                            this.changeState((byte)13);
                         } else {
                            var4 = false;
@@ -1805,7 +1805,7 @@ public final class C29 extends GameEngineBase {
                         var2 = false;
                         if (this.C29_f408.m(12) && this.C29_f408.C41_f668[12] == 2) {
                            --this.C29_f408.C41_f668[12];
-                           if (((C41)this.C29_f408.followTarget).T()) {
+                           if (((PokemonEntity)this.C29_f408.followTarget).T()) {
                               --this.C29_f410;
                               this.changeState((byte)2);
                               break label739;
@@ -1814,7 +1814,7 @@ public final class C29 extends GameEngineBase {
                            --this.C29_f408.C41_f668[12];
                         } else {
                            var3 = GameUtils.getRandomInt(100);
-                           if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][8] && ((C41)this.C29_f408.followTarget).T()) {
+                           if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][8] && ((PokemonEntity)this.C29_f408.followTarget).T()) {
                               --this.C29_f410;
                               this.changeState((byte)2);
                               break label739;
@@ -1864,12 +1864,12 @@ public final class C29 extends GameEngineBase {
                } else if (this.C29_f396 == 3 && this.C29_f442.isAnimationComplete()) {
                   if ((var1 = C29_f395.z()) == 0) {
                      this.gameController.C9_f131 = 1;
-                     this.gameController.b("Bắt thành công #2" + GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[0][((C41)this.C29_f408.followTarget).r()][0]));
-                     C29_f395.a(((C41)this.C29_f408.followTarget).Q());
+                     this.gameController.b("Bắt thành công #2" + GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[0][((PokemonEntity)this.C29_f408.followTarget).r()][0]));
+                     C29_f395.a(((PokemonEntity)this.C29_f408.followTarget).Q());
                   } else if (var1 == 1) {
                      this.gameController.C9_f131 = 2;
-                     this.gameController.b("Bắt thành công #2" + GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[0][((C41)this.C29_f408.followTarget).r()][0]));
-                     C29_f395.b(((C41)this.C29_f408.followTarget).Q());
+                     this.gameController.b("Bắt thành công #2" + GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[0][((PokemonEntity)this.C29_f408.followTarget).r()][0]));
+                     C29_f395.b(((PokemonEntity)this.C29_f408.followTarget).Q());
                   } else {
                      this.gameController.C9_f131 = 1;
                      this.gameController.b("Không còn không gian, sủng vật này đã phóng sinh");
@@ -1901,7 +1901,7 @@ public final class C29 extends GameEngineBase {
                      this.gameController.C9_f131 = 4;
                   } else if (this.gameController.C9_f131 == 4 || this.gameController.C9_f131 == 1) {
                      this.gameController.C9_f131 = 0;
-                     C25.B().C25_f348.selectOption = -1;
+                     GameWorldManager.B().C25_f348.selectOption = -1;
                      this.q();
                      GameScreenManager.getInstance().changeState((byte)10);
                   }
@@ -2057,7 +2057,7 @@ public final class C29 extends GameEngineBase {
          case 8:
             this.C29_f445[0].render(var1, 0, 0);
             if (this.gameController.C9_f138 < C29_f413.size()) {
-               ((C41)C29_f413.elementAt(this.gameController.C9_f138)).a(var1);
+               ((PokemonEntity)C29_f413.elementAt(this.gameController.C9_f138)).a(var1);
             }
          case 9:
          case 11:
@@ -2104,7 +2104,7 @@ public final class C29 extends GameEngineBase {
    public final void F() {
       ++this.C29_f410;
       if (this.C29_f410 < this.C29_f409.size()) {
-         while(((C41)this.C29_f409.elementAt(this.C29_f410)).s() != 0 || ((C41)this.C29_f409.elementAt(this.C29_f410)).s() == 0 && !((C41)this.C29_f409.elementAt(this.C29_f410)).T()) {
+         while(((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).s() != 0 || ((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).s() == 0 && !((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).T()) {
             ++this.C29_f410;
             if (this.C29_f410 >= this.C29_f409.size()) {
                break;
@@ -2114,7 +2114,7 @@ public final class C29 extends GameEngineBase {
 
       if (this.C29_f410 >= this.C29_f409.size()) {
          this.changeState((byte)1);
-      } else if (d((C41)this.C29_f409.elementAt(this.C29_f410))) {
+      } else if (d((PokemonEntity)this.C29_f409.elementAt(this.C29_f410))) {
          this.changeState((byte)13);
       } else {
          this.changeState((byte)20);
@@ -2131,13 +2131,13 @@ public final class C29 extends GameEngineBase {
          }
 
          for(int var1 = 0; var1 < this.C29_f409.size(); ++var1) {
-            ((C41)this.C29_f409.elementAt(var1)).C41_f667 = false;
+            ((PokemonEntity)this.C29_f409.elementAt(var1)).C41_f667 = false;
          }
 
-         for(this.C29_f410 = 0; ((C41)this.C29_f409.elementAt(this.C29_f410)).s() != 0 || ((C41)this.C29_f409.elementAt(this.C29_f410)).s() == 0 && !((C41)this.C29_f409.elementAt(this.C29_f410)).T(); ++this.C29_f410) {
+         for(this.C29_f410 = 0; ((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).s() != 0 || ((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).s() == 0 && !((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).T(); ++this.C29_f410) {
          }
 
-         if (d((C41)this.C29_f409.elementAt(this.C29_f410))) {
+         if (d((PokemonEntity)this.C29_f409.elementAt(this.C29_f410))) {
             this.changeState((byte)13);
          } else {
             this.changeState((byte)20);
@@ -2156,22 +2156,22 @@ public final class C29 extends GameEngineBase {
          for(var2 = 0; var2 < this.C29_f405.length && !this.n(this.C29_f405[var2]).T(); ++var2) {
          }
 
-         if ((((C41)this.C29_f408.followTarget).s() != 1 || ((C41)this.C29_f408.followTarget).T()) && (this.C29_f408.s() != 1 || this.C29_f408.T())) {
-            if (((C41)this.C29_f408.followTarget).s() == 0 && !((C41)this.C29_f408.followTarget).T() || this.C29_f408.s() == 0 && !this.C29_f408.T()) {
-               ((C41)this.C29_f408.followTarget).D();
-               ((C41)this.C29_f408.followTarget).E();
-               this.gameController.a((C41)this.C29_f408.followTarget);
-               C29_f412.removeElement((C41)this.C29_f408.followTarget);
-               C29_f413.removeElement((C41)this.C29_f408.followTarget);
-               ((C41)this.C29_f408.followTarget).C41_f653 = 0;
-               ((C41)this.C29_f408.followTarget).e(false);
-               ((C41)this.C29_f408.followTarget).C41_f663 = 0;
+         if ((((PokemonEntity)this.C29_f408.followTarget).s() != 1 || ((PokemonEntity)this.C29_f408.followTarget).T()) && (this.C29_f408.s() != 1 || this.C29_f408.T())) {
+            if (((PokemonEntity)this.C29_f408.followTarget).s() == 0 && !((PokemonEntity)this.C29_f408.followTarget).T() || this.C29_f408.s() == 0 && !this.C29_f408.T()) {
+               ((PokemonEntity)this.C29_f408.followTarget).D();
+               ((PokemonEntity)this.C29_f408.followTarget).E();
+               this.gameController.a((PokemonEntity)this.C29_f408.followTarget);
+               C29_f412.removeElement((PokemonEntity)this.C29_f408.followTarget);
+               C29_f413.removeElement((PokemonEntity)this.C29_f408.followTarget);
+               ((PokemonEntity)this.C29_f408.followTarget).C41_f653 = 0;
+               ((PokemonEntity)this.C29_f408.followTarget).e(false);
+               ((PokemonEntity)this.C29_f408.followTarget).C41_f663 = 0;
             }
          } else {
-            ((C41)this.C29_f408.followTarget).D();
-            ((C41)this.C29_f408.followTarget).E();
-            this.gameController.b((C41)this.C29_f408.followTarget);
-            this.h((C41)this.C29_f408.followTarget);
+            ((PokemonEntity)this.C29_f408.followTarget).D();
+            ((PokemonEntity)this.C29_f408.followTarget).E();
+            this.gameController.b((PokemonEntity)this.C29_f408.followTarget);
+            this.h((PokemonEntity)this.C29_f408.followTarget);
             ++this.C29_f406[1];
          }
 
@@ -2188,16 +2188,16 @@ public final class C29 extends GameEngineBase {
          case 0:
             boolean var4 = false;
             int var3;
-            if (((C41)this.C29_f408.followTarget).T() && this.C29_f408.T()) {
+            if (((PokemonEntity)this.C29_f408.followTarget).T() && this.C29_f408.T()) {
                var4 = true;
             } else {
                for(var3 = 0; var3 < this.C29_f402.length; ++var3) {
-                  if (this.C29_f402[var3].m(11) && this.C29_f402[this.C29_f402[var3].C41_f641[11][1]].equals((C41)this.C29_f408.followTarget)) {
+                  if (this.C29_f402[var3].m(11) && this.C29_f402[this.C29_f402[var3].C41_f641[11][1]].equals((PokemonEntity)this.C29_f408.followTarget)) {
                      this.C29_f402[var3].n(11);
                   }
                }
 
-               if ((((C41)this.C29_f408.followTarget).s() != 1 || ((C41)this.C29_f408.followTarget).T()) && (this.C29_f408.s() != 1 || this.C29_f408.T())) {
+               if ((((PokemonEntity)this.C29_f408.followTarget).s() != 1 || ((PokemonEntity)this.C29_f408.followTarget).T()) && (this.C29_f408.s() != 1 || this.C29_f408.T())) {
                   if (!this.P()) {
                      var4 = true;
                   } else {
@@ -2226,7 +2226,7 @@ public final class C29 extends GameEngineBase {
             if (var4) {
                if (this.C29_f408.m(12) && this.C29_f408.C41_f668[12] == 2) {
                   --this.C29_f408.C41_f668[12];
-                  if (!((C41)this.C29_f408.followTarget).T()) {
+                  if (!((PokemonEntity)this.C29_f408.followTarget).T()) {
                      --this.C29_f408.C41_f668[12];
                      ++this.C29_f410;
                      this.L();
@@ -2236,7 +2236,7 @@ public final class C29 extends GameEngineBase {
                } else {
                   var3 = GameUtils.getRandomInt(100);
                   if ((this.C29_f408.C41_f659 == 63 || this.C29_f408.C41_f659 == 69) && var3 <= ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][8]) {
-                     if (!((C41)this.C29_f408.followTarget).T()) {
+                     if (!((PokemonEntity)this.C29_f408.followTarget).T()) {
                         --this.C29_f408.C41_f668[12];
                         ++this.C29_f410;
                         this.L();
@@ -2271,7 +2271,7 @@ public final class C29 extends GameEngineBase {
    }
 
    private void N() {
-      if (C25.B().C25_f348.isPlayerControl) {
+      if (GameWorldManager.B().C25_f348.isPlayerControl) {
          this.changeState((byte)24);
       } else {
          for(int var1 = 0; var1 < C29_f395.C53_f778; ++var1) {
@@ -2283,19 +2283,19 @@ public final class C29 extends GameEngineBase {
          GameScreenManager.getInstance().changeState((byte)10);
       }
 
-      C25.B().C25_f348.selectOption = 1;
-      C25.B().C25_f348.isPlayerControl = true;
+      GameWorldManager.B().C25_f348.selectOption = 1;
+      GameWorldManager.B().C25_f348.isPlayerControl = true;
    }
 
-   private static boolean d(C41 var0) {
+   private static boolean d(PokemonEntity var0) {
       return var0.r(0) > 0 || var0.r(1) > 0;
    }
 
    private boolean O() {
-      return this.C29_f408.s() != ((C41)this.C29_f408.followTarget).s() || this.C29_f408.p(8);
+      return this.C29_f408.s() != ((PokemonEntity)this.C29_f408.followTarget).s() || this.C29_f408.p(8);
    }
 
-   private static int e(C41 var0) {
+   private static int e(PokemonEntity var0) {
       byte var1 = var0.C41_f646[0];
       int[] var2 = new int[]{50, 20, 15, 10, 5, 5, 5, 5, 5, 5};
       int var3 = GameUtils.getRandomInt(100);
@@ -2312,9 +2312,9 @@ public final class C29 extends GameEngineBase {
    public final void d(byte var1) {
       this.C29_f408.C41_f664.removeAllElements();
       this.C29_f408.C41_f665.removeAllElements();
-      C41 var10000 = this.C29_f408;
+      PokemonEntity var10000 = this.C29_f408;
       int var2;
-      switch(C41.a((byte)var1, (byte)9)) {
+      switch(PokemonEntity.a((byte)var1, (byte)9)) {
       case 0:
          for(var2 = 0; var2 < this.C29_f402.length; ++var2) {
             if (this.C29_f402[var2].s() != this.C29_f408.s() && this.C29_f402[var2].T()) {
@@ -2335,7 +2335,7 @@ public final class C29 extends GameEngineBase {
       }
    }
 
-   private void f(C41 var1) {
+   private void f(PokemonEntity var1) {
       var1.C41_f664.removeAllElements();
       var1.C41_f665.removeAllElements();
 
@@ -2349,16 +2349,16 @@ public final class C29 extends GameEngineBase {
    }
 
    public final void G() {
-      C41 var10000 = this.C29_f408;
-      C41 var2 = (C41)this.C29_f408.C41_f664.elementAt(this.C29_f419);
+      PokemonEntity var10000 = this.C29_f408;
+      PokemonEntity var2 = (PokemonEntity)this.C29_f408.C41_f664.elementAt(this.C29_f419);
       var10000.followTarget = var2;
       this.C29_f408.C41_f666 = Byte.parseByte((String)this.C29_f408.C41_f665.elementAt(this.C29_f419));
-      this.C29_f408.h(((C41)this.C29_f409.elementAt(this.C29_f410)).C41_f646[this.gameController.C9_f129]);
+      this.C29_f408.h(((PokemonEntity)this.C29_f409.elementAt(this.C29_f410)).C41_f646[this.gameController.C9_f129]);
       this.a(Integer.parseInt((String)this.C29_f408.C41_f665.elementAt(this.C29_f419)), false);
       this.F();
    }
 
-   private int g(C41 var1) {
+   private int g(PokemonEntity var1) {
       if (!var1.T()) {
          if (var1.s() == 0) {
             if (this.P()) {
@@ -2436,8 +2436,8 @@ public final class C29 extends GameEngineBase {
       this.C29_f409.removeAllElements();
       int var2 = -1;
 
-      C41 var10000;
-      C41 var10001;
+      PokemonEntity var10000;
+      PokemonEntity var10001;
       byte var1;
       int var3;
       byte var6;
@@ -2505,29 +2505,29 @@ public final class C29 extends GameEngineBase {
    }
 
    private void R() {
-      C41 var10000;
+      PokemonEntity var10000;
       byte var2;
       if (this.C29_f408.f((byte)10)) {
-         var10000 = (C41)this.C29_f408.followTarget;
+         var10000 = (PokemonEntity)this.C29_f408.followTarget;
          var2 = 1;
          if (var10000.secondaryStates[var2] <= ResourceManager.gameDatabase[3][10][5]) {
-            var10000 = (C41)this.C29_f408.followTarget;
+            var10000 = (PokemonEntity)this.C29_f408.followTarget;
             short var3 = ResourceManager.gameDatabase[3][10][5];
             var2 = 1;
             var10000.secondaryStates[var2] = var3;
          }
       }
 
-      var10000 = (C41)this.C29_f408.followTarget;
+      var10000 = (PokemonEntity)this.C29_f408.followTarget;
       var2 = 1;
       if (var10000.secondaryStates[var2] <= 0) {
-         ((C41)this.C29_f408.followTarget).a((byte)3, true);
+         ((PokemonEntity)this.C29_f408.followTarget).a((byte)3, true);
       } else {
-         ((C41)this.C29_f408.followTarget).a((byte)0, true);
+         ((PokemonEntity)this.C29_f408.followTarget).a((byte)0, true);
       }
    }
 
-   private boolean c(C41 var1, boolean var2) {
+   private boolean c(PokemonEntity var1, boolean var2) {
       if (this.C29_f398 == 0 && var2) {
          if (var1.C41_f669 != null && !var1.C41_f669.isActive()) {
             return true;
@@ -2587,15 +2587,15 @@ public final class C29 extends GameEngineBase {
    private boolean U() {
       if (ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][3] == 0) {
          this.gameController.C9_f149 = 0;
-         if (((C41)this.C29_f408.followTarget).s() == 0) {
-            this.gameController.a((C41)this.C29_f408.followTarget);
+         if (((PokemonEntity)this.C29_f408.followTarget).s() == 0) {
+            this.gameController.a((PokemonEntity)this.C29_f408.followTarget);
          } else {
-            this.gameController.b((C41)this.C29_f408.followTarget);
+            this.gameController.b((PokemonEntity)this.C29_f408.followTarget);
          }
 
-         ((C41)this.C29_f408.followTarget).a((byte)0, true);
+         ((PokemonEntity)this.C29_f408.followTarget).a((byte)0, true);
          return true;
-      } else if (((C41)this.C29_f408.followTarget).q() == 3) {
+      } else if (((PokemonEntity)this.C29_f408.followTarget).q() == 3) {
          return true;
       } else {
          if (!this.C29_f466) {
@@ -2605,9 +2605,9 @@ public final class C29 extends GameEngineBase {
             }
 
             if (this.C29_f408.m(4)) {
-               var1 = ((C41)this.C29_f408.followTarget).t() - (var1 - this.C29_f408.C41_f642[4][1]) << 1;
+               var1 = ((PokemonEntity)this.C29_f408.followTarget).t() - (var1 - this.C29_f408.C41_f642[4][1]) << 1;
             } else {
-               var1 = ((C41)this.C29_f408.followTarget).t() - var1 << 1;
+               var1 = ((PokemonEntity)this.C29_f408.followTarget).t() - var1 << 1;
             }
 
             if (this.C29_f408.f((byte)9)) {
@@ -2621,12 +2621,12 @@ public final class C29 extends GameEngineBase {
             }
 
             if (GameUtils.getRandomInt(100) >= var1) {
-               ((C41)this.C29_f408.followTarget).k(this.C29_f432[0]);
+               ((PokemonEntity)this.C29_f408.followTarget).k(this.C29_f432[0]);
                if (this.C29_f408.f((byte)10)) {
-                  C41 var10000 = (C41)this.C29_f408.followTarget;
+                  PokemonEntity var10000 = (PokemonEntity)this.C29_f408.followTarget;
                   byte var2 = 1;
                   if (var10000.secondaryStates[var2] <= ResourceManager.gameDatabase[3][10][5]) {
-                     var10000 = (C41)this.C29_f408.followTarget;
+                     var10000 = (PokemonEntity)this.C29_f408.followTarget;
                      short var3 = ResourceManager.gameDatabase[3][10][5];
                      var2 = 1;
                      var10000.secondaryStates[var2] = var3;
@@ -2634,35 +2634,35 @@ public final class C29 extends GameEngineBase {
                }
 
                if (this.C29_f432[1] == 1) {
-                  this.a("-" + this.C29_f432[0], (byte)0, 1, ((C41)this.C29_f408.followTarget).s(), ((C41)this.C29_f408.followTarget).worldX, ((C41)this.C29_f408.followTarget).worldY, 15, 19);
+                  this.a("-" + this.C29_f432[0], (byte)0, 1, ((PokemonEntity)this.C29_f408.followTarget).s(), ((PokemonEntity)this.C29_f408.followTarget).worldX, ((PokemonEntity)this.C29_f408.followTarget).worldY, 15, 19);
                } else {
-                  this.a("-" + this.C29_f432[0], (byte)0, 0, ((C41)this.C29_f408.followTarget).s(), ((C41)this.C29_f408.followTarget).worldX, ((C41)this.C29_f408.followTarget).worldY, 9, 12);
+                  this.a("-" + this.C29_f432[0], (byte)0, 0, ((PokemonEntity)this.C29_f408.followTarget).s(), ((PokemonEntity)this.C29_f408.followTarget).worldX, ((PokemonEntity)this.C29_f408.followTarget).worldY, 9, 12);
                }
 
                if (this.C29_f432[2] != -1) {
-                  this.a(GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[7][this.C29_f432[2]][0]), (byte)1, 0, ((C41)this.C29_f408.followTarget).s(), ((C41)this.C29_f408.followTarget).worldX, ((C41)this.C29_f408.followTarget).worldY, 9, 12);
+                  this.a(GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[7][this.C29_f432[2]][0]), (byte)1, 0, ((PokemonEntity)this.C29_f408.followTarget).s(), ((PokemonEntity)this.C29_f408.followTarget).worldX, ((PokemonEntity)this.C29_f408.followTarget).worldY, 9, 12);
                }
             } else {
-               this.a("Né tránh", (byte)1, 0, ((C41)this.C29_f408.followTarget).s(), ((C41)this.C29_f408.followTarget).worldX, ((C41)this.C29_f408.followTarget).worldY, 9, 12);
+               this.a("Né tránh", (byte)1, 0, ((PokemonEntity)this.C29_f408.followTarget).s(), ((PokemonEntity)this.C29_f408.followTarget).worldX, ((PokemonEntity)this.C29_f408.followTarget).worldY, 9, 12);
             }
 
             this.C29_f466 = true;
             this.gameController.C9_f149 = 0;
-            if (((C41)this.C29_f408.followTarget).s() == 0) {
-               this.gameController.a((C41)this.C29_f408.followTarget);
+            if (((PokemonEntity)this.C29_f408.followTarget).s() == 0) {
+               this.gameController.a((PokemonEntity)this.C29_f408.followTarget);
             } else {
-               this.gameController.b((C41)this.C29_f408.followTarget);
+               this.gameController.b((PokemonEntity)this.C29_f408.followTarget);
             }
          }
 
          boolean var4 = this.S();
-         if (((C41)this.C29_f408.followTarget).s() == 0) {
-            if (this.gameController.a((C41)this.C29_f408.followTarget, false) && var4) {
+         if (((PokemonEntity)this.C29_f408.followTarget).s() == 0) {
+            if (this.gameController.a((PokemonEntity)this.C29_f408.followTarget, false) && var4) {
                this.R();
                this.C29_f466 = false;
                return true;
             }
-         } else if (this.gameController.b((C41)this.C29_f408.followTarget, false) && var4) {
+         } else if (this.gameController.b((PokemonEntity)this.C29_f408.followTarget, false) && var4) {
             this.R();
             this.C29_f466 = false;
             return true;
@@ -2672,7 +2672,7 @@ public final class C29 extends GameEngineBase {
       }
    }
 
-   private boolean a(C41 var1, boolean var2, int var3) {
+   private boolean a(PokemonEntity var1, boolean var2, int var3) {
       byte var4;
       if (var1.s() == 0) {
          var4 = 1;
@@ -2707,7 +2707,7 @@ public final class C29 extends GameEngineBase {
          if (ResourceManager.gameDatabase[1][this.C29_f408.C41_f659][9] == 0) {
             this.C29_f467 = this.C29_f408.O();
          } else {
-            this.C29_f467 = ((C41)this.C29_f408.followTarget).O();
+            this.C29_f467 = ((PokemonEntity)this.C29_f408.followTarget).O();
          }
 
          byte var2;
@@ -2745,7 +2745,7 @@ public final class C29 extends GameEngineBase {
             break;
          default:
             if (ResourceManager.gameDatabase[1][var2][6] == 1) {
-               var1 = ((C41)this.C29_f408.followTarget).a((byte)((byte) ResourceManager.gameDatabase[1][var2][7]), -1, var2);
+               var1 = ((PokemonEntity)this.C29_f408.followTarget).a((byte)((byte) ResourceManager.gameDatabase[1][var2][7]), -1, var2);
             }
          }
 
@@ -2758,12 +2758,12 @@ public final class C29 extends GameEngineBase {
                this.C29_f408.l((short)(this.C29_f432[0] * ResourceManager.gameDatabase[3][8][6] / 100));
             }
 
-            if (((C41)this.C29_f408.followTarget).m(2)) {
-               int var4 = this.C29_f432[0] * ((C41)this.C29_f408.followTarget).C41_f641[2][2] / 100;
+            if (((PokemonEntity)this.C29_f408.followTarget).m(2)) {
+               int var4 = this.C29_f432[0] * ((PokemonEntity)this.C29_f408.followTarget).C41_f641[2][2] / 100;
                this.C29_f408.k(var4);
             }
 
-            if (((C41)this.C29_f408.followTarget).m(5) && (var7 = this.C29_f408.C41_f668[5]) > 0) {
+            if (((PokemonEntity)this.C29_f408.followTarget).m(5) && (var7 = this.C29_f408.C41_f668[5]) > 0) {
                this.C29_f408.k(var7);
                this.C29_f408.C41_f668[5] = 0;
             }
@@ -2777,7 +2777,7 @@ public final class C29 extends GameEngineBase {
                this.a("+" + var1, (byte)0, 2, this.C29_f408.s(), this.C29_f408.worldX, this.C29_f408.worldY, 9, 12);
             }
          } else if (var1 > 0) {
-            this.a("+" + var1, (byte)0, 2, ((C41)this.C29_f408.followTarget).s(), ((C41)this.C29_f408.followTarget).worldX, ((C41)this.C29_f408.followTarget).worldY, 9, 12);
+            this.a("+" + var1, (byte)0, 2, ((PokemonEntity)this.C29_f408.followTarget).s(), ((PokemonEntity)this.C29_f408.followTarget).worldX, ((PokemonEntity)this.C29_f408.followTarget).worldY, 9, 12);
          }
 
          if (var3 == 1) {
@@ -2793,7 +2793,7 @@ public final class C29 extends GameEngineBase {
                this.a(GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[6][var7][0]), (byte)1, 2, this.C29_f408.s(), this.C29_f408.worldX, this.C29_f408.worldY, 9, 12);
                break;
             default:
-               this.a(GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[6][var7][0]), (byte)1, 2, ((C41)this.C29_f408.followTarget).s(), ((C41)this.C29_f408.followTarget).worldX, ((C41)this.C29_f408.followTarget).worldY, 9, 12);
+               this.a(GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[6][var7][0]), (byte)1, 2, ((PokemonEntity)this.C29_f408.followTarget).s(), ((PokemonEntity)this.C29_f408.followTarget).worldX, ((PokemonEntity)this.C29_f408.followTarget).worldY, 9, 12);
             }
          }
 
@@ -2806,10 +2806,10 @@ public final class C29 extends GameEngineBase {
             }
          } else {
             this.gameController.C9_f149 = 0;
-            if (((C41)this.C29_f408.followTarget).s() == 0) {
-               this.gameController.a((C41)this.C29_f408.followTarget);
+            if (((PokemonEntity)this.C29_f408.followTarget).s() == 0) {
+               this.gameController.a((PokemonEntity)this.C29_f408.followTarget);
             } else {
-               this.gameController.b((C41)this.C29_f408.followTarget);
+               this.gameController.b((PokemonEntity)this.C29_f408.followTarget);
             }
          }
 
@@ -2817,16 +2817,16 @@ public final class C29 extends GameEngineBase {
       }
 
       boolean var6 = this.S();
-      return ((C41)this.C29_f408.followTarget).s() == this.C29_f408.s() && !this.C29_f408.p(9) ? this.a((C41)this.C29_f408.followTarget, var6, this.C29_f467) : this.a(this.C29_f408, var6, this.C29_f467);
+      return ((PokemonEntity)this.C29_f408.followTarget).s() == this.C29_f408.s() && !this.C29_f408.p(9) ? this.a((PokemonEntity)this.C29_f408.followTarget, var6, this.C29_f467) : this.a(this.C29_f408, var6, this.C29_f467);
    }
 
    private static void W() {
       int var0;
       for(var0 = 0; var0 < C29_f413.size(); ++var0) {
-         if (((C41)C29_f413.elementAt(var0)).T()) {
-            ((C41)C29_f413.elementAt(var0)).g(((C41)C29_f413.elementAt(var0)).C41_f653);
-            ((C41)C29_f413.elementAt(var0)).C41_f653 = 0;
-            ((C41)C29_f413.elementAt(var0)).e(false);
+         if (((PokemonEntity)C29_f413.elementAt(var0)).T()) {
+            ((PokemonEntity)C29_f413.elementAt(var0)).g(((PokemonEntity)C29_f413.elementAt(var0)).C41_f653);
+            ((PokemonEntity)C29_f413.elementAt(var0)).C41_f653 = 0;
+            ((PokemonEntity)C29_f413.elementAt(var0)).e(false);
          } else {
             C29_f413.removeElementAt(var0);
             --var0;
@@ -2836,8 +2836,8 @@ public final class C29 extends GameEngineBase {
       if (C29_f395.b((byte)0, (byte)0) == 2 && C29_f395.b((byte)0, (byte)1) == 1) {
          for(var0 = 0; var0 < C29_f395.C53_f778; ++var0) {
             if (C29_f395.C53_f777[var0].T()) {
-               C41 var10000 = C29_f395.C53_f777[var0];
-               C41 var10001 = C29_f395.C53_f777[var0];
+               PokemonEntity var10000 = C29_f395.C53_f777[var0];
+               PokemonEntity var10001 = C29_f395.C53_f777[var0];
                byte var2 = 1;
                var10000.u(var10001.secondaryStates[var2] + ResourceManager.gameDatabase[0][C29_f395.C53_f777[var0].r()][5] * ResourceManager.gameDatabase[2][0][6] / 100);
                C29_f395.C53_f777[var0].l(ResourceManager.gameDatabase[0][C29_f395.C53_f777[var0].r()][5] * ResourceManager.gameDatabase[2][0][6] / 100);
@@ -2847,20 +2847,20 @@ public final class C29 extends GameEngineBase {
 
    }
 
-   private void h(C41 var1) {
+   private void h(PokemonEntity var1) {
       int var2;
       int var10000 = ((var2 = var1.t()) << 1) * var2 + 50;
       byte var3 = 0;
       int var9 = var10000 * this.C29_f468[var1.primaryStates[var3] - 1] / 10 + 400;
       int var10;
       int[] var4 = new int[var10 = C29_f412.size()];
-      C41 var5 = null;
+      PokemonEntity var5 = null;
       byte var6 = 0;
 
       int var7;
       int var8;
       for(var8 = 0; var8 < var10; ++var8) {
-         if ((var5 = (C41)C29_f412.elementAt(var8)).t() - var2 >= 6) {
+         if ((var5 = (PokemonEntity)C29_f412.elementAt(var8)).t() - var2 >= 6) {
             var6 = this.C29_f470[6];
          } else if (var5.t() - var2 > 0) {
             var6 = this.C29_f470[var5.t() - var2];
@@ -2884,7 +2884,7 @@ public final class C29 extends GameEngineBase {
 
       for(var8 = 0; var8 < C29_f395.C53_f778; ++var8) {
          if (this.n(var8).T() && !C29_f412.contains(this.n(var8))) {
-            C41 var12;
+            PokemonEntity var12;
             if (C29_f395.b((byte)7, (byte)0) == 2) {
                if (var5.t() - var2 >= 6) {
                   var6 = this.C29_f470[6];
@@ -2926,20 +2926,20 @@ public final class C29 extends GameEngineBase {
       }
 
       for(var9 = 0; var9 < C29_f412.size(); ++var9) {
-         C41 var11;
-         if (!(var11 = (C41)C29_f412.elementAt(var9)).L()) {
+         PokemonEntity var11;
+         if (!(var11 = (PokemonEntity)C29_f412.elementAt(var9)).L()) {
             C29_f412.removeElement(var11);
          }
       }
 
       if (C29_f395.l(0)) {
          if (C29_f395.C53_f786 == 0) {
-            if (var5.t() >= 30 && ++C25.C25_f314 >= 10) {
-               C25.C25_f314 = 10;
+            if (var5.t() >= 30 && ++GameWorldManager.C25_f314 >= 10) {
+               GameWorldManager.C25_f314 = 10;
                return;
             }
-         } else if (var5.t() >= 40 && ++C25.C25_f314 >= 30) {
-            C25.C25_f314 = 30;
+         } else if (var5.t() >= 40 && ++GameWorldManager.C25_f314 >= 30) {
+            GameWorldManager.C25_f314 = 30;
          }
       }
 
@@ -2950,15 +2950,15 @@ public final class C29 extends GameEngineBase {
          return 100;
       } else {
          byte var2 = 0;
-         if (((C41)this.C29_f408.followTarget).m(1)) {
+         if (((PokemonEntity)this.C29_f408.followTarget).m(1)) {
             var2 = 1;
          }
 
-         if (((C41)this.C29_f408.followTarget).m(2)) {
+         if (((PokemonEntity)this.C29_f408.followTarget).m(2)) {
             var2 = 2;
          }
 
-         if (((C41)this.C29_f408.followTarget).m(10)) {
+         if (((PokemonEntity)this.C29_f408.followTarget).m(10)) {
             var2 = 3;
          }
 
@@ -2967,10 +2967,10 @@ public final class C29 extends GameEngineBase {
          }
 
          byte var3 = 1;
-         C41 var10000 = (C41)this.C29_f408.followTarget;
+         PokemonEntity var10000 = (PokemonEntity)this.C29_f408.followTarget;
          byte var6 = 1;
          short var4 = var10000.secondaryStates[var6];
-         var10000 = (C41)this.C29_f408.followTarget;
+         var10000 = (PokemonEntity)this.C29_f408.followTarget;
          var6 = 1;
          short var5 = var10000.primaryStates[var6];
          if (var4 <= var5 * 15 / 100) {
@@ -2983,7 +2983,7 @@ public final class C29 extends GameEngineBase {
 
          int var10 = var3 * ResourceManager.gameDatabase[4][var1][6] / 100;
          int[] var8 = new int[]{110, 100, 95, 80, 70};
-         C41 var10002 = (C41)this.C29_f408.followTarget;
+         PokemonEntity var10002 = (PokemonEntity)this.C29_f408.followTarget;
          var6 = 0;
          var10 = var10 * var8[var10002.primaryStates[var6] - 1] / 100;
          var8 = new int[]{10, 11, 12, 12, 12};
@@ -2993,8 +2993,8 @@ public final class C29 extends GameEngineBase {
          }
 
          int[] var7 = new int[]{1000, 500, 1, 1000};
-         var10 = var10 * var7[ResourceManager.gameDatabase[0][((C41)this.C29_f408.followTarget).r()][22]] / 1000;
-         if (((C41)this.C29_f408.followTarget).t() >= 20) {
+         var10 = var10 * var7[ResourceManager.gameDatabase[0][((PokemonEntity)this.C29_f408.followTarget).r()][22]] / 1000;
+         if (((PokemonEntity)this.C29_f408.followTarget).t() >= 20) {
             byte[] var9 = new byte[]{0, 15, 35, 65};
             if (var10 >= var9[var1]) {
                var10 = var9[var1];
@@ -3011,11 +3011,11 @@ public final class C29 extends GameEngineBase {
       }
    }
 
-   public final C41 n(int var1) {
+   public final PokemonEntity n(int var1) {
       return var1 > this.C29_f405.length - 1 ? null : C29_f395.C53_f777[var1];
    }
 
-   public final C41 o(int var1) {
+   public final PokemonEntity o(int var1) {
       return var1 > this.C29_f405.length - 1 ? null : C29_f395.C53_f777[this.C29_f405[var1]];
    }
 
@@ -3032,7 +3032,7 @@ public final class C29 extends GameEngineBase {
    }
 
    public final void q() {
-      C41 var10000;
+      PokemonEntity var10000;
       int var1;
       byte var3;
       switch(actionType) {

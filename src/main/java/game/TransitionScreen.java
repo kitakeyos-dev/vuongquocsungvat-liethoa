@@ -2,7 +2,7 @@ package game;
 
 import a.GameEngineBase;
 import a.a.GameObject;
-import a.a.C30;
+import a.a.ScreenTransitionManager;
 import a.a.WorldRenderer;
 import a.b.CameraController;
 import a.b.TileMapRenderer;
@@ -132,8 +132,8 @@ public final class TransitionScreen extends GameEngineBase {
       this.C44_f699 = this.C44_f698;
       switch(newState) {
          case 1:
-            C30.a().c(0, 13);
-            C30.a().a(5, 1, getScreenWidth(), 30, 30);
+            ScreenTransitionManager.a().c(0, 13);
+            ScreenTransitionManager.a().a(5, 1, getScreenWidth(), 30, 30);
             break;
          case 2:
             this.transitionComplete = false;
@@ -141,8 +141,8 @@ public final class TransitionScreen extends GameEngineBase {
             break;
          case 3:
             this.transitionComplete = false;
-            C30.a().c(0, 12);
-            C30.a().a(5, 1, getScreenWidth(), 30, 30);
+            ScreenTransitionManager.a().c(0, 12);
+            ScreenTransitionManager.a().a(5, 1, getScreenWidth(), 30, 30);
       }
    }
 

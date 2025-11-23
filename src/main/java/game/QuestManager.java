@@ -3,7 +3,7 @@ package game;
 import a.GameUtils;
 import a.GameEngineBase;
 import a.a.GameObject;
-import a.a.C30;
+import a.a.ScreenTransitionManager;
 import a.b.CameraController;
 import a.b.GameEntity;
 import a.b.ResourceManager;
@@ -21,8 +21,8 @@ import javax.microedition.lcdui.Image;
 public final class QuestManager extends GameEngineBase {
    public static byte questState;
    private static QuestManager instance = null;
-   private C25 mapManager;
-   private C53 player;
+   private GameWorldManager mapManager;
+   private PlayerCharacter player;
    private GameEngineBase gameEngine;
    public EventScript[] eventScripts;
    private Vector activeEvents;
@@ -33,7 +33,7 @@ public final class QuestManager extends GameEngineBase {
    public int questChangeState = -1;
    private static Vector effectObjects;
    public static Vector questEffectObjects;
-   private C39 dialogManager = C39.a();
+   private TextRenderingEngine dialogManager = TextRenderingEngine.a();
    public static boolean isChangingState = false;
    public static boolean isQuestActive = true;
    public static boolean isQuestTriggered = false;
@@ -81,11 +81,11 @@ public final class QuestManager extends GameEngineBase {
 
    public QuestManager() {
       if (this.mapManager == null) {
-         this.mapManager = C25.B();
+         this.mapManager = GameWorldManager.B();
       }
 
       if (this.player == null) {
-         this.player = C53.p();
+         this.player = PlayerCharacter.p();
       }
 
       if (this.questStates == null) {
@@ -137,7 +137,7 @@ public final class QuestManager extends GameEngineBase {
 
    public final void update() {
       if (this.eventScripts != null) {
-         C30.a().d();
+         ScreenTransitionManager.a().d();
          this.dialogManager.d();
          QuestManager var1 = this;
 
@@ -159,12 +159,12 @@ public final class QuestManager extends GameEngineBase {
                      var1.player.a((byte)0, (byte)var1.player.currentDirection);
                      break;
                   case 15:
-                     if (var1.questStates[C25.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])] != null && (var1.questStates[C25.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] == 3 || var1.questStates[C25.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] == 4)) {
+                     if (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])] != null && (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] == 3 || var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] == 4)) {
                         var4 = true;
                      }
                      break label218;
                   case 16:
-                     if (var3.getNumericParameters()[0] != C25.C25_f318) {
+                     if (var3.getNumericParameters()[0] != GameWorldManager.C25_f318) {
                         break label218;
                      }
 
@@ -177,7 +177,7 @@ public final class QuestManager extends GameEngineBase {
                      isQuestReady = false;
                      break;
                   case 43:
-                     if (C25.e(var3.getNumericParameters()[2], var3.getNumericParameters()[3]) == C25.e(var1.mapManager.C25_f290, var1.mapManager.C25_f291) && var3.getNumericParameters()[4] == C25.C25_f318 && var1.checkEventCondition(var3)) {
+                     if (GameWorldManager.e(var3.getNumericParameters()[2], var3.getNumericParameters()[3]) == GameWorldManager.e(var1.mapManager.C25_f290, var1.mapManager.C25_f291) && var3.getNumericParameters()[4] == GameWorldManager.C25_f318 && var1.checkEventCondition(var3)) {
                         isQuestTriggered = true;
                         if (isQuestReady && var1.findEventIndex(-1) == -1) {
                            var15 = var2;
@@ -192,7 +192,7 @@ public final class QuestManager extends GameEngineBase {
                               }
 
                               ScriptCommand var8;
-                              if (var14.eventScripts[var7].getExecutionState() != 3 && var15 != var7 && (var8 = var14.eventScripts[var7].getFirstCommand()).getCommandId() == 43 && C25.e(var8.getNumericParameters()[2], var8.getNumericParameters()[3]) == C25.e(var14.mapManager.C25_f290, var14.mapManager.C25_f291) && var8.getNumericParameters()[4] == C25.C25_f318 && var14.checkEventCondition(var8)) {
+                              if (var14.eventScripts[var7].getExecutionState() != 3 && var15 != var7 && (var8 = var14.eventScripts[var7].getFirstCommand()).getCommandId() == 43 && GameWorldManager.e(var8.getNumericParameters()[2], var8.getNumericParameters()[3]) == GameWorldManager.e(var14.mapManager.C25_f290, var14.mapManager.C25_f291) && var8.getNumericParameters()[4] == GameWorldManager.C25_f318 && var14.checkEventCondition(var8)) {
                                  var10001 = (byte)var7;
                                  break;
                               }
@@ -212,7 +212,7 @@ public final class QuestManager extends GameEngineBase {
                      }
                      break label218;
                   case 44:
-                     if (C25.e(var3.getNumericParameters()[2], var3.getNumericParameters()[3]) == C25.e(var1.mapManager.C25_f290, var1.mapManager.C25_f291) && var3.getNumericParameters()[4] == C25.C25_f318 && var1.checkEventCompletion(var3)) {
+                     if (GameWorldManager.e(var3.getNumericParameters()[2], var3.getNumericParameters()[3]) == GameWorldManager.e(var1.mapManager.C25_f290, var1.mapManager.C25_f291) && var3.getNumericParameters()[4] == GameWorldManager.C25_f318 && var1.checkEventCompletion(var3)) {
                         isQuestTriggered = true;
                         if (isQuestReady && var2 >= var1.findEventIndex(var2)) {
                            isQuestTriggered = false;
@@ -222,9 +222,9 @@ public final class QuestManager extends GameEngineBase {
                      }
                      break label218;
                   case 57:
-                     if (var1.player.followTarget != null && ((C18)var1.player.followTarget).C18_f223 == 0 && ((C18)var1.player.followTarget).C18_f225 == 11 && ((C18)var1.player.followTarget).C18_f248 == var3.getNumericParameters()[3] && isQuestReady) {
+                     if (var1.player.followTarget != null && ((NPCEntity)var1.player.followTarget).C18_f223 == 0 && ((NPCEntity)var1.player.followTarget).C18_f225 == 11 && ((NPCEntity)var1.player.followTarget).C18_f248 == var3.getNumericParameters()[3] && isQuestReady) {
                         if (var1.mapManager.C25_f287[var3.getNumericParameters()[0]].worldX == var3.getNumericParameters()[1] && var1.mapManager.C25_f287[var3.getNumericParameters()[0]].worldY == var3.getNumericParameters()[2]) {
-                           ((C18)var1.player.followTarget).a((byte)0);
+                           ((NPCEntity)var1.player.followTarget).a((byte)0);
                         } else {
                            var4 = true;
                         }
@@ -262,7 +262,7 @@ public final class QuestManager extends GameEngineBase {
                      }
                      break label218;
                   case 69:
-                     if (var3.getNumericParameters()[0] != C25.C25_f318) {
+                     if (var3.getNumericParameters()[0] != GameWorldManager.C25_f318) {
                         break label218;
                      }
                      break;
@@ -288,7 +288,7 @@ public final class QuestManager extends GameEngineBase {
                      byte[] var6 = GameUtils.parseStringToBytes(var3.getStringParameters()[1]);
                      byte[] var9 = GameUtils.parseStringToBytes(var3.getStringParameters()[2]);
 
-                     for(var7 = 0; var7 < var9.length && var1.questStates[C25.e(var5[var7], var6[var7])] != null && (var1.questStates[C25.e(var5[var7], var6[var7])][var9[var7]] == 3 || var1.questStates[C25.e(var5[var7], var6[var7])][var9[var7]] == 4); ++var7) {
+                     for(var7 = 0; var7 < var9.length && var1.questStates[GameWorldManager.e(var5[var7], var6[var7])] != null && (var1.questStates[GameWorldManager.e(var5[var7], var6[var7])][var9[var7]] == 3 || var1.questStates[GameWorldManager.e(var5[var7], var6[var7])][var9[var7]] == 4); ++var7) {
                      }
 
                      if (var7 >= var9.length) {
@@ -296,7 +296,7 @@ public final class QuestManager extends GameEngineBase {
                      }
                      break label218;
                   case 79:
-                     if (var1.questStates[C25.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])] == null || var1.questStates[C25.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] != 3 || var1.player.l(0) || C25.C25_f318 != var3.getNumericParameters()[3]) {
+                     if (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])] == null || var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] != 3 || var1.player.l(0) || GameWorldManager.C25_f318 != var3.getNumericParameters()[3]) {
                         break label218;
                      }
 
@@ -308,7 +308,7 @@ public final class QuestManager extends GameEngineBase {
                      isQuestReady = false;
                      break;
                   case 86:
-                     if (var1.questStates[C25.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])] == null || var1.questStates[C25.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] != 3) {
+                     if (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])] == null || var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] != 3) {
                         break label218;
                      }
                   }
@@ -320,12 +320,12 @@ public final class QuestManager extends GameEngineBase {
                   var1.currentEventIndex = (byte)var2;
                   var1.eventScripts[var2].setCurrentCommandIndex((byte)0);
                   var1.activeEvents.addElement(var1.eventScripts[var2]);
-                  C25 var10000 = var1.mapManager;
+                  GameWorldManager var10000 = var1.mapManager;
                   byte var16;
-                  if ((var16 = C25.a(var1.currentEventIndex, (byte)0)) != -1) {
+                  if ((var16 = GameWorldManager.a(var1.currentEventIndex, (byte)0)) != -1) {
                      var1.lastEventIndex = var1.currentEventIndex;
                      var1.mapManager.C25_f342.playBackgroundMusic(var16, 1);
-                     C25.C25_f345 = true;
+                     GameWorldManager.C25_f345 = true;
                   }
 
                   var1.eventScripts[var2].setExecutionState((byte)1);
@@ -383,14 +383,14 @@ public final class QuestManager extends GameEngineBase {
    }
 
    public final void renderPauseScreen(Graphics var1) {
-      C30.a().a(var1);
+      ScreenTransitionManager.a().a(var1);
       if (questEffectImage != null) {
          var1.setColor(0);
          var1.fillRect(0, 0, getScreenWidth(), getScreenHeight());
          var1.drawImage(questEffectImage, this.effectImageX, this.effectImageY, 20);
       }
 
-      if (this.questSpecialObject != null && this.questSpecialObjectId == C25.e(this.mapManager.C25_f290, this.mapManager.C25_f291)) {
+      if (this.questSpecialObject != null && this.questSpecialObjectId == GameWorldManager.e(this.mapManager.C25_f290, this.mapManager.C25_f291)) {
          this.questSpecialObject.render(var1, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY);
       }
 
@@ -406,8 +406,8 @@ public final class QuestManager extends GameEngineBase {
        this.activeEvents = new Vector();
        effectObjects = new Vector();
        int var6 = var2 << 8 | var3;
-       if (this.questStates[C25.C25_f297[var2] + var3] == null) {
-          this.questStates[C25.C25_f297[var2] + var3] = new byte[var4];
+       if (this.questStates[GameWorldManager.C25_f297[var2] + var3] == null) {
+          this.questStates[GameWorldManager.C25_f297[var2] + var3] = new byte[var4];
        }
 
        this.currentEventIndex = -1;
@@ -416,7 +416,7 @@ public final class QuestManager extends GameEngineBase {
        for(byte var7 = 0; var7 < var4; ++var7) {
           this.eventScripts[var7] = new EventScript();
           this.eventScripts[var7].loadFromStream(var1, var7, var6, var5);
-          this.eventScripts[var7].setExecutionState(this.questStates[C25.C25_f297[var2] + var3][var7]);
+          this.eventScripts[var7].setExecutionState(this.questStates[GameWorldManager.C25_f297[var2] + var3][var7]);
        }
 
        this.updateQuestEffects();
@@ -463,7 +463,7 @@ public final class QuestManager extends GameEngineBase {
    private byte findEventIndex(int var1) {
       for(int var2 = 0; var2 < this.eventScripts.length; ++var2) {
          ScriptCommand var3;
-         if (this.eventScripts[var2].getExecutionState() != 3 && var1 != var2 && (var3 = this.eventScripts[var2].getFirstCommand()).getCommandId() == 44 && C25.e(var3.getNumericParameters()[2], var3.getNumericParameters()[3]) == C25.e(this.mapManager.C25_f290, this.mapManager.C25_f291) && var3.getNumericParameters()[4] == C25.C25_f318 && this.checkEventCompletion(var3)) {
+         if (this.eventScripts[var2].getExecutionState() != 3 && var1 != var2 && (var3 = this.eventScripts[var2].getFirstCommand()).getCommandId() == 44 && GameWorldManager.e(var3.getNumericParameters()[2], var3.getNumericParameters()[3]) == GameWorldManager.e(this.mapManager.C25_f290, this.mapManager.C25_f291) && var3.getNumericParameters()[4] == GameWorldManager.C25_f318 && this.checkEventCompletion(var3)) {
             return (byte)var2;
          }
       }
@@ -532,7 +532,7 @@ public final class QuestManager extends GameEngineBase {
                   break label1202;
                case 1:
                   if (var2.getExecutionState() != 5) {
-                     C30.a().c(0, 9);
+                     ScreenTransitionManager.a().c(0, 9);
                      this.dialogManager.a(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
                      this.dialogManager.a((byte)(var3.getNumericParameters()[0] / 10 - 1), var3.getStringParameters()[0], var3.getNumericParameters()[0] % 10);
                      this.dialogManager.a(true);
@@ -540,16 +540,16 @@ public final class QuestManager extends GameEngineBase {
                      break label1202;
                   }
 
-                  if (!C39.C39_f608 || !this.gameEngine.isKeyPressed(65537) && !this.gameEngine.isPointerClickInBounds(80, 294, 80, 18)) {
+                  if (!TextRenderingEngine.C39_f608 || !this.gameEngine.isKeyPressed(65537) && !this.gameEngine.isPointerClickInBounds(80, 294, 80, 18)) {
                      break label1202;
                   }
 
                   this.dialogManager.b();
-                  if (C39.C39_f610) {
+                  if (TextRenderingEngine.C39_f610) {
                      break label1202;
                   }
 
-                  C30.a().C30_f472 = -1;
+                  ScreenTransitionManager.a().C30_f472 = -1;
                   this.dialogManager.c();
                   break;
                case 2:
@@ -597,13 +597,13 @@ public final class QuestManager extends GameEngineBase {
                      this.mapManager.gameController.a((String)var3.getStringParameters()[0], (String)var3.getStringParameters()[1], var3.getNumericParameters()[1], var3.getNumericParameters()[0]);
                      var2.setExecutionState((byte)5);
                   } else if (this.mapManager.gameController.d(var3.getNumericParameters()[1], var3.getNumericParameters()[0]) && this.gameEngine.isKeyPressed(196640)) {
-                     C25.B().D();
+                     GameWorldManager.B().D();
                      if (GameUtils.pageCount < GameUtils.b()) {
                         GameUtils.c();
                         this.mapManager.gameController.b(GameUtils.pageCount);
                      } else {
-                        if (C25.C25_f318 != -1 && this.mapManager.C25_f287[C25.C25_f318].sprite.spriteSetId <= 85 && this.mapManager.C25_f287[C25.C25_f318].v() == 0) {
-                           C25.B().a((byte)13, C25.B().C25_f287[C25.C25_f318].worldX, C25.B().C25_f287[C25.C25_f318].worldY - 40, C25.B().C25_f287[C25.C25_f318]);
+                        if (GameWorldManager.C25_f318 != -1 && this.mapManager.C25_f287[GameWorldManager.C25_f318].sprite.spriteSetId <= 85 && this.mapManager.C25_f287[GameWorldManager.C25_f318].v() == 0) {
+                           GameWorldManager.B().a((byte)13, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldX, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldY - 40, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318]);
                         }
 
                         isQuestTriggered = false;
@@ -634,9 +634,9 @@ public final class QuestManager extends GameEngineBase {
                   effectObjects.addElement(var30);
                   break label1202;
                case 6:
-                  this.questStates[C25.C25_f297[this.mapManager.C25_f290] + this.mapManager.C25_f291][var2.getEventId()] = 3;
-                  C25.B().C25_f290 = var3.getNumericParameters()[0];
-                  C25.B().C25_f291 = var3.getNumericParameters()[1];
+                  this.questStates[GameWorldManager.C25_f297[this.mapManager.C25_f290] + this.mapManager.C25_f291][var2.getEventId()] = 3;
+                  GameWorldManager.B().C25_f290 = var3.getNumericParameters()[0];
+                  GameWorldManager.B().C25_f291 = var3.getNumericParameters()[1];
                   if (var3.getNumericParameters()[3] == 1) {
                      this.mapManager.C25_f295 = var3.getNumericParameters()[2];
                   } else {
@@ -685,7 +685,7 @@ public final class QuestManager extends GameEngineBase {
                   break;
                case 8:
                   this.player.activate();
-                  C25.C25_f318 = -1;
+                  GameWorldManager.C25_f318 = -1;
                   this.player.setWorldPosition(var3.getNumericParameters()[0], var3.getNumericParameters()[1]);
                   this.player.attachedObject.setWorldPosition(var3.getNumericParameters()[0], var3.getNumericParameters()[1]);
                   this.player.a((byte)0, (byte)this.player.currentDirection);
@@ -695,39 +695,39 @@ public final class QuestManager extends GameEngineBase {
                      var24 = false;
                      if (var3.getNumericParameters()[0] != 12 && var3.getNumericParameters()[0] != 13) {
                         if (var3.getNumericParameters()[0] == 10) {
-                           C30.a().c(0, var3.getNumericParameters()[0]);
-                           C30.a().d(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
+                           ScreenTransitionManager.a().c(0, var3.getNumericParameters()[0]);
+                           ScreenTransitionManager.a().d(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
                         } else if (var3.getNumericParameters()[0] != 15 && var3.getNumericParameters()[0] != 14) {
                            if (var3.getNumericParameters()[0] == 16) {
                               String[] var28;
                               if (var3.getNumericParameters()[1] == 0) {
                                  var28 = new String[]{"star0", "star1", "star2", "star3"};
-                                 C30.a().a(16, 0, (byte)var3.getNumericParameters()[2], (byte)7, C25.C25_f298, var28);
+                                 ScreenTransitionManager.a().a(16, 0, (byte)var3.getNumericParameters()[2], (byte)7, GameWorldManager.C25_f298, var28);
                               } else if (var3.getNumericParameters()[1] == 1) {
                                  var28 = new String[]{"fire0", "fire1", "fire2"};
-                                 C30.a().a(16, 0, (byte)var3.getNumericParameters()[2], (byte)0, (Image)null, var28);
+                                 ScreenTransitionManager.a().a(16, 0, (byte)var3.getNumericParameters()[2], (byte)0, (Image)null, var28);
                               } else if (var3.getNumericParameters()[1] == 2) {
                                  var28 = new String[]{"fire0", "fire1", "fire2"};
-                                 C30.a().a(17, 0, (byte)var3.getNumericParameters()[2], (byte)0, (Image)null, var28);
+                                 ScreenTransitionManager.a().a(17, 0, (byte)var3.getNumericParameters()[2], (byte)0, (Image)null, var28);
                               } else {
                                  var24 = true;
-                                 C30.a().a(-1, 0, (byte)var3.getNumericParameters()[2], (byte)0, (Image)null, (String[])null);
+                                 ScreenTransitionManager.a().a(-1, 0, (byte)var3.getNumericParameters()[2], (byte)0, (Image)null, (String[])null);
                                  var2.setExecutionState((byte)1);
                               }
                            } else if (var3.getNumericParameters()[0] == 17) {
-                              C30.a().c(var3.getNumericParameters()[1], var3.getNumericParameters()[0]);
-                              C30.a().a(var3.getNumericParameters()[2], var3.getNumericParameters()[3], var3.getNumericParameters()[4], var3.getNumericParameters()[5]);
+                              ScreenTransitionManager.a().c(var3.getNumericParameters()[1], var3.getNumericParameters()[0]);
+                              ScreenTransitionManager.a().a(var3.getNumericParameters()[2], var3.getNumericParameters()[3], var3.getNumericParameters()[4], var3.getNumericParameters()[5]);
                            } else {
                               var12 = var3.getNumericParameters()[1] << 24 | var3.getNumericParameters()[2] << 16 | var3.getNumericParameters()[3] << 8 | var3.getNumericParameters()[4];
-                              C30.a().c(var12, var3.getNumericParameters()[0]);
+                              ScreenTransitionManager.a().c(var12, var3.getNumericParameters()[0]);
                            }
                         } else {
-                           C30.a().c(0, var3.getNumericParameters()[0]);
-                           C30.a().a(this.questIconNames[var3.getNumericParameters()[1]], var3.getNumericParameters()[2], var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
+                           ScreenTransitionManager.a().c(0, var3.getNumericParameters()[0]);
+                           ScreenTransitionManager.a().a(this.questIconNames[var3.getNumericParameters()[1]], var3.getNumericParameters()[2], var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
                         }
                      } else {
-                        C30.a().c(0, var3.getNumericParameters()[0]);
-                        C30.a().a(var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3], var3.getNumericParameters()[4], var3.getNumericParameters()[5]);
+                        ScreenTransitionManager.a().c(0, var3.getNumericParameters()[0]);
+                        ScreenTransitionManager.a().a(var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3], var3.getNumericParameters()[4], var3.getNumericParameters()[5]);
                      }
 
                      if (!var24) {
@@ -736,12 +736,12 @@ public final class QuestManager extends GameEngineBase {
                      break label1202;
                   }
 
-                  if (C30.a().C30_f477 && (var3.getNumericParameters()[0] == 12 || var3.getNumericParameters()[0] == 13)) {
+                  if (ScreenTransitionManager.a().C30_f477 && (var3.getNumericParameters()[0] == 12 || var3.getNumericParameters()[0] == 13)) {
                      var2.setExecutionState((byte)1);
                      break label1202;
                   }
 
-                  if (var3.getNumericParameters()[0] != 16 && !C30.a().C30_f476) {
+                  if (var3.getNumericParameters()[0] != 16 && !ScreenTransitionManager.a().C30_f476) {
                      break label1202;
                   }
                   break;
@@ -885,7 +885,7 @@ public final class QuestManager extends GameEngineBase {
                   var2.setExecutionState((byte)3);
                   break label1202;
                case 16:
-                  if (var3.getNumericParameters()[0] == C25.C25_f318) {
+                  if (var3.getNumericParameters()[0] == GameWorldManager.C25_f318) {
                      isQuestTriggered = true;
                      if (isQuestReady) {
                         isQuestReady = false;
@@ -986,26 +986,26 @@ public final class QuestManager extends GameEngineBase {
                   }
                   break;
                case 21:
-                  C25.C25_f321 = false;
-                  C25.C25_f322 = var3.getNumericParameters()[2];
+                  GameWorldManager.C25_f321 = false;
+                  GameWorldManager.C25_f322 = var3.getNumericParameters()[2];
                   if (var3.getNumericParameters()[1] == 1) {
-                     C25.C25_f323 = var3.getNumericParameters()[3];
-                     C25.C25_f324 = var3.getNumericParameters()[4];
-                     C25.C25_f325 = var3.getNumericParameters()[5];
-                     C25.C25_f326 = var3.getNumericParameters()[6];
+                     GameWorldManager.C25_f323 = var3.getNumericParameters()[3];
+                     GameWorldManager.C25_f324 = var3.getNumericParameters()[4];
+                     GameWorldManager.C25_f325 = var3.getNumericParameters()[5];
+                     GameWorldManager.C25_f326 = var3.getNumericParameters()[6];
                   }
                   break label1202;
                case 22:
-                  C25.C25_f321 = true;
-                  C25.C25_f320 = (byte)var3.getNumericParameters()[1];
-                  C25.B().C25_f293 = var3.getNumericParameters()[2];
-                  C25.B().C25_f294 = var3.getNumericParameters()[3];
-                  C25.C25_f325 = var3.getNumericParameters()[4];
-                  C25.C25_f326 = var3.getNumericParameters()[5];
-                  C25.B().C25_f295 = -1;
+                  GameWorldManager.C25_f321 = true;
+                  GameWorldManager.C25_f320 = (byte)var3.getNumericParameters()[1];
+                  GameWorldManager.B().C25_f293 = var3.getNumericParameters()[2];
+                  GameWorldManager.B().C25_f294 = var3.getNumericParameters()[3];
+                  GameWorldManager.C25_f325 = var3.getNumericParameters()[4];
+                  GameWorldManager.C25_f326 = var3.getNumericParameters()[5];
+                  GameWorldManager.B().C25_f295 = -1;
                   break label1202;
                case 23:
-                  this.questStates[C25.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] = 3;
+                  this.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] = 3;
                   if (var3.getNumericParameters()[0] == this.mapManager.C25_f290 && var3.getNumericParameters()[1] == this.mapManager.C25_f291) {
                      this.eventScripts[var3.getNumericParameters()[2]].setExecutionState((byte)3);
                      if (this.activeEvents.size() > 0) {
@@ -1016,13 +1016,13 @@ public final class QuestManager extends GameEngineBase {
                   break label1202;
                case 24:
                   if (var2.getExecutionState() != 5) {
-                     C30.a().c(0, 11);
-                     C30.a().a(var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
+                     ScreenTransitionManager.a().c(0, 11);
+                     ScreenTransitionManager.a().a(var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
                      var2.setExecutionState((byte)5);
                      break label1202;
                   }
 
-                  if (!C30.a().C30_f476) {
+                  if (!ScreenTransitionManager.a().C30_f476) {
                      break label1202;
                   }
                   break;
@@ -1157,13 +1157,13 @@ public final class QuestManager extends GameEngineBase {
                   break;
                case 32:
                   this.mapManager.D();
-                  C29.B().C29_f397 = var3.getNumericParameters()[0];
-                  C29.B().C29_f398 = (byte)var3.getNumericParameters()[1];
+                  BattleSystemManager.B().C29_f397 = var3.getNumericParameters()[0];
+                  BattleSystemManager.B().C29_f398 = (byte)var3.getNumericParameters()[1];
                   this.mapManager.N();
                   this.player.a((byte)0, (byte)this.player.currentDirection);
                   var2.setExecutionState((byte)1);
-                  C25 var10000 = this.mapManager;
-                  if ((var14 = C25.a(var2.getEventId(), (byte)1)) != -1) {
+                  GameWorldManager var10000 = this.mapManager;
+                  if ((var14 = GameWorldManager.a(var2.getEventId(), (byte)1)) != -1) {
                      this.mapManager.C25_f342.playBackgroundMusic(var14, 1);
                   } else {
                      this.mapManager.C25_f342.playBackgroundMusic(4, 1);
@@ -1178,7 +1178,7 @@ public final class QuestManager extends GameEngineBase {
                      var12 = 0;
 
                      while(true) {
-                        if (var12 >= C25.B().C25_f287.length) {
+                        if (var12 >= GameWorldManager.B().C25_f287.length) {
                            break label1202;
                         }
 
@@ -1199,12 +1199,12 @@ public final class QuestManager extends GameEngineBase {
                   var12 = 0;
 
                   while(true) {
-                     if (var12 >= C25.B().C25_f287.length) {
+                     if (var12 >= GameWorldManager.B().C25_f287.length) {
                         break label1202;
                      }
 
                      if (this.mapManager.C25_f287[var12].isVisible()) {
-                        C25.B().C25_f287[var12].p();
+                        GameWorldManager.B().C25_f287[var12].p();
                      }
 
                      ++var12;
@@ -1259,7 +1259,7 @@ public final class QuestManager extends GameEngineBase {
                            this.player.a(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (short)-1, (byte)var3.getNumericParameters()[4], (byte)var3.getNumericParameters()[3], (byte)-1, new int[]{1, var3.getNumericParameters()[5], var3.getNumericParameters()[6]});
                         } else if (var5 == 1) {
                            this.gameEngine.gameController.b("Ba lô đã đủ, đã để vào ngân hàng");
-                           var19 = C41.b(var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3]);
+                           var19 = PokemonEntity.b(var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3]);
                            this.player.a(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (short)-1, (byte)var3.getNumericParameters()[4], (byte)var3.getNumericParameters()[3], (byte)-1, var19, 0, 0, new int[]{1, var3.getNumericParameters()[5], var3.getNumericParameters()[6]});
                         } else {
                            this.gameEngine.gameController.b("Không có không gian, đã phóng sinh");
@@ -1277,19 +1277,19 @@ public final class QuestManager extends GameEngineBase {
                   }
                   break;
                case 37:
-                  C29.B().a(new int[][]{{var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2]}});
+                  BattleSystemManager.B().a(new int[][]{{var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2]}});
                   break label1202;
                case 38:
                   isQuestTriggered = false;
 
                   for(var15 = 0; var15 < GameUtils.splitString(var3.getStringParameters()[0], ',').length; ++var15) {
-                     if (GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]) == C25.C25_f318) {
+                     if (GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]) == GameWorldManager.C25_f318) {
                         isQuestTriggered = true;
                         if (isQuestReady) {
-                           C25.C25_f318 = -1;
+                           GameWorldManager.C25_f318 = -1;
                            var5 = GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var15]);
                            var2.setCurrentCommandIndex((byte)(var5 - 1));
-                           C25.B().D();
+                           GameWorldManager.B().D();
                            isQuestTriggered = false;
                            isQuestReady = false;
                         }
@@ -1361,8 +1361,8 @@ public final class QuestManager extends GameEngineBase {
                   }
 
                   if (this.gameEngine.gameController.C9_f131 == 1) {
-                     this.questStates[C25.e(this.mapManager.C25_f290, this.mapManager.C25_f291)][var2.getEventId()] = 3;
-                     if (((C25)this.gameEngine).I()) {
+                     this.questStates[GameWorldManager.e(this.mapManager.C25_f290, this.mapManager.C25_f291)][var2.getEventId()] = 3;
+                     if (((GameWorldManager)this.gameEngine).I()) {
                         this.gameEngine.gameController.a("Lưu thành công");
                         this.gameEngine.gameController.C9_f131 = 2;
                      }
@@ -1399,16 +1399,16 @@ public final class QuestManager extends GameEngineBase {
                      break label1202;
                   }
 
-                  if (!C39.C39_f608 || !this.gameEngine.isKeyPressed(1) && !this.gameEngine.isPointerClickInBounds(80, 294, 80, 18)) {
+                  if (!TextRenderingEngine.C39_f608 || !this.gameEngine.isKeyPressed(1) && !this.gameEngine.isPointerClickInBounds(80, 294, 80, 18)) {
                      break label1202;
                   }
 
                   this.dialogManager.b();
-                  if (C39.C39_f610) {
+                  if (TextRenderingEngine.C39_f610) {
                      break label1202;
                   }
 
-                  C30.a().C30_f472 = -1;
+                  ScreenTransitionManager.a().C30_f472 = -1;
                   this.dialogManager.c();
                   break;
                case 49:
@@ -1477,9 +1477,9 @@ public final class QuestManager extends GameEngineBase {
                      if (var3.getNumericParameters()[1] == 0) {
                         this.player.b((byte)((byte)var3.getNumericParameters()[0]), (byte)((byte)var3.getNumericParameters()[1]), (byte)2);
 
-                        for(var15 = 0; var15 < C25.B().C25_f287.length; ++var15) {
-                           if (C25.B().C25_f287[var15].C18_f223 == 0 && C25.B().C25_f287[var15].C18_f225 == 1) {
-                              C25.B().C25_f287[var15].w();
+                        for(var15 = 0; var15 < GameWorldManager.B().C25_f287.length; ++var15) {
+                           if (GameWorldManager.B().C25_f287[var15].C18_f223 == 0 && GameWorldManager.B().C25_f287[var15].C18_f225 == 1) {
+                              GameWorldManager.B().C25_f287[var15].w();
                            }
                         }
                      } else if (var3.getNumericParameters()[1] == 1) {
@@ -1506,7 +1506,7 @@ public final class QuestManager extends GameEngineBase {
                      var26[var22][2] = GameUtils.parseInt(GameUtils.splitString(var3.getStringParameters()[2], ',')[var22]);
                   }
 
-                  C29.B().a(var26);
+                  BattleSystemManager.B().a(var26);
                   break label1202;
                case 55:
                   if (var3.getNumericParameters()[0] == 0) {
@@ -1514,7 +1514,7 @@ public final class QuestManager extends GameEngineBase {
                         this.questSpecialObject = new GameObject();
                         this.questSpecialObject.loadSpriteSet(340, false);
                         this.questSpecialObject.activate();
-                        this.questSpecialObjectId = C25.e(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
+                        this.questSpecialObjectId = GameWorldManager.e(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
                      }
 
                      this.questSpecialObject.setWorldPosition(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
@@ -1572,11 +1572,11 @@ public final class QuestManager extends GameEngineBase {
                      ++var18;
                   }
                case 58:
-                  if (((C18)this.player.followTarget).getFacingDirection() == 1 && ((C18)this.player.followTarget).sprite.isAtLastFrame()) {
-                     ((C18)this.player.followTarget).a((byte)0);
+                  if (((NPCEntity)this.player.followTarget).getFacingDirection() == 1 && ((NPCEntity)this.player.followTarget).sprite.isAtLastFrame()) {
+                     ((NPCEntity)this.player.followTarget).a((byte)0);
                      this.mapManager.C25_f287[var3.getNumericParameters()[0]].setWorldPosition(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
-                     if ((C18)this.mapManager.C25_f287[var3.getNumericParameters()[0]].followTarget != null) {
-                        ((C18)this.mapManager.C25_f287[var3.getNumericParameters()[0]].followTarget).s();
+                     if ((NPCEntity)this.mapManager.C25_f287[var3.getNumericParameters()[0]].followTarget != null) {
+                        ((NPCEntity)this.mapManager.C25_f287[var3.getNumericParameters()[0]].followTarget).s();
                         this.mapManager.C25_f287[var3.getNumericParameters()[0]].setFollowTarget((GameEntity)null);
                      }
                   }
@@ -1590,7 +1590,7 @@ public final class QuestManager extends GameEngineBase {
                         this.mapManager.C25_f287[this.eventEntityIds[var15]].a(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var15]));
                         if (this.mapManager.C25_f287[this.eventEntityIds[var15]].C18_f223 == 0 && this.mapManager.C25_f287[this.eventEntityIds[var15]].C18_f225 == 6 && this.mapManager.C25_f287[this.eventEntityIds[var15]].getFacingDirection() == 2) {
                            short var10002 = this.eventEntityIds[var15];
-                           C25.B().C25_f285.moveEntityToForeground(C25.B().C25_f287[var10002], 2);
+                           GameWorldManager.B().C25_f285.moveEntityToForeground(GameWorldManager.B().C25_f287[var10002], 2);
                         }
                      }
 
@@ -1675,7 +1675,7 @@ public final class QuestManager extends GameEngineBase {
                   GameEngineBase.b(0, 3);
                   break label1202;
                case 67:
-                  C25.C25_f319 = var3.getNumericParameters()[0];
+                  GameWorldManager.C25_f319 = var3.getNumericParameters()[0];
                   break label1202;
                case 70:
                   if (var2.getExecutionState() != 5) {
@@ -1744,14 +1744,14 @@ public final class QuestManager extends GameEngineBase {
                   }
                   break label1202;
                case 76:
-                  this.questStates[C25.C25_f297[this.mapManager.C25_f290] + this.mapManager.C25_f291][var2.getEventId()] = 3;
-                  C25.B().C25_f290 = var3.getNumericParameters()[0];
-                  C25.B().C25_f291 = var3.getNumericParameters()[1];
-                  C25.B().C25_f295 = -1;
+                  this.questStates[GameWorldManager.C25_f297[this.mapManager.C25_f290] + this.mapManager.C25_f291][var2.getEventId()] = 3;
+                  GameWorldManager.B().C25_f290 = var3.getNumericParameters()[0];
+                  GameWorldManager.B().C25_f291 = var3.getNumericParameters()[1];
+                  GameWorldManager.B().C25_f295 = -1;
                   this.mapManager.changeState((byte)29);
                   break label1202;
                case 77:
-                  this.questStates[C25.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] = 4;
+                  this.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] = 4;
                   if (var3.getNumericParameters()[0] == this.mapManager.C25_f290 && var3.getNumericParameters()[1] == this.mapManager.C25_f291) {
                      this.eventScripts[var3.getNumericParameters()[2]].setExecutionState((byte)4);
                   }
@@ -1870,13 +1870,13 @@ public final class QuestManager extends GameEngineBase {
                      this.mapManager.gameController.a((String)var3.getStringParameters()[0], (String)var9, var3.getNumericParameters()[1], var3.getNumericParameters()[0]);
                      var2.setExecutionState((byte)5);
                   } else if (this.mapManager.gameController.d(var3.getNumericParameters()[1], var3.getNumericParameters()[0]) && this.gameEngine.isKeyPressed(196640)) {
-                     C25.B().D();
+                     GameWorldManager.B().D();
                      if (GameUtils.pageCount < GameUtils.b()) {
                         GameUtils.c();
                         this.mapManager.gameController.b(GameUtils.pageCount);
                      } else {
-                        if (C25.C25_f318 != -1 && this.mapManager.C25_f287[C25.C25_f318].sprite.spriteSetId <= 85 && this.mapManager.C25_f287[C25.C25_f318].v() == 0) {
-                           C25.B().a((byte)13, C25.B().C25_f287[C25.C25_f318].worldX, C25.B().C25_f287[C25.C25_f318].worldY - 40, C25.B().C25_f287[C25.C25_f318]);
+                        if (GameWorldManager.C25_f318 != -1 && this.mapManager.C25_f287[GameWorldManager.C25_f318].sprite.spriteSetId <= 85 && this.mapManager.C25_f287[GameWorldManager.C25_f318].v() == 0) {
+                           GameWorldManager.B().a((byte)13, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldX, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldY - 40, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318]);
                         }
 
                         isQuestTriggered = false;
@@ -1930,7 +1930,7 @@ public final class QuestManager extends GameEngineBase {
             } else {
                isQuestReady = false;
                this.activeEvents.removeElement(var2);
-               var10 = C25.e(var2.getEventCoordinates()[0], var2.getEventCoordinates()[1]);
+               var10 = GameWorldManager.e(var2.getEventCoordinates()[0], var2.getEventCoordinates()[1]);
                if (this.questStates[var10] != null) {
                   this.questStates[var10][var2.getEventId()] = var2.getExecutionState();
                }
@@ -1940,11 +1940,11 @@ public final class QuestManager extends GameEngineBase {
                }
 
                this.updateQuestEffects();
-               if (C25.C25_f345) {
-                  this.mapManager.C25_f342.playBackgroundMusic(C25.C25_f344, 1);
+               if (GameWorldManager.C25_f345) {
+                  this.mapManager.C25_f342.playBackgroundMusic(GameWorldManager.C25_f344, 1);
                }
 
-               C25.C25_f345 = false;
+               GameWorldManager.C25_f345 = false;
             }
          }
 
@@ -1973,7 +1973,7 @@ public final class QuestManager extends GameEngineBase {
 
    private boolean checkEventCondition(ScriptCommand var1) {
       boolean var2 = false;
-      if (var1.getNumericParameters()[7] == -1 || var1.getNumericParameters()[7] != -1 && this.questStates[C25.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])] != null && this.questStates[C25.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1.getNumericParameters()[7]] == 3) {
+      if (var1.getNumericParameters()[7] == -1 || var1.getNumericParameters()[7] != -1 && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])] != null && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1.getNumericParameters()[7]] == 3) {
          label58:
          switch(var1.getNumericParameters()[8]) {
          case 0:
@@ -2037,7 +2037,7 @@ public final class QuestManager extends GameEngineBase {
 
    private boolean checkEventCompletion(ScriptCommand var1) {
       boolean var2 = false;
-      if (var1.getNumericParameters()[7] == -1 || var1.getNumericParameters()[7] != -1 && this.questStates[C25.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])] != null && this.questStates[C25.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1.getNumericParameters()[7]] == 3) {
+      if (var1.getNumericParameters()[7] == -1 || var1.getNumericParameters()[7] != -1 && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])] != null && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1.getNumericParameters()[7]] == 3) {
          switch(var1.getNumericParameters()[8]) {
          case 0:
             if (this.player.a((byte)((byte)var1.getNumericParameters()[9]), (int)var1.getNumericParameters()[10]) == 2) {
@@ -2051,7 +2051,7 @@ public final class QuestManager extends GameEngineBase {
             break;
          case 2:
          case 4:
-            if (this.questStates[C25.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])] != null && this.questStates[C25.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1.getNumericParameters()[7]] == 3) {
+            if (this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])] != null && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1.getNumericParameters()[7]] == 3) {
                var2 = true;
             }
             break;
@@ -2100,10 +2100,10 @@ public final class QuestManager extends GameEngineBase {
 
       ScriptCommand var1;
       int var3;
-      C18 var6;
+      NPCEntity var6;
       GameObject var7;
       for(var3 = 0; var3 < questEndMatrix.length; ++var3) {
-         if (C25.e(questEndMatrix[var3][0], questEndMatrix[var3][1]) == C25.e(C25.B().C25_f290, C25.B().C25_f291) && (this.eventScripts[questEndMatrix[var3][2]].getExecutionState() == 0 || this.eventScripts[questEndMatrix[var3][2]].getExecutionState() == 4)) {
+         if (GameWorldManager.e(questEndMatrix[var3][0], questEndMatrix[var3][1]) == GameWorldManager.e(GameWorldManager.B().C25_f290, GameWorldManager.B().C25_f291) && (this.eventScripts[questEndMatrix[var3][2]].getExecutionState() == 0 || this.eventScripts[questEndMatrix[var3][2]].getExecutionState() == 4)) {
             var1 = this.eventScripts[questEndMatrix[var3][2]].getFirstCommand();
             if (!var2.contains("" + var1.getNumericParameters()[4])) {
                if (this.checkEventCompletion(var1)) {
@@ -2118,7 +2118,7 @@ public final class QuestManager extends GameEngineBase {
                   var2.addElement("" + var1.getNumericParameters()[4]);
                } else {
                   int var4 = getQuestFlagIndex(var1.getNumericParameters()[0]);
-                  if (var1.getNumericParameters()[1] == 0 && this.questStates[C25.e(questStartMatrix[var3][0], questStartMatrix[var3][1])][questStartMatrix[var3][2]] == 3 && this.questStates[C25.e(questEndMatrix[var3][0], questEndMatrix[var3][1])][questEndMatrix[var3][2]] != 3 || var1.getNumericParameters()[1] == 1 && var4 != -1 && questFlags[var4][1] == 1) {
+                  if (var1.getNumericParameters()[1] == 0 && this.questStates[GameWorldManager.e(questStartMatrix[var3][0], questStartMatrix[var3][1])][questStartMatrix[var3][2]] == 3 && this.questStates[GameWorldManager.e(questEndMatrix[var3][0], questEndMatrix[var3][1])][questEndMatrix[var3][2]] != 3 || var1.getNumericParameters()[1] == 1 && var4 != -1 && questFlags[var4][1] == 1) {
                      (var7 = new GameObject()).loadSpriteSet(259, false);
                      var7.setAnimation((byte)15, (byte)-1, true);
                      var7.setWorldPosition(this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldX, this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
@@ -2135,7 +2135,7 @@ public final class QuestManager extends GameEngineBase {
       }
 
       for(var3 = 0; var3 < questStartMatrix.length; ++var3) {
-         if (C25.e(questStartMatrix[var3][0], questStartMatrix[var3][1]) == C25.e(C25.B().C25_f290, C25.B().C25_f291) && (this.eventScripts[questStartMatrix[var3][2]].getExecutionState() == 0 || this.eventScripts[questStartMatrix[var3][2]].getExecutionState() == 4)) {
+         if (GameWorldManager.e(questStartMatrix[var3][0], questStartMatrix[var3][1]) == GameWorldManager.e(GameWorldManager.B().C25_f290, GameWorldManager.B().C25_f291) && (this.eventScripts[questStartMatrix[var3][2]].getExecutionState() == 0 || this.eventScripts[questStartMatrix[var3][2]].getExecutionState() == 4)) {
             var1 = this.eventScripts[questStartMatrix[var3][2]].getFirstCommand();
             if (!var2.contains("" + var1.getNumericParameters()[4]) && this.checkEventCondition(var1)) {
                (var7 = new GameObject()).loadSpriteSet(259, false);

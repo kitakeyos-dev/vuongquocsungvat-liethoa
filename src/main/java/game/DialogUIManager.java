@@ -1,11 +1,11 @@
 package game;
 
-import a.GameUtils;
-import a.GameEngineBase;
-import a.a.EffectEntity;
-import a.a.ScreenTransitionManager;
-import a.a.ImageProcessor;
-import a.b.ResourceManager;
+import engine.GameUtils;
+import engine.GameEngineBase;
+import engine.graphics.EffectEntity;
+import engine.graphics.ScreenTransitionManager;
+import engine.graphics.ImageProcessor;
+import engine.entity.ResourceManager;
 import layout.ComponentData;
 import layout.SpriteRenderer;
 import layout.UIContainerComponent;

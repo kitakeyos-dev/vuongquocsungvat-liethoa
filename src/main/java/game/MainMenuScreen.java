@@ -1,7 +1,7 @@
 package game;
 
-import a.GameEngineBase;
-import a.GameUtils;
+import engine.GameEngineBase;
+import engine.GameUtils;
 import layout.DialogManager;
 
 import javax.microedition.lcdui.Graphics;

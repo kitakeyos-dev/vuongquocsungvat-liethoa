@@ -1,6 +1,6 @@
 package layout;
 
-import a.b.Sprite;
+import engine.entity.Sprite;
 
 import javax.microedition.lcdui.Graphics;
 

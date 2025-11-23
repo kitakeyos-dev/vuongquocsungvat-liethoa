@@ -1,8 +1,8 @@
 package game;
 
-import a.GameUtils;
-import a.GameEngineBase;
-import a.InputHandler;
+import engine.GameUtils;
+import engine.GameEngineBase;
+import engine.InputHandler;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 

@@ -1,6 +1,6 @@
 package layout;
 
-import a.GameUtils;
+import engine.GameUtils;
 
 import javax.microedition.lcdui.Graphics;
 import java.util.Vector;

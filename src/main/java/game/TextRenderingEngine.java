@@ -1,7 +1,7 @@
 package game;
 
-import a.GameUtils;
-import a.GameEngineBase;
+import engine.GameUtils;
+import engine.GameEngineBase;
 import javax.microedition.lcdui.Graphics;
 
 public final class TextRenderingEngine {

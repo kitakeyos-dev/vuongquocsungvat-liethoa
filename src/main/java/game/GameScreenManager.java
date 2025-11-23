@@ -1,12 +1,12 @@
 package game;
 
-import a.GameEngineBase;
-import a.GameUtils;
-import a.a.ScreenTransitionManager;
-import a.a.ImageData;
-import a.b.SpriteDataCache;
-import a.b.ResourceManager;
-import a.b.TileMapRenderer;
+import engine.GameEngineBase;
+import engine.GameUtils;
+import engine.graphics.ScreenTransitionManager;
+import engine.graphics.ImageData;
+import engine.entity.SpriteDataCache;
+import engine.entity.ResourceManager;
+import engine.entity.TileMapRenderer;
 import layout.DialogManager;
 
 import javax.microedition.lcdui.Graphics;

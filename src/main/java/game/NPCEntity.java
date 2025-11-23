@@ -1,8 +1,8 @@
 package game;
 
-import a.GameUtils;
-import a.a.GameObject;
-import a.b.TileMapRenderer;
+import engine.GameUtils;
+import engine.graphics.GameObject;
+import engine.entity.TileMapRenderer;
 import javax.microedition.lcdui.Graphics;
 
 public final class NPCEntity extends GameObject {

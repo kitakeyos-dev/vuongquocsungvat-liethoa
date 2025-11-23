@@ -1,7 +1,7 @@
 package game;
 
-import a.GameEngineBase;
-import a.b.ResourceManager;
+import engine.GameEngineBase;
+import engine.entity.ResourceManager;
 import javax.microedition.lcdui.Graphics;
 
 public final class LocationSelectionManager extends GameEngineBase {

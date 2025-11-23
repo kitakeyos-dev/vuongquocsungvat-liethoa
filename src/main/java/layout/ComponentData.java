@@ -1,7 +1,7 @@
 package layout;
 
-import a.GameEngineBase;
-import a.GameUtils;
+import engine.GameEngineBase;
+import engine.GameUtils;
 
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;

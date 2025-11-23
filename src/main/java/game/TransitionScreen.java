@@ -1,11 +1,11 @@
 package game;
 
-import a.GameEngineBase;
-import a.a.GameObject;
-import a.a.ScreenTransitionManager;
-import a.a.WorldRenderer;
-import a.b.CameraController;
-import a.b.TileMapRenderer;
+import engine.GameEngineBase;
+import engine.graphics.GameObject;
+import engine.graphics.ScreenTransitionManager;
+import engine.graphics.WorldRenderer;
+import engine.entity.CameraController;
+import engine.entity.TileMapRenderer;
 import javax.microedition.lcdui.Graphics;
 /**
  * Handles transition screens between different game states.

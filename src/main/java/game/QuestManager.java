@@ -1,13 +1,13 @@
 package game;
 
-import a.GameUtils;
-import a.GameEngineBase;
-import a.a.GameObject;
-import a.a.ScreenTransitionManager;
-import a.b.CameraController;
-import a.b.GameEntity;
-import a.b.ResourceManager;
-import a.b.TileMapRenderer;
+import engine.GameUtils;
+import engine.GameEngineBase;
+import engine.graphics.GameObject;
+import engine.graphics.ScreenTransitionManager;
+import engine.entity.CameraController;
+import engine.entity.GameEntity;
+import engine.entity.ResourceManager;
+import engine.entity.TileMapRenderer;
 import event.EventScript;
 import event.ScriptCommand;
 import java.io.DataInputStream;

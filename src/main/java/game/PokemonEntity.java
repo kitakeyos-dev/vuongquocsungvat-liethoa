@@ -1,10 +1,10 @@
 package game;
 
-import a.GameUtils;
-import a.a.GameObject;
-import a.a.EffectEntity;
-import a.b.Sprite;
-import a.b.ResourceManager;
+import engine.GameUtils;
+import engine.graphics.GameObject;
+import engine.graphics.EffectEntity;
+import engine.entity.Sprite;
+import engine.entity.ResourceManager;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 

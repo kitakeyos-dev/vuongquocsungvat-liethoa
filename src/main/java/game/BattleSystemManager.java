@@ -1,11 +1,11 @@
 package game;
 
-import a.GameUtils;
-import a.GameEngineBase;
-import a.a.GameObject;
-import a.a.EffectEntity;
-import a.b.GameEntity;
-import a.b.ResourceManager;
+import engine.GameUtils;
+import engine.GameEngineBase;
+import engine.graphics.GameObject;
+import engine.graphics.EffectEntity;
+import engine.entity.GameEntity;
+import engine.entity.ResourceManager;
 import layout.DialogManager;
 import java.io.InputStream;
 import java.util.Vector;

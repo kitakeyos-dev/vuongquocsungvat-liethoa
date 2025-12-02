@@ -5,7 +5,7 @@ import engine.entity.ResourceManager;
 import javax.microedition.lcdui.Graphics;
 
 public final class LocationSelectionManager extends GameEngineBase {
-   private static LocationSelectionManager C48_f732 = null;
+   private static LocationSelectionManager instance = null;
    private StringBuffer C48_f733 = null;
    private GameWorldManager C48_f734 = GameWorldManager.B();
    private BattleSystemManager C48_f735 = BattleSystemManager.B();
@@ -23,11 +23,11 @@ public final class LocationSelectionManager extends GameEngineBase {
    private String[] C48_f747 = new String[]{"CG tràng cảnh", "Thôn trang", "Bích thủy", "Gỗ thô", "Niêm thổ", "Hắc thạch", "Hắc Long thần điện", "Thiên giới", "Viễn cổ", "Đạo quán", "Thần thú mê cung", "Trong phòng"};
 
    public static LocationSelectionManager B() {
-      if (C48_f732 == null) {
-         C48_f732 = new LocationSelectionManager();
+      if (instance == null) {
+         instance = new LocationSelectionManager();
       }
 
-      return C48_f732;
+      return instance;
    }
 
    public final void update() {

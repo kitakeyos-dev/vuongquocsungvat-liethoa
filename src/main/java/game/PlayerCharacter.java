@@ -206,25 +206,25 @@ public final class PlayerCharacter extends GameObject {
 
             int var3 = this.worldY;
             var2 = this.worldX;
-            boolean var10000;
+            boolean isOutOfBounds;
             switch(this.currentDirection) {
             case 0:
-               var10000 = TileMapRenderer.getInstance().isOutOfBounds(var2, var3 - 25 + this.C53_f766);
+               isOutOfBounds = TileMapRenderer.getInstance().isOutOfBounds(var2, var3 - 25 + this.C53_f766);
                break;
             case 1:
-               var10000 = TileMapRenderer.getInstance().isOutOfBounds(var2 + this.C53_f766, var3 - 25);
+               isOutOfBounds = TileMapRenderer.getInstance().isOutOfBounds(var2 + this.C53_f766, var3 - 25);
                break;
             case 2:
-               var10000 = TileMapRenderer.getInstance().isOutOfBounds(var2, var3 - 25 - this.C53_f766);
+               isOutOfBounds = TileMapRenderer.getInstance().isOutOfBounds(var2, var3 - 25 - this.C53_f766);
                break;
             case 3:
-               var10000 = TileMapRenderer.getInstance().isOutOfBounds(var2 - this.C53_f766, var3 - 25);
+               isOutOfBounds = TileMapRenderer.getInstance().isOutOfBounds(var2 - this.C53_f766, var3 - 25);
                break;
             default:
-               var10000 = false;
+               isOutOfBounds = false;
             }
 
-            if (!var10000) {
+            if (!isOutOfBounds) {
                GameWorldManager.C25_f318 = this.J();
                Object var5 = null;
                super.followTarget = (GameEntity)var5;
@@ -401,9 +401,9 @@ public final class PlayerCharacter extends GameObject {
                }
 
                ((NPCEntity)this.followTarget).C18_f233 = 0;
-               ((NPCEntity)this.followTarget).setFollowTarget((GameEntity)null);
-               this.setFollowTarget((GameEntity)null);
-               this.a((byte)0, (byte)this.currentDirection);
+               this.followTarget.setFollowTarget(null);
+               this.setFollowTarget(null);
+               this.a((byte)0, this.currentDirection);
                return;
             }
             break;
@@ -446,7 +446,7 @@ public final class PlayerCharacter extends GameObject {
             var2 = GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldY - GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldY % this.getPrimaryState((byte)2);
             this.setWorldPosition(var1, var2);
             this.attachedObject.setWorldPosition(var1, var2);
-            this.a((byte)10, (byte)this.currentDirection);
+            this.a((byte)10, this.currentDirection);
             CameraController.getInstance().setCameraLag(8);
             CameraController.getInstance().setLocked(false);
             return;
@@ -615,7 +615,7 @@ public final class PlayerCharacter extends GameObject {
          this.sprite.forceCleanup();
          this.loadSpriteSet(var1 + 1, false);
          super.sprite.applyColorEffects();
-         this.a((byte)0, (byte)this.currentDirection);
+         this.a((byte)0, this.currentDirection);
          if (this.C53_f768 == 1) {
             this.replaceImage(1, 107, true);
          }
@@ -845,7 +845,7 @@ public final class PlayerCharacter extends GameObject {
                   continue;
                case 8:
                   if (GameWorldManager.B().C25_f287[var2].isVisible()) {
-                     if ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget != null && ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget).C18_f235 > ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget).C18_f234) {
+                     if (GameWorldManager.B().C25_f287[var2].followTarget != null && ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget).C18_f235 > ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget).C18_f234) {
                         return false;
                      }
 

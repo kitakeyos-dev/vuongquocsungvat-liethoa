@@ -73,8 +73,8 @@ public final class PlayerCharacter extends GameObject {
         this.gameFlags = new boolean[21];
         this.equipmentInventory = new Vector();
         this.consumableInventory = new Vector();
-        int[] var1 = new int[]{0, 0, 1};
-        this.consumableInventory.addElement(var1);
+        int[] initialItem = new int[]{0, 0, 1};
+        this.consumableInventory.addElement(initialItem);
         this.keyItems = new Vector();
         this.specialItems = new Vector();
         this.skills = new Vector();
@@ -120,32 +120,32 @@ public final class PlayerCharacter extends GameObject {
         this.isInitialized = false;
     }
 
-    public final void initializeFromData(short[] var1) {
+    public final void initializeFromData(short[] data) {
         if (this.currentVehicleType == -1) {
             this.loadSpriteSet(0, false);
         }
 
-        this.worldX = var1[0];
-        this.worldY = var1[1];
+        this.worldX = data[0];
+        this.worldY = data[1];
         this.activateVehicle(this.currentVehicleType);
         super.sprite.applyColorEffects();
-        this.setFacingState((byte) 0, (byte) ((byte) var1[2]));
-        short var4 = var1[3];
-        byte var3 = 0;
-        super.primaryStates[var3] = var4;
-        var4 = var1[4];
-        var3 = 1;
-        super.primaryStates[var3] = var4;
-        var4 = var1[5];
-        var3 = 2;
-        super.primaryStates[var3] = var4;
+        this.setFacingState((byte) 0, (byte) ((byte) data[2]));
+        short stateValue = data[3];
+        byte stateIndex = 0;
+        super.primaryStates[stateIndex] = stateValue;
+        stateValue = data[4];
+        stateIndex = 1;
+        super.primaryStates[stateIndex] = stateValue;
+        stateValue = data[5];
+        stateIndex = 2;
+        super.primaryStates[stateIndex] = stateValue;
         if (this.currentVehicleType == -1) {
             this.saveCurrentStates();
         }
 
         this.layer = 1;
-        this.minEncounterSteps = var1[6];
-        this.maxEncounterSteps = var1[7];
+        this.minEncounterSteps = data[6];
+        this.maxEncounterSteps = data[7];
         this.encounterStepsRemaining = this.getEncounterSteps();
         if (this.outfitType == 1) {
             this.replaceImage(0, 107, true);
@@ -594,48 +594,42 @@ public final class PlayerCharacter extends GameObject {
         }
     }
 
-    public final boolean hasVehicle(int var1) {
-        return this.vehicleStates[var1] != 0;
+    public final boolean hasVehicle(int index) {
+        return this.vehicleStates[index] != 0;
     }
 
-    public final boolean isVehicleUsable(int var1) {
-        return this.vehicleUsability[var1] != 1;
+    public final boolean isVehicleUsable(int index) {
+        return this.vehicleUsability[index] != 1;
     }
 
     public final boolean canDismountVehicle() {
         return this.currentVehicleType != 2 || TileMapRenderer.getInstance().getTileAt(0, this.worldX + 7, this.worldY + 7) == 0 && TileMapRenderer.getInstance().getTileAt(0, this.worldX - 8, this.worldY - 8) == 0;
     }
 
-    public final void activateVehicle(int var1) {
-        if (var1 != -1) {
-            this.vehicleStates[var1] = 2;
+    public final void activateVehicle(int vehicleIndex) {
+        if (vehicleIndex != -1) {
+            this.vehicleStates[vehicleIndex] = 2;
             this.sprite.forceCleanup();
-            this.loadSpriteSet(var1 + 1, false);
+            this.loadSpriteSet(vehicleIndex + 1, false);
             super.sprite.applyColorEffects();
             this.setFacingState((byte) 0, this.currentDirection);
             if (this.outfitType == 1) {
                 this.replaceImage(1, 107, true);
             }
 
-            byte var3;
-            byte var4;
-            if ((this.vehicleStates[var1] != 2 || var1 != 0) && (this.vehicleStates[var1] != 2 || var1 != 1)) {
-                var4 = 4;
-                var3 = 0;
-                super.secondaryStates[var3] = var4;
+            // Set movement speed based on vehicle type
+            if ((this.vehicleStates[vehicleIndex] != 2 || vehicleIndex != 0) && (this.vehicleStates[vehicleIndex] != 2 || vehicleIndex != 1)) {
+                super.secondaryStates[0] = 4; // Normal speed
             } else {
-                var4 = 8;
-                var3 = 0;
-                super.secondaryStates[var3] = var4;
+                super.secondaryStates[0] = 8; // Fast speed for bike/surf
             }
 
             if (this.vehicleStates[2] == 2 && GameWorldManager.B().C25_f311 != null) {
                 GameWorldManager.B().C25_f311.deactivate();
             }
 
-            this.currentVehicleType = var1;
-            var3 = 0;
-            this.movementSpeed = super.secondaryStates[var3];
+            this.currentVehicleType = vehicleIndex;
+            this.movementSpeed = super.secondaryStates[0];
         }
     }
 
@@ -644,9 +638,9 @@ public final class PlayerCharacter extends GameObject {
         this.loadSpriteSet(0, false);
         super.sprite.applyColorEffects();
 
-        for (int var1 = 0; var1 < 4; ++var1) {
-            if (this.vehicleStates[var1] == 2) {
-                this.vehicleStates[var1] = 1;
+        for (int i = 0; i < 4; ++i) {
+            if (this.vehicleStates[i] == 2) {
+                this.vehicleStates[i] = 1;
             }
         }
 
@@ -1118,15 +1112,14 @@ public final class PlayerCharacter extends GameObject {
         }
     }
 
-    private boolean isTileWalkable(byte var1) {
-        switch (var1) {
+    private boolean isTileWalkable(byte tileType) {
+        switch (tileType) {
             case 1:
                 return false;
             case 2:
                 if (this.badgeStates[3][0] != 2) {
                     return false;
                 }
-
                 return true;
             default:
                 return true;
@@ -1864,9 +1857,9 @@ public final class PlayerCharacter extends GameObject {
 
         var2 = var1[0];
 
-        for (int var3 = 1; var3 < var1.length; ++var3) {
-            if (var2 < var1[var3]) {
-                var2 = var1[var3];
+        for (int stateIndex = 1; stateIndex < var1.length; ++stateIndex) {
+            if (var2 < var1[stateIndex]) {
+                var2 = var1[stateIndex];
             }
         }
 
@@ -1907,8 +1900,8 @@ public final class PlayerCharacter extends GameObject {
         this.registerCreature((byte) ResourceManager.gameDatabase[0][var1[0]][1], var1[0], (byte) 2);
     }
 
-    public final void removeFromStorage(int var1) {
-        this.pokemonStorage.removeElementAt(var1);
+    public final void removeFromStorage(int index) {
+        this.pokemonStorage.removeElementAt(index);
     }
 
     public final void withdrawFromStorage(int var1) {
@@ -1930,8 +1923,8 @@ public final class PlayerCharacter extends GameObject {
         this.removeFromStorage(var1);
     }
 
-    public final void addToPokedex(short var1) {
-        this.pokedexEntries[this.pokedexCount] = var1;
+    public final void addToPokedex(short entryId) {
+        this.pokedexEntries[this.pokedexCount] = entryId;
         ++this.pokedexCount;
     }
 
@@ -1943,8 +1936,8 @@ public final class PlayerCharacter extends GameObject {
 
     }
 
-    public final byte getBadgeState(byte var1, byte var2) {
-        return this.badgeStates[var1][var2];
+    public final byte getBadgeState(byte badgeId, byte slot) {
+        return this.badgeStates[badgeId][slot];
     }
 
     public final void registerCreature(byte var1, int var2, byte var3) {
@@ -1998,8 +1991,8 @@ public final class PlayerCharacter extends GameObject {
         }
     }
 
-    public final byte getCreatureStatus(byte var1, int var2) {
-        return this.creatureRegistry[var1][var2 - this.categoryOffsets[var1]];
+    public final byte getCreatureStatus(byte categoryId, int creatureId) {
+        return this.creatureRegistry[categoryId][creatureId - this.categoryOffsets[categoryId]];
     }
 
     public final void enableWildEncounter() {
@@ -2041,36 +2034,36 @@ public final class PlayerCharacter extends GameObject {
         return this.gold;
     }
 
-    public final void addGold(int var1) {
-        this.gold += var1;
+    public final void addGold(int amount) {
+        this.gold += amount;
     }
 
-    public final void setGold(int var1) {
-        this.gold = var1;
+    public final void setGold(int amount) {
+        this.gold = amount;
     }
 
-    public final boolean hasEnoughGold(int var1) {
-        return this.gold >= var1;
+    public final boolean hasEnoughGold(int amount) {
+        return this.gold >= amount;
     }
 
     public final int getBadges() {
         return this.badges;
     }
 
-    public final void addBadges(int var1) {
-        this.badges += var1;
+    public final void addBadges(int amount) {
+        this.badges += amount;
     }
 
-    public final void setBadges(int var1) {
-        this.badges = var1;
+    public final void setBadges(int amount) {
+        this.badges = amount;
     }
 
-    public final boolean hasEnoughBadges(int var1) {
-        return this.badges >= var1;
+    public final boolean hasEnoughBadges(int amount) {
+        return this.badges >= amount;
     }
 
-    public final boolean canAfford(int var1, int var2, int var3) {
-        return ResourceManager.gameDatabase[var3][var1][4] == 0 ? this.hasEnoughGold(var2) : this.hasEnoughBadges(var2);
+    public final boolean canAfford(int itemId, int cost, int databaseIndex) {
+        return ResourceManager.gameDatabase[databaseIndex][itemId][4] == 0 ? this.hasEnoughGold(cost) : this.hasEnoughBadges(cost);
     }
 
     public final void addStarterPokemon() {
@@ -2078,8 +2071,8 @@ public final class PlayerCharacter extends GameObject {
         this.learnSkill(0);
     }
 
-    public final boolean loadSpriteSet(int var1, boolean var2) {
-        super.loadSpriteSet(var1, var2);
+    public final boolean loadSpriteSet(int spriteId, boolean forceReload) {
+        super.loadSpriteSet(spriteId, forceReload);
         if (this.brightnessEffectDuration > 0) {
             this.sprite.applyBrightnessEffect(1);
         }

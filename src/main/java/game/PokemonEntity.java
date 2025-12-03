@@ -50,8 +50,8 @@ public final class PokemonEntity extends GameObject {
       this.skills = new byte[5];
       this.cachedStats = new short[4];
 
-      for(int var1 = 0; var1 < this.skills.length; ++var1) {
-         this.skills[var1] = -1;
+      for(int i = 0; i < this.skills.length; ++i) {
+         this.skills[i] = -1;
       }
 
       this.skillParams = new short[16];
@@ -62,74 +62,71 @@ public final class PokemonEntity extends GameObject {
       this.useAlternativeRender = false;
    }
 
-   public final void initialize(int var1, int var2, short var3, byte var4, short var5, byte var6) {
-      this.speciesId = var1;
-      this.level = var2;
-      short var7;
-      byte var8;
-      if (var5 == -1) {
-         var7 = (short) GameUtils.getRandomInRange(ResourceManager.gameDatabase[0][this.speciesId][3], ResourceManager.gameDatabase[0][this.speciesId][3]);
-         var8 = 0;
-         super.primaryStates[var8] = var7;
-      } else {
-         var7 = var5;
-         var8 = 0;
-         super.primaryStates[var8] = var7;
-      }
+   public final void initialize(int speciesId, int level, short equippedItem, byte gender, short quality, byte nature) {
+      this.speciesId = speciesId;
+      this.level = level;
+      short statValue;
+      int baseStat;
 
-      int var10002 = ResourceManager.gameDatabase[0][this.speciesId][5] + ResourceManager.gameDatabase[0][this.speciesId][6] * var2 + ResourceManager.gameDatabase[0][this.speciesId][7];
-      var8 = 0;
-      var7 = (short)(var10002 * QUALITY_MULTIPLIERS[super.primaryStates[var8] - 1] / 100);
-      var8 = 1;
-      super.primaryStates[var8] = var7;
-      var10002 = ResourceManager.gameDatabase[0][this.speciesId][8] + ResourceManager.gameDatabase[0][this.speciesId][9] * var2 + ResourceManager.gameDatabase[0][this.speciesId][10];
-      var8 = 0;
-      var7 = (short)(var10002 * QUALITY_MULTIPLIERS[super.primaryStates[var8] - 1] / 100);
-      var8 = 2;
-      super.primaryStates[var8] = var7;
-      var10002 = ResourceManager.gameDatabase[0][this.speciesId][11] + ResourceManager.gameDatabase[0][this.speciesId][12] * var2 / 10 + ResourceManager.gameDatabase[0][this.speciesId][13];
-      var8 = 0;
-      var7 = (short)(var10002 * QUALITY_MULTIPLIERS[super.primaryStates[var8] - 1] / 100);
-      var8 = 3;
-      super.primaryStates[var8] = var7;
-      var10002 = ResourceManager.gameDatabase[0][this.speciesId][14] + ResourceManager.gameDatabase[0][this.speciesId][15] * var2 / 10 + ResourceManager.gameDatabase[0][this.speciesId][16];
-      var8 = 0;
-      var7 = (short)(var10002 * QUALITY_MULTIPLIERS[super.primaryStates[var8] - 1] / 100);
-      var8 = 4;
-      super.primaryStates[var8] = var7;
-      var8 = 5;
-      super.primaryStates[var8] = var3;
-      var7 = (short)var4;
-      var8 = 6;
-      super.primaryStates[var8] = var7;
-      this.applyNature(var6);
+      // Set quality (primaryStates[0])
+      if (quality == -1) {
+         statValue = (short) GameUtils.getRandomInRange(ResourceManager.gameDatabase[0][this.speciesId][3], ResourceManager.gameDatabase[0][this.speciesId][3]);
+      } else {
+         statValue = quality;
+      }
+      super.primaryStates[0] = statValue;
+
+      // Calculate and set Max HP (primaryStates[1])
+      baseStat = ResourceManager.gameDatabase[0][this.speciesId][5] + ResourceManager.gameDatabase[0][this.speciesId][6] * level + ResourceManager.gameDatabase[0][this.speciesId][7];
+      statValue = (short)(baseStat * QUALITY_MULTIPLIERS[super.primaryStates[0] - 1] / 100);
+      super.primaryStates[1] = statValue;
+
+      // Calculate and set Attack (primaryStates[2])
+      baseStat = ResourceManager.gameDatabase[0][this.speciesId][8] + ResourceManager.gameDatabase[0][this.speciesId][9] * level + ResourceManager.gameDatabase[0][this.speciesId][10];
+      statValue = (short)(baseStat * QUALITY_MULTIPLIERS[super.primaryStates[0] - 1] / 100);
+      super.primaryStates[2] = statValue;
+
+      // Calculate and set Defense (primaryStates[3])
+      baseStat = ResourceManager.gameDatabase[0][this.speciesId][11] + ResourceManager.gameDatabase[0][this.speciesId][12] * level / 10 + ResourceManager.gameDatabase[0][this.speciesId][13];
+      statValue = (short)(baseStat * QUALITY_MULTIPLIERS[super.primaryStates[0] - 1] / 100);
+      super.primaryStates[3] = statValue;
+
+      // Calculate and set Speed (primaryStates[4])
+      baseStat = ResourceManager.gameDatabase[0][this.speciesId][14] + ResourceManager.gameDatabase[0][this.speciesId][15] * level / 10 + ResourceManager.gameDatabase[0][this.speciesId][16];
+      statValue = (short)(baseStat * QUALITY_MULTIPLIERS[super.primaryStates[0] - 1] / 100);
+      super.primaryStates[4] = statValue;
+
+      // Set equipped item (primaryStates[5])
+      super.primaryStates[5] = equippedItem;
+
+      // Set gender (primaryStates[6])
+      super.primaryStates[6] = (short)gender;
+
+      this.applyNature(nature);
       this.saveCurrentStates();
       this.spriteId = ResourceManager.gameDatabase[0][this.speciesId][17];
-      var8 = 1;
-      this.setDisplayHp(super.secondaryStates[var8]);
+      this.setDisplayHp(super.secondaryStates[1]);
    }
 
-   public final void initializeFromData(int[] var1) {
-      this.initialize(var1[0], var1[1], (short)var1[2], (byte)var1[3], (short)var1[4], (byte)var1[5]);
+   public final void initializeFromData(int[] data) {
+      this.initialize(data[0], data[1], (short)data[2], (byte)data[3], (short)data[4], (byte)data[5]);
       this.applyBadgeBonuses();
-      this.setExpAndFriendship((short)var1[6], var1[7], var1[8]);
-      int[] var2 = new int[var1.length - 9];
+      this.setExpAndFriendship((short)data[6], data[7], data[8]);
+      int[] skillData = new int[data.length - 9];
 
-      for(int var3 = 0; var3 < var2.length; ++var3) {
-         var2[var3] = var1[var3 + 9];
+      for(int i = 0; i < skillData.length; ++i) {
+         skillData[i] = data[i + 9];
       }
 
-      this.loadSkillData(var2);
+      this.loadSkillData(skillData);
    }
 
-   public final void setExpAndFriendship(short var1, int var2, int var3) {
+   public final void setExpAndFriendship(short currentHp, int exp, int friendshipValue) {
       this.applyBadgeBonuses();
-      byte var4 = 1;
-      super.secondaryStates[var4] = var1;
-      var4 = 1;
-      this.setDisplayHp(super.secondaryStates[var4]);
-      this.currentExp = var2;
-      this.friendship = (byte)var3;
+      super.secondaryStates[1] = currentHp;
+      this.setDisplayHp(super.secondaryStates[1]);
+      this.currentExp = exp;
+      this.friendship = (byte)friendshipValue;
    }
 
    public final void activate() {
@@ -151,109 +148,110 @@ public final class PokemonEntity extends GameObject {
 
    }
 
-   public final void createSkillEffect(short var1, byte var2) {
-      byte var3 = this.currentDirection;
+   public final void createSkillEffect(short effectId, byte effectType) {
+      byte direction = this.currentDirection;
       this.skillEffect = null;
       this.skillEffect = new EffectEntity();
-      this.skillEffect.initializeEffect(new short[]{var1, (short)var2, (short)var3});
+      this.skillEffect.initializeEffect(new short[]{effectId, (short)effectType, (short)direction});
       this.skillEffect.setWorldPosition(this.worldX, this.worldY);
-      if (var1 == 20 && var2 == 3 || var1 == 22 && var2 == 4) {
-         int[] var4 = this.sprite.getSpritePartBounds(0, var3);
-         this.skillEffect.setWorldPosition(this.worldX, this.worldY - var4[3]);
+      if (effectId == 20 && effectType == 3 || effectId == 22 && effectType == 4) {
+         int[] bounds = this.sprite.getSpritePartBounds(0, direction);
+         this.skillEffect.setWorldPosition(this.worldX, this.worldY - bounds[3]);
       }
 
       this.skillEffect.setInteractable(true);
    }
 
-   private void createSpecialEffect(int var1) {
+   private void createSpecialEffect(int effectIndex) {
       this.specialEffect = new EffectEntity();
-      short[] var3;
-      short[] var2 = new short[(var3 = BattleSystemManager.C29_f450[var1]).length + 5];
-      System.arraycopy(var3, 1, var2, 6, var3.length - 1);
-      System.arraycopy(var3 = new short[]{var3[0], (short)super.worldX, (short)super.worldY, ResourceManager.gameDatabase[0][this.speciesId][17], 0, (short)this.currentDirection}, 0, var2, 0, var3.length);
-      this.specialEffect.initializeEffect(var2);
+      short[] sourceData = BattleSystemManager.C29_f450[effectIndex];
+      short[] effectData = new short[sourceData.length + 5];
+      System.arraycopy(sourceData, 1, effectData, 6, sourceData.length - 1);
+      short[] header = new short[]{sourceData[0], (short)super.worldX, (short)super.worldY, ResourceManager.gameDatabase[0][this.speciesId][17], 0, (short)this.currentDirection};
+      System.arraycopy(header, 0, effectData, 0, header.length);
+      this.specialEffect.initializeEffect(effectData);
       this.specialEffect.setInteractable(true);
    }
 
    public final void setAnimationState(byte state, boolean restartIfSame) {
       label31:
       switch(state) {
-      case 0:
-         this.sprite.setAnimation(state, (byte)-1, restartIfSame);
-         break;
-      case 1:
-         this.sprite.setAnimation(state, (byte)0, restartIfSame);
-         switch(this.speciesId) {
          case 0:
-            this.createSpecialEffect(27);
-            break label31;
-         case 10:
-            this.effectRenderOrder = 1;
-            this.createSpecialEffect(28);
-            break label31;
-         case 60:
-         case 61:
-            this.createSpecialEffect(22);
-            break label31;
-         case 62:
-            this.createSpecialEffect(24);
-            break label31;
-         case 67:
-            this.effectRenderOrder = 1;
-            this.createSpecialEffect(30);
-            break label31;
-         case 68:
-            this.effectRenderOrder = 1;
-            this.createSpecialEffect(31);
-            break label31;
-         case 70:
-            this.effectRenderOrder = 1;
-            this.createSpecialEffect(29);
-            break label31;
-         case 71:
-            this.effectRenderOrder = 1;
-            this.createSpecialEffect(32);
-            break label31;
-         case 72:
-            this.effectRenderOrder = 1;
-            this.createSpecialEffect(33);
-            break label31;
-         case 75:
-            this.createSpecialEffect(20);
-            break label31;
-         case 87:
-            this.createSpecialEffect(21);
-            break label31;
-         case 91:
-            this.createSpecialEffect(26);
-            break label31;
-         case 92:
-            this.createSpecialEffect(25);
-            break label31;
-         case 97:
-         case 98:
-            this.createSpecialEffect(23);
-         default:
-            break label31;
-         }
-      case 2:
-         this.sprite.setAnimation(state, (byte)0, restartIfSame);
-         break;
-      case 3:
-         if (BattleSystemManager.B().C29_f398 == 0) {
-            this.deactivate();
-            short[] var3 = new short[]{16, 0, 0, 4};
-            this.specialEffect = new EffectEntity();
-            short[] var4 = new short[var3.length + 5];
-            System.arraycopy(var3, 1, var4, 6, var3.length - 1);
-            System.arraycopy(var3 = new short[]{var3[0], (short)super.worldX, (short)super.worldY, ResourceManager.gameDatabase[0][this.speciesId][17], 0, (short)this.currentDirection}, 0, var4, 0, var3.length);
-            this.specialEffect.initializeEffect(var4);
-            this.specialEffect.setInteractable(true);
-            this.specialEffect.activateEffect();
-         }
-         break;
-      case 4:
-         this.sprite.setAnimation(state, (byte)-1, restartIfSame);
+            this.sprite.setAnimation(state, (byte)-1, restartIfSame);
+            break;
+         case 1:
+            this.sprite.setAnimation(state, (byte)0, restartIfSame);
+            switch(this.speciesId) {
+               case 0:
+                  this.createSpecialEffect(27);
+                  break label31;
+               case 10:
+                  this.effectRenderOrder = 1;
+                  this.createSpecialEffect(28);
+                  break label31;
+               case 60:
+               case 61:
+                  this.createSpecialEffect(22);
+                  break label31;
+               case 62:
+                  this.createSpecialEffect(24);
+                  break label31;
+               case 67:
+                  this.effectRenderOrder = 1;
+                  this.createSpecialEffect(30);
+                  break label31;
+               case 68:
+                  this.effectRenderOrder = 1;
+                  this.createSpecialEffect(31);
+                  break label31;
+               case 70:
+                  this.effectRenderOrder = 1;
+                  this.createSpecialEffect(29);
+                  break label31;
+               case 71:
+                  this.effectRenderOrder = 1;
+                  this.createSpecialEffect(32);
+                  break label31;
+               case 72:
+                  this.effectRenderOrder = 1;
+                  this.createSpecialEffect(33);
+                  break label31;
+               case 75:
+                  this.createSpecialEffect(20);
+                  break label31;
+               case 87:
+                  this.createSpecialEffect(21);
+                  break label31;
+               case 91:
+                  this.createSpecialEffect(26);
+                  break label31;
+               case 92:
+                  this.createSpecialEffect(25);
+                  break label31;
+               case 97:
+               case 98:
+                  this.createSpecialEffect(23);
+               default:
+                  break label31;
+            }
+         case 2:
+            this.sprite.setAnimation(state, (byte)0, restartIfSame);
+            break;
+         case 3:
+            if (BattleSystemManager.B().C29_f398 == 0) {
+               this.deactivate();
+               short[] var3 = new short[]{16, 0, 0, 4};
+               this.specialEffect = new EffectEntity();
+               short[] var4 = new short[var3.length + 5];
+               System.arraycopy(var3, 1, var4, 6, var3.length - 1);
+               System.arraycopy(var3 = new short[]{var3[0], (short)super.worldX, (short)super.worldY, ResourceManager.gameDatabase[0][this.speciesId][17], 0, (short)this.currentDirection}, 0, var4, 0, var3.length);
+               this.specialEffect.initializeEffect(var4);
+               this.specialEffect.setInteractable(true);
+               this.specialEffect.activateEffect();
+            }
+            break;
+         case 4:
+            this.sprite.setAnimation(state, (byte)-1, restartIfSame);
       }
 
       this.animationState = state;
@@ -271,101 +269,101 @@ public final class PokemonEntity extends GameObject {
 
    }
 
-   public final void render(Graphics var1) {
+   public final void render(Graphics g) {
       if (this.specialEffect != null && this.animationState == 1) {
          switch(this.speciesId) {
-         case 0:
-            if (this.sprite.isAtFrame(5)) {
-               this.specialEffect.activateEffect();
-            }
-            break;
-         case 10:
-            if (this.sprite.isAtFrame(5)) {
-               this.specialEffect.activateEffect();
-            }
-            break;
-         case 60:
-         case 61:
-            if (this.sprite.isAtFrame(3)) {
-               this.specialEffect.activateEffect();
-            }
-            break;
-         case 62:
-            if (this.sprite.isAtFrame(8)) {
-               this.specialEffect.activateEffect();
-            }
-            break;
-         case 67:
-            if (this.sprite.isAtFrame(1)) {
-               this.specialEffect.activateEffect();
-            }
-            break;
-         case 68:
-            if (this.sprite.isAtFrame(3)) {
-               this.specialEffect.activateEffect();
-            }
-            break;
-         case 70:
-            if (this.sprite.isAtFrame(9)) {
-               this.specialEffect.activateEffect();
-            }
-            break;
-         case 71:
-            if (this.sprite.isAtFrame(7)) {
-               this.specialEffect.activateEffect();
-            }
-            break;
-         case 72:
-            if (this.sprite.isAtFrame(4)) {
-               this.specialEffect.activateEffect();
-            }
-            break;
-         case 75:
-            if (this.sprite.isAtFrame(15)) {
-               this.specialEffect.activateEffect();
-            }
-            break;
-         case 87:
-            if (this.sprite.isAtFrame(1)) {
-               this.specialEffect.activateEffect();
-            }
-            break;
-         case 91:
-            if (this.sprite.isAtFrame(2)) {
-               this.specialEffect.activateEffect();
-            }
-            break;
-         case 92:
-            if (this.sprite.isAtFrame(4)) {
-               this.specialEffect.activateEffect();
-            }
-            break;
-         case 97:
-         case 98:
-            if (this.sprite.isAtFrame(8)) {
-               this.specialEffect.activateEffect();
-            }
+            case 0:
+               if (this.sprite.isAtFrame(5)) {
+                  this.specialEffect.activateEffect();
+               }
+               break;
+            case 10:
+               if (this.sprite.isAtFrame(5)) {
+                  this.specialEffect.activateEffect();
+               }
+               break;
+            case 60:
+            case 61:
+               if (this.sprite.isAtFrame(3)) {
+                  this.specialEffect.activateEffect();
+               }
+               break;
+            case 62:
+               if (this.sprite.isAtFrame(8)) {
+                  this.specialEffect.activateEffect();
+               }
+               break;
+            case 67:
+               if (this.sprite.isAtFrame(1)) {
+                  this.specialEffect.activateEffect();
+               }
+               break;
+            case 68:
+               if (this.sprite.isAtFrame(3)) {
+                  this.specialEffect.activateEffect();
+               }
+               break;
+            case 70:
+               if (this.sprite.isAtFrame(9)) {
+                  this.specialEffect.activateEffect();
+               }
+               break;
+            case 71:
+               if (this.sprite.isAtFrame(7)) {
+                  this.specialEffect.activateEffect();
+               }
+               break;
+            case 72:
+               if (this.sprite.isAtFrame(4)) {
+                  this.specialEffect.activateEffect();
+               }
+               break;
+            case 75:
+               if (this.sprite.isAtFrame(15)) {
+                  this.specialEffect.activateEffect();
+               }
+               break;
+            case 87:
+               if (this.sprite.isAtFrame(1)) {
+                  this.specialEffect.activateEffect();
+               }
+               break;
+            case 91:
+               if (this.sprite.isAtFrame(2)) {
+                  this.specialEffect.activateEffect();
+               }
+               break;
+            case 92:
+               if (this.sprite.isAtFrame(4)) {
+                  this.specialEffect.activateEffect();
+               }
+               break;
+            case 97:
+            case 98:
+               if (this.sprite.isAtFrame(8)) {
+                  this.specialEffect.activateEffect();
+               }
          }
       }
 
       if (this.specialEffect != null && this.effectRenderOrder == 0) {
-         this.specialEffect.render(var1);
+         this.specialEffect.render(g);
       }
 
       if (this.skillEffect != null && BattleSystemManager.C29_f448[this.skillEffect.effectType - 20][this.skillEffect.sprite.getCurrentAnimationId()][this.skillEffect.sprite.getCurrentFrameIndex()] == 0) {
-         this.skillEffect.render(var1);
+         this.skillEffect.render(g);
       }
 
       if (this.isVisible) {
-         this.sprite.renderCurrentFrame(var1, this.worldX, this.worldY, this.currentDirection);
+         this.sprite.renderCurrentFrame(g, this.worldX, this.worldY, this.currentDirection);
       }
 
       if (this.specialEffect != null && this.effectRenderOrder == 1) {
-         this.specialEffect.render(var1);
+         this.specialEffect.render(g);
       }
 
       if (this.skillEffect != null && BattleSystemManager.C29_f448[this.skillEffect.effectType - 20][this.skillEffect.sprite.getCurrentAnimationId()][this.skillEffect.sprite.getCurrentFrameIndex()] == 1) {
-         this.skillEffect.render(var1);
+         this.skillEffect.render(g);
       }
 
    }
@@ -378,8 +376,8 @@ public final class PokemonEntity extends GameObject {
       return this.speciesId;
    }
 
-   public final void setBattlePosition(int var1) {
-      this.battlePosition = var1;
+   public final void setBattlePosition(int position) {
+      this.battlePosition = position;
    }
 
    public final int getBattlePosition() {
@@ -394,13 +392,12 @@ public final class PokemonEntity extends GameObject {
       return this.level == 50;
    }
 
-   protected final void addExp(int var1) {
+   protected final void addExp(int amount) {
       if (this.level < 50) {
-         this.currentExp += var1;
+         this.currentExp += amount;
          if (this.currentExp < 0) {
             this.currentExp = 0;
          }
-
       }
    }
 
@@ -413,23 +410,23 @@ public final class PokemonEntity extends GameObject {
       this.addExp(-calculateExpForLevel(this.level));
       this.checkEvolution();
 
-      for(int var1 = 0; var1 < this.skills.length; ++var1) {
-         if (this.skills[var1] != -1) {
-            this.skillPP[var1] = ResourceManager.gameDatabase[1][this.skills[var1]][5];
+      for(int i = 0; i < this.skills.length; ++i) {
+         if (this.skills[i] != -1) {
+            this.skillPP[i] = ResourceManager.gameDatabase[1][this.skills[i]][5];
          }
       }
 
       this.recalculateStats();
    }
 
-   public final void addLevels(int var1) {
-      this.level += var1;
+   public final void addLevels(int count) {
+      this.level += count;
       this.checkEvolution();
       this.recalculateStats();
    }
 
-   private static int calculateExpForLevel(int var0) {
-      return var0 * 15 * var0 - 200;
+   private static int calculateExpForLevel(int level) {
+      return level * 15 * level - 200;
    }
 
    private void applyBadgeBonuses() {
@@ -588,89 +585,60 @@ public final class PokemonEntity extends GameObject {
       return var4;
    }
 
-   public final int getStatWithBuffs(byte var1) {
-      int var2 = super.primaryStates[var1];
-      byte var4;
-      switch(var1) {
-      case 2:
-         if (this.hasEquippedItem((byte)0)) {
-            var4 = 1;
-            short var10000 = super.secondaryStates[var4];
-            short var10001 = ResourceManager.gameDatabase[3][0][5];
-            var4 = 1;
-            if (var10000 <= var10001 * super.primaryStates[var4] / 100) {
-               var4 = 2;
-               var2 = super.primaryStates[var4] * (100 + ResourceManager.gameDatabase[3][0][6]) / 100;
+   public final int getStatWithBuffs(byte statIndex) {
+      int result = super.primaryStates[statIndex];
+      switch(statIndex) {
+         case 2: // Attack
+            if (this.hasEquippedItem((byte)0)) {
+               if (super.secondaryStates[1] <= ResourceManager.gameDatabase[3][0][5] * super.primaryStates[1] / 100) {
+                  result = super.primaryStates[2] * (100 + ResourceManager.gameDatabase[3][0][6]) / 100;
+               }
+            } else if (this.hasEquippedItem((byte)1)) {
+               result = super.primaryStates[2] * (100 + ResourceManager.gameDatabase[3][1][5]) / 100;
             }
-         } else if (this.hasEquippedItem((byte)1)) {
-            var4 = 2;
-            var2 = super.primaryStates[var4] * (100 + ResourceManager.gameDatabase[3][1][5]) / 100;
-         }
-         break;
-      case 3:
-         if (this.hasEquippedItem((byte)2)) {
-            var4 = 3;
-            var2 = super.secondaryStates[var4] * (100 + ResourceManager.gameDatabase[3][2][5]) / 100;
-         }
-      case 4:
+            break;
+         case 3: // Defense
+            if (this.hasEquippedItem((byte)2)) {
+               result = super.secondaryStates[3] * (100 + ResourceManager.gameDatabase[3][2][5]) / 100;
+            }
+         case 4: // Speed
       }
-
-      return var2;
+      return result;
    }
 
-   public final void takeDamage(int var1) {
-      int var2 = var1;
-      if (var1 <= 0) {
-         var2 = 1;
+   public final void takeDamage(int amount) {
+      int damage = amount;
+      if (amount <= 0) {
+         damage = 1;
       }
 
-      byte var3 = 1;
-      this.setDisplayHp(super.secondaryStates[var3]);
-      var3 = 1;
-      short var4 = (short)(super.secondaryStates[var3] - var2);
-      var3 = 1;
-      super.secondaryStates[var3] = var4;
-      var3 = 1;
-      if (super.secondaryStates[var3] <= 0) {
-         byte var5 = 0;
-         var3 = 1;
-         super.secondaryStates[var3] = var5;
+      this.setDisplayHp(super.secondaryStates[1]);
+      super.secondaryStates[1] = (short)(super.secondaryStates[1] - damage);
+      if (super.secondaryStates[1] <= 0) {
+         super.secondaryStates[1] = 0;
       }
-
    }
 
-   public final void heal(int var1) {
-      byte var3 = 1;
-      short var4 = (short)(super.secondaryStates[var3] + var1);
-      var3 = 1;
-      super.secondaryStates[var3] = var4;
-      var3 = 1;
-      short var10000 = super.secondaryStates[var3];
-      var3 = 1;
-      if (var10000 >= super.primaryStates[var3]) {
-         var3 = 1;
-         var4 = super.primaryStates[var3];
-         var3 = 1;
-         super.secondaryStates[var3] = var4;
+   public final void heal(int amount) {
+      super.secondaryStates[1] = (short)(super.secondaryStates[1] + amount);
+      if (super.secondaryStates[1] >= super.primaryStates[1]) {
+         super.secondaryStates[1] = super.primaryStates[1];
       }
-
    }
 
-   private void restoreAllSkillPP(int var1) {
-      for(int var2 = 0; var2 < this.skills.length; ++var2) {
-         if (this.skills[var2] != -1) {
-            short[] var10000 = this.skillPP;
-            var10000[var2] = (short)(var10000[var2] + var1);
-            if (this.skillPP[var2] >= ResourceManager.gameDatabase[1][this.skills[var2]][5]) {
-               this.skillPP[var2] = ResourceManager.gameDatabase[1][this.skills[var2]][5];
+   private void restoreAllSkillPP(int amount) {
+      for(int i = 0; i < this.skills.length; ++i) {
+         if (this.skills[i] != -1) {
+            this.skillPP[i] = (short)(this.skillPP[i] + amount);
+            if (this.skillPP[i] >= ResourceManager.gameDatabase[1][this.skills[i]][5]) {
+               this.skillPP[i] = ResourceManager.gameDatabase[1][this.skills[i]][5];
             }
          }
       }
-
    }
 
-   public final boolean hasBuff(int var1) {
-      return this.buffs[var1][4] == 1;
+   public final boolean hasBuff(int buffId) {
+      return this.buffs[buffId][4] == 1;
    }
 
    public final int applyBuff(byte var1, int var2, int var3) {
@@ -683,133 +651,133 @@ public final class PokemonEntity extends GameObject {
          short var8;
          label34:
          switch(var1) {
-         case 0:
-            var10000 = this.buffs[var1];
-            var7 = 3;
-            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
-            this.buffs[var1][2] = (short)(ResourceManager.gameDatabase[6][var1][4] * this.calculateBaseDamage() / 100);
-            var7 = 3;
-            var8 = (short)(super.primaryStates[var7] + this.buffs[var1][1]);
-            var7 = 3;
-            super.secondaryStates[var7] = var8;
-            break;
-         case 1:
-            var10000 = this.buffs[var1];
-            var7 = 3;
-            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
-            this.buffs[var1][2] = ResourceManager.gameDatabase[6][var1][4];
-            var7 = 3;
-            var8 = (short)(super.primaryStates[var7] - this.buffs[var1][1]);
-            var7 = 3;
-            super.secondaryStates[var7] = var8;
-            break;
-         case 2:
-            var10000 = this.buffs[var1];
-            var7 = 3;
-            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
-            this.buffs[var1][2] = ResourceManager.gameDatabase[6][var1][4];
-            var7 = 3;
-            var8 = (short)(super.primaryStates[var7] + this.buffs[var1][1]);
-            var7 = 3;
-            super.secondaryStates[var7] = var8;
-            break;
-         case 3:
-            var10000 = this.buffs[var1];
-            var7 = 1;
-            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
-            var4 = this.buffs[var1][1];
-            var7 = 1;
-            this.setDisplayHp(super.secondaryStates[var7]);
-            this.heal(this.buffs[var1][1]);
-            break;
-         case 4:
-            this.skillParams[4] = (short)var3;
-            var10000 = this.buffs[var1];
-            var7 = 3;
-            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[1][var3][8] / 100);
-            var7 = 3;
-            var8 = (short)(super.primaryStates[var7] + this.buffs[var1][1]);
-            var7 = 3;
-            super.secondaryStates[var7] = var8;
-            break;
-         case 5:
-            this.buffs[var1][1] = ResourceManager.gameDatabase[6][var1][3];
-            break;
-         case 6:
-            this.buffs[var1][1] = ResourceManager.gameDatabase[6][var1][3];
-            this.buffs[var1][2] = ResourceManager.gameDatabase[6][var1][4];
-            break;
-         case 7:
-            this.skillParams[7] = (short)var3;
-            var10000 = this.buffs[var1];
-            var7 = 4;
-            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[1][var3][8] / 100);
-            var7 = 4;
-            var8 = (short)(super.primaryStates[var7] + this.buffs[var1][1]);
-            var7 = 4;
-            super.secondaryStates[var7] = var8;
-            break;
-         case 8:
-            this.buffs[var1][1] = ResourceManager.gameDatabase[6][var1][3];
-            break;
-         case 9:
-            var10000 = this.buffs[var1];
-            var7 = 4;
-            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
-            var10000 = this.buffs[var1];
-            var7 = 3;
-            var10000[2] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][4] / 100);
-            var7 = 4;
-            var8 = (short)(super.primaryStates[var7] + this.buffs[var1][1]);
-            var7 = 4;
-            super.secondaryStates[var7] = var8;
-            var7 = 3;
-            var8 = (short)(super.primaryStates[var7] - this.buffs[var1][2]);
-            var7 = 3;
-            super.secondaryStates[var7] = var8;
-            break;
-         case 10:
-            var10000 = this.buffs[var1];
-            var7 = 2;
-            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
-            var7 = 2;
-            var8 = (short)(super.primaryStates[var7] + this.buffs[var1][1]);
-            var7 = 2;
-            super.secondaryStates[var7] = var8;
-            break;
-         case 11:
-            this.buffs[var1][1] = (short)var2;
-            PokemonEntity var9 = BattleSystemManager.B().C29_f402[var2];
-            int var5 = 0;
+            case 0:
+               var10000 = this.buffs[var1];
+               var7 = 3;
+               var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+               this.buffs[var1][2] = (short)(ResourceManager.gameDatabase[6][var1][4] * this.calculateBaseDamage() / 100);
+               var7 = 3;
+               var8 = (short)(super.primaryStates[var7] + this.buffs[var1][1]);
+               var7 = 3;
+               super.secondaryStates[var7] = var8;
+               break;
+            case 1:
+               var10000 = this.buffs[var1];
+               var7 = 3;
+               var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+               this.buffs[var1][2] = ResourceManager.gameDatabase[6][var1][4];
+               var7 = 3;
+               var8 = (short)(super.primaryStates[var7] - this.buffs[var1][1]);
+               var7 = 3;
+               super.secondaryStates[var7] = var8;
+               break;
+            case 2:
+               var10000 = this.buffs[var1];
+               var7 = 3;
+               var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+               this.buffs[var1][2] = ResourceManager.gameDatabase[6][var1][4];
+               var7 = 3;
+               var8 = (short)(super.primaryStates[var7] + this.buffs[var1][1]);
+               var7 = 3;
+               super.secondaryStates[var7] = var8;
+               break;
+            case 3:
+               var10000 = this.buffs[var1];
+               var7 = 1;
+               var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+               var4 = this.buffs[var1][1];
+               var7 = 1;
+               this.setDisplayHp(super.secondaryStates[var7]);
+               this.heal(this.buffs[var1][1]);
+               break;
+            case 4:
+               this.skillParams[4] = (short)var3;
+               var10000 = this.buffs[var1];
+               var7 = 3;
+               var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[1][var3][8] / 100);
+               var7 = 3;
+               var8 = (short)(super.primaryStates[var7] + this.buffs[var1][1]);
+               var7 = 3;
+               super.secondaryStates[var7] = var8;
+               break;
+            case 5:
+               this.buffs[var1][1] = ResourceManager.gameDatabase[6][var1][3];
+               break;
+            case 6:
+               this.buffs[var1][1] = ResourceManager.gameDatabase[6][var1][3];
+               this.buffs[var1][2] = ResourceManager.gameDatabase[6][var1][4];
+               break;
+            case 7:
+               this.skillParams[7] = (short)var3;
+               var10000 = this.buffs[var1];
+               var7 = 4;
+               var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[1][var3][8] / 100);
+               var7 = 4;
+               var8 = (short)(super.primaryStates[var7] + this.buffs[var1][1]);
+               var7 = 4;
+               super.secondaryStates[var7] = var8;
+               break;
+            case 8:
+               this.buffs[var1][1] = ResourceManager.gameDatabase[6][var1][3];
+               break;
+            case 9:
+               var10000 = this.buffs[var1];
+               var7 = 4;
+               var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+               var10000 = this.buffs[var1];
+               var7 = 3;
+               var10000[2] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][4] / 100);
+               var7 = 4;
+               var8 = (short)(super.primaryStates[var7] + this.buffs[var1][1]);
+               var7 = 4;
+               super.secondaryStates[var7] = var8;
+               var7 = 3;
+               var8 = (short)(super.primaryStates[var7] - this.buffs[var1][2]);
+               var7 = 3;
+               super.secondaryStates[var7] = var8;
+               break;
+            case 10:
+               var10000 = this.buffs[var1];
+               var7 = 2;
+               var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+               var7 = 2;
+               var8 = (short)(super.primaryStates[var7] + this.buffs[var1][1]);
+               var7 = 2;
+               super.secondaryStates[var7] = var8;
+               break;
+            case 11:
+               this.buffs[var1][1] = (short)var2;
+               PokemonEntity var9 = BattleSystemManager.B().C29_f402[var2];
+               int var5 = 0;
 
-            while(true) {
-               var7 = 0;
-               if (var5 >= var9.statusEffectCounts[var7]) {
-                  var9.clearAllBuffs();
-                  break label34;
+               while(true) {
+                  var7 = 0;
+                  if (var5 >= var9.statusEffectCounts[var7]) {
+                     var9.clearAllBuffs();
+                     break label34;
+                  }
+
+                  this.applyBuff((byte)var9.activeStatusEffects[0][var5], var9.buffs[var9.activeStatusEffects[0][var5]][1], BattleSystemManager.B().C29_f402[var2].skillParams[var5]);
+                  ++var5;
                }
-
-               this.applyBuff((byte)var9.activeStatusEffects[0][var5], var9.buffs[var9.activeStatusEffects[0][var5]][1], BattleSystemManager.B().C29_f402[var2].skillParams[var5]);
-               ++var5;
-            }
-         case 12:
-            this.skillParams[12] = 1;
-            break;
-         case 13:
-            var10000 = this.buffs[var1];
-            var7 = 1;
-            var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
-            var4 = this.buffs[var1][1];
-            var7 = 1;
-            this.setDisplayHp(super.secondaryStates[var7]);
-            this.heal(this.buffs[var1][1]);
-            this.clearAllDebuffs();
-            break;
-         case 14:
-            this.clearAllDebuffs();
-            break;
-         case 15:
-            this.buffs[var1][1] = (short)(var2 * ResourceManager.gameDatabase[6][var1][3]);
+            case 12:
+               this.skillParams[12] = 1;
+               break;
+            case 13:
+               var10000 = this.buffs[var1];
+               var7 = 1;
+               var10000[1] = (short)(super.primaryStates[var7] * ResourceManager.gameDatabase[6][var1][3] / 100);
+               var4 = this.buffs[var1][1];
+               var7 = 1;
+               this.setDisplayHp(super.secondaryStates[var7]);
+               this.heal(this.buffs[var1][1]);
+               this.clearAllDebuffs();
+               break;
+            case 14:
+               this.clearAllDebuffs();
+               break;
+            case 15:
+               this.buffs[var1][1] = (short)(var2 * ResourceManager.gameDatabase[6][var1][3]);
          }
 
          this.addStatusEffect((int)0, (byte)var1);
@@ -834,93 +802,93 @@ public final class PokemonEntity extends GameObject {
       byte var5;
       short var7;
       switch(var1) {
-      case 0:
-      case 5:
-      case 6:
-      case 8:
-      case 14:
-      case 15:
-      default:
-         break;
-      case 1:
-         var5 = 3;
-         var7 = (short)(super.primaryStates[var5] - this.buffs[var1][1]);
-         var5 = 3;
-         super.secondaryStates[var5] = var7;
-         break;
-      case 2:
-         var5 = 3;
-         var7 = (short)(super.primaryStates[var5] + this.buffs[var1][1]);
-         var5 = 3;
-         super.secondaryStates[var5] = var7;
-         break;
-      case 3:
-         var2 = this.buffs[var1][1];
-         var5 = 1;
-         this.setDisplayHp(super.secondaryStates[var5]);
-         this.heal(this.buffs[var1][1]);
-         break;
-      case 4:
-         var5 = 3;
-         var7 = (short)(super.secondaryStates[var5] + this.buffs[var1][1]);
-         var5 = 3;
-         super.secondaryStates[var5] = var7;
-         break;
-      case 7:
-         var5 = 4;
-         var7 = (short)(super.primaryStates[var5] + this.buffs[var1][1]);
-         var5 = 4;
-         super.secondaryStates[var5] = var7;
-         break;
-      case 9:
-         var5 = 4;
-         var7 = (short)(super.primaryStates[var5] + this.buffs[var1][1]);
-         var5 = 4;
-         super.secondaryStates[var5] = var7;
-         var5 = 3;
-         var7 = (short)(super.primaryStates[var5] - this.buffs[var1][2]);
-         var5 = 3;
-         super.secondaryStates[var5] = var7;
-         break;
-      case 10:
-         var5 = 2;
-         var7 = (short)(super.primaryStates[var5] + this.buffs[var1][1]);
-         var5 = 2;
-         super.secondaryStates[var5] = var7;
-         break;
-      case 11:
-         short[] var10001 = this.buffs[11];
-         PokemonEntity var6 = BattleSystemManager.B().C29_f402[var10001[1]];
-         int var3 = 0;
+         case 0:
+         case 5:
+         case 6:
+         case 8:
+         case 14:
+         case 15:
+         default:
+            break;
+         case 1:
+            var5 = 3;
+            var7 = (short)(super.primaryStates[var5] - this.buffs[var1][1]);
+            var5 = 3;
+            super.secondaryStates[var5] = var7;
+            break;
+         case 2:
+            var5 = 3;
+            var7 = (short)(super.primaryStates[var5] + this.buffs[var1][1]);
+            var5 = 3;
+            super.secondaryStates[var5] = var7;
+            break;
+         case 3:
+            var2 = this.buffs[var1][1];
+            var5 = 1;
+            this.setDisplayHp(super.secondaryStates[var5]);
+            this.heal(this.buffs[var1][1]);
+            break;
+         case 4:
+            var5 = 3;
+            var7 = (short)(super.secondaryStates[var5] + this.buffs[var1][1]);
+            var5 = 3;
+            super.secondaryStates[var5] = var7;
+            break;
+         case 7:
+            var5 = 4;
+            var7 = (short)(super.primaryStates[var5] + this.buffs[var1][1]);
+            var5 = 4;
+            super.secondaryStates[var5] = var7;
+            break;
+         case 9:
+            var5 = 4;
+            var7 = (short)(super.primaryStates[var5] + this.buffs[var1][1]);
+            var5 = 4;
+            super.secondaryStates[var5] = var7;
+            var5 = 3;
+            var7 = (short)(super.primaryStates[var5] - this.buffs[var1][2]);
+            var5 = 3;
+            super.secondaryStates[var5] = var7;
+            break;
+         case 10:
+            var5 = 2;
+            var7 = (short)(super.primaryStates[var5] + this.buffs[var1][1]);
+            var5 = 2;
+            super.secondaryStates[var5] = var7;
+            break;
+         case 11:
+            short[] var10001 = this.buffs[11];
+            PokemonEntity var6 = BattleSystemManager.B().C29_f402[var10001[1]];
+            int var3 = 0;
 
-         while(true) {
-            var5 = 0;
-            if (var3 >= var6.statusEffectCounts[var5]) {
-               var6.clearAllBuffs();
-               return var2;
+            while(true) {
+               var5 = 0;
+               if (var3 >= var6.statusEffectCounts[var5]) {
+                  var6.clearAllBuffs();
+                  return var2;
+               }
+
+               byte var8 = var6.activeStatusEffects[0][var3];
+               short var10002 = var6.buffs[var6.activeStatusEffects[0][var3]][1];
+               short[] var10004 = this.buffs[11];
+               this.applyBuff((byte)var8, var10002, BattleSystemManager.B().C29_f402[var10004[1]].skillParams[var3]);
+               ++var3;
             }
-
-            byte var8 = var6.activeStatusEffects[0][var3];
-            short var10002 = var6.buffs[var6.activeStatusEffects[0][var3]][1];
-            short[] var10004 = this.buffs[11];
-            this.applyBuff((byte)var8, var10002, BattleSystemManager.B().C29_f402[var10004[1]].skillParams[var3]);
-            ++var3;
-         }
-      case 12:
-         this.skillParams[12] = 2;
-         break;
-      case 13:
-         var2 = this.buffs[var1][1];
-         var5 = 1;
-         this.setDisplayHp(super.secondaryStates[var5]);
-         this.heal(this.buffs[var1][1]);
+         case 12:
+            this.skillParams[12] = 2;
+            break;
+         case 13:
+            var2 = this.buffs[var1][1];
+            var5 = 1;
+            this.setDisplayHp(super.secondaryStates[var5]);
+            this.heal(this.buffs[var1][1]);
       }
 
       return var2;
    }
 
-   public final boolean hasDebuff(int var1) {
-      return this.debuffs[var1][4] == 1;
+   public final boolean hasDebuff(int debuffId) {
+      return this.debuffs[debuffId][4] == 1;
    }
 
    public final void clearAllDebuffs() {
@@ -974,49 +942,49 @@ public final class PokemonEntity extends GameObject {
       byte var3;
       short var4;
       switch(var1) {
-      case 0:
-         var2 = this.debuffs[0][1];
-         var4 = ResourceManager.gameDatabase[1][this.debuffs[0][3]][8];
-         this.takeDamage(var2 / var4);
-         if (!this.isAlive()) {
-            this.setAnimationState((byte)3, true);
-         }
-
-         return;
-      case 1:
-         return;
-      case 2:
-         return;
-      case 3:
-         if (this.debuffs[var1][0] <= 1) {
-            var2 = this.debuffs[var1][1];
-            var4 = ResourceManager.gameDatabase[1][this.debuffs[var1][3]][8];
-            this.takeDamage(var2 * var4 / 100);
+         case 0:
+            var2 = this.debuffs[0][1];
+            var4 = ResourceManager.gameDatabase[1][this.debuffs[0][3]][8];
+            this.takeDamage(var2 / var4);
             if (!this.isAlive()) {
                this.setAnimationState((byte)3, true);
             }
 
             return;
-         }
-         break;
-      case 4:
-         return;
-      case 5:
-         var3 = 4;
-         var4 = (short)(super.primaryStates[var3] - this.debuffs[var1][1]);
-         var3 = 4;
-         super.secondaryStates[var3] = var4;
-         return;
-      case 6:
-         return;
-      case 7:
-         var3 = 3;
-         var4 = (short)(super.primaryStates[var3] - this.debuffs[var1][1]);
-         var3 = 3;
-         super.secondaryStates[var3] = var4;
-      case 8:
-      case 9:
-      case 10:
+         case 1:
+            return;
+         case 2:
+            return;
+         case 3:
+            if (this.debuffs[var1][0] <= 1) {
+               var2 = this.debuffs[var1][1];
+               var4 = ResourceManager.gameDatabase[1][this.debuffs[var1][3]][8];
+               this.takeDamage(var2 * var4 / 100);
+               if (!this.isAlive()) {
+                  this.setAnimationState((byte)3, true);
+               }
+
+               return;
+            }
+            break;
+         case 4:
+            return;
+         case 5:
+            var3 = 4;
+            var4 = (short)(super.primaryStates[var3] - this.debuffs[var1][1]);
+            var3 = 4;
+            super.secondaryStates[var3] = var4;
+            return;
+         case 6:
+            return;
+         case 7:
+            var3 = 3;
+            var4 = (short)(super.primaryStates[var3] - this.debuffs[var1][1]);
+            var3 = 3;
+            super.secondaryStates[var3] = var4;
+         case 8:
+         case 9:
+         case 10:
       }
 
    }
@@ -1076,13 +1044,12 @@ public final class PokemonEntity extends GameObject {
 
    }
 
-   public final byte getStatusEffectCount(int var1) {
-      return this.statusEffectCounts[var1];
+   public final byte getStatusEffectCount(int type) {
+      return this.statusEffectCounts[type];
    }
 
-   public final boolean hasEquippedItem(byte var1) {
-      byte var3 = 5;
-      return super.primaryStates[var3] == var1;
+   public final boolean hasEquippedItem(byte itemId) {
+      return super.primaryStates[5] == itemId;
    }
 
    public final int getSkillCount() {
@@ -1122,16 +1089,15 @@ public final class PokemonEntity extends GameObject {
       return var1;
    }
 
-   public final void learnSkill(byte var1) {
-      for(int var2 = 0; var2 < this.skills.length; ++var2) {
-         if (this.skills[var2] == -1) {
-            this.skills[var2] = var1;
+   public final void learnSkill(byte skillId) {
+      for(int i = 0; i < this.skills.length; ++i) {
+         if (this.skills[i] == -1) {
+            this.skills[i] = skillId;
             ++this.skillCount;
-            this.skillPP[var2] = ResourceManager.gameDatabase[1][var1][5];
+            this.skillPP[i] = ResourceManager.gameDatabase[1][skillId][5];
             return;
          }
       }
-
    }
 
    public final void tryLearnNewSkill() {
@@ -1175,11 +1141,11 @@ public final class PokemonEntity extends GameObject {
       }
    }
 
-   public final boolean hasSkillPP(int var1) {
-      if (var1 == -1) {
+   public final boolean hasSkillPP(int skillIndex) {
+      if (skillIndex == -1) {
          return false;
       } else {
-         return this.skillPP[var1] > 0;
+         return this.skillPP[skillIndex] > 0;
       }
    }
 
@@ -1233,8 +1199,8 @@ public final class PokemonEntity extends GameObject {
       return var2;
    }
 
-   public final void setCurrentSkill(byte var1) {
-      this.currentSkillId = var1;
+   public final void setCurrentSkill(byte skillId) {
+      this.currentSkillId = skillId;
    }
 
    public final byte getCurrentSkill() {
@@ -1249,9 +1215,9 @@ public final class PokemonEntity extends GameObject {
    }
 
    public final void fullRestore() {
-      for(int var1 = 0; var1 < this.skills.length; ++var1) {
-         if (this.skills[var1] != -1) {
-            this.skillPP[var1] = ResourceManager.gameDatabase[1][this.skills[var1]][5];
+      for(int i = 0; i < this.skills.length; ++i) {
+         if (this.skills[i] != -1) {
+            this.skillPP[i] = ResourceManager.gameDatabase[1][this.skills[i]][5];
          }
       }
 
@@ -1291,48 +1257,48 @@ public final class PokemonEntity extends GameObject {
       byte var2;
       short var3;
       switch(var1) {
-      case 7:
-         var2 = 2;
-         var3 = (short)(super.primaryStates[var2] * 90 / 100);
-         var2 = 2;
-         super.primaryStates[var2] = var3;
-         var2 = 4;
-         var3 = (short)(super.primaryStates[var2] + 7);
-         var2 = 4;
-         super.primaryStates[var2] = var3;
-         var2 = 1;
-         var3 = (short)(super.primaryStates[var2] * 80 / 100);
-         var2 = 1;
-         super.primaryStates[var2] = var3;
-         return;
-      case 8:
-         var2 = 2;
-         var3 = (short)(super.primaryStates[var2] * 130 / 100);
-         var2 = 2;
-         super.primaryStates[var2] = var3;
-         var2 = 4;
-         var3 = (short)(super.primaryStates[var2] + -2);
-         var2 = 4;
-         super.primaryStates[var2] = var3;
-         var2 = 1;
-         var3 = (short)(super.primaryStates[var2] * 80 / 100);
-         var2 = 1;
-         super.primaryStates[var2] = var3;
-         return;
-      case 9:
-         var2 = 2;
-         var3 = (short)(super.primaryStates[var2] * 90 / 100);
-         var2 = 2;
-         super.primaryStates[var2] = var3;
-         var2 = 4;
-         var3 = (short)(super.primaryStates[var2] + -2);
-         var2 = 4;
-         super.primaryStates[var2] = var3;
-         var2 = 1;
-         var3 = (short)(super.primaryStates[var2] * 130 / 100);
-         var2 = 1;
-         super.primaryStates[var2] = var3;
-      default:
+         case 7:
+            var2 = 2;
+            var3 = (short)(super.primaryStates[var2] * 90 / 100);
+            var2 = 2;
+            super.primaryStates[var2] = var3;
+            var2 = 4;
+            var3 = (short)(super.primaryStates[var2] + 7);
+            var2 = 4;
+            super.primaryStates[var2] = var3;
+            var2 = 1;
+            var3 = (short)(super.primaryStates[var2] * 80 / 100);
+            var2 = 1;
+            super.primaryStates[var2] = var3;
+            return;
+         case 8:
+            var2 = 2;
+            var3 = (short)(super.primaryStates[var2] * 130 / 100);
+            var2 = 2;
+            super.primaryStates[var2] = var3;
+            var2 = 4;
+            var3 = (short)(super.primaryStates[var2] + -2);
+            var2 = 4;
+            super.primaryStates[var2] = var3;
+            var2 = 1;
+            var3 = (short)(super.primaryStates[var2] * 80 / 100);
+            var2 = 1;
+            super.primaryStates[var2] = var3;
+            return;
+         case 9:
+            var2 = 2;
+            var3 = (short)(super.primaryStates[var2] * 90 / 100);
+            var2 = 2;
+            super.primaryStates[var2] = var3;
+            var2 = 4;
+            var3 = (short)(super.primaryStates[var2] + -2);
+            var2 = 4;
+            super.primaryStates[var2] = var3;
+            var2 = 1;
+            var3 = (short)(super.primaryStates[var2] * 130 / 100);
+            var2 = 1;
+            super.primaryStates[var2] = var3;
+         default:
       }
    }
 
@@ -1340,34 +1306,31 @@ public final class PokemonEntity extends GameObject {
       return this.isCaptured;
    }
 
-   public final void setCaptured(boolean var1) {
-      this.isCaptured = var1;
+   public final void setCaptured(boolean captured) {
+      this.isCaptured = captured;
    }
 
-   public final int getDatabaseValue(byte var1) {
-      return ResourceManager.gameDatabase[0][this.speciesId][var1];
+   public final int getDatabaseValue(byte index) {
+      return ResourceManager.gameDatabase[0][this.speciesId][index];
    }
 
    public static short calculateStat(int var0, int var1, int var2, int var3) {
       switch(var3) {
-      case 1:
-         return (short)((ResourceManager.gameDatabase[0][var0][5] + ResourceManager.gameDatabase[0][var0][6] * var1 + ResourceManager.gameDatabase[0][var0][7]) * QUALITY_MULTIPLIERS[var2 - 1] / 100);
-      case 2:
-         return (short)((ResourceManager.gameDatabase[0][var0][8] + ResourceManager.gameDatabase[0][var0][9] * var1 + ResourceManager.gameDatabase[0][var0][10]) * QUALITY_MULTIPLIERS[var2 - 1] / 100);
-      case 3:
-         return (short)((ResourceManager.gameDatabase[0][var0][11] + ResourceManager.gameDatabase[0][var0][12] * var1 / 10 + ResourceManager.gameDatabase[0][var0][13]) * QUALITY_MULTIPLIERS[var2 - 1] / 100);
-      case 4:
-         return (short)((ResourceManager.gameDatabase[0][var0][14] + ResourceManager.gameDatabase[0][var0][15] * var1 / 10 + ResourceManager.gameDatabase[0][var0][16]) * QUALITY_MULTIPLIERS[var2 - 1] / 100);
-      default:
-         return 0;
+         case 1:
+            return (short)((ResourceManager.gameDatabase[0][var0][5] + ResourceManager.gameDatabase[0][var0][6] * var1 + ResourceManager.gameDatabase[0][var0][7]) * QUALITY_MULTIPLIERS[var2 - 1] / 100);
+         case 2:
+            return (short)((ResourceManager.gameDatabase[0][var0][8] + ResourceManager.gameDatabase[0][var0][9] * var1 + ResourceManager.gameDatabase[0][var0][10]) * QUALITY_MULTIPLIERS[var2 - 1] / 100);
+         case 3:
+            return (short)((ResourceManager.gameDatabase[0][var0][11] + ResourceManager.gameDatabase[0][var0][12] * var1 / 10 + ResourceManager.gameDatabase[0][var0][13]) * QUALITY_MULTIPLIERS[var2 - 1] / 100);
+         case 4:
+            return (short)((ResourceManager.gameDatabase[0][var0][14] + ResourceManager.gameDatabase[0][var0][15] * var1 / 10 + ResourceManager.gameDatabase[0][var0][16]) * QUALITY_MULTIPLIERS[var2 - 1] / 100);
+         default:
+            return 0;
       }
    }
 
    public final int getHpPercent() {
-      byte var2 = 1;
-      int var10000 = super.secondaryStates[var2] * 100;
-      var2 = 1;
-      return var10000 / super.primaryStates[var2];
+      return super.secondaryStates[1] * 100 / super.primaryStates[1];
    }
 
    public final int getDisplayHpPercent() {
@@ -1463,42 +1426,42 @@ public final class PokemonEntity extends GameObject {
       byte var5;
       short var6;
       switch(ResourceManager.gameDatabase[4][var1][5]) {
-      case 1:
-         var5 = 1;
-         var6 = (short)(super.primaryStates[var5] * ResourceManager.gameDatabase[4][var1][6] / 100 + ResourceManager.gameDatabase[4][var1][7]);
-         var5 = 1;
-         this.setDisplayHp(super.secondaryStates[var5] + var6);
-         this.heal(var6);
-         break;
-      case 2:
-         var3 = ResourceManager.gameDatabase[4][var1][6];
-         this.restoreAllSkillPP(var3);
-         break;
-      case 3:
-         var5 = 1;
-         var6 = (short)(super.primaryStates[var5] * ResourceManager.gameDatabase[4][var1][6] / 100 + ResourceManager.gameDatabase[4][var1][7]);
-         var3 = ResourceManager.gameDatabase[4][var1][8];
-         var5 = 1;
-         this.setDisplayHp(super.secondaryStates[var5] + var6);
-         this.heal(var6);
-         this.restoreAllSkillPP(var3);
-         break;
-      case 4:
-         this.activate();
-         var5 = 1;
-         var6 = (short)(super.primaryStates[var5] * ResourceManager.gameDatabase[4][var1][6] / 100 + ResourceManager.gameDatabase[4][var1][7]);
-         var3 = ResourceManager.gameDatabase[4][var1][8];
-         this.setDisplayHp(var6);
-         this.heal(var6);
-         this.restoreAllSkillPP(var3);
-         break;
-      case 5:
-         this.clearAllDebuffs();
-         break;
-      case 6:
-         byte var2 = 2;
-         var5 = 6;
-         super.secondaryStates[var5] = var2;
+         case 1:
+            var5 = 1;
+            var6 = (short)(super.primaryStates[var5] * ResourceManager.gameDatabase[4][var1][6] / 100 + ResourceManager.gameDatabase[4][var1][7]);
+            var5 = 1;
+            this.setDisplayHp(super.secondaryStates[var5] + var6);
+            this.heal(var6);
+            break;
+         case 2:
+            var3 = ResourceManager.gameDatabase[4][var1][6];
+            this.restoreAllSkillPP(var3);
+            break;
+         case 3:
+            var5 = 1;
+            var6 = (short)(super.primaryStates[var5] * ResourceManager.gameDatabase[4][var1][6] / 100 + ResourceManager.gameDatabase[4][var1][7]);
+            var3 = ResourceManager.gameDatabase[4][var1][8];
+            var5 = 1;
+            this.setDisplayHp(super.secondaryStates[var5] + var6);
+            this.heal(var6);
+            this.restoreAllSkillPP(var3);
+            break;
+         case 4:
+            this.activate();
+            var5 = 1;
+            var6 = (short)(super.primaryStates[var5] * ResourceManager.gameDatabase[4][var1][6] / 100 + ResourceManager.gameDatabase[4][var1][7]);
+            var3 = ResourceManager.gameDatabase[4][var1][8];
+            this.setDisplayHp(var6);
+            this.heal(var6);
+            this.restoreAllSkillPP(var3);
+            break;
+         case 5:
+            this.clearAllDebuffs();
+            break;
+         case 6:
+            byte var2 = 2;
+            var5 = 6;
+            super.secondaryStates[var5] = var2;
       }
 
       PlayerCharacter.getInstance().removeItem(var1, 1, (byte)0);
@@ -1512,65 +1475,65 @@ public final class PokemonEntity extends GameObject {
          byte var3;
          byte var4;
          switch(ResourceManager.gameDatabase[4][var1][5]) {
-         case 0:
-            return 6;
-         case 1:
-            var3 = 1;
-            var10000 = super.primaryStates[var3];
-            var3 = 1;
-            if (var10000 == super.secondaryStates[var3]) {
-               return 2;
-            }
-            break;
-         case 2:
-            var4 = this.skillCount;
-
-            for(int var5 = 0; var5 < var4; ++var5) {
-               if (this.skillPP[var5] < getSkillProperty((byte)this.skills[var5], (byte)5)) {
-                  return -1;
+            case 0:
+               return 6;
+            case 1:
+               var3 = 1;
+               var10000 = super.primaryStates[var3];
+               var3 = 1;
+               if (var10000 == super.secondaryStates[var3]) {
+                  return 2;
                }
-            }
+               break;
+            case 2:
+               var4 = this.skillCount;
 
-            return 3;
-         case 3:
-            var4 = -1;
-            var3 = 1;
-            var10000 = super.primaryStates[var3];
-            var3 = 1;
-            if (var10000 == super.secondaryStates[var3] || !this.isAlive()) {
-               var4 = 2;
-            }
-
-            byte var2 = this.skillCount;
-
-            for(int var6 = 0; var6 < var2; ++var6) {
-               if (this.skillPP[var6] < getSkillProperty((byte)this.skills[var6], (byte)5)) {
-                  return -1;
+               for(int var5 = 0; var5 < var4; ++var5) {
+                  if (this.skillPP[var5] < getSkillProperty((byte)this.skills[var5], (byte)5)) {
+                     return -1;
+                  }
                }
-            }
 
-            if (var4 == 2) {
-               return 7;
-            }
-            break;
-         case 4:
-            if (this.isAlive()) {
-               return 1;
-            }
-            break;
-         case 5:
-            for(var1 = 0; var1 < this.debuffs.length; ++var1) {
-               if (this.hasDebuff(var1)) {
-                  return -1;
+               return 3;
+            case 3:
+               var4 = -1;
+               var3 = 1;
+               var10000 = super.primaryStates[var3];
+               var3 = 1;
+               if (var10000 == super.secondaryStates[var3] || !this.isAlive()) {
+                  var4 = 2;
                }
-            }
 
-            return 4;
-         case 6:
-            var3 = 6;
-            if (super.secondaryStates[var3] >= 2) {
-               return 5;
-            }
+               byte var2 = this.skillCount;
+
+               for(int var6 = 0; var6 < var2; ++var6) {
+                  if (this.skillPP[var6] < getSkillProperty((byte)this.skills[var6], (byte)5)) {
+                     return -1;
+                  }
+               }
+
+               if (var4 == 2) {
+                  return 7;
+               }
+               break;
+            case 4:
+               if (this.isAlive()) {
+                  return 1;
+               }
+               break;
+            case 5:
+               for(var1 = 0; var1 < this.debuffs.length; ++var1) {
+                  if (this.hasDebuff(var1)) {
+                     return -1;
+                  }
+               }
+
+               return 4;
+            case 6:
+               var3 = 6;
+               if (super.secondaryStates[var3] >= 2) {
+                  return 5;
+               }
          }
 
          return -1;
@@ -1578,8 +1541,7 @@ public final class PokemonEntity extends GameObject {
    }
 
    public final boolean isAlive() {
-      byte var2 = 1;
-      return super.secondaryStates[var2] > 0;
+      return super.secondaryStates[1] > 0;
    }
 
    public final byte getTypeAdvantage(PokemonEntity var1) {
@@ -1641,106 +1603,106 @@ public final class PokemonEntity extends GameObject {
       short var11 = -1;
       int var6 = var4;
       switch(this.currentSkillId) {
-      case 0:
-      case 6:
-      case 10:
-      case 11:
-      case 12:
-      case 13:
-      case 16:
-      case 17:
-      case 18:
-      case 19:
-      case 20:
-      case 26:
-      case 30:
-      case 31:
-      case 32:
-      case 33:
-      case 36:
-      case 37:
-      case 38:
-      case 39:
-      case 40:
-      case 46:
-      case 50:
-      case 51:
-      case 52:
-      case 54:
-      case 55:
-      case 56:
-      case 57:
-      case 58:
-      case 60:
-      case 61:
-      case 63:
-      case 66:
-      case 68:
-      case 69:
-         var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][3] / 100;
-         break;
-      case 1:
-      case 7:
-         var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][3] / 100 + var4 / ResourceManager.gameDatabase[1][this.currentSkillId][8];
-         break;
-      case 2:
-      case 8:
-      case 22:
-      case 28:
-      case 41:
-      case 47:
-         var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][3] / 100;
-         var11 = ResourceManager.gameDatabase[1][this.currentSkillId][8];
-         break;
-      case 3:
-      case 9:
-         if (var1.hasDebuff(0)) {
-            var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][8] / 100;
-         } else {
+         case 0:
+         case 6:
+         case 10:
+         case 11:
+         case 12:
+         case 13:
+         case 16:
+         case 17:
+         case 18:
+         case 19:
+         case 20:
+         case 26:
+         case 30:
+         case 31:
+         case 32:
+         case 33:
+         case 36:
+         case 37:
+         case 38:
+         case 39:
+         case 40:
+         case 46:
+         case 50:
+         case 51:
+         case 52:
+         case 54:
+         case 55:
+         case 56:
+         case 57:
+         case 58:
+         case 60:
+         case 61:
+         case 63:
+         case 66:
+         case 68:
+         case 69:
             var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][3] / 100;
-         }
-         break;
-      case 4:
-      case 5:
-      case 14:
-      case 15:
-      case 21:
-      case 24:
-      case 25:
-      case 27:
-      case 34:
-      case 35:
-      case 42:
-      case 44:
-      case 45:
-      case 48:
-      case 62:
-      case 64:
-      case 65:
-      case 67:
-      default:
-         var12 = -1;
-         break;
-      case 23:
-      case 29:
-         if (var1.hasDebuff(1)) {
-            var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][8] / 100;
-         } else {
+            break;
+         case 1:
+         case 7:
+            var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][3] / 100 + var4 / ResourceManager.gameDatabase[1][this.currentSkillId][8];
+            break;
+         case 2:
+         case 8:
+         case 22:
+         case 28:
+         case 41:
+         case 47:
             var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][3] / 100;
-         }
-         break;
-      case 43:
-      case 49:
-         var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][3] / 100;
-         var1.clearAllBuffs();
-         break;
-      case 53:
-      case 59:
-         var9 = 1;
-         int var10000 = super.secondaryStates[var9] * 100;
-         var9 = 1;
-         int var7 = var10000 / super.primaryStates[var9];
-         var4 = var4 * (ResourceManager.gameDatabase[1][this.currentSkillId][8] - var7) / 100;
+            var11 = ResourceManager.gameDatabase[1][this.currentSkillId][8];
+            break;
+         case 3:
+         case 9:
+            if (var1.hasDebuff(0)) {
+               var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][8] / 100;
+            } else {
+               var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][3] / 100;
+            }
+            break;
+         case 4:
+         case 5:
+         case 14:
+         case 15:
+         case 21:
+         case 24:
+         case 25:
+         case 27:
+         case 34:
+         case 35:
+         case 42:
+         case 44:
+         case 45:
+         case 48:
+         case 62:
+         case 64:
+         case 65:
+         case 67:
+         default:
+            var12 = -1;
+            break;
+         case 23:
+         case 29:
+            if (var1.hasDebuff(1)) {
+               var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][8] / 100;
+            } else {
+               var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][3] / 100;
+            }
+            break;
+         case 43:
+         case 49:
+            var4 = var4 * ResourceManager.gameDatabase[1][this.currentSkillId][3] / 100;
+            var1.clearAllBuffs();
+            break;
+         case 53:
+         case 59:
+            var9 = 1;
+            int var10000 = super.secondaryStates[var9] * 100;
+            var9 = 1;
+            int var7 = var10000 / super.primaryStates[var9];
+            var4 = var4 * (ResourceManager.gameDatabase[1][this.currentSkillId][8] - var7) / 100;
       }
 
       if (var4 <= 0) {
@@ -1774,41 +1736,41 @@ public final class PokemonEntity extends GameObject {
 
             short[] var18;
             switch(var12) {
-            case 0:
-               var1.debuffs[var12][1] = var14;
-            case 1:
-            case 2:
-            case 8:
-            case 9:
-            case 10:
-            default:
-               break;
-            case 3:
-               var1.debuffs[var12][1] = var14;
-               break;
-            case 4:
-               var1.debuffs[var12][1] = ResourceManager.gameDatabase[1][var15][8];
-               break;
-            case 5:
-               var18 = var1.debuffs[var12];
-               var9 = 4;
-               var18[1] = (short)(var1.primaryStates[var9] * ResourceManager.gameDatabase[1][var15][8] / 100);
-               var9 = 4;
-               var14 = (short)(var1.primaryStates[var9] - var1.debuffs[var12][1]);
-               var9 = 4;
-               var1.secondaryStates[var9] = var14;
-               break;
-            case 6:
-               var1.debuffs[var12][1] = ResourceManager.gameDatabase[1][var15][8];
-               break;
-            case 7:
-               var18 = var1.debuffs[var12];
-               var9 = 3;
-               var18[1] = (short)(var1.primaryStates[var9] * ResourceManager.gameDatabase[1][var15][8] / 100);
-               var9 = 3;
-               var14 = (short)(var1.primaryStates[var9] - var1.debuffs[var12][1]);
-               var9 = 3;
-               var1.secondaryStates[var9] = var14;
+               case 0:
+                  var1.debuffs[var12][1] = var14;
+               case 1:
+               case 2:
+               case 8:
+               case 9:
+               case 10:
+               default:
+                  break;
+               case 3:
+                  var1.debuffs[var12][1] = var14;
+                  break;
+               case 4:
+                  var1.debuffs[var12][1] = ResourceManager.gameDatabase[1][var15][8];
+                  break;
+               case 5:
+                  var18 = var1.debuffs[var12];
+                  var9 = 4;
+                  var18[1] = (short)(var1.primaryStates[var9] * ResourceManager.gameDatabase[1][var15][8] / 100);
+                  var9 = 4;
+                  var14 = (short)(var1.primaryStates[var9] - var1.debuffs[var12][1]);
+                  var9 = 4;
+                  var1.secondaryStates[var9] = var14;
+                  break;
+               case 6:
+                  var1.debuffs[var12][1] = ResourceManager.gameDatabase[1][var15][8];
+                  break;
+               case 7:
+                  var18 = var1.debuffs[var12];
+                  var9 = 3;
+                  var18[1] = (short)(var1.primaryStates[var9] * ResourceManager.gameDatabase[1][var15][8] / 100);
+                  var9 = 3;
+                  var14 = (short)(var1.primaryStates[var9] - var1.debuffs[var12][1]);
+                  var9 = 3;
+                  var1.secondaryStates[var9] = var14;
             }
 
             var1.addStatusEffect((int)1, (byte)var12);
@@ -1891,9 +1853,9 @@ public final class PokemonEntity extends GameObject {
       return var1[var2];
    }
 
-   public static String getTypeNameById(int var0) {
-      String[] var1 = new String[]{"Mộc hệ", "Thổ hệ", "Thủy hệ", "Hỏa hệ", "Quỷ hệ", "Phong hệ", "Điện hệ"};
-      short var2 = ResourceManager.gameDatabase[0][var0][1];
-      return var1[var2];
+   public static String getTypeNameById(int speciesId) {
+      String[] typeNames = new String[]{"Mộc hệ", "Thổ hệ", "Thủy hệ", "Hỏa hệ", "Quỷ hệ", "Phong hệ", "Điện hệ"};
+      short typeIndex = ResourceManager.gameDatabase[0][speciesId][1];
+      return typeNames[typeIndex];
    }
 }

@@ -447,8 +447,8 @@ public final class WorldGameSession extends GameEngineBase {
                 ScreenTransitionManager.getInstance().disableSpotlight((byte) -1);
             }
 
-            this.gameController = DialogUIManager.a();
-            this.gameController.a((GameEngineBase) this);
+            this.gameController = GameUIController.getInstance();
+            this.gameController.setGameEngine((GameEngineBase) this);
             this.dialogManager = DialogManager.getInstance();
             this.questManager.updateQuestEffects();
             this.questManager.update();
@@ -539,8 +539,8 @@ public final class WorldGameSession extends GameEngineBase {
             ByteArrayOutputStream var2 = new ByteArrayOutputStream();
             DataOutputStream var3 = new DataOutputStream(var2);
             if (this.currentRegionId == 9) {
-                var3.writeShort(super.gameController.C9_f158[(this.currentAreaId << 2) + 2]);
-                var3.writeShort(super.gameController.C9_f158[(this.currentAreaId << 2) + 3]);
+                var3.writeShort(super.gameController.REGION_SPAWN_DATA[(this.currentAreaId << 2) + 2]);
+                var3.writeShort(super.gameController.REGION_SPAWN_DATA[(this.currentAreaId << 2) + 3]);
                 var3.writeByte(2);
             } else if (this.currentRegionId == 3 && this.currentAreaId == 7) {
                 var3.writeShort(240);
@@ -1355,7 +1355,7 @@ public final class WorldGameSession extends GameEngineBase {
 
     public final boolean returnFromBattle() {
         this.questManager.setGameEngine(this);
-        this.gameController.a(this);
+        this.gameController.setGameEngine(this);
         QuestManager.isQuestActive = false;
         showStatusBar = true;
         this.changeState((byte) 0);
@@ -1706,28 +1706,28 @@ public final class WorldGameSession extends GameEngineBase {
                 GameEngineBase.resetAction();
                 if (!QuestManager.isQuestActive) {
                     if (showStatusBar) {
-                        this.gameController.c();
+                        this.gameController.showWorldUI();
                     } else {
-                        this.gameController.d();
+                        this.gameController.showFullWorldUI();
                     }
                 }
 
                 this.player.setFacingState((byte) 0, this.player.currentDirection);
                 break;
             case 1:
-                this.gameController.C9_f141 = 1;
-                this.gameController.F();
+                this.gameController.shopType = 1;
+                this.gameController.showShopTypeMenu();
                 break;
             case 2:
                 if (currentInteractNpcId != -1 && this.NPCs[currentInteractNpcId] != null && this.NPCs[currentInteractNpcId].sprite.spriteSetId == 24) {
-                    this.gameController.a((int) 4, (byte) 0);
+                    this.gameController.showBuyMenu((int) 4, (byte) 0);
                 } else if (currentInteractNpcId != -1 && this.NPCs[currentInteractNpcId] != null
                         && this.NPCs[currentInteractNpcId].sprite.spriteSetId == 20) {
-                    this.gameController.a((int) 3, (byte) 2);
+                    this.gameController.showBuyMenu((int) 3, (byte) 2);
                 }
                 break;
             case 3:
-                this.gameController.O();
+                this.gameController.showNPCShopMenu();
             case 4:
             case 33:
             case 34:
@@ -1800,58 +1800,58 @@ public final class WorldGameSession extends GameEngineBase {
             default:
                 break;
             case 5:
-                this.gameController.ag();
+                this.gameController.showEvolutionMenu();
                 break;
             case 6:
-                this.gameController.k();
+                this.gameController.showGameMenu();
                 break;
             case 7:
-                this.gameController.C9_f126 = 0;
-                this.gameController.Z();
+                this.gameController.subMenuIndex = 0;
+                this.gameController.showPokemonPartyMenu();
                 break;
             case 8:
-                this.gameController.ab();
+                this.gameController.updateBagMenu();
                 break;
             case 9:
-                this.gameController.Q();
+                this.gameController.showQuestLog();
                 break;
             case 10:
-                this.gameController.U();
+                this.gameController.showQuestDetails();
                 break;
             case 11:
-                this.gameController.S();
+                this.gameController.showPokedex();
                 break;
             case 12:
-                this.gameController.W();
+                this.gameController.showGuideMenu();
                 break;
             case 13:
-                this.gameController.m();
+                this.gameController.showSystemMenu();
                 break;
             case 14:
                 this.gameController.aC();
                 break;
             case 15:
-                this.gameController.B();
+                this.gameController.showPokemonStorageMenu();
                 break;
             case 16:
-                this.gameController.D();
+                this.gameController.showPokemonBankMenu();
                 break;
             case 17:
-                this.gameController.C9_f150 = false;
+                this.gameController.isItemUsed = false;
             case 18:
             case 19:
-                this.gameController.C9_f126 = 0;
-                this.gameController.Z();
+                this.gameController.subMenuIndex = 0;
+                this.gameController.showPokemonPartyMenu();
                 break;
             case 20:
-                this.gameController.x();
+                this.gameController.showHelpFromSystem();
                 break;
             case 21:
-                this.gameController.z();
+                this.gameController.showOptionsFromSystem();
                 break;
             case 22:
-                this.gameController.K();
-                this.gameController.a("Có lưu dữ liệu không?");
+                this.gameController.showTipDialog();
+                this.gameController.setTipText("Có lưu dữ liệu không?");
                 break;
             case 23:
                 if (this.previousState == 7) {
@@ -1872,14 +1872,14 @@ public final class WorldGameSession extends GameEngineBase {
                 this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
                 break;
             case 24:
-                this.gameController.h();
+                this.gameController.showTeleportMenu();
                 break;
             case 25:
                 this.gameController.au();
                 break;
             case 26:
-                this.gameController.C9_f141 = 2;
-                this.gameController.a((int) 4, (byte) 0);
+                this.gameController.shopType = 2;
+                this.gameController.showBuyMenu((int) 4, (byte) 0);
                 break;
             case 27:
                 this.gameController.aS();
@@ -1890,7 +1890,7 @@ public final class WorldGameSession extends GameEngineBase {
                         || this.portLocationData[(var6 << 2) + 1] != this.currentAreaId); ++var6) {
                 }
 
-                this.gameController.a((byte) var6, this.portLocationData[(var6 << 2) + 2], this.portLocationData[(var6 << 2) + 3]);
+                this.gameController.showNPCDialogWithResponse((byte) var6, this.portLocationData[(var6 << 2) + 2], this.portLocationData[(var6 << 2) + 3]);
                 break;
             case 29:
                 ScreenTransitionManager.getInstance().startTransition(0, 2);
@@ -1899,7 +1899,7 @@ public final class WorldGameSession extends GameEngineBase {
                 this.gameController.aQ();
                 break;
             case 31:
-                this.gameController.C9_f131 = 0;
+                this.gameController.dialogState = 0;
                 boolean var3 = false;
                 this.calculateBadgeProgress();
                 if (this.achievedBadgeTier >= this.currentBadgeTier) {
@@ -1936,11 +1936,11 @@ public final class WorldGameSession extends GameEngineBase {
                 }
                 break;
             case 32:
-                this.gameController.C9_f141 = 3;
-                this.gameController.a((int) 3, (byte) 2);
+                this.gameController.shopType = 3;
+                this.gameController.showBuyMenu((int) 3, (byte) 2);
                 break;
             case 100:
-                this.gameController.d(0);
+                this.gameController.updateDialogSelection(0);
                 break;
             case 101:
                 this.gameController.aJ();
@@ -1952,7 +1952,7 @@ public final class WorldGameSession extends GameEngineBase {
                 this.gameController.aK();
         }
 
-        this.gameController.C9_f132 = true;
+        this.gameController.needsRedraw = true;
         this.currentState = var1;
         this.showSoftKeys();
     }
@@ -1966,21 +1966,21 @@ public final class WorldGameSession extends GameEngineBase {
                     this.updateExplorationMode();
                     break;
                 case 1:
-                    this.gameController.G();
+                    this.gameController.updateShopTypeMenu();
                     break;
                 case 2:
                     if ((currentInteractNpcId == -1 || this.NPCs[currentInteractNpcId] == null
                             || this.NPCs[currentInteractNpcId].sprite.spriteSetId != 24) && this.questManager.questChangeState != 0) {
                         if (currentInteractNpcId != -1 && this.NPCs[currentInteractNpcId] != null
                                 && this.NPCs[currentInteractNpcId].sprite.spriteSetId == 20 || this.questManager.questChangeState == 1) {
-                            this.gameController.a((byte) 3, (byte) 2);
+                            this.gameController.updateBuyProcess((byte) 3, (byte) 2);
                         }
                     } else {
-                        this.gameController.a((byte) 4, (byte) 0);
+                        this.gameController.updateBuyProcess((byte) 4, (byte) 0);
                     }
                     break;
                 case 3:
-                    this.gameController.P();
+                    this.gameController.updateNPCShopMenu();
                     break;
                 case 4:
                     int var1;
@@ -2035,41 +2035,41 @@ public final class WorldGameSession extends GameEngineBase {
                         ++var1;
                     }
                 case 5:
-                    this.gameController.ah();
+                    this.gameController.updateEvolutionProcess();
                     break;
                 case 6:
-                    this.gameController.l();
+                    this.gameController.updateGameMenu();
                     break;
                 case 7:
-                    this.gameController.aa();
+                    this.gameController.updatePokemonPartyMenu();
                     this.updateActionSequence();
                     break;
                 case 8:
-                    this.gameController.af();
+                    this.gameController.updateEvolutionMenu();
                     break;
                 case 9:
-                    this.gameController.R();
+                    this.gameController.updateQuestLog();
                     break;
                 case 10:
-                    this.gameController.V();
+                    this.gameController.updateQuestDetails();
                     break;
                 case 11:
-                    this.gameController.T();
+                    this.gameController.updatePokedex();
                     break;
                 case 12:
-                    this.gameController.X();
+                    this.gameController.updateGuideMenu();
                     break;
                 case 13:
-                    this.gameController.n();
+                    this.gameController.updateSystemMenu();
                     break;
                 case 14:
                     this.gameController.aD();
                     break;
                 case 15:
-                    this.gameController.C();
+                    this.gameController.updatePokemonStorageMenu();
                     break;
                 case 16:
-                    this.gameController.E();
+                    this.gameController.updatePokemonBankMenu();
                     break;
                 case 17:
                     this.gameController.ac();
@@ -2081,19 +2081,19 @@ public final class WorldGameSession extends GameEngineBase {
                     this.gameController.ae();
                     break;
                 case 20:
-                    this.gameController.y();
+                    this.gameController.updateHelpFromSystem();
                     break;
                 case 21:
-                    this.gameController.A();
+                    this.gameController.updateOptionsFromSystem();
                     break;
                 case 22:
-                    this.gameController.N();
+                    this.gameController.updateSaveDialog();
                     break;
                 case 23:
                     if (this.gameController.d(dialogTextId, dialogPortraitId) && this.isKeyPressed(196640)) {
                         if (GameUtils.pageCount < GameUtils.b()) {
                             GameUtils.c();
-                            this.gameController.b(GameUtils.pageCount);
+                            this.gameController.updateBattleActionMenu(GameUtils.pageCount);
                         } else {
                             label227:
                             {
@@ -2137,13 +2137,13 @@ public final class WorldGameSession extends GameEngineBase {
                     this.worldRenderer.updateWorld();
                     break;
                 case 24:
-                    this.gameController.i();
+                    this.gameController.updateTeleportMenu();
                     break;
                 case 25:
                     this.gameController.av();
                     break;
                 case 26:
-                    this.gameController.a((byte) 4, (byte) 0);
+                    this.gameController.updateBuyProcess((byte) 4, (byte) 0);
                     break;
                 case 27:
                     this.gameController.aT();
@@ -2165,7 +2165,7 @@ public final class WorldGameSession extends GameEngineBase {
                     this.updateBadgeDialogMode();
                     break;
                 case 32:
-                    this.gameController.a((byte) 3, (byte) 2);
+                    this.gameController.updateBuyProcess((byte) 3, (byte) 2);
                 case 33:
                 case 34:
                 case 35:
@@ -2249,7 +2249,7 @@ public final class WorldGameSession extends GameEngineBase {
                     pendingEvolutions.removeAllElements();
                     this.evolutionNotifyIndex = 0;
                     evolutionProcessState = 1;
-                } else if (this.gameController.aA()) {
+                } else if (this.gameController.isMessageAnimationComplete()) {
                     int[] var4 = (int[]) pendingEvolutions.elementAt(this.evolutionNotifyIndex);
                     String var2 = "Tiến hóa";
                     if (ResourceManager.gameDatabase[0][ResourceManager.getDatabaseValue((byte) 0, (short) var4[0],
@@ -2259,15 +2259,15 @@ public final class WorldGameSession extends GameEngineBase {
 
                     if (!isTutorialActive && tutorialTargetPokemon[0] != -1) {
                         if (this.evolutionNotifyIndex == pendingEvolutions.size() - 1) {
-                            this.gameController.H();
-                            this.gameController.a(
+                            this.gameController.showWarningDialog();
+                            this.gameController.setWarningText(
                                     "Nhấn #2" + getLocalizedText(var4[1]) + "#0 đạt tới có thể" + var2 + " điều kiện",
                                     "Nhấn nút 5 tiếp tục");
                         } else {
-                            this.gameController.b("#2" + getLocalizedText(var4[1]) + "#0 có thể" + var2);
+                            this.gameController.showQuickMessage("#2" + getLocalizedText(var4[1]) + "#0 có thể" + var2);
                         }
                     } else {
-                        this.gameController.b("#2" + getLocalizedText(var4[1]) + "#0 có thể" + var2);
+                        this.gameController.showQuickMessage("#2" + getLocalizedText(var4[1]) + "#0 có thể" + var2);
                     }
 
                     ++this.evolutionNotifyIndex;
@@ -2429,13 +2429,13 @@ public final class WorldGameSession extends GameEngineBase {
             var3.fillRect(150, GameEngineBase.getScreenHeight() - 22, 16, 16);
             BitmapFontRenderer.drawText(var3, "Cửa Đạo quán", 168, GameEngineBase.getScreenHeight() - 18);
         } else {
-            if (this.currentState == 0 || this.currentState == 23 || this.gameController.C9_f132) {
+            if (this.currentState == 0 || this.currentState == 23 || this.gameController.needsRedraw) {
                 drawBackground(var1);
                 ScreenTransitionManager.getInstance().renderParticleBackground(var1);
                 this.worldRenderer.renderWorld(var1);
                 ScreenTransitionManager.getInstance().renderParticles(var1);
-                if (this.gameController.C9_f132) {
-                    this.gameController.C9_f132 = false;
+                if (this.gameController.needsRedraw) {
+                    this.gameController.needsRedraw = false;
                 }
             }
 
@@ -2470,7 +2470,7 @@ public final class WorldGameSession extends GameEngineBase {
                         20);
             }
 
-            if (!this.gameController.j() && !isActionActive()) {
+            if (!this.gameController.isPopupActive() && !isActionActive()) {
                 this.questManager.renderPauseScreen(var1);
             }
 
@@ -2495,8 +2495,8 @@ public final class WorldGameSession extends GameEngineBase {
 
     private void updateExplorationMode() {
         WorldGameSession var1;
-        if (!this.questManager.hasActiveEvent() && this.player.getFacingDirection() < 5 && !this.gameController.j()
-                && this.gameController.J()) {
+        if (!this.questManager.hasActiveEvent() && this.player.getFacingDirection() < 5 && !this.gameController.isPopupActive()
+                && this.gameController.isNotShowingWarning()) {
             if (this.isKeyHeld(4100)) {
                 this.player.setFacingState((byte) 1, (byte) 2);
             } else if (this.isKeyHeld(8448)) {
@@ -2544,7 +2544,7 @@ public final class WorldGameSession extends GameEngineBase {
                         }
 
                         if (this.NPCs[currentInteractNpcId].sprite.spriteSetId == 17) {
-                            this.gameController.C9_f128 = 0;
+                            this.gameController.npcDialogIndex = 0;
                             this.changeState((byte) 27);
                         } else {
                             this.changeState((byte) 23);
@@ -2566,10 +2566,10 @@ public final class WorldGameSession extends GameEngineBase {
 
             if (this.isKeyPressed(262144)) {
                 this.handleActionResponse();
-                this.gameController.C9_f125 = 0;
+                this.gameController.menuIndex = 0;
                 this.changeState((byte) 6);
             } else if (this.isKeyPressed(131072)) {
-                this.gameController.C9_f125 = 0;
+                this.gameController.menuIndex = 0;
                 this.changeState((byte) 13);
             } else if (this.isKeyPressed(1)) {
                 var1 = this;
@@ -2629,13 +2629,13 @@ public final class WorldGameSession extends GameEngineBase {
                     var1.worldRenderer.renderCutsceneMode(var8);
                     var1.changeState((byte) 4);
                 } else {
-                    var1.gameController.b("Khu này không có bản đồ");
+                    var1.gameController.showQuickMessage("Khu này không có bản đồ");
                 }
             } else if (this.isKeyPressed(2)) {
-                this.gameController.C9_f125 = 0;
+                this.gameController.menuIndex = 0;
                 this.changeState((byte) 10);
             } else if (this.isKeyPressed(8)) {
-                this.gameController.C9_f125 = 1;
+                this.gameController.menuIndex = 1;
                 this.changeState((byte) 10);
             } else if (this.isKeyPressed(512)) {
                 label235:
@@ -2680,22 +2680,22 @@ public final class WorldGameSession extends GameEngineBase {
             this.changeState((byte) 25);
         }
 
-        if (!this.questManager.hasActiveEvent() && !this.gameController.J() && !isTutorialActive && tutorialTargetPokemon[0] != -1
+        if (!this.questManager.hasActiveEvent() && !this.gameController.isNotShowingWarning() && !isTutorialActive && tutorialTargetPokemon[0] != -1
                 && this.isKeyPressed(65568)) {
             actionType = 4;
             isTutorialActive = true;
-            this.gameController.C9_f126 = 0;
+            this.gameController.subMenuIndex = 0;
             this.changeState((byte) 7);
-            this.gameController.I();
+            this.gameController.hideWarningDialog();
         }
 
-        if (!this.gameController.j() && eggProductionNotified == 0 && this.canProduceEgg()) {
-            this.gameController.b("Có thể tiến hành sản xuất trứng sủng vật");
+        if (!this.gameController.isPopupActive() && eggProductionNotified == 0 && this.canProduceEgg()) {
+            this.gameController.showQuickMessage("Có thể tiến hành sản xuất trứng sủng vật");
             eggProductionNotified = 1;
         }
 
         this.questManager.updateEffects();
-        this.gameController.e();
+        this.gameController.updateStatusBar();
         var1 = this;
 
         for (int var7 = 0; var7 < var1.player.miscData.size(); ++var7) {
@@ -2708,7 +2708,7 @@ public final class WorldGameSession extends GameEngineBase {
             }
         }
 
-        if (!this.gameController.j()) {
+        if (!this.gameController.isPopupActive()) {
             this.questManager.update();
             this.updateActionSequence();
         }
@@ -2716,10 +2716,10 @@ public final class WorldGameSession extends GameEngineBase {
     }
 
     private void updateBadgeDialogMode() {
-        if (this.gameController.d(dialogTextId, dialogPortraitId) && !this.gameController.j() && this.isKeyPressed(196640)) {
+        if (this.gameController.d(dialogTextId, dialogPortraitId) && !this.gameController.isPopupActive() && this.isKeyPressed(196640)) {
             if (GameUtils.pageCount < GameUtils.b()) {
                 GameUtils.c();
-                this.gameController.b(GameUtils.pageCount);
+                this.gameController.updateBattleActionMenu(GameUtils.pageCount);
             } else {
                 this.gameController.aF();
                 if (this.NPCs[currentInteractNpcId].sprite.spriteSetId <= 85) {
@@ -2730,14 +2730,14 @@ public final class WorldGameSession extends GameEngineBase {
 
                 this.NPCs[currentInteractNpcId].setDirection((byte) 0);
                 this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
-                this.gameController.C9_f131 = 1;
+                this.gameController.dialogState = 1;
                 if (this.badgeRewardPending) {
                     this.badgeCollected[this.currentBadgeTier] = true;
                     if (this.currentBadgeTier < this.badgeRequirements.length - 1) {
                         this.player.addBadges(1);
-                        this.gameController.b("Đạt được 1 huy hiệu");
+                        this.gameController.showQuickMessage("Đạt được 1 huy hiệu");
                     } else if (this.player.getBadgeState((byte) 7, (byte) 0) == 0) {
-                        this.gameController.b("Đạt được hoàng kim huy hiệu");
+                        this.gameController.showQuickMessage("Đạt được hoàng kim huy hiệu");
                         this.player.setBadgeState((byte) 7, (byte) 0, (byte) 2);
                         QuestManager.questDialogState = (byte) (QuestManager.questDescriptions.length / 2);
                     }
@@ -2745,9 +2745,9 @@ public final class WorldGameSession extends GameEngineBase {
             }
         }
 
-        this.gameController.f();
-        if (this.gameController.C9_f131 == 1 && this.gameController.aA()) {
-            this.gameController.C9_f128 = 0;
+        this.gameController.handleOpenBoxDialog();
+        if (this.gameController.dialogState == 1 && this.gameController.isMessageAnimationComplete()) {
+            this.gameController.npcDialogIndex = 0;
             this.changeState((byte) 27);
         }
 
@@ -3006,7 +3006,7 @@ public final class WorldGameSession extends GameEngineBase {
 
                 if (currentAction == 1) {
                     ++currentAction;
-                    this.gameController.c("Hãy lựa chọn #2Sủng vật");
+                    this.gameController.showTutorialHint("Hãy lựa chọn #2Sủng vật");
                     return;
                 }
 
@@ -3015,33 +3015,33 @@ public final class WorldGameSession extends GameEngineBase {
                     var2 = getLocalizedText(
                             ResourceManager.gameDatabase[0][this.player.partyPokemon[GameEngineBase.getActionData(1)].getSpeciesId()][0]);
                     ++currentAction;
-                    this.gameController.c("Hãy lựa chọn #2" + var2);
+                    this.gameController.showTutorialHint("Hãy lựa chọn #2" + var2);
                     return;
                 }
 
                 if (currentAction == 4) {
-                    if (this.gameController.aB()
-                            && GameEngineBase.isActionBlocked((int) this.gameController.C9_f125, (int) 0)) {
+                    if (this.gameController.canNavigateList()
+                            && GameEngineBase.isActionBlocked((int) this.gameController.menuIndex, (int) 0)) {
                         ++currentAction;
-                        this.gameController.c("Hãy nhấn #2nút 5");
+                        this.gameController.showTutorialHint("Hãy nhấn #2nút 5");
                         return;
                     }
                 } else {
                     if (currentAction == 6) {
                         ++currentAction;
-                        this.gameController.c("Hãy lựa chọn #2Vật phẩm trang sức");
+                        this.gameController.showTutorialHint("Hãy lựa chọn #2Vật phẩm trang sức");
                         return;
                     }
 
                     if (currentAction == 8) {
                         setActionData(1, 0);
                         ++currentAction;
-                        this.gameController.c("Nhấn #2nút 5#1 trang thượng vật phẩm trang sức");
+                        this.gameController.showTutorialHint("Nhấn #2nút 5#1 trang thượng vật phẩm trang sức");
                         return;
                     }
 
                     if (currentAction == 10) {
-                        this.gameController.c("Nhấn #2nút mềm phải#0 để quay lại");
+                        this.gameController.showTutorialHint("Nhấn #2nút mềm phải#0 để quay lại");
                         setActionData(1, -1);
                         setActionData(0, 2);
                         ++currentAction;
@@ -3062,32 +3062,32 @@ public final class WorldGameSession extends GameEngineBase {
                 }
 
                 if (currentAction == 1) {
-                    if (isActionBlocked(this.gameController.C9_f125, 0)) {
+                    if (isActionBlocked(this.gameController.menuIndex, 0)) {
                         ++currentAction;
-                        this.gameController.c("Hãy nhấn vào mục #2Mua sắm");
+                        this.gameController.showTutorialHint("Hãy nhấn vào mục #2Mua sắm");
                         return;
                     }
                 } else {
                     if (currentAction == 3) {
                         ++currentAction;
-                        this.gameController.c("Trước tiên hãy mua #2Hồng sắc ốc biển#1");
+                        this.gameController.showTutorialHint("Trước tiên hãy mua #2Hồng sắc ốc biển#1");
                         return;
                     }
 
                     if (currentAction == 4) {
-                        if (this.gameController.aB()) {
+                        if (this.gameController.canNavigateList()) {
                             setActionData(1, 1);
                             ++currentAction;
                             return;
                         }
                     } else if (currentAction == 5) {
-                        if (isActionBlocked(this.gameController.C9_f125, 0)) {
+                        if (isActionBlocked(this.gameController.menuIndex, 0)) {
                             ++currentAction;
-                            this.gameController.c("Nhấn #2nút 5#1 mua sắm");
+                            this.gameController.showTutorialHint("Nhấn #2nút 5#1 mua sắm");
                             return;
                         }
                     } else if (currentAction == 7) {
-                        this.gameController.c("Hãy nhấn #2nút mềm phải#1 để quay lại");
+                        this.gameController.showTutorialHint("Hãy nhấn #2nút mềm phải#1 để quay lại");
                         setActionData(1, -1);
                         setActionData(0, 2);
                         ++currentAction;
@@ -3110,25 +3110,25 @@ public final class WorldGameSession extends GameEngineBase {
                     ++currentAction;
                     var2 = getLocalizedText(ResourceManager.getDatabaseValue((byte) 0,
                             (short) this.player.partyPokemon[GameEngineBase.getActionData(1)].getSpeciesId(), (byte) 0));
-                    this.gameController.c("Hãy lựa chọn #2" + var2 + "#0 tiến hành tiến hóa");
+                    this.gameController.showTutorialHint("Hãy lựa chọn #2" + var2 + "#0 tiến hành tiến hóa");
                     return;
                 }
 
                 if (currentAction == 1) {
-                    if (isActionBlocked(this.gameController.C9_f125, 0) && this.gameController.aB()) {
+                    if (isActionBlocked(this.gameController.menuIndex, 0) && this.gameController.canNavigateList()) {
                         ++currentAction;
-                        this.gameController.c("Hãy nhấn #2nút 5#0 để tiếp tục");
+                        this.gameController.showTutorialHint("Hãy nhấn #2nút 5#0 để tiếp tục");
                         return;
                     }
                 } else if (currentAction == 3) {
-                    if (isActionBlocked(this.gameController.C9_f126, 0)) {
+                    if (isActionBlocked(this.gameController.subMenuIndex, 0)) {
                         ++currentAction;
-                        this.gameController.c("Nhấn #2nút 5#0 để vào mục Tiến hóa");
+                        this.gameController.showTutorialHint("Nhấn #2nút 5#0 để vào mục Tiến hóa");
                         return;
                     }
                 } else if (currentAction == 5) {
                     ++currentAction;
-                    this.gameController.c("Nhấn #2nút mềm trái#0 để Tiến hóa");
+                    this.gameController.showTutorialHint("Nhấn #2nút mềm trái#0 để Tiến hóa");
                     return;
                 }
                 break;
@@ -3148,27 +3148,27 @@ public final class WorldGameSession extends GameEngineBase {
 
                 if (currentAction == 1) {
                     ++currentAction;
-                    this.gameController.c("Hãy lựa chọn #2Ba lô#0");
+                    this.gameController.showTutorialHint("Hãy lựa chọn #2Ba lô#0");
                     return;
                 }
 
                 if (currentAction == 2) {
-                    if (this.gameController.aB() && isActionBlocked(this.gameController.C9_f125, 0)) {
-                        this.gameController.c("Nhấn #2nút mềm trái#0 vào Tuyển hạng");
+                    if (this.gameController.canNavigateList() && isActionBlocked(this.gameController.menuIndex, 0)) {
+                        this.gameController.showTutorialHint("Nhấn #2nút mềm trái#0 vào Tuyển hạng");
                         ++currentAction;
                         return;
                     }
                 } else {
                     if (currentAction == 4) {
                         ++currentAction;
-                        this.gameController.c("Hãy sử dụng #2Gia tốc dược#0");
+                        this.gameController.showTutorialHint("Hãy sử dụng #2Gia tốc dược#0");
                         return;
                     }
 
                     if (currentAction == 5) {
-                        if (this.gameController.aB() && isActionBlocked(this.gameController.C9_f136, 0)) {
+                        if (this.gameController.canNavigateList() && isActionBlocked(this.gameController.listSelectedIndex, 0)) {
                             ++currentAction;
-                            this.gameController.c("Nhấn #2nút mềm trái#0 sử dụng");
+                            this.gameController.showTutorialHint("Nhấn #2nút mềm trái#0 sử dụng");
                             return;
                         }
                     } else {
@@ -3177,14 +3177,14 @@ public final class WorldGameSession extends GameEngineBase {
                             setActionData(0, 3);
                             setActionData(2, 1);
                             setActionData(1, 3);
-                            this.gameController.c("Hãy lựa chọn #2Đặc thù đạo cụ#0 ấp trứng trứng sủng vật");
+                            this.gameController.showTutorialHint("Hãy lựa chọn #2Đặc thù đạo cụ#0 ấp trứng trứng sủng vật");
                             return;
                         }
 
                         if (currentAction == 9) {
-                            if (this.gameController.aB() && isActionBlocked(this.gameController.C9_f136, 0)) {
+                            if (this.gameController.canNavigateList() && isActionBlocked(this.gameController.listSelectedIndex, 0)) {
                                 setActionData(0, 1);
-                                this.gameController.c("Nhấn #2nút mềm trái#0 để Ấp trứng");
+                                this.gameController.showTutorialHint("Nhấn #2nút mềm trái#0 để Ấp trứng");
                                 ++currentAction;
                                 return;
                             }
@@ -3192,7 +3192,7 @@ public final class WorldGameSession extends GameEngineBase {
                             ++currentAction;
                             setActionData(0, 2);
                             setActionData(1, -1);
-                            this.gameController.c("Nhấn #2nút mềm phải#0 để quay lại");
+                            this.gameController.showTutorialHint("Nhấn #2nút mềm phải#0 để quay lại");
                         }
                     }
                 }
@@ -3249,7 +3249,7 @@ public final class WorldGameSession extends GameEngineBase {
                 }
 
                 if (currentAction == 6) {
-                    this.gameController.c("Nhấn #2nút mềm phải#0 để quay lại");
+                    this.gameController.showTutorialHint("Nhấn #2nút mềm phải#0 để quay lại");
                     setActionData(1, -1);
                     setActionData(0, 2);
                     ++currentAction;
@@ -3280,8 +3280,8 @@ public final class WorldGameSession extends GameEngineBase {
                     return;
                 }
 
-                if (currentAction == 8 && isActionBlocked(this.gameController.C9_f125, 1)) {
-                    this.gameController.c("Hãy lựa chọn #2Trứng sủng vật#0 để ấp trứng");
+                if (currentAction == 8 && isActionBlocked(this.gameController.menuIndex, 1)) {
+                    this.gameController.showTutorialHint("Hãy lựa chọn #2Trứng sủng vật#0 để ấp trứng");
                     setActionData(2, 0);
                     setActionData(1, 0);
                     ++currentAction;

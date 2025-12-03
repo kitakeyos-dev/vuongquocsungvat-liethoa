@@ -664,7 +664,7 @@ public final class QuestManager extends GameEngineBase {
                         WorldGameSession.getInstance().removeInteractionMarker();
                         if (GameUtils.pageCount < GameUtils.b()) {
                            GameUtils.c();
-                           this.mapManager.gameController.b(GameUtils.pageCount);
+                           this.mapManager.gameController.updateBattleActionMenu(GameUtils.pageCount);
                         } else {
                            if (WorldGameSession.currentInteractNpcId != -1
                                  && this.mapManager.NPCs[WorldGameSession.currentInteractNpcId].sprite.spriteSetId <= 85
@@ -1015,7 +1015,7 @@ public final class QuestManager extends GameEngineBase {
                                     var3.getNumericParameters()[2]);
                               this.player.addItem(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (byte) 0);
                            } else {
-                              this.gameEngine.gameController.b("Ba lô đã đủ đạo cụ này");
+                              this.gameEngine.gameController.showQuickMessage("Ba lô đã đủ đạo cụ này");
                            }
                         } else if (this.player.hasItem((int) var3.getNumericParameters()[1],
                               (int) var3.getNumericParameters()[2], (byte) 0)) {
@@ -1030,7 +1030,7 @@ public final class QuestManager extends GameEngineBase {
                         break label1202;
                      }
 
-                     if (!this.gameEngine.gameController.aA()) {
+                     if (!this.gameEngine.gameController.isMessageAnimationComplete()) {
                         break label1202;
                      }
                      break;
@@ -1045,7 +1045,7 @@ public final class QuestManager extends GameEngineBase {
                                     var3.getNumericParameters()[2]);
                               this.player.addItem(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (byte) 2);
                            } else {
-                              this.gameEngine.gameController.b("Ba lô đã đủ đạo cụ này");
+                              this.gameEngine.gameController.showQuickMessage("Ba lô đã đủ đạo cụ này");
                            }
                         } else if (var3.getNumericParameters()[0] == 1) {
                            var27 = ResourceManager.gameDatabase[3][var3.getNumericParameters()[1]][0];
@@ -1059,7 +1059,7 @@ public final class QuestManager extends GameEngineBase {
                         break label1202;
                      }
 
-                     if (!this.gameEngine.gameController.aA()) {
+                     if (!this.gameEngine.gameController.isMessageAnimationComplete()) {
                         break label1202;
                      }
                      break;
@@ -1072,7 +1072,7 @@ public final class QuestManager extends GameEngineBase {
                         if ((var12 = this.player.checkSkillUsage(var3.getNumericParameters()[0],
                               var3.getNumericParameters()[1])) != -1) {
                            if (var12 == 1) {
-                              this.gameEngine.gameController.b("Ba lô đã đủ loại đạo cụ này");
+                              this.gameEngine.gameController.showQuickMessage("Ba lô đã đủ loại đạo cụ này");
                            } else {
                               this.player.addSkillUses((int) var3.getNumericParameters()[0], (int) var3.getNumericParameters()[1]);
                            }
@@ -1086,17 +1086,17 @@ public final class QuestManager extends GameEngineBase {
                         break label1202;
                      }
 
-                     if (!this.gameEngine.gameController.aA()) {
+                     if (!this.gameEngine.gameController.isMessageAnimationComplete()) {
                         break label1202;
                      }
                      break;
                   case 20:
                      if (var2.getExecutionState() != 5) {
                         if (var3.getNumericParameters()[0] == 1) {
-                           this.gameEngine.gameController.b("Mất: " + var3.getStringParameters()[0]);
+                           this.gameEngine.gameController.showQuickMessage("Mất: " + var3.getStringParameters()[0]);
                            this.player.gameFlags[var3.getNumericParameters()[1]] = false;
                         } else {
-                           this.gameEngine.gameController.b("Đạt được: " + var3.getStringParameters()[0]);
+                           this.gameEngine.gameController.showQuickMessage("Đạt được: " + var3.getStringParameters()[0]);
                            this.player.gameFlags[var3.getNumericParameters()[1]] = true;
                         }
 
@@ -1104,7 +1104,7 @@ public final class QuestManager extends GameEngineBase {
                         break label1202;
                      }
 
-                     if (!this.gameEngine.gameController.aA()) {
+                     if (!this.gameEngine.gameController.isMessageAnimationComplete()) {
                         break label1202;
                      }
                      break;
@@ -1271,19 +1271,19 @@ public final class QuestManager extends GameEngineBase {
                            if (var3.getNumericParameters()[1] == 0) {
                               this.player.addGold(var3.getNumericParameters()[2]);
                               this.gameEngine.gameController
-                                    .b("Đạt được: " + var3.getNumericParameters()[2] + " kim tiền");
+                                    .showQuickMessage("Đạt được: " + var3.getNumericParameters()[2] + " kim tiền");
                            } else if (var3.getNumericParameters()[1] == 1) {
                               this.player.addBadges(var3.getNumericParameters()[2]);
                               this.gameEngine.gameController
-                                    .b("Đạt được: " + var3.getNumericParameters()[2] + "Huy hiệu");
+                                    .showQuickMessage("Đạt được: " + var3.getNumericParameters()[2] + "Huy hiệu");
                            }
                         } else if (var3.getNumericParameters()[0] == 1) {
                            if (var3.getNumericParameters()[1] == 0) {
                               this.player.addGold(-var3.getNumericParameters()[2]);
-                              this.gameEngine.gameController.b("Mất: " + var3.getNumericParameters()[2] + " kim tiền");
+                              this.gameEngine.gameController.showQuickMessage("Mất: " + var3.getNumericParameters()[2] + " kim tiền");
                            } else if (var3.getNumericParameters()[1] == 1) {
                               this.player.addBadges(-var3.getNumericParameters()[2]);
-                              this.gameEngine.gameController.b("Mất: " + var3.getNumericParameters()[2] + " huy hiệu");
+                              this.gameEngine.gameController.showQuickMessage("Mất: " + var3.getNumericParameters()[2] + " huy hiệu");
                            }
                         }
 
@@ -1291,7 +1291,7 @@ public final class QuestManager extends GameEngineBase {
                         break label1202;
                      }
 
-                     if (!this.mapManager.gameController.aA()) {
+                     if (!this.mapManager.gameController.isMessageAnimationComplete()) {
                         break label1202;
                      }
                      break;
@@ -1390,7 +1390,7 @@ public final class QuestManager extends GameEngineBase {
                               .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var15]);
                      }
 
-                     this.gameEngine.gameController.a(this.dialogType, this.dialogId, this.dialogTexts, var11);
+                     this.gameEngine.gameController.showMultiOptionDialog(this.dialogType, this.dialogId, this.dialogTexts, var11);
                      var2.setExecutionState((byte) 5);
                      break label1202;
                   case 36:
@@ -1403,7 +1403,7 @@ public final class QuestManager extends GameEngineBase {
                                     (byte) -1,
                                     new int[] { 1, var3.getNumericParameters()[5], var3.getNumericParameters()[6] });
                            } else if (var5 == 1) {
-                              this.gameEngine.gameController.b("Ba lô đã đủ, đã để vào ngân hàng");
+                              this.gameEngine.gameController.showQuickMessage("Ba lô đã đủ, đã để vào ngân hàng");
                               var19 = PokemonEntity.calculateMaxHp(var3.getNumericParameters()[1], var3.getNumericParameters()[2],
                                     var3.getNumericParameters()[3]);
                               this.player.addPokemonToStorage(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (short) -1,
@@ -1411,7 +1411,7 @@ public final class QuestManager extends GameEngineBase {
                                     (byte) -1, var19, 0, 0,
                                     new int[] { 1, var3.getNumericParameters()[5], var3.getNumericParameters()[6] });
                            } else {
-                              this.gameEngine.gameController.b("Không có không gian, đã phóng sinh");
+                              this.gameEngine.gameController.showQuickMessage("Không có không gian, đã phóng sinh");
                            }
                         } else if (var3.getNumericParameters()[0] == 1) {
                            this.player.removePokemonById(var3.getNumericParameters()[1]);
@@ -1421,7 +1421,7 @@ public final class QuestManager extends GameEngineBase {
                         break label1202;
                      }
 
-                     if (!this.gameEngine.gameController.aA()) {
+                     if (!this.gameEngine.gameController.isMessageAnimationComplete()) {
                         break label1202;
                      }
                      break;
@@ -1465,12 +1465,12 @@ public final class QuestManager extends GameEngineBase {
                      }
                   case 40:
                      if (var2.getExecutionState() != 5) {
-                        this.gameEngine.gameController.c(var3.getStringParameters()[0]);
+                        this.gameEngine.gameController.showTutorialHint(var3.getStringParameters()[0]);
                         var2.setExecutionState((byte) 5);
                         break label1202;
                      }
 
-                     if (!this.gameEngine.gameController.aB()) {
+                     if (!this.gameEngine.gameController.canNavigateList()) {
                         break label1202;
                      }
                      break;
@@ -1482,53 +1482,53 @@ public final class QuestManager extends GameEngineBase {
                      break label1202;
                   case 45:
                      if (var2.getExecutionState() != 5) {
-                        this.gameEngine.gameController.c(var3.getStringParameters()[0]);
+                        this.gameEngine.gameController.showTutorialHint(var3.getStringParameters()[0]);
                         questDialogState = (byte) var3.getNumericParameters()[0];
                         var2.setExecutionState((byte) 5);
                         break label1202;
                      }
 
-                     if (!this.gameEngine.gameController.aB()) {
+                     if (!this.gameEngine.gameController.canNavigateList()) {
                         break label1202;
                      }
                      break;
                   case 46:
                      if (var2.getExecutionState() != 5) {
-                        this.gameEngine.gameController.K();
-                        this.gameEngine.gameController.a(var3.getStringParameters()[0]);
+                        this.gameEngine.gameController.showTipDialog();
+                        this.gameEngine.gameController.setTipText(var3.getStringParameters()[0]);
                         var2.setExecutionState((byte) 5);
                         break label1202;
                      }
 
-                     if (this.gameEngine.gameController.C9_f131 == 0) {
+                     if (this.gameEngine.gameController.dialogState == 0) {
                         if (this.gameEngine.isKeyPressed(196640)) {
-                           this.gameEngine.gameController.C9_f131 = 1;
-                           this.gameEngine.gameController.a("Đang lưu...");
-                           this.gameEngine.gameController.M();
+                           this.gameEngine.gameController.dialogState = 1;
+                           this.gameEngine.gameController.setTipText("Đang lưu...");
+                           this.gameEngine.gameController.hideConfirmButtons();
                         } else if (this.gameEngine.isKeyPressed(262144)) {
                            var2.setExecutionState((byte) 1);
-                           this.gameEngine.gameController.L();
-                           this.gameEngine.gameController.C9_f131 = 0;
+                           this.gameEngine.gameController.hideTipDialog();
+                           this.gameEngine.gameController.dialogState = 0;
                         }
                         break label1202;
                      }
 
-                     if (this.gameEngine.gameController.C9_f131 == 1) {
+                     if (this.gameEngine.gameController.dialogState == 1) {
                         this.questStates[WorldGameSession.getAreaIndex(this.mapManager.currentRegionId, this.mapManager.currentAreaId)][var2
                               .getEventId()] = 3;
                         if (((WorldGameSession) this.gameEngine).saveAllGameData()) {
-                           this.gameEngine.gameController.a("Lưu thành công");
-                           this.gameEngine.gameController.C9_f131 = 2;
+                           this.gameEngine.gameController.setTipText("Lưu thành công");
+                           this.gameEngine.gameController.dialogState = 2;
                         }
                         break label1202;
                      }
 
-                     if (this.gameEngine.gameController.C9_f131 != 2) {
+                     if (this.gameEngine.gameController.dialogState != 2) {
                         break label1202;
                      }
 
-                     this.gameEngine.gameController.L();
-                     this.gameEngine.gameController.C9_f131 = 0;
+                     this.gameEngine.gameController.hideTipDialog();
+                     this.gameEngine.gameController.dialogState = 0;
                      break;
                   case 47:
                      if (this.selectOption != -1) {
@@ -1600,7 +1600,7 @@ public final class QuestManager extends GameEngineBase {
                         this.dialogTexts[var15] = GameUtils.splitString(var3.getStringParameters()[3], ',')[var15];
                      }
 
-                     this.gameEngine.gameController.a(this.dialogOptionIds, this.dialogOptionTypes,
+                     this.gameEngine.gameController.showRewardDialog(this.dialogOptionIds, this.dialogOptionTypes,
                            this.dialogOptionTexts, this.dialogTexts);
                      var2.setExecutionState((byte) 5);
                      break label1202;
@@ -1648,7 +1648,7 @@ public final class QuestManager extends GameEngineBase {
                                  (byte) ((byte) var3.getNumericParameters()[1]), (byte) 1);
                         }
 
-                        this.gameEngine.gameController.a(var3.getNumericParameters()[0]);
+                        this.gameEngine.gameController.showSmsRewardDialog(var3.getNumericParameters()[0]);
                         var2.setExecutionState((byte) 5);
                         break label1202;
                      }
@@ -1658,7 +1658,7 @@ public final class QuestManager extends GameEngineBase {
                         break label1202;
                      }
 
-                     this.gameEngine.gameController.Y();
+                     this.gameEngine.gameController.hideSmsRewardDialog();
                      break;
                   case 54:
                      int[][] var26 = new int[var19 = var3.getNumericParameters()[0]][3];
@@ -1951,28 +1951,28 @@ public final class QuestManager extends GameEngineBase {
                            if (GameUtils.convertTime(var16 = GameScreenManager.getInstance().battleStartTime
                                  - GameScreenManager.getInstance().gameStartTime)[2] <= 60L) {
                               if ((var14 = this.player.getStorageStatus()) == 0) {
-                                 this.gameEngine.gameController.b("Đạt được #2Lục hành điểu");
+                                 this.gameEngine.gameController.showQuickMessage("Đạt được #2Lục hành điểu");
                                  this.player.createPokemon(54, 5, (short) -1, (byte) 2, (short) -1, (byte) -1,
                                        new int[] { 1, 30, 45 });
                               } else if (var14 == 1) {
                                  this.gameEngine.gameController
-                                       .b("Đạt được #2Lục hành điểu#0 ba lô đã đủ, đã để vào ngân hàng");
+                                       .showQuickMessage("Đạt được #2Lục hành điểu#0 ba lô đã đủ, đã để vào ngân hàng");
                                  var10 = GameUtils.getRandomInRange(ResourceManager.gameDatabase[0][54][3],
                                        ResourceManager.gameDatabase[0][54][3]);
                                  this.player.addPokemonToStorage(54, 5, (short) -1, (byte) 2, (byte) var10, (byte) -1, 0, 0, 0,
                                        new int[] { 1, 30, 45 });
                               } else {
-                                 this.gameEngine.gameController.b("Không có không gian, đã phóng sinh");
+                                 this.gameEngine.gameController.showQuickMessage("Không có không gian, đã phóng sinh");
                               }
                            } else if (GameUtils.convertTime(var16)[2] <= 65L) {
                               this.player.addGold(1000);
-                              this.gameEngine.gameController.b("Thưởng 1000 kim");
+                              this.gameEngine.gameController.showQuickMessage("Thưởng 1000 kim");
                            } else if (GameUtils.convertTime(var16)[2] <= 130L) {
                               this.player.addGold(750);
-                              this.gameEngine.gameController.b("Thưởng 750 kim");
+                              this.gameEngine.gameController.showQuickMessage("Thưởng 750 kim");
                            } else if (GameUtils.convertTime(var16)[2] <= 200L) {
                               this.player.addGold(600);
-                              this.gameEngine.gameController.b("Thưởng 600 kim");
+                              this.gameEngine.gameController.showQuickMessage("Thưởng 600 kim");
                            }
 
                            GameScreenManager.getInstance().pauseStartTime = 0L;
@@ -1997,7 +1997,7 @@ public final class QuestManager extends GameEngineBase {
                         GameScreenManager.getInstance().pauseStartTime = GameScreenManager.getInstance().gameStartTime;
                         GameScreenManager.getInstance().battleStartTime = 0L;
                      } else {
-                        if (var3.getNumericParameters()[0] != 1 || !this.gameEngine.gameController.aA()) {
+                        if (var3.getNumericParameters()[0] != 1 || !this.gameEngine.gameController.isMessageAnimationComplete()) {
                            break label1202;
                         }
 
@@ -2065,7 +2065,7 @@ public final class QuestManager extends GameEngineBase {
                         WorldGameSession.getInstance().removeInteractionMarker();
                         if (GameUtils.pageCount < GameUtils.b()) {
                            GameUtils.c();
-                           this.mapManager.gameController.b(GameUtils.pageCount);
+                           this.mapManager.gameController.updateBattleActionMenu(GameUtils.pageCount);
                         } else {
                            if (WorldGameSession.currentInteractNpcId != -1
                                  && this.mapManager.NPCs[WorldGameSession.currentInteractNpcId].sprite.spriteSetId <= 85
@@ -2106,7 +2106,7 @@ public final class QuestManager extends GameEngineBase {
                         break label1202;
                      }
 
-                     if (!this.gameEngine.gameController.aA()) {
+                     if (!this.gameEngine.gameController.isMessageAnimationComplete()) {
                         break label1202;
                      }
                      break;

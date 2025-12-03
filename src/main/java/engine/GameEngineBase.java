@@ -26,7 +26,7 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
     public byte currentState;
     public byte previousState;
     public DialogManager dialogManager;
-    public DialogUIManager gameController;
+    public GameUIController gameController;
     private static boolean timerStarted = false;
     public static boolean gamePaused = false;
     public static byte actionType = -1;
@@ -442,28 +442,28 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
                 case 1:
                     System.out.println(" " + formatString(513,
                             new int[] { this.totalPaymentCount, this.currentPaymentCount }));
-                    this.gameController.d(formatString(513,
+                    this.gameController.showTutorialMessage(formatString(513,
                             new int[] { this.totalPaymentCount, this.currentPaymentCount }));
                     break;
                 case 2:
                     if (this.isPaymentComplete()) {
                         if (this.currentPaymentIndex == 0) {
-                            this.gameController.d(getLocalizedText((int) 515) + getLocalizedText((int) 633));
+                            this.gameController.showTutorialMessage(getLocalizedText((int) 515) + getLocalizedText((int) 633));
                         } else {
-                            this.gameController.d(getLocalizedText((int) 515));
+                            this.gameController.showTutorialMessage(getLocalizedText((int) 515));
                         }
                     } else {
-                        this.gameController.d(getLocalizedText((int) 516));
+                        this.gameController.showTutorialMessage(getLocalizedText((int) 516));
                         System.out.println(" " + getLocalizedText((int) 516));
                     }
                     break;
                 case 3:
                     System.out.println(" " + getLocalizedText((int) 516));
-                    this.gameController.d(getLocalizedText((int) 516));
+                    this.gameController.showTutorialMessage(getLocalizedText((int) 516));
                     break;
                 case 4:
                     System.out.println(" " + getLocalizedText((int) 514));
-                    this.gameController.d(getLocalizedText((int) 514));
+                    this.gameController.showTutorialMessage(getLocalizedText((int) 514));
                     break;
                 case 5:
                     gamePaused = false;

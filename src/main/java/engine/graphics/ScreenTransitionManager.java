@@ -5,7 +5,7 @@ import engine.GameUtils;
 import engine.entity.CameraController;
 import engine.entity.ResourceManager;
 import game.BattleSystemManager;
-import game.DialogUIManager;
+import game.GameUIController;
 import game.QuestManager;
 import game.WorldGameSession;
 import layout.DialogManager;
@@ -38,7 +38,7 @@ public final class ScreenTransitionManager {
     private int rowHeight = 20;
     private int wipeDirection;
     private static DialogManager dialogManager;
-    private static DialogUIManager dialogUIManager;
+    private static GameUIController dialogUIManager;
     private static short[][] battleNpcData = null;
     private short[][] shakePatterns = new short[][]{{-20, 20, 20, -20, -15, 15, -15, 15, -5, 5, -5, 5}, {-5, 5, 5, -5}, {-5, 10, -5}};
     private int shakeAxis = 0;
@@ -90,7 +90,7 @@ public final class ScreenTransitionManager {
         }
 
         dialogManager = DialogManager.getInstance();
-        dialogUIManager = DialogUIManager.a();
+        dialogUIManager = GameUIController.getInstance();
         return instance;
     }
 
@@ -454,7 +454,7 @@ public final class ScreenTransitionManager {
                     break;
                 case 8:
                     if (this.battleScriptIndex < this.battleScriptLength) {
-                        dialogUIManager.c(this.animationFrame, battleNpcData[this.animationFrame][this.battleScriptIndex]);
+                        dialogUIManager.updateBattleNPCScript(this.animationFrame, battleNpcData[this.animationFrame][this.battleScriptIndex]);
                         ++this.battleScriptIndex;
                     } else {
                         ++this.animationFrame;
@@ -551,7 +551,7 @@ public final class ScreenTransitionManager {
             switch (this.tertiaryTransitionType) {
                 case 18:
                     if (this.battleScriptIndex < this.battleScriptLength) {
-                        dialogUIManager.a((int) this.animationFrame, (int) battleNpcData[this.animationFrame][this.battleScriptIndex]);
+                        dialogUIManager.updateBattleUIElement((int) this.animationFrame, (int) battleNpcData[this.animationFrame][this.battleScriptIndex]);
                         ++this.battleScriptIndex;
                     } else {
                         ++this.animationFrame;
@@ -980,7 +980,7 @@ public final class ScreenTransitionManager {
     public final void initMenuTransition() {
         this.animationFrame = 0;
         battleNpcData = new short[][]{{7}, {8}, {10}, {12}, {16}, {18}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {20}, {200, 200, 100, 100, 50, 50, 0, 0}, {38, 38, 39, 39, 40, 40, 41, 41, 42, 42}, {43, 43, 44, 44, 45, 45, 46, 46, 47, 47, 48}};
-        dialogUIManager.v();
+        dialogUIManager.showBattleMenu2();
         this.initBattleEffect(0);
     }
 

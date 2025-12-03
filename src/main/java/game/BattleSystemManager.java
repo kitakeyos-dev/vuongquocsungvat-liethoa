@@ -438,22 +438,22 @@ public final class BattleSystemManager extends GameEngineBase {
          }
 
          if (this.C29_f402[0].isAlive()) {
-            this.gameController.b(this.C29_f402[this.C29_f404[var1]], this.C29_f402[0]);
+            this.gameController.updateTypeAdvantageDisplay(this.C29_f402[this.C29_f404[var1]], this.C29_f402[0]);
             return;
          }
 
-         this.gameController.b(this.C29_f402[this.C29_f404[var1]], this.C29_f402[1]);
+         this.gameController.updateTypeAdvantageDisplay(this.C29_f402[this.C29_f404[var1]], this.C29_f402[1]);
       }
    }
 
    public final void E() {
-      this.gameController = DialogUIManager.a();
-      this.gameController.a((GameEngineBase) this);
+      this.gameController = GameUIController.getInstance();
+      this.gameController.setGameEngine((GameEngineBase) this);
       this.dialogManager = DialogManager.getInstance();
       if (this.C29_f397 == 0) {
-         this.gameController.a(this.C29_f402[1], this.C29_f402[0]);
+         this.gameController.initBattleUI(this.C29_f402[1], this.C29_f402[0]);
       } else {
-         this.gameController.a(this.C29_f402[2], this.C29_f402[0]);
+         this.gameController.initBattleUI(this.C29_f402[2], this.C29_f402[0]);
       }
    }
 
@@ -546,10 +546,10 @@ public final class BattleSystemManager extends GameEngineBase {
 
          if (var1.getBattlePosition() == 0) {
             this.gameController.a(var1, false);
-            this.gameController.a(var1);
+            this.gameController.initPlayerPokemonUI(var1);
          } else {
             this.gameController.b(var1, this.C29_f466);
-            this.gameController.b(var1);
+            this.gameController.initEnemyPokemonUI(var1);
          }
 
          ++this.C29_f436;
@@ -588,7 +588,7 @@ public final class BattleSystemManager extends GameEngineBase {
       if (!var1.isAlive()) {
          var1.clearAllDebuffs();
          var1.clearAllBuffs();
-         this.gameController.b(var1);
+         this.gameController.initEnemyPokemonUI(var1);
          this.h(var1);
          ++this.C29_f406[1];
       }
@@ -635,7 +635,7 @@ public final class BattleSystemManager extends GameEngineBase {
 
          var1.clearAllDebuffs();
          var1.clearAllBuffs();
-         this.gameController.a(var1);
+         this.gameController.initPlayerPokemonUI(var1);
          C29_f412.removeElement(var1);
          C29_f413.removeElement(var1);
          var1.battleTimer = 0;
@@ -791,11 +791,11 @@ public final class BattleSystemManager extends GameEngineBase {
             }
 
             this.C29_f466 = true;
-            this.gameController.C9_f149 = 0;
+            this.gameController.itemQuantity = 0;
             if (var1.getBattlePosition() == 0) {
-               this.gameController.a(var1);
+               this.gameController.initPlayerPokemonUI(var1);
             } else {
-               this.gameController.b(var1);
+               this.gameController.initEnemyPokemonUI(var1);
             }
          }
 
@@ -941,7 +941,7 @@ public final class BattleSystemManager extends GameEngineBase {
                }
 
                if (!var6) {
-                  this.gameController.c("Không còn tinh lực, không cách nào chiến đấu");
+                  this.gameController.showTutorialHint("Không còn tinh lực, không cách nào chiến đấu");
                   ++this.C29_f410;
                   if (this.C29_f410 >= this.C29_f409.size()) {
                      this.C29_f411 = true;
@@ -956,37 +956,37 @@ public final class BattleSystemManager extends GameEngineBase {
          case 2:
             return;
          case 3:
-            this.gameController.e((PokemonEntity) this.C29_f409.elementAt(this.C29_f410));
+            this.gameController.showPokemonStatusEffect((PokemonEntity) this.C29_f409.elementAt(this.C29_f410));
             return;
          case 4:
             this.gameController.am();
             return;
          case 5:
-            this.gameController.C9_f126 = 0;
-            this.gameController.Z();
+            this.gameController.subMenuIndex = 0;
+            this.gameController.showPokemonPartyMenu();
             return;
          case 6:
             this.C29_f419 = 0;
             this.gameController.b((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419), false);
-            this.gameController.b(this.C29_f408, (PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
-            this.gameController.b((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
+            this.gameController.updateTypeAdvantageDisplay(this.C29_f408, (PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
+            this.gameController.initEnemyPokemonUI((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
             this.a(Integer.parseInt((String) this.C29_f408.debuffList.elementAt(this.C29_f419)), true);
             return;
          case 7:
             if (this.C29_f408.getBattlePosition() == 0) {
                this.gameController.a(this.C29_f408, false);
-               this.gameController.a(this.C29_f408);
+               this.gameController.initPlayerPokemonUI(this.C29_f408);
             } else {
                this.gameController.b(this.C29_f408, false);
-               this.gameController.b(this.C29_f408);
+               this.gameController.initEnemyPokemonUI(this.C29_f408);
             }
 
             if (((PokemonEntity) this.C29_f408.followTarget).getBattlePosition() == 1) {
                this.gameController.b((PokemonEntity) this.C29_f408.followTarget, false);
-               this.gameController.b((PokemonEntity) this.C29_f408.followTarget);
+               this.gameController.initEnemyPokemonUI((PokemonEntity) this.C29_f408.followTarget);
             } else {
                this.gameController.a((PokemonEntity) this.C29_f408.followTarget, false);
-               this.gameController.a((PokemonEntity) this.C29_f408.followTarget);
+               this.gameController.initPlayerPokemonUI((PokemonEntity) this.C29_f408.followTarget);
             }
 
             this.C29_f416 = false;
@@ -1042,16 +1042,16 @@ public final class BattleSystemManager extends GameEngineBase {
          case 10:
             return;
          case 11:
-            this.gameController.a((int) 4, (byte) 0);
+            this.gameController.showBuyMenu((int) 4, (byte) 0);
             return;
          case 12:
          case 13:
             if (this.C29_f408.getBattlePosition() == 0) {
                this.gameController.a(this.C29_f408, false);
-               this.gameController.a(this.C29_f408);
+               this.gameController.initPlayerPokemonUI(this.C29_f408);
             } else {
                this.gameController.b(this.C29_f408, false);
-               this.gameController.b(this.C29_f408);
+               this.gameController.initEnemyPokemonUI(this.C29_f408);
             }
 
             PokemonEntity var5;
@@ -1093,7 +1093,7 @@ public final class BattleSystemManager extends GameEngineBase {
          case 14:
             return;
          case 15:
-            this.gameController.C9_f124 = 0;
+            this.gameController.tabIndex = 0;
             this.C29_f414 = true;
             this.C29_f423 = this.C29_f407;
             this.C29_f421[this.C29_f423] = 0;
@@ -1103,9 +1103,9 @@ public final class BattleSystemManager extends GameEngineBase {
             ++this.C29_f410;
             return;
          case 16:
-            this.gameController.C9_f126 = 0;
-            this.gameController.C9_f150 = false;
-            this.gameController.Z();
+            this.gameController.subMenuIndex = 0;
+            this.gameController.isItemUsed = false;
+            this.gameController.showPokemonPartyMenu();
             return;
          case 17:
             this.C29_f408.setFollowTarget((GameEntity) this.C29_f402[0]);
@@ -1126,7 +1126,7 @@ public final class BattleSystemManager extends GameEngineBase {
                this.C29_f443 = false;
             }
 
-            this.gameController.C9_f131 = 0;
+            this.gameController.dialogState = 0;
             return;
          case 18:
             return;
@@ -1216,18 +1216,18 @@ public final class BattleSystemManager extends GameEngineBase {
             for (var4 = 0; var4 < this.C29_f402.length; ++var4) {
                if (this.C29_f402[var4].getBattlePosition() == 1 && this.C29_f402[var4].isAlive()) {
                   this.gameController.b(this.C29_f402[var4], false);
-                  this.gameController.b(this.C29_f402[var4]);
+                  this.gameController.initEnemyPokemonUI(this.C29_f402[var4]);
                }
             }
 
             this.b(this.C29_f404[this.C29_f410], true);
-            this.gameController.c(this.C29_f408);
+            this.gameController.showPokemonCaptureUI(this.C29_f408);
             if (this.C29_f402[0].isAlive()) {
-               this.gameController.b(this.C29_f408, this.C29_f402[0]);
+               this.gameController.updateTypeAdvantageDisplay(this.C29_f408, this.C29_f402[0]);
                return;
             }
 
-            this.gameController.b(this.C29_f408, this.C29_f402[1]);
+            this.gameController.updateTypeAdvantageDisplay(this.C29_f408, this.C29_f402[1]);
             return;
          case 21:
             this.C29_f408.setFollowTarget((GameEntity) this.C29_f402[0]);
@@ -1287,7 +1287,7 @@ public final class BattleSystemManager extends GameEngineBase {
                }
 
                if (this.C29_f397 == 0) {
-                  this.gameController.a(this.C29_f402[1], this.C29_f402[0], this.C29_f402[this.C29_f423],
+                  this.gameController.updateBattleAdvantageProgress(this.C29_f402[1], this.C29_f402[0], this.C29_f402[this.C29_f423],
                         this.C29_f421[this.C29_f423] + 1, C29_f447[this.C29_f399][this.C29_f423].length / 4);
                }
 
@@ -1307,7 +1307,7 @@ public final class BattleSystemManager extends GameEngineBase {
                }
                break;
             case 1:
-               if (this.gameController.aB()) {
+               if (this.gameController.canNavigateList()) {
                   if (this.C29_f408.getBattlePosition() == 1 && this.C29_f398 == 0
                         && (this.C29_f408.getSpeciesId() == 33 || this.C29_f408.getSpeciesId() == 59)
                         && this.C29_f408.getSecondaryState((byte) 1) < this.C29_f408.getPrimaryState((byte) 1)) {
@@ -1347,7 +1347,7 @@ public final class BattleSystemManager extends GameEngineBase {
                   }
                }
 
-               this.gameController.g();
+               this.gameController.handleTaskTipDialog();
                this.C29_f445[this.C29_f402.length].updateAnimation();
                break;
             case 2:
@@ -1374,7 +1374,7 @@ public final class BattleSystemManager extends GameEngineBase {
                   PokemonEntity var7 = (PokemonEntity) this.C29_f408.buffList.elementAt(var5);
                   this.C29_f408.statusFlags = Byte.parseByte((String) this.C29_f408.debuffList.elementAt(var5));
                   this.C29_f408.useSkill(var1, var7);
-                  this.gameController.b(this.C29_f408, var7);
+                  this.gameController.updateTypeAdvantageDisplay(this.C29_f408, var7);
                   this.changeState((byte) 7);
                } else if (this.C29_f408.hasDebuff(9)) {
                   this.f(this.C29_f408);
@@ -1383,7 +1383,7 @@ public final class BattleSystemManager extends GameEngineBase {
                   this.C29_f408.statusFlags = Byte.parseByte((String) this.C29_f408.debuffList.elementAt(var6));
                   byte var8 = (byte) e(this.C29_f408);
                   this.C29_f408.useSkill(var8, var9);
-                  this.gameController.b(this.C29_f408, var9);
+                  this.gameController.updateTypeAdvantageDisplay(this.C29_f408, var9);
                   this.changeState((byte) 7);
                } else {
                   var4 = true;
@@ -1410,18 +1410,18 @@ public final class BattleSystemManager extends GameEngineBase {
                      }
                   }
 
-                  this.gameController.b(this.C29_f408, (PokemonEntity) this.C29_f408.followTarget);
+                  this.gameController.updateTypeAdvantageDisplay(this.C29_f408, (PokemonEntity) this.C29_f408.followTarget);
                   this.changeState((byte) 7);
                }
                break;
             case 3:
-               this.gameController.f((PokemonEntity) this.C29_f409.elementAt(this.C29_f410));
+               this.gameController.updatePokemonStatusEffect((PokemonEntity) this.C29_f409.elementAt(this.C29_f410));
                break;
             case 4:
                this.gameController.an();
                break;
             case 5:
-               this.gameController.aa();
+               this.gameController.updatePokemonPartyMenu();
                break;
             case 6:
                if (this.isKeyPressed(4100)) {
@@ -1433,9 +1433,9 @@ public final class BattleSystemManager extends GameEngineBase {
 
                      this.a(Integer.parseInt((String) this.C29_f408.debuffList.elementAt(this.C29_f419)), true);
                      this.gameController.b((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419), false);
-                     this.gameController.b(this.C29_f408,
+                     this.gameController.updateTypeAdvantageDisplay(this.C29_f408,
                            (PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
-                     this.gameController.b((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
+                     this.gameController.initEnemyPokemonUI((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
                   }
                } else if (this.isKeyPressed(8448)) {
                   if (this.C29_f397 == 1) {
@@ -1446,9 +1446,9 @@ public final class BattleSystemManager extends GameEngineBase {
 
                      this.a(Integer.parseInt((String) this.C29_f408.debuffList.elementAt(this.C29_f419)), true);
                      this.gameController.b((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419), false);
-                     this.gameController.b(this.C29_f408,
+                     this.gameController.updateTypeAdvantageDisplay(this.C29_f408,
                            (PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
-                     this.gameController.b((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
+                     this.gameController.initEnemyPokemonUI((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
                   }
                } else if (this.isKeyPressed(16400)) {
                   if (this.C29_f397 == 1) {
@@ -1459,9 +1459,9 @@ public final class BattleSystemManager extends GameEngineBase {
 
                      this.a(Integer.parseInt((String) this.C29_f408.debuffList.elementAt(this.C29_f419)), true);
                      this.gameController.b((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419), false);
-                     this.gameController.b(this.C29_f408,
+                     this.gameController.updateTypeAdvantageDisplay(this.C29_f408,
                            (PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
-                     this.gameController.b((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
+                     this.gameController.initEnemyPokemonUI((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
                   }
                } else if (this.isKeyPressed(32832)) {
                   if (this.C29_f397 == 1) {
@@ -1472,9 +1472,9 @@ public final class BattleSystemManager extends GameEngineBase {
 
                      this.a(Integer.parseInt((String) this.C29_f408.debuffList.elementAt(this.C29_f419)), true);
                      this.gameController.b((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419), false);
-                     this.gameController.b(this.C29_f408,
+                     this.gameController.updateTypeAdvantageDisplay(this.C29_f408,
                            (PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
-                     this.gameController.b((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
+                     this.gameController.initEnemyPokemonUI((PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419));
                   }
                } else if (this.isKeyPressed(196640)) {
                   this.G();
@@ -1738,17 +1738,17 @@ public final class BattleSystemManager extends GameEngineBase {
             default:
                break;
             case 10:
-               if (!this.gameController.j() && this.c(this.C29_f408, false)) {
+               if (!this.gameController.isPopupActive() && this.c(this.C29_f408, false)) {
                   this.gameController
-                        .c(getLocalizedText(ResourceManager.gameDatabase[0][this.C29_f408.getSpeciesId()][0]) + "Chạy trốn");
+                        .showTutorialHint(getLocalizedText(ResourceManager.gameDatabase[0][this.C29_f408.getSpeciesId()][0]) + "Chạy trốn");
                }
 
-               if (this.gameController.g()) {
+               if (this.gameController.handleTaskTipDialog()) {
                   GameScreenManager.getInstance().changeState((byte) 10);
                }
                break;
             case 11:
-               this.gameController.a((byte) 4, (byte) 0);
+               this.gameController.updateBuyProcess((byte) 4, (byte) 0);
                break;
             case 12:
             case 13:
@@ -1760,7 +1760,7 @@ public final class BattleSystemManager extends GameEngineBase {
                   PokemonEntity var10002 = this.C29_f402[0];
                   PokemonEntity[] var10003 = this.C29_f402;
                   int var13 = this.C29_f423;
-                  this.gameController.a(var10001, var10002, this.C29_f421[this.C29_f423] + 1,
+                  this.gameController.updateBattleAdvantagePercent(var10001, var10002, this.C29_f421[this.C29_f423] + 1,
                         C29_f447[this.C29_f399][this.C29_f423].length / 4);
                }
 
@@ -1905,10 +1905,10 @@ public final class BattleSystemManager extends GameEngineBase {
                      this.D();
                      if (this.C29_f402[this.C29_f407].getBattlePosition() == 0) {
                         this.gameController.a(this.C29_f402[this.C29_f407], false);
-                        this.gameController.a(this.C29_f402[this.C29_f407]);
+                        this.gameController.initPlayerPokemonUI(this.C29_f402[this.C29_f407]);
                      } else {
                         this.gameController.b(this.C29_f402[this.C29_f407], false);
-                        this.gameController.b(this.C29_f402[this.C29_f407]);
+                        this.gameController.initEnemyPokemonUI(this.C29_f402[this.C29_f407]);
                      }
                   }
                }
@@ -1917,7 +1917,7 @@ public final class BattleSystemManager extends GameEngineBase {
                this.gameController.ao();
                break;
             case 17:
-               if (this.gameController.C9_f131 == 0) {
+               if (this.gameController.dialogState == 0) {
                   if (this.C29_f396 == 0 && this.C29_f442.isAnimationComplete()) {
                      this.e((byte) 1);
                   } else if (this.C29_f396 == 1 && this.C29_f442.isAnimationComplete()) {
@@ -1932,20 +1932,20 @@ public final class BattleSystemManager extends GameEngineBase {
                      }
                   } else if (this.C29_f396 == 3 && this.C29_f442.isAnimationComplete()) {
                      if ((var1 = C29_f395.getStorageStatus()) == 0) {
-                        this.gameController.C9_f131 = 1;
-                        this.gameController.b("Bắt thành công #2" + GameEngineBase.getLocalizedText(
+                        this.gameController.dialogState = 1;
+                        this.gameController.showQuickMessage("Bắt thành công #2" + GameEngineBase.getLocalizedText(
                               (int) ResourceManager.gameDatabase[0][((PokemonEntity) this.C29_f408.followTarget)
                                     .getSpeciesId()][0]));
                         C29_f395.createPokemonFromData(((PokemonEntity) this.C29_f408.followTarget).toSaveData());
                      } else if (var1 == 1) {
-                        this.gameController.C9_f131 = 2;
-                        this.gameController.b("Bắt thành công #2" + GameEngineBase.getLocalizedText(
+                        this.gameController.dialogState = 2;
+                        this.gameController.showQuickMessage("Bắt thành công #2" + GameEngineBase.getLocalizedText(
                               (int) ResourceManager.gameDatabase[0][((PokemonEntity) this.C29_f408.followTarget)
                                     .getSpeciesId()][0]));
                         C29_f395.addPokemonDataToStorage(((PokemonEntity) this.C29_f408.followTarget).toSaveData());
                      } else {
-                        this.gameController.C9_f131 = 1;
-                        this.gameController.b("Không còn không gian, sủng vật này đã phóng sinh");
+                        this.gameController.dialogState = 1;
+                        this.gameController.showQuickMessage("Không còn không gian, sủng vật này đã phóng sinh");
                      }
                   } else if (this.C29_f396 == 4 && this.C29_f442.isAnimationComplete()
                         && !this.C29_f424.updateEffect()) {
@@ -1954,8 +1954,8 @@ public final class BattleSystemManager extends GameEngineBase {
                      this.C29_f442.deactivate();
                      this.C29_f408.isInBattle = true;
                      if (this.C29_f443) {
-                        this.gameController.b("Ngân hàng và Ba lô đều đã đầy");
-                        this.gameController.C9_f131 = 3;
+                        this.gameController.showQuickMessage("Ngân hàng và Ba lô đều đã đầy");
+                        this.gameController.dialogState = 3;
                      } else {
                         ++this.C29_f410;
                         this.changeState((byte) 1);
@@ -1964,24 +1964,24 @@ public final class BattleSystemManager extends GameEngineBase {
 
                   this.C29_f442.updateAnimation();
                } else {
-                  if (this.gameController.aA()) {
-                     if (this.gameController.C9_f131 == 3) {
-                        this.gameController.C9_f131 = 0;
+                  if (this.gameController.isMessageAnimationComplete()) {
+                     if (this.gameController.dialogState == 3) {
+                        this.gameController.dialogState = 0;
                         this.C29_f408.isInBattle = true;
                         ++this.C29_f410;
                         this.changeState((byte) 1);
-                     } else if (this.gameController.C9_f131 == 2) {
-                        this.gameController.b("Sủng vật ba lô đã đủ, đã để vào ngân hàng");
-                        this.gameController.C9_f131 = 4;
-                     } else if (this.gameController.C9_f131 == 4 || this.gameController.C9_f131 == 1) {
-                        this.gameController.C9_f131 = 0;
+                     } else if (this.gameController.dialogState == 2) {
+                        this.gameController.showQuickMessage("Sủng vật ba lô đã đủ, đã để vào ngân hàng");
+                        this.gameController.dialogState = 4;
+                     } else if (this.gameController.dialogState == 4 || this.gameController.dialogState == 1) {
+                        this.gameController.dialogState = 0;
                         WorldGameSession.getInstance().questManager.selectOption = -1;
                         this.q();
                         GameScreenManager.getInstance().changeState((byte) 10);
                      }
                   }
 
-                  this.gameController.f();
+                  this.gameController.handleOpenBoxDialog();
                }
                break;
             case 19:
@@ -1991,7 +1991,7 @@ public final class BattleSystemManager extends GameEngineBase {
                break;
             case 20:
                this.C29_f445[this.C29_f402.length].updateAnimation();
-               this.gameController.d(this.C29_f408);
+               this.gameController.updatePokemonCaptureUI(this.C29_f408);
                break;
             case 21:
                this.gameController.al();
@@ -2137,8 +2137,8 @@ public final class BattleSystemManager extends GameEngineBase {
                break;
             case 8:
                this.C29_f445[0].render(var1, 0, 0);
-               if (this.gameController.C9_f138 < C29_f413.size()) {
-                  ((PokemonEntity) C29_f413.elementAt(this.gameController.C9_f138)).render(var1);
+               if (this.gameController.detailIndex < C29_f413.size()) {
+                  ((PokemonEntity) C29_f413.elementAt(this.gameController.detailIndex)).render(var1);
                }
             case 9:
             case 11:
@@ -2248,7 +2248,7 @@ public final class BattleSystemManager extends GameEngineBase {
                   || this.C29_f408.getBattlePosition() == 0 && !this.C29_f408.isAlive()) {
                ((PokemonEntity) this.C29_f408.followTarget).clearAllDebuffs();
                ((PokemonEntity) this.C29_f408.followTarget).clearAllBuffs();
-               this.gameController.a((PokemonEntity) this.C29_f408.followTarget);
+               this.gameController.initPlayerPokemonUI((PokemonEntity) this.C29_f408.followTarget);
                C29_f412.removeElement((PokemonEntity) this.C29_f408.followTarget);
                C29_f413.removeElement((PokemonEntity) this.C29_f408.followTarget);
                ((PokemonEntity) this.C29_f408.followTarget).battleTimer = 0;
@@ -2258,7 +2258,7 @@ public final class BattleSystemManager extends GameEngineBase {
          } else {
             ((PokemonEntity) this.C29_f408.followTarget).clearAllDebuffs();
             ((PokemonEntity) this.C29_f408.followTarget).clearAllBuffs();
-            this.gameController.b((PokemonEntity) this.C29_f408.followTarget);
+            this.gameController.initEnemyPokemonUI((PokemonEntity) this.C29_f408.followTarget);
             this.h((PokemonEntity) this.C29_f408.followTarget);
             ++this.C29_f406[1];
          }
@@ -2445,7 +2445,7 @@ public final class BattleSystemManager extends GameEngineBase {
       PokemonEntity var2 = (PokemonEntity) this.C29_f408.buffList.elementAt(this.C29_f419);
       var10000.followTarget = var2;
       this.C29_f408.statusFlags = Byte.parseByte((String) this.C29_f408.debuffList.elementAt(this.C29_f419));
-      this.C29_f408.setCurrentSkill(((PokemonEntity) this.C29_f409.elementAt(this.C29_f410)).skills[this.gameController.C9_f129]);
+      this.C29_f408.setCurrentSkill(((PokemonEntity) this.C29_f409.elementAt(this.C29_f410)).skills[this.gameController.battleMenuIndex]);
       this.a(Integer.parseInt((String) this.C29_f408.debuffList.elementAt(this.C29_f419)), false);
       this.F();
    }
@@ -2678,11 +2678,11 @@ public final class BattleSystemManager extends GameEngineBase {
 
    private boolean U() {
       if (ResourceManager.gameDatabase[1][this.C29_f408.currentSkillId][3] == 0) {
-         this.gameController.C9_f149 = 0;
+         this.gameController.itemQuantity = 0;
          if (((PokemonEntity) this.C29_f408.followTarget).getBattlePosition() == 0) {
-            this.gameController.a((PokemonEntity) this.C29_f408.followTarget);
+            this.gameController.initPlayerPokemonUI((PokemonEntity) this.C29_f408.followTarget);
          } else {
-            this.gameController.b((PokemonEntity) this.C29_f408.followTarget);
+            this.gameController.initEnemyPokemonUI((PokemonEntity) this.C29_f408.followTarget);
          }
 
          ((PokemonEntity) this.C29_f408.followTarget).setAnimationState((byte) 0, true);
@@ -2748,11 +2748,11 @@ public final class BattleSystemManager extends GameEngineBase {
             }
 
             this.C29_f466 = true;
-            this.gameController.C9_f149 = 0;
+            this.gameController.itemQuantity = 0;
             if (((PokemonEntity) this.C29_f408.followTarget).getBattlePosition() == 0) {
-               this.gameController.a((PokemonEntity) this.C29_f408.followTarget);
+               this.gameController.initPlayerPokemonUI((PokemonEntity) this.C29_f408.followTarget);
             } else {
-               this.gameController.b((PokemonEntity) this.C29_f408.followTarget);
+               this.gameController.initEnemyPokemonUI((PokemonEntity) this.C29_f408.followTarget);
             }
          }
 
@@ -2908,18 +2908,18 @@ public final class BattleSystemManager extends GameEngineBase {
          }
 
          if (ResourceManager.gameDatabase[1][this.C29_f408.currentSkillId][9] == 0) {
-            this.gameController.C9_f149 = 0;
+            this.gameController.itemQuantity = 0;
             if (this.C29_f408.getBattlePosition() == 0) {
-               this.gameController.a(this.C29_f408);
+               this.gameController.initPlayerPokemonUI(this.C29_f408);
             } else {
-               this.gameController.b(this.C29_f408);
+               this.gameController.initEnemyPokemonUI(this.C29_f408);
             }
          } else {
-            this.gameController.C9_f149 = 0;
+            this.gameController.itemQuantity = 0;
             if (((PokemonEntity) this.C29_f408.followTarget).getBattlePosition() == 0) {
-               this.gameController.a((PokemonEntity) this.C29_f408.followTarget);
+               this.gameController.initPlayerPokemonUI((PokemonEntity) this.C29_f408.followTarget);
             } else {
-               this.gameController.b((PokemonEntity) this.C29_f408.followTarget);
+               this.gameController.initEnemyPokemonUI((PokemonEntity) this.C29_f408.followTarget);
             }
          }
 
@@ -3164,19 +3164,19 @@ public final class BattleSystemManager extends GameEngineBase {
                      setActionData(0, 1);
                      ++currentAction;
                      this.gameController
-                           .c("Di Lặc thỏ thỏ đã bị thương, nhanh sử dụng #2 phong ấn cầu #1 tiến hành bắt được a");
+                           .showTutorialHint("Di Lặc thỏ thỏ đã bị thương, nhanh sử dụng #2 phong ấn cầu #1 tiến hành bắt được a");
                   }
 
                   return;
                }
             } else if (currentAction == 1) {
-               if (this.gameController.aB()) {
+               if (this.gameController.canNavigateList()) {
                   ++currentAction;
-                  this.gameController.C9_f124 = 1;
+                  this.gameController.tabIndex = 1;
                   setActionData(2, 1);
                   setActionData(1, 1);
                   this.gameController.aj();
-                  this.gameController.c("Hãy nhấn #2nút 5");
+                  this.gameController.showTutorialHint("Hãy nhấn #2nút 5");
                   return;
                }
             } else {
@@ -3184,22 +3184,22 @@ public final class BattleSystemManager extends GameEngineBase {
                   ++currentAction;
                   setActionData(2, 0);
                   setActionData(1, 1);
-                  this.gameController.c("Hãy lựa chọn phong ấn cầu");
+                  this.gameController.showTutorialHint("Hãy lựa chọn phong ấn cầu");
                   return;
                }
 
                if (currentAction == 5) {
                   ++currentAction;
-                  this.gameController.c("Đáng tiếc đã bắt trượt, thử dùng loại xịn #2Tất trúng cầu#1 xem sao!");
+                  this.gameController.showTutorialHint("Đáng tiếc đã bắt trượt, thử dùng loại xịn #2Tất trúng cầu#1 xem sao!");
                   return;
                }
 
                if (currentAction == 6) {
-                  if (this.gameController.aB()) {
+                  if (this.gameController.canNavigateList()) {
                      setActionData(1, 0);
-                     this.gameController.C9_f124 = 1;
+                     this.gameController.tabIndex = 1;
                      this.gameController.aj();
-                     this.gameController.C9_f125 = 0;
+                     this.gameController.menuIndex = 0;
                      ++currentAction;
                      this.changeState((byte) 21);
                      return;
@@ -3217,7 +3217,7 @@ public final class BattleSystemManager extends GameEngineBase {
             if (currentAction == 0) {
                setActionData(0, 0);
                ++currentAction;
-               this.gameController.c("Tranh thủ thời gian lựa chọn #2Tất trúng cầu#1 để bắt sủng vật");
+               this.gameController.showTutorialHint("Tranh thủ thời gian lựa chọn #2Tất trúng cầu#1 để bắt sủng vật");
                return;
             }
 
@@ -3230,7 +3230,7 @@ public final class BattleSystemManager extends GameEngineBase {
                   var3 = 1;
                   if (var10000.secondaryStates[var3] <= var1) {
                      --currentAction;
-                     this.gameController.c("Lựa chọn #2Tất trúng cầu#1 để bắt sủng vật");
+                     this.gameController.showTutorialHint("Lựa chọn #2Tất trúng cầu#1 để bắt sủng vật");
                   }
                }
 
@@ -3243,10 +3243,10 @@ public final class BattleSystemManager extends GameEngineBase {
             break;
          case 5:
             if (currentAction == 0) {
-               this.gameController.C9_f124 = 1;
+               this.gameController.tabIndex = 1;
                ++currentAction;
                this.gameController.aj();
-               this.gameController.c("Tranh thủ thời gian lựa chọn #2Tất trúng cầu#1 để bắt sủng vật");
+               this.gameController.showTutorialHint("Tranh thủ thời gian lựa chọn #2Tất trúng cầu#1 để bắt sủng vật");
             }
       }
 

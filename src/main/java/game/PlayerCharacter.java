@@ -1284,8 +1284,8 @@ public final class PlayerCharacter extends GameObject {
 
     public final void openChest() {
         if (this.followTarget.getFacingDirection() == 1) {
-            WorldGameSession.getInstance().gameController.az();
-            WorldGameSession.getInstance().gameController.b("Bảo rương này đã trống");
+            WorldGameSession.getInstance().gameController.processChestReward();
+            WorldGameSession.getInstance().gameController.showQuickMessage("Bảo rương này đã trống");
         } else {
             String var1;
             if (((NPCEntity) this.followTarget).npcSubType == 0) {

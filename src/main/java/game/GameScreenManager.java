@@ -129,7 +129,7 @@ public final class GameScreenManager extends GameEngineBase {
                     this.currentMessage = this.elementalDescriptions[var2];
                     break;
                 case 11:
-                    WorldGameSession.getInstance().gameController.C9_f132 = true;
+                    WorldGameSession.getInstance().gameController.needsRedraw = true;
                     break;
                 case 12:
                 case 22:
@@ -181,9 +181,9 @@ public final class GameScreenManager extends GameEngineBase {
 
     public boolean initializeGame() {
         this.startGameTimer();
-        this.gameController = DialogUIManager.a();
+        this.gameController = GameUIController.getInstance();
         this.dialogManager = DialogManager.getInstance();
-        this.gameController.a(this);
+        this.gameController.setGameEngine(this);
         ResourceManager.initializeImageCache(50000);
         SpriteDataCache.initialize(1000);
         ResourceManager.initializeAllResources();

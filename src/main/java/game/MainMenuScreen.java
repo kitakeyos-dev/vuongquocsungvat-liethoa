@@ -45,9 +45,9 @@ public final class MainMenuScreen extends GameEngineBase {
     }
 
     public final boolean initializeGame() {
-        this.gameController = DialogUIManager.a();
+        this.gameController = GameUIController.getInstance();
         this.dialogManager = DialogManager.getInstance();
-        this.gameController.a(this);
+        this.gameController.setGameEngine(this);
         selectedMenuIndex = 0;
         if (inputEnabled) {
             menuItems = new int[] { 504, 503, 505, 506, 507, 508 };
@@ -100,7 +100,7 @@ public final class MainMenuScreen extends GameEngineBase {
         }
 
         if (this.gameController != null) {
-            this.gameController.b();
+            this.gameController.destroy();
         }
 
         this.menuConfirmState = 0;
@@ -142,7 +142,7 @@ public final class MainMenuScreen extends GameEngineBase {
                                         }
 
                                         if (this.gameController != null) {
-                                            this.gameController.b();
+                                            this.gameController.destroy();
                                         }
 
                                         this.menuConfirmState = 0;
@@ -155,7 +155,7 @@ public final class MainMenuScreen extends GameEngineBase {
                                         }
                                     } else if (this.menuConfirmState == 1) {
                                         this.menuConfirmState = 0;
-                                        this.gameController.az();
+                                        this.gameController.processChestReward();
                                     }
                                     break;
                                 case 1:
@@ -164,7 +164,7 @@ public final class MainMenuScreen extends GameEngineBase {
                                         this.changeState((byte) 5);
                                     } else if (this.menuConfirmState == 1) {
                                         this.menuConfirmState = 0;
-                                        this.gameController.az();
+                                        this.gameController.processChestReward();
                                     }
                                     break;
                                 case 2:
@@ -189,7 +189,7 @@ public final class MainMenuScreen extends GameEngineBase {
                                         GameScreenManager.getInstance().changeState((byte) 9);
                                     } else if (this.menuConfirmState == 1) {
                                         this.menuConfirmState = 0;
-                                        this.gameController.az();
+                                        this.gameController.processChestReward();
                                     }
                                     break;
                                 case 1:
@@ -207,7 +207,7 @@ public final class MainMenuScreen extends GameEngineBase {
                         }
                     }
 
-                    if (this.gameController.f()) {
+                    if (this.gameController.handleOpenBoxDialog()) {
                         this.menuConfirmState = 0;
                     }
 
@@ -226,13 +226,13 @@ public final class MainMenuScreen extends GameEngineBase {
                     }
                     break;
                 case 1:
-                    this.gameController.t();
+                    this.gameController.updateVolumeSettings();
                     break;
                 case 2:
-                    this.gameController.p();
+                    this.gameController.updateHelpMenu();
                     break;
                 case 3:
-                    this.gameController.r();
+                    this.gameController.updateAboutDialog();
                     break;
                 case 4:
                     if (this.isKeyPressed(131072)) {
@@ -347,28 +347,28 @@ public final class MainMenuScreen extends GameEngineBase {
         this.currentState = var1;
         switch (var1) {
             case 0:
-                this.gameController.u();
-                this.gameController.w();
+                this.gameController.showBattleMenu();
+                this.gameController.hideBattleMenu();
                 return;
             case 1:
                 if (this.animationCounter > 0) {
                     GameScreenManager.getInstance().difficultyLevel = (byte) this.animationCounter;
                 }
 
-                this.gameController.s();
+                this.gameController.showOptionsMenu();
                 this.removeMenuDialog();
                 return;
             case 2:
-                this.gameController.o();
+                this.gameController.showHelpMenu();
                 this.removeMenuDialog();
                 return;
             case 3:
-                this.gameController.q();
+                this.gameController.showAboutDialog();
                 this.removeMenuDialog();
                 return;
             case 5:
-                this.gameController.K();
-                this.gameController.a("Có chắc chắn xóa dữ liệu cũ để chơi mới không?");
+                this.gameController.showTipDialog();
+                this.gameController.setTipText("Có chắc chắn xóa dữ liệu cũ để chơi mới không?");
             case 4:
             default:
         }

@@ -23,8 +23,8 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
     private static Font defaultFont;
     private static Font largeFont;
     private static int backgroundColor;
-    public byte C44_f698;
-    public byte C44_f699;
+    public byte currentState;
+    public byte previousState;
     public DialogManager dialogManager;
     public DialogUIManager gameController;
     private static boolean timerStarted = false;
@@ -38,13 +38,22 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
     public static boolean inputEnabled;
     public static boolean paymentActive = false;
     private byte paymentType;
-    private static byte[] paymentCounts = new byte[]{0, 0, 0, 0, 0};
+    private static byte[] paymentCounts = new byte[] { 0, 0, 0, 0, 0 };
     private byte currentPaymentIndex;
     private byte currentPaymentCount;
     private byte totalPaymentCount;
-    private String[] paymentCodes = new String[]{"01", "02", "03", "04", "05"};
-    private byte[][] paymentSettings = new byte[][]{{4, 1, 0}, {2, 1, 1}, {2, 1, 2}, {2, 1, 3}, {2, 1, 4}};
-    private String[][] paymentDescriptions = new String[][]{{"Kích hoạt trò chơi", "Bạn muốn khám phá bí mật của vương quốc sủng vật, dẫn dắt thú yêu chiến đấu, tiến hóa, ấp trứng? Chỉ cần 1 tin nhắn 0đ để kích hoạt trò chơi, chỉ nhắn tin 1 lần cho tất cả các lượt chơi. Bạn có muốn nhắn tin không?"}, {"Tất trúng cầu", "Chỉ cần nhắn 1 tin nhắn 0đ, bạn sẽ sở hữu 1 tất trúng cầu, tỷ lệ 100% bắt được sủng vật? Bạn có muốn nhắn tin không?"}, {"Mua kim tiền", "Kiếm tiền vất vả, vật phẩm đắt đỏ? Chỉ cần nhắn 1 tin nhắn 0đ bạn sẽ đạt được 10000 kim tiền. Bạn có muốn nhắn tin không?"}, {"Mua đẳng cấp", "Thăng cấp chậm chạp, kẻ địch lại quá mạnh? Chỉ cần 1 tin nhắn 0đ, tất cả sủng vật trong ba lô của bạn đều được thăng lên 5 cấp. Bạn có muốn nhắn tin không?"}, {"Mua huy hiệu", "Kiếm huy hiệu khó khăn? Chỉ cần 1 tin nhắn 0đ, bạn sẽ đạt được 10 huy hiệu. Bạn có muốn nhắn tin không?"}};
+    private String[] paymentCodes = new String[] { "01", "02", "03", "04", "05" };
+    private byte[][] paymentSettings = new byte[][] { { 4, 1, 0 }, { 2, 1, 1 }, { 2, 1, 2 }, { 2, 1, 3 }, { 2, 1, 4 } };
+    private String[][] paymentDescriptions = new String[][] { { "Kích hoạt trò chơi",
+            "Bạn muốn khám phá bí mật của vương quốc sủng vật, dẫn dắt thú yêu chiến đấu, tiến hóa, ấp trứng? Chỉ cần 1 tin nhắn 0đ để kích hoạt trò chơi, chỉ nhắn tin 1 lần cho tất cả các lượt chơi. Bạn có muốn nhắn tin không?" },
+            { "Tất trúng cầu",
+                    "Chỉ cần nhắn 1 tin nhắn 0đ, bạn sẽ sở hữu 1 tất trúng cầu, tỷ lệ 100% bắt được sủng vật? Bạn có muốn nhắn tin không?" },
+            { "Mua kim tiền",
+                    "Kiếm tiền vất vả, vật phẩm đắt đỏ? Chỉ cần nhắn 1 tin nhắn 0đ bạn sẽ đạt được 10000 kim tiền. Bạn có muốn nhắn tin không?" },
+            { "Mua đẳng cấp",
+                    "Thăng cấp chậm chạp, kẻ địch lại quá mạnh? Chỉ cần 1 tin nhắn 0đ, tất cả sủng vật trong ba lô của bạn đều được thăng lên 5 cấp. Bạn có muốn nhắn tin không?" },
+            { "Mua huy hiệu",
+                    "Kiếm huy hiệu khó khăn? Chỉ cần 1 tin nhắn 0đ, bạn sẽ đạt được 10 huy hiệu. Bạn có muốn nhắn tin không?" } };
     private SmsPaymentScreen paymentScreen;
 
     public abstract void update();
@@ -160,8 +169,8 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
         } else {
             int var2 = 0;
             String var3 = "";
-            int var4;
-            if ((var4 = getLocalizedText(template).indexOf("%s", 0)) == -1) {
+            int var4 = getLocalizedText(template).indexOf("%s", 0);
+            if (var4 == -1) {
                 return getLocalizedText(template);
             } else {
                 int var5;
@@ -176,7 +185,7 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
         }
     }
 
-    public static String a(String var0, int[] var1) {
+    public static String formatString(String var0, int[] var1) {
         if (var0.equals("")) {
             return "";
         } else {
@@ -198,7 +207,7 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
         }
     }
 
-    public static String a(int var0, String[] var1) {
+    public static String formatString(int var0, String[] var1) {
         if (var0 == 0) {
             return "";
         } else {
@@ -220,7 +229,8 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
         }
     }
 
-    public static void a(Graphics var0, Image var1, String var2, int var3, int var4, int var5, int var6, int var7) {
+    public static void drawTextRegion(Graphics var0, Image var1, String var2, int var3, int var4, int var5, int var6,
+            int var7) {
         for (var7 = 0; var7 < var2.length(); ++var7) {
             char var8;
             if (Character.isDigit(var8 = var2.charAt(var7))) {
@@ -235,22 +245,23 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
                 }
             }
 
-            var0.drawRegion(var1, var8 * var5, 0, var5, var6, 0, var3 - ((var2.length() - 1 - (var7 << 1)) * var5 >> 1), var4, 20);
+            var0.drawRegion(var1, var8 * var5, 0, var5, var6, 0, var3 - ((var2.length() - 1 - (var7 << 1)) * var5 >> 1),
+                    var4, 20);
         }
 
     }
 
-    public static boolean p() {
+    public static boolean isActionActive() {
         return actionType != -1;
     }
 
-    public void q() {
+    public void updateActionSequence() {
     }
 
-    public void r() {
+    public void handleActionResponse() {
     }
 
-    public static boolean s() {
+    public static boolean isConfirmAllowed() {
         if (actionType == -1) {
             return true;
         } else {
@@ -258,7 +269,7 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
         }
     }
 
-    public static boolean t() {
+    public static boolean isCancelAllowed() {
         if (actionType == -1) {
             return true;
         } else {
@@ -266,7 +277,7 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
         }
     }
 
-    public static boolean a(int var0, int var1) {
+    public static boolean isActionBlocked(int var0, int var1) {
         if (actionType == -1) {
             return false;
         } else if (var1 != actionData[actionType][2]) {
@@ -278,7 +289,7 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
         }
     }
 
-    public static void b(int var0, int var1) {
+    public static void setActionData(int var0, int var1) {
         if (actionType != -1) {
             if (var1 == -1) {
                 actionData[actionType][2] = 0;
@@ -288,20 +299,20 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
         }
     }
 
-    public static byte d(int var0) {
+    public static byte getActionData(int var0) {
         return actionType == -1 ? -1 : actionData[actionType][var0];
     }
 
-    public static void u() {
-        b(1, -1);
-        b(0, 0);
+    public static void resetAction() {
+        setActionData(1, -1);
+        setActionData(0, 0);
         actionType = -1;
         currentAction = 0;
     }
 
-    public final void b(boolean var1) {
+    public final void onStateChange(boolean state) {
         if (this.paymentType == 4) {
-            if (var1) {
+            if (state) {
                 ++this.currentPaymentCount;
                 ++paymentCounts[this.currentPaymentIndex];
                 System.out.println(" curNum = " + this.currentPaymentCount + " tolNum = " + this.totalPaymentCount);
@@ -309,19 +320,19 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
                     switch (this.currentPaymentIndex) {
                         case 0:
                             paymentActive = true;
-                            PlayerCharacter.p().s(2000);
-                            PlayerCharacter.p().c(1, 5, (byte) 0);
-                            PlayerCharacter.p().c(4, 5, (byte) 0);
-                            PlayerCharacter.p().c(11, 2, (byte) 0);
-                            PlayerCharacter.p().v(5);
+                            PlayerCharacter.getInstance().addGold(2000);
+                            PlayerCharacter.getInstance().addItem(1, 5, (byte) 0);
+                            PlayerCharacter.getInstance().addItem(4, 5, (byte) 0);
+                            PlayerCharacter.getInstance().addItem(11, 2, (byte) 0);
+                            PlayerCharacter.getInstance().addBadges(5);
                             QuestManager.getInstance().questStates[GameWorldManager.e(9, 0)][5] = 3;
                             QuestManager.getInstance().eventScripts[5].setExecutionState((byte) 3);
                             break;
                         case 1:
-                            PlayerCharacter.p().c(0, 1, (byte) 0);
+                            PlayerCharacter.getInstance().addItem(0, 1, (byte) 0);
                             break;
                         case 2:
-                            PlayerCharacter.p().s(10000);
+                            PlayerCharacter.getInstance().addGold(10000);
                             break;
                         case 3:
                             GameWorldManager.C25_f335 = 0;
@@ -336,20 +347,22 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
                             GameWorldManager.C25_f334.removeAllElements();
                             GameWorldManager.C25_f333.removeAllElements();
 
-                            for (int var2 = 0; var2 < PlayerCharacter.p().C53_f778; ++var2) {
-                                if (PlayerCharacter.p().C53_f777[var2].t() == 50) {
-                                    PlayerCharacter.p().C53_f777[var2].K();
+                            for (int var2 = 0; var2 < PlayerCharacter.getInstance().partySize; ++var2) {
+                                if (PlayerCharacter.getInstance().partyPokemon[var2].getLevel() == 50) {
+                                    PlayerCharacter.getInstance().partyPokemon[var2].checkEvolution();
                                 } else {
-                                    PlayerCharacter.p().C53_f777[var2].y();
-                                    if (PlayerCharacter.p().C53_f777[var2].t() + 5 >= 50) {
-                                        PlayerCharacter.p().C53_f777[var2].h(50 - PlayerCharacter.p().C53_f777[var2].t());
+                                    PlayerCharacter.getInstance().partyPokemon[var2].cacheCurrentStats();
+                                    if (PlayerCharacter.getInstance().partyPokemon[var2].getLevel() + 5 >= 50) {
+                                        PlayerCharacter.getInstance().partyPokemon[var2]
+                                                .addLevels(50 - PlayerCharacter.getInstance().partyPokemon[var2].getLevel());
                                     } else {
-                                        PlayerCharacter.p().C53_f777[var2].h((int) 5);
+                                        PlayerCharacter.getInstance().partyPokemon[var2].addLevels((int) 5);
                                     }
 
-                                    PlayerCharacter.p().C53_f777[var2].J();
-                                    if (PlayerCharacter.p().C53_f777[var2].F() < 5 && PlayerCharacter.p().C53_f777[var2].F() < PlayerCharacter.p().C53_f777[var2].t() / 10 + 1) {
-                                        GameWorldManager.C25_f333.addElement(PlayerCharacter.p().C53_f777[var2]);
+                                    PlayerCharacter.getInstance().partyPokemon[var2].fullRestore();
+                                    if (PlayerCharacter.getInstance().partyPokemon[var2].getSkillCount() < 5 && PlayerCharacter.getInstance().partyPokemon[var2]
+                                            .getSkillCount() < PlayerCharacter.getInstance().partyPokemon[var2].getLevel() / 10 + 1) {
+                                        GameWorldManager.C25_f333.addElement(PlayerCharacter.getInstance().partyPokemon[var2]);
                                         GameWorldManager.C25_f334.addElement("" + var2);
                                     }
                                 }
@@ -362,43 +375,43 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
                             }
                             break;
                         case 4:
-                            PlayerCharacter.p().v(10);
+                            PlayerCharacter.getInstance().addBadges(10);
                     }
                 }
 
-                this.c((byte) 2);
+                this.setPaymentState((byte) 2);
                 return;
             }
 
-            this.c((byte) 3);
+            this.setPaymentState((byte) 3);
         }
 
     }
 
-    private boolean B() {
+    private boolean processPaymentByIndex() {
         switch (this.currentPaymentIndex) {
             case 0:
-                this.l(this.currentPaymentIndex);
+                this.showSmsPaymentScreen(this.currentPaymentIndex);
                 break;
             case 1:
-                this.l(this.currentPaymentIndex);
+                this.showSmsPaymentScreen(this.currentPaymentIndex);
                 break;
             case 2:
-                this.l(this.currentPaymentIndex);
+                this.showSmsPaymentScreen(this.currentPaymentIndex);
                 break;
             case 3:
-                this.l(this.currentPaymentIndex);
+                this.showSmsPaymentScreen(this.currentPaymentIndex);
                 break;
             case 4:
-                this.l(this.currentPaymentIndex);
+                this.showSmsPaymentScreen(this.currentPaymentIndex);
         }
 
         return true;
     }
 
-    public final boolean b(byte var1) {
-        this.currentPaymentIndex = var1;
-        switch (var1) {
+    public final boolean initPayment(byte index) {
+        this.currentPaymentIndex = index;
+        switch (index) {
             case 0:
                 this.totalPaymentCount = 1;
                 break;
@@ -419,20 +432,21 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
         return true;
     }
 
-    public final void c(byte var1) {
+    public final void setPaymentState(byte state) {
         while (true) {
-            byte var10000 = this.paymentType;
-            if (var1 != 5 && var1 != 0) {
+            if (state != 5 && state != 0) {
                 this.gameController.aM();
             }
 
-            switch (var1) {
+            switch (state) {
                 case 1:
-                    System.out.println(" " + formatString(513, (int[]) (new int[]{this.totalPaymentCount, this.currentPaymentCount})));
-                    this.gameController.d(formatString(513, (int[]) (new int[]{this.totalPaymentCount, this.currentPaymentCount})));
+                    System.out.println(" " + formatString(513,
+                            new int[] { this.totalPaymentCount, this.currentPaymentCount }));
+                    this.gameController.d(formatString(513,
+                            new int[] { this.totalPaymentCount, this.currentPaymentCount }));
                     break;
                 case 2:
-                    if (this.w()) {
+                    if (this.isPaymentComplete()) {
                         if (this.currentPaymentIndex == 0) {
                             this.gameController.d(getLocalizedText((int) 515) + getLocalizedText((int) 633));
                         } else {
@@ -456,53 +470,53 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
                     this.gameController.aN();
             }
 
-            this.paymentType = var1;
-            if (var1 != 5) {
+            this.paymentType = state;
+            if (state != 5) {
                 return;
             }
 
-            var1 = 0;
+            state = 0;
         }
     }
 
-    public final int v() {
+    public final int getCurrentPaymentIndex() {
         return this.currentPaymentIndex;
     }
 
-    public final boolean w() {
+    public final boolean isPaymentComplete() {
         return this.currentPaymentCount >= this.totalPaymentCount;
     }
 
-    public final byte x() {
+    public final byte getPaymentType() {
         return this.paymentType;
     }
 
-    public final byte y() {
+    public final byte getTotalPaymentCount() {
         return this.totalPaymentCount;
     }
 
-    public final void e(int var1) {
+    public final void handlePaymentAction(int action) {
         gamePaused = true;
-        if (var1 == 1) {
-            this.c((byte) 4);
-            if (!this.B()) {
-                this.c((byte) 3);
+        if (action == 1) {
+            this.setPaymentState((byte) 4);
+            if (!this.processPaymentByIndex()) {
+                this.setPaymentState((byte) 3);
                 return;
             }
-        } else if (var1 == 2) {
-            this.c((byte) 5);
+        } else if (action == 2) {
+            this.setPaymentState((byte) 5);
         }
 
     }
 
-    public final void f(int var1) {
+    public final void handlePaymentDialogResponse(int response) {
         switch (this.paymentType) {
             case 1:
-                this.e(var1);
+                this.handlePaymentAction(response);
                 return;
             case 3:
-                if (var1 == 1 || var1 == 2) {
-                    this.c((byte) 5);
+                if (response == 1 || response == 2) {
+                    this.setPaymentState((byte) 5);
                 }
             case 2:
             case 4:
@@ -510,16 +524,18 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
         }
     }
 
-    private void l(int var1) {
+    private void showSmsPaymentScreen(int index) {
         SmsConfigLoader.loadSmsConfiguration(GameMIDLet.C15_f217);
-        SmsConfigLoader.prepareSmsData(var1);
-        this.paymentSettings[var1][0] = 1;
-        this.paymentScreen = new SmsPaymentScreen(GameMIDLet.C15_f217, GameCanvas.publicInstance, "", "", this.paymentCodes[var1], null, this.paymentSettings[var1][0], this.paymentDescriptions[var1][0], SmsConfigLoader.smsDescriptions[var1], "");
+        SmsConfigLoader.prepareSmsData(index);
+        this.paymentSettings[index][0] = 1;
+        this.paymentScreen = new SmsPaymentScreen(GameMIDLet.C15_f217, GameCanvas.publicInstance, "", "",
+                this.paymentCodes[index], null, this.paymentSettings[index][0], this.paymentDescriptions[index][0],
+                SmsConfigLoader.smsDescriptions[index], "");
         Display.getDisplay(GameMIDLet.C15_f217).setCurrent(this.paymentScreen);
         this.paymentScreen.setPaymentCallback(this);
     }
 
     public final void onPaymentCompleted(boolean var1) {
-        this.b(var1);
+        this.onStateChange(var1);
     }
 }

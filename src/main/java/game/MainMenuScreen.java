@@ -27,13 +27,13 @@ public final class MainMenuScreen extends GameEngineBase {
 
     public MainMenuScreen() {
         this.particleData = new int[this.MAX_PARTICLES][5];
-        this.particleSourceData = new int[]{28, 3, 21, 22, 50, 5, 17, 17};
+        this.particleSourceData = new int[] { 28, 3, 21, 22, 50, 5, 17, 17 };
         this.maxHorizontalOffset = 30;
         this.maxVerticalOffset = 30;
         this.particleAnimationComplete = false;
         this.animationTimer = 0;
         this.particleCompletionFlags = new int[this.MAX_PARTICLES];
-        this.textColors = new int[]{3958719, 3958719, 3958719, 7248110, 7248110, 9943031};
+        this.textColors = new int[] { 3958719, 3958719, 3958719, 7248110, 7248110, 9943031 };
     }
 
     public static MainMenuScreen getInstance() {
@@ -50,9 +50,9 @@ public final class MainMenuScreen extends GameEngineBase {
         this.gameController.a(this);
         selectedMenuIndex = 0;
         if (inputEnabled) {
-            menuItems = new int[]{504, 503, 505, 506, 507, 508};
+            menuItems = new int[] { 504, 503, 505, 506, 507, 508 };
         } else {
-            menuItems = new int[]{503, 505, 506, 507, 508};
+            menuItems = new int[] { 503, 505, 506, 507, 508 };
         }
 
         if (this.particleImage == null) {
@@ -96,7 +96,7 @@ public final class MainMenuScreen extends GameEngineBase {
         }
 
         if (GameWorldManager.B().C25_f286 != null) {
-            GameWorldManager.B().C25_f286.q();
+            GameWorldManager.B().C25_f286.destroy();
         }
 
         if (this.gameController != null) {
@@ -104,7 +104,7 @@ public final class MainMenuScreen extends GameEngineBase {
         }
 
         this.menuConfirmState = 0;
-        PlayerCharacter.p().C53_f776 = false;
+        PlayerCharacter.getInstance().isInitialized = false;
         inputEnabled = false;
         GameScreenManager.getInstance().changeState((byte) 9);
         if (this.animationCounter > 0 && GameScreenManager.getInstance().difficultyLevel <= 0) {
@@ -116,7 +116,7 @@ public final class MainMenuScreen extends GameEngineBase {
     public final void update() {
         if (this.isActive) {
             this.updateInputState();
-            switch (this.C44_f698) {
+            switch (this.currentState) {
                 case 0:
                     if (this.menuConfirmState == 0 && this.isKeyPressed(16400)) {
                         if (--selectedMenuIndex < 0) {
@@ -138,7 +138,7 @@ public final class MainMenuScreen extends GameEngineBase {
                                         }
 
                                         if (GameWorldManager.B().C25_f286 != null) {
-                                            GameWorldManager.B().C25_f286.q();
+                                            GameWorldManager.B().C25_f286.destroy();
                                         }
 
                                         if (this.gameController != null) {
@@ -146,10 +146,11 @@ public final class MainMenuScreen extends GameEngineBase {
                                         }
 
                                         this.menuConfirmState = 0;
-                                        PlayerCharacter.p().C53_f776 = false;
+                                        PlayerCharacter.getInstance().isInitialized = false;
                                         GameScreenManager.getInstance().changeState((byte) 9);
                                         GameScreenManager.getInstance().changeState((byte) 9);
-                                        if (this.animationCounter > 0 && GameScreenManager.getInstance().difficultyLevel <= 0) {
+                                        if (this.animationCounter > 0
+                                                && GameScreenManager.getInstance().difficultyLevel <= 0) {
                                             GameScreenManager.getInstance().setDifficultyLevel(this.animationCounter);
                                         }
                                     } else if (this.menuConfirmState == 1) {
@@ -257,7 +258,7 @@ public final class MainMenuScreen extends GameEngineBase {
 
     public final void renderPauseScreen(Graphics graphics) {
         int var4;
-        switch (this.C44_f698) {
+        switch (this.currentState) {
             case 1:
             case 2:
             case 3:
@@ -273,9 +274,10 @@ public final class MainMenuScreen extends GameEngineBase {
                 }
             default:
                 this.dialogManager.render(graphics);
-                if (this.C44_f698 == 0) {
+                if (this.currentState == 0) {
                     String var10002 = getLocalizedText(menuItems[selectedMenuIndex]);
-                    int var10003 = (getScreenWidth() - getDefaultFont().stringWidth(getLocalizedText(menuItems[selectedMenuIndex]))) / 2 + 4;
+                    int var10003 = (getScreenWidth()
+                            - getDefaultFont().stringWidth(getLocalizedText(menuItems[selectedMenuIndex]))) / 2 + 4;
                     int var10004 = getScreenHeight() - 20;
                     boolean var7 = true;
                     graphics.setColor(this.textColors[this.textColorIndex]);
@@ -293,7 +295,12 @@ public final class MainMenuScreen extends GameEngineBase {
                     MainMenuScreen var8 = this;
                     if (!this.particleAnimationComplete) {
                         for (var4 = 0; var4 < var8.MAX_PARTICLES; ++var4) {
-                            graphics.drawRegion(var8.particleImage, var8.particleSourceData[var8.particleData[var4][2] << 2], var8.particleSourceData[(var8.particleData[var4][2] << 2) + 1], var8.particleSourceData[(var8.particleData[var4][2] << 2) + 2], var8.particleSourceData[(var8.particleData[var4][2] << 2) + 3], 0, var8.particleData[var4][0], var8.particleData[var4][1], 20);
+                            graphics.drawRegion(var8.particleImage,
+                                    var8.particleSourceData[var8.particleData[var4][2] << 2],
+                                    var8.particleSourceData[(var8.particleData[var4][2] << 2) + 1],
+                                    var8.particleSourceData[(var8.particleData[var4][2] << 2) + 2],
+                                    var8.particleSourceData[(var8.particleData[var4][2] << 2) + 3], 0,
+                                    var8.particleData[var4][0], var8.particleData[var4][1], 20);
                             int[] var10000 = var8.particleData[var4];
                             var10000[0] += var8.particleData[var4][3];
                             var10000 = var8.particleData[var4];
@@ -303,7 +310,8 @@ public final class MainMenuScreen extends GameEngineBase {
                             }
                         }
 
-                        for (var4 = 0; var4 < var8.particleCompletionFlags.length && var8.particleCompletionFlags[var4] > 0; ++var4) {
+                        for (var4 = 0; var4 < var8.particleCompletionFlags.length
+                                && var8.particleCompletionFlags[var4] > 0; ++var4) {
                         }
 
                         if (var4 >= var8.particleCompletionFlags.length) {
@@ -312,11 +320,12 @@ public final class MainMenuScreen extends GameEngineBase {
                     }
 
                 } else {
-                    if (this.C44_f698 == 4) {
+                    if (this.currentState == 4) {
                         graphics.setColor(0);
                         graphics.fillRect(0, 0, getScreenWidth(), getScreenHeight());
                         graphics.setColor(16777215);
-                        graphics.drawString("Bạn có muốn thoát không?", getScreenCenterX(), getScreenCenterY() - 10, 17);
+                        graphics.drawString("Bạn có muốn thoát không?", getScreenCenterX(), getScreenCenterY() - 10,
+                                17);
                         graphics.drawString("", 2, getScreenHeight(), 36);
                         graphics.drawString("Không", getScreenWidth() - 2, getScreenHeight(), 40);
                     }
@@ -335,7 +344,7 @@ public final class MainMenuScreen extends GameEngineBase {
     }
 
     public final void changeState(byte var1) {
-        this.C44_f698 = var1;
+        this.currentState = var1;
         switch (var1) {
             case 0:
                 this.gameController.u();

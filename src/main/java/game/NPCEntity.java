@@ -254,9 +254,9 @@ public final class NPCEntity extends GameObject {
          break;
       case 1:
          if (this.C18_f225 == 0) {
-            if (this.facingDirection == 0 && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
+            if (this.facingDirection == 0 && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.getInstance().worldX, PlayerCharacter.getInstance().worldY, this.worldX, this.worldY, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
                this.a((byte)1);
-            } else if (this.facingDirection == 2 && !GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
+            } else if (this.facingDirection == 2 && !GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.getInstance().worldX, PlayerCharacter.getInstance().worldY, this.worldX, this.worldY, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
                this.a((byte)3);
             } else if (this.facingDirection == 1 && this.sprite.isAtLastFrame()) {
                this.a((byte)2);
@@ -272,7 +272,7 @@ public final class NPCEntity extends GameObject {
             }
 
             var10001 = this.C18_f244[this.C18_f236];
-            if ((PlayerCharacter.p().visualState == var10001 && this.sprite.spriteSetId != 320 && this.sprite.spriteSetId != 310 || this.sprite.spriteSetId == 320 || this.sprite.spriteSetId == 310) && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
+            if ((PlayerCharacter.getInstance().visualState == var10001 && this.sprite.spriteSetId != 320 && this.sprite.spriteSetId != 310 || this.sprite.spriteSetId == 320 || this.sprite.spriteSetId == 310) && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.getInstance().worldX, PlayerCharacter.getInstance().worldY, this.worldX, this.worldY, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
                GameWorldManager.B().C25_f290 = this.C18_f237;
                GameWorldManager.B().C25_f291 = this.C18_f238;
                GameWorldManager.B().C25_f295 = this.C18_f239;
@@ -280,7 +280,7 @@ public final class NPCEntity extends GameObject {
             }
          } else if (this.C18_f225 == 2) {
             var10001 = this.C18_f244[this.C18_f236];
-            if ((PlayerCharacter.p().visualState == var10001 && this.sprite.spriteSetId != 320 || this.sprite.spriteSetId == 320) && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
+            if ((PlayerCharacter.getInstance().visualState == var10001 && this.sprite.spriteSetId != 320 || this.sprite.spriteSetId == 320) && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.getInstance().worldX, PlayerCharacter.getInstance().worldY, this.worldX, this.worldY, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
                for(int var1 = 0; var1 < this.C18_f249.length / 6; ++var1) {
                   if (this.C18_f249[var1 * 6] == this.C18_f248 && this.C18_f249[var1 * 6 + 1] == GameWorldManager.B().C25_f290 && this.C18_f249[var1 * 6 + 2] == GameWorldManager.B().C25_f291) {
                      GameWorldManager.B().C25_f293 = this.C18_f249[var1 * 6 + 3];
@@ -295,10 +295,10 @@ public final class NPCEntity extends GameObject {
                GameWorldManager.B().C25_f295 = -1;
                GameScreenManager.getInstance().changeState((byte)9);
             }
-         } else if (this.C18_f225 == 4 && PlayerCharacter.p().getFacingDirection() != 9 && PlayerCharacter.p().getFacingDirection() != 10 && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
-            PlayerCharacter.p().setWorldPosition(this.worldX, this.worldY);
-            PlayerCharacter.p().attachedObject.setWorldPosition(this.worldX, this.worldY);
-            PlayerCharacter.p().a((byte)9, (byte)this.currentDirection);
+         } else if (this.C18_f225 == 4 && PlayerCharacter.getInstance().getFacingDirection() != 9 && PlayerCharacter.getInstance().getFacingDirection() != 10 && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.getInstance().worldX, PlayerCharacter.getInstance().worldY, this.worldX, this.worldY, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
+            PlayerCharacter.getInstance().setWorldPosition(this.worldX, this.worldY);
+            PlayerCharacter.getInstance().attachedObject.setWorldPosition(this.worldX, this.worldY);
+            PlayerCharacter.getInstance().setFacingState((byte)9, (byte)this.currentDirection);
             GameWorldManager.B().C25_f295 = this.C18_f239;
          }
       case 2:
@@ -317,21 +317,21 @@ public final class NPCEntity extends GameObject {
          if (this.facingDirection == 1) {
             var2 = 0;
             this.moveInDirection((int)super.secondaryStates[var2]);
-            if (GameWorldManager.B().C25_f313 != null && GameWorldManager.B().C25_f313.followTarget.equals(this) && !PlayerCharacter.p().a(this, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
+            if (GameWorldManager.B().C25_f313 != null && GameWorldManager.B().C25_f313.followTarget.equals(this) && !PlayerCharacter.getInstance().checkCollisionWithNPC(this, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
                GameWorldManager.B().D();
             }
          }
 
-         if (GameWorldManager.B().C25_f313 != null && GameWorldManager.B().C25_f313.followTarget.equals(this) && (!this.isVisible() || !PlayerCharacter.p().a(this, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents()))) {
+         if (GameWorldManager.B().C25_f313 != null && GameWorldManager.B().C25_f313.followTarget.equals(this) && (!this.isVisible() || !PlayerCharacter.getInstance().checkCollisionWithNPC(this, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents()))) {
             GameWorldManager.C25_f318 = -1;
             GameWorldManager.B().D();
          }
 
-         if (this.C18_f246 != null && this.isVisible() && this.C18_f246.followTarget.equals(this) && !PlayerCharacter.p().a(this, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
+         if (this.C18_f246 != null && this.isVisible() && this.C18_f246.followTarget.equals(this) && !PlayerCharacter.getInstance().checkCollisionWithNPC(this, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
             this.B();
          }
 
-         if (QuestManager.questEffectObjects != null && QuestManager.questEffectObjects.size() > 0 && this.C18_f245 == 1 && !PlayerCharacter.p().a(this, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
+         if (QuestManager.questEffectObjects != null && QuestManager.questEffectObjects.size() > 0 && this.C18_f245 == 1 && !PlayerCharacter.getInstance().checkCollisionWithNPC(this, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
             for(var1 = 0; var1 < QuestManager.questEffectObjects.size(); ++var1) {
                if (((GameObject)QuestManager.questEffectObjects.elementAt(var1)).followTarget.equals(this)) {
                   ((GameObject)QuestManager.questEffectObjects.elementAt(var1)).activate();
@@ -433,7 +433,7 @@ public final class NPCEntity extends GameObject {
       case 6:
       case 7:
       case 15:
-         if (this.C18_f247 != null && this.isVisible() && this.C18_f247.followTarget.equals(this) && (this.facingDirection != 0 || !PlayerCharacter.p().a(this, PlayerCharacter.p().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents()))) {
+         if (this.C18_f247 != null && this.isVisible() && this.C18_f247.followTarget.equals(this) && (this.facingDirection != 0 || !PlayerCharacter.getInstance().checkCollisionWithNPC(this, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents()))) {
             this.y();
          }
 
@@ -446,9 +446,9 @@ public final class NPCEntity extends GameObject {
             }
 
             if ((this.C18_f225 == 7 || this.C18_f225 == 6) && (var1 = GameUtils.getRandomInt(2)) > 0) {
-               PlayerCharacter.p().s(var1);
+               PlayerCharacter.getInstance().addGold(var1);
                int[] var3 = new int[]{var1, super.worldX, super.worldY - 20, 0};
-               PlayerCharacter.p().C53_f799.addElement(var3);
+               PlayerCharacter.getInstance().miscData.addElement(var3);
             }
 
             QuestManager.isQuestReady = false;
@@ -493,7 +493,7 @@ public final class NPCEntity extends GameObject {
          return;
       case 12:
          if (this.isVisible()) {
-            if (!GameUtils.isPointInShortArrayRectangle(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents())) {
+            if (!GameUtils.isPointInShortArrayRectangle(PlayerCharacter.getInstance().worldX, PlayerCharacter.getInstance().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents())) {
                if (this.a(this.currentDirection, 4, (byte)0)) {
                   this.moveInDirection((int)4);
                   return;
@@ -508,15 +508,15 @@ public final class NPCEntity extends GameObject {
                return;
             }
 
-            if (PlayerCharacter.p().getFacingDirection() != 8) {
-               PlayerCharacter.p().a((byte)8, (byte)this.currentDirection);
+            if (PlayerCharacter.getInstance().getFacingDirection() != 8) {
+               PlayerCharacter.getInstance().setFacingState((byte)8, (byte)this.currentDirection);
                return;
             }
          }
          break;
       case 13:
          if (this.isVisible()) {
-            if (!GameUtils.isPointInShortArrayRectangle(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents())) {
+            if (!GameUtils.isPointInShortArrayRectangle(PlayerCharacter.getInstance().worldX, PlayerCharacter.getInstance().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents())) {
                if (this.a(this.currentDirection, 4, (byte)0)) {
                   this.moveInDirection((int)4);
                   return;
@@ -531,8 +531,8 @@ public final class NPCEntity extends GameObject {
                return;
             }
 
-            if (PlayerCharacter.p().getFacingDirection() != 8) {
-               PlayerCharacter.p().a((byte)8, (byte)this.currentDirection);
+            if (PlayerCharacter.getInstance().getFacingDirection() != 8) {
+               PlayerCharacter.getInstance().setFacingState((byte)8, (byte)this.currentDirection);
                return;
             }
          }
@@ -547,8 +547,8 @@ public final class NPCEntity extends GameObject {
          this.C18_f232 = 0;
          return;
       case 16:
-         if (GameUtils.isPointInShortArrayRectangle(PlayerCharacter.p().worldX, PlayerCharacter.p().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents()) && PlayerCharacter.p().getFacingDirection() != 5) {
-            PlayerCharacter.p().a((byte)5, (byte) PlayerCharacter.p().currentDirection);
+         if (GameUtils.isPointInShortArrayRectangle(PlayerCharacter.getInstance().worldX, PlayerCharacter.getInstance().worldY, this.worldX, this.worldY, this.sprite.getCurrentFrameEvents()) && PlayerCharacter.getInstance().getFacingDirection() != 5) {
+            PlayerCharacter.getInstance().setFacingState((byte)5, (byte) PlayerCharacter.getInstance().currentDirection);
             return;
          }
       }

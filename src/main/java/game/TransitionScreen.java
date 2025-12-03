@@ -7,6 +7,7 @@ import engine.graphics.WorldRenderer;
 import engine.entity.CameraController;
 import engine.entity.TileMapRenderer;
 import javax.microedition.lcdui.Graphics;
+
 /**
  * Handles transition screens between different game states.
  * This screen manages animated transitions with moving objects.
@@ -32,6 +33,7 @@ public final class TransitionScreen extends GameEngineBase {
 
    /**
     * Gets the singleton instance of TransitionScreen
+    * 
     * @return the singleton instance
     */
    public static TransitionScreen getInstance() {
@@ -63,7 +65,7 @@ public final class TransitionScreen extends GameEngineBase {
       if (this.animationEnabled) {
          byte speedIndex = 0;
 
-         switch(this.transitionDirection) {
+         switch (this.transitionDirection) {
             case DIRECTION_DOWN:
                this.transitionObject.moveInDirection(this.transitionObject.primaryStates[speedIndex]);
                if (this.transitionObject.worldY - this.mapRenderer.cameraY > getScreenHeight()) {
@@ -129,8 +131,8 @@ public final class TransitionScreen extends GameEngineBase {
 
    @Override
    public final void changeState(byte newState) {
-      this.C44_f699 = this.C44_f698;
-      switch(newState) {
+      this.previousState = this.currentState;
+      switch (newState) {
          case 1:
             ScreenTransitionManager.a().c(0, 13);
             ScreenTransitionManager.a().a(5, 1, getScreenWidth(), 30, 30);
@@ -148,33 +150,35 @@ public final class TransitionScreen extends GameEngineBase {
 
    /**
     * Sets the direction and initial position for the transition animation
+    * 
     * @param direction the direction of transition (0=down, 2=up)
     */
    public final void setTransitionDirection(byte direction) {
       this.transitionDirection = direction;
       this.transitionObject.currentDirection = direction;
 
-      short centerX = (short)(getScreenWidth() >> 1);
+      short centerX = (short) (getScreenWidth() >> 1);
       short positionY = 0;
 
-      switch(direction) {
+      switch (direction) {
          case DIRECTION_DOWN:
-            centerX = (short)(getScreenWidth() >> 1);
+            centerX = (short) (getScreenWidth() >> 1);
             positionY = 10; // Start near top of screen
             break;
 
          case DIRECTION_UP:
-            centerX = (short)(getScreenWidth() >> 1);
-            positionY = (short)(getScreenHeight() - 10); // Start near bottom of screen
+            centerX = (short) (getScreenWidth() >> 1);
+            positionY = (short) (getScreenHeight() - 10); // Start near bottom of screen
             break;
       }
 
       this.transitionObject.setWorldPosition(centerX, positionY);
-      this.transitionObject.setAnimation(direction, (byte)-1, false);
+      this.transitionObject.setAnimation(direction, (byte) -1, false);
    }
 
    /**
     * Checks if the transition animation is currently running
+    * 
     * @return true if animation is enabled
     */
    public boolean isAnimationEnabled() {
@@ -183,6 +187,7 @@ public final class TransitionScreen extends GameEngineBase {
 
    /**
     * Checks if the transition has completed
+    * 
     * @return true if transition is complete
     */
    public boolean isTransitionComplete() {
@@ -191,6 +196,7 @@ public final class TransitionScreen extends GameEngineBase {
 
    /**
     * Gets the current transition direction
+    * 
     * @return current direction (0=down, 2=up)
     */
    public byte getTransitionDirection() {
@@ -199,6 +205,7 @@ public final class TransitionScreen extends GameEngineBase {
 
    /**
     * Gets the transition object for direct manipulation if needed
+    * 
     * @return the GameObject used for transition animation
     */
    public GameObject getTransitionObject() {

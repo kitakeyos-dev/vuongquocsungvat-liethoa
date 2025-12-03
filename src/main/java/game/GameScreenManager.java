@@ -21,7 +21,9 @@ public final class GameScreenManager extends GameEngineBase {
     private GameEngineBase currentScreen;
     private static int loadingProgress = 0;
     private static int loadingSpeed = 10;
-    private String[] elementalDescriptions = new String[]{"Hỏa hệ khắc mộc hệ", "Mộc hệ khắc thổ hệ", "Thổ hệ khắc thủy hệ", "Thủy hệ khắc hỏa hệ", "Quỷ hệ khắc phong hệ", "Phong hệ khắc điện hệ", "Điện hệ khắc quỷ hệ"};
+    private String[] elementalDescriptions = new String[] { "Hỏa hệ khắc mộc hệ", "Mộc hệ khắc thổ hệ",
+            "Thổ hệ khắc thủy hệ", "Thủy hệ khắc hỏa hệ", "Quỷ hệ khắc phong hệ", "Phong hệ khắc điện hệ",
+            "Điện hệ khắc quỷ hệ" };
     private TransitionScreen tutorialManager = TransitionScreen.getInstance();
     public long gameStartTime = 0L;
     public long pauseStartTime = 0L;
@@ -97,7 +99,7 @@ public final class GameScreenManager extends GameEngineBase {
             switch (var1) {
                 case 2:
                     if (GameWorldManager.B().C25_f286 != null) {
-                        GameWorldManager.B().C25_f286.I();
+                        GameWorldManager.B().C25_f286.refreshAnimation();
                     }
                     break;
                 case 3:
@@ -273,7 +275,7 @@ public final class GameScreenManager extends GameEngineBase {
                         this.changeState((byte) 11);
                     }
 
-                    PlayerCharacter.C53_f798 = false;
+                    PlayerCharacter.mapTransitionFlag = false;
                     break;
                 case 10:
                     this.cleanupCurrentScreen();
@@ -299,7 +301,7 @@ public final class GameScreenManager extends GameEngineBase {
 
                     if (isEngineStopped()) {
                         ScreenTransitionManager.a().d();
-                        PlayerCharacter.C53_f798 = false;
+                        PlayerCharacter.mapTransitionFlag = false;
                     }
 
                     if (ScreenTransitionManager.a().C30_f476) {
@@ -338,7 +340,8 @@ public final class GameScreenManager extends GameEngineBase {
                     break;
                 case 21:
                     ScreenTransitionManager.a().d();
-                    if (ScreenTransitionManager.a().C30_f475 == -1 || this.isKeyPressed(65568) && MainMenuScreen.inputEnabled) {
+                    if (ScreenTransitionManager.a().C30_f475 == -1
+                            || this.isKeyPressed(65568) && MainMenuScreen.inputEnabled) {
                         ScreenTransitionManager.a().C30_f475 = -1;
                         ScreenTransitionManager.a().C30_f474 = -1;
                         ScreenTransitionManager.a().C30_f479 = 0;
@@ -351,9 +354,9 @@ public final class GameScreenManager extends GameEngineBase {
                     break;
                 case 23:
                     ScreenTransitionManager.a().d();
-                    if (this.tutorialManager.C44_f698 == 1 && ScreenTransitionManager.a().C30_f477) {
+                    if (this.tutorialManager.currentState == 1 && ScreenTransitionManager.a().C30_f477) {
                         this.tutorialManager.changeState((byte) 2);
-                    } else if (this.tutorialManager.C44_f698 == 2) {
+                    } else if (this.tutorialManager.currentState == 2) {
                         if (this.tutorialManager.transitionComplete) {
                             this.cleanupCurrentScreen();
                             this.currentScreen = GameWorldManager.B();
@@ -361,15 +364,16 @@ public final class GameScreenManager extends GameEngineBase {
                             this.setChildHandler(this.currentScreen);
                             this.tutorialManager.changeState((byte) 3);
                         }
-                    } else if (this.tutorialManager.C44_f698 == 3 && ScreenTransitionManager.a().C30_f477) {
+                    } else if (this.tutorialManager.currentState == 3 && ScreenTransitionManager.a().C30_f477) {
                         ScreenTransitionManager.a().C30_f474 = -1;
                         this.tutorialManager.stopAnimation();
                         this.changeState((byte) 11);
                     }
             }
 
-            if (this.C44_f698 != 2) {
-                if (GameWorldManager.B().C25_f290 == 3 && GameWorldManager.B().C25_f291 == 7 && this.battleStartTime == 0L && this.gameStartTime != 0L) {
+            if (this.currentState != 2) {
+                if (GameWorldManager.B().C25_f290 == 3 && GameWorldManager.B().C25_f291 == 7
+                        && this.battleStartTime == 0L && this.gameStartTime != 0L) {
                     this.pauseStartTime = System.currentTimeMillis();
                 }
 
@@ -427,19 +431,20 @@ public final class GameScreenManager extends GameEngineBase {
                     }
                     break;
                 case 9:
-                    if (PlayerCharacter.C53_f798) {
+                    if (PlayerCharacter.mapTransitionFlag) {
                         var1.setColor(0);
                         var1.fillRect(0, 0, getScreenWidth(), getScreenHeight());
                         if (loadingProgress % 4 == 3) {
-                            PlayerCharacter.p().setAnimation((byte) 1, (byte) -1, false);
+                            PlayerCharacter.getInstance().setAnimation((byte) 1, (byte) -1, false);
                         } else {
-                            PlayerCharacter.p().setAnimation((byte) (loadingProgress % 4), (byte) -1, false);
+                            PlayerCharacter.getInstance().setAnimation((byte) (loadingProgress % 4), (byte) -1, false);
                         }
 
-                        PlayerCharacter var10000 = PlayerCharacter.p();
+                        PlayerCharacter var10000 = PlayerCharacter.getInstance();
                         byte var4 = (byte) (loadingProgress % 4);
                         var10000.currentDirection = var4;
-                        PlayerCharacter.p().render(var1, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY - loadingProgress);
+                        PlayerCharacter.getInstance().render(var1, TileMapRenderer.getInstance().cameraX,
+                                TileMapRenderer.getInstance().cameraY - loadingProgress);
                     } else {
                         var1.setColor(0);
                         var1.fillRect(0, 0, getScreenWidth(), getScreenHeight());
@@ -453,7 +458,7 @@ public final class GameScreenManager extends GameEngineBase {
                         loadingProgress = 148;
                     }
 
-                    if (!PlayerCharacter.C53_f798) {
+                    if (!PlayerCharacter.mapTransitionFlag) {
                         var1.setColor(0);
                         var1.fillRect(45, getScreenHeight() - 48, 150, 5);
                         var1.setColor(7877410);
@@ -471,7 +476,7 @@ public final class GameScreenManager extends GameEngineBase {
                     GameWorldManager.B().C25_f285.renderWorld(var1);
                     if (isEngineStopped()) {
                         ScreenTransitionManager.a().a(var1);
-                        PlayerCharacter.C53_f798 = false;
+                        PlayerCharacter.mapTransitionFlag = false;
                         return;
                     }
                     break;
@@ -489,7 +494,8 @@ public final class GameScreenManager extends GameEngineBase {
                     var1.setColor(getBackgroundColor());
                     var1.fillRect(0, 0, getScreenWidth(), getScreenHeight());
                     if (this.currentImage != null) {
-                        var1.drawImage(this.currentImage, (getScreenWidth() - this.currentImage.getWidth()) / 2, (getScreenHeight() - this.currentImage.getHeight()) / 2, 20);
+                        var1.drawImage(this.currentImage, (getScreenWidth() - this.currentImage.getWidth()) / 2,
+                                (getScreenHeight() - this.currentImage.getHeight()) / 2, 20);
                         return;
                     }
                     break;
@@ -497,7 +503,8 @@ public final class GameScreenManager extends GameEngineBase {
                     var1.drawImage(this.currentImage, 0, 0, 20);
 
                     for (int var2 = 0; var2 < getScreenWidth() / 10; ++var2) {
-                        var1.drawRGB(this.backgroundEffect.pixels, 0, this.backgroundEffect.width, var2 * 10, 0, this.backgroundEffect.width, this.backgroundEffect.height, true);
+                        var1.drawRGB(this.backgroundEffect.pixels, 0, this.backgroundEffect.width, var2 * 10, 0,
+                                this.backgroundEffect.width, this.backgroundEffect.height, true);
                     }
 
                     ScreenTransitionManager.a().a(var1);

@@ -54,7 +54,7 @@ public final class QuestManager extends GameEngineBase {
    private short[] eventEntityOffsetY;
    public byte questEffectCounter = 0;
    public static Image questEffectImage;
-   private String[] questIconNames = new String[]{"ikon_1", "ikon_2", "ikon_3", "ikon_4", "ikon_5"};
+   private String[] questIconNames = new String[] { "ikon_1", "ikon_2", "ikon_3", "ikon_4", "ikon_5" };
    private int effectImageX;
    private int effectImageY;
    private int effectImageDeltaY;
@@ -85,7 +85,7 @@ public final class QuestManager extends GameEngineBase {
       }
 
       if (this.player == null) {
-         this.player = PlayerCharacter.p();
+         this.player = PlayerCharacter.getInstance();
       }
 
       if (this.questStates == null) {
@@ -104,13 +104,14 @@ public final class QuestManager extends GameEngineBase {
       questNames = new String[var1.length];
 
       int var2;
-      for(var2 = 0; var2 < var1.length; ++var2) {
+      for (var2 = 0; var2 < var1.length; ++var2) {
          System.arraycopy(var1[var2], 0, questNames, var2, var1[var2].length);
       }
 
-      questDescriptions = new String[(var1 = GameUtils.readStringMatrix(GameUtils.openInputStream("/data/script/mTask.mid"))).length];
+      questDescriptions = new String[(var1 = GameUtils
+            .readStringMatrix(GameUtils.openInputStream("/data/script/mTask.mid"))).length];
 
-      for(var2 = 0; var2 < var1.length; ++var2) {
+      for (var2 = 0; var2 < var1.length; ++var2) {
          System.arraycopy(var1[var2], 0, questDescriptions, var2, var1[var2].length);
       }
 
@@ -141,7 +142,7 @@ public final class QuestManager extends GameEngineBase {
          this.dialogManager.d();
          QuestManager var1 = this;
 
-         for(int var2 = 0; var2 < var1.eventScripts.length; ++var2) {
+         for (int var2 = 0; var2 < var1.eventScripts.length; ++var2) {
             if (var1.eventScripts[var2].getExecutionState() == 0 || var1.eventScripts[var2].getExecutionState() == 4) {
                boolean var4;
                label218: {
@@ -150,185 +151,227 @@ public final class QuestManager extends GameEngineBase {
                   int var7;
                   int[] var12;
                   int var15;
-                  switch(var3.getCommandId()) {
-                  case 13:
-                     if (!GameUtils.checkCollisionWithShortArray(var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3], var1.player.worldX, var1.player.worldY, var1.player.sprite.getCurrentFrameEvents())) {
-                        break label218;
-                     }
+                  switch (var3.getCommandId()) {
+                     case 13:
+                        if (!GameUtils.checkCollisionWithShortArray(var3.getNumericParameters()[0],
+                              var3.getNumericParameters()[1], var3.getNumericParameters()[2],
+                              var3.getNumericParameters()[3], var1.player.worldX, var1.player.worldY,
+                              var1.player.sprite.getCurrentFrameEvents())) {
+                           break label218;
+                        }
 
-                     var1.player.a((byte)0, (byte)var1.player.currentDirection);
-                     break;
-                  case 15:
-                     if (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])] != null && (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] == 3 || var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] == 4)) {
-                        var4 = true;
-                     }
-                     break label218;
-                  case 16:
-                     if (var3.getNumericParameters()[0] != GameWorldManager.C25_f318) {
+                        var1.player.setFacingState((byte) 0, (byte) var1.player.currentDirection);
+                        break;
+                     case 15:
+                        if (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                              var3.getNumericParameters()[1])] != null
+                              && (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                                    var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] == 3
+                                    || var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                                          var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] == 4)) {
+                           var4 = true;
+                        }
                         break label218;
-                     }
+                     case 16:
+                        if (var3.getNumericParameters()[0] != GameWorldManager.C25_f318) {
+                           break label218;
+                        }
 
-                     isQuestTriggered = true;
-                     if (!isQuestReady) {
-                        break label218;
-                     }
-
-                     var1.player.a((byte)0, (byte)var1.player.currentDirection);
-                     isQuestReady = false;
-                     break;
-                  case 43:
-                     if (GameWorldManager.e(var3.getNumericParameters()[2], var3.getNumericParameters()[3]) == GameWorldManager.e(var1.mapManager.C25_f290, var1.mapManager.C25_f291) && var3.getNumericParameters()[4] == GameWorldManager.C25_f318 && var1.checkEventCondition(var3)) {
                         isQuestTriggered = true;
-                        if (isQuestReady && var1.findEventIndex(-1) == -1) {
-                           var15 = var2;
-                           QuestManager var14 = var1;
-                           var7 = 0;
+                        if (!isQuestReady) {
+                           break label218;
+                        }
 
-                           byte var10001;
-                           while(true) {
-                              if (var7 >= var14.eventScripts.length) {
-                                 var10001 = -1;
-                                 break;
+                        var1.player.setFacingState((byte) 0, (byte) var1.player.currentDirection);
+                        isQuestReady = false;
+                        break;
+                     case 43:
+                        if (GameWorldManager.e(var3.getNumericParameters()[2],
+                              var3.getNumericParameters()[3]) == GameWorldManager.e(var1.mapManager.C25_f290,
+                                    var1.mapManager.C25_f291)
+                              && var3.getNumericParameters()[4] == GameWorldManager.C25_f318
+                              && var1.checkEventCondition(var3)) {
+                           isQuestTriggered = true;
+                           if (isQuestReady && var1.findEventIndex(-1) == -1) {
+                              var15 = var2;
+                              QuestManager var14 = var1;
+                              var7 = 0;
+
+                              byte var10001;
+                              while (true) {
+                                 if (var7 >= var14.eventScripts.length) {
+                                    var10001 = -1;
+                                    break;
+                                 }
+
+                                 ScriptCommand var8;
+                                 if (var14.eventScripts[var7].getExecutionState() != 3 && var15 != var7
+                                       && (var8 = var14.eventScripts[var7].getFirstCommand()).getCommandId() == 43
+                                       && GameWorldManager.e(var8.getNumericParameters()[2],
+                                             var8.getNumericParameters()[3]) == GameWorldManager
+                                                   .e(var14.mapManager.C25_f290, var14.mapManager.C25_f291)
+                                       && var8.getNumericParameters()[4] == GameWorldManager.C25_f318
+                                       && var14.checkEventCondition(var8)) {
+                                    var10001 = (byte) var7;
+                                    break;
+                                 }
+
+                                 ++var7;
                               }
 
-                              ScriptCommand var8;
-                              if (var14.eventScripts[var7].getExecutionState() != 3 && var15 != var7 && (var8 = var14.eventScripts[var7].getFirstCommand()).getCommandId() == 43 && GameWorldManager.e(var8.getNumericParameters()[2], var8.getNumericParameters()[3]) == GameWorldManager.e(var14.mapManager.C25_f290, var14.mapManager.C25_f291) && var8.getNumericParameters()[4] == GameWorldManager.C25_f318 && var14.checkEventCondition(var8)) {
-                                 var10001 = (byte)var7;
-                                 break;
+                              if (var2 >= var10001) {
+                                 var4 = true;
+                                 isQuestTriggered = false;
+                                 var1.player.setFacingState((byte) 0, (byte) var1.player.currentDirection);
+                                 if (var3.getNumericParameters()[1] == 1) {
+                                    questFlags[questFlagCount][0] = var3.getNumericParameters()[0];
+                                 }
                               }
-
-                              ++var7;
                            }
-
-                           if (var2 >= var10001) {
-                              var4 = true;
+                        }
+                        break label218;
+                     case 44:
+                        if (GameWorldManager.e(var3.getNumericParameters()[2],
+                              var3.getNumericParameters()[3]) == GameWorldManager.e(var1.mapManager.C25_f290,
+                                    var1.mapManager.C25_f291)
+                              && var3.getNumericParameters()[4] == GameWorldManager.C25_f318
+                              && var1.checkEventCompletion(var3)) {
+                           isQuestTriggered = true;
+                           if (isQuestReady && var2 >= var1.findEventIndex(var2)) {
                               isQuestTriggered = false;
-                              var1.player.a((byte)0, (byte)var1.player.currentDirection);
-                              if (var3.getNumericParameters()[1] == 1) {
-                                 questFlags[questFlagCount][0] = var3.getNumericParameters()[0];
-                              }
+                              var4 = true;
+                              var1.player.setFacingState((byte) 0, (byte) var1.player.currentDirection);
                            }
                         }
-                     }
-                     break label218;
-                  case 44:
-                     if (GameWorldManager.e(var3.getNumericParameters()[2], var3.getNumericParameters()[3]) == GameWorldManager.e(var1.mapManager.C25_f290, var1.mapManager.C25_f291) && var3.getNumericParameters()[4] == GameWorldManager.C25_f318 && var1.checkEventCompletion(var3)) {
-                        isQuestTriggered = true;
-                        if (isQuestReady && var2 >= var1.findEventIndex(var2)) {
-                           isQuestTriggered = false;
-                           var4 = true;
-                           var1.player.a((byte)0, (byte)var1.player.currentDirection);
+                        break label218;
+                     case 57:
+                        if (var1.player.followTarget != null && ((NPCEntity) var1.player.followTarget).C18_f223 == 0
+                              && ((NPCEntity) var1.player.followTarget).C18_f225 == 11
+                              && ((NPCEntity) var1.player.followTarget).C18_f248 == var3.getNumericParameters()[3]
+                              && isQuestReady) {
+                           if (var1.mapManager.C25_f287[var3.getNumericParameters()[0]].worldX == var3
+                                 .getNumericParameters()[1]
+                                 && var1.mapManager.C25_f287[var3.getNumericParameters()[0]].worldY == var3
+                                       .getNumericParameters()[2]) {
+                              ((NPCEntity) var1.player.followTarget).a((byte) 0);
+                           } else {
+                              var4 = true;
+                           }
+
+                           isQuestReady = false;
                         }
-                     }
-                     break label218;
-                  case 57:
-                     if (var1.player.followTarget != null && ((NPCEntity)var1.player.followTarget).C18_f223 == 0 && ((NPCEntity)var1.player.followTarget).C18_f225 == 11 && ((NPCEntity)var1.player.followTarget).C18_f248 == var3.getNumericParameters()[3] && isQuestReady) {
-                        if (var1.mapManager.C25_f287[var3.getNumericParameters()[0]].worldX == var3.getNumericParameters()[1] && var1.mapManager.C25_f287[var3.getNumericParameters()[0]].worldY == var3.getNumericParameters()[2]) {
-                           ((NPCEntity)var1.player.followTarget).a((byte)0);
-                        } else {
+                        break label218;
+                     case 59:
+                        var12 = new int[GameUtils.splitString(var3.getStringParameters()[0], ',').length];
+
+                        for (var15 = 0; var15 < var12.length; ++var15) {
+                           var12[var15] = GameUtils
+                                 .parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]);
+                           if (var1.mapManager.C25_f287[var12[var15]].getFacingDirection() == 0) {
+                              break;
+                           }
+                        }
+
+                        if (var15 >= var12.length) {
                            var4 = true;
+                        }
+                        break label218;
+                     case 61:
+                        var12 = new int[GameUtils.splitString(var3.getStringParameters()[0], ',').length];
+
+                        for (var15 = 0; var15 < var12.length; ++var15) {
+                           var12[var15] = GameUtils
+                                 .parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]);
+                           if (var1.mapManager.C25_f287[var12[var15]].getFacingDirection() == 0) {
+                              break;
+                           }
+                        }
+
+                        if (var15 >= var12.length) {
+                           var1.player.setFacingState((byte) 0, (byte) var1.player.currentDirection);
+                           var4 = true;
+                        }
+                        break label218;
+                     case 69:
+                        if (var3.getNumericParameters()[0] != GameWorldManager.C25_f318) {
+                           break label218;
+                        }
+                        break;
+                     case 73:
+                        String[] var11 = GameUtils.splitString(var3.getStringParameters()[1], ',');
+                        String[] var13 = GameUtils.splitString(var3.getStringParameters()[0], ',');
+
+                        int var10;
+                        for (var10 = 0; var10 < var11.length && var1.player.getCreatureStatus((byte) GameUtils.parseByte(var13[var10]),
+                              (int) GameUtils.parseByte(var11[var10])) >= 2; ++var10) {
+                        }
+
+                        if (var10 >= var11.length) {
+                           var4 = true;
+                        }
+                        break label218;
+                     case 75:
+                        if (var1.player.keyItems.size() <= 0) {
+                           break label218;
+                        }
+                        break;
+                     case 78:
+                        byte[] var5 = GameUtils.parseStringToBytes(var3.getStringParameters()[0]);
+                        byte[] var6 = GameUtils.parseStringToBytes(var3.getStringParameters()[1]);
+                        byte[] var9 = GameUtils.parseStringToBytes(var3.getStringParameters()[2]);
+
+                        for (var7 = 0; var7 < var9.length
+                              && var1.questStates[GameWorldManager.e(var5[var7], var6[var7])] != null
+                              && (var1.questStates[GameWorldManager.e(var5[var7], var6[var7])][var9[var7]] == 3
+                                    || var1.questStates[GameWorldManager.e(var5[var7],
+                                          var6[var7])][var9[var7]] == 4); ++var7) {
+                        }
+
+                        if (var7 >= var9.length) {
+                           var4 = true;
+                        }
+                        break label218;
+                     case 79:
+                        if (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                              var3.getNumericParameters()[1])] == null
+                              || var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                                    var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] != 3
+                              || var1.player.isSkillActive(0) || GameWorldManager.C25_f318 != var3.getNumericParameters()[3]) {
+                           break label218;
+                        }
+
+                        isQuestTriggered = true;
+                        if (!isQuestReady) {
+                           break label218;
                         }
 
                         isQuestReady = false;
-                     }
-                     break label218;
-                  case 59:
-                     var12 = new int[GameUtils.splitString(var3.getStringParameters()[0], ',').length];
-
-                     for(var15 = 0; var15 < var12.length; ++var15) {
-                        var12[var15] = GameUtils.parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]);
-                        if (var1.mapManager.C25_f287[var12[var15]].getFacingDirection() == 0) {
-                           break;
+                        break;
+                     case 86:
+                        if (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                              var3.getNumericParameters()[1])] == null
+                              || var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                                    var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] != 3) {
+                           break label218;
                         }
-                     }
-
-                     if (var15 >= var12.length) {
-                        var4 = true;
-                     }
-                     break label218;
-                  case 61:
-                     var12 = new int[GameUtils.splitString(var3.getStringParameters()[0], ',').length];
-
-                     for(var15 = 0; var15 < var12.length; ++var15) {
-                        var12[var15] = GameUtils.parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]);
-                        if (var1.mapManager.C25_f287[var12[var15]].getFacingDirection() == 0) {
-                           break;
-                        }
-                     }
-
-                     if (var15 >= var12.length) {
-                        var1.player.a((byte)0, (byte)var1.player.currentDirection);
-                        var4 = true;
-                     }
-                     break label218;
-                  case 69:
-                     if (var3.getNumericParameters()[0] != GameWorldManager.C25_f318) {
-                        break label218;
-                     }
-                     break;
-                  case 73:
-                     String[] var11 = GameUtils.splitString(var3.getStringParameters()[1], ',');
-                     String[] var13 = GameUtils.splitString(var3.getStringParameters()[0], ',');
-
-                     int var10;
-                     for(var10 = 0; var10 < var11.length && var1.player.a((byte) GameUtils.parseByte(var13[var10]), (int) GameUtils.parseByte(var11[var10])) >= 2; ++var10) {
-                     }
-
-                     if (var10 >= var11.length) {
-                        var4 = true;
-                     }
-                     break label218;
-                  case 75:
-                     if (var1.player.C53_f789.size() <= 0) {
-                        break label218;
-                     }
-                     break;
-                  case 78:
-                     byte[] var5 = GameUtils.parseStringToBytes(var3.getStringParameters()[0]);
-                     byte[] var6 = GameUtils.parseStringToBytes(var3.getStringParameters()[1]);
-                     byte[] var9 = GameUtils.parseStringToBytes(var3.getStringParameters()[2]);
-
-                     for(var7 = 0; var7 < var9.length && var1.questStates[GameWorldManager.e(var5[var7], var6[var7])] != null && (var1.questStates[GameWorldManager.e(var5[var7], var6[var7])][var9[var7]] == 3 || var1.questStates[GameWorldManager.e(var5[var7], var6[var7])][var9[var7]] == 4); ++var7) {
-                     }
-
-                     if (var7 >= var9.length) {
-                        var4 = true;
-                     }
-                     break label218;
-                  case 79:
-                     if (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])] == null || var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] != 3 || var1.player.l(0) || GameWorldManager.C25_f318 != var3.getNumericParameters()[3]) {
-                        break label218;
-                     }
-
-                     isQuestTriggered = true;
-                     if (!isQuestReady) {
-                        break label218;
-                     }
-
-                     isQuestReady = false;
-                     break;
-                  case 86:
-                     if (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])] == null || var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] != 3) {
-                        break label218;
-                     }
                   }
 
                   var4 = true;
                }
 
                if (var4) {
-                  var1.currentEventIndex = (byte)var2;
-                  var1.eventScripts[var2].setCurrentCommandIndex((byte)0);
+                  var1.currentEventIndex = (byte) var2;
+                  var1.eventScripts[var2].setCurrentCommandIndex((byte) 0);
                   var1.activeEvents.addElement(var1.eventScripts[var2]);
                   GameWorldManager var10000 = var1.mapManager;
                   byte var16;
-                  if ((var16 = GameWorldManager.a(var1.currentEventIndex, (byte)0)) != -1) {
+                  if ((var16 = GameWorldManager.a(var1.currentEventIndex, (byte) 0)) != -1) {
                      var1.lastEventIndex = var1.currentEventIndex;
                      var1.mapManager.C25_f342.playBackgroundMusic(var16, 1);
                      GameWorldManager.C25_f345 = true;
                   }
 
-                  var1.eventScripts[var2].setExecutionState((byte)1);
+                  var1.eventScripts[var2].setExecutionState((byte) 1);
                }
             }
          }
@@ -340,17 +383,18 @@ public final class QuestManager extends GameEngineBase {
    public static void renderEffects(Graphics var0) {
       int var1;
       if (effectObjects != null) {
-         for(var1 = 0; var1 < effectObjects.size(); ++var1) {
+         for (var1 = 0; var1 < effectObjects.size(); ++var1) {
             GameObject var2;
-            GameObject var10000 = var2 = (GameObject)effectObjects.elementAt(var1);
+            GameObject var10000 = var2 = (GameObject) effectObjects.elementAt(var1);
             var10000.setWorldPosition(var10000.followTarget.worldX, var2.followTarget.worldY - 40);
             var2.render(var0, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY);
          }
       }
 
       if (questEffectObjects != null) {
-         for(var1 = 0; var1 < questEffectObjects.size(); ++var1) {
-            ((GameObject)questEffectObjects.elementAt(var1)).render(var0, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY);
+         for (var1 = 0; var1 < questEffectObjects.size(); ++var1) {
+            ((GameObject) questEffectObjects.elementAt(var1)).render(var0, TileMapRenderer.getInstance().cameraX,
+                  TileMapRenderer.getInstance().cameraY);
          }
       }
 
@@ -359,9 +403,9 @@ public final class QuestManager extends GameEngineBase {
    public final void updateEffects() {
       int var1;
       if (effectObjects != null) {
-         for(var1 = 0; var1 < effectObjects.size(); ++var1) {
+         for (var1 = 0; var1 < effectObjects.size(); ++var1) {
             GameObject var2;
-            (var2 = (GameObject)effectObjects.elementAt(var1)).updateAnimation();
+            (var2 = (GameObject) effectObjects.elementAt(var1)).updateAnimation();
             if (var2.sprite.isAtLastFrame()) {
                var2.deactivate();
                effectObjects.removeElementAt(var1);
@@ -371,8 +415,8 @@ public final class QuestManager extends GameEngineBase {
       }
 
       if (questEffectObjects != null) {
-         for(var1 = 0; var1 < questEffectObjects.size(); ++var1) {
-            ((GameObject)questEffectObjects.elementAt(var1)).updateAnimation();
+         for (var1 = 0; var1 < questEffectObjects.size(); ++var1) {
+            ((GameObject) questEffectObjects.elementAt(var1)).updateAnimation();
          }
       }
 
@@ -390,8 +434,10 @@ public final class QuestManager extends GameEngineBase {
          var1.drawImage(questEffectImage, this.effectImageX, this.effectImageY, 20);
       }
 
-      if (this.questSpecialObject != null && this.questSpecialObjectId == GameWorldManager.e(this.mapManager.C25_f290, this.mapManager.C25_f291)) {
-         this.questSpecialObject.render(var1, TileMapRenderer.getInstance().cameraX, TileMapRenderer.getInstance().cameraY);
+      if (this.questSpecialObject != null
+            && this.questSpecialObjectId == GameWorldManager.e(this.mapManager.C25_f290, this.mapManager.C25_f291)) {
+         this.questSpecialObject.render(var1, TileMapRenderer.getInstance().cameraX,
+               TileMapRenderer.getInstance().cameraY);
       }
 
       this.dialogManager.a(var1);
@@ -402,24 +448,24 @@ public final class QuestManager extends GameEngineBase {
    }
 
    public final boolean loadQuests(DataInputStream var1, int var2, int var3, int var4, String[] var5) {
-       this.eventScripts = new EventScript[var4];
-       this.activeEvents = new Vector();
-       effectObjects = new Vector();
-       int var6 = var2 << 8 | var3;
-       if (this.questStates[GameWorldManager.C25_f297[var2] + var3] == null) {
-          this.questStates[GameWorldManager.C25_f297[var2] + var3] = new byte[var4];
-       }
+      this.eventScripts = new EventScript[var4];
+      this.activeEvents = new Vector();
+      effectObjects = new Vector();
+      int var6 = var2 << 8 | var3;
+      if (this.questStates[GameWorldManager.C25_f297[var2] + var3] == null) {
+         this.questStates[GameWorldManager.C25_f297[var2] + var3] = new byte[var4];
+      }
 
-       this.currentEventIndex = -1;
-       this.lastEventIndex = -1;
+      this.currentEventIndex = -1;
+      this.lastEventIndex = -1;
 
-       for(byte var7 = 0; var7 < var4; ++var7) {
-          this.eventScripts[var7] = new EventScript();
-          this.eventScripts[var7].loadFromStream(var1, var7, var6, var5);
-          this.eventScripts[var7].setExecutionState(this.questStates[GameWorldManager.C25_f297[var2] + var3][var7]);
-       }
+      for (byte var7 = 0; var7 < var4; ++var7) {
+         this.eventScripts[var7] = new EventScript();
+         this.eventScripts[var7].loadFromStream(var1, var7, var6, var5);
+         this.eventScripts[var7].setExecutionState(this.questStates[GameWorldManager.C25_f297[var2] + var3][var7]);
+      }
 
-       this.updateQuestEffects();
+      this.updateQuestEffects();
       return false;
    }
 
@@ -461,10 +507,14 @@ public final class QuestManager extends GameEngineBase {
    }
 
    private byte findEventIndex(int var1) {
-      for(int var2 = 0; var2 < this.eventScripts.length; ++var2) {
+      for (int var2 = 0; var2 < this.eventScripts.length; ++var2) {
          ScriptCommand var3;
-         if (this.eventScripts[var2].getExecutionState() != 3 && var1 != var2 && (var3 = this.eventScripts[var2].getFirstCommand()).getCommandId() == 44 && GameWorldManager.e(var3.getNumericParameters()[2], var3.getNumericParameters()[3]) == GameWorldManager.e(this.mapManager.C25_f290, this.mapManager.C25_f291) && var3.getNumericParameters()[4] == GameWorldManager.C25_f318 && this.checkEventCompletion(var3)) {
-            return (byte)var2;
+         if (this.eventScripts[var2].getExecutionState() != 3 && var1 != var2
+               && (var3 = this.eventScripts[var2].getFirstCommand()).getCommandId() == 44
+               && GameWorldManager.e(var3.getNumericParameters()[2], var3.getNumericParameters()[3]) == GameWorldManager
+                     .e(this.mapManager.C25_f290, this.mapManager.C25_f291)
+               && var3.getNumericParameters()[4] == GameWorldManager.C25_f318 && this.checkEventCompletion(var3)) {
+            return (byte) var2;
          }
       }
 
@@ -472,7 +522,7 @@ public final class QuestManager extends GameEngineBase {
    }
 
    private static void setQuestFlag(int var0) {
-      for(int var1 = 0; var1 < questFlagCount; ++var1) {
+      for (int var1 = 0; var1 < questFlagCount; ++var1) {
          if (questFlags[var1][0] == var0) {
             questFlags[var1][1] = 3;
             return;
@@ -482,7 +532,7 @@ public final class QuestManager extends GameEngineBase {
    }
 
    private static int getQuestFlagIndex(int var0) {
-      for(int var1 = 0; var1 < questFlagCount; ++var1) {
+      for (int var1 = 0; var1 < questFlagCount; ++var1) {
          if (questFlags[var1][0] == var0) {
             return var1;
          }
@@ -495,8 +545,8 @@ public final class QuestManager extends GameEngineBase {
       ++this.updateCounter;
       int var1 = 0;
 
-      while(true) {
-         while(var1 < this.activeEvents.size()) {
+      while (true) {
+         while (var1 < this.activeEvents.size()) {
             EventScript var2;
             int var10;
             label1202: {
@@ -510,1415 +560,1565 @@ public final class QuestManager extends GameEngineBase {
                int var22;
                boolean var24;
                short var27;
-               switch((var3 = (var2 = (EventScript)this.activeEvents.elementAt(var1)).getCurrentCommand()).getCommandId()) {
-               case 0:
-               case 15:
-               case 26:
-               case 27:
-               case 28:
-               case 43:
-               case 44:
-               case 57:
-               case 59:
-               case 61:
-               case 68:
-               case 69:
-               case 73:
-               case 75:
-               case 78:
-               case 79:
-               case 86:
-               default:
-                  break label1202;
-               case 1:
-                  if (var2.getExecutionState() != 5) {
-                     ScreenTransitionManager.a().c(0, 9);
-                     this.dialogManager.a(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
-                     this.dialogManager.a((byte)(var3.getNumericParameters()[0] / 10 - 1), var3.getStringParameters()[0], var3.getNumericParameters()[0] % 10);
-                     this.dialogManager.a(true);
-                     var2.setExecutionState((byte)5);
+               switch ((var3 = (var2 = (EventScript) this.activeEvents.elementAt(var1)).getCurrentCommand())
+                     .getCommandId()) {
+                  case 0:
+                  case 15:
+                  case 26:
+                  case 27:
+                  case 28:
+                  case 43:
+                  case 44:
+                  case 57:
+                  case 59:
+                  case 61:
+                  case 68:
+                  case 69:
+                  case 73:
+                  case 75:
+                  case 78:
+                  case 79:
+                  case 86:
+                  default:
                      break label1202;
-                  }
-
-                  if (!TextRenderingEngine.C39_f608 || !this.gameEngine.isKeyPressed(65537) && !this.gameEngine.isPointerClickInBounds(80, 294, 80, 18)) {
-                     break label1202;
-                  }
-
-                  this.dialogManager.b();
-                  if (TextRenderingEngine.C39_f610) {
-                     break label1202;
-                  }
-
-                  ScreenTransitionManager.a().C30_f472 = -1;
-                  this.dialogManager.c();
-                  break;
-               case 2:
-                  if (var3.getNumericParameters()[0] == -1) {
-                     this.player.activate();
-                     this.player.a((byte)0, (byte) GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[0]));
-                     break label1202;
-                  }
-
-                  var10 = 0;
-
-                  while(true) {
-                     if (var10 >= var3.getNumericParameters()[0]) {
+                  case 1:
+                     if (var2.getExecutionState() != 5) {
+                        ScreenTransitionManager.a().c(0, 9);
+                        this.dialogManager.a(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
+                        this.dialogManager.a((byte) (var3.getNumericParameters()[0] / 10 - 1),
+                              var3.getStringParameters()[0], var3.getNumericParameters()[0] % 10);
+                        this.dialogManager.a(true);
+                        var2.setExecutionState((byte) 5);
                         break label1202;
                      }
 
-                     this.mapManager.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].setCurrentDirection(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
-                     if (this.mapManager.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].C18_f225 == 1) {
-                        this.mapManager.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].a((byte)0);
-                     }
-
-                     this.mapManager.C25_f287[GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].activate();
-                     ++var10;
-                  }
-               case 3:
-                  if (var3.getNumericParameters()[0] == -1) {
-                     this.player.deactivate();
-                     break label1202;
-                  }
-
-                  var12 = 0;
-
-                  while(true) {
-                     if (var12 >= var3.getNumericParameters()[0]) {
+                     if (!TextRenderingEngine.C39_f608 || !this.gameEngine.isKeyPressed(65537)
+                           && !this.gameEngine.isPointerClickInBounds(80, 294, 80, 18)) {
                         break label1202;
                      }
 
-                     var27 = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var12]);
-                     this.mapManager.C25_f287[var27].deactivate();
-                     ++var12;
-                  }
-               case 4:
-                  if (var2.getExecutionState() != 5) {
-                     this.player.a((byte)0, (byte)this.player.currentDirection);
-                     this.mapManager.gameController.a((String)var3.getStringParameters()[0], (String)var3.getStringParameters()[1], var3.getNumericParameters()[1], var3.getNumericParameters()[0]);
-                     var2.setExecutionState((byte)5);
-                  } else if (this.mapManager.gameController.d(var3.getNumericParameters()[1], var3.getNumericParameters()[0]) && this.gameEngine.isKeyPressed(196640)) {
-                     GameWorldManager.B().D();
-                     if (GameUtils.pageCount < GameUtils.b()) {
-                        GameUtils.c();
-                        this.mapManager.gameController.b(GameUtils.pageCount);
-                     } else {
-                        if (GameWorldManager.C25_f318 != -1 && this.mapManager.C25_f287[GameWorldManager.C25_f318].sprite.spriteSetId <= 85 && this.mapManager.C25_f287[GameWorldManager.C25_f318].v() == 0) {
-                           GameWorldManager.B().a((byte)13, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldX, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldY - 40, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318]);
-                        }
-
-                        isQuestTriggered = false;
-                        isQuestReady = false;
-                        this.mapManager.gameController.aF();
-                        var2.setExecutionState((byte)1);
-                     }
-                  }
-                  break label1202;
-               case 5:
-                  GameObject var30;
-                  (var30 = new GameObject()).loadSpriteSet(259, false);
-                  var30.applyColorEffects();
-                  var30.setAnimation((byte)var3.getNumericParameters()[2], (byte)-1, true);
-                  if (var3.getNumericParameters()[0] == 0) {
-                     var30.setWorldPosition(this.player.getWorldX(), this.player.getWorldY() - this.player.sprite.getSpritePartBounds(this.player.getFacingDirection(), this.player.currentDirection)[3]);
-                     var30.setFollowTarget(this.player);
-                  } else if (var3.getNumericParameters()[0] == 1) {
-                     if (var3.getNumericParameters()[3] == 0 && var3.getNumericParameters()[4] == 0) {
-                        var30.setWorldPosition(this.mapManager.C25_f287[var3.getNumericParameters()[1]].getWorldX(), this.mapManager.C25_f287[var3.getNumericParameters()[1]].getWorldY());
-                        var30.setFollowTarget(this.mapManager.C25_f287[var3.getNumericParameters()[1]]);
-                     } else {
-                        var30.setWorldPosition(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
-                     }
-                  }
-
-                  var30.activate();
-                  effectObjects.addElement(var30);
-                  break label1202;
-               case 6:
-                  this.questStates[GameWorldManager.C25_f297[this.mapManager.C25_f290] + this.mapManager.C25_f291][var2.getEventId()] = 3;
-                  GameWorldManager.B().C25_f290 = var3.getNumericParameters()[0];
-                  GameWorldManager.B().C25_f291 = var3.getNumericParameters()[1];
-                  if (var3.getNumericParameters()[3] == 1) {
-                     this.mapManager.C25_f295 = var3.getNumericParameters()[2];
-                  } else {
-                     this.mapManager.C25_f295 = -1;
-                  }
-
-                  GameScreenManager.getInstance().changeState((byte)22);
-                  break label1202;
-               case 7:
-                  if (var2.getExecutionState() != 5) {
-                     this.eventEntityIds = new short[var3.getNumericParameters()[0]];
-
-                     for(var10 = 0; var10 < this.eventEntityIds.length; ++var10) {
-                        this.eventEntityIds[var10] = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10]);
-                        var5 = GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[var10]);
-                        if (this.eventEntityIds[var10] == -1) {
-                           this.player.a(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[0]), var5);
-                        } else {
-                           this.mapManager.C25_f287[this.eventEntityIds[var10]].setCurrentDirection(var5);
-                           this.mapManager.C25_f287[this.eventEntityIds[var10]].a(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
-                        }
+                     this.dialogManager.b();
+                     if (TextRenderingEngine.C39_f610) {
+                        break label1202;
                      }
 
-                     this.animationCounter = 0;
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  for(var10 = 0; var10 < this.eventEntityIds.length; ++var10) {
-                     if (this.eventEntityIds[var10] == -1) {
-                        if (this.player.isAnimationComplete()) {
-                           this.player.a((byte)0, (byte)this.player.currentDirection);
-                           ++this.animationCounter;
-                        }
-                     } else if (this.mapManager.C25_f287[this.eventEntityIds[var10]].isAnimationComplete()) {
-                        this.mapManager.C25_f287[this.eventEntityIds[var10]].a((byte)0);
-                        ++this.animationCounter;
-                     }
-                  }
-
-                  if (this.animationCounter < this.eventEntityIds.length) {
-                     break label1202;
-                  }
-
-                  this.animationCounter = 0;
-                  break;
-               case 8:
-                  this.player.activate();
-                  GameWorldManager.C25_f318 = -1;
-                  this.player.setWorldPosition(var3.getNumericParameters()[0], var3.getNumericParameters()[1]);
-                  this.player.attachedObject.setWorldPosition(var3.getNumericParameters()[0], var3.getNumericParameters()[1]);
-                  this.player.a((byte)0, (byte)this.player.currentDirection);
-                  break label1202;
-               case 9:
-                  if (var2.getExecutionState() != 5) {
-                     var24 = false;
-                     if (var3.getNumericParameters()[0] != 12 && var3.getNumericParameters()[0] != 13) {
-                        if (var3.getNumericParameters()[0] == 10) {
-                           ScreenTransitionManager.a().c(0, var3.getNumericParameters()[0]);
-                           ScreenTransitionManager.a().d(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
-                        } else if (var3.getNumericParameters()[0] != 15 && var3.getNumericParameters()[0] != 14) {
-                           if (var3.getNumericParameters()[0] == 16) {
-                              String[] var28;
-                              if (var3.getNumericParameters()[1] == 0) {
-                                 var28 = new String[]{"star0", "star1", "star2", "star3"};
-                                 ScreenTransitionManager.a().a(16, 0, (byte)var3.getNumericParameters()[2], (byte)7, GameWorldManager.C25_f298, var28);
-                              } else if (var3.getNumericParameters()[1] == 1) {
-                                 var28 = new String[]{"fire0", "fire1", "fire2"};
-                                 ScreenTransitionManager.a().a(16, 0, (byte)var3.getNumericParameters()[2], (byte)0, (Image)null, var28);
-                              } else if (var3.getNumericParameters()[1] == 2) {
-                                 var28 = new String[]{"fire0", "fire1", "fire2"};
-                                 ScreenTransitionManager.a().a(17, 0, (byte)var3.getNumericParameters()[2], (byte)0, (Image)null, var28);
-                              } else {
-                                 var24 = true;
-                                 ScreenTransitionManager.a().a(-1, 0, (byte)var3.getNumericParameters()[2], (byte)0, (Image)null, (String[])null);
-                                 var2.setExecutionState((byte)1);
-                              }
-                           } else if (var3.getNumericParameters()[0] == 17) {
-                              ScreenTransitionManager.a().c(var3.getNumericParameters()[1], var3.getNumericParameters()[0]);
-                              ScreenTransitionManager.a().a(var3.getNumericParameters()[2], var3.getNumericParameters()[3], var3.getNumericParameters()[4], var3.getNumericParameters()[5]);
-                           } else {
-                              var12 = var3.getNumericParameters()[1] << 24 | var3.getNumericParameters()[2] << 16 | var3.getNumericParameters()[3] << 8 | var3.getNumericParameters()[4];
-                              ScreenTransitionManager.a().c(var12, var3.getNumericParameters()[0]);
-                           }
-                        } else {
-                           ScreenTransitionManager.a().c(0, var3.getNumericParameters()[0]);
-                           ScreenTransitionManager.a().a(this.questIconNames[var3.getNumericParameters()[1]], var3.getNumericParameters()[2], var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
-                        }
-                     } else {
-                        ScreenTransitionManager.a().c(0, var3.getNumericParameters()[0]);
-                        ScreenTransitionManager.a().a(var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3], var3.getNumericParameters()[4], var3.getNumericParameters()[5]);
-                     }
-
-                     if (!var24) {
-                        var2.setExecutionState((byte)5);
-                     }
-                     break label1202;
-                  }
-
-                  if (ScreenTransitionManager.a().C30_f477 && (var3.getNumericParameters()[0] == 12 || var3.getNumericParameters()[0] == 13)) {
-                     var2.setExecutionState((byte)1);
-                     break label1202;
-                  }
-
-                  if (var3.getNumericParameters()[0] != 16 && !ScreenTransitionManager.a().C30_f476) {
-                     break label1202;
-                  }
-                  break;
-               case 10:
-                  if (var2.getExecutionState() != 5) {
+                     ScreenTransitionManager.a().C30_f472 = -1;
+                     this.dialogManager.c();
+                     break;
+                  case 2:
                      if (var3.getNumericParameters()[0] == -1) {
-                        this.eventEntityStates = new byte[1];
-                        this.player.setCurrentDirection(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[0]));
-                        this.player.a((byte)0, (byte)this.player.currentDirection);
-                        this.player.setSecondaryState((byte)0, (short) GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[0]));
-                        this.eventEntityStates[0] = GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[3], ',')[0]);
+                        this.player.activate();
+                        this.player.setFacingState((byte) 0,
+                              (byte) GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[0]));
+                        break label1202;
+                     }
+
+                     var10 = 0;
+
+                     while (true) {
+                        if (var10 >= var3.getNumericParameters()[0]) {
+                           break label1202;
+                        }
+
+                        this.mapManager.C25_f287[GameUtils
+                              .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])]
+                              .setCurrentDirection(GameUtils
+                                    .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
+                        if (this.mapManager.C25_f287[GameUtils.parseShort(
+                              GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].C18_f225 == 1) {
+                           this.mapManager.C25_f287[GameUtils
+                                 .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])]
+                                 .a((byte) 0);
+                        }
+
+                        this.mapManager.C25_f287[GameUtils
+                              .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].activate();
+                        ++var10;
+                     }
+                  case 3:
+                     if (var3.getNumericParameters()[0] == -1) {
+                        this.player.deactivate();
+                        break label1202;
+                     }
+
+                     var12 = 0;
+
+                     while (true) {
+                        if (var12 >= var3.getNumericParameters()[0]) {
+                           break label1202;
+                        }
+
+                        var27 = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var12]);
+                        this.mapManager.C25_f287[var27].deactivate();
+                        ++var12;
+                     }
+                  case 4:
+                     if (var2.getExecutionState() != 5) {
+                        this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
+                        this.mapManager.gameController.a((String) var3.getStringParameters()[0],
+                              (String) var3.getStringParameters()[1], var3.getNumericParameters()[1],
+                              var3.getNumericParameters()[0]);
+                        var2.setExecutionState((byte) 5);
+                     } else if (this.mapManager.gameController.d(var3.getNumericParameters()[1],
+                           var3.getNumericParameters()[0]) && this.gameEngine.isKeyPressed(196640)) {
+                        GameWorldManager.B().D();
+                        if (GameUtils.pageCount < GameUtils.b()) {
+                           GameUtils.c();
+                           this.mapManager.gameController.b(GameUtils.pageCount);
+                        } else {
+                           if (GameWorldManager.C25_f318 != -1
+                                 && this.mapManager.C25_f287[GameWorldManager.C25_f318].sprite.spriteSetId <= 85
+                                 && this.mapManager.C25_f287[GameWorldManager.C25_f318].v() == 0) {
+                              GameWorldManager.B().a((byte) 13,
+                                    GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldX,
+                                    GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldY - 40,
+                                    GameWorldManager.B().C25_f287[GameWorldManager.C25_f318]);
+                           }
+
+                           isQuestTriggered = false;
+                           isQuestReady = false;
+                           this.mapManager.gameController.aF();
+                           var2.setExecutionState((byte) 1);
+                        }
+                     }
+                     break label1202;
+                  case 5:
+                     GameObject var30;
+                     (var30 = new GameObject()).loadSpriteSet(259, false);
+                     var30.applyColorEffects();
+                     var30.setAnimation((byte) var3.getNumericParameters()[2], (byte) -1, true);
+                     if (var3.getNumericParameters()[0] == 0) {
+                        var30.setWorldPosition(this.player.getWorldX(), this.player.getWorldY() - this.player.sprite
+                              .getSpritePartBounds(this.player.getFacingDirection(), this.player.currentDirection)[3]);
+                        var30.setFollowTarget(this.player);
+                     } else if (var3.getNumericParameters()[0] == 1) {
+                        if (var3.getNumericParameters()[3] == 0 && var3.getNumericParameters()[4] == 0) {
+                           var30.setWorldPosition(this.mapManager.C25_f287[var3.getNumericParameters()[1]].getWorldX(),
+                                 this.mapManager.C25_f287[var3.getNumericParameters()[1]].getWorldY());
+                           var30.setFollowTarget(this.mapManager.C25_f287[var3.getNumericParameters()[1]]);
+                        } else {
+                           var30.setWorldPosition(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
+                        }
+                     }
+
+                     var30.activate();
+                     effectObjects.addElement(var30);
+                     break label1202;
+                  case 6:
+                     this.questStates[GameWorldManager.C25_f297[this.mapManager.C25_f290]
+                           + this.mapManager.C25_f291][var2.getEventId()] = 3;
+                     GameWorldManager.B().C25_f290 = var3.getNumericParameters()[0];
+                     GameWorldManager.B().C25_f291 = var3.getNumericParameters()[1];
+                     if (var3.getNumericParameters()[3] == 1) {
+                        this.mapManager.C25_f295 = var3.getNumericParameters()[2];
                      } else {
+                        this.mapManager.C25_f295 = -1;
+                     }
+
+                     GameScreenManager.getInstance().changeState((byte) 22);
+                     break label1202;
+                  case 7:
+                     if (var2.getExecutionState() != 5) {
                         this.eventEntityIds = new short[var3.getNumericParameters()[0]];
-                        this.eventEntityStates = new byte[var3.getNumericParameters()[0]];
 
-                        for(var10 = 0; var10 < this.eventEntityIds.length; ++var10) {
-                           this.eventEntityIds[var10] = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10]);
-                           if (this.eventEntityIds[var10] != -1) {
-                              this.mapManager.C25_f287[this.eventEntityIds[var10]].setCurrentDirection(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
-                              this.mapManager.C25_f287[this.eventEntityIds[var10]].setSecondaryState((byte)0, (short) GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[var10]));
-                              this.mapManager.C25_f287[this.eventEntityIds[var10]].a((byte)0);
+                        for (var10 = 0; var10 < this.eventEntityIds.length; ++var10) {
+                           this.eventEntityIds[var10] = GameUtils
+                                 .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10]);
+                           var5 = GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[var10]);
+                           if (this.eventEntityIds[var10] == -1) {
+                              this.player.setFacingState(
+                                    GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[0]),
+                                    var5);
                            } else {
-                              this.player.setCurrentDirection(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
-                              this.player.setSecondaryState((byte)0, (short) GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[var10]));
-                              this.player.a((byte)0, (byte)this.player.currentDirection);
+                              this.mapManager.C25_f287[this.eventEntityIds[var10]].setCurrentDirection(var5);
+                              this.mapManager.C25_f287[this.eventEntityIds[var10]].a(GameUtils
+                                    .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
                            }
-
-                           this.eventEntityStates[var10] = GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[3], ',')[var10]);
                         }
+
+                        this.animationCounter = 0;
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     for (var10 = 0; var10 < this.eventEntityIds.length; ++var10) {
+                        if (this.eventEntityIds[var10] == -1) {
+                           if (this.player.isAnimationComplete()) {
+                              this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
+                              ++this.animationCounter;
+                           }
+                        } else if (this.mapManager.C25_f287[this.eventEntityIds[var10]].isAnimationComplete()) {
+                           this.mapManager.C25_f287[this.eventEntityIds[var10]].a((byte) 0);
+                           ++this.animationCounter;
+                        }
+                     }
+
+                     if (this.animationCounter < this.eventEntityIds.length) {
+                        break label1202;
                      }
 
                      this.animationCounter = 0;
-                     var2.setExecutionState((byte)5);
+                     break;
+                  case 8:
+                     this.player.activate();
+                     GameWorldManager.C25_f318 = -1;
+                     this.player.setWorldPosition(var3.getNumericParameters()[0], var3.getNumericParameters()[1]);
+                     this.player.attachedObject.setWorldPosition(var3.getNumericParameters()[0],
+                           var3.getNumericParameters()[1]);
+                     this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
                      break label1202;
-                  }
-
-                  if (var3.getNumericParameters()[0] == -1) {
-                     if (this.player.getFacingDirection() == 0) {
-                        this.player.a((byte)1, (byte)this.player.currentDirection);
-                        break label1202;
-                     }
-
-                     --this.eventEntityStates[0];
-                     if (this.eventEntityStates[0] > 0) {
-                        break label1202;
-                     }
-
-                     this.player.a((byte)0, (byte)this.player.currentDirection);
-                     if (this.player.C53_f793[0] != 2 && this.player.C53_f793[1] != 2) {
-                        this.player.setSecondaryState((byte)0, (short)4);
-                     } else {
-                        this.player.setSecondaryState((byte)0, (short)8);
-                     }
-
-                     var2.setExecutionState((byte)1);
-                     break label1202;
-                  }
-
-                  for(var10 = 0; var10 < this.eventEntityIds.length; ++var10) {
-                     if (this.eventEntityIds[var10] != -1 && this.mapManager.C25_f287[this.eventEntityIds[var10]].getFacingDirection() == 0 || this.eventEntityIds[var10] == -1 && this.player.getFacingDirection() == 0) {
-                        if (this.eventEntityStates[var10] > 0) {
-                           if (this.eventEntityIds[var10] != -1) {
-                              this.mapManager.C25_f287[this.eventEntityIds[var10]].a((byte)3);
+                  case 9:
+                     if (var2.getExecutionState() != 5) {
+                        var24 = false;
+                        if (var3.getNumericParameters()[0] != 12 && var3.getNumericParameters()[0] != 13) {
+                           if (var3.getNumericParameters()[0] == 10) {
+                              ScreenTransitionManager.a().c(0, var3.getNumericParameters()[0]);
+                              ScreenTransitionManager.a().d(var3.getNumericParameters()[1],
+                                    var3.getNumericParameters()[2]);
+                           } else if (var3.getNumericParameters()[0] != 15 && var3.getNumericParameters()[0] != 14) {
+                              if (var3.getNumericParameters()[0] == 16) {
+                                 String[] var28;
+                                 if (var3.getNumericParameters()[1] == 0) {
+                                    var28 = new String[] { "star0", "star1", "star2", "star3" };
+                                    ScreenTransitionManager.a().a(16, 0, (byte) var3.getNumericParameters()[2],
+                                          (byte) 7, GameWorldManager.C25_f298, var28);
+                                 } else if (var3.getNumericParameters()[1] == 1) {
+                                    var28 = new String[] { "fire0", "fire1", "fire2" };
+                                    ScreenTransitionManager.a().a(16, 0, (byte) var3.getNumericParameters()[2],
+                                          (byte) 0, (Image) null, var28);
+                                 } else if (var3.getNumericParameters()[1] == 2) {
+                                    var28 = new String[] { "fire0", "fire1", "fire2" };
+                                    ScreenTransitionManager.a().a(17, 0, (byte) var3.getNumericParameters()[2],
+                                          (byte) 0, (Image) null, var28);
+                                 } else {
+                                    var24 = true;
+                                    ScreenTransitionManager.a().a(-1, 0, (byte) var3.getNumericParameters()[2],
+                                          (byte) 0, (Image) null, (String[]) null);
+                                    var2.setExecutionState((byte) 1);
+                                 }
+                              } else if (var3.getNumericParameters()[0] == 17) {
+                                 ScreenTransitionManager.a().c(var3.getNumericParameters()[1],
+                                       var3.getNumericParameters()[0]);
+                                 ScreenTransitionManager.a().a(var3.getNumericParameters()[2],
+                                       var3.getNumericParameters()[3], var3.getNumericParameters()[4],
+                                       var3.getNumericParameters()[5]);
+                              } else {
+                                 var12 = var3.getNumericParameters()[1] << 24 | var3.getNumericParameters()[2] << 16
+                                       | var3.getNumericParameters()[3] << 8 | var3.getNumericParameters()[4];
+                                 ScreenTransitionManager.a().c(var12, var3.getNumericParameters()[0]);
+                              }
                            } else {
-                              this.player.a((byte)1, (byte)this.player.currentDirection);
+                              ScreenTransitionManager.a().c(0, var3.getNumericParameters()[0]);
+                              ScreenTransitionManager.a().a(this.questIconNames[var3.getNumericParameters()[1]],
+                                    var3.getNumericParameters()[2], var3.getNumericParameters()[3],
+                                    var3.getNumericParameters()[4]);
+                           }
+                        } else {
+                           ScreenTransitionManager.a().c(0, var3.getNumericParameters()[0]);
+                           ScreenTransitionManager.a().a(var3.getNumericParameters()[1], var3.getNumericParameters()[2],
+                                 var3.getNumericParameters()[3], var3.getNumericParameters()[4],
+                                 var3.getNumericParameters()[5]);
+                        }
+
+                        if (!var24) {
+                           var2.setExecutionState((byte) 5);
+                        }
+                        break label1202;
+                     }
+
+                     if (ScreenTransitionManager.a().C30_f477
+                           && (var3.getNumericParameters()[0] == 12 || var3.getNumericParameters()[0] == 13)) {
+                        var2.setExecutionState((byte) 1);
+                        break label1202;
+                     }
+
+                     if (var3.getNumericParameters()[0] != 16 && !ScreenTransitionManager.a().C30_f476) {
+                        break label1202;
+                     }
+                     break;
+                  case 10:
+                     if (var2.getExecutionState() != 5) {
+                        if (var3.getNumericParameters()[0] == -1) {
+                           this.eventEntityStates = new byte[1];
+                           this.player.setCurrentDirection(
+                                 GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[0]));
+                           this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
+                           this.player.setSecondaryState((byte) 0, (short) GameUtils
+                                 .parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[0]));
+                           this.eventEntityStates[0] = GameUtils
+                                 .parseByte(GameUtils.splitString(var3.getStringParameters()[3], ',')[0]);
+                        } else {
+                           this.eventEntityIds = new short[var3.getNumericParameters()[0]];
+                           this.eventEntityStates = new byte[var3.getNumericParameters()[0]];
+
+                           for (var10 = 0; var10 < this.eventEntityIds.length; ++var10) {
+                              this.eventEntityIds[var10] = GameUtils
+                                    .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10]);
+                              if (this.eventEntityIds[var10] != -1) {
+                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].setCurrentDirection(GameUtils
+                                       .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
+                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].setSecondaryState((byte) 0,
+                                       (short) GameUtils.parseByte(
+                                             GameUtils.splitString(var3.getStringParameters()[2], ',')[var10]));
+                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].a((byte) 0);
+                              } else {
+                                 this.player.setCurrentDirection(GameUtils
+                                       .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
+                                 this.player.setSecondaryState((byte) 0, (short) GameUtils
+                                       .parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[var10]));
+                                 this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
+                              }
+
+                              this.eventEntityStates[var10] = GameUtils
+                                    .parseByte(GameUtils.splitString(var3.getStringParameters()[3], ',')[var10]);
                            }
                         }
-                     } else {
-                        --this.eventEntityStates[var10];
-                        if (this.eventEntityStates[var10] <= 0) {
-                           ++this.animationCounter;
-                           this.eventEntityStates[var10] = 0;
-                           if (this.eventEntityIds[var10] != -1) {
-                              this.mapManager.C25_f287[this.eventEntityIds[var10]].a((byte)0);
-                              this.mapManager.C25_f287[this.eventEntityIds[var10]].setSecondaryState((byte)0, (short)4);
-                           } else {
-                              this.player.a((byte)0, (byte)this.player.currentDirection);
-                              if (this.player.C53_f793[0] != 2 && this.player.C53_f793[1] != 2) {
-                                 this.player.setSecondaryState((byte)0, (short)4);
+
+                        this.animationCounter = 0;
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (var3.getNumericParameters()[0] == -1) {
+                        if (this.player.getFacingDirection() == 0) {
+                           this.player.setFacingState((byte) 1, (byte) this.player.currentDirection);
+                           break label1202;
+                        }
+
+                        --this.eventEntityStates[0];
+                        if (this.eventEntityStates[0] > 0) {
+                           break label1202;
+                        }
+
+                        this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
+                        if (this.player.vehicleStates[0] != 2 && this.player.vehicleStates[1] != 2) {
+                           this.player.setSecondaryState((byte) 0, (short) 4);
+                        } else {
+                           this.player.setSecondaryState((byte) 0, (short) 8);
+                        }
+
+                        var2.setExecutionState((byte) 1);
+                        break label1202;
+                     }
+
+                     for (var10 = 0; var10 < this.eventEntityIds.length; ++var10) {
+                        if (this.eventEntityIds[var10] != -1
+                              && this.mapManager.C25_f287[this.eventEntityIds[var10]].getFacingDirection() == 0
+                              || this.eventEntityIds[var10] == -1 && this.player.getFacingDirection() == 0) {
+                           if (this.eventEntityStates[var10] > 0) {
+                              if (this.eventEntityIds[var10] != -1) {
+                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].a((byte) 3);
                               } else {
-                                 this.player.setSecondaryState((byte)0, (short)8);
+                                 this.player.setFacingState((byte) 1, (byte) this.player.currentDirection);
+                              }
+                           }
+                        } else {
+                           --this.eventEntityStates[var10];
+                           if (this.eventEntityStates[var10] <= 0) {
+                              ++this.animationCounter;
+                              this.eventEntityStates[var10] = 0;
+                              if (this.eventEntityIds[var10] != -1) {
+                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].a((byte) 0);
+                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].setSecondaryState((byte) 0,
+                                       (short) 4);
+                              } else {
+                                 this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
+                                 if (this.player.vehicleStates[0] != 2 && this.player.vehicleStates[1] != 2) {
+                                    this.player.setSecondaryState((byte) 0, (short) 4);
+                                 } else {
+                                    this.player.setSecondaryState((byte) 0, (short) 8);
+                                 }
                               }
                            }
                         }
                      }
-                  }
 
-                  if (this.animationCounter < this.eventEntityIds.length) {
-                     break label1202;
-                  }
-                  break;
-               case 11:
-                  if (var2.getExecutionState() != 5) {
-                     var24 = false;
-                     if (var3.getNumericParameters()[6] == 0) {
-                        var24 = true;
+                     if (this.animationCounter < this.eventEntityIds.length) {
+                        break label1202;
                      }
-
-                     CameraController.getInstance().setCameraLag(var3.getNumericParameters()[7]);
-                     if (var3.getNumericParameters()[2] == 1) {
-                        CameraController.getInstance().setFixedPosition(var3.getNumericParameters()[4], var3.getNumericParameters()[5], var24);
-                     } else if (var3.getNumericParameters()[2] == 0) {
-                        if (var3.getNumericParameters()[3] == -1) {
-                           CameraController.getInstance().setFollowEntity(this.player, var24);
-                        } else {
-                           CameraController.getInstance().setFollowEntity(this.mapManager.C25_f287[var3.getNumericParameters()[3]], var24);
-                        }
-                     }
-
-                     this.player.a((byte)0, (byte)this.player.currentDirection);
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (!CameraController.getInstance().isLocked()) {
-                     break label1202;
-                  }
-                  break;
-               case 12:
-                  ++this.animationCounter;
-                  if (var2.getExecutionState() != 5) {
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (this.animationCounter < var3.getNumericParameters()[0]) {
-                     break label1202;
-                  }
-
-                  this.animationCounter = 0;
-                  break;
-               case 13:
-                  if (GameUtils.checkCollisionWithShortArray(var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3], this.player.worldX, this.player.worldY, this.player.sprite.getCurrentFrameEvents())) {
-                     var2.setExecutionState((byte)1);
-                     this.player.a((byte)0, (byte)this.player.currentDirection);
-                  } else {
-                     var2.setExecutionState((byte)6);
-                  }
-                  break label1202;
-               case 14:
-                  var2.setExecutionState((byte)3);
-                  break label1202;
-               case 16:
-                  if (var3.getNumericParameters()[0] == GameWorldManager.C25_f318) {
-                     isQuestTriggered = true;
-                     if (isQuestReady) {
-                        isQuestReady = false;
-                        var2.setExecutionState((byte)2);
-                     }
-                  } else {
-                     var2.setExecutionState((byte)6);
-                  }
-                  break label1202;
-               case 17:
-                  if (var2.getExecutionState() != 5) {
-                     if (var3.getNumericParameters()[0] == 0) {
-                        if (this.player.a((int)var3.getNumericParameters()[1], var3.getNumericParameters()[2], (byte)0)) {
-                           var27 = ResourceManager.gameDatabase[4][var3.getNumericParameters()[1]][0];
-                           this.gameEngine.gameController.a((String)("Đạt được: " + GameEngineBase.getLocalizedText((int)var27)), var3.getNumericParameters()[2]);
-                           this.player.c(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (byte)0);
-                        } else {
-                           this.gameEngine.gameController.b("Ba lô đã đủ đạo cụ này");
-                        }
-                     } else if (this.player.b((int)var3.getNumericParameters()[1], (int)var3.getNumericParameters()[2], (byte)0)) {
-                        var27 = ResourceManager.gameDatabase[4][var3.getNumericParameters()[1]][0];
-                        this.gameEngine.gameController.a((String)("Mất: " + GameEngineBase.getLocalizedText((int)var27)), var3.getNumericParameters()[2]);
-                        this.player.d(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (byte)0);
-                     }
-
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (!this.gameEngine.gameController.aA()) {
-                     break label1202;
-                  }
-                  break;
-               case 18:
-                  if (var2.getExecutionState() != 5) {
-                     if (var3.getNumericParameters()[0] == 0) {
-                        if (this.player.a((int)var3.getNumericParameters()[1], var3.getNumericParameters()[2], (byte)2)) {
-                           var27 = ResourceManager.gameDatabase[3][var3.getNumericParameters()[1]][0];
-                           this.gameEngine.gameController.a((String)("Đạt được: " + GameEngineBase.getLocalizedText((int)var27)), var3.getNumericParameters()[2]);
-                           this.player.c(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (byte)2);
-                        } else {
-                           this.gameEngine.gameController.b("Ba lô đã đủ đạo cụ này");
-                        }
-                     } else if (var3.getNumericParameters()[0] == 1) {
-                        var27 = ResourceManager.gameDatabase[3][var3.getNumericParameters()[1]][0];
-                        this.gameEngine.gameController.a((String)("Mất: " + GameEngineBase.getLocalizedText((int)var27)), var3.getNumericParameters()[2]);
-                        this.player.d(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (byte)2);
-                     }
-
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (!this.gameEngine.gameController.aA()) {
-                     break label1202;
-                  }
-                  break;
-               case 19:
-                  if (var2.getExecutionState() != 5) {
-                     var27 = ResourceManager.gameDatabase[5][var3.getNumericParameters()[0]][0];
-                     this.gameEngine.gameController.a((String)("Đạt được: " + GameEngineBase.getLocalizedText((int)var27)), var3.getNumericParameters()[1]);
-                     if ((var12 = this.player.d(var3.getNumericParameters()[0], var3.getNumericParameters()[1])) != -1) {
-                        if (var12 == 1) {
-                           this.gameEngine.gameController.b("Ba lô đã đủ loại đạo cụ này");
-                        } else {
-                           this.player.c((int)var3.getNumericParameters()[0], (int)var3.getNumericParameters()[1]);
-                        }
-                     } else if (var3.getNumericParameters()[0] == 0) {
-                        this.player.e(var3.getNumericParameters()[0], -1);
-                     } else {
-                        this.player.j(var3.getNumericParameters()[0]);
-                     }
-
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (!this.gameEngine.gameController.aA()) {
-                     break label1202;
-                  }
-                  break;
-               case 20:
-                  if (var2.getExecutionState() != 5) {
-                     if (var3.getNumericParameters()[0] == 1) {
-                        this.gameEngine.gameController.b("Mất: " + var3.getStringParameters()[0]);
-                        this.player.C53_f797[var3.getNumericParameters()[1]] = false;
-                     } else {
-                        this.gameEngine.gameController.b("Đạt được: " + var3.getStringParameters()[0]);
-                        this.player.C53_f797[var3.getNumericParameters()[1]] = true;
-                     }
-
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (!this.gameEngine.gameController.aA()) {
-                     break label1202;
-                  }
-                  break;
-               case 21:
-                  GameWorldManager.C25_f321 = false;
-                  GameWorldManager.C25_f322 = var3.getNumericParameters()[2];
-                  if (var3.getNumericParameters()[1] == 1) {
-                     GameWorldManager.C25_f323 = var3.getNumericParameters()[3];
-                     GameWorldManager.C25_f324 = var3.getNumericParameters()[4];
-                     GameWorldManager.C25_f325 = var3.getNumericParameters()[5];
-                     GameWorldManager.C25_f326 = var3.getNumericParameters()[6];
-                  }
-                  break label1202;
-               case 22:
-                  GameWorldManager.C25_f321 = true;
-                  GameWorldManager.C25_f320 = (byte)var3.getNumericParameters()[1];
-                  GameWorldManager.B().C25_f293 = var3.getNumericParameters()[2];
-                  GameWorldManager.B().C25_f294 = var3.getNumericParameters()[3];
-                  GameWorldManager.C25_f325 = var3.getNumericParameters()[4];
-                  GameWorldManager.C25_f326 = var3.getNumericParameters()[5];
-                  GameWorldManager.B().C25_f295 = -1;
-                  break label1202;
-               case 23:
-                  this.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] = 3;
-                  if (var3.getNumericParameters()[0] == this.mapManager.C25_f290 && var3.getNumericParameters()[1] == this.mapManager.C25_f291) {
-                     this.eventScripts[var3.getNumericParameters()[2]].setExecutionState((byte)3);
-                     if (this.activeEvents.size() > 0) {
-                        this.activeEvents.removeElement(this.eventScripts[var3.getNumericParameters()[2]]);
-                        --var1;
-                     }
-                  }
-                  break label1202;
-               case 24:
-                  if (var2.getExecutionState() != 5) {
-                     ScreenTransitionManager.a().c(0, 11);
-                     ScreenTransitionManager.a().a(var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (!ScreenTransitionManager.a().C30_f476) {
-                     break label1202;
-                  }
-                  break;
-               case 25:
-                  isQuestActive = var3.getNumericParameters()[0] == 0;
-                  break label1202;
-               case 29:
-                  if (var2.getExecutionState() != 5) {
-                     var27 = var3.getNumericParameters()[0];
-                     if (var3.getNumericParameters()[0] == -1) {
-                        var27 = 1;
-                     }
-
-                     this.eventEntityIds = new short[var27];
-                     this.eventEntityOffsetX = new short[var27];
-                     this.eventEntityOffsetY = new short[var27];
-                     this.eventEntityMoveX = new short[var27];
-                     this.eventEntityMoveY = new short[var27];
-
-                     for(var12 = 0; var12 < this.eventEntityIds.length; ++var12) {
-                        this.eventEntityIds[var12] = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var12]);
-                        this.eventEntityOffsetX[var12] = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[1], ',')[var12]);
-                        this.eventEntityOffsetY[var12] = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[2], ',')[var12]);
-                        this.eventEntityMoveX[var12] = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[3], ',')[var12]);
-                        this.eventEntityMoveY[var12] = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[4], ',')[var12]);
-                     }
-
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  var24 = true;
-
-                  for(var18 = 0; var18 < this.eventEntityIds.length; ++var18) {
-                     if (this.eventEntityMoveX[var18] > 0 || this.eventEntityMoveY[var18] > 0) {
+                     break;
+                  case 11:
+                     if (var2.getExecutionState() != 5) {
                         var24 = false;
-                        --this.eventEntityMoveX[var18];
-                        --this.eventEntityMoveY[var18];
-                        if (var3.getNumericParameters()[0] == -1) {
-                           var12 = this.player.getWorldX() + this.eventEntityOffsetX[var18];
-                           var15 = this.player.getWorldY() + this.eventEntityOffsetY[var18];
-                           this.player.setWorldPosition(var12, var15);
-                           if (this.player.attachedObject != null) {
-                              this.player.attachedObject.setWorldPosition(var12, var15);
-                           }
-                        } else {
-                           var12 = this.mapManager.C25_f287[this.eventEntityIds[var18]].getWorldX() + this.eventEntityOffsetX[var18];
-                           var15 = this.mapManager.C25_f287[this.eventEntityIds[var18]].getWorldY() + this.eventEntityOffsetY[var18];
-                           this.mapManager.C25_f287[this.eventEntityIds[var18]].setWorldPosition(var12, var15);
-                           if (this.mapManager.C25_f287[this.eventEntityIds[var18]].attachedObject != null) {
-                              this.mapManager.C25_f287[this.eventEntityIds[var18]].attachedObject.setWorldPosition(var12, var15);
+                        if (var3.getNumericParameters()[6] == 0) {
+                           var24 = true;
+                        }
+
+                        CameraController.getInstance().setCameraLag(var3.getNumericParameters()[7]);
+                        if (var3.getNumericParameters()[2] == 1) {
+                           CameraController.getInstance().setFixedPosition(var3.getNumericParameters()[4],
+                                 var3.getNumericParameters()[5], var24);
+                        } else if (var3.getNumericParameters()[2] == 0) {
+                           if (var3.getNumericParameters()[3] == -1) {
+                              CameraController.getInstance().setFollowEntity(this.player, var24);
+                           } else {
+                              CameraController.getInstance()
+                                    .setFollowEntity(this.mapManager.C25_f287[var3.getNumericParameters()[3]], var24);
                            }
                         }
-                     }
-                  }
 
-                  if (var24) {
-                     var2.setExecutionState((byte)1);
-                  }
-                  break label1202;
-               case 30:
-                  if (var2.getExecutionState() != 5) {
-                     this.eventEntityIds = new short[var3.getNumericParameters()[0]];
-                     String[] var23 = GameUtils.splitString(var3.getStringParameters()[2], ',');
-
-                     for(var12 = 0; var12 < this.eventEntityIds.length; ++var12) {
-                        this.eventEntityIds[var12] = GameUtils.parseShort(var23[var12]);
+                        this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
                      }
 
-                     String[][] var21 = new String[this.eventEntityIds.length][];
-                     String[][] var29 = new String[this.eventEntityIds.length][];
-
-                     for(var18 = 0; var18 < var29.length; ++var18) {
-                        var21[var18] = GameUtils.splitString(GameUtils.splitString(var3.getStringParameters()[0], '#')[var18], ',');
-                        var29[var18] = GameUtils.splitString(GameUtils.splitString(var3.getStringParameters()[1], '#')[var18], ',');
+                     if (!CameraController.getInstance().isLocked()) {
+                        break label1202;
+                     }
+                     break;
+                  case 12:
+                     ++this.animationCounter;
+                     if (var2.getExecutionState() != 5) {
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
                      }
 
-                     this.eventEntityPathX = new short[this.eventEntityIds.length][];
-                     this.eventEntityPathY = new short[this.eventEntityIds.length][];
-
-                     for(var18 = 0; var18 < this.eventEntityIds.length; ++var18) {
-                        this.eventEntityPathX[var18] = new short[var21[var18].length];
-                        this.eventEntityPathY[var18] = new short[var29[var18].length];
-
-                        for(var22 = 0; var22 < this.eventEntityPathX[var18].length; ++var22) {
-                           this.eventEntityPathX[var18][var22] = GameUtils.parseShort(var21[var18][var22]);
-                           this.eventEntityPathY[var18][var22] = GameUtils.parseShort(var29[var18][var22]);
-                        }
+                     if (this.animationCounter < var3.getNumericParameters()[0]) {
+                        break label1202;
                      }
 
                      this.animationCounter = 0;
-                     var2.setExecutionState((byte)5);
+                     break;
+                  case 13:
+                     if (GameUtils.checkCollisionWithShortArray(var3.getNumericParameters()[0],
+                           var3.getNumericParameters()[1], var3.getNumericParameters()[2],
+                           var3.getNumericParameters()[3], this.player.worldX, this.player.worldY,
+                           this.player.sprite.getCurrentFrameEvents())) {
+                        var2.setExecutionState((byte) 1);
+                        this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
+                     } else {
+                        var2.setExecutionState((byte) 6);
+                     }
                      break label1202;
-                  }
-
-                  for(var10 = 0; var10 < this.eventEntityIds.length; ++var10) {
-                     this.mapManager.C25_f287[this.eventEntityIds[var10]].setWorldPosition(this.eventEntityPathX[var10][this.animationCounter], this.eventEntityPathY[var10][this.animationCounter]);
-                  }
-
-                  ++this.animationCounter;
-                  if (this.animationCounter < this.eventEntityPathX[0].length) {
+                  case 14:
+                     var2.setExecutionState((byte) 3);
                      break label1202;
-                  }
-                  break;
-               case 31:
-                  if (var2.getExecutionState() != 5) {
-                     if (var3.getNumericParameters()[0] == 0) {
-                        if (var3.getNumericParameters()[1] == 0) {
-                           this.player.s(var3.getNumericParameters()[2]);
-                           this.gameEngine.gameController.b("Đạt được: " + var3.getNumericParameters()[2] + " kim tiền");
-                        } else if (var3.getNumericParameters()[1] == 1) {
-                           this.player.v(var3.getNumericParameters()[2]);
-                           this.gameEngine.gameController.b("Đạt được: " + var3.getNumericParameters()[2] + "Huy hiệu");
+                  case 16:
+                     if (var3.getNumericParameters()[0] == GameWorldManager.C25_f318) {
+                        isQuestTriggered = true;
+                        if (isQuestReady) {
+                           isQuestReady = false;
+                           var2.setExecutionState((byte) 2);
                         }
-                     } else if (var3.getNumericParameters()[0] == 1) {
-                        if (var3.getNumericParameters()[1] == 0) {
-                           this.player.s(-var3.getNumericParameters()[2]);
-                           this.gameEngine.gameController.b("Mất: " + var3.getNumericParameters()[2] + " kim tiền");
-                        } else if (var3.getNumericParameters()[1] == 1) {
-                           this.player.v(-var3.getNumericParameters()[2]);
-                           this.gameEngine.gameController.b("Mất: " + var3.getNumericParameters()[2] + " huy hiệu");
+                     } else {
+                        var2.setExecutionState((byte) 6);
+                     }
+                     break label1202;
+                  case 17:
+                     if (var2.getExecutionState() != 5) {
+                        if (var3.getNumericParameters()[0] == 0) {
+                           if (this.player.canAddItem((int) var3.getNumericParameters()[1], var3.getNumericParameters()[2],
+                                 (byte) 0)) {
+                              var27 = ResourceManager.gameDatabase[4][var3.getNumericParameters()[1]][0];
+                              this.gameEngine.gameController.a(
+                                    (String) ("Đạt được: " + GameEngineBase.getLocalizedText((int) var27)),
+                                    var3.getNumericParameters()[2]);
+                              this.player.addItem(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (byte) 0);
+                           } else {
+                              this.gameEngine.gameController.b("Ba lô đã đủ đạo cụ này");
+                           }
+                        } else if (this.player.hasItem((int) var3.getNumericParameters()[1],
+                              (int) var3.getNumericParameters()[2], (byte) 0)) {
+                           var27 = ResourceManager.gameDatabase[4][var3.getNumericParameters()[1]][0];
+                           this.gameEngine.gameController.a(
+                                 (String) ("Mất: " + GameEngineBase.getLocalizedText((int) var27)),
+                                 var3.getNumericParameters()[2]);
+                           this.player.removeItem(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (byte) 0);
+                        }
+
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (!this.gameEngine.gameController.aA()) {
+                        break label1202;
+                     }
+                     break;
+                  case 18:
+                     if (var2.getExecutionState() != 5) {
+                        if (var3.getNumericParameters()[0] == 0) {
+                           if (this.player.canAddItem((int) var3.getNumericParameters()[1], var3.getNumericParameters()[2],
+                                 (byte) 2)) {
+                              var27 = ResourceManager.gameDatabase[3][var3.getNumericParameters()[1]][0];
+                              this.gameEngine.gameController.a(
+                                    (String) ("Đạt được: " + GameEngineBase.getLocalizedText((int) var27)),
+                                    var3.getNumericParameters()[2]);
+                              this.player.addItem(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (byte) 2);
+                           } else {
+                              this.gameEngine.gameController.b("Ba lô đã đủ đạo cụ này");
+                           }
+                        } else if (var3.getNumericParameters()[0] == 1) {
+                           var27 = ResourceManager.gameDatabase[3][var3.getNumericParameters()[1]][0];
+                           this.gameEngine.gameController.a(
+                                 (String) ("Mất: " + GameEngineBase.getLocalizedText((int) var27)),
+                                 var3.getNumericParameters()[2]);
+                           this.player.removeItem(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (byte) 2);
+                        }
+
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (!this.gameEngine.gameController.aA()) {
+                        break label1202;
+                     }
+                     break;
+                  case 19:
+                     if (var2.getExecutionState() != 5) {
+                        var27 = ResourceManager.gameDatabase[5][var3.getNumericParameters()[0]][0];
+                        this.gameEngine.gameController.a(
+                              (String) ("Đạt được: " + GameEngineBase.getLocalizedText((int) var27)),
+                              var3.getNumericParameters()[1]);
+                        if ((var12 = this.player.checkSkillUsage(var3.getNumericParameters()[0],
+                              var3.getNumericParameters()[1])) != -1) {
+                           if (var12 == 1) {
+                              this.gameEngine.gameController.b("Ba lô đã đủ loại đạo cụ này");
+                           } else {
+                              this.player.addSkillUses((int) var3.getNumericParameters()[0], (int) var3.getNumericParameters()[1]);
+                           }
+                        } else if (var3.getNumericParameters()[0] == 0) {
+                           this.player.useSkillOnPokemon(var3.getNumericParameters()[0], -1);
+                        } else {
+                           this.player.learnSkill(var3.getNumericParameters()[0]);
+                        }
+
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (!this.gameEngine.gameController.aA()) {
+                        break label1202;
+                     }
+                     break;
+                  case 20:
+                     if (var2.getExecutionState() != 5) {
+                        if (var3.getNumericParameters()[0] == 1) {
+                           this.gameEngine.gameController.b("Mất: " + var3.getStringParameters()[0]);
+                           this.player.gameFlags[var3.getNumericParameters()[1]] = false;
+                        } else {
+                           this.gameEngine.gameController.b("Đạt được: " + var3.getStringParameters()[0]);
+                           this.player.gameFlags[var3.getNumericParameters()[1]] = true;
+                        }
+
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (!this.gameEngine.gameController.aA()) {
+                        break label1202;
+                     }
+                     break;
+                  case 21:
+                     GameWorldManager.C25_f321 = false;
+                     GameWorldManager.C25_f322 = var3.getNumericParameters()[2];
+                     if (var3.getNumericParameters()[1] == 1) {
+                        GameWorldManager.C25_f323 = var3.getNumericParameters()[3];
+                        GameWorldManager.C25_f324 = var3.getNumericParameters()[4];
+                        GameWorldManager.C25_f325 = var3.getNumericParameters()[5];
+                        GameWorldManager.C25_f326 = var3.getNumericParameters()[6];
+                     }
+                     break label1202;
+                  case 22:
+                     GameWorldManager.C25_f321 = true;
+                     GameWorldManager.C25_f320 = (byte) var3.getNumericParameters()[1];
+                     GameWorldManager.B().C25_f293 = var3.getNumericParameters()[2];
+                     GameWorldManager.B().C25_f294 = var3.getNumericParameters()[3];
+                     GameWorldManager.C25_f325 = var3.getNumericParameters()[4];
+                     GameWorldManager.C25_f326 = var3.getNumericParameters()[5];
+                     GameWorldManager.B().C25_f295 = -1;
+                     break label1202;
+                  case 23:
+                     this.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                           var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] = 3;
+                     if (var3.getNumericParameters()[0] == this.mapManager.C25_f290
+                           && var3.getNumericParameters()[1] == this.mapManager.C25_f291) {
+                        this.eventScripts[var3.getNumericParameters()[2]].setExecutionState((byte) 3);
+                        if (this.activeEvents.size() > 0) {
+                           this.activeEvents.removeElement(this.eventScripts[var3.getNumericParameters()[2]]);
+                           --var1;
+                        }
+                     }
+                     break label1202;
+                  case 24:
+                     if (var2.getExecutionState() != 5) {
+                        ScreenTransitionManager.a().c(0, 11);
+                        ScreenTransitionManager.a().a(var3.getNumericParameters()[0], var3.getNumericParameters()[1],
+                              var3.getNumericParameters()[2]);
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (!ScreenTransitionManager.a().C30_f476) {
+                        break label1202;
+                     }
+                     break;
+                  case 25:
+                     isQuestActive = var3.getNumericParameters()[0] == 0;
+                     break label1202;
+                  case 29:
+                     if (var2.getExecutionState() != 5) {
+                        var27 = var3.getNumericParameters()[0];
+                        if (var3.getNumericParameters()[0] == -1) {
+                           var27 = 1;
+                        }
+
+                        this.eventEntityIds = new short[var27];
+                        this.eventEntityOffsetX = new short[var27];
+                        this.eventEntityOffsetY = new short[var27];
+                        this.eventEntityMoveX = new short[var27];
+                        this.eventEntityMoveY = new short[var27];
+
+                        for (var12 = 0; var12 < this.eventEntityIds.length; ++var12) {
+                           this.eventEntityIds[var12] = GameUtils
+                                 .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var12]);
+                           this.eventEntityOffsetX[var12] = GameUtils
+                                 .parseShort(GameUtils.splitString(var3.getStringParameters()[1], ',')[var12]);
+                           this.eventEntityOffsetY[var12] = GameUtils
+                                 .parseShort(GameUtils.splitString(var3.getStringParameters()[2], ',')[var12]);
+                           this.eventEntityMoveX[var12] = GameUtils
+                                 .parseShort(GameUtils.splitString(var3.getStringParameters()[3], ',')[var12]);
+                           this.eventEntityMoveY[var12] = GameUtils
+                                 .parseShort(GameUtils.splitString(var3.getStringParameters()[4], ',')[var12]);
+                        }
+
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     var24 = true;
+
+                     for (var18 = 0; var18 < this.eventEntityIds.length; ++var18) {
+                        if (this.eventEntityMoveX[var18] > 0 || this.eventEntityMoveY[var18] > 0) {
+                           var24 = false;
+                           --this.eventEntityMoveX[var18];
+                           --this.eventEntityMoveY[var18];
+                           if (var3.getNumericParameters()[0] == -1) {
+                              var12 = this.player.getWorldX() + this.eventEntityOffsetX[var18];
+                              var15 = this.player.getWorldY() + this.eventEntityOffsetY[var18];
+                              this.player.setWorldPosition(var12, var15);
+                              if (this.player.attachedObject != null) {
+                                 this.player.attachedObject.setWorldPosition(var12, var15);
+                              }
+                           } else {
+                              var12 = this.mapManager.C25_f287[this.eventEntityIds[var18]].getWorldX()
+                                    + this.eventEntityOffsetX[var18];
+                              var15 = this.mapManager.C25_f287[this.eventEntityIds[var18]].getWorldY()
+                                    + this.eventEntityOffsetY[var18];
+                              this.mapManager.C25_f287[this.eventEntityIds[var18]].setWorldPosition(var12, var15);
+                              if (this.mapManager.C25_f287[this.eventEntityIds[var18]].attachedObject != null) {
+                                 this.mapManager.C25_f287[this.eventEntityIds[var18]].attachedObject
+                                       .setWorldPosition(var12, var15);
+                              }
+                           }
                         }
                      }
 
-                     var2.setExecutionState((byte)5);
+                     if (var24) {
+                        var2.setExecutionState((byte) 1);
+                     }
                      break label1202;
-                  }
+                  case 30:
+                     if (var2.getExecutionState() != 5) {
+                        this.eventEntityIds = new short[var3.getNumericParameters()[0]];
+                        String[] var23 = GameUtils.splitString(var3.getStringParameters()[2], ',');
 
-                  if (!this.mapManager.gameController.aA()) {
+                        for (var12 = 0; var12 < this.eventEntityIds.length; ++var12) {
+                           this.eventEntityIds[var12] = GameUtils.parseShort(var23[var12]);
+                        }
+
+                        String[][] var21 = new String[this.eventEntityIds.length][];
+                        String[][] var29 = new String[this.eventEntityIds.length][];
+
+                        for (var18 = 0; var18 < var29.length; ++var18) {
+                           var21[var18] = GameUtils
+                                 .splitString(GameUtils.splitString(var3.getStringParameters()[0], '#')[var18], ',');
+                           var29[var18] = GameUtils
+                                 .splitString(GameUtils.splitString(var3.getStringParameters()[1], '#')[var18], ',');
+                        }
+
+                        this.eventEntityPathX = new short[this.eventEntityIds.length][];
+                        this.eventEntityPathY = new short[this.eventEntityIds.length][];
+
+                        for (var18 = 0; var18 < this.eventEntityIds.length; ++var18) {
+                           this.eventEntityPathX[var18] = new short[var21[var18].length];
+                           this.eventEntityPathY[var18] = new short[var29[var18].length];
+
+                           for (var22 = 0; var22 < this.eventEntityPathX[var18].length; ++var22) {
+                              this.eventEntityPathX[var18][var22] = GameUtils.parseShort(var21[var18][var22]);
+                              this.eventEntityPathY[var18][var22] = GameUtils.parseShort(var29[var18][var22]);
+                           }
+                        }
+
+                        this.animationCounter = 0;
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     for (var10 = 0; var10 < this.eventEntityIds.length; ++var10) {
+                        this.mapManager.C25_f287[this.eventEntityIds[var10]].setWorldPosition(
+                              this.eventEntityPathX[var10][this.animationCounter],
+                              this.eventEntityPathY[var10][this.animationCounter]);
+                     }
+
+                     ++this.animationCounter;
+                     if (this.animationCounter < this.eventEntityPathX[0].length) {
+                        break label1202;
+                     }
+                     break;
+                  case 31:
+                     if (var2.getExecutionState() != 5) {
+                        if (var3.getNumericParameters()[0] == 0) {
+                           if (var3.getNumericParameters()[1] == 0) {
+                              this.player.addGold(var3.getNumericParameters()[2]);
+                              this.gameEngine.gameController
+                                    .b("Đạt được: " + var3.getNumericParameters()[2] + " kim tiền");
+                           } else if (var3.getNumericParameters()[1] == 1) {
+                              this.player.addBadges(var3.getNumericParameters()[2]);
+                              this.gameEngine.gameController
+                                    .b("Đạt được: " + var3.getNumericParameters()[2] + "Huy hiệu");
+                           }
+                        } else if (var3.getNumericParameters()[0] == 1) {
+                           if (var3.getNumericParameters()[1] == 0) {
+                              this.player.addGold(-var3.getNumericParameters()[2]);
+                              this.gameEngine.gameController.b("Mất: " + var3.getNumericParameters()[2] + " kim tiền");
+                           } else if (var3.getNumericParameters()[1] == 1) {
+                              this.player.addBadges(-var3.getNumericParameters()[2]);
+                              this.gameEngine.gameController.b("Mất: " + var3.getNumericParameters()[2] + " huy hiệu");
+                           }
+                        }
+
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (!this.mapManager.gameController.aA()) {
+                        break label1202;
+                     }
+                     break;
+                  case 32:
+                     this.mapManager.D();
+                     BattleSystemManager.B().C29_f397 = var3.getNumericParameters()[0];
+                     BattleSystemManager.B().C29_f398 = (byte) var3.getNumericParameters()[1];
+                     this.mapManager.N();
+                     this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
+                     var2.setExecutionState((byte) 1);
+                     GameWorldManager var10000 = this.mapManager;
+                     if ((var14 = GameWorldManager.a(var2.getEventId(), (byte) 1)) != -1) {
+                        this.mapManager.C25_f342.playBackgroundMusic(var14, 1);
+                     } else {
+                        this.mapManager.C25_f342.playBackgroundMusic(4, 1);
+                     }
+
+                     GameScreenManager.getInstance().changeState((byte) 12);
                      break label1202;
-                  }
-                  break;
-               case 32:
-                  this.mapManager.D();
-                  BattleSystemManager.B().C29_f397 = var3.getNumericParameters()[0];
-                  BattleSystemManager.B().C29_f398 = (byte)var3.getNumericParameters()[1];
-                  this.mapManager.N();
-                  this.player.a((byte)0, (byte)this.player.currentDirection);
-                  var2.setExecutionState((byte)1);
-                  GameWorldManager var10000 = this.mapManager;
-                  if ((var14 = GameWorldManager.a(var2.getEventId(), (byte)1)) != -1) {
-                     this.mapManager.C25_f342.playBackgroundMusic(var14, 1);
-                  } else {
-                     this.mapManager.C25_f342.playBackgroundMusic(4, 1);
-                  }
+                  case 33:
+                     if ((questState = (byte) var3.getNumericParameters()[0]) == 2) {
+                        questState = 1;
+                        TileMapRenderer.getInstance().refreshTileset();
+                        var12 = 0;
 
-                  GameScreenManager.getInstance().changeState((byte)12);
-                  break label1202;
-               case 33:
-                  if ((questState = (byte)var3.getNumericParameters()[0]) == 2) {
-                     questState = 1;
+                        while (true) {
+                           if (var12 >= GameWorldManager.B().C25_f287.length) {
+                              break label1202;
+                           }
+
+                           if (this.mapManager.C25_f287[var12].isVisible()) {
+                              this.mapManager.C25_f287[var12].p();
+                           }
+
+                           ++var12;
+                        }
+                     }
+
+                     if (questState != 3) {
+                        break label1202;
+                     }
+
+                     questState = 0;
                      TileMapRenderer.getInstance().refreshTileset();
                      var12 = 0;
 
-                     while(true) {
+                     while (true) {
                         if (var12 >= GameWorldManager.B().C25_f287.length) {
                            break label1202;
                         }
 
                         if (this.mapManager.C25_f287[var12].isVisible()) {
-                           this.mapManager.C25_f287[var12].p();
+                           GameWorldManager.B().C25_f287[var12].p();
                         }
 
                         ++var12;
                      }
-                  }
-
-                  if (questState != 3) {
-                     break label1202;
-                  }
-
-                  questState = 0;
-                  TileMapRenderer.getInstance().refreshTileset();
-                  var12 = 0;
-
-                  while(true) {
-                     if (var12 >= GameWorldManager.B().C25_f287.length) {
+                  case 34:
+                     if (var2.getExecutionState() != 5) {
+                        questEffectImage = GameUtils.loadImage("/data/tex/",
+                              this.questIconNames[var3.getNumericParameters()[0]]);
+                        this.effectImageX = var3.getNumericParameters()[1];
+                        this.effectImageY = var3.getNumericParameters()[2];
+                        this.effectImageDeltaY = var3.getNumericParameters()[3];
+                        this.animationCounter = var3.getNumericParameters()[4];
+                        var2.setExecutionState((byte) 5);
                         break label1202;
                      }
 
-                     if (this.mapManager.C25_f287[var12].isVisible()) {
-                        GameWorldManager.B().C25_f287[var12].p();
-                     }
-
-                     ++var12;
-                  }
-               case 34:
-                  if (var2.getExecutionState() != 5) {
-                     questEffectImage = GameUtils.loadImage("/data/tex/", this.questIconNames[var3.getNumericParameters()[0]]);
-                     this.effectImageX = var3.getNumericParameters()[1];
-                     this.effectImageY = var3.getNumericParameters()[2];
-                     this.effectImageDeltaY = var3.getNumericParameters()[3];
-                     this.animationCounter = var3.getNumericParameters()[4];
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  --this.animationCounter;
-                  this.effectImageY -= this.effectImageDeltaY;
-                  if (this.animationCounter > 0) {
-                     break label1202;
-                  }
-
-                  this.animationCounter = 0;
-                  break;
-               case 35:
-                  if (var2.getExecutionState() == 5) {
-                     int var10001 = this.dialogId;
-                     if ((var12 = this.gameEngine.gameController.c(this.dialogType)) != -1) {
-                        var2.setCurrentCommandIndex((byte)(this.dialogOptions[var12] - 2));
-                        var2.setExecutionState((byte)1);
-                     }
-                     break label1202;
-                  }
-
-                  this.dialogId = var3.getNumericParameters()[0];
-                  this.dialogType = var3.getNumericParameters()[1];
-                  this.dialogTexts = GameUtils.splitString(var3.getStringParameters()[0], ',');
-                  this.dialogOptions = new byte[GameUtils.splitString(var3.getStringParameters()[1], ',').length];
-                  String var11 = var3.getStringParameters()[2];
-
-                  for(var15 = 0; var15 < this.dialogOptions.length; ++var15) {
-                     this.dialogOptions[var15] = GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var15]);
-                  }
-
-                  this.gameEngine.gameController.a(this.dialogType, this.dialogId, this.dialogTexts, var11);
-                  var2.setExecutionState((byte)5);
-                  break label1202;
-               case 36:
-                  if (var2.getExecutionState() != 5) {
-                     var5 = this.player.z();
-                     if (var3.getNumericParameters()[0] == 0) {
-                        if (var5 == 0) {
-                           this.player.a(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (short)-1, (byte)var3.getNumericParameters()[4], (byte)var3.getNumericParameters()[3], (byte)-1, new int[]{1, var3.getNumericParameters()[5], var3.getNumericParameters()[6]});
-                        } else if (var5 == 1) {
-                           this.gameEngine.gameController.b("Ba lô đã đủ, đã để vào ngân hàng");
-                           var19 = PokemonEntity.b(var3.getNumericParameters()[1], var3.getNumericParameters()[2], var3.getNumericParameters()[3]);
-                           this.player.a(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (short)-1, (byte)var3.getNumericParameters()[4], (byte)var3.getNumericParameters()[3], (byte)-1, var19, 0, 0, new int[]{1, var3.getNumericParameters()[5], var3.getNumericParameters()[6]});
-                        } else {
-                           this.gameEngine.gameController.b("Không có không gian, đã phóng sinh");
-                        }
-                     } else if (var3.getNumericParameters()[0] == 1) {
-                        this.player.o(var3.getNumericParameters()[1]);
-                     }
-
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (!this.gameEngine.gameController.aA()) {
-                     break label1202;
-                  }
-                  break;
-               case 37:
-                  BattleSystemManager.B().a(new int[][]{{var3.getNumericParameters()[0], var3.getNumericParameters()[1], var3.getNumericParameters()[2]}});
-                  break label1202;
-               case 38:
-                  isQuestTriggered = false;
-
-                  for(var15 = 0; var15 < GameUtils.splitString(var3.getStringParameters()[0], ',').length; ++var15) {
-                     if (GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]) == GameWorldManager.C25_f318) {
-                        isQuestTriggered = true;
-                        if (isQuestReady) {
-                           GameWorldManager.C25_f318 = -1;
-                           var5 = GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var15]);
-                           var2.setCurrentCommandIndex((byte)(var5 - 1));
-                           GameWorldManager.B().D();
-                           isQuestTriggered = false;
-                           isQuestReady = false;
-                        }
-                        break;
-                     }
-                  }
-
-                  var2.setExecutionState((byte)6);
-                  break label1202;
-               case 39:
-                  var15 = 0;
-
-                  while(true) {
-                     if (var15 >= this.player.C53_f778) {
+                     --this.animationCounter;
+                     this.effectImageY -= this.effectImageDeltaY;
+                     if (this.animationCounter > 0) {
                         break label1202;
                      }
 
-                     this.player.C53_f777[var15].J();
-                     ++var15;
-                  }
-               case 40:
-                  if (var2.getExecutionState() != 5) {
-                     this.gameEngine.gameController.c(var3.getStringParameters()[0]);
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (!this.gameEngine.gameController.aB()) {
-                     break label1202;
-                  }
-                  break;
-               case 41:
-                  var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[0] - 2));
-                  break label1202;
-               case 42:
-                  var2.setExecutionState((byte)4);
-                  break label1202;
-               case 45:
-                  if (var2.getExecutionState() != 5) {
-                     this.gameEngine.gameController.c(var3.getStringParameters()[0]);
-                     questDialogState = (byte)var3.getNumericParameters()[0];
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (!this.gameEngine.gameController.aB()) {
-                     break label1202;
-                  }
-                  break;
-               case 46:
-                  if (var2.getExecutionState() != 5) {
-                     this.gameEngine.gameController.K();
-                     this.gameEngine.gameController.a(var3.getStringParameters()[0]);
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (this.gameEngine.gameController.C9_f131 == 0) {
-                     if (this.gameEngine.isKeyPressed(196640)) {
-                        this.gameEngine.gameController.C9_f131 = 1;
-                        this.gameEngine.gameController.a("Đang lưu...");
-                        this.gameEngine.gameController.M();
-                     } else if (this.gameEngine.isKeyPressed(262144)) {
-                        var2.setExecutionState((byte)1);
-                        this.gameEngine.gameController.L();
-                        this.gameEngine.gameController.C9_f131 = 0;
-                     }
-                     break label1202;
-                  }
-
-                  if (this.gameEngine.gameController.C9_f131 == 1) {
-                     this.questStates[GameWorldManager.e(this.mapManager.C25_f290, this.mapManager.C25_f291)][var2.getEventId()] = 3;
-                     if (((GameWorldManager)this.gameEngine).I()) {
-                        this.gameEngine.gameController.a("Lưu thành công");
-                        this.gameEngine.gameController.C9_f131 = 2;
-                     }
-                     break label1202;
-                  }
-
-                  if (this.gameEngine.gameController.C9_f131 != 2) {
-                     break label1202;
-                  }
-
-                  this.gameEngine.gameController.L();
-                  this.gameEngine.gameController.C9_f131 = 0;
-                  break;
-               case 47:
-                  if (this.selectOption != -1) {
-                     var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[this.selectOption] - 2));
-                  }
-                  break label1202;
-               case 48:
-                  if (var2.getExecutionState() != 5) {
-                     this.dialogManager.a(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
-                     this.dialogManager.a((byte)(var3.getNumericParameters()[0] / 10 - 1), var3.getStringParameters()[0], var3.getNumericParameters()[0] % 10);
-                     if (var3.getNumericParameters()[5] == 1) {
-                        this.dialogManager.a(true);
-                     }
-
-                     this.dialogManager.b(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (!this.dialogManager.e()) {
-                     var2.setExecutionState((byte)1);
-                     break label1202;
-                  }
-
-                  if (!TextRenderingEngine.C39_f608 || !this.gameEngine.isKeyPressed(1) && !this.gameEngine.isPointerClickInBounds(80, 294, 80, 18)) {
-                     break label1202;
-                  }
-
-                  this.dialogManager.b();
-                  if (TextRenderingEngine.C39_f610) {
-                     break label1202;
-                  }
-
-                  ScreenTransitionManager.a().C30_f472 = -1;
-                  this.dialogManager.c();
-                  break;
-               case 49:
-                  if (var2.getExecutionState() == 5) {
-                     if ((var15 = this.gameEngine.gameController.aG()) != -1) {
-                        if (var15 == 0 && var2.getFirstCommand().getNumericParameters()[1] == 1) {
-                           questFlags[questFlagCount][1] = 1;
-                           ++questFlagCount;
+                     this.animationCounter = 0;
+                     break;
+                  case 35:
+                     if (var2.getExecutionState() == 5) {
+                        int var10001 = this.dialogId;
+                        if ((var12 = this.gameEngine.gameController.c(this.dialogType)) != -1) {
+                           var2.setCurrentCommandIndex((byte) (this.dialogOptions[var12] - 2));
+                           var2.setExecutionState((byte) 1);
                         }
-
-                        var2.setCurrentCommandIndex((byte)(this.dialogOptions[var15] - 2));
-                        var2.setExecutionState((byte)1);
+                        break label1202;
                      }
+
+                     this.dialogId = var3.getNumericParameters()[0];
+                     this.dialogType = var3.getNumericParameters()[1];
+                     this.dialogTexts = GameUtils.splitString(var3.getStringParameters()[0], ',');
+                     this.dialogOptions = new byte[GameUtils.splitString(var3.getStringParameters()[1], ',').length];
+                     String var11 = var3.getStringParameters()[2];
+
+                     for (var15 = 0; var15 < this.dialogOptions.length; ++var15) {
+                        this.dialogOptions[var15] = GameUtils
+                              .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var15]);
+                     }
+
+                     this.gameEngine.gameController.a(this.dialogType, this.dialogId, this.dialogTexts, var11);
+                     var2.setExecutionState((byte) 5);
                      break label1202;
-                  }
-
-                  this.dialogOptionIds = new int[2];
-                  this.dialogOptionTypes = new int[2];
-                  this.dialogOptionTexts = new String[2];
-                  this.dialogTexts = new String[2];
-
-                  for(var15 = 0; var15 < 2; ++var15) {
-                     this.dialogOptionIds[var15] = var3.getNumericParameters()[var15 << 1];
-                     this.dialogOptionTypes[var15] = var3.getNumericParameters()[(var15 << 1) + 1];
-                     this.dialogOptionTexts[var15] = var3.getStringParameters()[var15];
-                  }
-
-                  this.dialogOptions = new byte[GameUtils.splitString(var3.getStringParameters()[2], ',').length];
-
-                  for(var15 = 0; var15 < this.dialogOptions.length; ++var15) {
-                     this.dialogOptions[var15] = GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[var15]);
-                     this.dialogTexts[var15] = GameUtils.splitString(var3.getStringParameters()[3], ',')[var15];
-                  }
-
-                  this.gameEngine.gameController.a(this.dialogOptionIds, this.dialogOptionTypes, this.dialogOptionTexts, this.dialogTexts);
-                  var2.setExecutionState((byte)5);
-                  break label1202;
-               case 50:
-                  if (var3.getNumericParameters()[0] == 0) {
-                     this.player.v();
-                  } else {
-                     this.player.u();
-                  }
-                  break label1202;
-               case 51:
-                  this.mapManager.gameController.aE();
-                  this.dialogManager.a(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
-                  this.dialogManager.a((byte)(var3.getNumericParameters()[0] / 10 - 1), var3.getStringParameters()[0], var3.getNumericParameters()[0] % 10);
-                  this.dialogManager.b(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
-                  break label1202;
-               case 52:
-                  if (var3.getNumericParameters()[0] == 0) {
-                     this.isPlayerControl = true;
-                  } else {
-                     this.isPlayerControl = false;
-                  }
-
-                  if (var3.getNumericParameters()[1] == 0) {
-                     isMapControl = true;
-                  } else {
-                     isMapControl = false;
-                  }
-                  break label1202;
-               case 53:
-                  if (var2.getExecutionState() != 5) {
-                     if (var3.getNumericParameters()[1] == 0) {
-                        this.player.b((byte)((byte)var3.getNumericParameters()[0]), (byte)((byte)var3.getNumericParameters()[1]), (byte)2);
-
-                        for(var15 = 0; var15 < GameWorldManager.B().C25_f287.length; ++var15) {
-                           if (GameWorldManager.B().C25_f287[var15].C18_f223 == 0 && GameWorldManager.B().C25_f287[var15].C18_f225 == 1) {
-                              GameWorldManager.B().C25_f287[var15].w();
+                  case 36:
+                     if (var2.getExecutionState() != 5) {
+                        var5 = this.player.getStorageStatus();
+                        if (var3.getNumericParameters()[0] == 0) {
+                           if (var5 == 0) {
+                              this.player.createPokemon(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (short) -1,
+                                    (byte) var3.getNumericParameters()[4], (byte) var3.getNumericParameters()[3],
+                                    (byte) -1,
+                                    new int[] { 1, var3.getNumericParameters()[5], var3.getNumericParameters()[6] });
+                           } else if (var5 == 1) {
+                              this.gameEngine.gameController.b("Ba lô đã đủ, đã để vào ngân hàng");
+                              var19 = PokemonEntity.calculateMaxHp(var3.getNumericParameters()[1], var3.getNumericParameters()[2],
+                                    var3.getNumericParameters()[3]);
+                              this.player.addPokemonToStorage(var3.getNumericParameters()[1], var3.getNumericParameters()[2], (short) -1,
+                                    (byte) var3.getNumericParameters()[4], (byte) var3.getNumericParameters()[3],
+                                    (byte) -1, var19, 0, 0,
+                                    new int[] { 1, var3.getNumericParameters()[5], var3.getNumericParameters()[6] });
+                           } else {
+                              this.gameEngine.gameController.b("Không có không gian, đã phóng sinh");
                            }
+                        } else if (var3.getNumericParameters()[0] == 1) {
+                           this.player.removePokemonById(var3.getNumericParameters()[1]);
                         }
-                     } else if (var3.getNumericParameters()[1] == 1) {
-                        this.player.b((byte)((byte)var3.getNumericParameters()[0]), (byte)((byte)var3.getNumericParameters()[1]), (byte)1);
+
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
                      }
 
-                     this.gameEngine.gameController.a(var3.getNumericParameters()[0]);
-                     var2.setExecutionState((byte)5);
+                     if (!this.gameEngine.gameController.aA()) {
+                        break label1202;
+                     }
+                     break;
+                  case 37:
+                     BattleSystemManager.B().a(new int[][] { { var3.getNumericParameters()[0],
+                           var3.getNumericParameters()[1], var3.getNumericParameters()[2] } });
                      break label1202;
-                  }
+                  case 38:
+                     isQuestTriggered = false;
 
-                  if (!this.mapManager.isKeyPressed(65537) && !this.gameEngine.isPointerClickInBounds(94, 200, 60, 18)) {
-                     break label1202;
-                  }
-
-                  this.gameEngine.gameController.Y();
-                  break;
-               case 54:
-                  int[][] var26 = new int[var19 = var3.getNumericParameters()[0]][3];
-
-                  for(var22 = 0; var22 < var19; ++var22) {
-                     var26[var22][0] = GameUtils.parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var22]);
-                     var26[var22][1] = GameUtils.parseInt(GameUtils.splitString(var3.getStringParameters()[1], ',')[var22]);
-                     var26[var22][2] = GameUtils.parseInt(GameUtils.splitString(var3.getStringParameters()[2], ',')[var22]);
-                  }
-
-                  BattleSystemManager.B().a(var26);
-                  break label1202;
-               case 55:
-                  if (var3.getNumericParameters()[0] == 0) {
-                     if (this.questSpecialObject == null) {
-                        this.questSpecialObject = new GameObject();
-                        this.questSpecialObject.loadSpriteSet(340, false);
-                        this.questSpecialObject.activate();
-                        this.questSpecialObjectId = GameWorldManager.e(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
+                     for (var15 = 0; var15 < GameUtils.splitString(var3.getStringParameters()[0],
+                           ',').length; ++var15) {
+                        if (GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[0],
+                              ',')[var15]) == GameWorldManager.C25_f318) {
+                           isQuestTriggered = true;
+                           if (isQuestReady) {
+                              GameWorldManager.C25_f318 = -1;
+                              var5 = GameUtils
+                                    .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var15]);
+                              var2.setCurrentCommandIndex((byte) (var5 - 1));
+                              GameWorldManager.B().D();
+                              isQuestTriggered = false;
+                              isQuestReady = false;
+                           }
+                           break;
+                        }
                      }
 
-                     this.questSpecialObject.setWorldPosition(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
-                  } else if (var3.getNumericParameters()[0] == 1 && this.questSpecialObject != null) {
-                     this.questSpecialObject.deactivate();
-                     this.questSpecialObject = null;
-                     this.questSpecialObjectId = -1;
-                  }
-                  break label1202;
-               case 56:
-                  var19 = var3.getNumericParameters()[1];
-                  short var25;
-                  if (var3.getNumericParameters()[0] == 0) {
+                     var2.setExecutionState((byte) 6);
+                     break label1202;
+                  case 39:
+                     var15 = 0;
+
+                     while (true) {
+                        if (var15 >= this.player.partySize) {
+                           break label1202;
+                        }
+
+                        this.player.partyPokemon[var15].fullRestore();
+                        ++var15;
+                     }
+                  case 40:
+                     if (var2.getExecutionState() != 5) {
+                        this.gameEngine.gameController.c(var3.getStringParameters()[0]);
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (!this.gameEngine.gameController.aB()) {
+                        break label1202;
+                     }
+                     break;
+                  case 41:
+                     var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[0] - 2));
+                     break label1202;
+                  case 42:
+                     var2.setExecutionState((byte) 4);
+                     break label1202;
+                  case 45:
+                     if (var2.getExecutionState() != 5) {
+                        this.gameEngine.gameController.c(var3.getStringParameters()[0]);
+                        questDialogState = (byte) var3.getNumericParameters()[0];
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (!this.gameEngine.gameController.aB()) {
+                        break label1202;
+                     }
+                     break;
+                  case 46:
+                     if (var2.getExecutionState() != 5) {
+                        this.gameEngine.gameController.K();
+                        this.gameEngine.gameController.a(var3.getStringParameters()[0]);
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (this.gameEngine.gameController.C9_f131 == 0) {
+                        if (this.gameEngine.isKeyPressed(196640)) {
+                           this.gameEngine.gameController.C9_f131 = 1;
+                           this.gameEngine.gameController.a("Đang lưu...");
+                           this.gameEngine.gameController.M();
+                        } else if (this.gameEngine.isKeyPressed(262144)) {
+                           var2.setExecutionState((byte) 1);
+                           this.gameEngine.gameController.L();
+                           this.gameEngine.gameController.C9_f131 = 0;
+                        }
+                        break label1202;
+                     }
+
+                     if (this.gameEngine.gameController.C9_f131 == 1) {
+                        this.questStates[GameWorldManager.e(this.mapManager.C25_f290, this.mapManager.C25_f291)][var2
+                              .getEventId()] = 3;
+                        if (((GameWorldManager) this.gameEngine).I()) {
+                           this.gameEngine.gameController.a("Lưu thành công");
+                           this.gameEngine.gameController.C9_f131 = 2;
+                        }
+                        break label1202;
+                     }
+
+                     if (this.gameEngine.gameController.C9_f131 != 2) {
+                        break label1202;
+                     }
+
+                     this.gameEngine.gameController.L();
+                     this.gameEngine.gameController.C9_f131 = 0;
+                     break;
+                  case 47:
+                     if (this.selectOption != -1) {
+                        var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[this.selectOption] - 2));
+                     }
+                     break label1202;
+                  case 48:
+                     if (var2.getExecutionState() != 5) {
+                        this.dialogManager.a(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
+                        this.dialogManager.a((byte) (var3.getNumericParameters()[0] / 10 - 1),
+                              var3.getStringParameters()[0], var3.getNumericParameters()[0] % 10);
+                        if (var3.getNumericParameters()[5] == 1) {
+                           this.dialogManager.a(true);
+                        }
+
+                        this.dialogManager.b(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (!this.dialogManager.e()) {
+                        var2.setExecutionState((byte) 1);
+                        break label1202;
+                     }
+
+                     if (!TextRenderingEngine.C39_f608 || !this.gameEngine.isKeyPressed(1)
+                           && !this.gameEngine.isPointerClickInBounds(80, 294, 80, 18)) {
+                        break label1202;
+                     }
+
+                     this.dialogManager.b();
+                     if (TextRenderingEngine.C39_f610) {
+                        break label1202;
+                     }
+
+                     ScreenTransitionManager.a().C30_f472 = -1;
+                     this.dialogManager.c();
+                     break;
+                  case 49:
+                     if (var2.getExecutionState() == 5) {
+                        if ((var15 = this.gameEngine.gameController.aG()) != -1) {
+                           if (var15 == 0 && var2.getFirstCommand().getNumericParameters()[1] == 1) {
+                              questFlags[questFlagCount][1] = 1;
+                              ++questFlagCount;
+                           }
+
+                           var2.setCurrentCommandIndex((byte) (this.dialogOptions[var15] - 2));
+                           var2.setExecutionState((byte) 1);
+                        }
+                        break label1202;
+                     }
+
+                     this.dialogOptionIds = new int[2];
+                     this.dialogOptionTypes = new int[2];
+                     this.dialogOptionTexts = new String[2];
+                     this.dialogTexts = new String[2];
+
+                     for (var15 = 0; var15 < 2; ++var15) {
+                        this.dialogOptionIds[var15] = var3.getNumericParameters()[var15 << 1];
+                        this.dialogOptionTypes[var15] = var3.getNumericParameters()[(var15 << 1) + 1];
+                        this.dialogOptionTexts[var15] = var3.getStringParameters()[var15];
+                     }
+
+                     this.dialogOptions = new byte[GameUtils.splitString(var3.getStringParameters()[2], ',').length];
+
+                     for (var15 = 0; var15 < this.dialogOptions.length; ++var15) {
+                        this.dialogOptions[var15] = GameUtils
+                              .parseByte(GameUtils.splitString(var3.getStringParameters()[2], ',')[var15]);
+                        this.dialogTexts[var15] = GameUtils.splitString(var3.getStringParameters()[3], ',')[var15];
+                     }
+
+                     this.gameEngine.gameController.a(this.dialogOptionIds, this.dialogOptionTypes,
+                           this.dialogOptionTexts, this.dialogTexts);
+                     var2.setExecutionState((byte) 5);
+                     break label1202;
+                  case 50:
+                     if (var3.getNumericParameters()[0] == 0) {
+                        this.player.unequipSpecialOutfit();
+                     } else {
+                        this.player.equipSpecialOutfit();
+                     }
+                     break label1202;
+                  case 51:
+                     this.mapManager.gameController.aE();
+                     this.dialogManager.a(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
+                     this.dialogManager.a((byte) (var3.getNumericParameters()[0] / 10 - 1),
+                           var3.getStringParameters()[0], var3.getNumericParameters()[0] % 10);
+                     this.dialogManager.b(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
+                     break label1202;
+                  case 52:
+                     if (var3.getNumericParameters()[0] == 0) {
+                        this.isPlayerControl = true;
+                     } else {
+                        this.isPlayerControl = false;
+                     }
+
+                     if (var3.getNumericParameters()[1] == 0) {
+                        isMapControl = true;
+                     } else {
+                        isMapControl = false;
+                     }
+                     break label1202;
+                  case 53:
+                     if (var2.getExecutionState() != 5) {
+                        if (var3.getNumericParameters()[1] == 0) {
+                           this.player.setBadgeState((byte) ((byte) var3.getNumericParameters()[0]),
+                                 (byte) ((byte) var3.getNumericParameters()[1]), (byte) 2);
+
+                           for (var15 = 0; var15 < GameWorldManager.B().C25_f287.length; ++var15) {
+                              if (GameWorldManager.B().C25_f287[var15].C18_f223 == 0
+                                    && GameWorldManager.B().C25_f287[var15].C18_f225 == 1) {
+                                 GameWorldManager.B().C25_f287[var15].w();
+                              }
+                           }
+                        } else if (var3.getNumericParameters()[1] == 1) {
+                           this.player.setBadgeState((byte) ((byte) var3.getNumericParameters()[0]),
+                                 (byte) ((byte) var3.getNumericParameters()[1]), (byte) 1);
+                        }
+
+                        this.gameEngine.gameController.a(var3.getNumericParameters()[0]);
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (!this.mapManager.isKeyPressed(65537)
+                           && !this.gameEngine.isPointerClickInBounds(94, 200, 60, 18)) {
+                        break label1202;
+                     }
+
+                     this.gameEngine.gameController.Y();
+                     break;
+                  case 54:
+                     int[][] var26 = new int[var19 = var3.getNumericParameters()[0]][3];
+
+                     for (var22 = 0; var22 < var19; ++var22) {
+                        var26[var22][0] = GameUtils
+                              .parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var22]);
+                        var26[var22][1] = GameUtils
+                              .parseInt(GameUtils.splitString(var3.getStringParameters()[1], ',')[var22]);
+                        var26[var22][2] = GameUtils
+                              .parseInt(GameUtils.splitString(var3.getStringParameters()[2], ',')[var22]);
+                     }
+
+                     BattleSystemManager.B().a(var26);
+                     break label1202;
+                  case 55:
+                     if (var3.getNumericParameters()[0] == 0) {
+                        if (this.questSpecialObject == null) {
+                           this.questSpecialObject = new GameObject();
+                           this.questSpecialObject.loadSpriteSet(340, false);
+                           this.questSpecialObject.activate();
+                           this.questSpecialObjectId = GameWorldManager.e(var3.getNumericParameters()[3],
+                                 var3.getNumericParameters()[4]);
+                        }
+
+                        this.questSpecialObject.setWorldPosition(var3.getNumericParameters()[1],
+                              var3.getNumericParameters()[2]);
+                     } else if (var3.getNumericParameters()[0] == 1 && this.questSpecialObject != null) {
+                        this.questSpecialObject.deactivate();
+                        this.questSpecialObject = null;
+                        this.questSpecialObjectId = -1;
+                     }
+                     break label1202;
+                  case 56:
+                     var19 = var3.getNumericParameters()[1];
+                     short var25;
+                     if (var3.getNumericParameters()[0] == 0) {
+                        var18 = 0;
+
+                        while (true) {
+                           if (var18 >= var19) {
+                              break label1202;
+                           }
+
+                           var25 = GameUtils
+                                 .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var18]);
+                           var14 = GameUtils
+                                 .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var18]);
+                           this.mapManager.C25_f287[var25].setCurrentDirection(var14);
+                           if (this.mapManager.C25_f287[var25].C18_f225 == 1) {
+                              this.mapManager.C25_f287[var25].a((byte) 0);
+                           }
+
+                           this.mapManager.C25_f287[var25].activate();
+                           this.mapManager.a(var25, 1, (byte) 1, true);
+                           this.mapManager.a(var25, 2, var14, true);
+                           this.mapManager.C25_f287[var25].t();
+                           ++var18;
+                        }
+                     }
+
+                     if (var3.getNumericParameters()[0] != 1) {
+                        break label1202;
+                     }
+
                      var18 = 0;
 
-                     while(true) {
+                     while (true) {
                         if (var18 >= var19) {
                            break label1202;
                         }
 
                         var25 = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var18]);
-                        var14 = GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var18]);
-                        this.mapManager.C25_f287[var25].setCurrentDirection(var14);
                         if (this.mapManager.C25_f287[var25].C18_f225 == 1) {
-                           this.mapManager.C25_f287[var25].a((byte)0);
+                           this.mapManager.C25_f287[var25].a((byte) 0);
                         }
 
-                        this.mapManager.C25_f287[var25].activate();
-                        this.mapManager.a(var25, 1, (byte)1, true);
-                        this.mapManager.a(var25, 2, var14, true);
+                        this.mapManager.C25_f287[var25].deactivate();
+                        this.mapManager.a(var25, 1, (byte) 0, true);
                         this.mapManager.C25_f287[var25].t();
                         ++var18;
                      }
-                  }
-
-                  if (var3.getNumericParameters()[0] != 1) {
+                  case 58:
+                     if (((NPCEntity) this.player.followTarget).getFacingDirection() == 1
+                           && ((NPCEntity) this.player.followTarget).sprite.isAtLastFrame()) {
+                        ((NPCEntity) this.player.followTarget).a((byte) 0);
+                        this.mapManager.C25_f287[var3.getNumericParameters()[0]]
+                              .setWorldPosition(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
+                        if ((NPCEntity) this.mapManager.C25_f287[var3.getNumericParameters()[0]].followTarget != null) {
+                           ((NPCEntity) this.mapManager.C25_f287[var3.getNumericParameters()[0]].followTarget).s();
+                           this.mapManager.C25_f287[var3.getNumericParameters()[0]].setFollowTarget((GameEntity) null);
+                        }
+                     }
                      break label1202;
-                  }
+                  case 60:
+                     if (var2.getExecutionState() != 5) {
+                        this.eventEntityIds = new short[var3.getNumericParameters()[0]];
 
-                  var18 = 0;
+                        for (var15 = 0; var15 < this.eventEntityIds.length; ++var15) {
+                           this.eventEntityIds[var15] = GameUtils
+                                 .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]);
+                           this.mapManager.C25_f287[this.eventEntityIds[var15]].a(
+                                 GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var15]));
+                           if (this.mapManager.C25_f287[this.eventEntityIds[var15]].C18_f223 == 0
+                                 && this.mapManager.C25_f287[this.eventEntityIds[var15]].C18_f225 == 6
+                                 && this.mapManager.C25_f287[this.eventEntityIds[var15]].getFacingDirection() == 2) {
+                              short var10002 = this.eventEntityIds[var15];
+                              GameWorldManager.B().C25_f285
+                                    .moveEntityToForeground(GameWorldManager.B().C25_f287[var10002], 2);
+                           }
+                        }
 
-                  while(true) {
-                     if (var18 >= var19) {
+                        this.animationCounter = 0;
+                        var2.setExecutionState((byte) 5);
                         break label1202;
                      }
 
-                     var25 = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var18]);
-                     if (this.mapManager.C25_f287[var25].C18_f225 == 1) {
-                        this.mapManager.C25_f287[var25].a((byte)0);
-                     }
-
-                     this.mapManager.C25_f287[var25].deactivate();
-                     this.mapManager.a(var25, 1, (byte)0, true);
-                     this.mapManager.C25_f287[var25].t();
-                     ++var18;
-                  }
-               case 58:
-                  if (((NPCEntity)this.player.followTarget).getFacingDirection() == 1 && ((NPCEntity)this.player.followTarget).sprite.isAtLastFrame()) {
-                     ((NPCEntity)this.player.followTarget).a((byte)0);
-                     this.mapManager.C25_f287[var3.getNumericParameters()[0]].setWorldPosition(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
-                     if ((NPCEntity)this.mapManager.C25_f287[var3.getNumericParameters()[0]].followTarget != null) {
-                        ((NPCEntity)this.mapManager.C25_f287[var3.getNumericParameters()[0]].followTarget).s();
-                        this.mapManager.C25_f287[var3.getNumericParameters()[0]].setFollowTarget((GameEntity)null);
-                     }
-                  }
-                  break label1202;
-               case 60:
-                  if (var2.getExecutionState() != 5) {
-                     this.eventEntityIds = new short[var3.getNumericParameters()[0]];
-
-                     for(var15 = 0; var15 < this.eventEntityIds.length; ++var15) {
-                        this.eventEntityIds[var15] = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]);
-                        this.mapManager.C25_f287[this.eventEntityIds[var15]].a(GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var15]));
-                        if (this.mapManager.C25_f287[this.eventEntityIds[var15]].C18_f223 == 0 && this.mapManager.C25_f287[this.eventEntityIds[var15]].C18_f225 == 6 && this.mapManager.C25_f287[this.eventEntityIds[var15]].getFacingDirection() == 2) {
-                           short var10002 = this.eventEntityIds[var15];
-                           GameWorldManager.B().C25_f285.moveEntityToForeground(GameWorldManager.B().C25_f287[var10002], 2);
+                     for (var15 = 0; var15 < this.eventEntityIds.length; ++var15) {
+                        if (this.mapManager.C25_f287[this.eventEntityIds[var15]].isAnimationComplete()) {
+                           ++this.animationCounter;
                         }
+                     }
+
+                     if (this.animationCounter < this.eventEntityIds.length) {
+                        break label1202;
                      }
 
                      this.animationCounter = 0;
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
+                     break;
+                  case 62:
+                     int[] var13 = new int[GameUtils.splitString(var3.getStringParameters()[0], ',').length];
+                     var22 = -1;
+                     var2.setExecutionState((byte) 6);
 
-                  for(var15 = 0; var15 < this.eventEntityIds.length; ++var15) {
-                     if (this.mapManager.C25_f287[this.eventEntityIds[var15]].isAnimationComplete()) {
-                        ++this.animationCounter;
-                     }
-                  }
-
-                  if (this.animationCounter < this.eventEntityIds.length) {
-                     break label1202;
-                  }
-
-                  this.animationCounter = 0;
-                  break;
-               case 62:
-                  int[] var13 = new int[GameUtils.splitString(var3.getStringParameters()[0], ',').length];
-                  var22 = -1;
-                  var2.setExecutionState((byte)6);
-
-                  for(var18 = 0; var18 < var13.length; ++var18) {
-                     var13[var18] = GameUtils.parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var18]);
-                     if (this.mapManager.C25_f287[var13[var18]].getFacingDirection() == 2) {
-                        var22 = var13[var18];
-                        break;
-                     }
-                  }
-
-                  if (var22 < 0) {
-                     break label1202;
-                  }
-
-                  if (var22 == var3.getNumericParameters()[0]) {
-                     var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[1] - 2));
-                     var2.setExecutionState((byte)1);
-                     break label1202;
-                  }
-
-                  var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[2] - 2));
-                  break;
-               case 63:
-                  if (var3.getNumericParameters()[0] == 0) {
-                     this.player.h(var3.getNumericParameters()[1]);
-                  } else {
-                     this.player.t();
-                  }
-
-                  this.isEventVisible = var3.getNumericParameters()[2] != 0;
-                  break label1202;
-               case 64:
-                  if (var3.getNumericParameters()[0] == 0) {
-                     this.mapManager.l(var3.getNumericParameters()[1]);
-                     if (var3.getNumericParameters()[2] == -1) {
-                        this.mapManager.a((GameObject)this.player);
-                     } else {
-                        this.mapManager.a((GameObject)this.mapManager.C25_f287[var3.getNumericParameters()[2]]);
-                     }
-                  } else {
-                     this.mapManager.E();
-                  }
-                  break label1202;
-               case 65:
-                  if (var2.getExecutionState() != 5 && !paymentActive) {
-                     this.gameEngine.changeState((byte)100);
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (paymentActive) {
-                     var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[0] - 2));
-                  } else {
-                     var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[1] - 2));
-                  }
-                  break;
-               case 66:
-                  GameEngineBase.actionType = (byte)var3.getNumericParameters()[0];
-                  GameEngineBase.b(0, 3);
-                  break label1202;
-               case 67:
-                  GameWorldManager.C25_f319 = var3.getNumericParameters()[0];
-                  break label1202;
-               case 70:
-                  if (var2.getExecutionState() != 5) {
-                     isChangingState = false;
-                     this.questChangeState = var3.getNumericParameters()[0];
-                     switch(var3.getNumericParameters()[0]) {
-                     case 0:
-                     case 1:
-                        this.mapManager.changeState((byte)1);
-                        break;
-                     case 2:
-                        this.mapManager.changeState((byte)16);
+                     for (var18 = 0; var18 < var13.length; ++var18) {
+                        var13[var18] = GameUtils
+                              .parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var18]);
+                        if (this.mapManager.C25_f287[var13[var18]].getFacingDirection() == 2) {
+                           var22 = var13[var18];
+                           break;
+                        }
                      }
 
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (!isChangingState) {
-                     break label1202;
-                  }
-
-                  this.questChangeState = -1;
-                  break;
-               case 71:
-                  if (this.player.C53_f783 >= var3.getNumericParameters()[0]) {
-                     var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[1] - 2));
-                  } else {
-                     var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[2] - 2));
-                  }
-                  break label1202;
-               case 72:
-                  String[] var6 = GameUtils.splitString(var3.getStringParameters()[0], ',');
-                  String[] var17 = GameUtils.splitString(var3.getStringParameters()[1], ',');
-                  GameObject[] var20 = new GameObject[var6.length];
-                  var10 = 0;
-
-                  while(true) {
-                     if (var10 >= var6.length) {
+                     if (var22 < 0) {
                         break label1202;
                      }
 
-                     var20[var10] = new GameObject();
-                     var20[var10].loadSpriteSet(259, false);
-                     var20[var10].applyColorEffects();
-                     if (GameUtils.parseInt(var6[var10]) == -1) {
-                        var20[var10].setAnimation(GameUtils.parseByte(var17[var10]), (byte)-1, true);
-                        var20[var10].activate();
-                        var20[var10].setWorldPosition(this.player.getWorldX(), this.player.getWorldY() - 40);
-                        var20[var10].setFollowTarget(this.player);
-                     } else {
-                        var20[var10].setAnimation(GameUtils.parseByte(var17[var10]), (byte)-1, true);
-                        var20[var10].activate();
-                        var20[var10].setWorldPosition(this.mapManager.C25_f287[GameUtils.parseInt(var6[var10])].getWorldX(), this.mapManager.C25_f287[GameUtils.parseInt(var6[var10])].getWorldY() - 40);
-                        var20[var10].setFollowTarget(this.mapManager.C25_f287[GameUtils.parseInt(var6[var10])]);
+                     if (var22 == var3.getNumericParameters()[0]) {
+                        var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[1] - 2));
+                        var2.setExecutionState((byte) 1);
+                        break label1202;
                      }
 
-                     effectObjects.addElement(var20[var10]);
-                     ++var10;
-                  }
-               case 74:
-                  if (((int[])this.player.C53_f788.elementAt(0))[1] > 0) {
-                     var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[0] - 2));
-                  } else {
-                     var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[1] - 2));
-                  }
-                  break label1202;
-               case 76:
-                  this.questStates[GameWorldManager.C25_f297[this.mapManager.C25_f290] + this.mapManager.C25_f291][var2.getEventId()] = 3;
-                  GameWorldManager.B().C25_f290 = var3.getNumericParameters()[0];
-                  GameWorldManager.B().C25_f291 = var3.getNumericParameters()[1];
-                  GameWorldManager.B().C25_f295 = -1;
-                  this.mapManager.changeState((byte)29);
-                  break label1202;
-               case 77:
-                  this.questStates[GameWorldManager.e(var3.getNumericParameters()[0], var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] = 4;
-                  if (var3.getNumericParameters()[0] == this.mapManager.C25_f290 && var3.getNumericParameters()[1] == this.mapManager.C25_f291) {
-                     this.eventScripts[var3.getNumericParameters()[2]].setExecutionState((byte)4);
-                  }
-                  break label1202;
-               case 80:
-                  if (var2.getExecutionState() != 5) {
+                     var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[2] - 2));
+                     break;
+                  case 63:
                      if (var3.getNumericParameters()[0] == 0) {
-                        this.animationCounter = 0;
-                        this.questEffectCounter = 4;
-                     } else if (var3.getNumericParameters()[0] == 1) {
-                        GameScreenManager.getInstance().battleStartTime = GameScreenManager.getInstance().pauseStartTime;
-                        long var16;
-                        if (GameUtils.convertTime(var16 = GameScreenManager.getInstance().battleStartTime - GameScreenManager.getInstance().gameStartTime)[2] <= 60L) {
-                           if ((var14 = this.player.z()) == 0) {
-                              this.gameEngine.gameController.b("Đạt được #2Lục hành điểu");
-                              this.player.a(54, 5, (short)-1, (byte)2, (short)-1, (byte)-1, new int[]{1, 30, 45});
-                           } else if (var14 == 1) {
-                              this.gameEngine.gameController.b("Đạt được #2Lục hành điểu#0 ba lô đã đủ, đã để vào ngân hàng");
-                              var10 = GameUtils.getRandomInRange(ResourceManager.gameDatabase[0][54][3], ResourceManager.gameDatabase[0][54][3]);
-                              this.player.a(54, 5, (short)-1, (byte)2, (byte)var10, (byte)-1, 0, 0, 0, new int[]{1, 30, 45});
-                           } else {
-                              this.gameEngine.gameController.b("Không có không gian, đã phóng sinh");
+                        this.player.activateVehicle(var3.getNumericParameters()[1]);
+                     } else {
+                        this.player.resetToDefaultSprite();
+                     }
+
+                     this.isEventVisible = var3.getNumericParameters()[2] != 0;
+                     break label1202;
+                  case 64:
+                     if (var3.getNumericParameters()[0] == 0) {
+                        this.mapManager.l(var3.getNumericParameters()[1]);
+                        if (var3.getNumericParameters()[2] == -1) {
+                           this.mapManager.a((GameObject) this.player);
+                        } else {
+                           this.mapManager.a((GameObject) this.mapManager.C25_f287[var3.getNumericParameters()[2]]);
+                        }
+                     } else {
+                        this.mapManager.E();
+                     }
+                     break label1202;
+                  case 65:
+                     if (var2.getExecutionState() != 5 && !paymentActive) {
+                        this.gameEngine.changeState((byte) 100);
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (paymentActive) {
+                        var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[0] - 2));
+                     } else {
+                        var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[1] - 2));
+                     }
+                     break;
+                  case 66:
+                     GameEngineBase.actionType = (byte) var3.getNumericParameters()[0];
+                     GameEngineBase.setActionData(0, 3);
+                     break label1202;
+                  case 67:
+                     GameWorldManager.C25_f319 = var3.getNumericParameters()[0];
+                     break label1202;
+                  case 70:
+                     if (var2.getExecutionState() != 5) {
+                        isChangingState = false;
+                        this.questChangeState = var3.getNumericParameters()[0];
+                        switch (var3.getNumericParameters()[0]) {
+                           case 0:
+                           case 1:
+                              this.mapManager.changeState((byte) 1);
+                              break;
+                           case 2:
+                              this.mapManager.changeState((byte) 16);
+                        }
+
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (!isChangingState) {
+                        break label1202;
+                     }
+
+                     this.questChangeState = -1;
+                     break;
+                  case 71:
+                     if (this.player.totalCreaturesSeen >= var3.getNumericParameters()[0]) {
+                        var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[1] - 2));
+                     } else {
+                        var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[2] - 2));
+                     }
+                     break label1202;
+                  case 72:
+                     String[] var6 = GameUtils.splitString(var3.getStringParameters()[0], ',');
+                     String[] var17 = GameUtils.splitString(var3.getStringParameters()[1], ',');
+                     GameObject[] var20 = new GameObject[var6.length];
+                     var10 = 0;
+
+                     while (true) {
+                        if (var10 >= var6.length) {
+                           break label1202;
+                        }
+
+                        var20[var10] = new GameObject();
+                        var20[var10].loadSpriteSet(259, false);
+                        var20[var10].applyColorEffects();
+                        if (GameUtils.parseInt(var6[var10]) == -1) {
+                           var20[var10].setAnimation(GameUtils.parseByte(var17[var10]), (byte) -1, true);
+                           var20[var10].activate();
+                           var20[var10].setWorldPosition(this.player.getWorldX(), this.player.getWorldY() - 40);
+                           var20[var10].setFollowTarget(this.player);
+                        } else {
+                           var20[var10].setAnimation(GameUtils.parseByte(var17[var10]), (byte) -1, true);
+                           var20[var10].activate();
+                           var20[var10].setWorldPosition(
+                                 this.mapManager.C25_f287[GameUtils.parseInt(var6[var10])].getWorldX(),
+                                 this.mapManager.C25_f287[GameUtils.parseInt(var6[var10])].getWorldY() - 40);
+                           var20[var10].setFollowTarget(this.mapManager.C25_f287[GameUtils.parseInt(var6[var10])]);
+                        }
+
+                        effectObjects.addElement(var20[var10]);
+                        ++var10;
+                     }
+                  case 74:
+                     if (((int[]) this.player.consumableInventory.elementAt(0))[1] > 0) {
+                        var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[0] - 2));
+                     } else {
+                        var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[1] - 2));
+                     }
+                     break label1202;
+                  case 76:
+                     this.questStates[GameWorldManager.C25_f297[this.mapManager.C25_f290]
+                           + this.mapManager.C25_f291][var2.getEventId()] = 3;
+                     GameWorldManager.B().C25_f290 = var3.getNumericParameters()[0];
+                     GameWorldManager.B().C25_f291 = var3.getNumericParameters()[1];
+                     GameWorldManager.B().C25_f295 = -1;
+                     this.mapManager.changeState((byte) 29);
+                     break label1202;
+                  case 77:
+                     this.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                           var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] = 4;
+                     if (var3.getNumericParameters()[0] == this.mapManager.C25_f290
+                           && var3.getNumericParameters()[1] == this.mapManager.C25_f291) {
+                        this.eventScripts[var3.getNumericParameters()[2]].setExecutionState((byte) 4);
+                     }
+                     break label1202;
+                  case 80:
+                     if (var2.getExecutionState() != 5) {
+                        if (var3.getNumericParameters()[0] == 0) {
+                           this.animationCounter = 0;
+                           this.questEffectCounter = 4;
+                        } else if (var3.getNumericParameters()[0] == 1) {
+                           GameScreenManager.getInstance().battleStartTime = GameScreenManager
+                                 .getInstance().pauseStartTime;
+                           long var16;
+                           if (GameUtils.convertTime(var16 = GameScreenManager.getInstance().battleStartTime
+                                 - GameScreenManager.getInstance().gameStartTime)[2] <= 60L) {
+                              if ((var14 = this.player.getStorageStatus()) == 0) {
+                                 this.gameEngine.gameController.b("Đạt được #2Lục hành điểu");
+                                 this.player.createPokemon(54, 5, (short) -1, (byte) 2, (short) -1, (byte) -1,
+                                       new int[] { 1, 30, 45 });
+                              } else if (var14 == 1) {
+                                 this.gameEngine.gameController
+                                       .b("Đạt được #2Lục hành điểu#0 ba lô đã đủ, đã để vào ngân hàng");
+                                 var10 = GameUtils.getRandomInRange(ResourceManager.gameDatabase[0][54][3],
+                                       ResourceManager.gameDatabase[0][54][3]);
+                                 this.player.addPokemonToStorage(54, 5, (short) -1, (byte) 2, (byte) var10, (byte) -1, 0, 0, 0,
+                                       new int[] { 1, 30, 45 });
+                              } else {
+                                 this.gameEngine.gameController.b("Không có không gian, đã phóng sinh");
+                              }
+                           } else if (GameUtils.convertTime(var16)[2] <= 65L) {
+                              this.player.addGold(1000);
+                              this.gameEngine.gameController.b("Thưởng 1000 kim");
+                           } else if (GameUtils.convertTime(var16)[2] <= 130L) {
+                              this.player.addGold(750);
+                              this.gameEngine.gameController.b("Thưởng 750 kim");
+                           } else if (GameUtils.convertTime(var16)[2] <= 200L) {
+                              this.player.addGold(600);
+                              this.gameEngine.gameController.b("Thưởng 600 kim");
                            }
-                        } else if (GameUtils.convertTime(var16)[2] <= 65L) {
-                           this.player.s(1000);
-                           this.gameEngine.gameController.b("Thưởng 1000 kim");
-                        } else if (GameUtils.convertTime(var16)[2] <= 130L) {
-                           this.player.s(750);
-                           this.gameEngine.gameController.b("Thưởng 750 kim");
-                        } else if (GameUtils.convertTime(var16)[2] <= 200L) {
-                           this.player.s(600);
-                           this.gameEngine.gameController.b("Thưởng 600 kim");
+
+                           GameScreenManager.getInstance().pauseStartTime = 0L;
+                           GameScreenManager.getInstance().gameStartTime = 0L;
                         }
 
-                        GameScreenManager.getInstance().pauseStartTime = 0L;
-                        GameScreenManager.getInstance().gameStartTime = 0L;
-                     }
-
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  if (var3.getNumericParameters()[0] == 0) {
-                     ++this.animationCounter;
-                     if (this.questEffectCounter > 0) {
-                        if (this.animationCounter / 10 != 0 && this.animationCounter % 10 == 0) {
-                           --this.questEffectCounter;
-                        }
+                        var2.setExecutionState((byte) 5);
                         break label1202;
                      }
 
-                     this.questEffectCounter = 0;
-                     GameScreenManager.getInstance().gameStartTime = System.currentTimeMillis();
-                     GameScreenManager.getInstance().pauseStartTime = GameScreenManager.getInstance().gameStartTime;
-                     GameScreenManager.getInstance().battleStartTime = 0L;
-                  } else {
-                     if (var3.getNumericParameters()[0] != 1 || !this.gameEngine.gameController.aA()) {
-                        break label1202;
-                     }
-
-                     if (this.questProgress == 0) {
-                        this.currentTimeArray = this.getCurrentTimeArray();
-                     }
-
-                     ++this.questProgress;
-                  }
-                  break;
-               case 81:
-                  if (var3.getNumericParameters()[0] == 0) {
-                     if (this.player.u(var3.getNumericParameters()[1])) {
-                        var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[2] - 2));
-                     } else {
-                        var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[3] - 2));
-                     }
-                  } else if (var3.getNumericParameters()[0] == 1) {
-                     if (this.player.x(var3.getNumericParameters()[1])) {
-                        var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[2] - 2));
-                     } else {
-                        var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[3] - 2));
-                     }
-                  }
-                  break label1202;
-               case 82:
-                  short var7 = var3.getNumericParameters()[0];
-                  byte[] var8 = GameUtils.parseStringToBytes(var3.getStringParameters()[0]);
-                  var10 = 0;
-
-                  while(true) {
-                     if (var10 >= var7) {
-                        break label1202;
-                     }
-
-                     this.mapManager.C25_f287[var8[var10]].t();
-                     this.mapManager.C25_f287[var8[var10]].u();
-                     ++var10;
-                  }
-               case 83:
-                  if (var2.getExecutionState() != 5) {
-                     this.gameEngine.changeState((byte)30);
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
-
-                  var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[questOptionIndex] - 2));
-                  break;
-               case 84:
-                  if (var2.getExecutionState() != 5) {
-                     int[] var4 = null;
-                     if (var3.getNumericParameters()[2] == 1) {
-                        var4 = new int[]{this.questProgress, 5 - this.questProgress};
-                     } else if (var3.getNumericParameters()[2] == 0) {
-                        var4 = new int[]{this.player.C53_f786, this.player.C53_f795.length - this.player.C53_f786};
-                     }
-
-                     String var9 = a(var3.getStringParameters()[1], var4);
-                     this.mapManager.gameController.a((String)var3.getStringParameters()[0], (String)var9, var3.getNumericParameters()[1], var3.getNumericParameters()[0]);
-                     var2.setExecutionState((byte)5);
-                  } else if (this.mapManager.gameController.d(var3.getNumericParameters()[1], var3.getNumericParameters()[0]) && this.gameEngine.isKeyPressed(196640)) {
-                     GameWorldManager.B().D();
-                     if (GameUtils.pageCount < GameUtils.b()) {
-                        GameUtils.c();
-                        this.mapManager.gameController.b(GameUtils.pageCount);
-                     } else {
-                        if (GameWorldManager.C25_f318 != -1 && this.mapManager.C25_f287[GameWorldManager.C25_f318].sprite.spriteSetId <= 85 && this.mapManager.C25_f287[GameWorldManager.C25_f318].v() == 0) {
-                           GameWorldManager.B().a((byte)13, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldX, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldY - 40, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318]);
-                        }
-
-                        isQuestTriggered = false;
-                        isQuestReady = false;
-                        this.mapManager.gameController.aF();
-                        var2.setExecutionState((byte)1);
-                     }
-                  }
-                  break label1202;
-               case 85:
-                  if (this.questProgress >= 0 && this.questProgress < 5) {
-                     var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[0] - 2));
-                     break label1202;
-                  }
-
-                  var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[1] - 2));
-                  break label1202;
-               case 87:
-                  if (var2.getExecutionState() != 5) {
                      if (var3.getNumericParameters()[0] == 0) {
-                        this.player.a(var3.getNumericParameters()[7], var3.getNumericParameters()[1], var3.getNumericParameters()[2], (short)-1, (byte)var3.getNumericParameters()[4], (byte)var3.getNumericParameters()[3], (byte)-1, new int[]{1, var3.getNumericParameters()[5], var3.getNumericParameters()[6]});
+                        ++this.animationCounter;
+                        if (this.questEffectCounter > 0) {
+                           if (this.animationCounter / 10 != 0 && this.animationCounter % 10 == 0) {
+                              --this.questEffectCounter;
+                           }
+                           break label1202;
+                        }
+
+                        this.questEffectCounter = 0;
+                        GameScreenManager.getInstance().gameStartTime = System.currentTimeMillis();
+                        GameScreenManager.getInstance().pauseStartTime = GameScreenManager.getInstance().gameStartTime;
+                        GameScreenManager.getInstance().battleStartTime = 0L;
+                     } else {
+                        if (var3.getNumericParameters()[0] != 1 || !this.gameEngine.gameController.aA()) {
+                           break label1202;
+                        }
+
+                        if (this.questProgress == 0) {
+                           this.currentTimeArray = this.getCurrentTimeArray();
+                        }
+
+                        ++this.questProgress;
+                     }
+                     break;
+                  case 81:
+                     if (var3.getNumericParameters()[0] == 0) {
+                        if (this.player.hasEnoughGold(var3.getNumericParameters()[1])) {
+                           var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[2] - 2));
+                        } else {
+                           var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[3] - 2));
+                        }
                      } else if (var3.getNumericParameters()[0] == 1) {
-                        this.player.o(var3.getNumericParameters()[1]);
+                        if (this.player.hasEnoughBadges(var3.getNumericParameters()[1])) {
+                           var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[2] - 2));
+                        } else {
+                           var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[3] - 2));
+                        }
+                     }
+                     break label1202;
+                  case 82:
+                     short var7 = var3.getNumericParameters()[0];
+                     byte[] var8 = GameUtils.parseStringToBytes(var3.getStringParameters()[0]);
+                     var10 = 0;
+
+                     while (true) {
+                        if (var10 >= var7) {
+                           break label1202;
+                        }
+
+                        this.mapManager.C25_f287[var8[var10]].t();
+                        this.mapManager.C25_f287[var8[var10]].u();
+                        ++var10;
+                     }
+                  case 83:
+                     if (var2.getExecutionState() != 5) {
+                        this.gameEngine.changeState((byte) 30);
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
                      }
 
-                     var2.setExecutionState((byte)5);
-                     break label1202;
-                  }
+                     var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[questOptionIndex] - 2));
+                     break;
+                  case 84:
+                     if (var2.getExecutionState() != 5) {
+                        int[] var4 = null;
+                        if (var3.getNumericParameters()[2] == 1) {
+                           var4 = new int[] { this.questProgress, 5 - this.questProgress };
+                        } else if (var3.getNumericParameters()[2] == 0) {
+                           var4 = new int[] { this.player.pokedexCount,
+                                 this.player.pokedexEntries.length - this.player.pokedexCount};
+                        }
 
-                  if (!this.gameEngine.gameController.aA()) {
+                        String var9 = formatString(var3.getStringParameters()[1], var4);
+                        this.mapManager.gameController.a((String) var3.getStringParameters()[0], (String) var9,
+                              var3.getNumericParameters()[1], var3.getNumericParameters()[0]);
+                        var2.setExecutionState((byte) 5);
+                     } else if (this.mapManager.gameController.d(var3.getNumericParameters()[1],
+                           var3.getNumericParameters()[0]) && this.gameEngine.isKeyPressed(196640)) {
+                        GameWorldManager.B().D();
+                        if (GameUtils.pageCount < GameUtils.b()) {
+                           GameUtils.c();
+                           this.mapManager.gameController.b(GameUtils.pageCount);
+                        } else {
+                           if (GameWorldManager.C25_f318 != -1
+                                 && this.mapManager.C25_f287[GameWorldManager.C25_f318].sprite.spriteSetId <= 85
+                                 && this.mapManager.C25_f287[GameWorldManager.C25_f318].v() == 0) {
+                              GameWorldManager.B().a((byte) 13,
+                                    GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldX,
+                                    GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldY - 40,
+                                    GameWorldManager.B().C25_f287[GameWorldManager.C25_f318]);
+                           }
+
+                           isQuestTriggered = false;
+                           isQuestReady = false;
+                           this.mapManager.gameController.aF();
+                           var2.setExecutionState((byte) 1);
+                        }
+                     }
                      break label1202;
-                  }
-                  break;
-               case 88:
-                  if (this.player.z() == 2) {
-                     var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[0] - 2));
-                  } else {
-                     var2.setCurrentCommandIndex((byte)(var3.getNumericParameters()[1] - 2));
-                  }
+                  case 85:
+                     if (this.questProgress >= 0 && this.questProgress < 5) {
+                        var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[0] - 2));
+                        break label1202;
+                     }
+
+                     var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[1] - 2));
+                     break label1202;
+                  case 87:
+                     if (var2.getExecutionState() != 5) {
+                        if (var3.getNumericParameters()[0] == 0) {
+                           this.player.createPokemonAtIndex(var3.getNumericParameters()[7], var3.getNumericParameters()[1],
+                                 var3.getNumericParameters()[2], (short) -1, (byte) var3.getNumericParameters()[4],
+                                 (byte) var3.getNumericParameters()[3], (byte) -1,
+                                 new int[] { 1, var3.getNumericParameters()[5], var3.getNumericParameters()[6] });
+                        } else if (var3.getNumericParameters()[0] == 1) {
+                           this.player.removePokemonById(var3.getNumericParameters()[1]);
+                        }
+
+                        var2.setExecutionState((byte) 5);
+                        break label1202;
+                     }
+
+                     if (!this.gameEngine.gameController.aA()) {
+                        break label1202;
+                     }
+                     break;
+                  case 88:
+                     if (this.player.getStorageStatus() == 2) {
+                        var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[0] - 2));
+                     } else {
+                        var2.setCurrentCommandIndex((byte) (var3.getNumericParameters()[1] - 2));
+                     }
                }
 
-               var2.setExecutionState((byte)1);
+               var2.setExecutionState((byte) 1);
             }
 
             if (var2.getExecutionState() != 5 && var2.getExecutionState() != 6) {
@@ -1935,7 +2135,8 @@ public final class QuestManager extends GameEngineBase {
                   this.questStates[var10][var2.getEventId()] = var2.getExecutionState();
                }
 
-               if (var2.getExecutionState() == 3 && var2.getFirstCommand().getCommandId() == 44 && var2.getFirstCommand().getNumericParameters()[1] == 1) {
+               if (var2.getExecutionState() == 3 && var2.getFirstCommand().getCommandId() == 44
+                     && var2.getFirstCommand().getNumericParameters()[1] == 1) {
                   setQuestFlag(var2.getFirstCommand().getNumericParameters()[0]);
                }
 
@@ -1960,9 +2161,10 @@ public final class QuestManager extends GameEngineBase {
       if (this.eventScripts == null) {
          return false;
       } else {
-         for(int var1 = 0; var1 < this.activeEvents.size(); ++var1) {
+         for (int var1 = 0; var1 < this.activeEvents.size(); ++var1) {
             EventScript var2;
-            if ((var2 = (EventScript)this.activeEvents.elementAt(var1)).getExecutionState() != 2 && var2.getExecutionState() != 6) {
+            if ((var2 = (EventScript) this.activeEvents.elementAt(var1)).getExecutionState() != 2
+                  && var2.getExecutionState() != 6) {
                return true;
             }
          }
@@ -1973,60 +2175,64 @@ public final class QuestManager extends GameEngineBase {
 
    private boolean checkEventCondition(ScriptCommand var1) {
       boolean var2 = false;
-      if (var1.getNumericParameters()[7] == -1 || var1.getNumericParameters()[7] != -1 && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])] != null && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1.getNumericParameters()[7]] == 3) {
-         label58:
-         switch(var1.getNumericParameters()[8]) {
-         case 0:
-            if (!this.player.C53_f797[var1.getNumericParameters()[9]]) {
-               return var2;
-            }
-            break;
-         case 1:
-            var2 = true;
-            return var2;
-         case 2:
-            if (this.player.C53_f792.size() + this.player.C53_f778 < var1.getNumericParameters()[9]) {
-               return var2;
-            }
-
-            int var3;
-            for(var3 = 0; var3 < this.player.C53_f778; ++var3) {
-               if (this.player.C53_f777[var3].t() == var1.getNumericParameters()[10]) {
-                  var2 = true;
-                  break;
+      if (var1.getNumericParameters()[7] == -1 || var1.getNumericParameters()[7] != -1
+            && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5],
+                  var1.getNumericParameters()[6])] != null
+            && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1
+                  .getNumericParameters()[7]] == 3) {
+         label58: switch (var1.getNumericParameters()[8]) {
+            case 0:
+               if (!this.player.gameFlags[var1.getNumericParameters()[9]]) {
+                  return var2;
                }
-            }
-
-            if (var2) {
+               break;
+            case 1:
+               var2 = true;
                return var2;
-            }
-
-            for(var3 = 0; var3 < this.player.C53_f792.size(); ++var3) {
-               if (((int[])this.player.C53_f792.elementAt(var3))[1] == var1.getNumericParameters()[10]) {
-                  break label58;
+            case 2:
+               if (this.player.pokemonStorage.size() + this.player.partySize < var1.getNumericParameters()[9]) {
+                  return var2;
                }
-            }
 
-            return var2;
-         case 3:
-            if (this.player.C53_f783 < var1.getNumericParameters()[9]) {
+               int var3;
+               for (var3 = 0; var3 < this.player.partySize; ++var3) {
+                  if (this.player.partyPokemon[var3].getLevel() == var1.getNumericParameters()[10]) {
+                     var2 = true;
+                     break;
+                  }
+               }
+
+               if (var2) {
+                  return var2;
+               }
+
+               for (var3 = 0; var3 < this.player.pokemonStorage.size(); ++var3) {
+                  if (((int[]) this.player.pokemonStorage.elementAt(var3))[1] == var1.getNumericParameters()[10]) {
+                     break label58;
+                  }
+               }
+
                return var2;
-            }
-            break;
-         case 4:
-            if (this.player.a((byte)((byte)var1.getNumericParameters()[9]), (int)var1.getNumericParameters()[10]) != 2) {
-               return var2;
-            }
-            break;
-         case 5:
-            if (questDialogState <= var1.getNumericParameters()[9]) {
-               return var2;
-            }
-            break;
-         case 6:
-            if (questDialogState != var1.getNumericParameters()[9]) {
-               return var2;
-            }
+            case 3:
+               if (this.player.totalCreaturesSeen < var1.getNumericParameters()[9]) {
+                  return var2;
+               }
+               break;
+            case 4:
+               if (this.player.getCreatureStatus((byte) ((byte) var1.getNumericParameters()[9]),
+                     (int) var1.getNumericParameters()[10]) != 2) {
+                  return var2;
+               }
+               break;
+            case 5:
+               if (questDialogState <= var1.getNumericParameters()[9]) {
+                  return var2;
+               }
+               break;
+            case 6:
+               if (questDialogState != var1.getNumericParameters()[9]) {
+                  return var2;
+               }
          }
 
          var2 = true;
@@ -2037,53 +2243,63 @@ public final class QuestManager extends GameEngineBase {
 
    private boolean checkEventCompletion(ScriptCommand var1) {
       boolean var2 = false;
-      if (var1.getNumericParameters()[7] == -1 || var1.getNumericParameters()[7] != -1 && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])] != null && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1.getNumericParameters()[7]] == 3) {
-         switch(var1.getNumericParameters()[8]) {
-         case 0:
-            if (this.player.a((byte)((byte)var1.getNumericParameters()[9]), (int)var1.getNumericParameters()[10]) == 2) {
-               var2 = true;
-            }
-            break;
-         case 1:
-            if (this.player.C53_f797[var1.getNumericParameters()[9]]) {
-               var2 = true;
-            }
-            break;
-         case 2:
-         case 4:
-            if (this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])] != null && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1.getNumericParameters()[7]] == 3) {
-               var2 = true;
-            }
-            break;
-         case 3:
-            if (this.player.b((int)var1.getNumericParameters()[9], (int)var1.getNumericParameters()[10], (byte)0)) {
-               var2 = true;
-            }
-            break;
-         case 5:
-            if (this.player.C53_f783 >= var1.getNumericParameters()[9]) {
-               var2 = true;
-            }
-            break;
-         case 6:
-            byte[] var5 = new byte[]{0, 1, 2, 3};
+      if (var1.getNumericParameters()[7] == -1 || var1.getNumericParameters()[7] != -1
+            && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5],
+                  var1.getNumericParameters()[6])] != null
+            && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1
+                  .getNumericParameters()[7]] == 3) {
+         switch (var1.getNumericParameters()[8]) {
+            case 0:
+               if (this.player.getCreatureStatus((byte) ((byte) var1.getNumericParameters()[9]),
+                     (int) var1.getNumericParameters()[10]) == 2) {
+                  var2 = true;
+               }
+               break;
+            case 1:
+               if (this.player.gameFlags[var1.getNumericParameters()[9]]) {
+                  var2 = true;
+               }
+               break;
+            case 2:
+            case 4:
+               if (this.questStates[GameWorldManager.e(var1.getNumericParameters()[5],
+                     var1.getNumericParameters()[6])] != null
+                     && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5],
+                           var1.getNumericParameters()[6])][var1.getNumericParameters()[7]] == 3) {
+                  var2 = true;
+               }
+               break;
+            case 3:
+               if (this.player.hasItem((int) var1.getNumericParameters()[9], (int) var1.getNumericParameters()[10],
+                     (byte) 0)) {
+                  var2 = true;
+               }
+               break;
+            case 5:
+               if (this.player.totalCreaturesSeen >= var1.getNumericParameters()[9]) {
+                  var2 = true;
+               }
+               break;
+            case 6:
+               byte[] var5 = new byte[] { 0, 1, 2, 3 };
 
-            int var3;
-            for(var3 = 0; var3 < this.player.C53_f778; ++var3) {
-               for(int var4 = 0; var4 < var5.length; ++var4) {
-                  if (var5[var4] != -1 && var5[var4] == ResourceManager.getDatabaseValue((byte)0, (short)this.player.C53_f777[var3].r(), (byte)1)) {
-                     var5[var4] = -1;
-                     break;
+               int var3;
+               for (var3 = 0; var3 < this.player.partySize; ++var3) {
+                  for (int var4 = 0; var4 < var5.length; ++var4) {
+                     if (var5[var4] != -1 && var5[var4] == ResourceManager.getDatabaseValue((byte) 0,
+                           (short) this.player.partyPokemon[var3].getSpeciesId(), (byte) 1)) {
+                        var5[var4] = -1;
+                        break;
+                     }
                   }
                }
-            }
 
-            for(var3 = 0; var3 < var5.length && var5[var3] == -1; ++var3) {
-            }
+               for (var3 = 0; var3 < var5.length && var5[var3] == -1; ++var3) {
+               }
 
-            if (var3 >= var5.length) {
-               var2 = true;
-            }
+               if (var3 >= var5.length) {
+                  var2 = true;
+               }
          }
       }
 
@@ -2102,15 +2318,19 @@ public final class QuestManager extends GameEngineBase {
       int var3;
       NPCEntity var6;
       GameObject var7;
-      for(var3 = 0; var3 < questEndMatrix.length; ++var3) {
-         if (GameWorldManager.e(questEndMatrix[var3][0], questEndMatrix[var3][1]) == GameWorldManager.e(GameWorldManager.B().C25_f290, GameWorldManager.B().C25_f291) && (this.eventScripts[questEndMatrix[var3][2]].getExecutionState() == 0 || this.eventScripts[questEndMatrix[var3][2]].getExecutionState() == 4)) {
+      for (var3 = 0; var3 < questEndMatrix.length; ++var3) {
+         if (GameWorldManager.e(questEndMatrix[var3][0], questEndMatrix[var3][1]) == GameWorldManager
+               .e(GameWorldManager.B().C25_f290, GameWorldManager.B().C25_f291)
+               && (this.eventScripts[questEndMatrix[var3][2]].getExecutionState() == 0
+                     || this.eventScripts[questEndMatrix[var3][2]].getExecutionState() == 4)) {
             var1 = this.eventScripts[questEndMatrix[var3][2]].getFirstCommand();
             if (!var2.contains("" + var1.getNumericParameters()[4])) {
                if (this.checkEventCompletion(var1)) {
                   (var7 = new GameObject()).loadSpriteSet(259, false);
-                  var7.setAnimation((byte)1, (byte)-1, true);
-                  var7.setWorldPosition(this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldX, this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
-                  this.mapManager.C25_f287[var1.getNumericParameters()[4]].f((byte)1);
+                  var7.setAnimation((byte) 1, (byte) -1, true);
+                  var7.setWorldPosition(this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldX,
+                        this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
+                  this.mapManager.C25_f287[var1.getNumericParameters()[4]].f((byte) 1);
                   var6 = this.mapManager.C25_f287[var1.getNumericParameters()[4]];
                   var7.followTarget = var6;
                   var7.activate();
@@ -2118,11 +2338,17 @@ public final class QuestManager extends GameEngineBase {
                   var2.addElement("" + var1.getNumericParameters()[4]);
                } else {
                   int var4 = getQuestFlagIndex(var1.getNumericParameters()[0]);
-                  if (var1.getNumericParameters()[1] == 0 && this.questStates[GameWorldManager.e(questStartMatrix[var3][0], questStartMatrix[var3][1])][questStartMatrix[var3][2]] == 3 && this.questStates[GameWorldManager.e(questEndMatrix[var3][0], questEndMatrix[var3][1])][questEndMatrix[var3][2]] != 3 || var1.getNumericParameters()[1] == 1 && var4 != -1 && questFlags[var4][1] == 1) {
+                  if (var1.getNumericParameters()[1] == 0
+                        && this.questStates[GameWorldManager.e(questStartMatrix[var3][0],
+                              questStartMatrix[var3][1])][questStartMatrix[var3][2]] == 3
+                        && this.questStates[GameWorldManager.e(questEndMatrix[var3][0],
+                              questEndMatrix[var3][1])][questEndMatrix[var3][2]] != 3
+                        || var1.getNumericParameters()[1] == 1 && var4 != -1 && questFlags[var4][1] == 1) {
                      (var7 = new GameObject()).loadSpriteSet(259, false);
-                     var7.setAnimation((byte)15, (byte)-1, true);
-                     var7.setWorldPosition(this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldX, this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
-                     this.mapManager.C25_f287[var1.getNumericParameters()[4]].f((byte)1);
+                     var7.setAnimation((byte) 15, (byte) -1, true);
+                     var7.setWorldPosition(this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldX,
+                           this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
+                     this.mapManager.C25_f287[var1.getNumericParameters()[4]].f((byte) 1);
                      var6 = this.mapManager.C25_f287[var1.getNumericParameters()[4]];
                      var7.followTarget = var6;
                      var7.activate();
@@ -2134,14 +2360,18 @@ public final class QuestManager extends GameEngineBase {
          }
       }
 
-      for(var3 = 0; var3 < questStartMatrix.length; ++var3) {
-         if (GameWorldManager.e(questStartMatrix[var3][0], questStartMatrix[var3][1]) == GameWorldManager.e(GameWorldManager.B().C25_f290, GameWorldManager.B().C25_f291) && (this.eventScripts[questStartMatrix[var3][2]].getExecutionState() == 0 || this.eventScripts[questStartMatrix[var3][2]].getExecutionState() == 4)) {
+      for (var3 = 0; var3 < questStartMatrix.length; ++var3) {
+         if (GameWorldManager.e(questStartMatrix[var3][0], questStartMatrix[var3][1]) == GameWorldManager
+               .e(GameWorldManager.B().C25_f290, GameWorldManager.B().C25_f291)
+               && (this.eventScripts[questStartMatrix[var3][2]].getExecutionState() == 0
+                     || this.eventScripts[questStartMatrix[var3][2]].getExecutionState() == 4)) {
             var1 = this.eventScripts[questStartMatrix[var3][2]].getFirstCommand();
             if (!var2.contains("" + var1.getNumericParameters()[4]) && this.checkEventCondition(var1)) {
                (var7 = new GameObject()).loadSpriteSet(259, false);
-               var7.setAnimation((byte)7, (byte)-1, true);
-               var7.setWorldPosition(this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldX, this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
-               this.mapManager.C25_f287[var1.getNumericParameters()[4]].f((byte)1);
+               var7.setAnimation((byte) 7, (byte) -1, true);
+               var7.setWorldPosition(this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldX,
+                     this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
+               this.mapManager.C25_f287[var1.getNumericParameters()[4]].f((byte) 1);
                var6 = this.mapManager.C25_f287[var1.getNumericParameters()[4]];
                var7.followTarget = var6;
                var7.activate();

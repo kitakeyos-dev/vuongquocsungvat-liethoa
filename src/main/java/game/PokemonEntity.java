@@ -1226,8 +1226,8 @@ public final class PokemonEntity extends GameObject {
    }
 
    public final void checkEvolution() {
-      if (GameWorldManager.C25_f336 == null) {
-         GameWorldManager.C25_f336 = new Vector();
+      if (WorldGameSession.pendingEvolutions == null) {
+         WorldGameSession.pendingEvolutions = new Vector();
       }
 
       short var1;
@@ -1235,7 +1235,7 @@ public final class PokemonEntity extends GameObject {
          short var2 = ResourceManager.getDatabaseValue((byte)0, (short)this.speciesId, (byte)21);
          int var3 = ResourceManager.getDatabaseValue((byte)0, (short)this.speciesId, (byte)20) + 12;
          boolean var4 = false;
-         if (!GameWorldManager.C25_f339 && this.getEvolutionTier() > 0 && this.level >= EVOLUTION_LEVEL_REQUIREMENTS[ResourceManager.getDatabaseValue((byte)0, var1, (byte)2) - 1] && PlayerCharacter.getInstance().getItemCount((int)var3, (byte)2) >= var2) {
+         if (!WorldGameSession.isTutorialActive && this.getEvolutionTier() > 0 && this.level >= EVOLUTION_LEVEL_REQUIREMENTS[ResourceManager.getDatabaseValue((byte)0, var1, (byte)2) - 1] && PlayerCharacter.getInstance().getItemCount((int)var3, (byte)2) >= var2) {
             var4 = true;
          } else if (this.getEvolutionTier() > 0 && this.level >= EVOLUTION_LEVEL_REQUIREMENTS[ResourceManager.getDatabaseValue((byte)0, var1, (byte)2) - 1]) {
             var4 = true;
@@ -1243,10 +1243,10 @@ public final class PokemonEntity extends GameObject {
 
          if (var4) {
             int[] var6 = new int[]{this.speciesId, ResourceManager.gameDatabase[0][this.speciesId][0]};
-            GameWorldManager.C25_f336.addElement(var6);
-            GameWorldManager.C25_f340[0] = (byte)this.level;
-            GameWorldManager.C25_f340[1] = (byte)this.speciesId;
-            GameWorldManager.C25_f337 = 0;
+            WorldGameSession.pendingEvolutions.addElement(var6);
+            WorldGameSession.tutorialTargetPokemon[0] = (byte)this.level;
+            WorldGameSession.tutorialTargetPokemon[1] = (byte)this.speciesId;
+            WorldGameSession.evolutionProcessState = 0;
          }
 
       }
@@ -1807,7 +1807,7 @@ public final class PokemonEntity extends GameObject {
          var4 += var4 * this.buffs[8][1] / 100;
       }
 
-      if (this.battlePosition == 0 && PlayerCharacter.getInstance().getBadgeState((byte)3, (byte)0) == 2 && PlayerCharacter.getInstance().getBadgeState((byte)3, (byte)1) == 1 && GameWorldManager.C25_f369 == 2) {
+      if (this.battlePosition == 0 && PlayerCharacter.getInstance().getBadgeState((byte)3, (byte)0) == 2 && PlayerCharacter.getInstance().getBadgeState((byte)3, (byte)1) == 1 && WorldGameSession.currentTileType == 2) {
          var4 += var4 * ResourceManager.gameDatabase[2][3][5] / 100;
       }
 

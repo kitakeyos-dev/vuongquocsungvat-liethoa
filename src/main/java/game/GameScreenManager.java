@@ -85,7 +85,7 @@ public final class GameScreenManager extends GameEngineBase {
                 default:
                     break;
                 case 3:
-                    ScreenTransitionManager.a().C30_f472 = -1;
+                    ScreenTransitionManager.getInstance().primaryTransitionType = -1;
                     break;
                 case 7:
                 case 9:
@@ -98,13 +98,13 @@ public final class GameScreenManager extends GameEngineBase {
             this.currentState = var1;
             switch (var1) {
                 case 2:
-                    if (GameWorldManager.B().C25_f286 != null) {
-                        GameWorldManager.B().C25_f286.refreshAnimation();
+                    if (WorldGameSession.getInstance().player != null) {
+                        WorldGameSession.getInstance().player.refreshAnimation();
                     }
                     break;
                 case 3:
                     loadingProgress = 0;
-                    ScreenTransitionManager.a().c(0, 19);
+                    ScreenTransitionManager.getInstance().startTransition(0, 19);
                 case 4:
                 case 5:
                 case 7:
@@ -129,7 +129,7 @@ public final class GameScreenManager extends GameEngineBase {
                     this.currentMessage = this.elementalDescriptions[var2];
                     break;
                 case 11:
-                    GameWorldManager.B().gameController.C9_f132 = true;
+                    WorldGameSession.getInstance().gameController.C9_f132 = true;
                     break;
                 case 12:
                 case 22:
@@ -141,8 +141,8 @@ public final class GameScreenManager extends GameEngineBase {
                     this.currentImage = GameUtils.loadPNG("/data/logo/", "0");
                     break;
                 case 21:
-                    ScreenTransitionManager.a().c(0, 18);
-                    ScreenTransitionManager.a().e();
+                    ScreenTransitionManager.getInstance().startTransition(0, 18);
+                    ScreenTransitionManager.getInstance().initMenuTransition();
                     break;
                 case 23:
                     resetEngine(false);
@@ -159,8 +159,8 @@ public final class GameScreenManager extends GameEngineBase {
     }
 
     public final synchronized void pauseGame() {
-        if (GameWorldManager.B().C25_f342 != null) {
-            GameWorldManager.B().C25_f342.stopAllAudio();
+        if (WorldGameSession.getInstance().audioManager != null) {
+            WorldGameSession.getInstance().audioManager.stopAllAudio();
         }
 
         if (this.currentState != 2) {
@@ -172,8 +172,8 @@ public final class GameScreenManager extends GameEngineBase {
 
     private void resumeGame() {
         this.changeState(this.previousState);
-        if (GameWorldManager.B().C25_f342 != null) {
-            GameWorldManager.B().C25_f342.resumeAllAudio();
+        if (WorldGameSession.getInstance().audioManager != null) {
+            WorldGameSession.getInstance().audioManager.resumeAllAudio();
         }
 
         this.showSoftKeys();
@@ -194,8 +194,8 @@ public final class GameScreenManager extends GameEngineBase {
         int[] var2 = GameUtils.extractImageRGB(var1 = GameUtils.loadImage("/data/img/", "img_22"));
         this.backgroundEffect = new ImageData();
         this.backgroundEffect.setPixelData(var2, var1.getWidth(), var1.getHeight());
-        GameWorldManager.B();
-        GameWorldManager.G();
+        WorldGameSession.getInstance();
+        WorldGameSession.loadGameFlags();
         stopGameTimer();
         return true;
     }
@@ -222,7 +222,7 @@ public final class GameScreenManager extends GameEngineBase {
                         this.initializeGame();
                     }
 
-                    if (ScreenTransitionManager.a().C30_f476 && isEngineStopped()) {
+                    if (ScreenTransitionManager.getInstance().isTransitionComplete && isEngineStopped()) {
                         this.changeState((byte) 15);
                     }
                     break;
@@ -268,7 +268,7 @@ public final class GameScreenManager extends GameEngineBase {
                 case 9:
                 case 22:
                     this.cleanupCurrentScreen();
-                    this.currentScreen = GameWorldManager.B();
+                    this.currentScreen = WorldGameSession.getInstance();
                     this.currentScreen.initializeGame();
                     this.setChildHandler(this.currentScreen);
                     if (this.currentState == 9 || this.currentState == 22) {
@@ -279,8 +279,8 @@ public final class GameScreenManager extends GameEngineBase {
                     break;
                 case 10:
                     this.cleanupCurrentScreen();
-                    this.currentScreen = GameWorldManager.B();
-                    ((GameWorldManager) this.currentScreen).L();
+                    this.currentScreen = WorldGameSession.getInstance();
+                    ((WorldGameSession) this.currentScreen).returnFromBattle();
                     this.setChildHandler(this.currentScreen);
                     this.changeState((byte) 11);
                     break;
@@ -291,20 +291,20 @@ public final class GameScreenManager extends GameEngineBase {
                         this.currentScreen.initializeGame();
                         this.setChildHandler(this.currentScreen);
                         if (((BattleSystemManager) this.currentScreen).C29_f398 == 0) {
-                            ScreenTransitionManager.a().c(-2013265920, 6);
+                            ScreenTransitionManager.getInstance().startTransition(-2013265920, 6);
                         } else if (((BattleSystemManager) this.currentScreen).C29_f398 == 2) {
-                            ScreenTransitionManager.a().c(-2013265920, 8);
+                            ScreenTransitionManager.getInstance().startTransition(-2013265920, 8);
                         } else if (((BattleSystemManager) this.currentScreen).C29_f398 == 1) {
-                            ScreenTransitionManager.a().c(-2013265920, 7);
+                            ScreenTransitionManager.getInstance().startTransition(-2013265920, 7);
                         }
                     }
 
                     if (isEngineStopped()) {
-                        ScreenTransitionManager.a().d();
+                        ScreenTransitionManager.getInstance().updateTransition();
                         PlayerCharacter.mapTransitionFlag = false;
                     }
 
-                    if (ScreenTransitionManager.a().C30_f476) {
+                    if (ScreenTransitionManager.getInstance().isTransitionComplete) {
                         ((BattleSystemManager) this.currentScreen).E();
                         this.changeState((byte) 13);
                     }
@@ -326,7 +326,7 @@ public final class GameScreenManager extends GameEngineBase {
                     break;
                 case 19:
                     byte var1;
-                    if (this.currentScreen instanceof GameWorldManager) {
+                    if (this.currentScreen instanceof WorldGameSession) {
                         var1 = 1;
                     } else {
                         var1 = 2;
@@ -339,13 +339,13 @@ public final class GameScreenManager extends GameEngineBase {
                     this.changeState((byte) 20);
                     break;
                 case 21:
-                    ScreenTransitionManager.a().d();
-                    if (ScreenTransitionManager.a().C30_f475 == -1
+                    ScreenTransitionManager.getInstance().updateTransition();
+                    if (ScreenTransitionManager.getInstance().tertiaryTransitionType == -1
                             || this.isKeyPressed(65568) && MainMenuScreen.inputEnabled) {
-                        ScreenTransitionManager.a().C30_f475 = -1;
-                        ScreenTransitionManager.a().C30_f474 = -1;
-                        ScreenTransitionManager.a().C30_f479 = 0;
-                        ScreenTransitionManager.a().C30_f472 = -1;
+                        ScreenTransitionManager.getInstance().tertiaryTransitionType = -1;
+                        ScreenTransitionManager.getInstance().secondaryTransitionType = -1;
+                        ScreenTransitionManager.getInstance().secondaryProgress = 0;
+                        ScreenTransitionManager.getInstance().primaryTransitionType = -1;
                         this.currentImage = null;
                         this.backgroundEffect.pixels = null;
                         this.backgroundEffect = null;
@@ -353,26 +353,26 @@ public final class GameScreenManager extends GameEngineBase {
                     }
                     break;
                 case 23:
-                    ScreenTransitionManager.a().d();
-                    if (this.tutorialManager.currentState == 1 && ScreenTransitionManager.a().C30_f477) {
+                    ScreenTransitionManager.getInstance().updateTransition();
+                    if (this.tutorialManager.currentState == 1 && ScreenTransitionManager.getInstance().isSecondaryComplete) {
                         this.tutorialManager.changeState((byte) 2);
                     } else if (this.tutorialManager.currentState == 2) {
                         if (this.tutorialManager.transitionComplete) {
                             this.cleanupCurrentScreen();
-                            this.currentScreen = GameWorldManager.B();
+                            this.currentScreen = WorldGameSession.getInstance();
                             this.currentScreen.initializeGame();
                             this.setChildHandler(this.currentScreen);
                             this.tutorialManager.changeState((byte) 3);
                         }
-                    } else if (this.tutorialManager.currentState == 3 && ScreenTransitionManager.a().C30_f477) {
-                        ScreenTransitionManager.a().C30_f474 = -1;
+                    } else if (this.tutorialManager.currentState == 3 && ScreenTransitionManager.getInstance().isSecondaryComplete) {
+                        ScreenTransitionManager.getInstance().secondaryTransitionType = -1;
                         this.tutorialManager.stopAnimation();
                         this.changeState((byte) 11);
                     }
             }
 
             if (this.currentState != 2) {
-                if (GameWorldManager.B().C25_f290 == 3 && GameWorldManager.B().C25_f291 == 7
+                if (WorldGameSession.getInstance().currentRegionId == 3 && WorldGameSession.getInstance().currentAreaId == 7
                         && this.battleStartTime == 0L && this.gameStartTime != 0L) {
                     this.pauseStartTime = System.currentTimeMillis();
                 }
@@ -397,7 +397,7 @@ public final class GameScreenManager extends GameEngineBase {
                 case 3:
                     var1.setColor(16777215);
                     var1.fillRect(0, 0, getScreenWidth(), getScreenHeight());
-                    ScreenTransitionManager.a().a(var1);
+                    ScreenTransitionManager.getInstance().renderTransition(var1);
                     return;
                 case 4:
                     return;
@@ -473,9 +473,9 @@ public final class GameScreenManager extends GameEngineBase {
                 case 10:
                     return;
                 case 12:
-                    GameWorldManager.B().C25_f285.renderWorld(var1);
+                    WorldGameSession.getInstance().worldRenderer.renderWorld(var1);
                     if (isEngineStopped()) {
-                        ScreenTransitionManager.a().a(var1);
+                        ScreenTransitionManager.getInstance().renderTransition(var1);
                         PlayerCharacter.mapTransitionFlag = false;
                         return;
                     }
@@ -507,12 +507,12 @@ public final class GameScreenManager extends GameEngineBase {
                                 this.backgroundEffect.width, this.backgroundEffect.height, true);
                     }
 
-                    ScreenTransitionManager.a().a(var1);
+                    ScreenTransitionManager.getInstance().renderTransition(var1);
                     return;
                 case 23:
                     this.tutorialManager.update();
                     this.tutorialManager.renderPauseScreen(var1);
-                    ScreenTransitionManager.a().a(var1);
+                    ScreenTransitionManager.getInstance().renderTransition(var1);
             }
 
         }

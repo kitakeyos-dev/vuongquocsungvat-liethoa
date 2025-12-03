@@ -2,7 +2,7 @@ package engine.entity;
 
 import engine.GameEngineBase;
 import engine.GameUtils;
-import game.GameWorldManager;
+import game.WorldGameSession;
 
 import javax.microedition.lcdui.Graphics;
 
@@ -199,8 +199,8 @@ public class GameObject extends GameEntity {
         if (this.sprite.isInvalid()) {
             this.setInteractable(true);
         } else if (GameUtils.checkCollisionWithShortArray(
-                GameWorldManager.B().C25_f283.cameraX,
-                GameWorldManager.B().C25_f283.cameraY,
+                WorldGameSession.getInstance().tileMapRenderer.cameraX,
+                WorldGameSession.getInstance().tileMapRenderer.cameraY,
                 GameEngineBase.getScreenWidth(),
                 GameEngineBase.getScreenHeight(),
                 this.worldX,

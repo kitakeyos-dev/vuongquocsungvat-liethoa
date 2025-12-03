@@ -123,7 +123,7 @@ public final class NPCEntity extends GameObject {
                 }
 
                 if (this.isVisible() && var1[0] > 0 && var1[0] <= 3) {
-                    GameWorldManager.B().C25_f288.addElement(this);
+                    WorldGameSession.getInstance().activeNpcList.addElement(this);
                 }
 
                 if (this.npcSubType == 3) {
@@ -188,7 +188,7 @@ public final class NPCEntity extends GameObject {
                 if (this.npcSubType != 1 && this.npcSubType != 18) {
                     this.setAnimation(var1, (byte) -1, false);
                     this.facingDirection = var1;
-                    GameWorldManager.B().a(this.npcId, 0, this.facingDirection, true);
+                    WorldGameSession.getInstance().setNPCState(this.npcId, 0, this.facingDirection, true);
                     return;
                 }
 
@@ -231,7 +231,7 @@ public final class NPCEntity extends GameObject {
                 } else {
                     this.setAnimation(var1, (byte) -1, false);
                     if (this.npcSubType == 3) {
-                        GameWorldManager.B().a(this.npcId, 0, var1, true);
+                        WorldGameSession.getInstance().setNPCState(this.npcId, 0, var1, true);
                     }
                 }
 
@@ -243,7 +243,7 @@ public final class NPCEntity extends GameObject {
             case 3:
                 this.setAnimation(var1, (byte) -2, false);
                 this.facingDirection = var1;
-                GameWorldManager.B().a(this.npcId, 0, this.facingDirection, true);
+                WorldGameSession.getInstance().setNPCState(this.npcId, 0, this.facingDirection, true);
         }
 
     }
@@ -274,33 +274,33 @@ public final class NPCEntity extends GameObject {
 
                     var10001 = this.directionMap[this.followDistance];
                     if ((PlayerCharacter.getInstance().visualState == var10001 && this.sprite.spriteSetId != 320 && this.sprite.spriteSetId != 310 || this.sprite.spriteSetId == 320 || this.sprite.spriteSetId == 310) && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.getInstance().worldX, PlayerCharacter.getInstance().worldY, this.worldX, this.worldY, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
-                        GameWorldManager.B().C25_f290 = this.patrolPointX;
-                        GameWorldManager.B().C25_f291 = this.patrolPointY;
-                        GameWorldManager.B().C25_f295 = this.patrolRadius;
+                        WorldGameSession.getInstance().currentRegionId = this.patrolPointX;
+                        WorldGameSession.getInstance().currentAreaId = this.patrolPointY;
+                        WorldGameSession.getInstance().lastInteractedNpcId = this.patrolRadius;
                         GameScreenManager.getInstance().changeState((byte) 9);
                     }
                 } else if (this.npcSubType == 2) {
                     var10001 = this.directionMap[this.followDistance];
                     if ((PlayerCharacter.getInstance().visualState == var10001 && this.sprite.spriteSetId != 320 || this.sprite.spriteSetId == 320) && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.getInstance().worldX, PlayerCharacter.getInstance().worldY, this.worldX, this.worldY, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
                         for (int var1 = 0; var1 < this.statValues.length / 6; ++var1) {
-                            if (this.statValues[var1 * 6] == this.npcId && this.statValues[var1 * 6 + 1] == GameWorldManager.B().C25_f290 && this.statValues[var1 * 6 + 2] == GameWorldManager.B().C25_f291) {
-                                GameWorldManager.B().C25_f293 = this.statValues[var1 * 6 + 3];
-                                GameWorldManager.B().C25_f294 = this.statValues[var1 * 6 + 4];
-                                GameWorldManager.C25_f320 = (byte) this.statValues[var1 * 6 + 5];
+                            if (this.statValues[var1 * 6] == this.npcId && this.statValues[var1 * 6 + 1] == WorldGameSession.getInstance().currentRegionId && this.statValues[var1 * 6 + 2] == WorldGameSession.getInstance().currentAreaId) {
+                                WorldGameSession.getInstance().spawnPositionX = this.statValues[var1 * 6 + 3];
+                                WorldGameSession.getInstance().spawnPositionY = this.statValues[var1 * 6 + 4];
+                                WorldGameSession.playerDirection = (byte) this.statValues[var1 * 6 + 5];
                                 break;
                             }
                         }
 
-                        GameWorldManager.B().C25_f290 = this.patrolPointX;
-                        GameWorldManager.B().C25_f291 = this.patrolPointY;
-                        GameWorldManager.B().C25_f295 = -1;
+                        WorldGameSession.getInstance().currentRegionId = this.patrolPointX;
+                        WorldGameSession.getInstance().currentAreaId = this.patrolPointY;
+                        WorldGameSession.getInstance().lastInteractedNpcId = -1;
                         GameScreenManager.getInstance().changeState((byte) 9);
                     }
                 } else if (this.npcSubType == 4 && PlayerCharacter.getInstance().getFacingDirection() != 9 && PlayerCharacter.getInstance().getFacingDirection() != 10 && GameUtils.checkCollisionBetweenShortArrays(PlayerCharacter.getInstance().worldX, PlayerCharacter.getInstance().worldY, this.worldX, this.worldY, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameTriggers())) {
                     PlayerCharacter.getInstance().setWorldPosition(this.worldX, this.worldY);
                     PlayerCharacter.getInstance().attachedObject.setWorldPosition(this.worldX, this.worldY);
                     PlayerCharacter.getInstance().setFacingState((byte) 9, (byte) this.currentDirection);
-                    GameWorldManager.B().C25_f295 = this.patrolRadius;
+                    WorldGameSession.getInstance().lastInteractedNpcId = this.patrolRadius;
                 }
             case 2:
             case 3:
@@ -318,14 +318,14 @@ public final class NPCEntity extends GameObject {
                 if (this.facingDirection == 1) {
                     var2 = 0;
                     this.moveInDirection((int) super.secondaryStates[var2]);
-                    if (GameWorldManager.B().C25_f313 != null && GameWorldManager.B().C25_f313.followTarget.equals(this) && !PlayerCharacter.getInstance().checkCollisionWithNPC(this, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
-                        GameWorldManager.B().D();
+                    if (WorldGameSession.getInstance().interactionMarker != null && WorldGameSession.getInstance().interactionMarker.followTarget.equals(this) && !PlayerCharacter.getInstance().checkCollisionWithNPC(this, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
+                        WorldGameSession.getInstance().removeInteractionMarker();
                     }
                 }
 
-                if (GameWorldManager.B().C25_f313 != null && GameWorldManager.B().C25_f313.followTarget.equals(this) && (!this.isVisible() || !PlayerCharacter.getInstance().checkCollisionWithNPC(this, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents()))) {
-                    GameWorldManager.C25_f318 = -1;
-                    GameWorldManager.B().D();
+                if (WorldGameSession.getInstance().interactionMarker != null && WorldGameSession.getInstance().interactionMarker.followTarget.equals(this) && (!this.isVisible() || !PlayerCharacter.getInstance().checkCollisionWithNPC(this, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents()))) {
+                    WorldGameSession.currentInteractNpcId = -1;
+                    WorldGameSession.getInstance().removeInteractionMarker();
                 }
 
                 if (this.auraObject != null && this.isVisible() && this.auraObject.followTarget.equals(this) && !PlayerCharacter.getInstance().checkCollisionWithNPC(this, PlayerCharacter.getInstance().sprite.getCurrentFrameEvents(), this.sprite.getCurrentFrameEvents())) {
@@ -441,9 +441,9 @@ public final class NPCEntity extends GameObject {
                 if (this.facingDirection == 1 && this.sprite.isAtLastFrame()) {
                     this.setDirection((byte) 2);
                     if (this.npcSubType == 6 && this.npcSubType == 7) {
-                        GameWorldManager.B().a(this.npcId, 0, this.facingDirection, false);
+                        WorldGameSession.getInstance().setNPCState(this.npcId, 0, this.facingDirection, false);
                     } else {
-                        GameWorldManager.B().a(this.npcId, 0, this.facingDirection, true);
+                        WorldGameSession.getInstance().setNPCState(this.npcId, 0, this.facingDirection, true);
                     }
 
                     if ((this.npcSubType == 7 || this.npcSubType == 6) && (var1 = GameUtils.getRandomInt(2)) > 0) {
@@ -610,12 +610,12 @@ public final class NPCEntity extends GameObject {
                         var6 = 0;
 
                         while (true) {
-                            if (var6 >= GameWorldManager.B().C25_f287.length) {
+                            if (var6 >= WorldGameSession.getInstance().NPCs.length) {
                                 break label83;
                             }
 
-                            if (GameWorldManager.B().C25_f287[var6].npcSubType != var5.npcSubType && GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX, var5.worldY + var3, GameWorldManager.B().C25_f287[var6].worldX, GameWorldManager.B().C25_f287[var6].worldY, GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
-                                GameWorldManager.B().C25_f287[var6].followTarget = var5;
+                            if (WorldGameSession.getInstance().NPCs[var6].npcSubType != var5.npcSubType && WorldGameSession.getInstance().NPCs[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX, var5.worldY + var3, WorldGameSession.getInstance().NPCs[var6].worldX, WorldGameSession.getInstance().NPCs[var6].worldY, WorldGameSession.getInstance().NPCs[var6].sprite.getCurrentFrameEvents())) {
+                                WorldGameSession.getInstance().NPCs[var6].followTarget = var5;
                                 var10000 = false;
                                 break label86;
                             }
@@ -627,12 +627,12 @@ public final class NPCEntity extends GameObject {
                         var6 = 0;
 
                         while (true) {
-                            if (var6 >= GameWorldManager.B().C25_f287.length) {
+                            if (var6 >= WorldGameSession.getInstance().NPCs.length) {
                                 break label83;
                             }
 
-                            if (GameWorldManager.B().C25_f287[var6].npcSubType != var5.npcSubType && GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX + var3, var5.worldY, GameWorldManager.B().C25_f287[var6].worldX, GameWorldManager.B().C25_f287[var6].worldY, GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
-                                GameWorldManager.B().C25_f287[var6].followTarget = var5;
+                            if (WorldGameSession.getInstance().NPCs[var6].npcSubType != var5.npcSubType && WorldGameSession.getInstance().NPCs[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX + var3, var5.worldY, WorldGameSession.getInstance().NPCs[var6].worldX, WorldGameSession.getInstance().NPCs[var6].worldY, WorldGameSession.getInstance().NPCs[var6].sprite.getCurrentFrameEvents())) {
+                                WorldGameSession.getInstance().NPCs[var6].followTarget = var5;
                                 var10000 = false;
                                 break label86;
                             }
@@ -644,12 +644,12 @@ public final class NPCEntity extends GameObject {
                         var6 = 0;
 
                         while (true) {
-                            if (var6 >= GameWorldManager.B().C25_f287.length) {
+                            if (var6 >= WorldGameSession.getInstance().NPCs.length) {
                                 break label83;
                             }
 
-                            if (GameWorldManager.B().C25_f287[var6].npcSubType != var5.npcSubType && GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX, var5.worldY - var3, GameWorldManager.B().C25_f287[var6].worldX, GameWorldManager.B().C25_f287[var6].worldY, GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
-                                GameWorldManager.B().C25_f287[var6].followTarget = var5;
+                            if (WorldGameSession.getInstance().NPCs[var6].npcSubType != var5.npcSubType && WorldGameSession.getInstance().NPCs[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX, var5.worldY - var3, WorldGameSession.getInstance().NPCs[var6].worldX, WorldGameSession.getInstance().NPCs[var6].worldY, WorldGameSession.getInstance().NPCs[var6].sprite.getCurrentFrameEvents())) {
+                                WorldGameSession.getInstance().NPCs[var6].followTarget = var5;
                                 var10000 = false;
                                 break label86;
                             }
@@ -659,9 +659,9 @@ public final class NPCEntity extends GameObject {
                     case 3:
                         var4 = TileMapRenderer.getInstance().getTileAt(0, this.worldX - var3, this.worldY);
 
-                        for (var6 = 0; var6 < GameWorldManager.B().C25_f287.length; ++var6) {
-                            if (GameWorldManager.B().C25_f287[var6].npcSubType != var5.npcSubType && GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX - var3, var5.worldY, GameWorldManager.B().C25_f287[var6].worldX, GameWorldManager.B().C25_f287[var6].worldY, GameWorldManager.B().C25_f287[var6].sprite.getCurrentFrameEvents())) {
-                                GameWorldManager.B().C25_f287[var6].followTarget = var5;
+                        for (var6 = 0; var6 < WorldGameSession.getInstance().NPCs.length; ++var6) {
+                            if (WorldGameSession.getInstance().NPCs[var6].npcSubType != var5.npcSubType && WorldGameSession.getInstance().NPCs[var6].sprite.getCurrentFrameEvents() != null && GameUtils.isPointInShortArrayRectangle(var5.worldX - var3, var5.worldY, WorldGameSession.getInstance().NPCs[var6].worldX, WorldGameSession.getInstance().NPCs[var6].worldY, WorldGameSession.getInstance().NPCs[var6].sprite.getCurrentFrameEvents())) {
+                                WorldGameSession.getInstance().NPCs[var6].followTarget = var5;
                                 var10000 = false;
                                 break label86;
                             }
@@ -739,8 +739,8 @@ public final class NPCEntity extends GameObject {
     }
 
     public final void syncPositionState() {
-        GameWorldManager.B().a(this.npcId, 0, this.worldX);
-        GameWorldManager.B().a(this.npcId, 1, this.worldY);
+        WorldGameSession.getInstance().setNPCPosition(this.npcId, 0, this.worldX);
+        WorldGameSession.getInstance().setNPCPosition(this.npcId, 1, this.worldY);
     }
 
     public final void syncVisualState() {
@@ -749,9 +749,9 @@ public final class NPCEntity extends GameObject {
             var1 = 1;
         }
 
-        GameWorldManager.B().a(this.npcId, 1, var1, true);
-        GameWorldManager.B().a(this.npcId, 0, this.facingDirection, true);
-        GameWorldManager.B().a(this.npcId, 2, this.currentDirection, true);
+        WorldGameSession.getInstance().setNPCState(this.npcId, 1, var1, true);
+        WorldGameSession.getInstance().setNPCState(this.npcId, 0, this.facingDirection, true);
+        WorldGameSession.getInstance().setNPCState(this.npcId, 2, this.currentDirection, true);
     }
 
     public final void moveInDirection(int var1) {
@@ -785,7 +785,7 @@ public final class NPCEntity extends GameObject {
     }
 
     public final void checkPatrolState() {
-        if (GameWorldManager.B().n(this.npcId)) {
+        if (WorldGameSession.getInstance().checkBadgeRequirement(this.npcId)) {
             this.deactivateAuraObject();
         }
 

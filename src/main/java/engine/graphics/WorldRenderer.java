@@ -7,7 +7,7 @@ import engine.entity.GameObject;
 import engine.entity.ResourceManager;
 import engine.entity.TileMapRenderer;
 import game.NPCEntity;
-import game.GameWorldManager;
+import game.WorldGameSession;
 import game.PlayerCharacter;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
@@ -142,7 +142,7 @@ public final class WorldRenderer {
          }
       }
 
-      if (GameWorldManager.B().C25_f286.vehicleStates[2] == 2) {
+      if (WorldGameSession.getInstance().player.vehicleStates[2] == 2) {
          for(var2 = 0; var2 < this.middleLayerEntities.size(); ++var2) {
             if (((GameObject)this.middleLayerEntities.elementAt(var2)).isInteractable()) {
                if (this.middleLayerEntities.elementAt(var2) instanceof PlayerCharacter) {
@@ -165,11 +165,11 @@ public final class WorldRenderer {
             }
          }
 
-         if (TileMapRenderer.getInstance().getTileAt(0, PlayerCharacter.getInstance().worldX, PlayerCharacter.getInstance().worldY) != 1 && GameWorldManager.B().C25_f286.attachedObject != null && GameWorldManager.B().C25_f286.isVisible()) {
-            GameWorldManager.B().C25_f286.attachedObject.render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+         if (TileMapRenderer.getInstance().getTileAt(0, PlayerCharacter.getInstance().worldX, PlayerCharacter.getInstance().worldY) != 1 && WorldGameSession.getInstance().player.attachedObject != null && WorldGameSession.getInstance().player.isVisible()) {
+            WorldGameSession.getInstance().player.attachedObject.render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
          }
 
-         GameWorldManager.B().C25_f286.render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
+         WorldGameSession.getInstance().player.render(graphics, this.tileMapRenderer.cameraX, this.tileMapRenderer.cameraY);
       } else {
          for(var2 = 0; var2 < this.middleLayerEntities.size(); ++var2) {
             if (((GameObject)this.middleLayerEntities.elementAt(var2)).isInteractable()) {
@@ -205,8 +205,8 @@ public final class WorldRenderer {
    }
 
    public final void renderCutsceneMode(Graphics graphics) {
-      GameWorldManager.B();
-      GameWorldManager.b(graphics);
+      WorldGameSession.getInstance();
+      WorldGameSession.drawBackground(graphics);
       this.tileMapRenderer.renderLayer(graphics, 1);
       this.tileMapRenderer.renderLayer(graphics, 2);
 

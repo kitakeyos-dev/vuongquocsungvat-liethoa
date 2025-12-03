@@ -62,12 +62,12 @@ public final class MainMenuScreen extends GameEngineBase {
         this.initializeParticleSystem();
         this.changeState((byte) 0);
         this.animationCounter = 0;
-        if (GameWorldManager.B().C25_f342 != null) {
+        if (WorldGameSession.getInstance().audioManager != null) {
             this.animationCounter = GameScreenManager.getInstance().difficultyLevel;
             GameScreenManager.getInstance().setDifficultyLevel(0);
-            GameWorldManager.B().C25_f342.deallocateAudioResources((byte) 1);
-            GameWorldManager.B().C25_f342.cleanup();
-            GameWorldManager.B().C25_f342 = null;
+            WorldGameSession.getInstance().audioManager.deallocateAudioResources((byte) 1);
+            WorldGameSession.getInstance().audioManager.cleanup();
+            WorldGameSession.getInstance().audioManager = null;
         }
 
         return true;
@@ -85,18 +85,18 @@ public final class MainMenuScreen extends GameEngineBase {
     }
 
     private void startNewGame() {
-        GameWorldManager.C25_f321 = false;
-        GameWorldManager.C25_f332 = false;
-        GameWorldManager.C25_f335 = 0;
+        WorldGameSession.isGameLoaded = false;
+        WorldGameSession.hasPurchasedSms = false;
+        WorldGameSession.tutorialStep = 0;
         QuestManager.isQuestActive = true;
-        GameWorldManager.B().C25_f290 = 0;
-        GameWorldManager.B().C25_f291 = 0;
-        if (GameWorldManager.B().C25_f348 != null) {
-            GameWorldManager.B().C25_f348.resetManager();
+        WorldGameSession.getInstance().currentRegionId = 0;
+        WorldGameSession.getInstance().currentAreaId = 0;
+        if (WorldGameSession.getInstance().questManager != null) {
+            WorldGameSession.getInstance().questManager.resetManager();
         }
 
-        if (GameWorldManager.B().C25_f286 != null) {
-            GameWorldManager.B().C25_f286.destroy();
+        if (WorldGameSession.getInstance().player != null) {
+            WorldGameSession.getInstance().player.destroy();
         }
 
         if (this.gameController != null) {
@@ -133,12 +133,12 @@ public final class MainMenuScreen extends GameEngineBase {
                                     if (this.menuConfirmState == 0) {
                                         GameUtils.a();
                                         this.removeMenuDialog();
-                                        if (GameWorldManager.B().C25_f348 != null) {
-                                            GameWorldManager.B().C25_f348.resetManager();
+                                        if (WorldGameSession.getInstance().questManager != null) {
+                                            WorldGameSession.getInstance().questManager.resetManager();
                                         }
 
-                                        if (GameWorldManager.B().C25_f286 != null) {
-                                            GameWorldManager.B().C25_f286.destroy();
+                                        if (WorldGameSession.getInstance().player != null) {
+                                            WorldGameSession.getInstance().player.destroy();
                                         }
 
                                         if (this.gameController != null) {
@@ -243,8 +243,8 @@ public final class MainMenuScreen extends GameEngineBase {
                     break;
                 case 5:
                     if (this.isKeyPressed(131104)) {
-                        GameWorldManager.B();
-                        GameWorldManager.K();
+                        WorldGameSession.getInstance();
+                        WorldGameSession.deleteAllSaveData();
                         this.startNewGame();
                     } else if (this.isKeyPressed(262144)) {
                         this.changeState((byte) 0);

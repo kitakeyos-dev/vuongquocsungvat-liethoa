@@ -478,8 +478,8 @@ public final class TextRenderingEngine {
                   if (!var1.C39_f613) {
                      var1.c();
                      C39_f610 = false;
-                     if (GameWorldManager.B().dialogManager.isTopDialog("/data/ui/dialog.ui")) {
-                        GameWorldManager.B().gameController.aF();
+                     if (WorldGameSession.getInstance().dialogManager.isTopDialog("/data/ui/dialog.ui")) {
+                        WorldGameSession.getInstance().gameController.aF();
                      }
                   }
 

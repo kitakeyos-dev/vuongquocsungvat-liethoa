@@ -188,7 +188,7 @@ public final class BattleSystemManager extends GameEngineBase {
       this.C29_f431 = null;
       C29_f451 = null;
       C29_f452 = null;
-      GameWorldManager.C25_f315 = 0;
+      WorldGameSession.eggProductionNotified = 0;
       C29_f446 = null;
       C29_f447 = null;
       C29_f448 = null;
@@ -1015,7 +1015,7 @@ public final class BattleSystemManager extends GameEngineBase {
             this.C29_f408.setAnimationState((byte) 0, true);
             return;
          case 8:
-            GameWorldManager.B().C25_f348.selectOption = 0;
+            WorldGameSession.getInstance().questManager.selectOption = 0;
 
             for (var2 = 0; var2 < C29_f412.size(); ++var2) {
                var4 = ((PokemonEntity) C29_f412.elementAt(var2)).animationTimer
@@ -1975,7 +1975,7 @@ public final class BattleSystemManager extends GameEngineBase {
                         this.gameController.C9_f131 = 4;
                      } else if (this.gameController.C9_f131 == 4 || this.gameController.C9_f131 == 1) {
                         this.gameController.C9_f131 = 0;
-                        GameWorldManager.B().C25_f348.selectOption = -1;
+                        WorldGameSession.getInstance().questManager.selectOption = -1;
                         this.q();
                         GameScreenManager.getInstance().changeState((byte) 10);
                      }
@@ -2363,7 +2363,7 @@ public final class BattleSystemManager extends GameEngineBase {
    }
 
    private void N() {
-      if (GameWorldManager.B().C25_f348.isPlayerControl) {
+      if (WorldGameSession.getInstance().questManager.isPlayerControl) {
          this.changeState((byte) 24);
       } else {
          for (int var1 = 0; var1 < C29_f395.partySize; ++var1) {
@@ -2375,8 +2375,8 @@ public final class BattleSystemManager extends GameEngineBase {
          GameScreenManager.getInstance().changeState((byte) 10);
       }
 
-      GameWorldManager.B().C25_f348.selectOption = 1;
-      GameWorldManager.B().C25_f348.isPlayerControl = true;
+      WorldGameSession.getInstance().questManager.selectOption = 1;
+      WorldGameSession.getInstance().questManager.isPlayerControl = true;
    }
 
    private static boolean d(PokemonEntity var0) {
@@ -3049,12 +3049,12 @@ public final class BattleSystemManager extends GameEngineBase {
 
       if (C29_f395.isSkillActive(0)) {
          if (C29_f395.pokedexCount == 0) {
-            if (var5.getLevel() >= 30 && ++GameWorldManager.C25_f314 >= 10) {
-               GameWorldManager.C25_f314 = 10;
+            if (var5.getLevel() >= 30 && ++WorldGameSession.totalBattleCount >= 10) {
+               WorldGameSession.totalBattleCount = 10;
                return;
             }
-         } else if (var5.getLevel() >= 40 && ++GameWorldManager.C25_f314 >= 30) {
-            GameWorldManager.C25_f314 = 30;
+         } else if (var5.getLevel() >= 40 && ++WorldGameSession.totalBattleCount >= 30) {
+            WorldGameSession.totalBattleCount = 30;
          }
       }
 

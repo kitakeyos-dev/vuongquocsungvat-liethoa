@@ -7,7 +7,7 @@ import javax.microedition.lcdui.Graphics;
 public final class LocationSelectionManager extends GameEngineBase {
    private static LocationSelectionManager instance = null;
    private StringBuffer C48_f733 = null;
-   private GameWorldManager C48_f734 = GameWorldManager.B();
+   private WorldGameSession C48_f734 = WorldGameSession.getInstance();
    private BattleSystemManager C48_f735 = BattleSystemManager.B();
    private int[] C48_f736 = new int[] { 2, 7, 8, 8, 13, 7, 2, 13, 7, 8, 15, 29 };
    private int[] C48_f737 = new int[] { 0, 2, 9, 17, 25, 38, 45, 47, 60, 67, 75, 90 };
@@ -93,13 +93,13 @@ public final class LocationSelectionManager extends GameEngineBase {
                   }
                } else {
                   if (this.isKeyPressed(196640)) {
-                     this.C48_f734.C25_f290 = this.C48_f740;
-                     this.C48_f734.C25_f291 = this.C48_f741;
-                     GameWorldManager.B().C25_f295 = -1;
-                     GameWorldManager.C25_f321 = true;
+                     this.C48_f734.currentRegionId = this.C48_f740;
+                     this.C48_f734.currentAreaId = this.C48_f741;
+                     WorldGameSession.getInstance().lastInteractedNpcId = -1;
+                     WorldGameSession.isGameLoaded = true;
                      inputEnabled = false;
-                     this.C48_f734.C25_f293 = this.C48_f746[this.C48_f740 << 1];
-                     this.C48_f734.C25_f294 = this.C48_f746[(this.C48_f740 << 1) + 1];
+                     this.C48_f734.spawnPositionX = this.C48_f746[this.C48_f740 << 1];
+                     this.C48_f734.spawnPositionY = this.C48_f746[(this.C48_f740 << 1) + 1];
                      this.C48_f734.cleanupCurrentScreen();
                      GameScreenManager.getInstance().changeState((byte) 9);
                      return;
@@ -126,7 +126,7 @@ public final class LocationSelectionManager extends GameEngineBase {
                   }
                } else if (this.isKeyPressed(196640)) {
                   this.C48_f735.cleanupCurrentScreen();
-                  this.C48_f734.M();
+                  this.C48_f734.checkWildEncounter();
                   GameScreenManager.getInstance().changeState((byte) 12);
                }
          }
@@ -206,8 +206,8 @@ public final class LocationSelectionManager extends GameEngineBase {
       this.previousState = this.currentState;
       switch (var1) {
          case 1:
-            this.C48_f740 = (byte) this.C48_f734.C25_f290;
-            this.C48_f741 = (byte) this.C48_f734.C25_f291;
+            this.C48_f740 = (byte) this.C48_f734.currentRegionId;
+            this.C48_f741 = (byte) this.C48_f734.currentAreaId;
          case 0:
          default:
             this.currentState = var1;

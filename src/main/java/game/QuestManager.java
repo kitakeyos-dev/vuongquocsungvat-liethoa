@@ -21,7 +21,7 @@ import javax.microedition.lcdui.Image;
 public final class QuestManager extends GameEngineBase {
    public static byte questState;
    private static QuestManager instance = null;
-   private GameWorldManager mapManager;
+   private WorldGameSession mapManager;
    private PlayerCharacter player;
    private GameEngineBase gameEngine;
    public EventScript[] eventScripts;
@@ -81,7 +81,7 @@ public final class QuestManager extends GameEngineBase {
 
    public QuestManager() {
       if (this.mapManager == null) {
-         this.mapManager = GameWorldManager.B();
+         this.mapManager = WorldGameSession.getInstance();
       }
 
       if (this.player == null) {
@@ -138,7 +138,7 @@ public final class QuestManager extends GameEngineBase {
 
    public final void update() {
       if (this.eventScripts != null) {
-         ScreenTransitionManager.a().d();
+         ScreenTransitionManager.getInstance().updateTransition();
          this.dialogManager.d();
          QuestManager var1 = this;
 
@@ -163,17 +163,17 @@ public final class QuestManager extends GameEngineBase {
                         var1.player.setFacingState((byte) 0, (byte) var1.player.currentDirection);
                         break;
                      case 15:
-                        if (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                        if (var1.questStates[WorldGameSession.getAreaIndex(var3.getNumericParameters()[0],
                               var3.getNumericParameters()[1])] != null
-                              && (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                              && (var1.questStates[WorldGameSession.getAreaIndex(var3.getNumericParameters()[0],
                                     var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] == 3
-                                    || var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                                    || var1.questStates[WorldGameSession.getAreaIndex(var3.getNumericParameters()[0],
                                           var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] == 4)) {
                            var4 = true;
                         }
                         break label218;
                      case 16:
-                        if (var3.getNumericParameters()[0] != GameWorldManager.C25_f318) {
+                        if (var3.getNumericParameters()[0] != WorldGameSession.currentInteractNpcId) {
                            break label218;
                         }
 
@@ -186,10 +186,10 @@ public final class QuestManager extends GameEngineBase {
                         isQuestReady = false;
                         break;
                      case 43:
-                        if (GameWorldManager.e(var3.getNumericParameters()[2],
-                              var3.getNumericParameters()[3]) == GameWorldManager.e(var1.mapManager.C25_f290,
-                                    var1.mapManager.C25_f291)
-                              && var3.getNumericParameters()[4] == GameWorldManager.C25_f318
+                        if (WorldGameSession.getAreaIndex(var3.getNumericParameters()[2],
+                              var3.getNumericParameters()[3]) == WorldGameSession.getAreaIndex(var1.mapManager.currentRegionId,
+                                    var1.mapManager.currentAreaId)
+                              && var3.getNumericParameters()[4] == WorldGameSession.currentInteractNpcId
                               && var1.checkEventCondition(var3)) {
                            isQuestTriggered = true;
                            if (isQuestReady && var1.findEventIndex(-1) == -1) {
@@ -207,10 +207,10 @@ public final class QuestManager extends GameEngineBase {
                                  ScriptCommand var8;
                                  if (var14.eventScripts[var7].getExecutionState() != 3 && var15 != var7
                                        && (var8 = var14.eventScripts[var7].getFirstCommand()).getCommandId() == 43
-                                       && GameWorldManager.e(var8.getNumericParameters()[2],
-                                             var8.getNumericParameters()[3]) == GameWorldManager
-                                                   .e(var14.mapManager.C25_f290, var14.mapManager.C25_f291)
-                                       && var8.getNumericParameters()[4] == GameWorldManager.C25_f318
+                                       && WorldGameSession.getAreaIndex(var8.getNumericParameters()[2],
+                                             var8.getNumericParameters()[3]) == WorldGameSession
+                                                   .getAreaIndex(var14.mapManager.currentRegionId, var14.mapManager.currentAreaId)
+                                       && var8.getNumericParameters()[4] == WorldGameSession.currentInteractNpcId
                                        && var14.checkEventCondition(var8)) {
                                     var10001 = (byte) var7;
                                     break;
@@ -231,10 +231,10 @@ public final class QuestManager extends GameEngineBase {
                         }
                         break label218;
                      case 44:
-                        if (GameWorldManager.e(var3.getNumericParameters()[2],
-                              var3.getNumericParameters()[3]) == GameWorldManager.e(var1.mapManager.C25_f290,
-                                    var1.mapManager.C25_f291)
-                              && var3.getNumericParameters()[4] == GameWorldManager.C25_f318
+                        if (WorldGameSession.getAreaIndex(var3.getNumericParameters()[2],
+                              var3.getNumericParameters()[3]) == WorldGameSession.getAreaIndex(var1.mapManager.currentRegionId,
+                                    var1.mapManager.currentAreaId)
+                              && var3.getNumericParameters()[4] == WorldGameSession.currentInteractNpcId
                               && var1.checkEventCompletion(var3)) {
                            isQuestTriggered = true;
                            if (isQuestReady && var2 >= var1.findEventIndex(var2)) {
@@ -249,9 +249,9 @@ public final class QuestManager extends GameEngineBase {
                               && ((NPCEntity) var1.player.followTarget).npcSubType == 11
                               && ((NPCEntity) var1.player.followTarget).npcId == var3.getNumericParameters()[3]
                               && isQuestReady) {
-                           if (var1.mapManager.C25_f287[var3.getNumericParameters()[0]].worldX == var3
+                           if (var1.mapManager.NPCs[var3.getNumericParameters()[0]].worldX == var3
                                  .getNumericParameters()[1]
-                                 && var1.mapManager.C25_f287[var3.getNumericParameters()[0]].worldY == var3
+                                 && var1.mapManager.NPCs[var3.getNumericParameters()[0]].worldY == var3
                                        .getNumericParameters()[2]) {
                               ((NPCEntity) var1.player.followTarget).setDirection((byte) 0);
                            } else {
@@ -267,7 +267,7 @@ public final class QuestManager extends GameEngineBase {
                         for (var15 = 0; var15 < var12.length; ++var15) {
                            var12[var15] = GameUtils
                                  .parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]);
-                           if (var1.mapManager.C25_f287[var12[var15]].getFacingDirection() == 0) {
+                           if (var1.mapManager.NPCs[var12[var15]].getFacingDirection() == 0) {
                               break;
                            }
                         }
@@ -282,7 +282,7 @@ public final class QuestManager extends GameEngineBase {
                         for (var15 = 0; var15 < var12.length; ++var15) {
                            var12[var15] = GameUtils
                                  .parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]);
-                           if (var1.mapManager.C25_f287[var12[var15]].getFacingDirection() == 0) {
+                           if (var1.mapManager.NPCs[var12[var15]].getFacingDirection() == 0) {
                               break;
                            }
                         }
@@ -293,7 +293,7 @@ public final class QuestManager extends GameEngineBase {
                         }
                         break label218;
                      case 69:
-                        if (var3.getNumericParameters()[0] != GameWorldManager.C25_f318) {
+                        if (var3.getNumericParameters()[0] != WorldGameSession.currentInteractNpcId) {
                            break label218;
                         }
                         break;
@@ -321,9 +321,9 @@ public final class QuestManager extends GameEngineBase {
                         byte[] var9 = GameUtils.parseStringToBytes(var3.getStringParameters()[2]);
 
                         for (var7 = 0; var7 < var9.length
-                              && var1.questStates[GameWorldManager.e(var5[var7], var6[var7])] != null
-                              && (var1.questStates[GameWorldManager.e(var5[var7], var6[var7])][var9[var7]] == 3
-                                    || var1.questStates[GameWorldManager.e(var5[var7],
+                              && var1.questStates[WorldGameSession.getAreaIndex(var5[var7], var6[var7])] != null
+                              && (var1.questStates[WorldGameSession.getAreaIndex(var5[var7], var6[var7])][var9[var7]] == 3
+                                    || var1.questStates[WorldGameSession.getAreaIndex(var5[var7],
                                           var6[var7])][var9[var7]] == 4); ++var7) {
                         }
 
@@ -332,11 +332,11 @@ public final class QuestManager extends GameEngineBase {
                         }
                         break label218;
                      case 79:
-                        if (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                        if (var1.questStates[WorldGameSession.getAreaIndex(var3.getNumericParameters()[0],
                               var3.getNumericParameters()[1])] == null
-                              || var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                              || var1.questStates[WorldGameSession.getAreaIndex(var3.getNumericParameters()[0],
                                     var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] != 3
-                              || var1.player.isSkillActive(0) || GameWorldManager.C25_f318 != var3.getNumericParameters()[3]) {
+                              || var1.player.isSkillActive(0) || WorldGameSession.currentInteractNpcId != var3.getNumericParameters()[3]) {
                            break label218;
                         }
 
@@ -348,9 +348,9 @@ public final class QuestManager extends GameEngineBase {
                         isQuestReady = false;
                         break;
                      case 86:
-                        if (var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                        if (var1.questStates[WorldGameSession.getAreaIndex(var3.getNumericParameters()[0],
                               var3.getNumericParameters()[1])] == null
-                              || var1.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                              || var1.questStates[WorldGameSession.getAreaIndex(var3.getNumericParameters()[0],
                                     var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] != 3) {
                            break label218;
                         }
@@ -363,12 +363,12 @@ public final class QuestManager extends GameEngineBase {
                   var1.currentEventIndex = (byte) var2;
                   var1.eventScripts[var2].setCurrentCommandIndex((byte) 0);
                   var1.activeEvents.addElement(var1.eventScripts[var2]);
-                  GameWorldManager var10000 = var1.mapManager;
+                  WorldGameSession var10000 = var1.mapManager;
                   byte var16;
-                  if ((var16 = GameWorldManager.a(var1.currentEventIndex, (byte) 0)) != -1) {
+                  if ((var16 = WorldGameSession.getEventMusicByIndex(var1.currentEventIndex, (byte) 0)) != -1) {
                      var1.lastEventIndex = var1.currentEventIndex;
-                     var1.mapManager.C25_f342.playBackgroundMusic(var16, 1);
-                     GameWorldManager.C25_f345 = true;
+                     var1.mapManager.audioManager.playBackgroundMusic(var16, 1);
+                     WorldGameSession.hasEventMusic = true;
                   }
 
                   var1.eventScripts[var2].setExecutionState((byte) 1);
@@ -427,7 +427,7 @@ public final class QuestManager extends GameEngineBase {
    }
 
    public final void renderPauseScreen(Graphics var1) {
-      ScreenTransitionManager.a().a(var1);
+      ScreenTransitionManager.getInstance().renderTransition(var1);
       if (questEffectImage != null) {
          var1.setColor(0);
          var1.fillRect(0, 0, getScreenWidth(), getScreenHeight());
@@ -435,7 +435,7 @@ public final class QuestManager extends GameEngineBase {
       }
 
       if (this.questSpecialObject != null
-            && this.questSpecialObjectId == GameWorldManager.e(this.mapManager.C25_f290, this.mapManager.C25_f291)) {
+            && this.questSpecialObjectId == WorldGameSession.getAreaIndex(this.mapManager.currentRegionId, this.mapManager.currentAreaId)) {
          this.questSpecialObject.render(var1, TileMapRenderer.getInstance().cameraX,
                TileMapRenderer.getInstance().cameraY);
       }
@@ -452,8 +452,8 @@ public final class QuestManager extends GameEngineBase {
       this.activeEvents = new Vector();
       effectObjects = new Vector();
       int var6 = var2 << 8 | var3;
-      if (this.questStates[GameWorldManager.C25_f297[var2] + var3] == null) {
-         this.questStates[GameWorldManager.C25_f297[var2] + var3] = new byte[var4];
+      if (this.questStates[WorldGameSession.REGION_OFFSETS[var2] + var3] == null) {
+         this.questStates[WorldGameSession.REGION_OFFSETS[var2] + var3] = new byte[var4];
       }
 
       this.currentEventIndex = -1;
@@ -462,7 +462,7 @@ public final class QuestManager extends GameEngineBase {
       for (byte var7 = 0; var7 < var4; ++var7) {
          this.eventScripts[var7] = new EventScript();
          this.eventScripts[var7].loadFromStream(var1, var7, var6, var5);
-         this.eventScripts[var7].setExecutionState(this.questStates[GameWorldManager.C25_f297[var2] + var3][var7]);
+         this.eventScripts[var7].setExecutionState(this.questStates[WorldGameSession.REGION_OFFSETS[var2] + var3][var7]);
       }
 
       this.updateQuestEffects();
@@ -511,9 +511,9 @@ public final class QuestManager extends GameEngineBase {
          ScriptCommand var3;
          if (this.eventScripts[var2].getExecutionState() != 3 && var1 != var2
                && (var3 = this.eventScripts[var2].getFirstCommand()).getCommandId() == 44
-               && GameWorldManager.e(var3.getNumericParameters()[2], var3.getNumericParameters()[3]) == GameWorldManager
-                     .e(this.mapManager.C25_f290, this.mapManager.C25_f291)
-               && var3.getNumericParameters()[4] == GameWorldManager.C25_f318 && this.checkEventCompletion(var3)) {
+               && WorldGameSession.getAreaIndex(var3.getNumericParameters()[2], var3.getNumericParameters()[3]) == WorldGameSession
+                     .getAreaIndex(this.mapManager.currentRegionId, this.mapManager.currentAreaId)
+               && var3.getNumericParameters()[4] == WorldGameSession.currentInteractNpcId && this.checkEventCompletion(var3)) {
             return (byte) var2;
          }
       }
@@ -583,7 +583,7 @@ public final class QuestManager extends GameEngineBase {
                      break label1202;
                   case 1:
                      if (var2.getExecutionState() != 5) {
-                        ScreenTransitionManager.a().c(0, 9);
+                        ScreenTransitionManager.getInstance().startTransition(0, 9);
                         this.dialogManager.a(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
                         this.dialogManager.a((byte) (var3.getNumericParameters()[0] / 10 - 1),
                               var3.getStringParameters()[0], var3.getNumericParameters()[0] % 10);
@@ -602,7 +602,7 @@ public final class QuestManager extends GameEngineBase {
                         break label1202;
                      }
 
-                     ScreenTransitionManager.a().C30_f472 = -1;
+                     ScreenTransitionManager.getInstance().primaryTransitionType = -1;
                      this.dialogManager.c();
                      break;
                   case 2:
@@ -620,18 +620,18 @@ public final class QuestManager extends GameEngineBase {
                            break label1202;
                         }
 
-                        this.mapManager.C25_f287[GameUtils
+                        this.mapManager.NPCs[GameUtils
                               .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])]
                               .setCurrentDirection(GameUtils
                                     .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
-                        if (this.mapManager.C25_f287[GameUtils.parseShort(
+                        if (this.mapManager.NPCs[GameUtils.parseShort(
                               GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].npcSubType == 1) {
-                           this.mapManager.C25_f287[GameUtils
+                           this.mapManager.NPCs[GameUtils
                                  .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])]
                                  .setDirection((byte) 0);
                         }
 
-                        this.mapManager.C25_f287[GameUtils
+                        this.mapManager.NPCs[GameUtils
                               .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].activate();
                         ++var10;
                      }
@@ -649,7 +649,7 @@ public final class QuestManager extends GameEngineBase {
                         }
 
                         var27 = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var12]);
-                        this.mapManager.C25_f287[var27].deactivate();
+                        this.mapManager.NPCs[var27].deactivate();
                         ++var12;
                      }
                   case 4:
@@ -661,18 +661,18 @@ public final class QuestManager extends GameEngineBase {
                         var2.setExecutionState((byte) 5);
                      } else if (this.mapManager.gameController.d(var3.getNumericParameters()[1],
                            var3.getNumericParameters()[0]) && this.gameEngine.isKeyPressed(196640)) {
-                        GameWorldManager.B().D();
+                        WorldGameSession.getInstance().removeInteractionMarker();
                         if (GameUtils.pageCount < GameUtils.b()) {
                            GameUtils.c();
                            this.mapManager.gameController.b(GameUtils.pageCount);
                         } else {
-                           if (GameWorldManager.C25_f318 != -1
-                                 && this.mapManager.C25_f287[GameWorldManager.C25_f318].sprite.spriteSetId <= 85
-                                 && this.mapManager.C25_f287[GameWorldManager.C25_f318].getInteractionState() == 0) {
-                              GameWorldManager.B().a((byte) 13,
-                                    GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldX,
-                                    GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldY - 40,
-                                    GameWorldManager.B().C25_f287[GameWorldManager.C25_f318]);
+                           if (WorldGameSession.currentInteractNpcId != -1
+                                 && this.mapManager.NPCs[WorldGameSession.currentInteractNpcId].sprite.spriteSetId <= 85
+                                 && this.mapManager.NPCs[WorldGameSession.currentInteractNpcId].getInteractionState() == 0) {
+                              WorldGameSession.getInstance().createInteractionMarker((byte) 13,
+                                    WorldGameSession.getInstance().NPCs[WorldGameSession.currentInteractNpcId].worldX,
+                                    WorldGameSession.getInstance().NPCs[WorldGameSession.currentInteractNpcId].worldY - 40,
+                                    WorldGameSession.getInstance().NPCs[WorldGameSession.currentInteractNpcId]);
                            }
 
                            isQuestTriggered = false;
@@ -693,9 +693,9 @@ public final class QuestManager extends GameEngineBase {
                         var30.setFollowTarget(this.player);
                      } else if (var3.getNumericParameters()[0] == 1) {
                         if (var3.getNumericParameters()[3] == 0 && var3.getNumericParameters()[4] == 0) {
-                           var30.setWorldPosition(this.mapManager.C25_f287[var3.getNumericParameters()[1]].getWorldX(),
-                                 this.mapManager.C25_f287[var3.getNumericParameters()[1]].getWorldY());
-                           var30.setFollowTarget(this.mapManager.C25_f287[var3.getNumericParameters()[1]]);
+                           var30.setWorldPosition(this.mapManager.NPCs[var3.getNumericParameters()[1]].getWorldX(),
+                                 this.mapManager.NPCs[var3.getNumericParameters()[1]].getWorldY());
+                           var30.setFollowTarget(this.mapManager.NPCs[var3.getNumericParameters()[1]]);
                         } else {
                            var30.setWorldPosition(var3.getNumericParameters()[3], var3.getNumericParameters()[4]);
                         }
@@ -705,14 +705,14 @@ public final class QuestManager extends GameEngineBase {
                      effectObjects.addElement(var30);
                      break label1202;
                   case 6:
-                     this.questStates[GameWorldManager.C25_f297[this.mapManager.C25_f290]
-                           + this.mapManager.C25_f291][var2.getEventId()] = 3;
-                     GameWorldManager.B().C25_f290 = var3.getNumericParameters()[0];
-                     GameWorldManager.B().C25_f291 = var3.getNumericParameters()[1];
+                     this.questStates[WorldGameSession.REGION_OFFSETS[this.mapManager.currentRegionId]
+                           + this.mapManager.currentAreaId][var2.getEventId()] = 3;
+                     WorldGameSession.getInstance().currentRegionId = var3.getNumericParameters()[0];
+                     WorldGameSession.getInstance().currentAreaId = var3.getNumericParameters()[1];
                      if (var3.getNumericParameters()[3] == 1) {
-                        this.mapManager.C25_f295 = var3.getNumericParameters()[2];
+                        this.mapManager.lastInteractedNpcId = var3.getNumericParameters()[2];
                      } else {
-                        this.mapManager.C25_f295 = -1;
+                        this.mapManager.lastInteractedNpcId = -1;
                      }
 
                      GameScreenManager.getInstance().changeState((byte) 22);
@@ -730,8 +730,8 @@ public final class QuestManager extends GameEngineBase {
                                     GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[0]),
                                     var5);
                            } else {
-                              this.mapManager.C25_f287[this.eventEntityIds[var10]].setCurrentDirection(var5);
-                              this.mapManager.C25_f287[this.eventEntityIds[var10]].setDirection(GameUtils
+                              this.mapManager.NPCs[this.eventEntityIds[var10]].setCurrentDirection(var5);
+                              this.mapManager.NPCs[this.eventEntityIds[var10]].setDirection(GameUtils
                                     .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
                            }
                         }
@@ -747,8 +747,8 @@ public final class QuestManager extends GameEngineBase {
                               this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
                               ++this.animationCounter;
                            }
-                        } else if (this.mapManager.C25_f287[this.eventEntityIds[var10]].isAnimationComplete()) {
-                           this.mapManager.C25_f287[this.eventEntityIds[var10]].setDirection((byte) 0);
+                        } else if (this.mapManager.NPCs[this.eventEntityIds[var10]].isAnimationComplete()) {
+                           this.mapManager.NPCs[this.eventEntityIds[var10]].setDirection((byte) 0);
                            ++this.animationCounter;
                         }
                      }
@@ -761,7 +761,7 @@ public final class QuestManager extends GameEngineBase {
                      break;
                   case 8:
                      this.player.activate();
-                     GameWorldManager.C25_f318 = -1;
+                     WorldGameSession.currentInteractNpcId = -1;
                      this.player.setWorldPosition(var3.getNumericParameters()[0], var3.getNumericParameters()[1]);
                      this.player.attachedObject.setWorldPosition(var3.getNumericParameters()[0],
                            var3.getNumericParameters()[1]);
@@ -772,50 +772,50 @@ public final class QuestManager extends GameEngineBase {
                         var24 = false;
                         if (var3.getNumericParameters()[0] != 12 && var3.getNumericParameters()[0] != 13) {
                            if (var3.getNumericParameters()[0] == 10) {
-                              ScreenTransitionManager.a().c(0, var3.getNumericParameters()[0]);
-                              ScreenTransitionManager.a().d(var3.getNumericParameters()[1],
+                              ScreenTransitionManager.getInstance().startTransition(0, var3.getNumericParameters()[0]);
+                              ScreenTransitionManager.getInstance().initFlashEffect(var3.getNumericParameters()[1],
                                     var3.getNumericParameters()[2]);
                            } else if (var3.getNumericParameters()[0] != 15 && var3.getNumericParameters()[0] != 14) {
                               if (var3.getNumericParameters()[0] == 16) {
                                  String[] var28;
                                  if (var3.getNumericParameters()[1] == 0) {
                                     var28 = new String[] { "star0", "star1", "star2", "star3" };
-                                    ScreenTransitionManager.a().a(16, 0, (byte) var3.getNumericParameters()[2],
-                                          (byte) 7, GameWorldManager.C25_f298, var28);
+                                    ScreenTransitionManager.getInstance().initParticleEffect(16, 0, (byte) var3.getNumericParameters()[2],
+                                          (byte) 7, WorldGameSession.backgroundImage, var28);
                                  } else if (var3.getNumericParameters()[1] == 1) {
                                     var28 = new String[] { "fire0", "fire1", "fire2" };
-                                    ScreenTransitionManager.a().a(16, 0, (byte) var3.getNumericParameters()[2],
+                                    ScreenTransitionManager.getInstance().initParticleEffect(16, 0, (byte) var3.getNumericParameters()[2],
                                           (byte) 0, (Image) null, var28);
                                  } else if (var3.getNumericParameters()[1] == 2) {
                                     var28 = new String[] { "fire0", "fire1", "fire2" };
-                                    ScreenTransitionManager.a().a(17, 0, (byte) var3.getNumericParameters()[2],
+                                    ScreenTransitionManager.getInstance().initParticleEffect(17, 0, (byte) var3.getNumericParameters()[2],
                                           (byte) 0, (Image) null, var28);
                                  } else {
                                     var24 = true;
-                                    ScreenTransitionManager.a().a(-1, 0, (byte) var3.getNumericParameters()[2],
+                                    ScreenTransitionManager.getInstance().initParticleEffect(-1, 0, (byte) var3.getNumericParameters()[2],
                                           (byte) 0, (Image) null, (String[]) null);
                                     var2.setExecutionState((byte) 1);
                                  }
                               } else if (var3.getNumericParameters()[0] == 17) {
-                                 ScreenTransitionManager.a().c(var3.getNumericParameters()[1],
+                                 ScreenTransitionManager.getInstance().startTransition(var3.getNumericParameters()[1],
                                        var3.getNumericParameters()[0]);
-                                 ScreenTransitionManager.a().a(var3.getNumericParameters()[2],
+                                 ScreenTransitionManager.getInstance().initCircleTransition(var3.getNumericParameters()[2],
                                        var3.getNumericParameters()[3], var3.getNumericParameters()[4],
                                        var3.getNumericParameters()[5]);
                               } else {
                                  var12 = var3.getNumericParameters()[1] << 24 | var3.getNumericParameters()[2] << 16
                                        | var3.getNumericParameters()[3] << 8 | var3.getNumericParameters()[4];
-                                 ScreenTransitionManager.a().c(var12, var3.getNumericParameters()[0]);
+                                 ScreenTransitionManager.getInstance().startTransition(var12, var3.getNumericParameters()[0]);
                               }
                            } else {
-                              ScreenTransitionManager.a().c(0, var3.getNumericParameters()[0]);
-                              ScreenTransitionManager.a().a(this.questIconNames[var3.getNumericParameters()[1]],
+                              ScreenTransitionManager.getInstance().startTransition(0, var3.getNumericParameters()[0]);
+                              ScreenTransitionManager.getInstance().initImageOverlay(this.questIconNames[var3.getNumericParameters()[1]],
                                     var3.getNumericParameters()[2], var3.getNumericParameters()[3],
                                     var3.getNumericParameters()[4]);
                            }
                         } else {
-                           ScreenTransitionManager.a().c(0, var3.getNumericParameters()[0]);
-                           ScreenTransitionManager.a().a(var3.getNumericParameters()[1], var3.getNumericParameters()[2],
+                           ScreenTransitionManager.getInstance().startTransition(0, var3.getNumericParameters()[0]);
+                           ScreenTransitionManager.getInstance().initScrollEffect(var3.getNumericParameters()[1], var3.getNumericParameters()[2],
                                  var3.getNumericParameters()[3], var3.getNumericParameters()[4],
                                  var3.getNumericParameters()[5]);
                         }
@@ -826,13 +826,13 @@ public final class QuestManager extends GameEngineBase {
                         break label1202;
                      }
 
-                     if (ScreenTransitionManager.a().C30_f477
+                     if (ScreenTransitionManager.getInstance().isSecondaryComplete
                            && (var3.getNumericParameters()[0] == 12 || var3.getNumericParameters()[0] == 13)) {
                         var2.setExecutionState((byte) 1);
                         break label1202;
                      }
 
-                     if (var3.getNumericParameters()[0] != 16 && !ScreenTransitionManager.a().C30_f476) {
+                     if (var3.getNumericParameters()[0] != 16 && !ScreenTransitionManager.getInstance().isTransitionComplete) {
                         break label1202;
                      }
                      break;
@@ -855,12 +855,12 @@ public final class QuestManager extends GameEngineBase {
                               this.eventEntityIds[var10] = GameUtils
                                     .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10]);
                               if (this.eventEntityIds[var10] != -1) {
-                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].setCurrentDirection(GameUtils
+                                 this.mapManager.NPCs[this.eventEntityIds[var10]].setCurrentDirection(GameUtils
                                        .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
-                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].setSecondaryState((byte) 0,
+                                 this.mapManager.NPCs[this.eventEntityIds[var10]].setSecondaryState((byte) 0,
                                        (short) GameUtils.parseByte(
                                              GameUtils.splitString(var3.getStringParameters()[2], ',')[var10]));
-                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].setDirection((byte) 0);
+                                 this.mapManager.NPCs[this.eventEntityIds[var10]].setDirection((byte) 0);
                               } else {
                                  this.player.setCurrentDirection(GameUtils
                                        .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
@@ -903,11 +903,11 @@ public final class QuestManager extends GameEngineBase {
 
                      for (var10 = 0; var10 < this.eventEntityIds.length; ++var10) {
                         if (this.eventEntityIds[var10] != -1
-                              && this.mapManager.C25_f287[this.eventEntityIds[var10]].getFacingDirection() == 0
+                              && this.mapManager.NPCs[this.eventEntityIds[var10]].getFacingDirection() == 0
                               || this.eventEntityIds[var10] == -1 && this.player.getFacingDirection() == 0) {
                            if (this.eventEntityStates[var10] > 0) {
                               if (this.eventEntityIds[var10] != -1) {
-                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].setDirection((byte) 3);
+                                 this.mapManager.NPCs[this.eventEntityIds[var10]].setDirection((byte) 3);
                               } else {
                                  this.player.setFacingState((byte) 1, (byte) this.player.currentDirection);
                               }
@@ -918,8 +918,8 @@ public final class QuestManager extends GameEngineBase {
                               ++this.animationCounter;
                               this.eventEntityStates[var10] = 0;
                               if (this.eventEntityIds[var10] != -1) {
-                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].setDirection((byte) 0);
-                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].setSecondaryState((byte) 0,
+                                 this.mapManager.NPCs[this.eventEntityIds[var10]].setDirection((byte) 0);
+                                 this.mapManager.NPCs[this.eventEntityIds[var10]].setSecondaryState((byte) 0,
                                        (short) 4);
                               } else {
                                  this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
@@ -953,7 +953,7 @@ public final class QuestManager extends GameEngineBase {
                               CameraController.getInstance().setFollowEntity(this.player, var24);
                            } else {
                               CameraController.getInstance()
-                                    .setFollowEntity(this.mapManager.C25_f287[var3.getNumericParameters()[3]], var24);
+                                    .setFollowEntity(this.mapManager.NPCs[var3.getNumericParameters()[3]], var24);
                            }
                         }
 
@@ -994,7 +994,7 @@ public final class QuestManager extends GameEngineBase {
                      var2.setExecutionState((byte) 3);
                      break label1202;
                   case 16:
-                     if (var3.getNumericParameters()[0] == GameWorldManager.C25_f318) {
+                     if (var3.getNumericParameters()[0] == WorldGameSession.currentInteractNpcId) {
                         isQuestTriggered = true;
                         if (isQuestReady) {
                            isQuestReady = false;
@@ -1109,29 +1109,29 @@ public final class QuestManager extends GameEngineBase {
                      }
                      break;
                   case 21:
-                     GameWorldManager.C25_f321 = false;
-                     GameWorldManager.C25_f322 = var3.getNumericParameters()[2];
+                     WorldGameSession.isGameLoaded = false;
+                     WorldGameSession.cameraFollowNpcId = var3.getNumericParameters()[2];
                      if (var3.getNumericParameters()[1] == 1) {
-                        GameWorldManager.C25_f323 = var3.getNumericParameters()[3];
-                        GameWorldManager.C25_f324 = var3.getNumericParameters()[4];
-                        GameWorldManager.C25_f325 = var3.getNumericParameters()[5];
-                        GameWorldManager.C25_f326 = var3.getNumericParameters()[6];
+                        WorldGameSession.cameraFixedX = var3.getNumericParameters()[3];
+                        WorldGameSession.cameraFixedY = var3.getNumericParameters()[4];
+                        WorldGameSession.screenWidth = var3.getNumericParameters()[5];
+                        WorldGameSession.screenHeight = var3.getNumericParameters()[6];
                      }
                      break label1202;
                   case 22:
-                     GameWorldManager.C25_f321 = true;
-                     GameWorldManager.C25_f320 = (byte) var3.getNumericParameters()[1];
-                     GameWorldManager.B().C25_f293 = var3.getNumericParameters()[2];
-                     GameWorldManager.B().C25_f294 = var3.getNumericParameters()[3];
-                     GameWorldManager.C25_f325 = var3.getNumericParameters()[4];
-                     GameWorldManager.C25_f326 = var3.getNumericParameters()[5];
-                     GameWorldManager.B().C25_f295 = -1;
+                     WorldGameSession.isGameLoaded = true;
+                     WorldGameSession.playerDirection = (byte) var3.getNumericParameters()[1];
+                     WorldGameSession.getInstance().spawnPositionX = var3.getNumericParameters()[2];
+                     WorldGameSession.getInstance().spawnPositionY = var3.getNumericParameters()[3];
+                     WorldGameSession.screenWidth = var3.getNumericParameters()[4];
+                     WorldGameSession.screenHeight = var3.getNumericParameters()[5];
+                     WorldGameSession.getInstance().lastInteractedNpcId = -1;
                      break label1202;
                   case 23:
-                     this.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                     this.questStates[WorldGameSession.getAreaIndex(var3.getNumericParameters()[0],
                            var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] = 3;
-                     if (var3.getNumericParameters()[0] == this.mapManager.C25_f290
-                           && var3.getNumericParameters()[1] == this.mapManager.C25_f291) {
+                     if (var3.getNumericParameters()[0] == this.mapManager.currentRegionId
+                           && var3.getNumericParameters()[1] == this.mapManager.currentAreaId) {
                         this.eventScripts[var3.getNumericParameters()[2]].setExecutionState((byte) 3);
                         if (this.activeEvents.size() > 0) {
                            this.activeEvents.removeElement(this.eventScripts[var3.getNumericParameters()[2]]);
@@ -1141,14 +1141,14 @@ public final class QuestManager extends GameEngineBase {
                      break label1202;
                   case 24:
                      if (var2.getExecutionState() != 5) {
-                        ScreenTransitionManager.a().c(0, 11);
-                        ScreenTransitionManager.a().a(var3.getNumericParameters()[0], var3.getNumericParameters()[1],
+                        ScreenTransitionManager.getInstance().startTransition(0, 11);
+                        ScreenTransitionManager.getInstance().initShakeEffect(var3.getNumericParameters()[0], var3.getNumericParameters()[1],
                               var3.getNumericParameters()[2]);
                         var2.setExecutionState((byte) 5);
                         break label1202;
                      }
 
-                     if (!ScreenTransitionManager.a().C30_f476) {
+                     if (!ScreenTransitionManager.getInstance().isTransitionComplete) {
                         break label1202;
                      }
                      break;
@@ -1200,13 +1200,13 @@ public final class QuestManager extends GameEngineBase {
                                  this.player.attachedObject.setWorldPosition(var12, var15);
                               }
                            } else {
-                              var12 = this.mapManager.C25_f287[this.eventEntityIds[var18]].getWorldX()
+                              var12 = this.mapManager.NPCs[this.eventEntityIds[var18]].getWorldX()
                                     + this.eventEntityOffsetX[var18];
-                              var15 = this.mapManager.C25_f287[this.eventEntityIds[var18]].getWorldY()
+                              var15 = this.mapManager.NPCs[this.eventEntityIds[var18]].getWorldY()
                                     + this.eventEntityOffsetY[var18];
-                              this.mapManager.C25_f287[this.eventEntityIds[var18]].setWorldPosition(var12, var15);
-                              if (this.mapManager.C25_f287[this.eventEntityIds[var18]].attachedObject != null) {
-                                 this.mapManager.C25_f287[this.eventEntityIds[var18]].attachedObject
+                              this.mapManager.NPCs[this.eventEntityIds[var18]].setWorldPosition(var12, var15);
+                              if (this.mapManager.NPCs[this.eventEntityIds[var18]].attachedObject != null) {
+                                 this.mapManager.NPCs[this.eventEntityIds[var18]].attachedObject
                                        .setWorldPosition(var12, var15);
                               }
                            }
@@ -1255,7 +1255,7 @@ public final class QuestManager extends GameEngineBase {
                      }
 
                      for (var10 = 0; var10 < this.eventEntityIds.length; ++var10) {
-                        this.mapManager.C25_f287[this.eventEntityIds[var10]].setWorldPosition(
+                        this.mapManager.NPCs[this.eventEntityIds[var10]].setWorldPosition(
                               this.eventEntityPathX[var10][this.animationCounter],
                               this.eventEntityPathY[var10][this.animationCounter]);
                      }
@@ -1296,17 +1296,17 @@ public final class QuestManager extends GameEngineBase {
                      }
                      break;
                   case 32:
-                     this.mapManager.D();
+                     this.mapManager.removeInteractionMarker();
                      BattleSystemManager.B().C29_f397 = var3.getNumericParameters()[0];
                      BattleSystemManager.B().C29_f398 = (byte) var3.getNumericParameters()[1];
-                     this.mapManager.N();
+                     this.mapManager.captureScreenForBattle();
                      this.player.setFacingState((byte) 0, (byte) this.player.currentDirection);
                      var2.setExecutionState((byte) 1);
-                     GameWorldManager var10000 = this.mapManager;
-                     if ((var14 = GameWorldManager.a(var2.getEventId(), (byte) 1)) != -1) {
-                        this.mapManager.C25_f342.playBackgroundMusic(var14, 1);
+                     WorldGameSession var10000 = this.mapManager;
+                     if ((var14 = WorldGameSession.getEventMusicByIndex(var2.getEventId(), (byte) 1)) != -1) {
+                        this.mapManager.audioManager.playBackgroundMusic(var14, 1);
                      } else {
-                        this.mapManager.C25_f342.playBackgroundMusic(4, 1);
+                        this.mapManager.audioManager.playBackgroundMusic(4, 1);
                      }
 
                      GameScreenManager.getInstance().changeState((byte) 12);
@@ -1318,12 +1318,12 @@ public final class QuestManager extends GameEngineBase {
                         var12 = 0;
 
                         while (true) {
-                           if (var12 >= GameWorldManager.B().C25_f287.length) {
+                           if (var12 >= WorldGameSession.getInstance().NPCs.length) {
                               break label1202;
                            }
 
-                           if (this.mapManager.C25_f287[var12].isVisible()) {
-                              this.mapManager.C25_f287[var12].resetSprite();
+                           if (this.mapManager.NPCs[var12].isVisible()) {
+                              this.mapManager.NPCs[var12].resetSprite();
                            }
 
                            ++var12;
@@ -1339,12 +1339,12 @@ public final class QuestManager extends GameEngineBase {
                      var12 = 0;
 
                      while (true) {
-                        if (var12 >= GameWorldManager.B().C25_f287.length) {
+                        if (var12 >= WorldGameSession.getInstance().NPCs.length) {
                            break label1202;
                         }
 
-                        if (this.mapManager.C25_f287[var12].isVisible()) {
-                           GameWorldManager.B().C25_f287[var12].resetSprite();
+                        if (this.mapManager.NPCs[var12].isVisible()) {
+                           WorldGameSession.getInstance().NPCs[var12].resetSprite();
                         }
 
                         ++var12;
@@ -1435,14 +1435,14 @@ public final class QuestManager extends GameEngineBase {
                      for (var15 = 0; var15 < GameUtils.splitString(var3.getStringParameters()[0],
                            ',').length; ++var15) {
                         if (GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[0],
-                              ',')[var15]) == GameWorldManager.C25_f318) {
+                              ',')[var15]) == WorldGameSession.currentInteractNpcId) {
                            isQuestTriggered = true;
                            if (isQuestReady) {
-                              GameWorldManager.C25_f318 = -1;
+                              WorldGameSession.currentInteractNpcId = -1;
                               var5 = GameUtils
                                     .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var15]);
                               var2.setCurrentCommandIndex((byte) (var5 - 1));
-                              GameWorldManager.B().D();
+                              WorldGameSession.getInstance().removeInteractionMarker();
                               isQuestTriggered = false;
                               isQuestReady = false;
                            }
@@ -1514,9 +1514,9 @@ public final class QuestManager extends GameEngineBase {
                      }
 
                      if (this.gameEngine.gameController.C9_f131 == 1) {
-                        this.questStates[GameWorldManager.e(this.mapManager.C25_f290, this.mapManager.C25_f291)][var2
+                        this.questStates[WorldGameSession.getAreaIndex(this.mapManager.currentRegionId, this.mapManager.currentAreaId)][var2
                               .getEventId()] = 3;
-                        if (((GameWorldManager) this.gameEngine).I()) {
+                        if (((WorldGameSession) this.gameEngine).saveAllGameData()) {
                            this.gameEngine.gameController.a("Lưu thành công");
                            this.gameEngine.gameController.C9_f131 = 2;
                         }
@@ -1564,7 +1564,7 @@ public final class QuestManager extends GameEngineBase {
                         break label1202;
                      }
 
-                     ScreenTransitionManager.a().C30_f472 = -1;
+                     ScreenTransitionManager.getInstance().primaryTransitionType = -1;
                      this.dialogManager.c();
                      break;
                   case 49:
@@ -1637,10 +1637,10 @@ public final class QuestManager extends GameEngineBase {
                            this.player.setBadgeState((byte) ((byte) var3.getNumericParameters()[0]),
                                  (byte) ((byte) var3.getNumericParameters()[1]), (byte) 2);
 
-                           for (var15 = 0; var15 < GameWorldManager.B().C25_f287.length; ++var15) {
-                              if (GameWorldManager.B().C25_f287[var15].npcType == 0
-                                    && GameWorldManager.B().C25_f287[var15].npcSubType == 1) {
-                                 GameWorldManager.B().C25_f287[var15].checkPatrolState();
+                           for (var15 = 0; var15 < WorldGameSession.getInstance().NPCs.length; ++var15) {
+                              if (WorldGameSession.getInstance().NPCs[var15].npcType == 0
+                                    && WorldGameSession.getInstance().NPCs[var15].npcSubType == 1) {
+                                 WorldGameSession.getInstance().NPCs[var15].checkPatrolState();
                               }
                            }
                         } else if (var3.getNumericParameters()[1] == 1) {
@@ -1680,7 +1680,7 @@ public final class QuestManager extends GameEngineBase {
                            this.questSpecialObject = new GameObject();
                            this.questSpecialObject.loadSpriteSet(340, false);
                            this.questSpecialObject.activate();
-                           this.questSpecialObjectId = GameWorldManager.e(var3.getNumericParameters()[3],
+                           this.questSpecialObjectId = WorldGameSession.getAreaIndex(var3.getNumericParameters()[3],
                                  var3.getNumericParameters()[4]);
                         }
 
@@ -1707,15 +1707,15 @@ public final class QuestManager extends GameEngineBase {
                                  .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var18]);
                            var14 = GameUtils
                                  .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var18]);
-                           this.mapManager.C25_f287[var25].setCurrentDirection(var14);
-                           if (this.mapManager.C25_f287[var25].npcSubType == 1) {
-                              this.mapManager.C25_f287[var25].setDirection((byte) 0);
+                           this.mapManager.NPCs[var25].setCurrentDirection(var14);
+                           if (this.mapManager.NPCs[var25].npcSubType == 1) {
+                              this.mapManager.NPCs[var25].setDirection((byte) 0);
                            }
 
-                           this.mapManager.C25_f287[var25].activate();
-                           this.mapManager.a(var25, 1, (byte) 1, true);
-                           this.mapManager.a(var25, 2, var14, true);
-                           this.mapManager.C25_f287[var25].syncPositionState();
+                           this.mapManager.NPCs[var25].activate();
+                           this.mapManager.setNPCState(var25, 1, (byte) 1, true);
+                           this.mapManager.setNPCState(var25, 2, var14, true);
+                           this.mapManager.NPCs[var25].syncPositionState();
                            ++var18;
                         }
                      }
@@ -1732,24 +1732,24 @@ public final class QuestManager extends GameEngineBase {
                         }
 
                         var25 = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var18]);
-                        if (this.mapManager.C25_f287[var25].npcSubType == 1) {
-                           this.mapManager.C25_f287[var25].setDirection((byte) 0);
+                        if (this.mapManager.NPCs[var25].npcSubType == 1) {
+                           this.mapManager.NPCs[var25].setDirection((byte) 0);
                         }
 
-                        this.mapManager.C25_f287[var25].deactivate();
-                        this.mapManager.a(var25, 1, (byte) 0, true);
-                        this.mapManager.C25_f287[var25].syncPositionState();
+                        this.mapManager.NPCs[var25].deactivate();
+                        this.mapManager.setNPCState(var25, 1, (byte) 0, true);
+                        this.mapManager.NPCs[var25].syncPositionState();
                         ++var18;
                      }
                   case 58:
                      if (((NPCEntity) this.player.followTarget).getFacingDirection() == 1
                            && ((NPCEntity) this.player.followTarget).sprite.isAtLastFrame()) {
                         ((NPCEntity) this.player.followTarget).setDirection((byte) 0);
-                        this.mapManager.C25_f287[var3.getNumericParameters()[0]]
+                        this.mapManager.NPCs[var3.getNumericParameters()[0]]
                               .setWorldPosition(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
-                        if ((NPCEntity) this.mapManager.C25_f287[var3.getNumericParameters()[0]].followTarget != null) {
-                           ((NPCEntity) this.mapManager.C25_f287[var3.getNumericParameters()[0]].followTarget).findNearbyNPCsForDialogue();
-                           this.mapManager.C25_f287[var3.getNumericParameters()[0]].setFollowTarget((GameEntity) null);
+                        if ((NPCEntity) this.mapManager.NPCs[var3.getNumericParameters()[0]].followTarget != null) {
+                           ((NPCEntity) this.mapManager.NPCs[var3.getNumericParameters()[0]].followTarget).findNearbyNPCsForDialogue();
+                           this.mapManager.NPCs[var3.getNumericParameters()[0]].setFollowTarget((GameEntity) null);
                         }
                      }
                      break label1202;
@@ -1760,14 +1760,14 @@ public final class QuestManager extends GameEngineBase {
                         for (var15 = 0; var15 < this.eventEntityIds.length; ++var15) {
                            this.eventEntityIds[var15] = GameUtils
                                  .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]);
-                           this.mapManager.C25_f287[this.eventEntityIds[var15]].setDirection(
+                           this.mapManager.NPCs[this.eventEntityIds[var15]].setDirection(
                                  GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var15]));
-                           if (this.mapManager.C25_f287[this.eventEntityIds[var15]].npcType == 0
-                                 && this.mapManager.C25_f287[this.eventEntityIds[var15]].npcSubType == 6
-                                 && this.mapManager.C25_f287[this.eventEntityIds[var15]].getFacingDirection() == 2) {
+                           if (this.mapManager.NPCs[this.eventEntityIds[var15]].npcType == 0
+                                 && this.mapManager.NPCs[this.eventEntityIds[var15]].npcSubType == 6
+                                 && this.mapManager.NPCs[this.eventEntityIds[var15]].getFacingDirection() == 2) {
                               short var10002 = this.eventEntityIds[var15];
-                              GameWorldManager.B().C25_f285
-                                    .moveEntityToForeground(GameWorldManager.B().C25_f287[var10002], 2);
+                              WorldGameSession.getInstance().worldRenderer
+                                    .moveEntityToForeground(WorldGameSession.getInstance().NPCs[var10002], 2);
                            }
                         }
 
@@ -1777,7 +1777,7 @@ public final class QuestManager extends GameEngineBase {
                      }
 
                      for (var15 = 0; var15 < this.eventEntityIds.length; ++var15) {
-                        if (this.mapManager.C25_f287[this.eventEntityIds[var15]].isAnimationComplete()) {
+                        if (this.mapManager.NPCs[this.eventEntityIds[var15]].isAnimationComplete()) {
                            ++this.animationCounter;
                         }
                      }
@@ -1796,7 +1796,7 @@ public final class QuestManager extends GameEngineBase {
                      for (var18 = 0; var18 < var13.length; ++var18) {
                         var13[var18] = GameUtils
                               .parseInt(GameUtils.splitString(var3.getStringParameters()[0], ',')[var18]);
-                        if (this.mapManager.C25_f287[var13[var18]].getFacingDirection() == 2) {
+                        if (this.mapManager.NPCs[var13[var18]].getFacingDirection() == 2) {
                            var22 = var13[var18];
                            break;
                         }
@@ -1825,14 +1825,14 @@ public final class QuestManager extends GameEngineBase {
                      break label1202;
                   case 64:
                      if (var3.getNumericParameters()[0] == 0) {
-                        this.mapManager.l(var3.getNumericParameters()[1]);
+                        this.mapManager.loadFollowingPet(var3.getNumericParameters()[1]);
                         if (var3.getNumericParameters()[2] == -1) {
-                           this.mapManager.a((GameObject) this.player);
+                           this.mapManager.attachFollowingPet((GameObject) this.player);
                         } else {
-                           this.mapManager.a((GameObject) this.mapManager.C25_f287[var3.getNumericParameters()[2]]);
+                           this.mapManager.attachFollowingPet((GameObject) this.mapManager.NPCs[var3.getNumericParameters()[2]]);
                         }
                      } else {
-                        this.mapManager.E();
+                        this.mapManager.removeFollowingPet();
                      }
                      break label1202;
                   case 65:
@@ -1853,7 +1853,7 @@ public final class QuestManager extends GameEngineBase {
                      GameEngineBase.setActionData(0, 3);
                      break label1202;
                   case 67:
-                     GameWorldManager.C25_f319 = var3.getNumericParameters()[0];
+                     WorldGameSession.previousInteractNpcId = var3.getNumericParameters()[0];
                      break label1202;
                   case 70:
                      if (var2.getExecutionState() != 5) {
@@ -1908,9 +1908,9 @@ public final class QuestManager extends GameEngineBase {
                            var20[var10].setAnimation(GameUtils.parseByte(var17[var10]), (byte) -1, true);
                            var20[var10].activate();
                            var20[var10].setWorldPosition(
-                                 this.mapManager.C25_f287[GameUtils.parseInt(var6[var10])].getWorldX(),
-                                 this.mapManager.C25_f287[GameUtils.parseInt(var6[var10])].getWorldY() - 40);
-                           var20[var10].setFollowTarget(this.mapManager.C25_f287[GameUtils.parseInt(var6[var10])]);
+                                 this.mapManager.NPCs[GameUtils.parseInt(var6[var10])].getWorldX(),
+                                 this.mapManager.NPCs[GameUtils.parseInt(var6[var10])].getWorldY() - 40);
+                           var20[var10].setFollowTarget(this.mapManager.NPCs[GameUtils.parseInt(var6[var10])]);
                         }
 
                         effectObjects.addElement(var20[var10]);
@@ -1924,18 +1924,18 @@ public final class QuestManager extends GameEngineBase {
                      }
                      break label1202;
                   case 76:
-                     this.questStates[GameWorldManager.C25_f297[this.mapManager.C25_f290]
-                           + this.mapManager.C25_f291][var2.getEventId()] = 3;
-                     GameWorldManager.B().C25_f290 = var3.getNumericParameters()[0];
-                     GameWorldManager.B().C25_f291 = var3.getNumericParameters()[1];
-                     GameWorldManager.B().C25_f295 = -1;
+                     this.questStates[WorldGameSession.REGION_OFFSETS[this.mapManager.currentRegionId]
+                           + this.mapManager.currentAreaId][var2.getEventId()] = 3;
+                     WorldGameSession.getInstance().currentRegionId = var3.getNumericParameters()[0];
+                     WorldGameSession.getInstance().currentAreaId = var3.getNumericParameters()[1];
+                     WorldGameSession.getInstance().lastInteractedNpcId = -1;
                      this.mapManager.changeState((byte) 29);
                      break label1202;
                   case 77:
-                     this.questStates[GameWorldManager.e(var3.getNumericParameters()[0],
+                     this.questStates[WorldGameSession.getAreaIndex(var3.getNumericParameters()[0],
                            var3.getNumericParameters()[1])][var3.getNumericParameters()[2]] = 4;
-                     if (var3.getNumericParameters()[0] == this.mapManager.C25_f290
-                           && var3.getNumericParameters()[1] == this.mapManager.C25_f291) {
+                     if (var3.getNumericParameters()[0] == this.mapManager.currentRegionId
+                           && var3.getNumericParameters()[1] == this.mapManager.currentAreaId) {
                         this.eventScripts[var3.getNumericParameters()[2]].setExecutionState((byte) 4);
                      }
                      break label1202;
@@ -2033,8 +2033,8 @@ public final class QuestManager extends GameEngineBase {
                            break label1202;
                         }
 
-                        this.mapManager.C25_f287[var8[var10]].syncPositionState();
-                        this.mapManager.C25_f287[var8[var10]].syncVisualState();
+                        this.mapManager.NPCs[var8[var10]].syncPositionState();
+                        this.mapManager.NPCs[var8[var10]].syncVisualState();
                         ++var10;
                      }
                   case 83:
@@ -2062,18 +2062,18 @@ public final class QuestManager extends GameEngineBase {
                         var2.setExecutionState((byte) 5);
                      } else if (this.mapManager.gameController.d(var3.getNumericParameters()[1],
                            var3.getNumericParameters()[0]) && this.gameEngine.isKeyPressed(196640)) {
-                        GameWorldManager.B().D();
+                        WorldGameSession.getInstance().removeInteractionMarker();
                         if (GameUtils.pageCount < GameUtils.b()) {
                            GameUtils.c();
                            this.mapManager.gameController.b(GameUtils.pageCount);
                         } else {
-                           if (GameWorldManager.C25_f318 != -1
-                                 && this.mapManager.C25_f287[GameWorldManager.C25_f318].sprite.spriteSetId <= 85
-                                 && this.mapManager.C25_f287[GameWorldManager.C25_f318].getInteractionState() == 0) {
-                              GameWorldManager.B().a((byte) 13,
-                                    GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldX,
-                                    GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldY - 40,
-                                    GameWorldManager.B().C25_f287[GameWorldManager.C25_f318]);
+                           if (WorldGameSession.currentInteractNpcId != -1
+                                 && this.mapManager.NPCs[WorldGameSession.currentInteractNpcId].sprite.spriteSetId <= 85
+                                 && this.mapManager.NPCs[WorldGameSession.currentInteractNpcId].getInteractionState() == 0) {
+                              WorldGameSession.getInstance().createInteractionMarker((byte) 13,
+                                    WorldGameSession.getInstance().NPCs[WorldGameSession.currentInteractNpcId].worldX,
+                                    WorldGameSession.getInstance().NPCs[WorldGameSession.currentInteractNpcId].worldY - 40,
+                                    WorldGameSession.getInstance().NPCs[WorldGameSession.currentInteractNpcId]);
                            }
 
                            isQuestTriggered = false;
@@ -2130,7 +2130,7 @@ public final class QuestManager extends GameEngineBase {
             } else {
                isQuestReady = false;
                this.activeEvents.removeElement(var2);
-               var10 = GameWorldManager.e(var2.getEventCoordinates()[0], var2.getEventCoordinates()[1]);
+               var10 = WorldGameSession.getAreaIndex(var2.getEventCoordinates()[0], var2.getEventCoordinates()[1]);
                if (this.questStates[var10] != null) {
                   this.questStates[var10][var2.getEventId()] = var2.getExecutionState();
                }
@@ -2141,11 +2141,11 @@ public final class QuestManager extends GameEngineBase {
                }
 
                this.updateQuestEffects();
-               if (GameWorldManager.C25_f345) {
-                  this.mapManager.C25_f342.playBackgroundMusic(GameWorldManager.C25_f344, 1);
+               if (WorldGameSession.hasEventMusic) {
+                  this.mapManager.audioManager.playBackgroundMusic(WorldGameSession.defaultMusicTrack, 1);
                }
 
-               GameWorldManager.C25_f345 = false;
+               WorldGameSession.hasEventMusic = false;
             }
          }
 
@@ -2176,9 +2176,9 @@ public final class QuestManager extends GameEngineBase {
    private boolean checkEventCondition(ScriptCommand var1) {
       boolean var2 = false;
       if (var1.getNumericParameters()[7] == -1 || var1.getNumericParameters()[7] != -1
-            && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5],
+            && this.questStates[WorldGameSession.getAreaIndex(var1.getNumericParameters()[5],
                   var1.getNumericParameters()[6])] != null
-            && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1
+            && this.questStates[WorldGameSession.getAreaIndex(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1
                   .getNumericParameters()[7]] == 3) {
          label58: switch (var1.getNumericParameters()[8]) {
             case 0:
@@ -2244,9 +2244,9 @@ public final class QuestManager extends GameEngineBase {
    private boolean checkEventCompletion(ScriptCommand var1) {
       boolean var2 = false;
       if (var1.getNumericParameters()[7] == -1 || var1.getNumericParameters()[7] != -1
-            && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5],
+            && this.questStates[WorldGameSession.getAreaIndex(var1.getNumericParameters()[5],
                   var1.getNumericParameters()[6])] != null
-            && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1
+            && this.questStates[WorldGameSession.getAreaIndex(var1.getNumericParameters()[5], var1.getNumericParameters()[6])][var1
                   .getNumericParameters()[7]] == 3) {
          switch (var1.getNumericParameters()[8]) {
             case 0:
@@ -2262,9 +2262,9 @@ public final class QuestManager extends GameEngineBase {
                break;
             case 2:
             case 4:
-               if (this.questStates[GameWorldManager.e(var1.getNumericParameters()[5],
+               if (this.questStates[WorldGameSession.getAreaIndex(var1.getNumericParameters()[5],
                      var1.getNumericParameters()[6])] != null
-                     && this.questStates[GameWorldManager.e(var1.getNumericParameters()[5],
+                     && this.questStates[WorldGameSession.getAreaIndex(var1.getNumericParameters()[5],
                            var1.getNumericParameters()[6])][var1.getNumericParameters()[7]] == 3) {
                   var2 = true;
                }
@@ -2319,8 +2319,8 @@ public final class QuestManager extends GameEngineBase {
       NPCEntity var6;
       GameObject var7;
       for (var3 = 0; var3 < questEndMatrix.length; ++var3) {
-         if (GameWorldManager.e(questEndMatrix[var3][0], questEndMatrix[var3][1]) == GameWorldManager
-               .e(GameWorldManager.B().C25_f290, GameWorldManager.B().C25_f291)
+         if (WorldGameSession.getAreaIndex(questEndMatrix[var3][0], questEndMatrix[var3][1]) == WorldGameSession
+               .getAreaIndex(WorldGameSession.getInstance().currentRegionId, WorldGameSession.getInstance().currentAreaId)
                && (this.eventScripts[questEndMatrix[var3][2]].getExecutionState() == 0
                      || this.eventScripts[questEndMatrix[var3][2]].getExecutionState() == 4)) {
             var1 = this.eventScripts[questEndMatrix[var3][2]].getFirstCommand();
@@ -2328,10 +2328,10 @@ public final class QuestManager extends GameEngineBase {
                if (this.checkEventCompletion(var1)) {
                   (var7 = new GameObject()).loadSpriteSet(259, false);
                   var7.setAnimation((byte) 1, (byte) -1, true);
-                  var7.setWorldPosition(this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldX,
-                        this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
-                  this.mapManager.C25_f287[var1.getNumericParameters()[4]].setInteractionState((byte) 1);
-                  var6 = this.mapManager.C25_f287[var1.getNumericParameters()[4]];
+                  var7.setWorldPosition(this.mapManager.NPCs[var1.getNumericParameters()[4]].worldX,
+                        this.mapManager.NPCs[var1.getNumericParameters()[4]].worldY - 40);
+                  this.mapManager.NPCs[var1.getNumericParameters()[4]].setInteractionState((byte) 1);
+                  var6 = this.mapManager.NPCs[var1.getNumericParameters()[4]];
                   var7.followTarget = var6;
                   var7.activate();
                   questEffectObjects.addElement(var7);
@@ -2339,17 +2339,17 @@ public final class QuestManager extends GameEngineBase {
                } else {
                   int var4 = getQuestFlagIndex(var1.getNumericParameters()[0]);
                   if (var1.getNumericParameters()[1] == 0
-                        && this.questStates[GameWorldManager.e(questStartMatrix[var3][0],
+                        && this.questStates[WorldGameSession.getAreaIndex(questStartMatrix[var3][0],
                               questStartMatrix[var3][1])][questStartMatrix[var3][2]] == 3
-                        && this.questStates[GameWorldManager.e(questEndMatrix[var3][0],
+                        && this.questStates[WorldGameSession.getAreaIndex(questEndMatrix[var3][0],
                               questEndMatrix[var3][1])][questEndMatrix[var3][2]] != 3
                         || var1.getNumericParameters()[1] == 1 && var4 != -1 && questFlags[var4][1] == 1) {
                      (var7 = new GameObject()).loadSpriteSet(259, false);
                      var7.setAnimation((byte) 15, (byte) -1, true);
-                     var7.setWorldPosition(this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldX,
-                           this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
-                     this.mapManager.C25_f287[var1.getNumericParameters()[4]].setInteractionState((byte) 1);
-                     var6 = this.mapManager.C25_f287[var1.getNumericParameters()[4]];
+                     var7.setWorldPosition(this.mapManager.NPCs[var1.getNumericParameters()[4]].worldX,
+                           this.mapManager.NPCs[var1.getNumericParameters()[4]].worldY - 40);
+                     this.mapManager.NPCs[var1.getNumericParameters()[4]].setInteractionState((byte) 1);
+                     var6 = this.mapManager.NPCs[var1.getNumericParameters()[4]];
                      var7.followTarget = var6;
                      var7.activate();
                      questEffectObjects.addElement(var7);
@@ -2361,18 +2361,18 @@ public final class QuestManager extends GameEngineBase {
       }
 
       for (var3 = 0; var3 < questStartMatrix.length; ++var3) {
-         if (GameWorldManager.e(questStartMatrix[var3][0], questStartMatrix[var3][1]) == GameWorldManager
-               .e(GameWorldManager.B().C25_f290, GameWorldManager.B().C25_f291)
+         if (WorldGameSession.getAreaIndex(questStartMatrix[var3][0], questStartMatrix[var3][1]) == WorldGameSession
+               .getAreaIndex(WorldGameSession.getInstance().currentRegionId, WorldGameSession.getInstance().currentAreaId)
                && (this.eventScripts[questStartMatrix[var3][2]].getExecutionState() == 0
                      || this.eventScripts[questStartMatrix[var3][2]].getExecutionState() == 4)) {
             var1 = this.eventScripts[questStartMatrix[var3][2]].getFirstCommand();
             if (!var2.contains("" + var1.getNumericParameters()[4]) && this.checkEventCondition(var1)) {
                (var7 = new GameObject()).loadSpriteSet(259, false);
                var7.setAnimation((byte) 7, (byte) -1, true);
-               var7.setWorldPosition(this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldX,
-                     this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
-               this.mapManager.C25_f287[var1.getNumericParameters()[4]].setInteractionState((byte) 1);
-               var6 = this.mapManager.C25_f287[var1.getNumericParameters()[4]];
+               var7.setWorldPosition(this.mapManager.NPCs[var1.getNumericParameters()[4]].worldX,
+                     this.mapManager.NPCs[var1.getNumericParameters()[4]].worldY - 40);
+               this.mapManager.NPCs[var1.getNumericParameters()[4]].setInteractionState((byte) 1);
+               var6 = this.mapManager.NPCs[var1.getNumericParameters()[4]];
                var7.followTarget = var6;
                var7.activate();
                questEffectObjects.addElement(var7);

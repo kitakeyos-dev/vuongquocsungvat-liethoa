@@ -184,7 +184,7 @@ public final class PlayerCharacter extends GameObject {
                     break;
                 case 1:
                     if (this.vehicleStates[2] != 2) {
-                        GameWorldManager.C25_f318 = this.checkNPCInteraction();
+                        WorldGameSession.currentInteractNpcId = this.checkNPCInteraction();
                         if (this.checkMovementCollision() && this.validateMovementPath()) {
                             this.moveInDirection((int) this.movementSpeed);
                             if (this.movementCounter < 8) {
@@ -222,11 +222,11 @@ public final class PlayerCharacter extends GameObject {
                     }
 
                     if (!isOutOfBounds) {
-                        GameWorldManager.C25_f318 = this.checkNPCInteraction();
+                        WorldGameSession.currentInteractNpcId = this.checkNPCInteraction();
                         Object var5 = null;
                         super.followTarget = (GameEntity) var5;
 
-                        for (var1 = 0; var1 < GameWorldManager.B().C25_f287.length; ++var1) {
+                        for (var1 = 0; var1 < WorldGameSession.getInstance().NPCs.length; ++var1) {
                             this.checkNPCFollow(var1);
                         }
 
@@ -332,11 +332,11 @@ public final class PlayerCharacter extends GameObject {
 
                     for (var2 = 0; var2 < mapTransitions.length; ++var2) {
                         byte[] var10001 = mapTransitions[var2];
-                        if (GameWorldManager.B().C25_f290 == var10001[0]) {
+                        if (WorldGameSession.getInstance().currentRegionId == var10001[0]) {
                             var10001 = mapTransitions[var2];
-                            if (GameWorldManager.B().C25_f291 == var10001[1]) {
-                                GameWorldManager.B().C25_f290 = mapTransitions[var2][2];
-                                GameWorldManager.B().C25_f291 = mapTransitions[var2][3];
+                            if (WorldGameSession.getInstance().currentAreaId == var10001[1]) {
+                                WorldGameSession.getInstance().currentRegionId = mapTransitions[var2][2];
+                                WorldGameSession.getInstance().currentAreaId = mapTransitions[var2][3];
                                 var4 = mapTransitions[var2][4];
                                 break;
                             }
@@ -345,14 +345,14 @@ public final class PlayerCharacter extends GameObject {
 
                     for (var2 = 0; var2 < spawnRanges[var4].length / 4; ++var2) {
                         if (((NPCEntity) this.followTarget).npcId >= spawnRanges[var4][var2 << 2] && ((NPCEntity) this.followTarget).npcId <= spawnRanges[var4][(var2 << 2) + 1]) {
-                            GameWorldManager.B().C25_f293 = spawnRanges[var4][(var2 << 2) + 2];
-                            GameWorldManager.B().C25_f294 = spawnRanges[var4][(var2 << 2) + 3];
+                            WorldGameSession.getInstance().spawnPositionX = spawnRanges[var4][(var2 << 2) + 2];
+                            WorldGameSession.getInstance().spawnPositionY = spawnRanges[var4][(var2 << 2) + 3];
                             break;
                         }
                     }
 
                     mapTransitionFlag = true;
-                    GameWorldManager.B().C25_f295 = -1;
+                    WorldGameSession.getInstance().lastInteractedNpcId = -1;
                     GameScreenManager.getInstance().changeState((byte) 9);
                     return;
                 case 6:
@@ -417,11 +417,11 @@ public final class PlayerCharacter extends GameObject {
                         return;
                     }
 
-                    var1 = GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldX - GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldX % this.getPrimaryState((byte) 2);
-                    var2 = GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldY - GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldY % this.getPrimaryState((byte) 2);
+                    var1 = WorldGameSession.getInstance().NPCs[WorldGameSession.getInstance().lastInteractedNpcId].worldX - WorldGameSession.getInstance().NPCs[WorldGameSession.getInstance().lastInteractedNpcId].worldX % this.getPrimaryState((byte) 2);
+                    var2 = WorldGameSession.getInstance().NPCs[WorldGameSession.getInstance().lastInteractedNpcId].worldY - WorldGameSession.getInstance().NPCs[WorldGameSession.getInstance().lastInteractedNpcId].worldY % this.getPrimaryState((byte) 2);
                     this.setWorldPosition(var1, var2);
                     this.attachedObject.setWorldPosition(var1, var2);
-                    this.setFacingState((byte) 0, (byte) GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].followDistance);
+                    this.setFacingState((byte) 0, (byte) WorldGameSession.getInstance().NPCs[WorldGameSession.getInstance().lastInteractedNpcId].followDistance);
                     this.moveInDirection((int) 32);
                     CameraController.getInstance().setCameraLag(8);
                     CameraController.getInstance().setLocked(false);
@@ -439,8 +439,8 @@ public final class PlayerCharacter extends GameObject {
                         return;
                     }
 
-                    var1 = GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldX - GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldX % this.getPrimaryState((byte) 2);
-                    var2 = GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldY - GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldY % this.getPrimaryState((byte) 2);
+                    var1 = WorldGameSession.getInstance().NPCs[WorldGameSession.getInstance().lastInteractedNpcId].worldX - WorldGameSession.getInstance().NPCs[WorldGameSession.getInstance().lastInteractedNpcId].worldX % this.getPrimaryState((byte) 2);
+                    var2 = WorldGameSession.getInstance().NPCs[WorldGameSession.getInstance().lastInteractedNpcId].worldY - WorldGameSession.getInstance().NPCs[WorldGameSession.getInstance().lastInteractedNpcId].worldY % this.getPrimaryState((byte) 2);
                     this.setWorldPosition(var1, var2);
                     this.attachedObject.setWorldPosition(var1, var2);
                     this.setFacingState((byte) 10, this.currentDirection);
@@ -460,7 +460,7 @@ public final class PlayerCharacter extends GameObject {
                         return;
                     }
 
-                    this.setFacingState((byte) 0, (byte) GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].followDistance);
+                    this.setFacingState((byte) 0, (byte) WorldGameSession.getInstance().NPCs[WorldGameSession.getInstance().lastInteractedNpcId].followDistance);
                     this.moveInDirection((int) 32);
             }
 
@@ -582,11 +582,11 @@ public final class PlayerCharacter extends GameObject {
 
             this.facingDirection = var1;
             if (this.facingDirection != 0 && this.facingDirection != 1) {
-                if (GameWorldManager.B().C25_f311 != null) {
-                    GameWorldManager.B().C25_f311.setActive(false);
+                if (WorldGameSession.getInstance().followingPet != null) {
+                    WorldGameSession.getInstance().followingPet.setActive(false);
                 }
-            } else if (GameWorldManager.B().C25_f311 != null) {
-                GameWorldManager.B().C25_f311.setActive(true);
+            } else if (WorldGameSession.getInstance().followingPet != null) {
+                WorldGameSession.getInstance().followingPet.setActive(true);
                 return;
             }
 
@@ -624,8 +624,8 @@ public final class PlayerCharacter extends GameObject {
                 super.secondaryStates[0] = 8; // Fast speed for bike/surf
             }
 
-            if (this.vehicleStates[2] == 2 && GameWorldManager.B().C25_f311 != null) {
-                GameWorldManager.B().C25_f311.deactivate();
+            if (this.vehicleStates[2] == 2 && WorldGameSession.getInstance().followingPet != null) {
+                WorldGameSession.getInstance().followingPet.deactivate();
             }
 
             this.currentVehicleType = vehicleIndex;
@@ -648,8 +648,8 @@ public final class PlayerCharacter extends GameObject {
             this.replaceImage(0, 107, true);
         }
 
-        if (GameWorldManager.B().C25_f311 != null) {
-            GameWorldManager.B().C25_f311.activate();
+        if (WorldGameSession.getInstance().followingPet != null) {
+            WorldGameSession.getInstance().followingPet.activate();
         }
 
         byte var2 = 0;
@@ -696,55 +696,55 @@ public final class PlayerCharacter extends GameObject {
     }
 
     private short checkNPCInteraction() {
-        for (short var1 = 0; var1 < GameWorldManager.B().C25_f287.length; ++var1) {
-            if (GameWorldManager.B().C25_f287[var1].isVisible()) {
-                if ((GameWorldManager.B().C25_f287[var1].sprite.spriteSetId <= 85 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 226 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 92 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 102 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 137) && GameWorldManager.B().C25_f287[var1].npcType == 0 && (GameWorldManager.B().C25_f287[var1].npcSubType == 1 || GameWorldManager.B().C25_f287[var1].npcSubType == 18) && this.checkCollisionWithNPC(GameWorldManager.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var1].sprite.getCurrentFrameEvents())) {
-                    if (GameWorldManager.B().C25_f287[var1].getInteractionState() == 0) {
-                        GameWorldManager.B().a((byte) 13, GameWorldManager.B().C25_f287[var1].worldX, GameWorldManager.B().C25_f287[var1].worldY - 40, GameWorldManager.B().C25_f287[var1]);
-                        if (GameWorldManager.B().C25_f287[var1].auraObject != null) {
-                            GameWorldManager.B().C25_f287[var1].auraObject.deactivate();
+        for (short var1 = 0; var1 < WorldGameSession.getInstance().NPCs.length; ++var1) {
+            if (WorldGameSession.getInstance().NPCs[var1].isVisible()) {
+                if ((WorldGameSession.getInstance().NPCs[var1].sprite.spriteSetId <= 85 || WorldGameSession.getInstance().NPCs[var1].sprite.spriteSetId == 226 || WorldGameSession.getInstance().NPCs[var1].sprite.spriteSetId == 92 || WorldGameSession.getInstance().NPCs[var1].sprite.spriteSetId == 102 || WorldGameSession.getInstance().NPCs[var1].sprite.spriteSetId == 137) && WorldGameSession.getInstance().NPCs[var1].npcType == 0 && (WorldGameSession.getInstance().NPCs[var1].npcSubType == 1 || WorldGameSession.getInstance().NPCs[var1].npcSubType == 18) && this.checkCollisionWithNPC(WorldGameSession.getInstance().NPCs[var1], this.sprite.getCurrentFrameEvents(), WorldGameSession.getInstance().NPCs[var1].sprite.getCurrentFrameEvents())) {
+                    if (WorldGameSession.getInstance().NPCs[var1].getInteractionState() == 0) {
+                        WorldGameSession.getInstance().createInteractionMarker((byte) 13, WorldGameSession.getInstance().NPCs[var1].worldX, WorldGameSession.getInstance().NPCs[var1].worldY - 40, WorldGameSession.getInstance().NPCs[var1]);
+                        if (WorldGameSession.getInstance().NPCs[var1].auraObject != null) {
+                            WorldGameSession.getInstance().NPCs[var1].auraObject.deactivate();
                         }
-                    } else if (GameWorldManager.B().C25_f287[var1].getInteractionState() == 1) {
-                        GameWorldManager.B().a((byte) 13, GameWorldManager.B().C25_f287[var1].worldX, GameWorldManager.B().C25_f287[var1].worldY - 40, GameWorldManager.B().C25_f287[var1]);
+                    } else if (WorldGameSession.getInstance().NPCs[var1].getInteractionState() == 1) {
+                        WorldGameSession.getInstance().createInteractionMarker((byte) 13, WorldGameSession.getInstance().NPCs[var1].worldX, WorldGameSession.getInstance().NPCs[var1].worldY - 40, WorldGameSession.getInstance().NPCs[var1]);
                         if (QuestManager.questEffectObjects != null && QuestManager.questEffectObjects.size() > 0) {
                             for (int var2 = 0; var2 < QuestManager.questEffectObjects.size(); ++var2) {
-                                if (((GameObject) QuestManager.questEffectObjects.elementAt(var2)).followTarget.equals(GameWorldManager.B().C25_f287[var1])) {
+                                if (((GameObject) QuestManager.questEffectObjects.elementAt(var2)).followTarget.equals(WorldGameSession.getInstance().NPCs[var1])) {
                                     ((GameObject) QuestManager.questEffectObjects.elementAt(var2)).deactivate();
                                     break;
                                 }
                             }
                         }
                     } else {
-                        GameWorldManager.B().a((byte) 13, GameWorldManager.B().C25_f287[var1].worldX, GameWorldManager.B().C25_f287[var1].worldY - 40, GameWorldManager.B().C25_f287[var1]);
-                        if (GameWorldManager.B().C25_f287[var1].auraAnimationId != 0) {
-                            GameWorldManager.B().C25_f287[var1].deactivateAuraObject();
+                        WorldGameSession.getInstance().createInteractionMarker((byte) 13, WorldGameSession.getInstance().NPCs[var1].worldX, WorldGameSession.getInstance().NPCs[var1].worldY - 40, WorldGameSession.getInstance().NPCs[var1]);
+                        if (WorldGameSession.getInstance().NPCs[var1].auraAnimationId != 0) {
+                            WorldGameSession.getInstance().NPCs[var1].deactivateAuraObject();
                         }
                     }
 
                     return var1;
                 }
 
-                if (GameWorldManager.B().C25_f287[var1].npcType == 2 && this.checkCollisionWithNPC(GameWorldManager.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var1].sprite.getCurrentFrameEvents())) {
-                    GameWorldManager.B().m(var1);
+                if (WorldGameSession.getInstance().NPCs[var1].npcType == 2 && this.checkCollisionWithNPC(WorldGameSession.getInstance().NPCs[var1], this.sprite.getCurrentFrameEvents(), WorldGameSession.getInstance().NPCs[var1].sprite.getCurrentFrameEvents())) {
+                    WorldGameSession.getInstance().triggerSpecificEncounter(var1);
                 }
             }
         }
 
-        GameWorldManager.B().D();
+        WorldGameSession.getInstance().removeInteractionMarker();
         QuestManager.isQuestTriggered = false;
         return -1;
     }
 
     private boolean checkNPCFollow(int var1) {
-        switch (GameWorldManager.B().C25_f287[var1].npcType) {
+        switch (WorldGameSession.getInstance().NPCs[var1].npcType) {
             case 3:
                 short[] var2;
-                short var3 = (var2 = GameWorldManager.B().C25_f287[var1].sprite.getCurrentFrameEvents())[0];
+                short var3 = (var2 = WorldGameSession.getInstance().NPCs[var1].sprite.getCurrentFrameEvents())[0];
                 short var4 = var2[1];
                 short var5 = (short) (var2[2] + 16);
                 short var6 = (short) (var2[3] + 16);
-                if (GameWorldManager.B().C25_f287[var1].isFacingPlayer && this.checkCollisionWithNPC(GameWorldManager.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), new short[]{var3, var4, var5, var6})) {
-                    NPCEntity var7 = GameWorldManager.B().C25_f287[var1];
+                if (WorldGameSession.getInstance().NPCs[var1].isFacingPlayer && this.checkCollisionWithNPC(WorldGameSession.getInstance().NPCs[var1], this.sprite.getCurrentFrameEvents(), new short[]{var3, var4, var5, var6})) {
+                    NPCEntity var7 = WorldGameSession.getInstance().NPCs[var1];
                     super.followTarget = var7;
                 }
             default:
@@ -760,12 +760,12 @@ public final class PlayerCharacter extends GameObject {
             this.followingNPCs.removeAllElements();
         }
 
-        for (int var2 = 0; var2 < GameWorldManager.B().C25_f287.length; ++var2) {
+        for (int var2 = 0; var2 < WorldGameSession.getInstance().NPCs.length; ++var2) {
             this.checkNPCFollow(var2);
-            if (GameWorldManager.B().C25_f287[var2].isFacingPlayer && this.checkCollisionWithNPC(GameWorldManager.B().C25_f287[var2], this.sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var2].sprite.getCurrentFrameEvents())) {
-                switch (GameWorldManager.B().C25_f287[var2].npcType) {
+            if (WorldGameSession.getInstance().NPCs[var2].isFacingPlayer && this.checkCollisionWithNPC(WorldGameSession.getInstance().NPCs[var2], this.sprite.getCurrentFrameEvents(), WorldGameSession.getInstance().NPCs[var2].sprite.getCurrentFrameEvents())) {
+                switch (WorldGameSession.getInstance().NPCs[var2].npcType) {
                     case 0:
-                        switch (GameWorldManager.B().C25_f287[var2].npcSubType) {
+                        switch (WorldGameSession.getInstance().NPCs[var2].npcSubType) {
                             case 0:
                                 return false;
                             case 1:
@@ -777,97 +777,97 @@ public final class PlayerCharacter extends GameObject {
                                 continue;
                             case 4:
                             case 11:
-                                if (GameWorldManager.B().C25_f287[var2].getFacingDirection() != 2 && GameWorldManager.B().C25_f287[var2].isVisible()) {
-                                    var4 = GameWorldManager.B().C25_f287[var2];
+                                if (WorldGameSession.getInstance().NPCs[var2].getFacingDirection() != 2 && WorldGameSession.getInstance().NPCs[var2].isVisible()) {
+                                    var4 = WorldGameSession.getInstance().NPCs[var2];
                                     super.followTarget = var4;
                                     return false;
                                 }
                                 continue;
                             case 5:
-                                if (GameWorldManager.B().C25_f287[var2].getFacingDirection() != 2) {
+                                if (WorldGameSession.getInstance().NPCs[var2].getFacingDirection() != 2) {
                                     if (this.badgeStates[5][0] == 2) {
-                                        var4 = GameWorldManager.B().C25_f287[var2];
+                                        var4 = WorldGameSession.getInstance().NPCs[var2];
                                         super.followTarget = var4;
                                     }
 
                                     return false;
                                 }
                             case 6:
-                                if (GameWorldManager.B().C25_f287[var2].getFacingDirection() != 2) {
+                                if (WorldGameSession.getInstance().NPCs[var2].getFacingDirection() != 2) {
                                     if (this.vehicleStates[3] != 2) {
                                         if (this.badgeStates[2][0] == 2) {
-                                            var4 = GameWorldManager.B().C25_f287[var2];
+                                            var4 = WorldGameSession.getInstance().NPCs[var2];
                                             super.followTarget = var4;
                                             if (this.followingNPCs == null) {
                                                 this.followingNPCs = new Vector();
                                             }
 
-                                            this.followingNPCs.addElement(GameWorldManager.B().C25_f287[var2]);
-                                            GameWorldManager.B().C25_f287[var2].createEffectObject((int) 20);
+                                            this.followingNPCs.addElement(WorldGameSession.getInstance().NPCs[var2]);
+                                            WorldGameSession.getInstance().NPCs[var2].createEffectObject((int) 20);
                                         }
 
                                         var1 = false;
                                     } else {
-                                        GameWorldManager.B().C25_f287[var2].setDirection((byte) 1);
-                                        GameWorldManager.B().C25_f285.moveEntityToForeground(GameWorldManager.B().C25_f287[var2], 2);
+                                        WorldGameSession.getInstance().NPCs[var2].setDirection((byte) 1);
+                                        WorldGameSession.getInstance().worldRenderer.moveEntityToForeground(WorldGameSession.getInstance().NPCs[var2], 2);
                                     }
                                 }
                                 continue;
                             case 7:
-                                if (GameWorldManager.B().C25_f287[var2].getFacingDirection() != 2) {
+                                if (WorldGameSession.getInstance().NPCs[var2].getFacingDirection() != 2) {
                                     if (this.vehicleStates[3] != 2) {
                                         if (this.badgeStates[1][0] == 2) {
-                                            var4 = GameWorldManager.B().C25_f287[var2];
+                                            var4 = WorldGameSession.getInstance().NPCs[var2];
                                             super.followTarget = var4;
                                             if (this.followingNPCs == null) {
                                                 this.followingNPCs = new Vector();
                                             }
 
-                                            this.followingNPCs.addElement(GameWorldManager.B().C25_f287[var2]);
-                                            GameWorldManager.B().C25_f287[var2].createEffectObject((int) 30);
+                                            this.followingNPCs.addElement(WorldGameSession.getInstance().NPCs[var2]);
+                                            WorldGameSession.getInstance().NPCs[var2].createEffectObject((int) 30);
                                         }
 
                                         var1 = false;
                                     } else {
-                                        GameWorldManager.B().C25_f287[var2].setDirection((byte) 1);
-                                        GameWorldManager.B().C25_f285.moveEntityToForeground(GameWorldManager.B().C25_f287[var2], 2);
+                                        WorldGameSession.getInstance().NPCs[var2].setDirection((byte) 1);
+                                        WorldGameSession.getInstance().worldRenderer.moveEntityToForeground(WorldGameSession.getInstance().NPCs[var2], 2);
                                     }
                                 }
                                 continue;
                             case 8:
-                                if (GameWorldManager.B().C25_f287[var2].isVisible()) {
-                                    if (GameWorldManager.B().C25_f287[var2].followTarget != null && ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget).dialogueTimeout > ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget).dialogueProgress) {
+                                if (WorldGameSession.getInstance().NPCs[var2].isVisible()) {
+                                    if (WorldGameSession.getInstance().NPCs[var2].followTarget != null && ((NPCEntity) WorldGameSession.getInstance().NPCs[var2].followTarget).dialogueTimeout > ((NPCEntity) WorldGameSession.getInstance().NPCs[var2].followTarget).dialogueProgress) {
                                         return false;
                                     }
 
-                                    for (int var5 = 0; var5 < GameWorldManager.B().C25_f287.length; ++var5) {
-                                        if (GameWorldManager.B().C25_f287[var5].isFacingPlayer && !GameWorldManager.B().C25_f287[var5].equals(GameWorldManager.B().C25_f287[var2]) && GameWorldManager.B().C25_f287[var5].npcType == 0 && (GameWorldManager.B().C25_f287[var5].npcSubType == 8 || GameWorldManager.B().C25_f287[var5].npcSubType == 11)) {
+                                    for (int var5 = 0; var5 < WorldGameSession.getInstance().NPCs.length; ++var5) {
+                                        if (WorldGameSession.getInstance().NPCs[var5].isFacingPlayer && !WorldGameSession.getInstance().NPCs[var5].equals(WorldGameSession.getInstance().NPCs[var2]) && WorldGameSession.getInstance().NPCs[var5].npcType == 0 && (WorldGameSession.getInstance().NPCs[var5].npcSubType == 8 || WorldGameSession.getInstance().NPCs[var5].npcSubType == 11)) {
                                             switch (this.currentDirection) {
                                                 case 0:
-                                                    if (GameUtils.checkCollisionBetweenShortArrays(GameWorldManager.B().C25_f287[var2].worldX, GameWorldManager.B().C25_f287[var2].worldY + 8, GameWorldManager.B().C25_f287[var5].worldX, GameWorldManager.B().C25_f287[var5].worldY, GameWorldManager.B().C25_f287[var2].sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
+                                                    if (GameUtils.checkCollisionBetweenShortArrays(WorldGameSession.getInstance().NPCs[var2].worldX, WorldGameSession.getInstance().NPCs[var2].worldY + 8, WorldGameSession.getInstance().NPCs[var5].worldX, WorldGameSession.getInstance().NPCs[var5].worldY, WorldGameSession.getInstance().NPCs[var2].sprite.getCurrentFrameEvents(), WorldGameSession.getInstance().NPCs[var5].sprite.getCurrentFrameEvents())) {
                                                         return false;
                                                     }
                                                     break;
                                                 case 1:
-                                                    if (GameUtils.checkCollisionBetweenShortArrays(GameWorldManager.B().C25_f287[var2].worldX + 8, GameWorldManager.B().C25_f287[var2].worldY, GameWorldManager.B().C25_f287[var5].worldX, GameWorldManager.B().C25_f287[var5].worldY, GameWorldManager.B().C25_f287[var2].sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
+                                                    if (GameUtils.checkCollisionBetweenShortArrays(WorldGameSession.getInstance().NPCs[var2].worldX + 8, WorldGameSession.getInstance().NPCs[var2].worldY, WorldGameSession.getInstance().NPCs[var5].worldX, WorldGameSession.getInstance().NPCs[var5].worldY, WorldGameSession.getInstance().NPCs[var2].sprite.getCurrentFrameEvents(), WorldGameSession.getInstance().NPCs[var5].sprite.getCurrentFrameEvents())) {
                                                         return false;
                                                     }
                                                     break;
                                                 case 2:
-                                                    if (GameUtils.checkCollisionBetweenShortArrays(GameWorldManager.B().C25_f287[var2].worldX, GameWorldManager.B().C25_f287[var2].worldY - 8, GameWorldManager.B().C25_f287[var5].worldX, GameWorldManager.B().C25_f287[var5].worldY, GameWorldManager.B().C25_f287[var2].sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
+                                                    if (GameUtils.checkCollisionBetweenShortArrays(WorldGameSession.getInstance().NPCs[var2].worldX, WorldGameSession.getInstance().NPCs[var2].worldY - 8, WorldGameSession.getInstance().NPCs[var5].worldX, WorldGameSession.getInstance().NPCs[var5].worldY, WorldGameSession.getInstance().NPCs[var2].sprite.getCurrentFrameEvents(), WorldGameSession.getInstance().NPCs[var5].sprite.getCurrentFrameEvents())) {
                                                         return false;
                                                     }
                                                     break;
                                                 case 3:
-                                                    if (GameUtils.checkCollisionBetweenShortArrays(GameWorldManager.B().C25_f287[var2].worldX - 8, GameWorldManager.B().C25_f287[var2].worldY, GameWorldManager.B().C25_f287[var5].worldX, GameWorldManager.B().C25_f287[var5].worldY, GameWorldManager.B().C25_f287[var2].sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
+                                                    if (GameUtils.checkCollisionBetweenShortArrays(WorldGameSession.getInstance().NPCs[var2].worldX - 8, WorldGameSession.getInstance().NPCs[var2].worldY, WorldGameSession.getInstance().NPCs[var5].worldX, WorldGameSession.getInstance().NPCs[var5].worldY, WorldGameSession.getInstance().NPCs[var2].sprite.getCurrentFrameEvents(), WorldGameSession.getInstance().NPCs[var5].sprite.getCurrentFrameEvents())) {
                                                         return false;
                                                     }
                                             }
                                         }
                                     }
 
-                                    GameWorldManager.B().C25_f287[var2].setDirection((byte) 1);
-                                    NPCEntity var10000 = GameWorldManager.B().C25_f287[var2];
+                                    WorldGameSession.getInstance().NPCs[var2].setDirection((byte) 1);
+                                    NPCEntity var10000 = WorldGameSession.getInstance().NPCs[var2];
                                     byte var6 = this.currentDirection;
                                     var10000.currentDirection = var6;
                                     return false;
@@ -878,8 +878,8 @@ public final class PlayerCharacter extends GameObject {
                                     if (this.currentDirection == 3 || this.currentDirection == 1) {
                                         this.actionCounter = 0;
                                         this.setFacingState((byte) 7, (byte) this.currentDirection);
-                                        GameWorldManager.B().C25_f287[var2].followTarget = this;
-                                        var4 = GameWorldManager.B().C25_f287[var2];
+                                        WorldGameSession.getInstance().NPCs[var2].followTarget = this;
+                                        var4 = WorldGameSession.getInstance().NPCs[var2];
                                         super.followTarget = var4;
                                         return false;
                                     }
@@ -895,8 +895,8 @@ public final class PlayerCharacter extends GameObject {
                                 if (this.currentDirection == 0 || this.currentDirection == 2) {
                                     this.actionCounter = 0;
                                     this.setFacingState((byte) 7, (byte) this.currentDirection);
-                                    GameWorldManager.B().C25_f287[var2].followTarget = this;
-                                    var4 = GameWorldManager.B().C25_f287[var2];
+                                    WorldGameSession.getInstance().NPCs[var2].followTarget = this;
+                                    var4 = WorldGameSession.getInstance().NPCs[var2];
                                     super.followTarget = var4;
                                     return false;
                                 }
@@ -904,24 +904,24 @@ public final class PlayerCharacter extends GameObject {
                             case 14:
                                 return false;
                             case 15:
-                                if (GameWorldManager.B().C25_f287[var2].getFacingDirection() != 2) {
+                                if (WorldGameSession.getInstance().NPCs[var2].getFacingDirection() != 2) {
                                     if (this.gameFlags[6]) {
-                                        var4 = GameWorldManager.B().C25_f287[var2];
+                                        var4 = WorldGameSession.getInstance().NPCs[var2];
                                         super.followTarget = var4;
                                         return false;
                                     }
 
-                                    GameWorldManager.B().C25_f287[var2].setDirection((byte) 1);
-                                    GameWorldManager.B().C25_f285.moveEntityToForeground(GameWorldManager.B().C25_f287[var2], 2);
+                                    WorldGameSession.getInstance().NPCs[var2].setDirection((byte) 1);
+                                    WorldGameSession.getInstance().worldRenderer.moveEntityToForeground(WorldGameSession.getInstance().NPCs[var2], 2);
                                 }
                                 continue;
                             case 16:
-                                var4 = GameWorldManager.B().C25_f287[var2];
+                                var4 = WorldGameSession.getInstance().NPCs[var2];
                                 super.followTarget = var4;
                                 continue;
                         }
                     case 1:
-                        if (GameWorldManager.B().C25_f287[var2].npcSubType == 3) {
+                        if (WorldGameSession.getInstance().NPCs[var2].npcSubType == 3) {
                             return false;
                         }
                     case 2:
@@ -1284,8 +1284,8 @@ public final class PlayerCharacter extends GameObject {
 
     public final void openChest() {
         if (this.followTarget.getFacingDirection() == 1) {
-            GameWorldManager.B().gameController.az();
-            GameWorldManager.B().gameController.b("Bảo rương này đã trống");
+            WorldGameSession.getInstance().gameController.az();
+            WorldGameSession.getInstance().gameController.b("Bảo rương này đã trống");
         } else {
             String var1;
             if (((NPCEntity) this.followTarget).npcSubType == 0) {
@@ -1299,9 +1299,9 @@ public final class PlayerCharacter extends GameObject {
                         var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((NPCEntity) this.followTarget).triggerValue][0]);
                     }
 
-                    GameWorldManager.B().gameController.a((String) ("Đạt được: " + var1), ((NPCEntity) this.followTarget).triggerType);
+                    WorldGameSession.getInstance().gameController.a((String) ("Đạt được: " + var1), ((NPCEntity) this.followTarget).triggerType);
                 } else {
-                    GameWorldManager.B().gameController.ay();
+                    WorldGameSession.getInstance().gameController.ay();
                 }
 
                 this.setFacingState((byte) 0, (byte) this.currentDirection);
@@ -1319,12 +1319,12 @@ public final class PlayerCharacter extends GameObject {
                                 var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((NPCEntity) this.followTarget).triggerValue][0]);
                             }
 
-                            GameWorldManager.B().gameController.a((String) ("Đạt được: " + var1), ((NPCEntity) this.followTarget).triggerType);
+                            WorldGameSession.getInstance().gameController.a((String) ("Đạt được: " + var1), ((NPCEntity) this.followTarget).triggerType);
                         } else {
-                            GameWorldManager.B().gameController.ay();
+                            WorldGameSession.getInstance().gameController.ay();
                         }
                     } else {
-                        GameWorldManager.B().gameController.ax();
+                        WorldGameSession.getInstance().gameController.ax();
                     }
 
                     this.setFacingState((byte) 0, (byte) this.currentDirection);
@@ -1931,7 +1931,7 @@ public final class PlayerCharacter extends GameObject {
     public final void setBadgeState(byte var1, byte var2, byte var3) {
         this.badgeStates[var1][var2] = var3;
         if (this.badgeStates[0][0] == 2) {
-            ScreenTransitionManager.a().a(ResourceManager.getDatabaseValue((byte) 2, (short) 0, (byte) 5) / 2, ResourceManager.getDatabaseValue((byte) 2, (short) 0, (byte) 5) / 2);
+            ScreenTransitionManager.getInstance().setSpotlightRadius(ResourceManager.getDatabaseValue((byte) 2, (short) 0, (byte) 5) / 2, ResourceManager.getDatabaseValue((byte) 2, (short) 0, (byte) 5) / 2);
         }
 
     }
@@ -2000,14 +2000,14 @@ public final class PlayerCharacter extends GameObject {
     }
 
     public final int getEncounterSteps() {
-        return GameWorldManager.B().C25_f290 == 4 && GameWorldManager.B().C25_f291 == 1 ? GameUtils.getRandomInRange(4, 8) : GameUtils.getRandomInRange(this.minEncounterSteps, this.maxEncounterSteps);
+        return WorldGameSession.getInstance().currentRegionId == 4 && WorldGameSession.getInstance().currentAreaId == 1 ? GameUtils.getRandomInRange(4, 8) : GameUtils.getRandomInRange(this.minEncounterSteps, this.maxEncounterSteps);
     }
 
     private void updateEncounterCounter() {
-        if (!GameWorldManager.B().C25_f348.hasActiveEvent() && QuestManager.questDialogState != 0) {
+        if (!WorldGameSession.getInstance().questManager.hasActiveEvent() && QuestManager.questDialogState != 0) {
             --this.effectDuration;
             if (this.effectDuration <= 0) {
-                GameWorldManager.B().e(false);
+                WorldGameSession.getInstance().setWildPokemonVisible(false);
                 this.effectDuration = 0;
             }
 
@@ -2017,7 +2017,7 @@ public final class PlayerCharacter extends GameObject {
                 this.brightnessEffectDuration = -1;
             }
 
-            if (GameWorldManager.B().C() && this.brightnessEffectDuration <= 0) {
+            if (WorldGameSession.getInstance().hasWildEncounterData() && this.brightnessEffectDuration <= 0) {
                 if (this.wildEncounterEnabled && this.encounterStepsRemaining > 0 && this.vehicleStates[1] != 2 && this.vehicleStates[3] != 2) {
                     --this.encounterStepsRemaining;
                 }

@@ -325,7 +325,7 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
                             PlayerCharacter.getInstance().addItem(4, 5, (byte) 0);
                             PlayerCharacter.getInstance().addItem(11, 2, (byte) 0);
                             PlayerCharacter.getInstance().addBadges(5);
-                            QuestManager.getInstance().questStates[GameWorldManager.e(9, 0)][5] = 3;
+                            QuestManager.getInstance().questStates[WorldGameSession.getAreaIndex(9, 0)][5] = 3;
                             QuestManager.getInstance().eventScripts[5].setExecutionState((byte) 3);
                             break;
                         case 1:
@@ -335,17 +335,17 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
                             PlayerCharacter.getInstance().addGold(10000);
                             break;
                         case 3:
-                            GameWorldManager.C25_f335 = 0;
-                            if (GameWorldManager.C25_f334 == null) {
-                                GameWorldManager.C25_f334 = new Vector();
+                            WorldGameSession.tutorialStep = 0;
+                            if (WorldGameSession.evolutionQueue == null) {
+                                WorldGameSession.evolutionQueue = new Vector();
                             }
 
-                            if (GameWorldManager.C25_f333 == null) {
-                                GameWorldManager.C25_f333 = new Vector();
+                            if (WorldGameSession.battlePartyBackup == null) {
+                                WorldGameSession.battlePartyBackup = new Vector();
                             }
 
-                            GameWorldManager.C25_f334.removeAllElements();
-                            GameWorldManager.C25_f333.removeAllElements();
+                            WorldGameSession.evolutionQueue.removeAllElements();
+                            WorldGameSession.battlePartyBackup.removeAllElements();
 
                             for (int var2 = 0; var2 < PlayerCharacter.getInstance().partySize; ++var2) {
                                 if (PlayerCharacter.getInstance().partyPokemon[var2].getLevel() == 50) {
@@ -362,16 +362,16 @@ public abstract class GameEngineBase extends InputStateManager implements Paymen
                                     PlayerCharacter.getInstance().partyPokemon[var2].fullRestore();
                                     if (PlayerCharacter.getInstance().partyPokemon[var2].getSkillCount() < 5 && PlayerCharacter.getInstance().partyPokemon[var2]
                                             .getSkillCount() < PlayerCharacter.getInstance().partyPokemon[var2].getLevel() / 10 + 1) {
-                                        GameWorldManager.C25_f333.addElement(PlayerCharacter.getInstance().partyPokemon[var2]);
-                                        GameWorldManager.C25_f334.addElement("" + var2);
+                                        WorldGameSession.battlePartyBackup.addElement(PlayerCharacter.getInstance().partyPokemon[var2]);
+                                        WorldGameSession.evolutionQueue.addElement("" + var2);
                                     }
                                 }
                             }
 
-                            if (GameWorldManager.C25_f333.size() <= 0) {
-                                GameWorldManager.C25_f335 = 2;
+                            if (WorldGameSession.battlePartyBackup.size() <= 0) {
+                                WorldGameSession.tutorialStep = 2;
                             } else {
-                                GameWorldManager.C25_f335 = 1;
+                                WorldGameSession.tutorialStep = 1;
                             }
                             break;
                         case 4:

@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <repositories>
@@ -25,12 +25,6 @@
             <artifactId>JTDesktop</artifactId>
             <version>0.0.4-alpha</version>
         </dependency>
-        <!--  https://mvnrepository.com/artifact/com.google.code.gson/gson  -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.11.0</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -38,10 +32,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -50,50 +40,53 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <MIDlet-1>VuongQuocSungVat,/icon.png,game.GameMIDLet</MIDlet-1>
+                            <MIDlet-1>Vương quốc sủng vật,/icon.png,game.GameMIDLet</MIDlet-1>
+                            <MIDlet-Name>Vương quốc sủng vật</MIDlet-Name>
+                            <MIDlet-Version>1.0</MIDlet-Version>
+                            <Manifest-Version>1.0</Manifest-Version>
                             <MIDlet-Vendor>KxD</MIDlet-Vendor>
-                            <MicroEdition-Configuration>CLDC-1.0</MicroEdition-Configuration>
-                            <MIDlet-Name>VuongQuocSungVat</MIDlet-Name>
-                            <MIDlet-Version>1.0.0</MIDlet-Version>
+                            <MIDlet-Icon>/icon.png</MIDlet-Icon>
+                            <MicroEdition-Configuration>CLDC-1.1</MicroEdition-Configuration>
                             <MicroEdition-Profile>MIDP-2.0</MicroEdition-Profile>
+                            <RefCode>ref-4ee1ahxxhijs-143902746013232708046</RefCode>
                         </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.github.wvengen</groupId>
-                <artifactId>proguard-maven-plugin</artifactId>
-                <version>2.6.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>proguard</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <obfuscate>true</obfuscate>
-                    <includeDependency>true</includeDependency>
-                    <includeDependencyInjar>false</includeDependencyInjar>
-                    <options>
-                        <option>-keep public class * extends javax.microedition.midlet.MIDlet</option>
-                        <option>-dontwarn</option>
-                        <option>-dontoptimize</option>
-                        <option>-useuniqueclassmembernames</option>
-                        <option>-overloadaggressively</option>
-                        <option>-allowaccessmodification</option>
-                        <option>-renamesourcefileattribute SourceFile</option>
-                        <option>-keepattributes SourceFile,LineNumberTable</option>
+<!--            <plugin>-->
+<!--                <groupId>com.github.wvengen</groupId>-->
+<!--                <artifactId>proguard-maven-plugin</artifactId>-->
+<!--                <version>2.6.1</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>proguard</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <obfuscate>true</obfuscate>-->
+<!--                    <includeDependency>true</includeDependency>-->
+<!--                    <includeDependencyInjar>false</includeDependencyInjar>-->
+<!--                    <options>-->
+<!--                        <option>-keep public class * extends javax.microedition.midlet.MIDlet</option>-->
+<!--                        <option>-dontwarn</option>-->
+<!--                        <option>-dontoptimize</option>-->
+<!--                        <option>-useuniqueclassmembernames</option>-->
+<!--                        <option>-overloadaggressively</option>-->
+<!--                        <option>-allowaccessmodification</option>-->
+<!--                        <option>-renamesourcefileattribute SourceFile</option>-->
+<!--                        <option>-keepattributes SourceFile,LineNumberTable</option>-->
 
-                        <option>-optimizationpasses 5</option>
-                        <option>-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*</option>
-                    </options>
-                    <libs>
-                        <lib>${java.home}/lib/rt.jar</lib>
-                    </libs>
-                </configuration>
-            </plugin>
+<!--                        <option>-optimizationpasses 5</option>-->
+<!--                        <option>-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*</option>-->
+<!--                    </options>-->
+<!--                    <libs>-->
+<!--                        <lib>${java.home}/lib/rt.jar</lib>-->
+<!--                    </libs>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 </project>

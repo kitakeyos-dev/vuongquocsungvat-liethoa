@@ -1400,7 +1400,7 @@ public final class GameWorldManager extends GameEngineBase {
                - this.C25_f287[this.C25_f295].worldY % this.C25_f286.primaryStates[var3];
          this.C25_f286.setWorldPosition(var4, var2);
          this.C25_f286.attachedObject.setWorldPosition(var4, var2);
-         this.C25_f286.setFacingState((byte) 0, (byte) this.C25_f287[this.C25_f295].C18_f236);
+         this.C25_f286.setFacingState((byte) 0, (byte) this.C25_f287[this.C25_f295].followDistance);
          if (this.C25_f287[this.C25_f295].sprite.spriteSetId == 222) {
             this.C25_f286.moveInDirection((int) 24);
          } else {
@@ -1424,13 +1424,13 @@ public final class GameWorldManager extends GameEngineBase {
 
    private void ae() {
       for (int var1 = 0; var1 < this.C25_f287.length; ++var1) {
-         if (this.C25_f287[var1].C18_f223 == 0 && this.C25_f287[var1].C18_f225 == 14) {
+         if (this.C25_f287[var1].npcType == 0 && this.C25_f287[var1].npcSubType == 14) {
             NPCEntity var2;
-            (var2 = this.C25_f287[var1]).C18_f234 = 0;
+            (var2 = this.C25_f287[var1]).dialogueProgress = 0;
 
             while (true) {
                byte var10001 = var2.sprite.getCurrentAnimationId();
-               int var10002 = 16 * (var2.C18_f234 + 1);
+               int var10002 = 16 * (var2.dialogueProgress + 1);
                boolean var3 = false;
                int var5 = var10002;
                byte var4 = var10001;
@@ -1450,12 +1450,12 @@ public final class GameWorldManager extends GameEngineBase {
                }
 
                if (var6 != 0) {
-                  var2.C18_f235 = var2.C18_f234;
-                  var2.C18_f234 = 0;
+                  var2.dialogueTimeout = var2.dialogueProgress;
+                  var2.dialogueProgress = 0;
                   break;
                }
 
-               ++var2.C18_f234;
+               ++var2.dialogueProgress;
             }
          }
       }
@@ -1568,7 +1568,7 @@ public final class GameWorldManager extends GameEngineBase {
                            var21[4] = C25_f303[C25_f297[var1] + var2][var7][1];
                         }
 
-                        this.C25_f287[var7].a(var21, var7);
+                        this.C25_f287[var7].initializeNPC(var21, var7);
                         if (!var19[0]) {
                            if (var21[6] == 1) {
                               if (var21[6] != 7 && var21[6] != 6) {
@@ -1578,7 +1578,7 @@ public final class GameWorldManager extends GameEngineBase {
                               NPCEntity var10000 = this.C25_f287[var7];
                               byte var11 = C25_f302[C25_f297[var1] + var2][var7][2];
                               var10000.currentDirection = var11;
-                              this.C25_f287[var7].a((byte) var21[2]);
+                              this.C25_f287[var7].setDirection((byte) var21[2]);
                            }
                         } else {
                            C25_f302[C25_f297[var1] + var2][var7][2] = this.C25_f287[var7].currentDirection;
@@ -1599,7 +1599,7 @@ public final class GameWorldManager extends GameEngineBase {
                            var21[5] = (short) C25_f302[C25_f297[var1] + var2][var7][1];
                         }
 
-                        this.C25_f287[var7].a(var21, var7);
+                        this.C25_f287[var7].initializeNPC(var21, var7);
                         break;
                      case 2:
                         var21[7] = var4.readShort();
@@ -1611,7 +1611,7 @@ public final class GameWorldManager extends GameEngineBase {
                            var21[12] = (short) var4.readByte();
                         }
 
-                        this.C25_f287[var7].a(var21, var7);
+                        this.C25_f287[var7].initializeNPC(var21, var7);
                         break;
                      case 3:
                         var21[7] = (short) var4.readByte();
@@ -1625,7 +1625,7 @@ public final class GameWorldManager extends GameEngineBase {
                            var21[2] = (short) C25_f302[C25_f297[var1] + var2][var7][0];
                         }
 
-                        this.C25_f287[var7].a(var21, var7);
+                        this.C25_f287[var7].initializeNPC(var21, var7);
                   }
                } catch (Exception var12) {
                   System.out.println(" k = " + var7 + " e = " + var12);
@@ -1675,17 +1675,17 @@ public final class GameWorldManager extends GameEngineBase {
 
             var2.sprite.forceCleanup();
             var2.sprite = null;
-            if (var2.C18_f246 != null) {
-               var2.C18_f246.sprite.forceCleanup();
-               var2.C18_f246 = null;
+            if (var2.auraObject != null) {
+               var2.auraObject.sprite.forceCleanup();
+               var2.auraObject = null;
             }
 
-            if (var2.C18_f247 != null) {
-               var2.C18_f247.sprite.forceCleanup();
-               var2.C18_f247 = null;
+            if (var2.effectObject != null) {
+               var2.effectObject.sprite.forceCleanup();
+               var2.effectObject = null;
             }
 
-            var2.C18_f248 = -1;
+            var2.npcId = -1;
             this.C25_f287[var1] = null;
          }
 
@@ -1871,14 +1871,14 @@ public final class GameWorldManager extends GameEngineBase {
                this.gameController.a((String) "", (String) this.C25_f351, -1, -1);
             } else if (this.C25_f287 != null) {
                if (this.C25_f287[C25_f318].sprite.spriteSetId == 68) {
-                  this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].C18_f228],
+                  this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].npcRotationY],
                         (String) "Muốn lên thuyền đi đâu?", 1, -1);
-               } else if (this.C25_f287[C25_f318].C18_f227 < 0) {
-                  this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].C18_f228], (String) C25_f349[0], 1,
+               } else if (this.C25_f287[C25_f318].npcRotationX < 0) {
+                  this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].npcRotationY], (String) C25_f349[0], 1,
                         -1);
                } else {
-                  this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].C18_f228],
-                        (String) C25_f349[this.C25_f287[C25_f318].C18_f227], 1, -1);
+                  this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].npcRotationY],
+                        (String) C25_f349[this.C25_f287[C25_f318].npcRotationX], 1, -1);
                }
             }
 
@@ -1922,18 +1922,18 @@ public final class GameWorldManager extends GameEngineBase {
             this.C25_f375 = var3;
             if (this.C25_f375) {
                if (this.C25_f373 == this.C25_f372.length - 1) {
-                  this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].C18_f228],
+                  this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].npcRotationY],
                         (String) getLocalizedText(613), 1, -1);
                } else if (this.C25_f373 == this.C25_f372.length - 2) {
-                  this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].C18_f228],
+                  this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].npcRotationY],
                         (String) getLocalizedText(612), 1, -1);
                } else {
                   int[] var2 = new int[] { this.C25_f372[this.C25_f373], this.C25_f372[this.C25_f373 + 1] };
-                  this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].C18_f228],
+                  this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].npcRotationY],
                         (String) formatString(611, var2), 1, -1);
                }
             } else if (this.C25_f373 < this.C25_f372.length) {
-               String var10001 = C25_f305[this.C25_f287[C25_f318].C18_f228];
+               String var10001 = C25_f305[this.C25_f287[C25_f318].npcRotationY];
                byte var7 = this.C25_f372[this.C25_f373];
                boolean var4 = true;
                int var5;
@@ -1944,7 +1944,7 @@ public final class GameWorldManager extends GameEngineBase {
                                  + GameEngineBase.getLocalizedText((int) 614).substring(var5 + 2)),
                      1, -1);
             } else {
-               this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].C18_f228],
+               this.gameController.a((String) C25_f305[this.C25_f287[C25_f318].npcRotationY],
                      (String) getLocalizedText(615), 1, -1);
             }
             break;
@@ -2116,7 +2116,7 @@ public final class GameWorldManager extends GameEngineBase {
                               var10000.currentDirection = var3;
                            }
 
-                           this.C25_f287[C25_f318].a((byte) 0);
+                           this.C25_f287[C25_f318].setDirection((byte) 0);
                            this.C25_f286.setFacingState((byte) 0, (byte) this.C25_f286.currentDirection);
                            if (this.C25_f287[C25_f318].sprite.spriteSetId == 24
                                  || this.C25_f287[C25_f318].sprite.spriteSetId == 20) {
@@ -2551,7 +2551,7 @@ public final class GameWorldManager extends GameEngineBase {
                            var10000.currentDirection = var2;
                      }
 
-                     this.C25_f287[C25_f318].a((byte) 0);
+                     this.C25_f287[C25_f318].setDirection((byte) 0);
                   }
 
                   if (this.C25_f287[C25_f318].sprite.spriteSetId == 17) {
@@ -2564,7 +2564,7 @@ public final class GameWorldManager extends GameEngineBase {
 
                B().D();
             } else if ((NPCEntity) this.C25_f286.followTarget != null
-                  && ((NPCEntity) this.C25_f286.followTarget).C18_f223 == 3) {
+                  && ((NPCEntity) this.C25_f286.followTarget).npcType == 3) {
                this.C25_f286.openChest();
             } else {
                this.C25_f286.startNPCInteraction();
@@ -2676,7 +2676,7 @@ public final class GameWorldManager extends GameEngineBase {
       this.C25_f286.updateMovement();
 
       for (int var4 = 0; var4 < this.C25_f287.length; ++var4) {
-         this.C25_f287[var4].q();
+         this.C25_f287[var4].updateNPCBehavior();
       }
 
       if (this.C25_f311 != null && this.C25_f311.isActive()) {
@@ -2738,7 +2738,7 @@ public final class GameWorldManager extends GameEngineBase {
                var10000.currentDirection = var2;
             }
 
-            this.C25_f287[C25_f318].a((byte) 0);
+            this.C25_f287[C25_f318].setDirection((byte) 0);
             this.C25_f286.setFacingState((byte) 0, (byte) this.C25_f286.currentDirection);
             this.gameController.C9_f131 = 1;
             if (this.C25_f375) {

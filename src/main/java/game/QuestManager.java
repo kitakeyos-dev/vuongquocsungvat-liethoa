@@ -245,15 +245,15 @@ public final class QuestManager extends GameEngineBase {
                         }
                         break label218;
                      case 57:
-                        if (var1.player.followTarget != null && ((NPCEntity) var1.player.followTarget).C18_f223 == 0
-                              && ((NPCEntity) var1.player.followTarget).C18_f225 == 11
-                              && ((NPCEntity) var1.player.followTarget).C18_f248 == var3.getNumericParameters()[3]
+                        if (var1.player.followTarget != null && ((NPCEntity) var1.player.followTarget).npcType == 0
+                              && ((NPCEntity) var1.player.followTarget).npcSubType == 11
+                              && ((NPCEntity) var1.player.followTarget).npcId == var3.getNumericParameters()[3]
                               && isQuestReady) {
                            if (var1.mapManager.C25_f287[var3.getNumericParameters()[0]].worldX == var3
                                  .getNumericParameters()[1]
                                  && var1.mapManager.C25_f287[var3.getNumericParameters()[0]].worldY == var3
                                        .getNumericParameters()[2]) {
-                              ((NPCEntity) var1.player.followTarget).a((byte) 0);
+                              ((NPCEntity) var1.player.followTarget).setDirection((byte) 0);
                            } else {
                               var4 = true;
                            }
@@ -625,10 +625,10 @@ public final class QuestManager extends GameEngineBase {
                               .setCurrentDirection(GameUtils
                                     .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
                         if (this.mapManager.C25_f287[GameUtils.parseShort(
-                              GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].C18_f225 == 1) {
+                              GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])].npcSubType == 1) {
                            this.mapManager.C25_f287[GameUtils
                                  .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var10])]
-                                 .a((byte) 0);
+                                 .setDirection((byte) 0);
                         }
 
                         this.mapManager.C25_f287[GameUtils
@@ -668,7 +668,7 @@ public final class QuestManager extends GameEngineBase {
                         } else {
                            if (GameWorldManager.C25_f318 != -1
                                  && this.mapManager.C25_f287[GameWorldManager.C25_f318].sprite.spriteSetId <= 85
-                                 && this.mapManager.C25_f287[GameWorldManager.C25_f318].v() == 0) {
+                                 && this.mapManager.C25_f287[GameWorldManager.C25_f318].getInteractionState() == 0) {
                               GameWorldManager.B().a((byte) 13,
                                     GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldX,
                                     GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldY - 40,
@@ -731,7 +731,7 @@ public final class QuestManager extends GameEngineBase {
                                     var5);
                            } else {
                               this.mapManager.C25_f287[this.eventEntityIds[var10]].setCurrentDirection(var5);
-                              this.mapManager.C25_f287[this.eventEntityIds[var10]].a(GameUtils
+                              this.mapManager.C25_f287[this.eventEntityIds[var10]].setDirection(GameUtils
                                     .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
                            }
                         }
@@ -748,7 +748,7 @@ public final class QuestManager extends GameEngineBase {
                               ++this.animationCounter;
                            }
                         } else if (this.mapManager.C25_f287[this.eventEntityIds[var10]].isAnimationComplete()) {
-                           this.mapManager.C25_f287[this.eventEntityIds[var10]].a((byte) 0);
+                           this.mapManager.C25_f287[this.eventEntityIds[var10]].setDirection((byte) 0);
                            ++this.animationCounter;
                         }
                      }
@@ -860,7 +860,7 @@ public final class QuestManager extends GameEngineBase {
                                  this.mapManager.C25_f287[this.eventEntityIds[var10]].setSecondaryState((byte) 0,
                                        (short) GameUtils.parseByte(
                                              GameUtils.splitString(var3.getStringParameters()[2], ',')[var10]));
-                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].a((byte) 0);
+                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].setDirection((byte) 0);
                               } else {
                                  this.player.setCurrentDirection(GameUtils
                                        .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var10]));
@@ -907,7 +907,7 @@ public final class QuestManager extends GameEngineBase {
                               || this.eventEntityIds[var10] == -1 && this.player.getFacingDirection() == 0) {
                            if (this.eventEntityStates[var10] > 0) {
                               if (this.eventEntityIds[var10] != -1) {
-                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].a((byte) 3);
+                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].setDirection((byte) 3);
                               } else {
                                  this.player.setFacingState((byte) 1, (byte) this.player.currentDirection);
                               }
@@ -918,7 +918,7 @@ public final class QuestManager extends GameEngineBase {
                               ++this.animationCounter;
                               this.eventEntityStates[var10] = 0;
                               if (this.eventEntityIds[var10] != -1) {
-                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].a((byte) 0);
+                                 this.mapManager.C25_f287[this.eventEntityIds[var10]].setDirection((byte) 0);
                                  this.mapManager.C25_f287[this.eventEntityIds[var10]].setSecondaryState((byte) 0,
                                        (short) 4);
                               } else {
@@ -1323,7 +1323,7 @@ public final class QuestManager extends GameEngineBase {
                            }
 
                            if (this.mapManager.C25_f287[var12].isVisible()) {
-                              this.mapManager.C25_f287[var12].p();
+                              this.mapManager.C25_f287[var12].resetSprite();
                            }
 
                            ++var12;
@@ -1344,7 +1344,7 @@ public final class QuestManager extends GameEngineBase {
                         }
 
                         if (this.mapManager.C25_f287[var12].isVisible()) {
-                           GameWorldManager.B().C25_f287[var12].p();
+                           GameWorldManager.B().C25_f287[var12].resetSprite();
                         }
 
                         ++var12;
@@ -1638,9 +1638,9 @@ public final class QuestManager extends GameEngineBase {
                                  (byte) ((byte) var3.getNumericParameters()[1]), (byte) 2);
 
                            for (var15 = 0; var15 < GameWorldManager.B().C25_f287.length; ++var15) {
-                              if (GameWorldManager.B().C25_f287[var15].C18_f223 == 0
-                                    && GameWorldManager.B().C25_f287[var15].C18_f225 == 1) {
-                                 GameWorldManager.B().C25_f287[var15].w();
+                              if (GameWorldManager.B().C25_f287[var15].npcType == 0
+                                    && GameWorldManager.B().C25_f287[var15].npcSubType == 1) {
+                                 GameWorldManager.B().C25_f287[var15].checkPatrolState();
                               }
                            }
                         } else if (var3.getNumericParameters()[1] == 1) {
@@ -1708,14 +1708,14 @@ public final class QuestManager extends GameEngineBase {
                            var14 = GameUtils
                                  .parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var18]);
                            this.mapManager.C25_f287[var25].setCurrentDirection(var14);
-                           if (this.mapManager.C25_f287[var25].C18_f225 == 1) {
-                              this.mapManager.C25_f287[var25].a((byte) 0);
+                           if (this.mapManager.C25_f287[var25].npcSubType == 1) {
+                              this.mapManager.C25_f287[var25].setDirection((byte) 0);
                            }
 
                            this.mapManager.C25_f287[var25].activate();
                            this.mapManager.a(var25, 1, (byte) 1, true);
                            this.mapManager.a(var25, 2, var14, true);
-                           this.mapManager.C25_f287[var25].t();
+                           this.mapManager.C25_f287[var25].syncPositionState();
                            ++var18;
                         }
                      }
@@ -1732,23 +1732,23 @@ public final class QuestManager extends GameEngineBase {
                         }
 
                         var25 = GameUtils.parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var18]);
-                        if (this.mapManager.C25_f287[var25].C18_f225 == 1) {
-                           this.mapManager.C25_f287[var25].a((byte) 0);
+                        if (this.mapManager.C25_f287[var25].npcSubType == 1) {
+                           this.mapManager.C25_f287[var25].setDirection((byte) 0);
                         }
 
                         this.mapManager.C25_f287[var25].deactivate();
                         this.mapManager.a(var25, 1, (byte) 0, true);
-                        this.mapManager.C25_f287[var25].t();
+                        this.mapManager.C25_f287[var25].syncPositionState();
                         ++var18;
                      }
                   case 58:
                      if (((NPCEntity) this.player.followTarget).getFacingDirection() == 1
                            && ((NPCEntity) this.player.followTarget).sprite.isAtLastFrame()) {
-                        ((NPCEntity) this.player.followTarget).a((byte) 0);
+                        ((NPCEntity) this.player.followTarget).setDirection((byte) 0);
                         this.mapManager.C25_f287[var3.getNumericParameters()[0]]
                               .setWorldPosition(var3.getNumericParameters()[1], var3.getNumericParameters()[2]);
                         if ((NPCEntity) this.mapManager.C25_f287[var3.getNumericParameters()[0]].followTarget != null) {
-                           ((NPCEntity) this.mapManager.C25_f287[var3.getNumericParameters()[0]].followTarget).s();
+                           ((NPCEntity) this.mapManager.C25_f287[var3.getNumericParameters()[0]].followTarget).findNearbyNPCsForDialogue();
                            this.mapManager.C25_f287[var3.getNumericParameters()[0]].setFollowTarget((GameEntity) null);
                         }
                      }
@@ -1760,10 +1760,10 @@ public final class QuestManager extends GameEngineBase {
                         for (var15 = 0; var15 < this.eventEntityIds.length; ++var15) {
                            this.eventEntityIds[var15] = GameUtils
                                  .parseShort(GameUtils.splitString(var3.getStringParameters()[0], ',')[var15]);
-                           this.mapManager.C25_f287[this.eventEntityIds[var15]].a(
+                           this.mapManager.C25_f287[this.eventEntityIds[var15]].setDirection(
                                  GameUtils.parseByte(GameUtils.splitString(var3.getStringParameters()[1], ',')[var15]));
-                           if (this.mapManager.C25_f287[this.eventEntityIds[var15]].C18_f223 == 0
-                                 && this.mapManager.C25_f287[this.eventEntityIds[var15]].C18_f225 == 6
+                           if (this.mapManager.C25_f287[this.eventEntityIds[var15]].npcType == 0
+                                 && this.mapManager.C25_f287[this.eventEntityIds[var15]].npcSubType == 6
                                  && this.mapManager.C25_f287[this.eventEntityIds[var15]].getFacingDirection() == 2) {
                               short var10002 = this.eventEntityIds[var15];
                               GameWorldManager.B().C25_f285
@@ -2033,8 +2033,8 @@ public final class QuestManager extends GameEngineBase {
                            break label1202;
                         }
 
-                        this.mapManager.C25_f287[var8[var10]].t();
-                        this.mapManager.C25_f287[var8[var10]].u();
+                        this.mapManager.C25_f287[var8[var10]].syncPositionState();
+                        this.mapManager.C25_f287[var8[var10]].syncVisualState();
                         ++var10;
                      }
                   case 83:
@@ -2069,7 +2069,7 @@ public final class QuestManager extends GameEngineBase {
                         } else {
                            if (GameWorldManager.C25_f318 != -1
                                  && this.mapManager.C25_f287[GameWorldManager.C25_f318].sprite.spriteSetId <= 85
-                                 && this.mapManager.C25_f287[GameWorldManager.C25_f318].v() == 0) {
+                                 && this.mapManager.C25_f287[GameWorldManager.C25_f318].getInteractionState() == 0) {
                               GameWorldManager.B().a((byte) 13,
                                     GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldX,
                                     GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldY - 40,
@@ -2330,7 +2330,7 @@ public final class QuestManager extends GameEngineBase {
                   var7.setAnimation((byte) 1, (byte) -1, true);
                   var7.setWorldPosition(this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldX,
                         this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
-                  this.mapManager.C25_f287[var1.getNumericParameters()[4]].f((byte) 1);
+                  this.mapManager.C25_f287[var1.getNumericParameters()[4]].setInteractionState((byte) 1);
                   var6 = this.mapManager.C25_f287[var1.getNumericParameters()[4]];
                   var7.followTarget = var6;
                   var7.activate();
@@ -2348,7 +2348,7 @@ public final class QuestManager extends GameEngineBase {
                      var7.setAnimation((byte) 15, (byte) -1, true);
                      var7.setWorldPosition(this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldX,
                            this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
-                     this.mapManager.C25_f287[var1.getNumericParameters()[4]].f((byte) 1);
+                     this.mapManager.C25_f287[var1.getNumericParameters()[4]].setInteractionState((byte) 1);
                      var6 = this.mapManager.C25_f287[var1.getNumericParameters()[4]];
                      var7.followTarget = var6;
                      var7.activate();
@@ -2371,7 +2371,7 @@ public final class QuestManager extends GameEngineBase {
                var7.setAnimation((byte) 7, (byte) -1, true);
                var7.setWorldPosition(this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldX,
                      this.mapManager.C25_f287[var1.getNumericParameters()[4]].worldY - 40);
-               this.mapManager.C25_f287[var1.getNumericParameters()[4]].f((byte) 1);
+               this.mapManager.C25_f287[var1.getNumericParameters()[4]].setInteractionState((byte) 1);
                var6 = this.mapManager.C25_f287[var1.getNumericParameters()[4]];
                var7.followTarget = var6;
                var7.activate();

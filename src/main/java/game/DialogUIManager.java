@@ -6497,7 +6497,7 @@ public final class DialogUIManager implements DialogHandler {
 
             for (int var3 = 0; var3 < GameWorldManager.B().C25_f287.length; ++var3) {
                for (int var4 = 0; var4 < var5.length / 3; ++var4) {
-                  if (GameWorldManager.B().C25_f287[var3].C18_f248 == var5[var4 * 3]) {
+                  if (GameWorldManager.B().C25_f287[var3].npcId == var5[var4 * 3]) {
                      GameWorldManager.B().C25_f287[var3].setWorldPosition(var5[var4 * 3 + 1], var5[var4 * 3 + 2]);
                   }
                }
@@ -6766,7 +6766,7 @@ public final class DialogUIManager implements DialogHandler {
                   this.C9_f122.removeDialog("/data/ui/wharf2.ui");
             }
 
-            if (GameWorldManager.C25_f318 != -1 && GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].v() == 0) {
+            if (GameWorldManager.C25_f318 != -1 && GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].getInteractionState() == 0) {
                GameWorldManager.B().a((byte) 13, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldX,
                      GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldY - 40,
                      GameWorldManager.B().C25_f287[GameWorldManager.C25_f318]);
@@ -6808,7 +6808,7 @@ public final class DialogUIManager implements DialogHandler {
             }
          }
       } else if (this.C9_f121.isKeyPressed(262144) && !this.j()) {
-         if (GameWorldManager.C25_f318 != -1 && GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].v() == 0) {
+         if (GameWorldManager.C25_f318 != -1 && GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].getInteractionState() == 0) {
             GameWorldManager.B().a((byte) 13, GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldX,
                   GameWorldManager.B().C25_f287[GameWorldManager.C25_f318].worldY - 40,
                   GameWorldManager.B().C25_f287[GameWorldManager.C25_f318]);

@@ -344,7 +344,7 @@ public final class PlayerCharacter extends GameObject {
                     }
 
                     for (var2 = 0; var2 < spawnRanges[var4].length / 4; ++var2) {
-                        if (((NPCEntity) this.followTarget).C18_f248 >= spawnRanges[var4][var2 << 2] && ((NPCEntity) this.followTarget).C18_f248 <= spawnRanges[var4][(var2 << 2) + 1]) {
+                        if (((NPCEntity) this.followTarget).npcId >= spawnRanges[var4][var2 << 2] && ((NPCEntity) this.followTarget).npcId <= spawnRanges[var4][(var2 << 2) + 1]) {
                             GameWorldManager.B().C25_f293 = spawnRanges[var4][(var2 << 2) + 2];
                             GameWorldManager.B().C25_f294 = spawnRanges[var4][(var2 << 2) + 3];
                             break;
@@ -365,7 +365,7 @@ public final class PlayerCharacter extends GameObject {
                     this.setFacingState((byte) 0, (byte) this.currentDirection);
                     return;
                 case 7:
-                    if (((NPCEntity) this.followTarget).C18_f233 == 0) {
+                    if (((NPCEntity) this.followTarget).dialogueState == 0) {
                         if (this.actionCounter < 7) {
                             this.moveInDirection((int) 4);
                             ++this.actionCounter;
@@ -380,11 +380,11 @@ public final class PlayerCharacter extends GameObject {
                             }
 
                             this.setCurrentDirection(this.currentDirection);
-                            ((NPCEntity) this.followTarget).r();
+                            ((NPCEntity) this.followTarget).setupDialogue();
                             ++this.actionCounter;
                             return;
                         }
-                    } else if (((NPCEntity) this.followTarget).C18_f233 == 2) {
+                    } else if (((NPCEntity) this.followTarget).dialogueState == 2) {
                         if (this.actionCounter < 8 && this.actionCounter > 0) {
                             this.moveInDirection((int) 4);
                             --this.actionCounter;
@@ -397,7 +397,7 @@ public final class PlayerCharacter extends GameObject {
                             return;
                         }
 
-                        ((NPCEntity) this.followTarget).C18_f233 = 0;
+                        ((NPCEntity) this.followTarget).dialogueState = 0;
                         this.followTarget.setFollowTarget(null);
                         this.setFollowTarget(null);
                         this.setFacingState((byte) 0, this.currentDirection);
@@ -421,7 +421,7 @@ public final class PlayerCharacter extends GameObject {
                     var2 = GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldY - GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].worldY % this.getPrimaryState((byte) 2);
                     this.setWorldPosition(var1, var2);
                     this.attachedObject.setWorldPosition(var1, var2);
-                    this.setFacingState((byte) 0, (byte) GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].C18_f236);
+                    this.setFacingState((byte) 0, (byte) GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].followDistance);
                     this.moveInDirection((int) 32);
                     CameraController.getInstance().setCameraLag(8);
                     CameraController.getInstance().setLocked(false);
@@ -460,7 +460,7 @@ public final class PlayerCharacter extends GameObject {
                         return;
                     }
 
-                    this.setFacingState((byte) 0, (byte) GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].C18_f236);
+                    this.setFacingState((byte) 0, (byte) GameWorldManager.B().C25_f287[GameWorldManager.B().C25_f295].followDistance);
                     this.moveInDirection((int) 32);
             }
 
@@ -698,13 +698,13 @@ public final class PlayerCharacter extends GameObject {
     private short checkNPCInteraction() {
         for (short var1 = 0; var1 < GameWorldManager.B().C25_f287.length; ++var1) {
             if (GameWorldManager.B().C25_f287[var1].isVisible()) {
-                if ((GameWorldManager.B().C25_f287[var1].sprite.spriteSetId <= 85 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 226 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 92 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 102 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 137) && GameWorldManager.B().C25_f287[var1].C18_f223 == 0 && (GameWorldManager.B().C25_f287[var1].C18_f225 == 1 || GameWorldManager.B().C25_f287[var1].C18_f225 == 18) && this.checkCollisionWithNPC(GameWorldManager.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var1].sprite.getCurrentFrameEvents())) {
-                    if (GameWorldManager.B().C25_f287[var1].v() == 0) {
+                if ((GameWorldManager.B().C25_f287[var1].sprite.spriteSetId <= 85 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 226 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 92 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 102 || GameWorldManager.B().C25_f287[var1].sprite.spriteSetId == 137) && GameWorldManager.B().C25_f287[var1].npcType == 0 && (GameWorldManager.B().C25_f287[var1].npcSubType == 1 || GameWorldManager.B().C25_f287[var1].npcSubType == 18) && this.checkCollisionWithNPC(GameWorldManager.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var1].sprite.getCurrentFrameEvents())) {
+                    if (GameWorldManager.B().C25_f287[var1].getInteractionState() == 0) {
                         GameWorldManager.B().a((byte) 13, GameWorldManager.B().C25_f287[var1].worldX, GameWorldManager.B().C25_f287[var1].worldY - 40, GameWorldManager.B().C25_f287[var1]);
-                        if (GameWorldManager.B().C25_f287[var1].C18_f246 != null) {
-                            GameWorldManager.B().C25_f287[var1].C18_f246.deactivate();
+                        if (GameWorldManager.B().C25_f287[var1].auraObject != null) {
+                            GameWorldManager.B().C25_f287[var1].auraObject.deactivate();
                         }
-                    } else if (GameWorldManager.B().C25_f287[var1].v() == 1) {
+                    } else if (GameWorldManager.B().C25_f287[var1].getInteractionState() == 1) {
                         GameWorldManager.B().a((byte) 13, GameWorldManager.B().C25_f287[var1].worldX, GameWorldManager.B().C25_f287[var1].worldY - 40, GameWorldManager.B().C25_f287[var1]);
                         if (QuestManager.questEffectObjects != null && QuestManager.questEffectObjects.size() > 0) {
                             for (int var2 = 0; var2 < QuestManager.questEffectObjects.size(); ++var2) {
@@ -716,15 +716,15 @@ public final class PlayerCharacter extends GameObject {
                         }
                     } else {
                         GameWorldManager.B().a((byte) 13, GameWorldManager.B().C25_f287[var1].worldX, GameWorldManager.B().C25_f287[var1].worldY - 40, GameWorldManager.B().C25_f287[var1]);
-                        if (GameWorldManager.B().C25_f287[var1].C18_f226 != 0) {
-                            GameWorldManager.B().C25_f287[var1].x();
+                        if (GameWorldManager.B().C25_f287[var1].auraAnimationId != 0) {
+                            GameWorldManager.B().C25_f287[var1].deactivateAuraObject();
                         }
                     }
 
                     return var1;
                 }
 
-                if (GameWorldManager.B().C25_f287[var1].C18_f223 == 2 && this.checkCollisionWithNPC(GameWorldManager.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var1].sprite.getCurrentFrameEvents())) {
+                if (GameWorldManager.B().C25_f287[var1].npcType == 2 && this.checkCollisionWithNPC(GameWorldManager.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var1].sprite.getCurrentFrameEvents())) {
                     GameWorldManager.B().m(var1);
                 }
             }
@@ -736,14 +736,14 @@ public final class PlayerCharacter extends GameObject {
     }
 
     private boolean checkNPCFollow(int var1) {
-        switch (GameWorldManager.B().C25_f287[var1].C18_f223) {
+        switch (GameWorldManager.B().C25_f287[var1].npcType) {
             case 3:
                 short[] var2;
                 short var3 = (var2 = GameWorldManager.B().C25_f287[var1].sprite.getCurrentFrameEvents())[0];
                 short var4 = var2[1];
                 short var5 = (short) (var2[2] + 16);
                 short var6 = (short) (var2[3] + 16);
-                if (GameWorldManager.B().C25_f287[var1].C18_f224 && this.checkCollisionWithNPC(GameWorldManager.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), new short[]{var3, var4, var5, var6})) {
+                if (GameWorldManager.B().C25_f287[var1].isFacingPlayer && this.checkCollisionWithNPC(GameWorldManager.B().C25_f287[var1], this.sprite.getCurrentFrameEvents(), new short[]{var3, var4, var5, var6})) {
                     NPCEntity var7 = GameWorldManager.B().C25_f287[var1];
                     super.followTarget = var7;
                 }
@@ -762,10 +762,10 @@ public final class PlayerCharacter extends GameObject {
 
         for (int var2 = 0; var2 < GameWorldManager.B().C25_f287.length; ++var2) {
             this.checkNPCFollow(var2);
-            if (GameWorldManager.B().C25_f287[var2].C18_f224 && this.checkCollisionWithNPC(GameWorldManager.B().C25_f287[var2], this.sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var2].sprite.getCurrentFrameEvents())) {
-                switch (GameWorldManager.B().C25_f287[var2].C18_f223) {
+            if (GameWorldManager.B().C25_f287[var2].isFacingPlayer && this.checkCollisionWithNPC(GameWorldManager.B().C25_f287[var2], this.sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var2].sprite.getCurrentFrameEvents())) {
+                switch (GameWorldManager.B().C25_f287[var2].npcType) {
                     case 0:
-                        switch (GameWorldManager.B().C25_f287[var2].C18_f225) {
+                        switch (GameWorldManager.B().C25_f287[var2].npcSubType) {
                             case 0:
                                 return false;
                             case 1:
@@ -803,12 +803,12 @@ public final class PlayerCharacter extends GameObject {
                                             }
 
                                             this.followingNPCs.addElement(GameWorldManager.B().C25_f287[var2]);
-                                            GameWorldManager.B().C25_f287[var2].f((int) 20);
+                                            GameWorldManager.B().C25_f287[var2].createEffectObject((int) 20);
                                         }
 
                                         var1 = false;
                                     } else {
-                                        GameWorldManager.B().C25_f287[var2].a((byte) 1);
+                                        GameWorldManager.B().C25_f287[var2].setDirection((byte) 1);
                                         GameWorldManager.B().C25_f285.moveEntityToForeground(GameWorldManager.B().C25_f287[var2], 2);
                                     }
                                 }
@@ -824,24 +824,24 @@ public final class PlayerCharacter extends GameObject {
                                             }
 
                                             this.followingNPCs.addElement(GameWorldManager.B().C25_f287[var2]);
-                                            GameWorldManager.B().C25_f287[var2].f((int) 30);
+                                            GameWorldManager.B().C25_f287[var2].createEffectObject((int) 30);
                                         }
 
                                         var1 = false;
                                     } else {
-                                        GameWorldManager.B().C25_f287[var2].a((byte) 1);
+                                        GameWorldManager.B().C25_f287[var2].setDirection((byte) 1);
                                         GameWorldManager.B().C25_f285.moveEntityToForeground(GameWorldManager.B().C25_f287[var2], 2);
                                     }
                                 }
                                 continue;
                             case 8:
                                 if (GameWorldManager.B().C25_f287[var2].isVisible()) {
-                                    if (GameWorldManager.B().C25_f287[var2].followTarget != null && ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget).C18_f235 > ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget).C18_f234) {
+                                    if (GameWorldManager.B().C25_f287[var2].followTarget != null && ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget).dialogueTimeout > ((NPCEntity) GameWorldManager.B().C25_f287[var2].followTarget).dialogueProgress) {
                                         return false;
                                     }
 
                                     for (int var5 = 0; var5 < GameWorldManager.B().C25_f287.length; ++var5) {
-                                        if (GameWorldManager.B().C25_f287[var5].C18_f224 && !GameWorldManager.B().C25_f287[var5].equals(GameWorldManager.B().C25_f287[var2]) && GameWorldManager.B().C25_f287[var5].C18_f223 == 0 && (GameWorldManager.B().C25_f287[var5].C18_f225 == 8 || GameWorldManager.B().C25_f287[var5].C18_f225 == 11)) {
+                                        if (GameWorldManager.B().C25_f287[var5].isFacingPlayer && !GameWorldManager.B().C25_f287[var5].equals(GameWorldManager.B().C25_f287[var2]) && GameWorldManager.B().C25_f287[var5].npcType == 0 && (GameWorldManager.B().C25_f287[var5].npcSubType == 8 || GameWorldManager.B().C25_f287[var5].npcSubType == 11)) {
                                             switch (this.currentDirection) {
                                                 case 0:
                                                     if (GameUtils.checkCollisionBetweenShortArrays(GameWorldManager.B().C25_f287[var2].worldX, GameWorldManager.B().C25_f287[var2].worldY + 8, GameWorldManager.B().C25_f287[var5].worldX, GameWorldManager.B().C25_f287[var5].worldY, GameWorldManager.B().C25_f287[var2].sprite.getCurrentFrameEvents(), GameWorldManager.B().C25_f287[var5].sprite.getCurrentFrameEvents())) {
@@ -866,7 +866,7 @@ public final class PlayerCharacter extends GameObject {
                                         }
                                     }
 
-                                    GameWorldManager.B().C25_f287[var2].a((byte) 1);
+                                    GameWorldManager.B().C25_f287[var2].setDirection((byte) 1);
                                     NPCEntity var10000 = GameWorldManager.B().C25_f287[var2];
                                     byte var6 = this.currentDirection;
                                     var10000.currentDirection = var6;
@@ -911,7 +911,7 @@ public final class PlayerCharacter extends GameObject {
                                         return false;
                                     }
 
-                                    GameWorldManager.B().C25_f287[var2].a((byte) 1);
+                                    GameWorldManager.B().C25_f287[var2].setDirection((byte) 1);
                                     GameWorldManager.B().C25_f285.moveEntityToForeground(GameWorldManager.B().C25_f287[var2], 2);
                                 }
                                 continue;
@@ -921,7 +921,7 @@ public final class PlayerCharacter extends GameObject {
                                 continue;
                         }
                     case 1:
-                        if (GameWorldManager.B().C25_f287[var2].C18_f225 == 3) {
+                        if (GameWorldManager.B().C25_f287[var2].npcSubType == 3) {
                             return false;
                         }
                     case 2:
@@ -1133,7 +1133,7 @@ public final class PlayerCharacter extends GameObject {
             byte var5;
             switch (this.currentDirection) {
                 case 0:
-                    if (var1.C18_f225 == 14) {
+                    if (var1.npcSubType == 14) {
                         var5 = 0;
                         return checkExtendedCollision(var1, var3, var2, this.worldX, this.worldY + super.secondaryStates[var5]);
                     }
@@ -1144,7 +1144,7 @@ public final class PlayerCharacter extends GameObject {
                     }
                     break;
                 case 1:
-                    if (var1.C18_f225 == 14) {
+                    if (var1.npcSubType == 14) {
                         var5 = 0;
                         return checkExtendedCollision(var1, var3, var2, this.worldX + super.secondaryStates[var5], this.worldY);
                     }
@@ -1155,7 +1155,7 @@ public final class PlayerCharacter extends GameObject {
                     }
                     break;
                 case 2:
-                    if (var1.C18_f225 == 14) {
+                    if (var1.npcSubType == 14) {
                         var5 = 0;
                         return checkExtendedCollision(var1, var3, var2, this.worldX, this.worldY - super.secondaryStates[var5]);
                     }
@@ -1166,7 +1166,7 @@ public final class PlayerCharacter extends GameObject {
                     }
                     break;
                 case 3:
-                    if (var1.C18_f225 == 14) {
+                    if (var1.npcSubType == 14) {
                         var5 = 0;
                         return checkExtendedCollision(var1, var3, var2, this.worldX - super.secondaryStates[var5], this.worldY);
                     }
@@ -1184,22 +1184,22 @@ public final class PlayerCharacter extends GameObject {
     private static boolean checkExtendedCollision(NPCEntity var0, short[] var1, short[] var2, int var3, int var4) {
         switch (var0.sprite.getCurrentAnimationId()) {
             case 0:
-                if (GameUtils.checkCollisionWithShortArray(var0.worldX + var1[0], var0.worldY + var1[1], var1[2], var1[3] + (var0.C18_f234 << 4), var3, var4, var2)) {
+                if (GameUtils.checkCollisionWithShortArray(var0.worldX + var1[0], var0.worldY + var1[1], var1[2], var1[3] + (var0.dialogueProgress << 4), var3, var4, var2)) {
                     return true;
                 }
                 break;
             case 1:
-                if (GameUtils.checkCollisionWithShortArray(var0.worldX + var1[0], var0.worldY + var1[1], var1[2] + (var0.C18_f234 << 4), var1[3], var3, var4, var2)) {
+                if (GameUtils.checkCollisionWithShortArray(var0.worldX + var1[0], var0.worldY + var1[1], var1[2] + (var0.dialogueProgress << 4), var1[3], var3, var4, var2)) {
                     return true;
                 }
                 break;
             case 2:
-                if (GameUtils.checkCollisionWithShortArray(var0.worldX + var1[0], var0.worldY + var1[1] - (var0.C18_f234 << 4), var1[2], var1[3] + (var0.C18_f234 << 4), var3, var4, var2)) {
+                if (GameUtils.checkCollisionWithShortArray(var0.worldX + var1[0], var0.worldY + var1[1] - (var0.dialogueProgress << 4), var1[2], var1[3] + (var0.dialogueProgress << 4), var3, var4, var2)) {
                     return true;
                 }
                 break;
             case 3:
-                if (GameUtils.checkCollisionWithShortArray(var0.worldX + var1[0] - (var0.C18_f234 << 4), var0.worldY + var1[1], var1[2] + (var0.C18_f234 << 4), var1[3], var3, var4, var2)) {
+                if (GameUtils.checkCollisionWithShortArray(var0.worldX + var1[0] - (var0.dialogueProgress << 4), var0.worldY + var1[1], var1[2] + (var0.dialogueProgress << 4), var1[3], var3, var4, var2)) {
                     return true;
                 }
         }
@@ -1288,38 +1288,38 @@ public final class PlayerCharacter extends GameObject {
             GameWorldManager.B().gameController.b("Bảo rương này đã trống");
         } else {
             String var1;
-            if (((NPCEntity) this.followTarget).C18_f225 == 0) {
-                ((NPCEntity) this.followTarget).a((byte) 1);
-                if (this.canAddItem(((NPCEntity) this.followTarget).C18_f242, ((NPCEntity) this.followTarget).C18_f240, (byte) ((NPCEntity) this.followTarget).C18_f241)) {
-                    this.addItem(((NPCEntity) this.followTarget).C18_f242, ((NPCEntity) this.followTarget).C18_f240, (byte) ((NPCEntity) this.followTarget).C18_f241);
+            if (((NPCEntity) this.followTarget).npcSubType == 0) {
+                ((NPCEntity) this.followTarget).setDirection((byte) 1);
+                if (this.canAddItem(((NPCEntity) this.followTarget).triggerValue, ((NPCEntity) this.followTarget).triggerType, (byte) ((NPCEntity) this.followTarget).triggerAction)) {
+                    this.addItem(((NPCEntity) this.followTarget).triggerValue, ((NPCEntity) this.followTarget).triggerType, (byte) ((NPCEntity) this.followTarget).triggerAction);
                     var1 = null;
-                    if (((NPCEntity) this.followTarget).C18_f241 == 0) {
-                        var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((NPCEntity) this.followTarget).C18_f242][0]);
-                    } else if (((NPCEntity) this.followTarget).C18_f241 == 2) {
-                        var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((NPCEntity) this.followTarget).C18_f242][0]);
+                    if (((NPCEntity) this.followTarget).triggerAction == 0) {
+                        var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((NPCEntity) this.followTarget).triggerValue][0]);
+                    } else if (((NPCEntity) this.followTarget).triggerAction == 2) {
+                        var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((NPCEntity) this.followTarget).triggerValue][0]);
                     }
 
-                    GameWorldManager.B().gameController.a((String) ("Đạt được: " + var1), ((NPCEntity) this.followTarget).C18_f240);
+                    GameWorldManager.B().gameController.a((String) ("Đạt được: " + var1), ((NPCEntity) this.followTarget).triggerType);
                 } else {
                     GameWorldManager.B().gameController.ay();
                 }
 
                 this.setFacingState((byte) 0, (byte) this.currentDirection);
             } else {
-                if (((NPCEntity) this.followTarget).C18_f225 == 1) {
+                if (((NPCEntity) this.followTarget).npcSubType == 1) {
                     if (this.hasItem((int) 17, (int) 1, (byte) 2)) {
-                        ((NPCEntity) this.followTarget).a((byte) 1);
+                        ((NPCEntity) this.followTarget).setDirection((byte) 1);
                         this.removeItem(17, 1, (byte) 2);
-                        if (this.canAddItem((int) ((NPCEntity) this.followTarget).C18_f242, ((NPCEntity) this.followTarget).C18_f240, (byte) ((NPCEntity) this.followTarget).C18_f241)) {
-                            this.addItem(((NPCEntity) this.followTarget).C18_f242, ((NPCEntity) this.followTarget).C18_f240, (byte) ((NPCEntity) this.followTarget).C18_f241);
+                        if (this.canAddItem((int) ((NPCEntity) this.followTarget).triggerValue, ((NPCEntity) this.followTarget).triggerType, (byte) ((NPCEntity) this.followTarget).triggerAction)) {
+                            this.addItem(((NPCEntity) this.followTarget).triggerValue, ((NPCEntity) this.followTarget).triggerType, (byte) ((NPCEntity) this.followTarget).triggerAction);
                             var1 = null;
-                            if (((NPCEntity) this.followTarget).C18_f241 == 0) {
-                                var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((NPCEntity) this.followTarget).C18_f242][0]);
-                            } else if (((NPCEntity) this.followTarget).C18_f241 == 2) {
-                                var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((NPCEntity) this.followTarget).C18_f242][0]);
+                            if (((NPCEntity) this.followTarget).triggerAction == 0) {
+                                var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[4][((NPCEntity) this.followTarget).triggerValue][0]);
+                            } else if (((NPCEntity) this.followTarget).triggerAction == 2) {
+                                var1 = GameEngineBase.getLocalizedText((int) ResourceManager.gameDatabase[3][((NPCEntity) this.followTarget).triggerValue][0]);
                             }
 
-                            GameWorldManager.B().gameController.a((String) ("Đạt được: " + var1), ((NPCEntity) this.followTarget).C18_f240);
+                            GameWorldManager.B().gameController.a((String) ("Đạt được: " + var1), ((NPCEntity) this.followTarget).triggerType);
                         } else {
                             GameWorldManager.B().gameController.ay();
                         }
@@ -1341,15 +1341,15 @@ public final class PlayerCharacter extends GameObject {
             return false;
         } else {
             QuestManager.isQuestReady = true;
-            if (((NPCEntity) this.followTarget).C18_f225 != 7 && ((NPCEntity) this.followTarget).C18_f225 != 6) {
-                if (((NPCEntity) this.followTarget).C18_f225 != 16) {
-                    ((NPCEntity) this.followTarget).a((byte) 1);
+            if (((NPCEntity) this.followTarget).npcSubType != 7 && ((NPCEntity) this.followTarget).npcSubType != 6) {
+                if (((NPCEntity) this.followTarget).npcSubType != 16) {
+                    ((NPCEntity) this.followTarget).setDirection((byte) 1);
                 }
             } else {
                 for (int var1 = 0; var1 < this.followingNPCs.size(); ++var1) {
                     NPCEntity var2;
-                    (var2 = (NPCEntity) this.followingNPCs.elementAt(var1)).a((byte) 1);
-                    var2.y();
+                    (var2 = (NPCEntity) this.followingNPCs.elementAt(var1)).setDirection((byte) 1);
+                    var2.deactivateEffectObject();
                 }
 
                 this.followingNPCs.removeAllElements();
